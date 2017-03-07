@@ -6,6 +6,7 @@
 | Base lang file
 */
 return [
+    'Actions' => 'Acciones',
     'Customer' => 'Cliente',
     'Customers' => 'Clientes',
     'Order' => 'Pedido',

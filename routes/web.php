@@ -22,3 +22,7 @@ Route::get('/product','ProductController@index');
 Route::get('/product/add','ProductController@add');
 Route::get('/product/edit/{id}','ProductController@edit',function (Request $request,$id) {});
 Route::post('/product/save','ProductController@save',function (Request $request) {});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

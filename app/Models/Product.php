@@ -17,4 +17,10 @@ class Product extends Model
     {
         return Product::orderBy('name','asc')->get();
     }
+  
+    public function getAllByCompanyId($company_id)
+    {
+        return Product::where('company_id','=',$company_id)
+                        ->orderBy('name','asc')->get();
+    }
 }

@@ -6,7 +6,7 @@
 </header>
 
 <div>
-  <a href="/product/new" class="btn btn-primary">{{ trans('hammer.New product') }}</a>
+  <a href="/product/add" class="btn btn-primary">{{ trans('hammer.New product') }}</a>
 </div>
 
 <div class="table-responsive">
@@ -15,8 +15,10 @@
   <tr>
       <th>#ID</th>
       <th>{{ trans('hammer.Name') }}</th>
-      <th>{{ trans('hammer.Quantity') }}</th>
+      <th class="text-center">{{ trans('hammer.Quantity') }}</th>
       <th>{{ trans('hammer.Price') }}</th>
+      <th>{{ trans('hammer.Created at') }}</th>
+      <th>{{ trans('hammer.Actions') }}</th>
   </tr>
   </thead>
   <tbody>
@@ -24,8 +26,11 @@
   <tr>
       <td>{{ $product->id }}</td>
       <td><a href="/product/edit/{{ $product->id }}">{{ $product->name }}</a></td>
-      <td>{{ $product->quantity }}</td>
+      <td class="text-center">{{ $product->quantity }}</td>
       <td>{{ $product->price }}</td>
+      <td>{{ $product->created_at }}</td>
+      <td>
+      </td>
   </tr>
   @endforeach
   </tbody>
