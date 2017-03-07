@@ -10,7 +10,7 @@
 </div>
 
 <div class="table-responsive">
-  <table class="table">
+  <table class="table table-striped table-hover table-condensed">
   <thead>
   <tr>
       <th>#ID</th>
@@ -20,7 +20,14 @@
   </tr>
   </thead>
   <tbody>
-
+  @foreach($products as $product)
+  <tr>
+      <td>{{ $product->id }}</td>
+      <td><a href="/product/edit/{{ $product->id }}">{{ $product->name }}</a></td>
+      <td>{{ $product->quantity }}</td>
+      <td>{{ $product->price }}</td>
+  </tr>
+  @endforeach
   </tbody>
   </table>
 </div>

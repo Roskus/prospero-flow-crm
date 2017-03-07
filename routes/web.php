@@ -16,8 +16,9 @@ Route::get('/','MainController@index');
 //Order
 Route::get('/order','OrderController@index');
 Route::get('/order/add','OrderController@add');
-Route::get('/order/edit/{id}','OrderController@edit');
+Route::get('/order/edit/{id}','OrderController@edit',function (Request $request,$id) {});
 //Product
 Route::get('/product','ProductController@index');
 Route::get('/product/add','ProductController@add');
-Route::get('/product/edit/{id}','ProductController@edit');
+Route::get('/product/edit/{id}','ProductController@edit',function (Request $request,$id) {});
+Route::post('/product/save','ProductController@save',function (Request $request) {});
