@@ -12,3 +12,12 @@
 */
 
 Route::get('/','MainController@index');
+
+//Order
+Route::get('/order','OrderController@index');
+Route::get('/order/add','OrderController@add');
+Route::get('/order/edit/{id}','OrderController@edit');
+//Product
+Route::get('/product','ProductController@index');
+Route::get('/product/add','ProductController@add');
+Route::get('/product/edit/{id}','ProductController@edit');
