@@ -30,12 +30,23 @@
           <a class="navbar-brand" href="#">Hammer</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/order/">{{ trans('hammer.Orders') }}</a></li>
-            <li><a href="/product/">{{ trans('hammer.Products') }}</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/order">{{ trans('hammer.Orders') }}</a></li>
+                <li><a href="/customer">{{ trans('hammer.Customers') }}</a></li>
+                <li><a href="/product">{{ trans('hammer.Products') }}</a></li>
+            </ul>
+          
+           <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/profile">{{ trans('hammer.Profile') }}</a></li>
+                        <li><a href="/setting">{{ trans('hammer.Setting') }}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" onclick="Hammer.exit()">{{ trans('hammer.Exit') }}</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>

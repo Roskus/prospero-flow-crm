@@ -9,6 +9,7 @@ return [
     'Actions' => 'Acciones',
     'Customer' => 'Cliente',
     'Customers' => 'Clientes',
+    'Exit' => 'Exit',
     'Order' => 'Pedido',
     'Orders' => 'Pedidos',
     'Price' => 'Precio',

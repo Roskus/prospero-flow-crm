@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +21,11 @@ Route::get('/product','ProductController@index');
 Route::get('/product/add','ProductController@add');
 Route::get('/product/edit/{id}','ProductController@edit',function (Request $request,$id) {});
 Route::post('/product/save','ProductController@save',function (Request $request) {});
+//Customer
+Route::get('/customer','CustomerController@index');
+Route::get('/customer/add','CustomerController@add');
+Route::get('/customer/edit/{id}','CustomerController@edit',function (Request $request,$id) {});
+Route::post('/customer/save','CustomerController@save',function (Request $request) {});
 
 Auth::routes();
 

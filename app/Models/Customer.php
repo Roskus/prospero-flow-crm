@@ -15,7 +15,7 @@ class Customer extends Model
   
     public function getAll()
     {
-        return Customer::orderBy('name','asc')->get();
+        return Customer::all();
     }
   
 }
