@@ -11,6 +11,21 @@ class CustomerController extends MainController
     {
         $customer = new Customer();
         $data['customers'] = $customer->getAll();
-        return view('customer/index',$data); 
+        return view('customer/index',$data);
+    }
+
+
+    public function save(Request $request)
+    {
+        if(empty($request->id)) {
+            $customer = new Customer();
+        } else {
+            $customer = Customer::find($request->id);
+        }
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->email = $request->email;
+        $customer->save();
+        return redirect('/customer');
     }
 }

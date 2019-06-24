@@ -7,6 +7,8 @@
 */
 return [
     'Actions' => 'Actions',
+    'Category' => 'Category',
+    'Categories' => 'Categories',
     'Customer' => 'Customer',
     'Customers' => 'Customers',
     'Exit' => 'Exit',

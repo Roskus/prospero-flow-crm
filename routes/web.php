@@ -16,16 +16,24 @@ Route::get('/','MainController@index');
 Route::get('/order','OrderController@index');
 Route::get('/order/add','OrderController@add');
 Route::get('/order/edit/{id}','OrderController@edit',function (Request $request,$id) {});
+
 //Product
 Route::get('/product','ProductController@index');
 Route::get('/product/add','ProductController@add');
 Route::get('/product/edit/{id}','ProductController@edit',function (Request $request,$id) {});
 Route::post('/product/save','ProductController@save',function (Request $request) {});
+
 //Customer
 Route::get('/customer','CustomerController@index');
 Route::get('/customer/add','CustomerController@add');
 Route::get('/customer/edit/{id}','CustomerController@edit',function (Request $request,$id) {});
 Route::post('/customer/save','CustomerController@save',function (Request $request) {});
+
+//Category
+Route::get('/category','CategoryController@index');
+Route::get('/category/add','CategoryController@add');
+Route::get('/category/edit/{id}','CategoryController@edit',function (Request $request,$id) {});
+Route::post('/category/save','CategoryController@save',function (Request $request) {});
 
 Auth::routes();
 

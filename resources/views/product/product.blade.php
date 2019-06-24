@@ -7,6 +7,17 @@
 
 <form class="form" method="post" action="/product/save">
     <div class="form-group">
+        <label class="label-control">{{ __('hammer.Category') }}</label>
+        <select name="category_id" id="category_id" required class="form-control">
+            <option value=""></option>
+            @if(!empty($categories))
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            @endif
+        </select>
+    </div>
+    <div class="form-group">
         <label class="label-control">{{ trans('hammer.Name') }}</label>
         <input type="text" name="name" id="name" value="{{ $product->name }}" class="form-control" required="required">
     </div>
