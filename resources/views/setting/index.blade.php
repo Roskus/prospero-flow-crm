@@ -7,7 +7,16 @@
 
 <div class="row">
     <div class="col">
-        <a href="/company">{{ __('hammer.Companies') }}</a>
+        <a href="/company">
+            <i class="material-icons">business</i>
+            {{ __('hammer.Companies') }}
+        </a>
+    </div>
+    <div>
+        <a href="/category">
+            <i class="material-icons">folder</i>
+            {{ __('hammer.Categories') }}
+        </a>
     </div>
     <div class="col">
         <a href="/user">
