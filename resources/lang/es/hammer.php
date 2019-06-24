@@ -27,4 +27,6 @@ return [
     'Name' => 'Nombre',
     'New order' => 'Nuevo pedido',
     'New product' => 'Nuevo producto',
+    'User' => 'Usuario',
+    'Users' => 'Usuarios',
 ];

@@ -13,4 +13,25 @@ class OrderController extends MainController
         $data['orders'] = $order->getAll();
         return view('order/index',$data);
     }
+
+    public function add()
+    {
+        $order = new Order();
+        $data['order'] = $order;
+        return view('order/order',$data);
+    }
+
+    public function edit(Request $request,int $id)
+    {
+        $order = Order::find($id);
+        $data['order'] = $order;
+        return view('order/index',$data);
+    }
+
+    public function save()
+    {
+
+
+    }
+
 }

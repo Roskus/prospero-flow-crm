@@ -26,6 +26,7 @@ class CreateProductTable extends Migration
             $table->string('photo')->nullable();
             $table->decimal('cost',10,3);
             $table->decimal('price',10,3);
+            $table->unsignedInteger('quantity')->default(0);
             $table->text('description');
             $table->timestamps();
             $table->unsignedTinyInteger('status');

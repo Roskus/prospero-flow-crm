@@ -43,7 +43,11 @@ Route::post('/company/save','CompanyController@save',function (Request $request)
 
 Auth::routes();
 
+// User
+Route::get('/user','UserController@index');
+
 // Profile
 Route::get('/profile','UserController@profile');
+
 Route::get('/setting','SettingController@index');
 Route::get('/home', 'HomeController@index');
