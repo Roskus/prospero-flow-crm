@@ -36,6 +36,8 @@ class CompanyController extends Controller
             $company = Company::find($request->id);
         }
         $company->name = $request->name;
+        $company->email = $request->email;
+        $company->website = $request->website;
         $company->status = Company::ACTIVE;
         $company->save();
         return redirect('/company');
