@@ -35,6 +35,15 @@ Route::get('/category/add','CategoryController@add');
 Route::get('/category/edit/{id}','CategoryController@edit',function (Request $request,$id) {});
 Route::post('/category/save','CategoryController@save',function (Request $request) {});
 
+// Company
+Route::get('/company','CompanyController@index');
+Route::get('/company/add','CompanyController@add');
+Route::get('/company/edit/{id}','CompanyController@edit',function (Request $request,$id) {});
+Route::post('/company/save','CompanyController@save',function (Request $request) {});
+
 Auth::routes();
 
+// Profile
+Route::get('/profile','UserController@profile');
+Route::get('/setting','SettingController@index');
 Route::get('/home', 'HomeController@index');
