@@ -1,10 +1,11 @@
 # Hammer CRM
-Hammer CRM CE bassed in Laravel 5.4.x
+Hammer CRM CE bassed in Laravel 5.5.x
 
-Installation
-* Clone
-* Run composer update
+## Setup
+* Clone: git clone git@github.com:Roskus/hammercrm.git
+* Run: ```composer update```
 * Check permisions
-* Copy .env.example to .env
+* Run ```cp .env.example .env```
 * Edit .env set language, database.
-* Run php artistan migrate
+* Run ```php artisan key:generate```
+* Run ```php artisan migrate```
