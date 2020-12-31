@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="{{ config('app.locale') }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Hammer</a>
+          <a class="navbar-brand" href="{{ url('/') }}">
+            {{ config('app.name', 'Hammer') }}
+          </a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">

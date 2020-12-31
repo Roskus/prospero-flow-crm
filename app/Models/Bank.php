@@ -15,6 +15,6 @@ class Bank extends Model
   
     public function getAll()
     {
-        return Bank::orderBy('name','asc')->get();
+        return Bank::orderBy('name', 'asc')->get();
     }
 }

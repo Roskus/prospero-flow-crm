@@ -5,6 +5,10 @@
    <h1>{{ trans('hammer.Customers') }}</h1>
 </header>
 
+<div class="">
+    <a href="/customer/add" class="btn btn-primary">{{ __('New customer') }}</a>
+</div>
+
 <div class="table-responsive">
     <table class="table">
     <thead>

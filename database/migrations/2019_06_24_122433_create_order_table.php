@@ -18,6 +18,7 @@ class CreateOrderTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('customer_id');
+            $table->unsignedTinyInteger('status');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    const ACTIVE = 1;
+    const PENDING = 1;
 
     /**
     * The table associated with the model.
@@ -18,4 +18,8 @@ class Order extends Model
         return Order::all();
     }
   
+    public function getPendingCount()
+    {
+        return Order::where('status', self::PENDING)->count();
+    }
 }

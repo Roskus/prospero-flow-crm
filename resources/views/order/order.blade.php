@@ -6,7 +6,8 @@
 </header>
 
 <form method="post" action="/order/save">
+    @csrf
+    
 
-    {{ @csrf }}
 </form>
 @endsection
