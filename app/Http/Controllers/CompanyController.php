@@ -5,27 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Company;
 
-class CompanyController extends Controller
+class CompanyController extends MainController
 {
     public function index()
     {
         $company = new Company();
         $data['companies'] = $company->getAll();
-        return view('company.index',$data);
+        return view('company.index', $data);
     }
 
     public function add()
     {
         $company = new Company();
         $data['company'] = $company;
-        return view('company.company',$data);
+        return view('company.company', $data);
     }
 
     public function edit(Request $request,$id)
     {
         $company = Company::find($id);
         $data['company'] = $company;
-        return view('company/company',$data);
+        return view('company/company', $data);
     }
 
     public function save(Request $request)
@@ -36,6 +36,7 @@ class CompanyController extends Controller
             $company = Company::find($request->id);
         }
         $company->name = $request->name;
+        $company->phone = $request->phone;
         $company->email = $request->email;
         $company->website = $request->website;
         $company->status = Company::ACTIVE;
