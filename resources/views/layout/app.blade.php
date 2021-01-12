@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ isset($title) ? $title.' | Hammer CRM' : 'Hammer CRM' }}</title>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/asset/css/hammer.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -19,47 +19,53 @@
     <![endif]-->
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Hammer') }}
-          </a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/order">{{ trans('hammer.Orders') }}</a></li>
-                <li><a href="/customer">{{ trans('hammer.Customers') }}</a></li>
-                <li><a href="/product">{{ trans('hammer.Products') }}</a></li>
-            </ul>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'Hammer') }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="">{{ __('Dashboard') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/order">{{ __('Orders') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer">{{ __('Customers') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/product">{{ __('Products') }}</a>
+                </li>
+                </ul>
 
-           <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/profile">{{ trans('hammer.Profile') }}</a></li>
-                        <li><a href="/setting">{{ trans('hammer.Setting') }}</a></li>
+
+                <ul class="navbar-nav navbar-right">
+                @auth
+                    <!-- mover aca -->
+                @endauth
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">User <span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown10">
+                        <li><a href="/profile" class="dropdown-item" >{{ __('Profile') }}</a></li>
+                        <li><a href="/setting" class="dropdown-item" >{{ __('Setting') }}</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#" onclick="Hammer.exit()">{{ trans('hammer.Exit') }}</a></li>
+                        <li><a href="#" onclick="Hammer.exit()" class="dropdown-item">{{ __('Exit') }}</a></li>
                     </ul>
                 </li>
-            </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                </ul>
+            </div>
+          </div>
+        </nav>
+    </header>
+
     <main class="container-fluid">
     @yield('content')
     </main>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>

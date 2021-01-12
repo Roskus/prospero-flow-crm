@@ -2,7 +2,7 @@
 
 @section('content')
 <header>
-   <h1>{{ __('hammer.Users') }}</h1>
+   <h1>{{ __('Users') }}</h1>
 </header>
 
 <table class="table table-bordered">

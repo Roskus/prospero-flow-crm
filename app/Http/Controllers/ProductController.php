@@ -14,7 +14,7 @@ class ProductController extends MainController
         $product = new Product();
         $data['products'] = $product->getAll();
         $data['categories'] = $category->getAll();
-        return view('product/index',$data);
+        return view('product/index', $data);
     }
 
     public function add()
@@ -23,7 +23,7 @@ class ProductController extends MainController
         $product = new Product();
         $data['product'] = $product;
         $data['categories'] = $category->getAll();
-        return view('product/product',$data);
+        return view('product/product', $data);
     }
 
     public function edit(Request $request,$id)
@@ -32,7 +32,7 @@ class ProductController extends MainController
         $product = Product::find($id);
         $data['product'] = $product;
         $data['categories'] = $category->getAll();
-        return view('product/product',$data);
+        return view('product/product', $data);
     }
 
     public function save(Request $request)

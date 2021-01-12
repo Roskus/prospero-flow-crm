@@ -5,27 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
-class CategoryController extends Controller
+class CategoryController extends MainController
 {
     public function index()
     {
         $category = new Category();
         $data['categories'] = $category->getAll();
-        return view('category.index',$data);
+        return view('category.index', $data);
     }
 
     public function add()
     {
         $category = new Category();
         $data['category'] = $category;
-        return view('category.category',$data);
+        return view('category.category', $data);
     }
 
     public function edit(Request $request, int $id)
     {
         $category = Category::find($id);
         $data['category'] = $category;
-        return view('category.category',$data);
+        return view('category.category', $data);
     }
 
     public function save(Request $request)
