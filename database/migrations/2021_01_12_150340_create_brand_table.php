@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserCompanyTable extends Migration
+class CreateBrandTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateUserCompanyTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_company', function (Blueprint $table) {
+        Schema::create('brand', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->bigInteger('user_id');
-            $table->bigInteger('company_id');
+            $table->bigIncrements('id');
+            $table->string('name', 30);
+            $table->timestamps();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateUserCompanyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_company');
+        Schema::dropIfExists('brand');
     }
 }

@@ -2,20 +2,26 @@
 
 @section('content')
 <header>
-   <h1>{{ __('hammer.Settings') }}</h1>
+   <h1>{{ __('Settings') }}</h1>
 </header>
 
 <div class="row">
     <div class="col">
         <a href="/company">
             <i class="material-icons">business</i>
-            {{ __('hammer.Companies') }}
+            {{ __('Companies') }}
         </a>
     </div>
-    <div>
+    <div class="col">
         <a href="/category">
             <i class="material-icons">folder</i>
-            {{ __('hammer.Categories') }}
+            {{ __('Categories') }}
+        </a>
+    </div>
+    <div class="col">
+        <a href="/brand">
+            <i class="material-icons">folder</i>
+            {{ __('Brands') }}
         </a>
     </div>
     <div class="col">
@@ -23,7 +29,7 @@
             <i class="material-icons">
             supervisor_account
             </i>
-            {{ __('hammer.Users') }}
+            {{ __('Users') }}
         </a>
     </div>
 </div>

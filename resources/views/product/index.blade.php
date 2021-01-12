@@ -2,11 +2,11 @@
 
 @section('content')
 <header>
-   <h1>{{ trans('hammer.Products') }}</h1>
+   <h1>{{ __('Products') }}</h1>
 </header>
 
 <div>
-  <a href="/product/add" class="btn btn-primary">{{ trans('hammer.New product') }}</a>
+  <a href="/product/add" class="btn btn-primary">{{ trans('New product') }}</a>
 </div>
 
 <div class="table-responsive">
@@ -14,11 +14,11 @@
   <thead>
   <tr>
       <th>#ID</th>
-      <th>{{ trans('hammer.Name') }}</th>
-      <th class="text-center">{{ trans('hammer.Quantity') }}</th>
-      <th>{{ trans('hammer.Price') }}</th>
-      <th>{{ trans('hammer.Created at') }}</th>
-      <th>{{ trans('hammer.Actions') }}</th>
+      <th>{{ trans('Name') }}</th>
+      <th class="text-center">{{ trans('Quantity') }}</th>
+      <th>{{ trans('Price') }}</th>
+      <th>{{ trans('Created at') }}</th>
+      <th>{{ trans('Actions') }}</th>
   </tr>
   </thead>
   <tbody>

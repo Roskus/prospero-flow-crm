@@ -37,6 +37,7 @@ class CustomerController extends MainController
         }
         $customer->first_name = $request->first_name;
         $customer->last_name = $request->last_name;
+        $customer->phone = $request->phone;
         $customer->email = $request->email;
         $customer->save();
         return redirect('/customer');

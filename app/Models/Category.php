@@ -17,6 +17,6 @@ class Category extends Model
 
     public function getAll()
     {
-        return Category::orderBy('name','asc')->get();
+        return Category::orderBy('name', 'asc')->get();
     }
 }

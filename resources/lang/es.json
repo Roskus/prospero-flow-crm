@@ -1,4 +1,6 @@
 {
+    "Brand" : "Marca",
+    "Brands" : "Marcas",
     "Category" : "Categoría",
     "Categories" : "Categorías",
     "Customer" : "Cliente",
@@ -6,9 +8,11 @@
     "Exit" : "Salir",
     "First name" : "Nombre",
     "Last name" : "Apellido",
+    "Name" : "Nombre",
     "New" : "Nuevo",
     "Order" : "Pedido",
     "Orders" : "Pedidos",
+    "Phone" : "Teléfono",
     "Product" : "Producto",
     "Products" : "Productos",
     "Profile" : "Perfil",
