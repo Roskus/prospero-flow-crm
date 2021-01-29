@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('content')
 <header>
@@ -7,7 +7,7 @@
 
 <form method="post" action="/order/save">
     @csrf
-    
+
 
 </form>
 @endsection

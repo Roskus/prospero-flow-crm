@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'MainController@index');
 
+Auth::routes([
+    'register' => (env('APP_ENV') != 'production') ? true : false, // Registration Routes...
+]);
+
 //Order
 Route::get('/order', 'OrderController@index');
 Route::get('/order/add', 'OrderController@add');
@@ -51,8 +55,6 @@ Route::get('/company', 'CompanyController@index');
 Route::get('/company/add', 'CompanyController@add');
 Route::get('/company/edit/{id}', 'CompanyController@edit', function (Request $request,$id) {});
 Route::post('/company/save', 'CompanyController@save', function (Request $request) {});
-
-Auth::routes();
 
 // User
 Route::get('/user', 'UserController@index');
