@@ -13,7 +13,7 @@
                 <option value=""></option>
                 @if(!empty($categories))
                     @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" @if($product->category_id == $category->id) selected="selected" @endif>{{ $category->name }}</option>
                     @endforeach
                 @endif
             </select>
@@ -24,7 +24,7 @@
                 <option value=""></option>
                 @if(!empty($brands))
                     @foreach($brands as $brand)
-                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    <option value="{{ $brand->id }}" @if($product->brand_id == $brand->id) selected="selected" @endif>{{ $brand->name }}</option>
                     @endforeach
                 @endif
             </select>
@@ -48,6 +48,16 @@
         <div class="col">
             <label class="label-control">{{ __('Quantity') }}</label>
             <input type="number" name="quantity" id="quantity" value="{{ $product->quantity }}" class="form-control" step="1" min="0">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col">
+            <label class="control">{{ __('Barcode') }}</label>
+            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="EAN-128">
+        </div>
+        <div class="col">
+            <label class="control">{{ __('SKU') }}</label>
+            <input type="text" name="sku" id="sku" class="form-control" placeholder="">
         </div>
     </div>
     <div class="row form-group">

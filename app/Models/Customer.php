@@ -12,10 +12,15 @@ class Customer extends Model
     * @var string
     */
     protected $table = 'customer';
-  
+
     public function getAll()
     {
         return Customer::all();
     }
-  
+
+    public function getAllByCompanyId(int $company_id)
+    {
+        return Customer::where('company_id', $company_id)->get();
+    }
+
 }

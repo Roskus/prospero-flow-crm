@@ -26,6 +26,18 @@
                 <input type="email" name="email" value="{{ $customer->email }}" maxlength="254" class="form-control">
             </div>
         </div>
+        <div>
+            <div class="col">
+                <label>{{ __('Country') }}</label>
+                <select name="country_id" class="form-control">
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
         <div class="row">
             <div class="col mt-2">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>

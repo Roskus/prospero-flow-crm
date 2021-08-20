@@ -6,9 +6,28 @@
 </header>
 
 <form method="post" action="/company/save" class="form">
-    <div class="form-group">
-        <label class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
-        <input type="text" name="name" id="name" value="{{ $company->name }}" class="form-control" required="required">
+    <div class="row">
+        <div class="col">
+            <label class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
+            <input type="text" name="name" id="name" value="{{ $company->name }}" maxlength="80" required="required" class="form-control">
+        </div>
+        <div class="col">
+            <label class="label-control">{{ __('Country') }} <span class="text-danger">*</span></label>
+            <select name="country" id="country" required class="form-control">
+                @foreach ($countries as $country)
+                <option value="{{ $country->id}}">{{ $$country->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div>
+        <div class="col">
+            <label class="label-control">{{ __('Tax identification') }} <span class="text-danger">*</span></label>
+            <input type="text" name="tax_identification" id="tax_identification" maxlength="20" class="form-control">
+        </div>
+        <div class="col">
+
+        </div>
     </div>
     <div class="row">
         <div class="col form-group">
@@ -17,8 +36,8 @@
         </div>
 
         <div class="col form-group">
-            <label class="label-control">E-mail</label>
-            <input type="email" name="email" id="email" value="{{ $company->email }}" maxlength="254" class="form-control">
+            <label class="label-control">E-mail <span class="text-danger">*</span></label>
+            <input type="email" name="email" id="email" value="{{ $company->email }}" maxlength="254" required="required" class="form-control">
         </div>
     </div>
     <div class="row">

@@ -32,5 +32,13 @@
             {{ __('Users') }}
         </a>
     </div>
+    <div class="col">
+        <a href="/currency">
+            <span class="material-icons-outlined">
+                euro_symbol
+            </span>
+            {{ __('Currencies') }}
+        </a>
+    </div>
 </div>
 @endsection

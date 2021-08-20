@@ -14,6 +14,7 @@
         <button type="submit" class="btn btn-primary"><span class=""></span> {{ __('Save') }}</button>
     </div>
     <input type="hidden" name="id" id="id" value="{{ $category->id }}">
+    <input type="hidden" name="company_id" id="company_id" value="">
     {{ csrf_field() }}
 </form>
 

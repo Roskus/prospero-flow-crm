@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
-
+use App\Models\Country;
 class CompanyController extends MainController
 {
     public function index()
@@ -24,7 +24,9 @@ class CompanyController extends MainController
     public function edit(Request $request,$id)
     {
         $company = Company::find($id);
+        $country = new Country;
         $data['company'] = $company;
+        $data['countries'] = $country->getAll();
         return view('company/company', $data);
     }
 
