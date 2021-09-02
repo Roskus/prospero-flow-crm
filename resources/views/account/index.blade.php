@@ -10,12 +10,12 @@
         <div class="row">
             @csrf
             <div class="col">
-                <label>Account name</label>
+                <label>{{ __('Name') }}</label>
                 <input type="text" name="name" id="name" value="" required="required" class="form-control">
             </div>
             <div class="col">
-                <label>{{ __('Ammount') }}</label>
-                <input type="number" name="ammount" id="ammount" required="required" step="0.01" autocomplete="false" class="form-control">
+                <label>{{ __('Amount') }}</label>
+                <input type="number" name="amount" id="amount" required="required" step="0.01" autocomplete="false" class="form-control">
             </div>
             <div class="col">
                 <label for=""></label>
@@ -29,17 +29,19 @@
         <table class="table table-bordered table-striped table-bordered">
         <thead>
             <tr>
-                <th>{{ __('Name') }}</th>
                 <th>{{ __('Created at') }}</th>
-                <th>{{ __('Ammount') }}</th>
+                <th>{{ __('Name') }}</th>
+                <th>{{ __('Amount') }}</th>
             </tr>
         </thead>
         <tbody>
         @foreach ($accounts as $account)
         <tr>
+            <td>{{ $account->created_at->format('d/m/Y H:i') }}</td>
             <td>
                 <a href="/account/edit/{{ $account->id }}">{{ $account->name }}</a>
             </td>
+            <td>{{ $account->amount }}</td>
         </tr>
         @endforeach
         </tbody>

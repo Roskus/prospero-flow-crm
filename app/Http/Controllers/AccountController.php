@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Account;
 
 class AccountController extends MainController
@@ -27,8 +28,9 @@ class AccountController extends MainController
     public function save(Request $request)
     {
         $account = (empty($request->id)) ? new Account() : Account::find($request->id);
+        $account->company_id = Auth::user()->company_id;
         $account->name = $request->name;
-        $account->ammount = $request->ammount;
+        $account->amount = $request->amount;
         $account->save();
         return redirect('accounting');
     }

@@ -22,7 +22,7 @@ class CreateAccountTable extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('company_id');
                 $table->string('name', 80);
-                $table->decimal('ammount', 10, 5); //Should be store negatibe values for expenses
+                $table->decimal('amount', 10, 5); //Should be store negatibe values for expenses
                 $table->timestamps();
             }
         );

@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
 
 class CustomerController extends MainController
@@ -30,11 +30,12 @@ class CustomerController extends MainController
 
     public function save(Request $request)
     {
-        if(empty($request->id)) {
+        if (empty($request->id)) {
             $customer = new Customer();
         } else {
             $customer = Customer::find($request->id);
         }
+        $customer->company_id = Auth::user()->company_id;
         $customer->first_name = $request->first_name;
         $customer->last_name = $request->last_name;
         $customer->phone = $request->phone;
