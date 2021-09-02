@@ -37,7 +37,7 @@ class BrandController extends MainController
             $brand = Brand::find($request->id);
         }
         $brand->name = $request->name;
-        $category->company_id = Auth::user()->company_id;
+        $brand->company_id = Auth::user()->company_id;
         $brand->save();
         return redirect('/brand');
     }
