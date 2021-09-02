@@ -13,9 +13,11 @@
         </div>
         <div class="col">
             <label class="label-control">{{ __('Country') }} <span class="text-danger">*</span></label>
-            <select name="country" id="country" required class="form-control">
+            <select name="country_id" id="country_id" required class="form-control">
+                <option value=""></option>
                 @foreach ($countries as $country)
-                <option value="{{ $country->id}}">{{ $$country->name }}</option>
+                <?php var_dump($country); ?>
+                <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
                 @endforeach
             </select>
         </div>
@@ -47,6 +49,7 @@
         </div>
     </div>
     <div class="form-group mt-2">
+        <a class="btn btn-secondary" href="{{ url('/company')}}">{{ __('Cancel') }}</a>
         <button type="submit" class="btn btn-primary"><span class=""></span> {{ __('Save') }}</button>
     </div>
     <input type="hidden" name="id" id="id" value="{{ $company->id }}">

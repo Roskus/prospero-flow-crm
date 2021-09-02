@@ -16,26 +16,24 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'MainController@index');
 
-Auth::routes([
-    'register' => (env('APP_ENV') != 'production') ? true : false, // Registration Routes...
-]);
+Auth::routes(['register' => (env('APP_ENV') != 'production') ? true : false,]);
 
 //Order
 Route::get('/order', 'OrderController@index');
 Route::get('/order/add', 'OrderController@add');
-Route::get('/order/edit/{id}', 'OrderController@edit', function (Request $request,$id) {});
+Route::get('/order/edit/{id}', 'OrderController@edit', function (Request $request, int $id) {});
 
 //Product
 Route::get('/product', 'ProductController@index');
 Route::get('/product/add', 'ProductController@add');
-Route::get('/product/edit/{id}', 'ProductController@edit', function (Request $request,$id) {});
+Route::get('/product/edit/{id}', 'ProductController@edit', function (Request $request, int $id) {});
 Route::post('/product/save', 'ProductController@save', function (Request $request) {});
 
 
 //Brand
 Route::get('/brand', 'BrandController@index');
 Route::get('/brand/add', 'BrandController@add');
-Route::get('/brand/edit/{id}', 'BrandController@edit', function (Request $request,$id) {});
+Route::get('/brand/edit/{id}', 'BrandController@edit', function (Request $request, int $id) {});
 Route::post('/brand/save', 'BrandController@save', function (Request $request) {});
 
 //Customer
@@ -53,14 +51,20 @@ Route::post('/category/save', 'CategoryController@save', function (Request $requ
 // Company
 Route::get('/company', 'CompanyController@index');
 Route::get('/company/add', 'CompanyController@add');
-Route::get('/company/edit/{id}', 'CompanyController@edit', function (Request $request,$id) {});
+Route::get('/company/edit/{id}', 'CompanyController@edit', function (Request $request, int $id) {});
 Route::post('/company/save', 'CompanyController@save', function (Request $request) {});
+
+// Account
+Route::get('/accounting', 'AccountController@index');
+Route::post('/account/save', 'AccountController@save');
 
 // User
 Route::get('/user', 'UserController@index');
+Route::post('/user/save', 'UserController@save');
 
 // Profile
-Route::get('/profile', 'UserController@profile');
+Route::get('/profile', 'ProfileController@edit');
+Route::post('/profile/save', 'ProfileController@save');
 
 Route::get('/setting', 'SettingController@index');
 Route::get('/home', 'HomeController@index');

@@ -10,14 +10,14 @@ use App\Models\Product;
 
 class OrderController extends MainController
 {
-    public function index()
+    public function index(Request $request)
     {
         $order = new Order();
         $data['orders'] = $order->getAll();
         return view('order/index',$data);
     }
 
-    public function add()
+    public function add(Request $request)
     {
         $order = new Order();
         $customer = new Customer();
@@ -36,7 +36,7 @@ class OrderController extends MainController
         return view('order/index',$data);
     }
 
-    public function save()
+    public function save(Request $request)
     {
 
 

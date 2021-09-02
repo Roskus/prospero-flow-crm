@@ -16,9 +16,8 @@ class ProductController extends MainController
         $this->brand = new Brand();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
         $product = new Product();
         $data['products'] = $product->getAll();
         $data['categories'] = $this->category->getAll();
@@ -26,7 +25,7 @@ class ProductController extends MainController
         return view('product/index', $data);
     }
 
-    public function add()
+    public function add(Request $request)
     {
         $product = new Product();
         $data['product'] = $product;
@@ -44,6 +43,9 @@ class ProductController extends MainController
         return view('product/product', $data);
     }
 
+    /**
+     * @param Request $request
+     */
     public function save(Request $request)
     {
         if (empty($request->id)) {
@@ -60,6 +62,6 @@ class ProductController extends MainController
         $product->price = $request->price;
         $product->description = $request->description;
         $product->save();
-        return redirect('/product');
+        return redirect('/product')->with('message', '');
     }
 }

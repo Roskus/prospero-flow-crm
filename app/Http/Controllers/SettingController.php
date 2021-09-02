@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class SettingController extends MainController
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('setting.index');
     }

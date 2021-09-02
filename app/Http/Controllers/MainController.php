@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\App;
-use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\Order;
 
@@ -15,7 +14,7 @@ class MainController extends Controller
         //App::setLocale($locale);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $order = new Order();
         $data['order_count'] = $order->getPendingCount();

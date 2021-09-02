@@ -13,17 +13,20 @@ class CreateCompanyTable extends Migration
      */
     public function up()
     {
-        Schema::create('company', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->string('name');            
-            $table->string('logo',191)->nullable();
-            $table->string('phone',30)->nullable();
-            $table->string('email',191)->nullable();
-            $table->string('website',191)->nullable();
-            $table->timestamps();
-            $table->unsignedTinyInteger('status');
-        });
+        Schema::create(
+            'company', function (Blueprint $table) {
+                $table->engine = 'InnoDB';
+                $table->bigIncrements('id');
+                $table->string('name');
+                $table->string('logo', 191)->nullable();
+                $table->string('phone', 30)->nullable();
+                $table->string('email', 191)->nullable();
+                $table->string('country_id', 2)->nullable(); //Squire\Models\Country->code_2 ISO 3166-1 alpha-2 country code
+                $table->string('website', 191)->nullable();
+                $table->timestamps();
+                $table->unsignedTinyInteger('status');
+            }
+        );
     }
 
     /**
@@ -33,6 +36,6 @@ class CreateCompanyTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('company');
     }
 }

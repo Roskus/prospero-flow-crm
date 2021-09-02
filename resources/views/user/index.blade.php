@@ -11,6 +11,7 @@
     <th>{{ __('Last name') }}</th>
     <th>{{ __('First name') }}</th>
     <th>E-mail</th>
+    <th>{{ __('Language') }}</th>
     <th>Actions</th>
 </tr>
 </thead>
@@ -20,6 +21,7 @@
     <td><a href="/user/edit/{{ $user->id}}">{{ $user->last_name }}</a></td>
     <td>{{ $user->first_name }}</td>
     <td>{{ $user->email }}</td>
+    <td>{{ $user->lang }}
     <td>
         <a href="/user/edit/{{ $user->id}}" class="btn bt-xs btn-warning"><i class="">E</i></a>
         <a href="/user/delete/{{ $user->id}}" class="btn bt-xs btn-danger"><i class="">D</i></a>

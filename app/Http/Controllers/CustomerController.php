@@ -7,7 +7,7 @@ use App\Models\Customer;
 
 class CustomerController extends MainController
 {
-    public function index()
+    public function index(Request $request)
     {
         $customer = new Customer();
         $data['customers'] = $customer->getAll();

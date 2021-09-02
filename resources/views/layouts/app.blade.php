@@ -43,6 +43,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/product">{{ __('Products') }}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounting">{{ __('Accounting') }}</a>
+                </li>
                 </ul>
                 @endauth
 
@@ -84,7 +87,7 @@
         </nav>
     </header>
 
-    <main class="container-fluid">
+    <main class="container">
     @yield('content')
     </main>
     <!--JavaScript-->
