@@ -60,6 +60,8 @@ Route::post('/account/save', 'AccountController@save');
 
 // User
 Route::get('/user', 'UserController@index');
+Route::get('/user/add', 'UserController@add');
+Route::get('/user/edit/{id}', 'UserController@edit', function (Request $request, int $id) {});
 Route::post('/user/save', 'UserController@save');
 
 // Profile

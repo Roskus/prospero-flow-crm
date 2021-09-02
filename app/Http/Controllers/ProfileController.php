@@ -25,7 +25,11 @@ class ProfileController extends MainController
         $locale = $request->lang;
         $user = User::find(Auth::user()->id);
         $user->first_name = $request->first_name;
+        $user->email = $request->email;
         $user->lang = $locale;
+        if (!empty($request->password) && !empty($request->password_confirmation) && ($request->password == $request->password_confirmation) ) {
+            $user->password = Hash::make($request->password);
+        }
         $user->updated_at = now();
         $user->save();
 
