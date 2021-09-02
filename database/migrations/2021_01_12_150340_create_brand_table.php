@@ -16,6 +16,7 @@ class CreateBrandTable extends Migration
         Schema::create('brand', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('company_id');
             $table->string('name', 30);
             $table->timestamps();
         });

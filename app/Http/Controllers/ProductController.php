@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Brand;
@@ -53,7 +54,7 @@ class ProductController extends MainController
         } else {
             $product = Product::find($request->id);
         }
-        //@todo company_id
+        $product->company_id = Auth::user()->company_id;
         $product->category_id = $request->category_id;
         $product->brand_id = $request->brand_id;
         $product->name = $request->name;
