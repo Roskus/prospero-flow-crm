@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Brand;
 
 class BrandController extends MainController
 {
-    public function index()
+    public function index(Request $request)
     {
         $brand = new Brand();
         $data['brands'] = $brand->getAll();
         return view('brand.index', $data);
     }
 
-    public function add()
+    public function add(Request $request)
     {
         $brand = new Brand();
         $data['brand'] = $brand;
@@ -36,6 +37,7 @@ class BrandController extends MainController
             $brand = Brand::find($request->id);
         }
         $brand->name = $request->name;
+        $category->company_id = Auth::user()->company_id;
         $brand->save();
         return redirect('/brand');
     }
