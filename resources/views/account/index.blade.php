@@ -10,16 +10,16 @@
         <div class="row">
             @csrf
             <div class="col">
-                <label>{{ __('Name') }}</label>
+                <label>{{ __('Name') }} <span class="text-danger">*</span></label>
                 <input type="text" name="name" id="name" value="" required="required" class="form-control">
             </div>
             <div class="col">
-                <label>{{ __('Amount') }}</label>
+                <label>{{ __('Amount') }}  <span class="text-danger">*</span></label>
                 <input type="number" name="amount" id="amount" required="required" step="0.01" autocomplete="false" class="form-control">
             </div>
             <div class="col">
                 <label for=""></label>
-                <button type="submit" class="btn btn-primary">{{ __('New') }}</a>
+                <button type="submit" class="btn btn-primary">{{ __('Save') }}</a>
             </div>
         </div>
         </form>
