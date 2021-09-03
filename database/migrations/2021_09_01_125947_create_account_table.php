@@ -21,6 +21,7 @@ class CreateAccountTable extends Migration
                 $table->engine = 'InnoDB';
                 $table->bigIncrements('id');
                 $table->bigInteger('company_id');
+                $table->date('issue_date');
                 $table->string('name', 80);
                 $table->decimal('amount', 10, 5); //Should be store negatibe values for expenses
                 $table->timestamps();
