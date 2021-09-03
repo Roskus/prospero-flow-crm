@@ -68,7 +68,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->first_name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown10">
-                        <li><a href="/profile" class="dropdown-item" >{{ __('Profile') }}</a></li>
+                        <li>
+                            <a href="/profile" class="dropdown-item">{{ __('Profile') }}</a>
+                        </li>
                         <li><a href="/setting" class="dropdown-item" >{{ __('Setting') }}</a></li>
                         <li role="separator" class="dropdown-divider"></li>
                         <li>

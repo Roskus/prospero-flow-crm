@@ -39,6 +39,7 @@ class UserController extends MainController
     {
         $user = ($request->id) ? User::find($request->id) : new User();
         $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->lang = $request->lang;
         $user->updated_at = now();

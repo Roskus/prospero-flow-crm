@@ -5,6 +5,12 @@
    <h1>{{ __('Users') }}</h1>
 </header>
 
+<div class="row mb-3">
+    <div class="col">
+        <a href="/user/add" class="btn btn-primary">{{ __('New') }}</a>
+    </div>
+</div>
+
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -12,7 +18,7 @@
     <th>{{ __('First name') }}</th>
     <th>E-mail</th>
     <th>{{ __('Language') }}</th>
-    <th>Actions</th>
+    <th>{{ __('Actions') }}</th>
 </tr>
 </thead>
 <tbody>
