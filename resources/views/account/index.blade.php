@@ -37,6 +37,7 @@
         <thead>
             <tr>
                 <th>{{ __('Created at') }}</th>
+                <th>{{ __('Issue date') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Amount') }}</th>
             </tr>
@@ -45,6 +46,7 @@
         @foreach ($accounts as $account)
         <tr>
             <td>{{ $account->created_at->format('d/m/Y H:i') }}</td>
+            <td>{{ $account->issue_date->format('d/m/Y H:i') }}</td>
             <td>
                 <a href="/account/edit/{{ $account->id }}">{{ $account->name }}</a>
             </td>
