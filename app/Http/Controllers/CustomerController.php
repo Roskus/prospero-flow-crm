@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
-
+use Squire\Models\Country;
 class CustomerController extends MainController
 {
     public function index(Request $request)
@@ -18,6 +18,7 @@ class CustomerController extends MainController
     {
         $customer = new Customer();
         $data['customer'] = $customer;
+        $data['countries'] = Country::all();
         return view('customer.customer', $data);
     }
 
@@ -25,6 +26,7 @@ class CustomerController extends MainController
     {
         $customer = Customer::find($id);
         $data['customer'] = $customer;
+        $data['countries'] = Country::all();
         return view('customer.customer', $data);
     }
 
@@ -40,6 +42,7 @@ class CustomerController extends MainController
         $customer->last_name = $request->last_name;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
+        $customer->country_id = $request->country_id;
         $customer->save();
         return redirect('/customer');
     }

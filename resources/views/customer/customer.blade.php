@@ -29,9 +29,12 @@
         <div>
             <div class="col">
                 <label>{{ __('Country') }}</label>
-                <select name="country_id" class="form-control">
+                <select name="country_id" id="country_id" required class="form-control">
                     <option value=""></option>
-                    <option value=""></option>
+                    @foreach ($countries as $country)
+                    <?php var_dump($country); ?>
+                    <option value="{{ $country->code_2 }}" @if($customer->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col">

@@ -17,6 +17,7 @@
         <th>{{ __('Name') }}</th>
         <th>{{ __('Phone') }}</th>
         <th>E-mail</th>
+        <th>{{ __('Country') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>
@@ -29,8 +30,10 @@
         </td>
         <td>{{ $customer->phone }}</td>
         <td>{{ $customer->email }}</td>
+        <td>{{ $customer->country_id }}</td>
         <td>
-            <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->first_name }} {{ $customer->last_name }}');" class="btn btn-xs btn-danger">D
+            <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->first_name }} {{ $customer->last_name }}');" class="btn btn-xs btn-danger">
+                <i class="las la-trash-alt"></i>
             </a>
         </td>
     </tr>
