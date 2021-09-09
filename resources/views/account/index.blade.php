@@ -26,7 +26,7 @@
             </div>
             <div class="col">
                 <label for="">&nbsp;</label>
-                <button type="submit" class="btn btn-primary btn-lg form-control">{{ __('Save') }}</a>
+                <button type="submit" class="btn btn-primary btn-lg form-control">{{ __('Save') }}</button>
             </div>
         </div>
         </form>

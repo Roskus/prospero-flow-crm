@@ -34,6 +34,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function company()
+    {
+        return $this->hasOne('App\Models\Company', 'id', 'company_id');
+    }
+
     public function getAll()
     {
         return User::all();

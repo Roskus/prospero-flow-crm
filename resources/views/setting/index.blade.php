@@ -34,9 +34,7 @@
     </div>
     <div class="col">
         <a href="/currency">
-            <span class="material-icons-outlined">
-                euro_symbol
-            </span>
+            <i class="las la-money-bill"></i>
             {{ __('Currencies') }}
         </a>
     </div>

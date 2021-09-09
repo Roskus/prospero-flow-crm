@@ -12,6 +12,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
     <link rel="stylesheet" href="/asset/css/hammer.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,15 +67,17 @@
 
                 @auth
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->first_name }} <span class="caret"></span></a>
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->first_name }} ( {{ Auth::user()->company->name }} )<span class="caret"></span></a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown10">
                         <li>
-                            <a href="/profile" class="dropdown-item">{{ __('Profile') }}</a>
+                            <a href="/profile" class="dropdown-item"><i class="las la-user-tie"></i> {{ __('Profile') }}</a>
                         </li>
-                        <li><a href="/setting" class="dropdown-item" >{{ __('Setting') }}</a></li>
+                        <li>
+                            <a href="/setting" class="dropdown-item" ><i class="las la-cogs"></i> {{ __('Setting') }}</a>
+                        </li>
                         <li role="separator" class="dropdown-divider"></li>
                         <li>
-                            <a href="#" onclick="Hammer.exit()" class="dropdown-item">{{ __('Exit') }}</a>
+                            <a href="#" onclick="Hammer.exit()" class="dropdown-item"><i class="las la-door-open"></i> {{ __('Exit') }}</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>

@@ -5,10 +5,13 @@
    <h1>{{ __('Product') }}</h1>
 </header>
 
-<form class="form" method="post" action="/product/save">
+<form class="form" method="post" action="/product/save" enctype="multipart/form-data">
     <div class="row form-group">
         <div class="col">
-            <label class="label-control">{{ __('Category') }} <span class="text-danger">*</span></label>
+            <label class="label-control mb-2">
+                {{ __('Category') }} <span class="text-danger">*</span>
+                <a href="/category" class="btn btn-outline-primary btn-sm"><i class="las la-plus-square"></i> {{ __('Add') }}</a>
+            </label>
             <select name="category_id" id="category_id" required class="form-control">
                 <option value=""></option>
                 @if(!empty($categories))
@@ -19,7 +22,10 @@
             </select>
         </div>
         <div class="col">
-            <label class="label-control">{{ __('Brand') }}</label>
+            <label class="label-control mb-2">
+                {{ __('Brand') }}
+                <a href="/brand" class="btn btn-outline-primary btn-sm"><i class="las la-plus-square"></i> {{ __('Add') }}</a>
+            </label>
             <select name="brand_id" id="brand_id" required class="form-control">
                 <option value=""></option>
                 @if(!empty($brands))

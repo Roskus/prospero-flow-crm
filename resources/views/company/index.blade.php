@@ -16,6 +16,7 @@
     <th>{{ __('Phone') }}</th>
     <th>E-mail</th>
     <th>{{ __('Website') }}</th>
+    <th>{{ __('Country') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -29,6 +30,7 @@
     <td>{{ $company->phone }}</td>
     <td>{{ $company->email }}</td>
     <td>{{ $company->website }}</td>
+    <td>{{ $company->country_id }}</td>
 </tr>
 @endforeach
 </tbody>
