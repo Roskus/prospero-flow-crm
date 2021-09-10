@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
@@ -27,7 +26,7 @@ class OrderController extends MainController
         $order = new Order();
         $customer = new Customer();
         $product = new Product();
-        $company_id = Auth::user()->company_i1d;
+        $company_id = Auth::user()->company_id;
         $data['order'] = $order;
         $data['customers'] = $customer->getAllByCompanyId($company_id);
         $data['products'] = $product->getAllByCompanyId($company_id);
@@ -56,10 +55,10 @@ class OrderController extends MainController
     public function save(Request $request)
     {
         $order = new Order();
-        $order->customer_id = $request->customer_id;
+        $order->setCustomerId($request->customer_id);
         $order->company_id = Auth::user()->company_id;
         $order->status = Order::PENDING;
-        $order->amount = $request->total;
+        $order->setAmount($request->total);
         $order->created_at = now();
         $order->save();
         return redirect('order');
