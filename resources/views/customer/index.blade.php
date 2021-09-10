@@ -17,6 +17,7 @@
         <th>{{ __('Name') }}</th>
         <th>{{ __('Phone') }}</th>
         <th>E-mail</th>
+        <th>{{ __('Company') }}</th>
         <th>{{ __('Country') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
@@ -30,6 +31,7 @@
         </td>
         <td>{{ $customer->phone }}</td>
         <td>{{ $customer->email }}</td>
+        <td>{{ $customer->company }}</td>
         <td>{{ $customer->country_id }}</td>
         <td>
             <a onclick="/customer/edit/{{ $customer->id }}" class="btn btn-xs btn-warning text-white">
