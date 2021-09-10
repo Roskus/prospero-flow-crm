@@ -29,8 +29,12 @@
     <td>{{ $user->email }}</td>
     <td>{{ $user->lang }}
     <td>
-        <a href="/user/edit/{{ $user->id}}" class="btn bt-xs btn-warning"><i class="">E</i></a>
-        <a href="/user/delete/{{ $user->id}}" class="btn bt-xs btn-danger"><i class="">D</i></a>
+        <a href="/user/edit/{{ $user->id}}" class="btn bt-xs btn-warning text-white">
+            <i class="las la-pen"></i>
+        </a>
+        <a href="/user/delete/{{ $user->id}}" class="btn bt-xs btn-danger">
+            <i class="las la-trash-alt"></i>
+        </a>
     </td>
 </tr>
 @endforeach

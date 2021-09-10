@@ -71,6 +71,10 @@
             <label class="label-control">{{ __('Description') }}</label>
             <textarea name="description" class="form-control">{{ $product->description }}</textarea>
         </div>
+        <div class="col">
+            <label class="label-control">{{ __('Photo') }}</label>
+            <input type="file" name="photo" class="form-control">
+        </div>
     </div>
     <div class="form-group mt-2">
         <button type="submit" class="btn btn-primary"><span class=""></span> {{ __('Save') }}</button>

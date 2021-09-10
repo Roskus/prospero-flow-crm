@@ -22,6 +22,7 @@ Auth::routes(['register' => (env('APP_ENV') != 'production') ? true : false,]);
 Route::get('/order', 'OrderController@index');
 Route::get('/order/add', 'OrderController@add');
 Route::get('/order/edit/{id}', 'OrderController@edit', function (Request $request, int $id) {});
+Route::post('/order/save', 'OrderController@save', function (Request $request) {});
 
 //Product
 Route::get('/product', 'ProductController@index');

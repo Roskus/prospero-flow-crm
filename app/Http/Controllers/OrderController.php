@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\Customer;
 use App\Models\Product;
@@ -36,10 +36,19 @@ class OrderController extends MainController
         return view('order/index',$data);
     }
 
+    /**
+     * @param Request $request
+     */
     public function save(Request $request)
     {
-
-
+        $order = new Order();
+        $order->customer_id = $request->customer_id;
+        $order->company_id = Auth::user()->company_id;
+        $order->status = Order::PENDING;
+        $order->amount = $request->total;
+        $order->created_at = now();
+        $order->save();
+        return redirect('order');
     }
 
 }
