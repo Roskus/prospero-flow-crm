@@ -14,6 +14,7 @@
         <thead>
             <tr>
                 <th>{{ __('Name') }}</th>
+                <th>{{ __('Actions')}}</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,14 @@
         <tr>
             <td>
                 <a href="/category/edit/{{ $category->id }}">{{ $category->name }}</a>
+            </td>
+            <td>
+                <a href="/category/edit/{{ $category->id }}" class="btn btn-xs btn-warning text-white">
+                    <i class="las la-pen"></i>
+                </a>
+                <a onclick="Category.delete({{ $category->id }}, '{{ $category->name }}');" class="btn btn-xs btn-danger">
+                    <i class="las la-trash-alt"></i>
+                </a>
             </td>
         </tr>
         @endforeach

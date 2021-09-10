@@ -70,6 +70,7 @@
         </div>
     </div>
     <div>
+        <a href="{{ url('/order')}}" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
         <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
     </div>
 </form>

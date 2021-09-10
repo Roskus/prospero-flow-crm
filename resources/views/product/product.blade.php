@@ -80,11 +80,15 @@
             <label class="label-control">{{ __('Description') }}</label>
             <textarea name="description" class="form-control">{{ $product->description }}</textarea>
         </div>
+    </div>
+    <div class="row form-group">
         <div class="col">
             <label class="label-control">{{ __('Photo') }}</label>
             <input type="file" name="photo" class="form-control">
             @if($product->photo)
-            <img src="{{ asset("/asset/upload/product/$product->photo")}}" alt="">
+            <picture class="mt-2 mb-2">
+                <img src="{{ asset("/asset/upload/product/$product->id/$product->photo")}}" alt="" class="img-fluid img-thumbnail">
+            </picture>
             @endif
         </div>
     </div>

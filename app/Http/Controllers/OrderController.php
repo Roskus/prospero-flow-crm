@@ -14,26 +14,40 @@ class OrderController extends MainController
     {
         $order = new Order();
         $data['orders'] = $order->getAll();
-        return view('order/index',$data);
+        return view('order/index', $data);
     }
 
+    /**
+     * Add new order
+     *
+     * @param Request $request HTTP request
+     */
     public function add(Request $request)
     {
         $order = new Order();
         $customer = new Customer();
         $product = new Product();
-        $company_id = 1; //TODO get current Auth::user()->current_company_id
+        $company_id = Auth::user()->company_i1d;
         $data['order'] = $order;
         $data['customers'] = $customer->getAllByCompanyId($company_id);
         $data['products'] = $product->getAllByCompanyId($company_id);
-        return view('order/order',$data);
+        return view('order/order', $data);
     }
 
-    public function edit(Request $request,int $id)
+    /**
+     *
+     * @param Request $request
+     * @param int $id
+     */
+    public function edit(Request $request, int $id)
     {
         $order = Order::find($id);
+        $product = new Product();
         $data['order'] = $order;
-        return view('order/index',$data);
+        $company_id = Auth::user()->company_id;
+        $data['customers'] = $order->customer->getAllByCompanyId($company_id);
+        $data['products'] = $product->getAllByCompanyId($company_id);
+        return view('order/order', $data);
     }
 
     /**

@@ -22,6 +22,14 @@
             <td>
                 <a href="/brand/edit/{{ $brand->id }}">{{ $brand->name }}</a>
             </td>
+            <td>
+                <a href="/brand/edit/{{ $brand->id }}" class="btn btn-xs btn-warning text-white">
+                    <i class="las la-pen"></i>
+                </a>
+                <a onclick="Brand.delete({{ $brand->id }}, '{{ $brand->name }}');" class="btn btn-xs btn-danger">
+                    <i class="las la-trash-alt"></i>
+                </a>
+            </td>
         </tr>
         @endforeach
         </tbody>
