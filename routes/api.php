@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// OpenApi Json Resource
+Route::get('/resource.json', 'Api\Customer\DocGeneratoController@render');
+
 // Customer
 Route::get('/customers', 'Api\Customer\CustomerListController@index');
 
