@@ -61,6 +61,8 @@ class ProductController extends MainController
         $product->quantity = !empty($request->quantity) ? $request->quantity : 0;
         $product->cost = $request->cost;
         $product->price = $request->price;
+        $product->barcode = $request->barcode;
+        $product->sku = $request->sku;
         $product->description = $request->description;
         $product->save();
         return redirect('/product')->with('message', '');

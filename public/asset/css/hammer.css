@@ -2,5 +2,12 @@
  * Hammer
  */
 body {
-  padding-top: 50px;
+  padding-top: 70px;
 }
+
+/* EAN-128 */
+.barcode {
+  font-family: 'Libre Barcode 128 Text', cursive;
+  font-size: 3em;
+}
+

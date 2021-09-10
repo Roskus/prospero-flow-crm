@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap" rel="stylesheet">
+
 <header>
    <h1>{{ __('Product') }}</h1>
 </header>
@@ -59,11 +64,15 @@
     <div class="row form-group">
         <div class="col">
             <label class="control">{{ __('Barcode') }}</label>
-            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="EAN-128">
+            <div class="input-group">
+                <span class="input-group-text"><i class="las la-barcode"></i></span>
+                <input type="text" name="barcode" id="barcode" placeholder="EAN-128" value="{{ $product->barcode }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
+            </div>
+            <div id="barcode-preview" class="barcode">{{ $product->barcode }}</div>
         </div>
         <div class="col">
             <label class="control">{{ __('SKU') }}</label>
-            <input type="text" name="sku" id="sku" class="form-control" placeholder="">
+            <input type="text" name="sku" id="sku" value="{{ $product->sku }}" class="form-control" placeholder="">
         </div>
     </div>
     <div class="row form-group">
@@ -74,9 +83,13 @@
         <div class="col">
             <label class="label-control">{{ __('Photo') }}</label>
             <input type="file" name="photo" class="form-control">
+            @if($product->photo)
+            <img src="{{ asset("/asset/upload/product/$product->photo")}}" alt="">
+            @endif
         </div>
     </div>
     <div class="form-group mt-2">
+        <a href="/product" class="btn btn-outline-secondary">{{ __('Cancel') }}</a>
         <button type="submit" class="btn btn-primary"><span class=""></span> {{ __('Save') }}</button>
     </div>
     <input type="hidden" name="id" id="id" value="{{ $product->id }}">
