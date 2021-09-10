@@ -4,6 +4,7 @@ We made a free open source CRM. Our Community Edition (CE) Hammer CRM is bassed 
 ## Features
 * Multi company
 * Multi language
+* REST API
 
 ## Setup
 
@@ -21,3 +22,13 @@ We made a free open source CRM. Our Community Edition (CE) Hammer CRM is bassed 
 User: admin@admin.com
 
 Pass: admin
+
+## API
+We will provide a REST API for exchange information with the CRM
+
+Endpoint:
+/api
+
+For example:
+
+GET /api/customers
