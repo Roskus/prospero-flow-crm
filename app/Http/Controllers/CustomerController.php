@@ -7,6 +7,10 @@ use App\Models\Customer;
 use Squire\Models\Country;
 class CustomerController extends MainController
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $customer = new Customer();
@@ -14,6 +18,10 @@ class CustomerController extends MainController
         return view('customer.index', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function add(Request $request)
     {
         $customer = new Customer();
@@ -22,6 +30,11 @@ class CustomerController extends MainController
         return view('customer.customer', $data);
     }
 
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit(Request $request, int $id)
     {
         $customer = Customer::find($id);
@@ -30,6 +43,10 @@ class CustomerController extends MainController
         return view('customer.customer', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function save(Request $request)
     {
         if (empty($request->id)) {

@@ -4,15 +4,20 @@ We made a free open source CRM. Our Community Edition (CE) Hammer CRM is bassed 
 ## Features
 * Multi company
 * Multi language
+
 ## Setup
-* Clone: git clone git@github.com:Roskus/hammercrm.git
+
+* Clone:
+* git ```git clone git@github.com:Roskus/hammercrm.git```
 * Run: ```composer install```
 * Check permisions
 * Run ```cp .env.example .env```
 * Edit .env set language, database.
 * Run ```php artisan key:generate```
 * Run ```php artisan migrate```
+* Generate JWT Secret ```php artisan jwt:secret```
 
-# Demo
+## Demo
 User: admin@admin.com
+
 Pass: admin

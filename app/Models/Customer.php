@@ -13,6 +13,11 @@ class Customer extends Model
     */
     protected $table = 'customer';
 
+    public function company()
+    {
+        return $this->hasOne('App\Models\Company', 'id', 'company_id');
+    }
+
     public function getAll()
     {
         return Customer::all();

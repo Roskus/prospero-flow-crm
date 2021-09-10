@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.0",
         "ramsey/uuid": "^4.2",
-        "squirephp/countries-en": "^2.2"
+        "squirephp/countries-en": "^2.2",
+        "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
