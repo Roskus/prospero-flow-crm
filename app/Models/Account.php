@@ -22,4 +22,15 @@ class Account extends Model
     {
         return Account::orderBy('created_at', 'desc')->get();
     }
+
+    /**
+     * @param int $company_id
+     * @return mixed
+     */
+    public function getAllActiveByCompany(int $company_id)
+    {
+        return Account::where('status', self::ACTIVE)
+                        ->where('company_id', $company_id)
+                        ->orderBy('created_at', 'desc')->get();
+    }
 }

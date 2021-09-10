@@ -11,7 +11,7 @@ class AccountController extends MainController
     public function index(Request $request)
     {
         $account = new Account();
-        $data['accounts'] = $account->getAll();
+        $data['accounts'] = $account->getAllActiveByCompany(Auth::user()->company_id);
         return view('account.index', $data);
     }
 
