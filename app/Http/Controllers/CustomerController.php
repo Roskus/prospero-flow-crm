@@ -14,7 +14,7 @@ class CustomerController extends MainController
     public function index(Request $request)
     {
         $customer = new Customer();
-        $data['customers'] = $customer->getAll();
+        $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id);
         return view('customer.index', $data);
     }
 
