@@ -13,7 +13,7 @@
             <select name="customer_id" id="customer_id" required="required" class="form-control form-control-lg">
                 <option value="">{{ __('Choose') }}</option>
                 @foreach($customers as $customer)
-                <option value="{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name }}</option>
+                <option value="{{ $customer->id }}" @if($order->getCustomerId() == $customer->id) selected="selected" @endif>{{ $customer->first_name }} {{ $customer->last_name }}</option>
                 @endforeach
             </select>
         </div>
@@ -62,7 +62,7 @@
                     <th colspan="2">&nbsp;</th>
                     <th class="text-right">{{ __('Total') }}</th>
                     <th>
-                        <input type="number" name="total" id="total" value="{{ $total ?? 0 }}" readonly="readonly" class="">
+                        <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" class="">
                     </th>
                 </tr>
             </tfoot>
@@ -73,6 +73,7 @@
         <a href="{{ url('/order')}}" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
         <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
     </div>
+    <input type="hidden" name="id" value="{{ ($order->getId()) ?? $order->getId() }}">
 </form>
 
 <template id="product-row">

@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 use App\Models\Order;
 use App\Models\Customer;
 use App\Models\Product;
@@ -55,12 +57,14 @@ class OrderController extends MainController
     public function save(Request $request)
     {
         $order = new Order();
-        $order->setCustomerId($request->customer_id);
-        $order->company_id = Auth::user()->company_id;
-        $order->status = Order::PENDING;
-        $order->setAmount($request->total);
-        $order->created_at = now();
-        $order->save();
+        $order->setCompanyId((int) Auth::user()->company_id);
+        $order->setCustomerId((int) $request->customer_id);
+        $order->setAmount((float) $request->total);
+        try {
+            $status = $order->save();
+        } catch (\Throwable $t) {
+            Log::error($t->getMessage());
+        }
         return redirect('order');
     }
 
