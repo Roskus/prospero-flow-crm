@@ -10,7 +10,7 @@
     </div>
 
     <div class="mt-2">
-        <table class="table table-bordered table-striped table-bordered">
+        <table class="table table-bordered table-striped table-bordered table-hover">
         <thead>
             <tr>
                 <th>{{ __('Name') }}</th>

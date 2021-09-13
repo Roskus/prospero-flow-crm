@@ -1,10 +1,11 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
 use Squire\Models\Country;
+
 class CompanyController extends MainController
 {
     public function index(Request $request)

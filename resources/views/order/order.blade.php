@@ -45,28 +45,30 @@
     </div>
     <div class="row">
         <div class="col mt-2">
-            <table class="table table-bordered table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>{{ __('Product') }}</th>
-                    <th>{{ __('Quantity') }}</th>
-                    <th>{{ __('Price') }}</th>
-                    <th>{{ __('Subtotal') }}</th>
-                </tr>
-            </thead>
-            <tbody id="order-items">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ __('Product') }}</th>
+                        <th>{{ __('Quantity') }}</th>
+                        <th>{{ __('Price') }}</th>
+                        <th>{{ __('Subtotal') }}</th>
+                    </tr>
+                </thead>
+                <tbody id="order-items">
 
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="2">&nbsp;</th>
-                    <th class="text-right">{{ __('Total') }}</th>
-                    <th>
-                        <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" class="">
-                    </th>
-                </tr>
-            </tfoot>
-            </table>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2">&nbsp;</th>
+                        <th class="text-right">{{ __('Total') }}</th>
+                        <th>
+                            <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" class="">
+                        </th>
+                    </tr>
+                </tfoot>
+                </table>
+            </div>
         </div>
     </div>
     <div>

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ class CategoryController extends MainController
     public function index(Request $request)
     {
         $category = new Category();
-        $data['categories'] = $category->getAll();
+        $data['categories'] = $category->getAllActiveByCompany(Auth::user()->company_id);
         return view('category.index', $data);
     }
 

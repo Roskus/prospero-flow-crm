@@ -19,4 +19,15 @@ class Category extends Model
     {
         return Category::orderBy('name', 'asc')->get();
     }
+
+    /**
+     * @param int $company_id
+     * @return mixed
+     */
+    public function getAllActiveByCompany(int $company_id)
+    {
+        return Category::where('company_id', $company_id)
+                        ->orderBy('name', 'asc')
+                        ->get();
+    }
 }

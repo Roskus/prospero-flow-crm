@@ -32,8 +32,8 @@
         </form>
     </div>
 
-    <div class="mt-2">
-        <table class="table table-bordered table-striped table-bordered">
+    <div class="table-responsive mt-2">
+        <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
                 <th>{{ __('Created at') }}</th>

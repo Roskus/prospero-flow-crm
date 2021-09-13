@@ -5,12 +5,12 @@
         <h1>{{ __('Brands') }}</h1>
     </header>
 
-    <div>
+    <div class="mb-2">
         <a href="/brand/add" class="btn btn-primary">{{ __('New') }}</a>
     </div>
 
-    <div class="mt-2">
-        <table class="table table-bordered table-striped table-bordered">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-bordered table-hover">
         <thead>
             <tr>
                 <th>{{ __('Name') }}</th>
