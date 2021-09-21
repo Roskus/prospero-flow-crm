@@ -35,7 +35,7 @@
         </div>
         <div class="col">
             <label>{{ __('Price')}}</label>
-            <input type="number" name="price" id="price" required="required" placeholder="{{ __('Price') }}" min="0" class="form-control form-control-lg">
+            <input type="number" name="price" id="price" required="required" placeholder="{{ __('Price') }}" min="0" step="0.01" class="form-control form-control-lg">
         </div>
         <div class="col">
             <button type="button" name="btn-add-product" id="btn-add-product" onclick="Order.addItem()" class="btn btn-primary btn-lg btn-primary-outlined mt-4">
@@ -46,24 +46,37 @@
     <div class="row">
         <div class="col mt-2">
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>{{ __('Product') }}</th>
+                        <th width="60%">{{ __('Product') }}</th>
                         <th>{{ __('Quantity') }}</th>
                         <th>{{ __('Price') }}</th>
                         <th>{{ __('Subtotal') }}</th>
                     </tr>
                 </thead>
                 <tbody id="order-items">
-
+                @if($order->items()->count() == 0)
+                <tr>
+                    <td colspan="4">{{ __('No items') }}</td>
+                </tr>
+                @else
+                    @foreach($order->items() as $item)
+                    <tr>
+                        <td>{{ $item->product->name }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @endforeach
+                @endif
                 </tbody>
                 <tfoot>
                     <tr>
                         <th colspan="2">&nbsp;</th>
                         <th class="text-right">{{ __('Total') }}</th>
                         <th>
-                            <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" class="">
+                            <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" step="0.01" class="form-control form-control-lg" style="max-width: 200px">
                         </th>
                     </tr>
                 </tfoot>

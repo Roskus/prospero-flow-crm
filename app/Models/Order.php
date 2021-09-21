@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\Order\Item;
 
 final class Order extends Model
 {
@@ -75,7 +76,7 @@ final class Order extends Model
 
     public function items()
     {
-        return $this->hasMany(App\Models\Order\Item::class, 'id', 'order_id');
+        return $this->hasMany(Item::class, 'id', 'order_id');
     }
 
     # Accessors and Mutators
