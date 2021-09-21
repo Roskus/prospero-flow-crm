@@ -4,11 +4,15 @@ declare(strict_types = 1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Company;
 use App\Models\Customer;
 
 final class Order extends Model
 {
+    use SoftDeletes;
+
     # Class Constants
     const CANCELED = 0;
     const PENDING = 1;
@@ -32,6 +36,15 @@ final class Order extends Model
      */
     private ?float $amount;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('orderCreated', function(Builder $builder) {
+            $builder->orderby('created_at', 'DESC');
+        });
+    }
+
     # Constructor
     public function __construct(array $attributes = [])
     {
@@ -49,7 +62,7 @@ final class Order extends Model
      */
     public function company()
     {
-        return $this->hasOne('App\Models\Company', 'id', 'company_id');
+        return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
     /**
@@ -57,12 +70,12 @@ final class Order extends Model
      */
     public function customer()
     {
-        return $this->hasOne('App\Models\Customer', 'id', 'customer_id');
+        return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
     public function items()
     {
-        return $this->hasMany('App\Models\Order\Items', 'id', 'order_id');
+        return $this->hasMany(App\Models\Order\Item::class, 'id', 'order_id');
     }
 
     # Accessors and Mutators

@@ -47,10 +47,9 @@
             </div>
         </div>
 
-        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-            <label for="password" class="col-md-4 control-label">{{ __('Password') }}</label>
-
-            <div class="col-md-6">
+        <div class="row form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+            <div class="col">
+                <label for="password" class="col-md-4 control-label">{{ __('Password') }}</label>
                 <input id="password" type="password" class="form-control" name="password" autocomplete="off">
 
                 @if ($errors->has('password'))
@@ -59,17 +58,13 @@
                     </span>
                 @endif
             </div>
-        </div>
-
-        <div class="form-group">
-            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
             <div class="col-md-6">
+                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="off">
             </div>
         </div>
-
-        <div class="form-group">
+        <div class="row form-group mt-2">
             <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
             </div>

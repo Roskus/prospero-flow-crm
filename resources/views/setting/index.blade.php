@@ -8,7 +8,9 @@
 <div class="row">
     <div class="col">
         <a href="/company">
-            <i class="material-icons">business</i>
+            <div class="h1">
+                <i class="material-icons">business</i>
+            </div>
             {{ __('Companies') }}
         </a>
     </div>
@@ -20,21 +22,25 @@
     </div>
     <div class="col">
         <a href="/brand">
-            <i class="material-icons">folder</i>
+            <div class="h1">
+                <i class="las la-apple-alt"></i>
+            </div>
             {{ __('Brands') }}
         </a>
     </div>
     <div class="col">
         <a href="/user">
-            <i class="material-icons">
-            supervisor_account
-            </i>
+            <div class="h1">
+                <i class="las la-users"></i>
+            </div>
             {{ __('Users') }}
         </a>
     </div>
     <div class="col">
         <a href="/currency">
-            <i class="las la-money-bill"></i>
+            <div class="h1">
+                <i class="las la-euro-sign"></i>
+            </div>
             {{ __('Currencies') }}
         </a>
     </div>
