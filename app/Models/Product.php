@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
     const ACTIVE = 1;
 
    /**
@@ -15,7 +18,7 @@ class Product extends Model
 
     public function company()
     {
-        return $this->hasOne('App\Models\Company', 'id', 'company_id');
+        return $this->hasOne(App\Models\Compony::class, 'id', 'company_id');
     }
 
     public function category()
