@@ -9,14 +9,16 @@
     <div class="col">
         <a href="/company">
             <div class="h1">
-                <i class="material-icons">business</i>
+                <i class="las la-industry"></i>
             </div>
             {{ __('Companies') }}
         </a>
     </div>
     <div class="col">
         <a href="/category">
-            <i class="material-icons">folder</i>
+            <div class="h1">
+                <i class="las la-archive"></i>
+            </div>
             {{ __('Categories') }}
         </a>
     </div>
