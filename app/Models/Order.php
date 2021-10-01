@@ -76,7 +76,7 @@ final class Order extends Model
 
     public function items()
     {
-        return $this->hasMany(Item::class, 'id', 'order_id');
+        return $this->hasMany(Item::class, 'order_id', 'id');
     }
 
     # Accessors and Mutators

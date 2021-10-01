@@ -50,8 +50,8 @@
                 <thead>
                     <tr>
                         <th width="60%">{{ __('Product') }}</th>
-                        <th>{{ __('Quantity') }}</th>
                         <th>{{ __('Price') }}</th>
+                        <th>{{ __('Quantity') }}</th>
                         <th>{{ __('Subtotal') }}</th>
                     </tr>
                 </thead>
@@ -61,12 +61,12 @@
                     <td colspan="4">{{ __('No items') }}</td>
                 </tr>
                 @else
-                    @foreach($order->items() as $item)
+                    @foreach($order->items as $item)
                     <tr>
                         <td>{{ $item->product->name }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ $item->unit_price }}</td>
+                        <td>{{ $item->quantity }}</td>
+                        <td>{{ ($item->unit_price * $item->quantity) }}</td>
                     </tr>
                     @endforeach
                 @endif
