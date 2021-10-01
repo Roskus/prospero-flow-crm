@@ -1,5 +1,5 @@
 # Hammer CRM
-We made a free open source CRM. Our Community Edition (CE) Hammer CRM is bassed in Laravel 7
+We made a free open source CRM. Our Community Edition (CE) Hammer CRM is based in Laravel 8
 
 ## Features
 * Multi company
@@ -11,7 +11,7 @@ We made a free open source CRM. Our Community Edition (CE) Hammer CRM is bassed 
 * Clone:
 * git ```git clone git@github.com:Roskus/hammercrm.git```
 * Run: ```composer install```
-* Check permisions
+* Check permissions
 * Run ```cp .env.example .env```
 * Edit .env set language, database.
 * Run ```php artisan key:generate```
