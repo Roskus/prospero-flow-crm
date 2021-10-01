@@ -1,8 +1,19 @@
 /**
  * Hammer
+ * @version 1.0.2
  */
 body {
-  padding-top: 70px;
+
+}
+
+main {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100vh;
+  height: -webkit-fill-available;
+  max-height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* EAN-128 */
