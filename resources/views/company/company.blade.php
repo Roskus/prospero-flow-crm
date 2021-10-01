@@ -16,7 +16,6 @@
             <select name="country_id" id="country_id" required class="form-control">
                 <option value=""></option>
                 @foreach ($countries as $country)
-                <?php var_dump($country); ?>
                 <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
                 @endforeach
             </select>
