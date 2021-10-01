@@ -18,7 +18,7 @@ class MainController extends Controller
     public function index(Request $request)
     {
         $order = new Order();
-        $data['order_count'] = $order->getPendingCount();
+        $data['order_count'] = $order->getPendingCount(Auth::user()->company_id);
         return view('dashboard');
     }
 }
