@@ -36,7 +36,7 @@
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
             <li><a class="dropdown-item" href="/setting"><i class="las la-cogs"></i> {{ __('Setting') }}</a></li>
-            <li><a class="dropdown-item" href="/"><i class="las la-user-tie"></i> {{ __('Profile') }}</a></li>
+            <li><a class="dropdown-item" href="/profile"><i class="las la-user-tie"></i> {{ __('Profile') }}</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
                 <a class="dropdown-item" onclick="Hammer.exit()" href="#"><i class="las la-door-open"></i> {{ __('Exit') }}</a>
