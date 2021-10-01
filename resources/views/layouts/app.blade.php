@@ -96,7 +96,7 @@
         @auth
             @include('sidebar')
         @endauth
-        <div class="container-fluid mt-3">
+        <div class="container-fluid mt-5 pt-3">
         @yield('content')
         </div>
     </main>
