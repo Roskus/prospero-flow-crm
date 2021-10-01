@@ -93,9 +93,7 @@
 
 <template id="product-row">
 <tr>
-    <td>
-        <input type="hidden" name="product_id[]" value="">
-    </td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>

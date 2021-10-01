@@ -157,8 +157,12 @@ final class Order extends Model
                     ->where('status', self::PENDING)->count();
     }
 
+    /**
+     * @param int $company_id
+     * @return mixed
+     */
     public function getAllActiveByCompany(int $company_id)
     {
-        return Order::where('company_id',$company_id)->get();
+        return Order::where('company_id',$company_id)->paginate(10);
     }
 }
