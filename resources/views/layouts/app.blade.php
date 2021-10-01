@@ -33,18 +33,18 @@
                 @auth
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/"><i class="las la-compass"></i> {{ __('Dashboard') }}</a>
+                    <a class="nav-link fs-5" href="/"><i class="las la-compass"></i> {{ __('Dashboard') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/order"><i class="las la-receipt"></i> {{ __('Orders') }}</a>
+                    <a class="nav-link fs-5" href="/order"><i class="las la-receipt"></i> {{ __('Orders') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer"><i class="las la-user-alt"></i> {{ __('Customers') }}</a>
+                    <a class="nav-link fs-5" href="/customer"><i class="las la-user-alt"></i> {{ __('Customers') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/product"><i class="las la-box"></i> {{ __('Products') }}</a>
+                    <a class="nav-link fs-5" href="/product"><i class="las la-box"></i> {{ __('Products') }}</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item fs-5">
                     <a class="nav-link" href="/accounting"><i class="las la-coins"></i> {{ __('Accounting') }}</a>
                 </li>
                 </ul>
