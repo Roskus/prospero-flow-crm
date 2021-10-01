@@ -5,7 +5,7 @@
    <h1>{{ trans('Order') }}</h1>
 </header>
 
-<form method="post" action="/order/save">
+<form method="post" id="order-form" action="/order/save">
     @csrf
     <div class="row">
         <div class="col">
@@ -57,7 +57,7 @@
                 </thead>
                 <tbody id="order-items">
                 @if($order->items()->count() == 0)
-                <tr>
+                <tr id="row-no-data">
                     <td colspan="4">{{ __('No items') }}</td>
                 </tr>
                 @else
