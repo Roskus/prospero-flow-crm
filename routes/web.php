@@ -28,7 +28,7 @@ Route::post('/order/save', 'OrderController@save', function (Request $request) {
 Route::get('/product', 'ProductController@index');
 Route::get('/product/add', 'ProductController@add');
 Route::get('/product/edit/{id}', 'ProductController@edit', function (Request $request, int $id) {});
-Route::post('/product/save', 'ProductController@save', function (Request $request) {});
+Route::post('/product/save', 'Product\ProductSaveController@save', function (Request $request) {});
 
 
 //Brand
