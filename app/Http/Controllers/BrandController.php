@@ -11,7 +11,7 @@ class BrandController extends MainController
     public function index(Request $request)
     {
         $brand = new Brand();
-        $data['brands'] = $brand->getAll();
+        $data['brands'] = $brand->getAllByCompanyId(Auth::user()->company_id);
         return view('brand.index', $data);
     }
 

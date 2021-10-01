@@ -151,10 +151,13 @@ final class Order extends Model
     /**
      * @return int
      */
-    public function getPendingCount()
+    public function getPendingCount(?int $company_id)
     {
-        return Order::where('status', self::PENDING)->count();
+
     }
 
-
+    public function getAllActiveByCompany(int $company_id)
+    {
+        return Order::where('company_id',$company_id)->get();
+    }
 }
