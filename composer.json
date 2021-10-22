@@ -18,6 +18,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "ramsey/uuid": "^4.2",
+        "shopify/shopify-api": "^1.0",
         "squirephp/continents-en": "^2.3",
         "squirephp/countries-en": "^2.3",
         "squirephp/countries-es": "^2.3",
