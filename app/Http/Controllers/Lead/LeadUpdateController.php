@@ -18,7 +18,7 @@ class LeadUpdateController extends MainController
     {
         $lead = Lead::find($id);
         $data['lead'] = $lead;
-        $data['countries'] = Country::all();
+        $data['countries'] = Country::orderBy('name')->get();;
         return view('lead.lead', $data);
     }
 }

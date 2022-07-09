@@ -31,7 +31,6 @@ Route::get('/product/add', 'ProductController@add');
 Route::get('/product/edit/{id}', 'ProductController@edit', function (Request $request, int $id) {});
 Route::post('/product/save', 'Product\ProductSaveController@save', function (Request $request) {});
 
-
 //Brand
 Route::get('/brand', 'BrandController@index');
 Route::get('/brand/add', 'BrandController@add');

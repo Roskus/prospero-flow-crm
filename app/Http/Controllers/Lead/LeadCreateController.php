@@ -16,7 +16,7 @@ class LeadCreateController
     {
         $lead = new Lead();
         $data['lead'] = $lead;
-        $data['countries'] = Country::all();
+        $data['countries'] = Country::orderBy('name')->get();
         return view('lead.lead', $data);
     }
 }

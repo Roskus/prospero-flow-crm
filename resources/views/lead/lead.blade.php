@@ -49,7 +49,7 @@
         </div>
         <div class="row">
             <div class="col mt-2">
-                <a href="/customer" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
+                <a href="/lead" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
                 <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
             </div>
         </div>
