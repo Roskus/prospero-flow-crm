@@ -55,4 +55,16 @@
         </div>
         <input type="hidden" name="id" value="{{ (!empty($customer)) ? $customer->id : '' }}">
     </form>
+    @push('scripts')
+    <script>
+        $('#phone').on('paste', function() {
+            let $el = $(this);
+            setTimeout(function() {
+                $el.val(function(i, val) {
+                    return val.replace(/[ -.]/g, '')
+                })
+            })
+        });
+    </script>
+    @endpush
 @endsection

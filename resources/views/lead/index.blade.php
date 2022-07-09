@@ -18,9 +18,10 @@
         <th>{{ __('Phone') }}</th>
         <th>E-mail</th>
         <th>Website</th>
-        <th>{{ __('Company') }}</th>
         <th>{{ __('Country') }}</th>
         <th>{{ __('Seller') }}</th>
+        <th>{{ __('Created at') }}</th>
+        <th>{{ __('Updated at') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>
@@ -36,9 +37,10 @@
         <td>
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
-        <td>{{ $lead->company->name }}</td>
         <td>{{ $lead->country_id }}</td>
         <td>{{ $lead->seller->first_name }}</td>
+        <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
+        <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
         <td>
             <a onclick="/lead/update/{{ $lead->id }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
