@@ -38,7 +38,7 @@
         </td>
         <td>{{ $lead->company->name }}</td>
         <td>{{ $lead->country_id }}</td>
-        <td>{{ $lead->seller->name }}</td>
+        <td>{{ $lead->seller->first_name }}</td>
         <td>
             <a onclick="/lead/update/{{ $lead->id }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
