@@ -17,8 +17,10 @@
         <th>{{ __('Name') }}</th>
         <th>{{ __('Phone') }}</th>
         <th>E-mail</th>
+        <th>Website</th>
         <th>{{ __('Company') }}</th>
         <th>{{ __('Country') }}</th>
+        <th>{{ __('Seller') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>
@@ -31,8 +33,12 @@
         </td>
         <td>{{ $lead->phone }}</td>
         <td>{{ $lead->email }}</td>
+        <td>
+            <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
+        </td>
         <td>{{ $lead->company->name }}</td>
         <td>{{ $lead->country_id }}</td>
+        <td>{{ $lead->seller->name }}</td>
         <td>
             <a onclick="/lead/update/{{ $lead->id }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
