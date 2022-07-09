@@ -28,7 +28,7 @@
     <tr>
         <td>{{ $customer->id }}</td>
         <td>
-            <a href="/customer/edit/{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name }}</a>
+            <a href="/customer/update/{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name }}</a>
         </td>
         <td>{{ $customer->phone }}</td>
         <td>{{ $customer->email }}</td>
