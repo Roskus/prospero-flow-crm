@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Company;
-use App\Models\Customer;
+use App\Models\Lead;
 use App\Models\Order\Item;
 
 final class Order extends Model
@@ -67,11 +67,11 @@ final class Order extends Model
     }
 
     /**
-     * @return Customer
+     * @return Lead
      */
     public function customer()
     {
-        return $this->hasOne(Customer::class, 'id', 'customer_id');
+        return $this->hasOne(Lead::class, 'id', 'customer_id');
     }
 
     public function items()

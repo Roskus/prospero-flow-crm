@@ -20,12 +20,12 @@ class Lead extends Model
 
     public function getAll()
     {
-        return Customer::all();
+        return Lead::all();
     }
 
     public function getAllByCompanyId(int $company_id)
     {
-        return Customer::where('company_id', $company_id)->get();
+        return Lead::where('company_id', $company_id)->get();
     }
 
 }

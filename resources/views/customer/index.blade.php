@@ -6,7 +6,7 @@
 </header>
 
 <div class="">
-    <a href="/customer/add" class="btn btn-primary">{{ __('New') }}</a>
+    <a href="/customer/create" class="btn btn-primary">{{ __('New') }}</a>
 </div>
 
 <div class="table-responsive mt-2">
@@ -31,10 +31,10 @@
         </td>
         <td>{{ $customer->phone }}</td>
         <td>{{ $customer->email }}</td>
-        <td>{{ $customer->company }}</td>
+        <td>{{ $customer->company->name }}</td>
         <td>{{ $customer->country_id }}</td>
         <td>
-            <a onclick="/customer/edit/{{ $customer->id }}" class="btn btn-xs btn-warning text-white">
+            <a onclick="/customer/update/{{ $customer->id }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
             <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->first_name }} {{ $customer->last_name }}');" class="btn btn-xs btn-danger">

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Order;
-use App\Models\Customer;
+use App\Models\Lead;
 use App\Models\Product;
 
 class OrderController extends MainController
@@ -26,7 +26,7 @@ class OrderController extends MainController
     public function add(Request $request)
     {
         $order = new Order();
-        $customer = new Customer();
+        $customer = new Lead();
         $product = new Product();
         $company_id = Auth::user()->company_id;
         $data['order'] = $order;

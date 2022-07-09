@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -37,11 +38,18 @@ Route::get('/brand/add', 'BrandController@add');
 Route::get('/brand/edit/{id}', 'BrandController@edit', function (Request $request, int $id) {});
 Route::post('/brand/save', 'BrandController@save', function (Request $request) {});
 
+// Lead
+Route::get('/lead',[\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);
+Route::get('/lead/create', [\App\Http\Controllers\Lead\LeadCreateController::class, 'create']);
+Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController::class, 'update'], function (Request $reque4st,int $id) {});
+Route::post('/lead/save', [\App\Http\Controllers\Lead\LeadSaveController::class, 'save'], function (Request $request) {});
+//Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete'], function (Request $request, int $id) {});
+
 //Customer
-Route::get('/customer', 'CustomerController@index');
-Route::get('/customer/add', 'CustomerController@add');
-Route::get('/customer/edit/{id}', 'CustomerController@edit', function (Request $request,$id) {});
-Route::post('/customer/save', 'CustomerController@save', function (Request $request) {});
+Route::get('/customer',[\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
+Route::get('/customer/create', [\App\Http\Controllers\Customer\CustomerCreateController::class, 'create']);
+Route::get('/customer/update/{id}',  [\App\Http\Controllers\Customer\CustomerUpdateController::class, 'update'], function (Request $request,$id) {});
+Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveController::class, 'save'], function (Request $request) {});
 
 //Category
 Route::get('/category', 'CategoryController@index');

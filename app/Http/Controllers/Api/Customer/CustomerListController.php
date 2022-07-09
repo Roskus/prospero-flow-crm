@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Customer;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\CustomerResource;
-use App\Models\Customer;
+use App\Models\Lead;
 
 class CustomerListController
 {
@@ -14,6 +14,6 @@ class CustomerListController
      */
     public function index(Request $request)
     {
-        return CustomerResource::collection(Customer::all());
+        return CustomerResource::collection(Lead::all());
     }
 }
