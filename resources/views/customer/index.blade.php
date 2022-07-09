@@ -17,6 +17,7 @@
         <th>{{ __('Name') }}</th>
         <th>{{ __('Phone') }}</th>
         <th>E-mail</th>
+        <th>Website</th>
         <th>{{ __('Company') }}</th>
         <th>{{ __('Country') }}</th>
         <th>{{ __('Actions') }}</th>
@@ -31,7 +32,8 @@
         </td>
         <td>{{ $customer->phone }}</td>
         <td>{{ $customer->email }}</td>
-        <td>{{ $customer->company->name }}</td>
+        <td><a href="{{ $customer->website }}" target="_blank">{{ $customer->website }}</a></td>
+        <td>{{ (!empty($customer->company)) ? $customer->company->name : '' }}</td>
         <td>{{ $customer->country_id }}</td>
         <td>
             <a onclick="/customer/update/{{ $customer->id }}" class="btn btn-xs btn-warning text-white">
