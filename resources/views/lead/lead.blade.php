@@ -48,6 +48,12 @@
             </div>
         </div>
         <div class="row">
+            <div class="col">
+                <label>{{ __('Notes') }}</label>
+                <textarea name="notes" id="notes" class="form-control form-control-lg">{{ $lead->notes }}</textarea>
+            </div>
+        </div>
+        <div class="row">
             <div class="col mt-2">
                 <a href="/lead" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
                 <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>

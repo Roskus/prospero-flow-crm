@@ -17,6 +17,7 @@ class LeadSaveController extends MainController
     {
         if (empty($request->id)) {
             $lead = new Lead();
+            $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
         } else {
             $lead = Lead::find($request->id);
@@ -28,7 +29,8 @@ class LeadSaveController extends MainController
         $lead->phone = $request->phone;
         $lead->email = $request->email;
         $lead->country_id = $request->country_id;
-        //$lead->website = $request->website;
+        $lead->website = $request->website;
+        $lead->notes = $request->notes;
         $lead->save();
         return redirect('/lead');
     }
