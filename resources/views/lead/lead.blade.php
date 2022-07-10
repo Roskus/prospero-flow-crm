@@ -8,11 +8,11 @@
         {{ csrf_field() }}
         <div class="row">
             <div class="col">
-                <label>{{ __('First name') }} <span class="text-danger">*</span></label>
+                <label>{{ __('Name') }} <span class="text-danger">*</span></label>
                 <input type="text" name="first_name" value="{{ $lead->first_name }}" required="required" class="form-control form-control-lg">
             </div>
             <div class="col">
-                <label>{{ __('Last name') }}</label>
+                <label>{{ __('Business name') }}</label>
                 <input type="text" name="last_name" value="{{ $lead->last_name }}" class="form-control form-control-lg">
             </div>
         </div>
@@ -28,8 +28,8 @@
         </div>
         <div class="row">
             <div class="col">
-                <label>{{ __('Company') }}</label>
-                <input type="text" name="company" id="company" value="{{ $lead->company }}" class="form-control form-control-lg">
+                <label>Website</label>
+                <input type="url" name="website" id="website" value="{{ $lead->website }}" class="form-control form-control-lg">
             </div>
             <div class="col">
                 <label>{{ __('Country') }} <span class="text-danger">*</span></label>
@@ -39,12 +39,6 @@
                     <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
                     @endforeach
                 </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label>Website</label>
-                <input type="url" name="website" id="website" value="{{ $lead->website }}" class="form-control form-control-lg">
             </div>
         </div>
         <div class="row">
@@ -61,6 +55,72 @@
         </div>
         <input type="hidden" name="id" value="{{ (!empty($lead)) ? $lead->id : '' }}">
     </form>
+
+    @if($lead->id)
+    <div class="mt-2">
+        <h2>{{ __('Contacts') }}</h2>
+    </div>
+    <form method="post" action="/contact/save">
+        <input type="hidden" name="lead_id" value="{{ $lead->id }}">
+        <div class="row">
+            <div class="col">
+                <label>{{ __('First name') }}</label>
+                <input type="text" name="contact_first_name" class="form-control">
+            </div>
+            <div class="col">
+                <label>{{ __('Last name') }}</label>
+                <input type="text" name="contact_last_name" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>{{ __('Phone') }}</label>
+                <input type="text" name="contact_phone" class="form-control">
+            </div>
+            <div class="col">
+                <label>E-mail</label>
+                <input type="text" name="contact_email" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-1">
+                <button type="submit" class="btn btn-secondary">{{ __('Save') }}</button>
+            </div>
+        </div>
+    </form>
+    @endif
+
+    <div class="mt-2">
+        <table class="table table-bordered table-hover table-striped table-sm">
+        <thead>
+        <tr>
+            <th>{{ __('First name') }}</th>
+            <th>{{ __('Last name') }}</th>
+            <th>{{ __('Phone') }}</th>
+            <th>E-mail</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if($lead->contacts)
+            @foreach($lead->contacts as $contact)
+            <tr>
+                <td>{{ $contact->first_name }}</td>
+                <td>{{ $contact->first_name }}</td>
+                <td>
+                    {{ $contact->phone }}
+                </td>
+                <td>{{ $contact->email }}</td>
+            </tr>
+            @endforeach
+        @else
+            <tr>
+                <td colspan="4">{{ __('No contacts') }}</td>
+            </tr>
+        @endif
+        </tbody>
+        </table>
+    </div>
+
     @push('scripts')
         <script>
             $('#phone').on('paste', function() {
