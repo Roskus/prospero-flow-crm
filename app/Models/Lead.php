@@ -1,9 +1,11 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lead extends Model
 {
+    //use SoftDeletes;
     const ACTIVE = 1;
 
     /**
@@ -25,7 +27,7 @@ class Lead extends Model
 
     public function contacts()
     {
-        return $this->hasMany(\App\Models\Contact::class, 'id', 'lead_id');
+        return $this->hasMany(\App\Models\Contact::class, 'lead_id', 'id');
     }
 
     public function getAll()

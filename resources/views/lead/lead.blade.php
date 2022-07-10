@@ -124,6 +124,8 @@
                     <a href="{{ $contact->linkedin }}">{{ $contact->linkedin }}</a>
                     @endif
                 </td>
+                <td>{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
+                <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
             </tr>
             @endforeach
         @else

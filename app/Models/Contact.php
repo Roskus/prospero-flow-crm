@@ -10,4 +10,9 @@ class Contact extends Model
     use HasFactory;
     protected $table = 'contact';
 
+    public function lead()
+    {
+        return $this->belongsTo(\App\Models\Lead::class);
+    }
+
 }
