@@ -28,9 +28,15 @@ class Lead extends Model
         return Lead::all();
     }
 
-    public function getAllByCompanyId(int $company_id)
+    public function getAllByCompanyId(int $company_id, ?string $search = '')
     {
-        return Lead::where('company_id', $company_id)->get();
+        if(empty($search))
+        {
+            $leads = Lead::where('company_id', $company_id)->paginate(10);
+        } else {
+            $leads = Lead::where("first_name","LIKE","%$search%")->paginate(10);
+        }
+        return $leads;
     }
 
 }

@@ -15,8 +15,9 @@ class LeadIndexController extends MainController
      */
     public function index(Request $request)
     {
+        $search = $request->search;
         $lead = new Lead();
-        $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id);
+        $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search);
         return view('lead.index', $data);
     }
 }

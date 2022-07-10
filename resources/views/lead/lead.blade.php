@@ -127,7 +127,16 @@
                 let $el = $(this);
                 setTimeout(function() {
                     $el.val(function(i, val) {
-                        return val.replace(/[ -.]/g, '')
+                        return val.replace(/[ ()-.]/g, '')
+                    })
+                })
+            });
+
+            $('#email').on('paste', function() {
+                let $el = $(this);
+                setTimeout(function() {
+                    $el.val(function(i, val) {
+                        return val.replace('mailto:', '').trim()
                     })
                 })
             });

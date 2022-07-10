@@ -69,5 +69,9 @@
     @endforeach
     </tbody>
     </table>
+
+    <div>
+        {{ $leads->links() }}
+    </div>
 </div>
 @endsection
