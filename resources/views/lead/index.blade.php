@@ -63,7 +63,7 @@
         <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
         <td>
-            <a onclick="/lead/update/{{ $lead->id }}" class="btn btn-xs btn-warning text-white">
+            <a href="/lead/update/{{ $lead->id }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
             <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->first_name }} {{ $lead->last_name }}');" class="btn btn-xs btn-danger">

@@ -36,7 +36,7 @@
         <td>{{ (!empty($customer->company)) ? $customer->company->name : '' }}</td>
         <td>{{ $customer->country_id }}</td>
         <td>
-            <a onclick="/customer/update/{{ $customer->id }}" class="btn btn-xs btn-warning text-white">
+            <a href="/customer/update/{{ $customer->id }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
             <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->first_name }} {{ $customer->last_name }}');" class="btn btn-xs btn-danger">
