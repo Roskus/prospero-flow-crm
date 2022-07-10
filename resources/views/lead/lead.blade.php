@@ -98,6 +98,9 @@
             <th>{{ __('Last name') }}</th>
             <th>{{ __('Phone') }}</th>
             <th>E-mail</th>
+            <th>Linkedin</th>
+            <th>{{ __('Created at') }}</th>
+            <th>{{ __('Updated at') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -107,9 +110,20 @@
                 <td>{{ $contact->first_name }}</td>
                 <td>{{ $contact->first_name }}</td>
                 <td>
-                    {{ $contact->phone }}
+                    @if($contact->phone)
+                    <a href="https://api.whatsapp.com/send/?phone={{ $contact->phone }}&text={{ __('Hello') }}">{{ $contact->phone }}</a>
+                    @endif
                 </td>
-                <td>{{ $contact->email }}</td>
+                <td>
+                    @if($contact->email)
+                    <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
+                    @endif
+                </td>
+                <td>
+                    @if($contact->linkedin)
+                    <a href="{{ $contact->linkedin }}">{{ $contact->linkedin }}</a>
+                    @endif
+                </td>
             </tr>
             @endforeach
         @else
