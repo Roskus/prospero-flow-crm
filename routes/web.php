@@ -38,7 +38,7 @@ Route::get('/brand/edit/{id}', 'BrandController@edit', function (Request $reques
 Route::post('/brand/save', 'BrandController@save', function (Request $request) {});
 
 // Lead
-Route::get('/lead',[\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);
+Route::match(['get', 'post'],'/lead',[\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);
 Route::get('/lead/create', [\App\Http\Controllers\Lead\LeadCreateController::class, 'create']);
 Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController::class, 'update'], function (Request $reque4st,int $id) {});
 Route::post('/lead/save', [\App\Http\Controllers\Lead\LeadSaveController::class, 'save'], function (Request $request) {});

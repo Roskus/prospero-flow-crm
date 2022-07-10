@@ -33,3 +33,7 @@ Endpoint:
 For example:
 
 GET /api/customers
+
+## Resources
+Icon font Line Awesome
+https://icons8.com/line-awesome
