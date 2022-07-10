@@ -21,7 +21,6 @@ class LeadSaveController extends MainController
             $lead->created_at = now();
         } else {
             $lead = Lead::find($request->id);
-            $lead->updated_at = now();
         }
         $lead->company_id = Auth::user()->company_id;
         $lead->first_name = $request->first_name;
@@ -31,6 +30,7 @@ class LeadSaveController extends MainController
         $lead->country_id = $request->country_id;
         $lead->website = $request->website;
         $lead->notes = $request->notes;
+        $lead->updated_at = now();
         $lead->save();
         return redirect('/lead');
     }
