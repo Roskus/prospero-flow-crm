@@ -23,6 +23,11 @@ class Lead extends Model
         return $this->hasOne(\App\Models\User::class, 'id', 'seller_id');
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(\App\Models\Contact::class, 'id', 'lead_id');
+    }
+
     public function getAll()
     {
         return Lead::all();

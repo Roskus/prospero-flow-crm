@@ -18,6 +18,11 @@ class Customer extends Model
         return $this->hasOne('App\Models\Company', 'id', 'company_id');
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(\App\Models\Contact::class, 'id', 'customer_id');
+    }
+
     public function getAll()
     {
         return Customer::all();
