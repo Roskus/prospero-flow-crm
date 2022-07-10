@@ -7,15 +7,24 @@
     <form method="POST" action="/profile/save" class="form">
         @csrf
 
-        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <label for="name" class="col-md-4 control-label">{{ __('Name') }}</label>
-
-            <div class="col-md-6">
+        <div class="row form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+            <div class="col">
+                <label for="name" class="col-md-4 control-label">{{ __('Name') }}</label>
                 <input type="text" name="first_name" id="first_name" value="{{ $user->first_name }}" required autofocus class="form-control">
 
                 @if ($errors->has('name'))
                     <span class="help-block">
                         <strong>{{ $errors->first('name') }}</strong>
+                    </span>
+                @endif
+            </div>
+            <div class="col">
+                <label for="last_name" class="col-md-4 control-label">{{ __('Last Name') }}</label>
+                <input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}" required autofocus class="form-control">
+
+                @if ($errors->has('last_name'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('last_name') }}</strong>
                     </span>
                 @endif
             </div>

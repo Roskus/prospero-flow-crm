@@ -34,6 +34,7 @@ class ProfileController extends MainController
         $locale = $request->lang;
         $user = User::find(Auth::user()->id);
         $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->lang = $locale;
         //Update password if change
