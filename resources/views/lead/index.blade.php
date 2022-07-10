@@ -53,8 +53,16 @@
             <a href="/lead/update/{{ $lead->id }}">{{ $lead->first_name }}</a>
         </td>
         <td>{{ $lead->last_name }}</td>
-        <td>{{ $lead->phone }}</td>
-        <td>{{ $lead->email }}</td>
+        <td>
+            @if($lead->phone)
+                <a href="https://api.whatsapp.com/send/?phone={{ $lead->phone }}&text={{ __('Hello') }}" target="_blank">{{ $lead->phone }}</a>
+            @endif
+        </td>
+        <td>
+            @if($lead->email)
+            <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
+            @endif
+        </td>
         <td>
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
