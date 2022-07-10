@@ -75,11 +75,17 @@
         <div class="row">
             <div class="col">
                 <label>{{ __('Phone') }}</label>
-                <input type="text" name="contact_phone" class="form-control">
+                <input type="phone" name="contact_phone" maxlength="15" class="form-control">
             </div>
             <div class="col">
                 <label>E-mail</label>
-                <input type="text" name="contact_email" class="form-control">
+                <input type="email" name="contact_email" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Linkedin</label>
+                <input type="url" name="contact_linkedin" class="form-control">
             </div>
         </div>
         <div class="row">
@@ -101,6 +107,7 @@
             <th>Linkedin</th>
             <th>{{ __('Created at') }}</th>
             <th>{{ __('Updated at') }}</th>
+            <th>{{ __('Action') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -108,7 +115,7 @@
             @foreach($lead->contacts as $contact)
             <tr>
                 <td>{{ $contact->first_name }}</td>
-                <td>{{ $contact->first_name }}</td>
+                <td>{{ $contact->last_name }}</td>
                 <td>
                     @if($contact->phone)
                     <a href="https://api.whatsapp.com/send/?phone={{ $contact->phone }}&text={{ __('Hello') }}">{{ $contact->phone }}</a>
@@ -126,11 +133,16 @@
                 </td>
                 <td>{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
                 <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
+                <td>
+                    <a href="/contact/update/{{ $contact->id }}" class="btn btn-xs btn-warning text-white">
+                        <i class="las la-pen"></i>
+                    </a>
+                </td>
             </tr>
             @endforeach
         @else
             <tr>
-                <td colspan="4">{{ __('No contacts') }}</td>
+                <td colspan="8">{{ __('No contacts') }}</td>
             </tr>
         @endif
         </tbody>
