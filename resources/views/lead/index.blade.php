@@ -5,8 +5,13 @@
    <h1>{{ __('Leads') }}</h1>
 </header>
 
-<div class="">
-    <a href="/lead/create" class="btn btn-primary">{{ __('New') }}</a>
+<div class="row">
+    <div class="col">
+        <a href="/lead/create" class="btn btn-primary">{{ __('New') }}</a>
+    </div>
+    <div class="col">
+        <a href="/lead/import" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv"></i></a>
+    </div>
 </div>
 
 <div class="row mt-2">

@@ -42,6 +42,8 @@ Route::match(['get', 'post'],'/lead',[\App\Http\Controllers\Lead\LeadIndexContro
 Route::get('/lead/create', [\App\Http\Controllers\Lead\LeadCreateController::class, 'create']);
 Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController::class, 'update'], function (Request $reque4st,int $id) {});
 Route::post('/lead/save', [\App\Http\Controllers\Lead\LeadSaveController::class, 'save'], function (Request $request) {});
+Route::get('/lead/import', [\App\Http\Controllers\Lead\LeadImportIndexController::class, 'index']);
+Route::post('/lead/import/save', [\App\Http\Controllers\Lead\LeadImportSaveController::class, 'save'], function (Request $request) {});
 //Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete'], function (Request $request, int $id) {});
 
 //Customer
