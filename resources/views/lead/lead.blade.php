@@ -44,7 +44,37 @@
         <div class="row">
             <div class="col">
                 <label>{{ __('Notes') }}</label>
-                <textarea name="notes" id="notes" class="form-control form-control-lg">{{ $lead->notes }}</textarea>
+                <textarea name="notes" id="notes" rows="10" class="form-control form-control-lg">{{ $lead->notes }}</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Linkedin</label>
+                <input type="url" name="linkedin" value="{{ $lead->linkedin }}" class="form-control form-control-lg">
+            </div>
+            <div class="col">
+                <label>Facebook</label>
+                <input type="url" name="facebook" value="{{ $lead->facebook }}" class="form-control form-control-lg">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Instagram</label>
+                <input type="url" name="instagram" value="{{ $lead->instagram }}" class="form-control form-control-lg">
+            </div>
+            <div class="col">
+                <label>Twitter</label>
+                <input type="url" name="twitter" value="{{ $lead->twitter }}" class="form-control form-control-lg">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>YouTube</label>
+                <input type="url" name="youtube" value="{{ $lead->youtube }}" class="form-control form-control-lg">
+            </div>
+            <div class="col">
+                <label>TikTok</label>
+                <input type="url" name="tiktok" value="{{ $lead->tiktok }}" class="form-control form-control-lg">
             </div>
         </div>
         <div class="row">

@@ -40,6 +40,7 @@
         <th>Website</th>
         <th>{{ __('Country') }}</th>
         <th>{{ __('Seller') }}</th>
+        <th>{{ __('Status') }}</th>
         <th>{{ __('Created at') }}</th>
         <th>{{ __('Updated at') }}</th>
         <th>{{ __('Actions') }}</th>
@@ -68,6 +69,7 @@
         </td>
         <td>{{ $lead->country_id }}</td>
         <td>{{ $lead->seller->first_name }}</td>
+        <td>{{ $lead->status }}</td>
         <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
         <td>

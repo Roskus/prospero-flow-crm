@@ -30,6 +30,14 @@ class LeadSaveController extends MainController
         $lead->country_id = $request->country_id;
         $lead->website = $request->website;
         $lead->notes = $request->notes;
+
+        $lead->linkedin = $request->linkedin;
+        $lead->facebook = $request->facebook;
+        $lead->instagram = $request->instagram;
+        $lead->twitter = $request->twitter;
+        $lead->youtube = $request->youtube;
+        $lead->tiktok = $request->tiktok;
+
         $lead->updated_at = now();
         $lead->save();
         return redirect('/lead');

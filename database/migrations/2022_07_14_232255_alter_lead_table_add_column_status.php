@@ -19,6 +19,7 @@ class AlterLeadTableAddColumnStatus extends Migration
             $table->string('instagram')->nullable()->after('facebook');
             $table->string('twitter')->nullable()->after('instagram');
             $table->string('youtube')->nullable()->after('twitter');
+            $table->string('tiktok')->nullable()->after('youtube');
             $table->enum('status', ['open', 'first_contact', 'recall', 'quote', 'quoted', 'waiting_for_answer', 'standby', 'closed'])->nullable()->default('open')->after('country_id');
         });
     }
@@ -31,7 +32,14 @@ class AlterLeadTableAddColumnStatus extends Migration
     public function down()
     {
         Schema::table('lead', function (Blueprint $table) {
+            $table->dropColumn('linkedin');
+            $table->dropColumn('facebook');
+            $table->dropColumn('instagram');
+            $table->dropColumn('twitter');
+            $table->dropColumn('youtube');
+            $table->dropColumn('tiktok');
             $table->dropColumn('status');
         });
     }
 }
+
