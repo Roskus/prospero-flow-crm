@@ -6,16 +6,22 @@
     </header>
 
     <div class="row">
-        <div>{{ __('Day') }}</div>
-        <div>{{ __('Week') }}</div>
-        <div>{{ __('Month') }}</div>
+        <div class="col">
+            {{ __('Today') }}
+        </div>
+        <div class="col">
+            {{ date('Y') }}
+        </div>
+        <div class="col">
+            <div>{{ __('Day') }}</div>
+            <div>{{ __('Week') }}</div>
+            <div>{{ __('Month') }}</div>
+        </div>
     </div>
 
-    <div>
-        {{ date('Y') }}
-    </div>
 
-    <table>
+
+    <table class="table table-bordered table-striped table-hovered">
     <thead>
         <tr>
             <td>&nbsp;</td>
