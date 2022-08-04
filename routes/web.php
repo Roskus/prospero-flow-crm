@@ -80,3 +80,6 @@ Route::post('/profile/save', 'ProfileController@save');
 
 Route::get('/setting', 'SettingController@index');
 Route::get('/home', 'HomeController@index');
+
+// Calendar
+Route::match(['get', 'post'],'/calendar',  [\App\Http\Controllers\Calendar\CalendarController::class, 'index'], function (Request $request) {});
