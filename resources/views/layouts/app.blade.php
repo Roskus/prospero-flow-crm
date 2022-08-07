@@ -28,7 +28,13 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url('/') }}">{{ env('APP_NAME') }}</a>
+            <a class="navbar-brand" href="{{ url('/') }}">
+                @if(empty(Auth::user()->company->logo))
+                    {{ env('APP_NAME') }}
+                @else
+                   <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ env('APP_NAME') }}">
+                @endif
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

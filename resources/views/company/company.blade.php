@@ -5,7 +5,7 @@
    <h1>{{ __('Company') }}</h1>
 </header>
 
-<form method="post" action="/company/save" class="form">
+<form method="post" action="/company/save" class="form" enctype="multipart/form-data">
     <div class="row">
         <div class="col">
             <label class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
@@ -45,6 +45,12 @@
         <div class="col form-group">
             <label class="label-control">{{ __('Website') }}</label>
             <input type="url" name="website" id="website" value="{{ $company->website }}" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col form-group">
+            <label class="label-control">Logo</label>
+            <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/svg" class="form-control">
         </div>
     </div>
     <div class="form-group mt-2">
