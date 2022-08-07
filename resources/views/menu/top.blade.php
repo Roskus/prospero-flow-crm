@@ -15,7 +15,7 @@
         <a class="nav-link fs-5" href="/product"><i class="las la-box"></i> {{ __('Products') }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link fs-5" href="/calendar"><i class="las la-box"></i> {{ __('Calendar') }}</a>
+        <a class="nav-link fs-5" href="/calendar"><i class="las la-calendar"></i> {{ __('Calendar') }}</a>
     </li>
     <li class="nav-item fs-5">
         <a class="nav-link" href="/accounting"><i class="las la-coins"></i> {{ __('Accounting') }}

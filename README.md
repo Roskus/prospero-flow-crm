@@ -2,7 +2,7 @@
 We made a free open source CRM. Our Community Edition (CE) Hammer CRM is based in Laravel 8
 
 ## Features
-* Multi company
+* Multi company (White label)
 * Multi language
 * REST API
 

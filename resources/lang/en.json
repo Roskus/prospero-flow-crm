@@ -6,6 +6,7 @@
     "Brand" : "Brand",
     "Brands" : "Brands",
     "Business name" : "Business name",
+    "Calendar" : "Calendar",
     "Category" : "Category",
     "Categories" : "Categories",
     "Cancel" : "Cancel",
@@ -37,6 +38,7 @@
     "Seller" : "Seller",
     "Setting" : "Setting",
     "Settings" : "Settings",
+    "Today" : "Today",
     "User" : "User",
     "Users" : "Users"
 }

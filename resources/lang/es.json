@@ -6,6 +6,7 @@
     "Brand" : "Marca",
     "Brands" : "Marcas",
     "Business name" : "Razón social",
+    "Calendar" : "Calendario",
     "Category" : "Categoría",
     "Categories" : "Categorías",
     "Cancel" : "Cancelar",
@@ -37,6 +38,7 @@
     "Seller" : "Vendedor",
     "Setting" : "Configuración",
     "Settings" : "Configuraciones",
+    "Today" : "Hoy",
     "User" : "Usuario",
     "Users" : "Usuarios"
 }
