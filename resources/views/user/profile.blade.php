@@ -4,7 +4,7 @@
     <header>
         <h1>{{ trans('hammer.Profile') }}</h1>
     </header>
-    <form method="POST" action="/profile/save" class="form">
+    <form method="POST" action="/profile/save" enctype="multipart/form-data" class="form">
         @csrf
 
         <div class="row form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -19,7 +19,7 @@
                 @endif
             </div>
             <div class="col">
-                <label for="last_name" class="col-md-4 control-label">{{ __('Last Name') }}</label>
+                <label for="last_name" class="col-md-4 control-label">{{ __('Last name') }}</label>
                 <input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}" required autofocus class="form-control">
 
                 @if ($errors->has('last_name'))
@@ -30,22 +30,9 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col">
-                <label for="lang" class="col-md-4 control-label">{{ __('Language') }}</label>
-                <select name="lang" id="lang" required="required" class="form-control">
-                    <option value=""></option>
-                    @foreach ($languages as $code => $name)
-                    <option value="{{ $code }}" @if(Auth::user()->lang == $code) selected="selected" @endif>{{ $name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-            <label for="email" class="col-md-4 control-label">E-Mail</label>
-
-            <div class="col-md-6">
+        <div class="row form-group">
+            <div class="col {{ $errors->has('email') ? ' has-error' : '' }}">
+                <label for="email" class="col-md-4 control-label">E-Mail</label>
                 <input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
 
                 @if ($errors->has('email'))
@@ -53,6 +40,16 @@
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
                 @endif
+            </div><!--./col-->
+
+            <div class="col">
+                <label for="lang" class="col-md-4 control-label">{{ __('Language') }}</label>
+                <select name="lang" id="lang" required="required" class="form-control">
+                    <option value=""></option>
+                    @foreach ($languages as $code => $name)
+                        <option value="{{ $code }}" @if(Auth::user()->lang == $code) selected="selected" @endif>{{ $name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
@@ -69,12 +66,19 @@
             </div>
 
             <div class="col-md-6">
-                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                <label for="password-confirm" class="col-md-4 control-label">{{ __('Confirm password') }}</label>
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="off">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col">
+                <label>{{ __('Photo') }}</label>
+                <input type="file" name="photo" accept="image/jpeg, image/png" class="form-control">
             </div>
         </div>
         <div class="row form-group mt-2">
             <div class="col-md-6 col-md-offset-4">
+
                 <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
             </div>
         </div>
