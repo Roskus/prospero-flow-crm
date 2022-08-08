@@ -17,6 +17,7 @@
     "Created at" : "Fecha alta",
     "Customer" : "Cliente",
     "Customers" : "Clientes",
+    "Day" : "Día",
     "Description" : "Descripción",
     "Exit" : "Salir",
     "First name" : "Nombre",
@@ -40,5 +41,6 @@
     "Settings" : "Configuraciones",
     "Today" : "Hoy",
     "User" : "Usuario",
-    "Users" : "Usuarios"
+    "Users" : "Usuarios",
+    "Week" : "Semana"
 }

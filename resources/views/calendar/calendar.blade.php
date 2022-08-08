@@ -6,38 +6,42 @@
     </header>
 
     <div class="row">
-        <div class="col">
-            {{ __('Today') }}
+        <div class="col text-center">
+            <a onclick="">{{ __('Today') }}</a>
         </div>
-        <div class="col">
+        <div class="col text-center">
             {{ date('Y') }}
         </div>
-        <div class="col">
+        <div class="col text-center">
             <div>{{ __('Day') }}</div>
-            <div>{{ __('Week') }}</div>
+            <div>
+                <a onclick="" class="active">{{ __('Week') }}</a>
+            </div>
             <div>{{ __('Month') }}</div>
         </div>
     </div>
 
-
-
+    <!--week-->
+    <?php
+        echo \Carbon\Carbon::now()->dayOfWeek;
+    ?>
     <table class="table table-bordered table-striped table-hovered">
     <thead>
         <tr>
             <td>&nbsp;</td>
-            <td>{{ __('Sunday') }}</td>
-            <td>{{ __('Monday') }}</td>
-            <td>{{ __('Tuesday') }}</td>
-            <td>{{ __('Wednesday') }}</td>
-            <td>{{ __('Thursday') }}</td>
-            <td>{{ __('Friday') }}</td>
-            <td>{{ __('Saturday') }}</td>
+            <td class="text-center">{{ __('Sunday') }}</td>
+            <td class="text-center">{{ __('Monday') }}</td>
+            <td class="text-center">{{ __('Tuesday') }}</td>
+            <td class="text-center">{{ __('Wednesday') }}</td>
+            <td class="text-center">{{ __('Thursday') }}</td>
+            <td class="text-center">{{ __('Friday') }}</td>
+            <td class="text-center">{{ __('Saturday') }}</td>
         </tr>
     </thead>
     <tbody>
         @for($h=6; $h < 23; $h++)
         <tr>
-            <td>{{ $h }}:00</td>
+            <td class="text-center">{{ $h }}:00</td>
             <td></td>
             <td></td>
             <td></td>
@@ -49,4 +53,6 @@
         @endfor
     </tbody>
     </table>
+    <!--week-->
+
 @endsection

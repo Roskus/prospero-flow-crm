@@ -30,7 +30,7 @@
             </a>
         </li>
         <li>
-            <a href="/calendar" class="nav-link py-3 border-bottom" title="{{ __('Products') }}" data-bs-toggle="tooltip" data-bs-placement="right">
+            <a href="/calendar" class="nav-link py-3 border-bottom" title="{{ __('Calendar') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-calendar fs-1"></i>
             </a>
         </li>

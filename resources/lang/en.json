@@ -17,6 +17,7 @@
     "Created at" : "Created at",
     "Customer" : "Customer",
     "Customers" : "Customers",
+    "Day" : "Day",
     "Description" : "Description",
     "Exit" : "Exit",
     "First name" : "First name",
@@ -40,5 +41,6 @@
     "Settings" : "Settings",
     "Today" : "Today",
     "User" : "User",
-    "Users" : "Users"
+    "Users" : "Users",
+    "Week" : "Week"
 }
