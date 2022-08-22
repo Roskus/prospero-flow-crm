@@ -10,6 +10,7 @@
     "type": "project",
     "require": {
         "php": "^7.4|^8.0",
+        "aws/aws-sdk-php": "^3.234",
         "darkaonline/l5-swagger": "^8.3",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
