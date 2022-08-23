@@ -83,3 +83,8 @@ Route::get('/home', 'HomeController@index');
 
 // Calendar
 Route::match(['get', 'post'],'/calendar',  [\App\Http\Controllers\Calendar\CalendarController::class, 'index'], function (Request $request) {});
+
+// Email
+Route::match(['get', 'post'],'/email',  [\App\Http\Controllers\Email\EmailIndexController::class, 'index'], function (Request $request) {});
+Route::get('/email/create',  [\App\Http\Controllers\Email\EmailCreateController::class, 'create'], function (Request $request) {});
+Route::post('/email/save',  [\App\Http\Controllers\Email\EmailSaveController::class, 'save'], function (Request $request) {});

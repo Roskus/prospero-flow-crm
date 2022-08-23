@@ -137,7 +137,7 @@
             <th>Linkedin</th>
             <th>{{ __('Created at') }}</th>
             <th>{{ __('Updated at') }}</th>
-            <th>{{ __('Action') }}</th>
+            <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
         <tbody>

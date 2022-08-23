@@ -36,6 +36,7 @@
         <th>{{ __('Name') }}</th>
         <th>{{ __('Business name') }}</th>
         <th>{{ __('Phone') }}</th>
+        <th>Whatsapp</th>
         <th>E-mail</th>
         <th>Website</th>
         <th>{{ __('Country') }}</th>

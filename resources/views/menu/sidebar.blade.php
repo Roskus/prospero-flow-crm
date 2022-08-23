@@ -35,6 +35,11 @@
             </a>
         </li>
         <li>
+            <a href="/email"  class="nav-link py-3 border-bottom" title="E-mail" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i class="las la-envelope-open-text fs-1"></i>
+            </a>
+        </li>
+        <li>
             <a href="/accounting" class="nav-link py-3 border-bottom" title="{{ __('Accounting') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-coins fs-1"></i>
             </a>
