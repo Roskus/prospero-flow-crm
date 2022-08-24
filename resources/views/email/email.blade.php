@@ -9,20 +9,26 @@
         @csrf
         <div class="row">
             <div class="col">
-                <label>{{ __('Subject') }}</label>
-                <input type="text" name="subject" maxlength="80" required class="form-control">
+                <label class="">{{ __('Subject') }}</label>
+                <input type="text" name="subject" id="subject" maxlength="80" required value="{{ $email->subject }}" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label>{{ __('To') }}</label>
-                <input type="email" name="to" maxlength="255"  required class="form-control">
+                <label class="">{{ __('To') }}</label>
+                <input type="email" name="to" maxlength="255" required value="{{ $email->to }}" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label>{{ __('Message') }}</label>
-                <div id="editor"></div>
+                <label class="">CC</label>
+                <input type="text" name="cc" maxlength="255" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="">{{ __('Message') }}</label>
+                <textarea name="body" id="editor">{{ $email->body }}</textarea>
             </div>
         </div>
         <div class="row">
@@ -30,6 +36,7 @@
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
             </div>
         </div>
+        <input type="hidden" name="id" value="{{ $email->id }}">
     </form>
     <style>
         .ck-editor__editable[role="textbox"] {
