@@ -30,6 +30,7 @@
     <![endif]-->
 </head>
 <body>
+@auth
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
@@ -96,12 +97,12 @@
         </div>
     </nav>
 </header>
-
+@endauth
 <main>
     @auth
         @include('menu.sidebar')
     @endauth
-    <div class="container-fluid mt-5 pt-3" style="overflow-y: scroll;">
+    <div class="container-fluid @auth mt-5 pt-3 @endauth" style="overflow-y: scroll;">
         @yield('content')
     </div>
 </main>
