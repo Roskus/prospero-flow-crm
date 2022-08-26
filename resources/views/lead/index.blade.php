@@ -36,7 +36,7 @@
         <th>{{ __('Name') }}</th>
         <th>{{ __('Business name') }}</th>
         <th>{{ __('Phone') }}</th>
-        <th>Whatsapp</th>
+        <th>{{ __('Mobile') }}</th>
         <th>E-mail</th>
         <th>Website</th>
         <th>{{ __('Country') }}</th>
@@ -57,7 +57,12 @@
         <td>{{ $lead->last_name }}</td>
         <td>
             @if($lead->phone)
-                <a href="https://api.whatsapp.com/send/?phone={{ $lead->phone }}&text={{ __('Hello') }}" target="_blank">{{ $lead->phone }}</a>
+                <a href="tel:{{ $lead->phone }}" target="_blank">{{ $lead->phone }}</a>
+            @endif
+        </td>
+        <td>
+            @if($lead->mobile)
+                <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank">{{ $lead->mobile }}</a>
             @endif
         </td>
         <td>

@@ -22,6 +22,12 @@
                 <input type="tel" name="phone" id="phone" value="{{ $lead->phone }}" maxlength="15" class="form-control form-control-lg">
             </div>
             <div class="col">
+                <label>{{ __('Mobile') }}</label>
+                <input type="tel" name="mobile" id="mobile" value="{{ $lead->mobile }}" maxlength="15" class="form-control form-control-lg">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <label>E-mail</label>
                 <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
             </div>
@@ -108,11 +114,15 @@
                 <input type="phone" name="contact_phone" maxlength="15" class="form-control">
             </div>
             <div class="col">
-                <label>E-mail</label>
-                <input type="email" name="contact_email" class="form-control">
+                <label>{{ __('Mobile') }}</label>
+                <input type="phone" name="contact_mobile" maxlength="15" class="form-control">
             </div>
         </div>
         <div class="row">
+            <div class="col">
+                <label>E-mail</label>
+                <input type="email" name="contact_email" class="form-control">
+            </div>
             <div class="col">
                 <label>Linkedin</label>
                 <input type="url" name="contact_linkedin" class="form-control">
@@ -133,6 +143,7 @@
             <th>{{ __('First name') }}</th>
             <th>{{ __('Last name') }}</th>
             <th>{{ __('Phone') }}</th>
+            <th>{{ __('Mobile') }}</th>
             <th>E-mail</th>
             <th>Linkedin</th>
             <th>{{ __('Created at') }}</th>
