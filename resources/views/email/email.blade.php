@@ -33,6 +33,12 @@
         </div>
         <div class="row">
             <div class="col mt-2">
+                <label class="">{{ __('Attachments') }}</label>
+                <input type="file" name="attachments[]" class=""> <!-- accept="application/"-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-2">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
             </div>
         </div>
@@ -92,7 +98,7 @@
                 ]
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
-            placeholder: 'Welcome to CKEditor 5!',
+            placeholder: '{{ __('Email body message') }}',
             // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
             fontFamily: {
                 options: [
