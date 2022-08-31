@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col">
                 <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="first_name" value="{{ $lead->first_name }}" required="required" class="form-control form-control-lg">
+                <input type="text" name="name" value="{{ $lead->name }}" required="required" class="form-control form-control-lg">
             </div>
             <div class="col">
                 <label>{{ __('Business name') }}</label>
-                <input type="text" name="last_name" value="{{ $lead->last_name }}" class="form-control form-control-lg">
+                <input type="text" name="business_name" value="{{ $lead->business_name }}" class="form-control form-control-lg">
             </div>
         </div>
         <div class="row">

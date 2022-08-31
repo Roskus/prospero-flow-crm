@@ -52,9 +52,9 @@
     <tr>
         <td>{{ $lead->id }}</td>
         <td>
-            <a href="/lead/update/{{ $lead->id }}">{{ $lead->first_name }}</a>
+            <a href="/lead/update/{{ $lead->id }}">{{ $lead->name }}</a>
         </td>
-        <td>{{ $lead->last_name }}</td>
+        <td>{{ $lead->business_name }}</td>
         <td>
             @if($lead->phone)
                 <a href="tel:{{ $lead->phone }}" target="_blank">{{ $lead->phone }}</a>
