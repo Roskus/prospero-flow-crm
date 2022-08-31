@@ -23,9 +23,10 @@ class LeadSaveController extends MainController
             $lead = Lead::find($request->id);
         }
         $lead->company_id = Auth::user()->company_id;
-        $lead->first_name = $request->first_name;
-        $lead->last_name = $request->last_name;
+        $lead->name = $request->name;
+        $lead->business_name = $request->business_name;
         $lead->phone = $request->phone;
+        $lead->mobile = $request->mobile;
         $lead->email = $request->email;
         $lead->country_id = $request->country_id;
         $lead->website = $request->website;
