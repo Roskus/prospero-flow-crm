@@ -29,7 +29,7 @@
 </div>
 
 <div class="table-responsive mt-2">
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered table-hover table-sm">
     <thead>
     <tr>
         <th>#ID</th>
@@ -40,6 +40,9 @@
         <th>E-mail</th>
         <th>Website</th>
         <th>{{ __('Country') }}</th>
+        <th>{{ __('City') }}</th>
+        <th>Social</th>
+
         <th>{{ __('Seller') }}</th>
         <th>{{ __('Status') }}</th>
         <th>{{ __('Created at') }}</th>
@@ -74,6 +77,32 @@
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
         <td>{{ $lead->country_id }}</td>
+        <td>{{ $lead->city }}</td>
+        <td>
+            @if($lead->facebook)
+                <a href="{{ $lead->facebook }}" target="_blank">
+                    <i class="lab la-facebook-square"></i>
+                </a>
+            @endif
+
+            @if($lead->instagram)
+                <a href="{{ $lead->instagram }}" target="_blank">
+                    <i class="lab la-instagram"></i>
+                </a>
+            @endif
+
+            @if($lead->linkedin)
+                <a href="{{ $lead->linkedin }}" target="_blank">
+                    <i class="lab la-linkedin"></i>
+                </a>
+            @endif
+
+            @if($lead->youtube)
+                <a href="{{ $lead->youtube }}" target="_blank">
+                    <i class="lab la-youtube-square"></i>
+                </a>
+            @endif
+        </td>
         <td>{{ $lead->seller->first_name }}</td>
         <td>{{ $lead->status }}</td>
         <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
