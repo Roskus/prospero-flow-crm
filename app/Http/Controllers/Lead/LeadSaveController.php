@@ -15,6 +15,7 @@ class LeadSaveController extends MainController
      */
     public function save(Request $request)
     {
+        $status  = 'error';
         if (empty($request->id)) {
             $lead = new Lead();
             $lead->seller_id = Auth::user()->id;
@@ -44,7 +45,16 @@ class LeadSaveController extends MainController
         $lead->zipcode = $request->zipcode;
 
         $lead->updated_at = now();
-        $lead->save();
-        return redirect('/lead');
+
+        if($lead->save())
+            $status = 'success';
+
+        $response = [
+            'status' => $status,
+            'message' => 'Lead <a href="/lead/update/:id">:name</a> saved successfully',
+            'name' => $lead->name,
+            'id' => $lead->id
+        ];
+        return redirect('/lead')->with($response);
     }
 }

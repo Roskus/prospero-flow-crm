@@ -14,6 +14,12 @@
     </div>
 </div>
 
+@if(session('status'))
+    <div class="alert alert-{{ session('status') }} mt-2">
+        {!! __(session('message'), ['id'=> session('id'), 'name' => session('name')])  !!}
+    </div>
+@endif
+
 <div class="row mt-2">
     <div class="col">
         <form method="post" class="form-inline mb-2">
@@ -104,7 +110,9 @@
             @endif
         </td>
         <td>{{ $lead->seller->first_name }}</td>
-        <td>{{ $lead->status }}</td>
+        <td>
+            <span class="badge text-bg-success">{{ $lead->status }}</span>
+        </td>
         <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
         <td>
