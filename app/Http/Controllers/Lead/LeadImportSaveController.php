@@ -43,7 +43,7 @@ class LeadImportSaveController extends MainController
             $lead->business_name = $data[1];
             $lead->phone = $data[2];
             $lead->email = $data[3];
-            $lead->website = $data[4];
+            $lead->website = rtrim($data[4],'/');
             $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
             $lead->city = $data[6];
             $lead->notes = $data[7];

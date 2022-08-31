@@ -28,7 +28,7 @@ class LeadSaveController extends MainController
         $lead->phone = $request->phone;
         $lead->mobile = $request->mobile;
         $lead->email = $request->email;
-        $lead->website = $request->website;
+        $lead->website = rtrim($request->website,'/');
         $lead->notes = $request->notes;
 
         $lead->linkedin = $request->linkedin;
