@@ -24,37 +24,42 @@ class LeadImportSaveController extends MainController
 
         try {
             $handle = fopen($filePath, 'r');
-            $rowCount = 0;
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                $rowCount++;
-                //Skip header starting in 1
-                //name;business_name;phone;email;website;country_id;notes;facebook
-                $country = trim($data[5]);
-                $lead = new Lead();
-                $lead->company_id = Auth::user()->company_id;
-                $lead->name = $data[0];
-                $lead->business_name = $data[1];
-                $lead->phone = $data[2];
-                $lead->email = $data[3];
-                $lead->website = $data[4];
-                $lead->country_id = strlen($country) == 2 ? strtoupper($country) : '';
-                $lead->city = $data[6];
-                $lead->notes = $data[7];
-                $lead->facebook = $data[8];
-
-                $lead->seller_id = Auth::user()->id;
-                $lead->created_at = now();
-                try {
-                    $lead->save();
-                } catch (\Throwable $t) {
-                    //Log here
-                    echo $rowCount;
-                }
-            }
-            fclose($handle);
         } catch (\Throwable $t) {
-            //return redirect('/lead')->withErrors(__("Can't read uploaded file"));
+            return redirect('/lead')->withErrors(__("Can't read uploaded file"));
         }
+
+        // HEADER
+        //name;business_name;phone;email;website;country_id;notes;facebook
+        $rowCount = 0;
+        $separator = ',';
+        while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE) {
+            //Skip header starting in 1
+            if($data[0] == 'name') continue;
+
+            $country = trim($data[5]);
+            $lead = new Lead();
+            $lead->company_id = Auth::user()->company_id;
+            $lead->name = $data[0];
+            $lead->business_name = $data[1];
+            $lead->phone = $data[2];
+            $lead->email = $data[3];
+            $lead->website = $data[4];
+            $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
+            $lead->city = $data[6];
+            $lead->notes = $data[7];
+            $lead->facebook = $data[8];
+
+            $lead->seller_id = Auth::user()->id;
+            $lead->created_at = now();
+            try {
+                $lead->save();
+            } catch (\Throwable $t) {
+                //Log here
+                echo $rowCount;
+            }
+            $rowCount++;
+        }
+        fclose($handle);
 
         $data['row_count'] = $rowCount;
         return redirect('/lead')->with($data);
