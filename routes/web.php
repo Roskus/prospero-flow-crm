@@ -44,7 +44,7 @@ Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController
 Route::post('/lead/save', [\App\Http\Controllers\Lead\LeadSaveController::class, 'save'], function (Request $request) {});
 Route::get('/lead/import', [\App\Http\Controllers\Lead\LeadImportIndexController::class, 'index']);
 Route::post('/lead/import/save', [\App\Http\Controllers\Lead\LeadImportSaveController::class, 'save'], function (Request $request) {});
-//Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete'], function (Request $request, int $id) {});
+Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete'], function (Request $request, int $id) {});
 
 //Customer
 Route::get('/customer',[\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);

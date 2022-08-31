@@ -81,25 +81,25 @@
         <td>
             @if($lead->facebook)
                 <a href="{{ $lead->facebook }}" target="_blank">
-                    <i class="lab la-facebook-square"></i>
+                    <i class="lab la-facebook-square fs-3"></i>
                 </a>
             @endif
 
             @if($lead->instagram)
                 <a href="{{ $lead->instagram }}" target="_blank">
-                    <i class="lab la-instagram"></i>
+                    <i class="lab la-instagram fs-3"></i>
                 </a>
             @endif
 
             @if($lead->linkedin)
                 <a href="{{ $lead->linkedin }}" target="_blank">
-                    <i class="lab la-linkedin"></i>
+                    <i class="lab la-linkedin fs-3"></i>
                 </a>
             @endif
 
             @if($lead->youtube)
                 <a href="{{ $lead->youtube }}" target="_blank">
-                    <i class="lab la-youtube-square"></i>
+                    <i class="lab la-youtube-square fs-3"></i>
                 </a>
             @endif
         </td>
@@ -111,7 +111,7 @@
             <a href="/lead/update/{{ $lead->id }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
-            <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->first_name }} {{ $lead->last_name }}');" class="btn btn-xs btn-danger">
+            <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" class="btn btn-xs btn-danger">
                 <i class="las la-trash-alt"></i>
             </a>
         </td>
@@ -124,4 +124,13 @@
         {{ $leads->links() }}
     </div>
 </div>
+<script>
+    const Lead = {
+        delete : function(id, name) {
+            let res = confirm("{{ __('Are you sure you want to delete the lead?') }}");
+            if(res)
+                window.location = '/lead/delete/'+id;
+        }
+    };
+</script>
 @endsection
