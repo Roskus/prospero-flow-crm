@@ -41,7 +41,7 @@ class Lead extends Model
         {
             $leads = Lead::where('company_id', $company_id)->paginate(10);
         } else {
-            $leads = Lead::where("first_name","LIKE","%$search%")->paginate(10);
+            $leads = Lead::where("name","LIKE","%$search%")->paginate(10);
         }
         return $leads;
     }
