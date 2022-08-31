@@ -1,6 +1,7 @@
 {
     "Accounting" : "Accounting",
     "Actions": "Actions",
+    "Address" : "Address",
     "Amount" : "Amount",
     "Barcode" : "Barcode",
     "Brand" : "Brand",
@@ -10,6 +11,7 @@
     "Category" : "Category",
     "Categories" : "Categories",
     "Cancel" : "Cancel",
+    "City" : "City",
     "Confirm password" : "Confirm password",
     "Contacts" : "Contacts",
     "Company" : "Company",
@@ -46,8 +48,10 @@
     "Setting" : "Setting",
     "Settings" : "Settings",
     "Status" : "Status",
+    "Street" : "Street",
     "Today" : "Today",
     "User" : "User",
     "Users" : "Users",
-    "Week" : "Week"
+    "Week" : "Week",
+    "Zipcode" : "Zipcode"
 }

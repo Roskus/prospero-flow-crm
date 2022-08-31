@@ -31,20 +31,9 @@
                 <label>E-mail</label>
                 <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
             </div>
-        </div>
-        <div class="row">
             <div class="col">
                 <label>Website</label>
                 <input type="url" name="website" id="website" value="{{ $lead->website }}" class="form-control form-control-lg">
-            </div>
-            <div class="col">
-                <label>{{ __('Country') }} <span class="text-danger">*</span></label>
-                <select name="country_id" id="country_id" required class="form-control form-control-lg">
-                    <option value=""></option>
-                    @foreach ($countries as $country)
-                    <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
-                    @endforeach
-                </select>
             </div>
         </div>
         <div class="row">
@@ -53,36 +42,74 @@
                 <textarea name="notes" id="notes" rows="10" class="form-control form-control-lg">{{ $lead->notes }}</textarea>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <label>Linkedin</label>
-                <input type="url" name="linkedin" value="{{ $lead->linkedin }}" class="form-control form-control-lg">
+
+        <div class="card mt-2">
+            <div class="card-header">{{ __('Address') }}</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label>{{ __('Country') }} <span class="text-danger">*</span></label>
+                        <select name="country_id" id="country_id" required class="form-control form-control-lg">
+                            <option value=""></option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="" for="city">{{ __('City') }}</label>
+                        <input type="text" name="city" id="city" value="{{ $lead->city }}" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+                <div class="row">
+                    <div class="col">
+                        <label class="">{{ __('Street') }}</label>
+                        <input type="text" name="street" id="street" value="{{ $lead->street }}" class="form-control form-control-lg" maxlength="80">
+                    </div>
+                    <div class="col">
+                        <label class="">{{ __('Zipcode') }}</label>
+                        <input type="text" name="zipcode" id="zipcode" value="{{ $lead->zipcode }}" class="form-control form-control-lg" maxlength="10">
+                    </div>
+                </div><!--./row-->
+            </div><!--./card-body-->
+        </div><!--./card-->
+
+        <div class="card mt-2">
+            <div class="card-header">{{ __('Social networks') }}</div>
+            <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label>Linkedin</label>
+                    <input type="url" name="linkedin" value="{{ $lead->linkedin }}" class="form-control form-control-lg">
+                </div>
+                <div class="col">
+                    <label>Facebook</label>
+                    <input type="url" name="facebook" value="{{ $lead->facebook }}" class="form-control form-control-lg">
+                </div>
             </div>
-            <div class="col">
-                <label>Facebook</label>
-                <input type="url" name="facebook" value="{{ $lead->facebook }}" class="form-control form-control-lg">
+            <div class="row">
+                <div class="col">
+                    <label>Instagram</label>
+                    <input type="url" name="instagram" value="{{ $lead->instagram }}" class="form-control form-control-lg">
+                </div>
+                <div class="col">
+                    <label>Twitter</label>
+                    <input type="url" name="twitter" value="{{ $lead->twitter }}" class="form-control form-control-lg">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label>Instagram</label>
-                <input type="url" name="instagram" value="{{ $lead->instagram }}" class="form-control form-control-lg">
+            <div class="row">
+                <div class="col">
+                    <label>YouTube</label>
+                    <input type="url" name="youtube" value="{{ $lead->youtube }}" class="form-control form-control-lg">
+                </div>
+                <div class="col">
+                    <label>TikTok</label>
+                    <input type="url" name="tiktok" value="{{ $lead->tiktok }}" class="form-control form-control-lg">
+                </div>
             </div>
-            <div class="col">
-                <label>Twitter</label>
-                <input type="url" name="twitter" value="{{ $lead->twitter }}" class="form-control form-control-lg">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label>YouTube</label>
-                <input type="url" name="youtube" value="{{ $lead->youtube }}" class="form-control form-control-lg">
-            </div>
-            <div class="col">
-                <label>TikTok</label>
-                <input type="url" name="tiktok" value="{{ $lead->tiktok }}" class="form-control form-control-lg">
-            </div>
-        </div>
+            </div><!--./card-body-->
+        </div><!--./card-->
+
         <div class="row">
             <div class="col mt-2">
                 <a href="/lead" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>

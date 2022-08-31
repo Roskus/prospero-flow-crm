@@ -28,7 +28,6 @@ class LeadSaveController extends MainController
         $lead->phone = $request->phone;
         $lead->mobile = $request->mobile;
         $lead->email = $request->email;
-        $lead->country_id = $request->country_id;
         $lead->website = $request->website;
         $lead->notes = $request->notes;
 
@@ -38,6 +37,11 @@ class LeadSaveController extends MainController
         $lead->twitter = $request->twitter;
         $lead->youtube = $request->youtube;
         $lead->tiktok = $request->tiktok;
+
+        $lead->country_id = $request->country_id;
+        $lead->city = $request->city;
+        $lead->street = $request->street;
+        $lead->zipcode = $request->zipcode;
 
         $lead->updated_at = now();
         $lead->save();

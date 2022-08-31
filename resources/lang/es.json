@@ -1,6 +1,7 @@
 {
     "Accounting" : "Contabilidad",
     "Actions": "Acciones",
+    "Address" : "Dirección",
     "Amount" : "Importe",
     "Barcode" : "Código de barras",
     "Brand" : "Marca",
@@ -10,6 +11,7 @@
     "Category" : "Categoría",
     "Categories" : "Categorías",
     "Cancel" : "Cancelar",
+    "City" : "Ciudad",
     "Confirm password" : "Confirmar constraseña",
     "Contacts" : "Contactos",
     "Company" : "Empresa",
@@ -46,8 +48,10 @@
     "Setting" : "Configuración",
     "Settings" : "Configuraciones",
     "Status" : "Estado",
+    "Street" : "Calle",
     "Today" : "Hoy",
     "User" : "Usuario",
     "Users" : "Usuarios",
-    "Week" : "Semana"
+    "Week" : "Semana",
+    "Zipcode" : "Código postal"
 }
