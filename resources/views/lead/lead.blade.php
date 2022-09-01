@@ -33,7 +33,7 @@
             </div>
             <div class="col">
                 <label>Website</label>
-                <input type="url" name="website" id="website" value="{{ $lead->website }}" class="form-control form-control-lg">
+                <input type="url" name="website" id="website" value="{{ $lead->website }}" placeholder="https://www.website.com" class="form-control form-control-lg">
             </div>
         </div>
         <div class="row">
@@ -220,6 +220,15 @@
     @push('scripts')
         <script>
             $('#phone').on('paste', function() {
+                let $el = $(this);
+                setTimeout(function() {
+                    $el.val(function(i, val) {
+                        return val.replace(/[ ()-.]/g, '')
+                    })
+                })
+            });
+
+            $('#mobile').on('paste', function() {
                 let $el = $(this);
                 setTimeout(function() {
                     $el.val(function(i, val) {
