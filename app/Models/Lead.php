@@ -46,4 +46,9 @@ class Lead extends Model
         return $leads;
     }
 
+    public function getCountByCompany(int $company_id) : int
+    {
+        return Lead::where('company_id', $company_id)->count();
+    }
+
 }
