@@ -2,7 +2,7 @@
 
 @section('content')
 <header>
-   <h1>{{ trans('hammer.Customers') }}</h1>
+   <h1>{{ __('Customers') }}</h1>
 </header>
 
 <div class="">

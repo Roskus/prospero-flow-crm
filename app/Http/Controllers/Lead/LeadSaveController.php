@@ -44,6 +44,9 @@ class LeadSaveController extends MainController
         $lead->street = $request->street;
         $lead->zipcode = $request->zipcode;
 
+        $lead->industry_id = $request->industry_id;
+        $lead->schedule_contact = $request->schedule_contact;
+
         $lead->updated_at = now();
 
         if($lead->save())

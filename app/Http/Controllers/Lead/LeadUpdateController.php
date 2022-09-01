@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Lead;
 
+use App\Models\Industry;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MainController;
 use Squire\Models\Country;
@@ -17,8 +18,10 @@ class LeadUpdateController extends MainController
     public function update(Request $request, int $id)
     {
         $lead = Lead::find($id);
+        $industry = new Industry();
         $data['lead'] = $lead;
-        $data['countries'] = Country::orderBy('name')->get();;
+        $data['countries'] = Country::orderBy('name')->get();
+        $data['industries'] = $industry->getAll();
         return view('lead.lead', $data);
     }
 }

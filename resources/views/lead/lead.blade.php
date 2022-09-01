@@ -118,7 +118,9 @@
                         <label>{{ __('Industry') }}</label>
                         <select name="industry_id" id="industry_id" class="form-control form-control-lg">
                             <option value=""></option>
-                            <option value=""></option>
+                            @foreach($industries as $industry)
+                            <option value="{{ $industry->id }}" @if($lead->industry_id == $industry->id) selected="selected" @endif>{{ $industry->name }}</option>
+                            @endforeach
                         </select>
                     </div><!--./col-->
                     <div class="col">
@@ -133,7 +135,7 @@
                     </div>
                     <div class="col">
                         <label>{{ __('Remember contact') }}</label>
-                        <input type="datetime-local" name="schedule_contact" value="" min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
+                        <input type="datetime-local" name="schedule_contact" id="schedule_contact" value="{{ $lead->schedule_contact }}" min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
             </div><!--./card-body-->
