@@ -133,7 +133,7 @@
                     </div>
                     <div class="col">
                         <label>{{ __('Remember contact') }}</label>
-                        <input type="datetime-local" name="schedule_contact" value="" class="form-control form-control-lg">
+                        <input type="datetime-local" name="schedule_contact" value="" min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
             </div><!--./card-body-->
