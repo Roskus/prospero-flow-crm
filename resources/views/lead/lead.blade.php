@@ -110,6 +110,35 @@
             </div><!--./card-body-->
         </div><!--./card-->
 
+        <div class="card mt-2">
+            <div class="card-header">{{ __('Details') }}</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label>{{ __('Industry') }}</label>
+                        <select name="industry_id" id="industry_id" class="form-control form-control-lg">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div><!--./col-->
+                    <div class="col">
+                        <label>{{ __('Status') }}</label>
+                        <select name="status" id="status" class="form-control form-control-lg">
+                            <option value="">{{ __('Choose') }}</option>
+                            <option value="open">{{ __('Open') }}</option>
+                            <option value="assigned">{{ __('Assigned') }}</option>
+                            <option value="customer">{{ __('Customer') }}</option>
+                            <option value="dead">{{ __('Dead') }}</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>{{ __('Remember contact') }}</label>
+                        <input type="datetime-local" name="schedule_contact" value="" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+            </div><!--./card-body-->
+        </div><!--./card-->
+
         <div class="row">
             <div class="col mt-2">
                 <a href="/lead" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
