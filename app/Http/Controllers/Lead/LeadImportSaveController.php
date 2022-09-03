@@ -47,7 +47,7 @@ class LeadImportSaveController extends MainController
             $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
             $lead->city = $data[6];
             $lead->notes = $data[7];
-            $lead->facebook = $data[8];
+            $lead->facebook = (isset($data[8])) ? $data[8]: null;
 
             $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
