@@ -54,7 +54,7 @@ class LeadSaveController extends MainController
 
         $response = [
             'status' => $status,
-            'message' => 'Lead <a href="/lead/update/:id">:name</a> saved successfully',
+            'message' => 'Lead :name successfully saved',
             'name' => $lead->name,
             'id' => $lead->id
         ];
