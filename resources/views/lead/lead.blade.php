@@ -119,7 +119,7 @@
                         <select name="industry_id" id="industry_id" class="form-control form-control-lg">
                             <option value=""></option>
                             @foreach($industries as $industry)
-                            <option value="{{ $industry->id }}" @if($lead->industry_id == $industry->id) selected="selected" @endif>{{ $industry->name }}</option>
+                            <option value="{{ $industry->id }}" @if($lead->industry_id == $industry->id) selected="selected" @endif>{{ __($industry->name) }}</option>
                             @endforeach
                         </select>
                     </div><!--./col-->

@@ -25,6 +25,11 @@ class Lead extends Model
         return $this->hasOne(\App\Models\User::class, 'id', 'seller_id');
     }
 
+    public function industry()
+    {
+        return $this->hasOne(\App\Models\Industry::class, 'id', 'industry_id');
+    }
+
     public function contacts()
     {
         return $this->hasMany(\App\Models\Contact::class, 'lead_id', 'id');

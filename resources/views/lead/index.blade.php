@@ -50,6 +50,7 @@
         <th>Social</th>
 
         <th>{{ __('Seller') }}</th>
+        <th>{{ __('Industry') }}</th>
         <th>{{ __('Status') }}</th>
         <th>{{ __('Created at') }}</th>
         <th>{{ __('Updated at') }}</th>
@@ -82,7 +83,7 @@
         <td>
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
-        <td>{{ $lead->country_id }}</td>
+        <td class="text-center">{{ $lead->country_id }}</td>
         <td>{{ $lead->city }}</td>
         <td>
             @if($lead->facebook)
@@ -109,7 +110,8 @@
                 </a>
             @endif
         </td>
-        <td>{{ $lead->seller->first_name }}</td>
+        <td class="text-center">{{ $lead->seller->first_name }}</td>
+        <td class="text-center">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
         <td>
             <span class="badge text-bg-success">{{ $lead->status }}</span>
         </td>
