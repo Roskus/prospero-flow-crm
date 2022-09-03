@@ -15,17 +15,23 @@
                 <label>{{ __('Last name') }}</label>
                 <input type="text" name="last_name" value="{{ $customer->last_name }}" class="form-control form-control-lg">
             </div>
-        </div>
+        </div><!--./row-->
         <div class="row">
             <div class="col">
                 <label>{{ __('Phone') }}</label>
                 <input type="tel" name="phone" id="phone" value="{{ $customer->phone }}" maxlength="15" class="form-control form-control-lg">
             </div>
             <div class="col">
+                <label>{{ __('Mobile') }}</label>
+                <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
+            </div>
+        </div><!--./row-->
+        <div class="row">
+            <div class="col">
                 <label>E-mail</label>
                 <input type="email" name="email" id="email" value="{{ $customer->email }}" maxlength="254" class="form-control form-control-lg">
             </div>
-        </div>
+        </div><!--./row-->
         <div class="row">
             <div class="col">
                 <label>{{ __('Company') }}</label>
