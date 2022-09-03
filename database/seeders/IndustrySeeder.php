@@ -15,12 +15,17 @@ class IndustrySeeder extends Seeder
     public function run()
     {
         DB::table('industry')->insert(['name' => 'Aerospace']);
+        DB::table('industry')->insert(['name' => 'Advertising']);
         DB::table('industry')->insert(['name' => 'Agricultural']);
         DB::table('industry')->insert(['name' => 'Alimentation and drinks']);
         DB::table('industry')->insert(['name' => 'Architecture']);
         DB::table('industry')->insert(['name' => 'Automotive']);
+        DB::table('industry')->insert(['name' => 'Apparel & Accessories']);
+
         DB::table('industry')->insert(['name' => 'Banking']);
         DB::table('industry')->insert(['name' => 'Biotechnology']);
+        DB::table('industry')->insert(['name' => 'Building Materials & Equipment']);
+
         DB::table('industry')->insert(['name' => 'Computer']);
         DB::table('industry')->insert(['name' => 'Construction']);
         DB::table('industry')->insert(['name' => 'Consulting']);
@@ -38,37 +43,37 @@ class IndustrySeeder extends Seeder
         DB::table('industry')->insert(['name' => 'Healthcare']);
         DB::table('industry')->insert(['name' => 'Hospitality']);
 
+        DB::table('industry')->insert(['name' => 'Insurance']);
+
         DB::table('industry')->insert(['name' => 'Legal']);
 
-        DB::table('industry')->insert(['name' => 'Real Estate']);
-        DB::table('industry')->insert(['name' => 'Shipping']);
-        DB::table('industry')->insert(['name' => 'Sports']);
+        DB::table('industry')->insert(['name' => 'Manufacturing']);
+        DB::table('industry')->insert(['name' => 'Marketing']);
+        DB::table('industry')->insert(['name' => 'Mass Media']);
+        DB::table('industry')->insert(['name' => 'Mining']);
+        DB::table('industry')->insert(['name' => 'Music']);
 
+        DB::table('industry')->insert(['name' => 'Petroleum']);
+        DB::table('industry')->insert(['name' => 'Publishing']);
+
+        DB::table('industry')->insert(['name' => 'Real Estate']);
+        DB::table('industry')->insert(['name' => 'Retail']);
+
+        DB::table('industry')->insert(['name' => 'Service']);
+        DB::table('industry')->insert(['name' => 'Shipping']);
+        DB::table('industry')->insert(['name' => 'Software']);
+        DB::table('industry')->insert(['name' => 'Sports']);
+        DB::table('industry')->insert(['name' => 'Support']);
+
+        DB::table('industry')->insert(['name' => 'Technology']);
+        DB::table('industry')->insert(['name' => 'Telecommunications']);
+        DB::table('industry')->insert(['name' => 'Television']);
+        DB::table('industry')->insert(['name' => 'Testing, Inspection & Certification']);
+        DB::table('industry')->insert(['name' => 'Transportation']);
+        DB::table('industry')->insert(['name' => 'Travel']);
 
         DB::table('industry')->insert(['name' => 'Venture Capital']);
         DB::table('industry')->insert(['name' => 'Water']);
-
-        /*
-        <option value="Manufacturing">Fabricación</option>
-        <option value="Marketing">Marketing</option>
-        <option value="Building Materials &amp; Equipment">Materiales de construcción y equipamiento</option>
-        <option value="Mass Media">Medios masivos</option>
-        <option value="Mining">Minería</option>
-        <option value="Music">Música</option>
-        <option value="">Naviera</option>
-        <option value="Petroleum">Petróleo</option>
-        <option value="Testing, Inspection &amp; Certification">Pruebas, inspección y certificación</option>
-        <option value="Publishing">Publicaciones</option><option value="Advertising">Publicidad</option>
-        <option value="Apparel &amp; Accessories">Ropa y accesorios</option>
-        <option value="Insurance">Seguros</option>
-        <option value="Service">Servicio</option>
-        <option value="Software">Software</option>
-        <option value="Support">Soporte</option>
-        <option value="Technology">Tecnología</option>
-        <option value="Telecommunications">Telecomunicaciones</option>
-        <option value="Television">Televisión</option><option value="Transportation">Transporte</option>
-        <option value="Wholesale">Venta al por mayor</option><option value="Retail">Venta al por menor</option>
-        <option value="Travel">Viajes</option>
-         */
+        DB::table('industry')->insert(['name' => 'Wholesale']);
     }
 }
