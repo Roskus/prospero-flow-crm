@@ -28,7 +28,11 @@
         </td>
         <td>{{ $supplier->phone }}</td>
         <td>{{ $supplier->email }}</td>
-        <td>{{ $supplier->website }}</td>
+        <td>
+            @if($supplier->website)
+            <a href="{{ $supplier->website }}" target="_blank">{{ $supplier->website }}</a>
+            @endif
+        </td>
         <td>{{ $supplier->country_id }}</td>
         <td>
             <a href="{{ url("/supplier/update/$supplier->id") }}"></a>
