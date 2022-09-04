@@ -23,7 +23,9 @@
     <tbody>
     @foreach($suppliers as $supplier)
     <tr>
-        <td>{{ $supplier->name }}</td>
+        <td>
+            <a href="{{ url("/supplier/update/$supplier->id") }}">{{ $supplier->name }}</a>
+        </td>
         <td>{{ $supplier->phone }}</td>
         <td>{{ $supplier->email }}</td>
         <td>{{ $supplier->website }}</td>
