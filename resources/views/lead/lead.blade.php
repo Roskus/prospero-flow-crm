@@ -127,10 +127,9 @@
                         <label>{{ __('Status') }}</label>
                         <select name="status" id="status" class="form-control form-control-lg">
                             <option value="">{{ __('Choose') }}</option>
-                            <option value="open">{{ __('Open') }}</option>
-                            <option value="assigned">{{ __('Assigned') }}</option>
-                            <option value="customer">{{ __('Customer') }}</option>
-                            <option value="dead">{{ __('Dead') }}</option>
+                            @foreach(\App\Models\Lead::getStatus() as $key => $status)
+                            <option value="{{ $key }}">{{ __($status) }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col">
