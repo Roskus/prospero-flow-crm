@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 class Lead extends Model
 {
     //use SoftDeletes;
-    const ACTIVE = 1;
+    const OPEN = 'open'; //New
+    const IN_PROGRESS = 'in_progress';
+    const CONVERTED = 'converted'; // Promoted to customer
+    const CLOSED = 'closed';
 
     /**
     * The table associated with the model.
@@ -56,4 +59,13 @@ class Lead extends Model
         return Lead::where('company_id', $company_id)->count();
     }
 
+    public static function getStatus() : array
+    {
+        return [
+            self::OPEN => 'Open',
+            self::IN_PROGRESS => 'In progress',
+            self::CONVERTED => 'Converted',
+            self::CLOSED => 'Closed',
+        ];
+    }
 }

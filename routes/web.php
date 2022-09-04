@@ -89,3 +89,9 @@ Route::match(['get', 'post'],'/email',  [\App\Http\Controllers\Email\EmailIndexC
 Route::get('/email/create',  [\App\Http\Controllers\Email\EmailCreateController::class, 'create'], function (Request $request) {});
 Route::get('/email/update/{id}',  [\App\Http\Controllers\Email\EmailUpdateController::class, 'update'], function (Request $request, int $id) {});
 Route::post('/email/save',  [\App\Http\Controllers\Email\EmailSaveController::class, 'save'], function (Request $request) {});
+
+// Supplier
+Route::match(['get', 'post'],'/supplier',  [\App\Http\Controllers\Supplier\SupplierIndexController::class, 'index'], function (Request $request) {});
+Route::get('/supplier/create',  [\App\Http\Controllers\Supplier\SupplierCreateController::class, 'create'], function (Request $request) {});
+Route::get('/supplier/update/{id}',  [\App\Http\Controllers\Supplier\SupplierUpdateController::class, 'update'], function (Request $request, int $id) {});
+Route::post('/supplier/save',  [\App\Http\Controllers\Supplier\SupplierSaveController::class, 'save'], function (Request $request) {});
