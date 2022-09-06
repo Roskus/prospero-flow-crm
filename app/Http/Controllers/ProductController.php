@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Throwable;
-use App\Http\Requests;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,9 +14,9 @@ use App\Models\Brand;
 
 class ProductController extends MainController
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
-        parent::__construct();
+        parent::__construct($request);
         $this->category = new Category();
         $this->brand = new Brand();
     }
@@ -39,12 +39,5 @@ class ProductController extends MainController
         return view('product/product', $data);
     }
 
-    public function edit(Request $request,$id)
-    {
-        $product = Product::find($id);
-        $data['product'] = $product;
-        $data['categories'] = $this->category->getAll();
-        $data['brands'] = $this->brand->getAll();
-        return view('product/product', $data);
-    }
+
 }
