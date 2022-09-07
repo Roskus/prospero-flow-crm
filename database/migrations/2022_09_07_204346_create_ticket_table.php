@@ -17,6 +17,7 @@ class CreateTicketTable extends Migration
             $table->id();
             $table->string('title', 80);
             $table->text('description');
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('assigned_to')->nullable();
