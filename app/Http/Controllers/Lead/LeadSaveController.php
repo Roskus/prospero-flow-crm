@@ -48,7 +48,7 @@ class LeadSaveController extends MainController
         $lead->industry_id = $request->industry_id;
         $lead->schedule_contact = $request->schedule_contact;
 
-        //if($request->status) $lead->status = $request->status;
+        if($request->status) $lead->status = $request->status;
         $lead->updated_at = now();
 
         if($lead->save())
