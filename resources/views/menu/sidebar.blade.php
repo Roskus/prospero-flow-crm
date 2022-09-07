@@ -50,6 +50,11 @@
                 <i class="las la-dolly fs-1"></i>
             </a>
         </li>
+        <li class="nav-item fs-5">
+            <a href="{{ url('/ticket') }}" class="nav-link py-3 border-bottom @if(Request::path() == 'ticket') active @endif" title="{{ __('Tickets') }}" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i class="las la-tools fs-1"></i>
+            </a>
+        </li>
     </ul>
     <div class="dropdown border-top">
         <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">

@@ -44,4 +44,9 @@
             <i class="las la-dolly"></i> {{ __('Suppliers') }}
         </a>
     </li>
+    <li class="nav-item fs-5">
+        <a href="{{ url('/ticket') }}" class="nav-link @if(Request::path() == 'ticket') active @endif" title="{{ __('Tickets') }}">
+            <i class="las la-tools"></i> {{ __('Tickets') }}
+        </a>
+    </li>
 </ul>

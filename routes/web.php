@@ -95,3 +95,9 @@ Route::match(['get', 'post'],'/supplier',  [\App\Http\Controllers\Supplier\Suppl
 Route::get('/supplier/create',  [\App\Http\Controllers\Supplier\SupplierCreateController::class, 'create'], function (Request $request) {});
 Route::get('/supplier/update/{id}',  [\App\Http\Controllers\Supplier\SupplierUpdateController::class, 'update'], function (Request $request, int $id) {});
 Route::post('/supplier/save',  [\App\Http\Controllers\Supplier\SupplierSaveController::class, 'save'], function (Request $request) {});
+
+// Ticket
+Route::get('/ticket',  [\App\Http\Controllers\Ticket\TicketIndexController::class, 'index'], function (Request $request) {});
+Route::get('/ticket/create',  [\App\Http\Controllers\Ticket\TicketCreateController::class, 'create'], function (Request $request) {});
+Route::get('/ticket/update/{id}',  [\App\Http\Controllers\Ticket\TicketUpdateController::class, 'update'], function (Request $request, int $id) {});
+Route::post('/ticket/save',  [\App\Http\Controllers\Ticket\TicketSaveController::class, 'save'], function (Request $request) {});
