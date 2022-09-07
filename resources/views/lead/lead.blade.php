@@ -128,7 +128,7 @@
                         <select name="status" id="status" class="form-control form-control-lg">
                             <option value="">{{ __('Choose') }}</option>
                             @foreach(\App\Models\Lead::getStatus() as $key => $status)
-                            <option value="{{ $key }}">{{ __($status) }}</option>
+                            <option value="{{ $key }}" @if($lead->status == $key) selected="selected" @endif>{{ __($status) }}</option>
                             @endforeach
                         </select>
                     </div>
