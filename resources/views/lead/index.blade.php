@@ -113,7 +113,7 @@
         <td class="text-center">{{ $lead->seller->first_name }}</td>
         <td class="text-center">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
         <td>
-            <span class="badge text-bg-success">{{ $lead->status }}</span>
+            <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">{{ $lead->status }}</span>
         </td>
         <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
