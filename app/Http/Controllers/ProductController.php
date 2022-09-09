@@ -26,18 +26,7 @@ class ProductController extends MainController
         $product = new Product();
         $data['products'] = $product->getAllByCompanyId(Auth::user()->company_id);
         $data['categories'] = $this->category->getAllActiveByCompany(Auth::user()->company_id);
-        $data['brands'] = $this->brand->getAll();
+        $data['brands'] = $this->brand->getAllActiveByCompany(Auth::user()->company_id);
         return view('product/index', $data);
     }
-
-    public function add(Request $request)
-    {
-        $product = new Product();
-        $data['product'] = $product;
-        $data['categories'] = $this->category->getAllActiveByCompany(Auth::user()->company_id);
-        $data['brands'] = $this->brand->getAllByCompanyId(Auth::user()->company_id);
-        return view('product/product', $data);
-    }
-
-
 }

@@ -22,7 +22,7 @@
 
 <div class="row mt-2">
     <div class="col">
-        <form method="post" action="/lead" class="form-inline mb-2">
+        <form method="post" action="{{ url("/lead") }}" class="form-inline mb-2">
             @csrf
             <div class="input-group">
                 <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
@@ -62,7 +62,7 @@
     <tr>
         <td>{{ $lead->id }}</td>
         <td>
-            <a href="/lead/update/{{ $lead->id }}">{{ $lead->name }}</a>
+            <a href="{{ url("/lead/update/$lead->id") }}">{{ $lead->name }}</a>
         </td>
         <td>{{ $lead->business_name }}</td>
         <td>
@@ -109,6 +109,12 @@
                     <i class="lab la-youtube-square fs-3"></i>
                 </a>
             @endif
+
+            @if($lead->twitter)
+                <a href="{{ $lead->twitter }}" target="_blank">
+                    <i class="lab la-twitter-square fs-3"></i>
+                </a>
+            @endif
         </td>
         <td class="text-center">{{ $lead->seller->first_name }}</td>
         <td class="text-center">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
@@ -118,7 +124,7 @@
         <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
         <td>
-            <a href="/lead/update/{{ $lead->id }}" class="btn btn-xs btn-warning text-white">
+            <a href="{{  url("/lead/update/$lead->id") }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
             <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" class="btn btn-xs btn-danger">

@@ -26,10 +26,10 @@ Route::get('/order/edit/{id}', 'OrderController@edit', function (Request $reques
 Route::post('/order/save', 'OrderController@save', function (Request $request) {});
 
 //Product
-Route::get('/product', 'ProductController@index');
-Route::get('/product/add', 'ProductController@add');
+Route::match(['get', 'post'], '/product', 'ProductController@index');
+Route::get('/product/create', [\App\Http\Controllers\Product\ProductCreateController::class, 'create']);
 Route::get('/product/update/{id}', [\App\Http\Controllers\Product\ProductUpdateController::class, 'update'], function (Request $request, int $id) {});
-Route::post('/product/save', 'Product\ProductSaveController@save', function (Request $request) {});
+Route::post('/product/save', [\App\Http\Controllers\Product\ProductSaveController::class, 'save'], function (Request $request) {});
 
 //Brand
 Route::get('/brand', 'BrandController@index');
@@ -40,14 +40,14 @@ Route::post('/brand/save', 'BrandController@save', function (Request $request) {
 // Lead
 Route::match(['get', 'post'],'/lead',[\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);
 Route::get('/lead/create', [\App\Http\Controllers\Lead\LeadCreateController::class, 'create']);
-Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController::class, 'update'], function (Request $reque4st,int $id) {});
+Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController::class, 'update'], function (Request $request,int $id) {});
 Route::post('/lead/save', [\App\Http\Controllers\Lead\LeadSaveController::class, 'save'], function (Request $request) {});
 Route::get('/lead/import', [\App\Http\Controllers\Lead\LeadImportIndexController::class, 'index']);
 Route::post('/lead/import/save', [\App\Http\Controllers\Lead\LeadImportSaveController::class, 'save'], function (Request $request) {});
 Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete'], function (Request $request, int $id) {});
 
 //Customer
-Route::get('/customer',[\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
+Route::match(['get', 'post'],'/customer',[\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
 Route::get('/customer/create', [\App\Http\Controllers\Customer\CustomerCreateController::class, 'create']);
 Route::get('/customer/update/{id}',  [\App\Http\Controllers\Customer\CustomerUpdateController::class, 'update'], function (Request $request,$id) {});
 Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveController::class, 'save'], function (Request $request) {});
@@ -97,7 +97,7 @@ Route::get('/supplier/update/{id}',  [\App\Http\Controllers\Supplier\SupplierUpd
 Route::post('/supplier/save',  [\App\Http\Controllers\Supplier\SupplierSaveController::class, 'save'], function (Request $request) {});
 
 // Ticket
-Route::get('/ticket',  [\App\Http\Controllers\Ticket\TicketIndexController::class, 'index'], function (Request $request) {});
+Route::match(['get', 'post'], '/ticket',  [\App\Http\Controllers\Ticket\TicketIndexController::class, 'index'], function (Request $request) {});
 Route::get('/ticket/create',  [\App\Http\Controllers\Ticket\TicketCreateController::class, 'create'], function (Request $request) {});
 Route::get('/ticket/update/{id}',  [\App\Http\Controllers\Ticket\TicketUpdateController::class, 'update'], function (Request $request, int $id) {});
 Route::post('/ticket/save',  [\App\Http\Controllers\Ticket\TicketSaveController::class, 'save'], function (Request $request) {});

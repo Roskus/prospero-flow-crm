@@ -21,4 +21,9 @@ class Brand extends Model
     {
         return Brand::where('company_id', $company_id)->get();
     }
+
+    public function getAllActiveByCompany(int $company_id)
+    {
+        return Brand::where('company_id', $company_id)->get();
+    }
 }
