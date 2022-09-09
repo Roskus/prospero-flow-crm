@@ -4,7 +4,7 @@
     <header>
         <h1>{{ trans('hammer.Profile') }}</h1>
     </header>
-    <form method="POST" action="/profile/save" enctype="multipart/form-data" class="form">
+    <form method="POST" action="{{ url('/profile/save') }}" enctype="multipart/form-data" class="form">
         @csrf
 
         <div class="row form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -73,12 +73,15 @@
         <div class="row form-group">
             <div class="col">
                 <label>{{ __('Photo') }}</label>
-                <input type="file" name="photo" accept="image/jpeg, image/png" class="form-control">
+                <input type="file" name="photo" accept="image/png, image/gif, image/jpeg" class="form-control">
+                @if($user->photo)
+                    <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($user->company->name, '_') }}/{{ $user->photo }}" height="128">
+                @endif
             </div>
         </div>
         <div class="row form-group mt-2">
             <div class="col-md-6 col-md-offset-4">
-
+                <a href="{{ url('/') }}" class="btn btn-secondary">{{__('Cancel')}}</a>
                 <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
             </div>
         </div>

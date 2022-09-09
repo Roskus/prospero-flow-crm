@@ -51,6 +51,9 @@
         <div class="col form-group">
             <label class="label-control">Logo</label>
             <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/svg" class="form-control">
+            @if($company->logo)
+                <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}" alt="{{ env('APP_NAME') }}" class="logo">
+            @endif
         </div>
     </div>
     <div class="form-group mt-2">

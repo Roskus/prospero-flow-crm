@@ -63,6 +63,7 @@ Route::get('/company', 'CompanyController@index');
 Route::get('/company/add', 'CompanyController@add');
 Route::get('/company/edit/{id}', 'CompanyController@edit', function (Request $request, int $id) {});
 Route::post('/company/save', 'CompanyController@save', function (Request $request) {});
+Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteController::class, 'delete'], function (Request $request, int $id) {});
 
 // Account
 Route::get('/accounting', 'AccountController@index');
@@ -76,7 +77,7 @@ Route::post('/user/save', 'UserController@save');
 
 // Profile
 Route::get('/profile', 'ProfileController@edit');
-Route::post('/profile/save', 'ProfileController@save');
+Route::post('/profile/save', [\App\Http\Controllers\Profile\ProfileSaveController::class, 'save'], function (Request $request) {});
 
 Route::get('/setting', 'SettingController@index');
 Route::get('/home', 'HomeController@index');

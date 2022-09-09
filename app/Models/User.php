@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return User::all();
     }
+
+    public function getAllActiveByCompany(int $company_id)
+    {
+        return User::where('company_id', $company_id)->get();
+    }
 }

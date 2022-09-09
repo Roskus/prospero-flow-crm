@@ -24,28 +24,5 @@ class ProfileController extends MainController
         return view('user.profile', $data);
     }
 
-    /**
-     * Save user profile
-     *
-     * @param Request $request HTTP request
-     */
-    public function save(Request $request)
-    {
-        $locale = $request->lang;
-        $user = User::find(Auth::user()->id);
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->lang = $locale;
-        //Update password if change
-        if (!empty($request->password) && !empty($request->password_confirmation) && ($request->password == $request->password_confirmation) ) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->updated_at = now();
-        $user->save();
-        //Update current software language
-        App::setLocale($locale);
-        session()->put('locale', $locale);
-        return redirect('/profile');
-    }
+
 }

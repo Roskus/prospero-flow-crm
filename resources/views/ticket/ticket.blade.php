@@ -20,6 +20,17 @@
         </div>
     </div><!--./row-->
     <div class="row">
+        <div class="col">
+            <label>{{ __('Assigned to') }}</label>
+            <select name="assigned_to" required="required" class="form-control">
+                <option value=""></option>
+                @foreach($users as $user)
+                <option value="{{ $user->id }}">{{ $user->first_name.' '.$user->last_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div><!--./row-->
+    <div class="row">
         <div class="col mt-2">
             <button class="btn btn-primary">{{ __('Save') }}</button>
         </div>

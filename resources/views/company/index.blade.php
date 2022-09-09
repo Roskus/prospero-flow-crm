@@ -8,6 +8,7 @@
 <div class="mb-2">
     <a href="/company/add" class="btn btn-primary">{{ __('New') }}</a>
 </div>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover">
     <thead>
@@ -17,6 +18,9 @@
         <th>E-mail</th>
         <th>{{ __('Website') }}</th>
         <th>{{ __('Country') }}</th>
+        <th>{{ __('Created at') }}</th>
+        <th>{{ __('Updated at') }}</th>
+        <th>{{ __('Actions') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -29,8 +33,15 @@
         </td>
         <td>{{ $company->phone }}</td>
         <td>{{ $company->email }}</td>
-        <td>{{ $company->website }}</td>
+        <td>
+            <a href="{{ $company->website }}" target="_blank">{{ $company->website }}</a>
+        </td>
         <td>{{ $company->country_id }}</td>
+        <td>{{ $company->created_at }}</td>
+        <td>{{ $company->updated_at }}</td>
+        <td>
+            <a href="{{ url("/company/delete/$company->id") }}" class="btn btn-danger" title="{{ __('Delete') }}"><i class="las la-trash-alt"></i></a>
+        </td>
     </tr>
     @endforeach
     </tbody>
