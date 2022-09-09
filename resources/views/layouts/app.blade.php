@@ -66,24 +66,30 @@
 
                     @auth
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown"
-                               aria-expanded="false">{{ Auth::user()->first_name }} ( {{ Auth::user()->company->name }}
-                                )<span class="caret"></span></a>
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if(empty(Auth::user()->photo))
+                                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                                @else
+                                    <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->photo }}" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle">
+                                @endif
+                                {{ Auth::user()->first_name }} ( {{ Auth::user()->company->name }})<span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown10">
                                 <li>
-                                    <a href="/profile" class="dropdown-item"><i
-                                                class="las la-user-tie"></i> {{ __('Profile') }}</a>
+                                    <a href="/profile" class="dropdown-item">
+                                        <i class="las la-user-tie"></i> {{ __('Profile') }}
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="/setting" class="dropdown-item"><i
-                                                class="las la-cogs"></i> {{ __('Setting') }}</a>
+                                    <a href="/setting" class="dropdown-item">
+                                        <i class="las la-cogs"></i> {{ __('Setting') }}
+                                    </a>
                                 </li>
                                 <li role="separator" class="dropdown-divider"></li>
                                 <li>
-                                    <a href="#" onclick="Hammer.exit()" class="dropdown-item"><i
-                                                class="las la-door-open"></i> {{ __('Exit') }}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                          style="display: none;">
+                                    <a href="#" onclick="Hammer.exit()" class="dropdown-item">
+                                        <i class="las la-door-open"></i> {{ __('Exit') }}</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
@@ -91,7 +97,6 @@
                         </li>
                     @endauth
                 </ul>
-
             </div>
         </div>
     </nav>
