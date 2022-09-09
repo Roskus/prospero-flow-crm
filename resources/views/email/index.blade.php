@@ -16,8 +16,8 @@
         <td>{{ __('Subject') }}</td>
         <td>To</td>
         <td>Updated at</td>
-        <td>Status</td>
-        <td>Action</td>
+        <td>{{ __('Status') }}</td>
+        <td>{{ __('Actions') }}</td>
     </tr>
     </thead>
     <tbody>
