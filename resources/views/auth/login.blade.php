@@ -14,6 +14,14 @@
         .btn-primary {
             background: #2d3748;
         }
+        .field-icon {
+            float: right;
+            margin-top: -30px;
+            position: relative;
+            z-index: 2;
+            margin-left: -150px;
+            padding-right: 10px;
+        }
     </style>
     <div class="row">
         <div class="form-signin m-auto col-12 col-md-3 h-100">
@@ -45,7 +53,7 @@
 
                             <div>
                                 <input id="password" type="password" name="password" required class="form-control form-control-lg">
-
+                                <span toggle="#password" class="las la-eye field-icon toggle-password"></span>
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -87,8 +95,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-0 col-md-9 h-100" style="background: url('/asset/img/bg-auth.jpg'); background-repeat: no-repeat; background-size: cover; min-height: 1024px">
+        <div class="col-0 col-md-9 h-100 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg'); background-repeat: no-repeat; background-size: cover; min-height: 1024px">
             <div style="color: #e5e5e5; margin-bottom: 30px; position: absolute; bottom: 0;">Power by roskus and OpenSource</div>
         </div>
     </div>
+    @push('scripts')
+    <script>
+        $(".toggle-password").click(function() {
+            $(this).toggleClass("la-eye la-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+    @endpush
 @endsection
