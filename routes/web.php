@@ -59,7 +59,7 @@ Route::get('/category/edit/{id}', 'CategoryController@edit', function (Request $
 Route::post('/category/save', 'CategoryController@save', function (Request $request) {});
 
 // Company
-Route::get('/company', 'CompanyController@index');
+Route::get('/company', [\App\Http\Controllers\Company\CompanyIndexController::class, 'index'], function (Request $request) {});
 Route::get('/company/add', 'CompanyController@add');
 Route::get('/company/edit/{id}', 'CompanyController@edit', function (Request $request, int $id) {});
 Route::post('/company/save', 'CompanyController@save', function (Request $request) {});
@@ -90,6 +90,7 @@ Route::match(['get', 'post'],'/email',  [\App\Http\Controllers\Email\EmailIndexC
 Route::get('/email/create',  [\App\Http\Controllers\Email\EmailCreateController::class, 'create'], function (Request $request) {});
 Route::get('/email/update/{id}',  [\App\Http\Controllers\Email\EmailUpdateController::class, 'update'], function (Request $request, int $id) {});
 Route::post('/email/save',  [\App\Http\Controllers\Email\EmailSaveController::class, 'save'], function (Request $request) {});
+Route::get('/email/send/{id}',  [\App\Http\Controllers\Email\EmailSendController::class, 'send'], function (Request $request, int $id) {});
 
 // Supplier
 Route::match(['get', 'post'],'/supplier',  [\App\Http\Controllers\Supplier\SupplierIndexController::class, 'index'], function (Request $request) {});

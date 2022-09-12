@@ -28,13 +28,19 @@
         </td>
         <td>{{ $email->to }}</td>
         <td>{{ $email->updated_at->format('d/m/Y H:i') }}</td>
-        <td>
-
+        <td class="text-center">
+            {{ $email->status }}
         </td>
         <td>
-            <a href="/email/update/{{ $email->id }}" class="btn btn-warning"></a>
-            <a href="/email/delete/{{ $email->id }}" class="btn btn-danger"></a>
-            <a href="/email/send/{{ $email->id }}" class="btn btn-success"></a>
+            <a href="{{ url("/email/update/$email->id") }}" class="btn btn-warning">
+                <i class="las la-edit"></i>
+            </a>
+            <a href="{{ url("/email/send/$email->id") }}" class="btn btn-primary">
+                <i class="las la-envelope"></i>
+            </a>
+            <a href="{{ url("/email/delete/$email->id") }}" class="btn btn-danger">
+                <i class="las la-trash"></i>
+            </a>
         </td>
     </tr>
     @endforeach

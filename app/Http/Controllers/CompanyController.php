@@ -9,12 +9,7 @@ use Squire\Models\Country;
 
 class CompanyController extends MainController
 {
-    public function index(Request $request)
-    {
-        $company = new Company();
-        $data['companies'] = $company->getAll();
-        return view('company.index', $data);
-    }
+
 
     public function add(Request $request)
     {

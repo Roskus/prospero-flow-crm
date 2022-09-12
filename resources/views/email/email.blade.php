@@ -15,14 +15,25 @@
         </div>
         <div class="row">
             <div class="col">
+                <label class="">{{ __('From') }}</label>
+                <select name="from" id="from" maxlength="255" required class="form-control">
+                    <option value=""></option>
+                    @foreach($froms as $from)
+                    <option value="{{ $from }}" @if($from == $email->from) selected="selected" @endif>{{ $from }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <label class="">{{ __('To') }}</label>
-                <input type="email" name="to" maxlength="255" required value="{{ $email->to }}" class="form-control">
+                <input type="email" name="to" id="to" maxlength="255" required value="{{ $email->to }}" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <label class="">CC</label>
-                <input type="text" name="cc" maxlength="255" class="form-control">
+                <input type="text" name="cc" id="cc" maxlength="255" class="form-control">
             </div>
         </div>
         <div class="row">
