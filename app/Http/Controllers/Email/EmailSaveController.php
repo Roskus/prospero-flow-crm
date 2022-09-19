@@ -18,13 +18,13 @@ class EmailSaveController extends MainController
         } else {
             $email = Email::find($request->id);
         }
-        $email->from = 'hello@roskus.com'; //@TODO Get from company
+        $email->from = $request->from;
         $email->company_id = Auth::user()->company_id;
         $email->subject = $request->subject;
         $email->to = $request->to;
         $email->body = $request->body;
         $email->updated_at = now();
-        //$email->status = Email::DRAFT;
+        $email->status = Email::DRAFT;
         $email->save();
         return redirect('/email');
     }

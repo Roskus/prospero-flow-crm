@@ -12,7 +12,7 @@ class Email extends Model
 
     const DRAFT = 1;
     const QUEUE = 2;
-    const SENT = 3;
+    const SENT = 'sent';
 
     public function getAll()
     {

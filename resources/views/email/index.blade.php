@@ -9,6 +9,10 @@
         <a href="/email/create" class="btn btn-primary">{{ __('New') }}</a>
     </div>
 
+    <form method="post" action="{{ url('/email') }}">
+        @csrf
+    </form>
+
     <div class="mt-2">
     <table class="table table-bordered table-striped">
     <thead>
@@ -35,12 +39,18 @@
             <a href="{{ url("/email/update/$email->id") }}" class="btn btn-warning">
                 <i class="las la-edit"></i>
             </a>
+            @if($email->status != \App\Models\Email::SENT)
             <a href="{{ url("/email/send/$email->id") }}" class="btn btn-primary">
                 <i class="las la-envelope"></i>
             </a>
             <a href="{{ url("/email/delete/$email->id") }}" class="btn btn-danger">
                 <i class="las la-trash"></i>
             </a>
+            @else
+                <a href="{{ url("/email/archive/$email->id") }}" class="btn btn-success" title="{{ __('Archive') }}">
+                    <i class="las la-trash"></i>
+                </a>
+            @endif
         </td>
     </tr>
     @endforeach
