@@ -21,15 +21,15 @@ class EmailSendController extends MainController
         $email = Email::find($id);
         $email->status = Email::QUEUE;
         $email->save();
-
-        $emailTemplate = new GenericEmailForQueuing(Auth::user()->company, $email->subject, ['body' => $email->body]);
+        $emailTemplate = new GenericEmail(Auth::user()->company, $email->subject, ['body' => $email->body]);
         try {
             Mail::to($email->to)->send($emailTemplate);
             $email->status = Email::SENT;
-            $email->save();
         } catch (\Throwable $t) {
             Log::error($t->getMessage());
+            $email->status = Email::ERROR;
         }
+        $email->save();
         return redirect('/email');
     }
 }

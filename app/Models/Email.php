@@ -10,9 +10,10 @@ class Email extends Model
     use HasFactory;
     protected $table = 'email';
 
-    const DRAFT = 1;
-    const QUEUE = 2;
+    const DRAFT = 'draft';
+    const QUEUE = 'queue';
     const SENT = 'sent';
+    const ERROR = 'error';
 
     public function getAll()
     {
