@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Email;
 
 use App\Http\Controllers\MainController;
-use App\Mail\GenericEmailForQueuing;
+use App\Mail\GenericEmail;
 use Illuminate\Http\Request;
 use App\Models\Email;
 use Illuminate\Support\Facades\Auth;
