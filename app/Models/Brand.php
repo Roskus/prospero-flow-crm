@@ -14,7 +14,7 @@ class Brand extends Model
     }
 
     /**
-     * @param int $company_id
+     * @param  int  $company_id
      * @return mixed
      */
     public function getAllByCompanyId(int $company_id)

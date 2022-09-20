@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Email;
 
+use App\Http\Controllers\MainController;
 use App\Models\Email;
 use Illuminate\Http\Request;
-use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Auth;
 
 class EmailCreateController extends MainController
@@ -17,6 +17,7 @@ class EmailCreateController extends MainController
             Auth::user()->email,
         ];
         $data['email'] = $email;
+
         return view('email.email', $data);
     }
 }

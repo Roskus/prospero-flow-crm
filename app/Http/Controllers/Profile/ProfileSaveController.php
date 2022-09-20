@@ -15,7 +15,7 @@ class ProfileSaveController
     /**
      * Save user profile
      *
-     * @param Request $request HTTP request
+     * @param  Request  $request HTTP request
      */
     public function save(Request $request)
     {
@@ -26,7 +26,7 @@ class ProfileSaveController
         $user->email = $request->email;
         $user->lang = $locale;
         //Update password if change
-        if (!empty($request->password) && !empty($request->password_confirmation) && ($request->password == $request->password_confirmation) ) {
+        if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
             $user->password = Hash::make($request->password);
         }
         $user->updated_at = now();
@@ -35,7 +35,7 @@ class ProfileSaveController
             $extension = $request->file('photo')->extension();
             $origin_path = $request->file('photo')->getPathName();
 
-            $company_folder = Str::slug(Auth::user()->company->name,'_');
+            $company_folder = Str::slug(Auth::user()->company->name, '_');
 
             $destination_path = \public_path().DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'company'.DIRECTORY_SEPARATOR.$company_folder;
             try {
@@ -57,6 +57,7 @@ class ProfileSaveController
         //Update current software language
         App::setLocale($locale);
         session()->put('locale', $locale);
+
         return redirect('/profile');
     }
 }

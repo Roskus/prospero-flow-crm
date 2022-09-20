@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Industry extends Model
 {
     use HasFactory;
+
     protected $table = 'industry';
 
     public function getAll()

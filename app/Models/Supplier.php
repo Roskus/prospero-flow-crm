@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     use HasFactory;
+
     protected $table = 'supplier';
 
     public function getAllByCompany(int $company_id)

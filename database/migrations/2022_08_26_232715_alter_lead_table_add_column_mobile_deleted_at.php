@@ -30,6 +30,5 @@ class AlterLeadTableAddColumnMobileDeletedAt extends Migration
             $table->dropColumn('mobile');
             $table->dropColumn('deleted_at');
         });
-
     }
 }

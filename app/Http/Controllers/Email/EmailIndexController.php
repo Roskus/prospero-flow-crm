@@ -12,6 +12,7 @@ class EmailIndexController extends MainController
     {
         $email = new Email();
         $data['emails'] = $email->getAll();
+
         return view('email.index', $data);
     }
 }

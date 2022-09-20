@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Models\Lead;
+use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Models\Order;
-use App\Models\Lead;
 
 class MainController extends Controller
 {
@@ -22,6 +23,7 @@ class MainController extends Controller
         $lead = new Lead();
         $data['order_count'] = $order->getPendingCount(Auth::user()->company_id);
         $data['lead_count'] = $lead->getCountByCompany(Auth::user()->company_id);
+
         return view('dashboard', $data);
     }
 }

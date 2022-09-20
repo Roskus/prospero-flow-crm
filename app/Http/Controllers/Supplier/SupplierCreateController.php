@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Supplier;
 
 use App\Http\Controllers\MainController;
-use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
 
 class SupplierCreateController extends MainController
 {
@@ -12,6 +12,7 @@ class SupplierCreateController extends MainController
     {
         $supplier = new Supplier();
         $data['supplier'] = $supplier;
+
         return view('supplier.supplier', $data);
     }
 }

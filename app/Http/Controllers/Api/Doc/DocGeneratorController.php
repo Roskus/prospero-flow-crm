@@ -17,8 +17,9 @@ class DocGeneratorController
     {
         $app_path = base_path();
         $openapi = OpenApi\Generator::scan([
-            $app_path.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'Api'
+            $app_path.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'Api',
         ]);
+
         return response()->json($openapi->toJson());
     }
 }

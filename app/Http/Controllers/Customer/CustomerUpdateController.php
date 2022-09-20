@@ -10,8 +10,8 @@ use Squire\Models\Country;
 class CustomerUpdateController extends MainController
 {
     /**
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function update(Request $request, int $id)
@@ -19,6 +19,7 @@ class CustomerUpdateController extends MainController
         $customer = Customer::find($id);
         $data['customer'] = $customer;
         $data['countries'] = Country::all();
+
         return view('customer.customer', $data);
     }
 }

@@ -11,10 +11,11 @@ class LeadImportSaveController extends MainController
 {
     public function save(Request $request)
     {
-        if(!$request->hasFile('upload'))
+        if (! $request->hasFile('upload')) {
             return redirect('/lead')->withErrors(__("Upload file can't be in blank"));
+        }
 
-        $file  = $request->file('upload');
+        $file = $request->file('upload');
         $extension = $file->getClientOriginalExtension();
 
         //if($extension != 'csv')
@@ -32,9 +33,11 @@ class LeadImportSaveController extends MainController
         //name;business_name;phone;email;website;country_id;notes;facebook
         $rowCount = 0;
         $separator = ',';
-        while (($data = fgetcsv($handle, 1000, $separator)) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
             //Skip header starting in 1
-            if($data[0] == 'name') continue;
+            if ($data[0] == 'name') {
+                continue;
+            }
 
             $country = trim($data[5]);
             $lead = new Lead();
@@ -43,11 +46,11 @@ class LeadImportSaveController extends MainController
             $lead->business_name = $data[1];
             $lead->phone = $data[2];
             $lead->email = $data[3];
-            $lead->website = rtrim($data[4],'/');
+            $lead->website = rtrim($data[4], '/');
             $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
             $lead->city = $data[6];
             $lead->notes = $data[7];
-            $lead->facebook = (isset($data[8])) ? $data[8]: null;
+            $lead->facebook = (isset($data[8])) ? $data[8] : null;
 
             $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
@@ -62,6 +65,7 @@ class LeadImportSaveController extends MainController
         fclose($handle);
 
         $data['row_count'] = $rowCount;
+
         return redirect('/lead')->with($data);
     }
 }

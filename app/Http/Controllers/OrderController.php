@@ -1,13 +1,13 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Models\Lead;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
-use App\Models\Order;
-use App\Models\Lead;
-use App\Models\Product;
 
 class OrderController extends MainController
 {
@@ -15,13 +15,14 @@ class OrderController extends MainController
     {
         $order = new Order();
         $data['orders'] = $order->getAllActiveByCompany(Auth::user()->company_id);
+
         return view('order/index', $data);
     }
 
     /**
      * Add new order
      *
-     * @param Request $request HTTP request
+     * @param  Request  $request HTTP request
      */
     public function add(Request $request)
     {
@@ -32,13 +33,13 @@ class OrderController extends MainController
         $data['order'] = $order;
         $data['customers'] = $customer->getAllByCompanyId($company_id);
         $data['products'] = $product->getAllByCompanyId($company_id);
+
         return view('order/order', $data);
     }
 
     /**
-     *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      */
     public function edit(Request $request, int $id)
     {
@@ -48,11 +49,12 @@ class OrderController extends MainController
         $company_id = Auth::user()->company_id;
         $data['customers'] = $order->customer->getAllByCompanyId($company_id);
         $data['products'] = $product->getAllByCompanyId($company_id);
+
         return view('order/order', $data);
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      */
     public function save(Request $request)
     {
@@ -66,11 +68,9 @@ class OrderController extends MainController
             Log::error($t->getMessage());
         }
 
-        if($request->items)
-        {
-            foreach($request->items as $requestItem)
-            {
-                try{
+        if ($request->items) {
+            foreach ($request->items as $requestItem) {
+                try {
                     $item = new Order\Item();
                     $item->order_id = $order->id;
                     $item->product_id = $requestItem['product_id'];
@@ -82,7 +82,7 @@ class OrderController extends MainController
                 }
             }
         }
+
         return redirect('order');
     }
-
 }

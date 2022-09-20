@@ -1,21 +1,27 @@
 <?php
+
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
+
 //use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lead extends Model
 {
     //use SoftDeletes;
     const OPEN = 'open'; //New
+
     const IN_PROGRESS = 'in_progress';
+
     const CONVERTED = 'converted'; // Promoted to customer
+
     const CLOSED = 'closed';
 
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'lead';
 
     public function company()
@@ -45,21 +51,21 @@ class Lead extends Model
 
     public function getAllByCompanyId(int $company_id, ?string $search = '')
     {
-        if(empty($search))
-        {
+        if (empty($search)) {
             $leads = Lead::where('company_id', $company_id)->paginate(10);
         } else {
-            $leads = Lead::where("name","LIKE","%$search%")->paginate(10);
+            $leads = Lead::where('name', 'LIKE', "%$search%")->paginate(10);
         }
+
         return $leads;
     }
 
-    public function getCountByCompany(int $company_id) : int
+    public function getCountByCompany(int $company_id): int
     {
         return Lead::where('company_id', $company_id)->count();
     }
 
-    public static function getStatus() : array
+    public static function getStatus(): array
     {
         return [
             self::OPEN => 'Open',

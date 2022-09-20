@@ -1,16 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Throwable;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
-use Ramsey\Uuid\Uuid;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Brand;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends MainController
 {
@@ -27,6 +23,7 @@ class ProductController extends MainController
         $data['products'] = $product->getAllByCompanyId(Auth::user()->company_id);
         $data['categories'] = $this->category->getAllActiveByCompany(Auth::user()->company_id);
         $data['brands'] = $this->brand->getAllActiveByCompany(Auth::user()->company_id);
+
         return view('product/index', $data);
     }
 }

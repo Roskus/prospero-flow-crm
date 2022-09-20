@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 class GenericEmail extends Mailable
 {
     protected Company $company;
+
     protected $data;
 
     /**

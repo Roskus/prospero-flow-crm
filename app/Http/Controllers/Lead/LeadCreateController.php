@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Lead;
 
 use App\Models\Industry;
+use App\Models\Lead;
 use Illuminate\Http\Request;
 use Squire\Models\Country;
-use App\Models\Lead;
 
 class LeadCreateController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)
@@ -20,6 +20,7 @@ class LeadCreateController
         $data['lead'] = $lead;
         $data['countries'] = Country::orderBy('name')->get();
         $data['industries'] = $industry->getAll();
+
         return view('lead.lead', $data);
     }
 }

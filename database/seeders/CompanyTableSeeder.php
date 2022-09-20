@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Company;
 
 class CompanyTableSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class CompanyTableSeeder extends Seeder
                 'country_id' => 'ES',
                 'email' => 'admin@admin.com',
                 'website' => 'http://www.admin.com',
-                'status' => Company::ACTIVE
+                'status' => Company::ACTIVE,
             ]
         );
     }

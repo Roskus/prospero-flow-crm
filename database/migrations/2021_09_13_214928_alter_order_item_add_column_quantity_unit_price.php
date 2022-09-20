@@ -15,7 +15,7 @@ class AlterOrderItemAddColumnQuantityUnitPrice extends Migration
     {
         Schema::table('order_item', function (Blueprint $table) {
             $table->unsignedTinyInteger('quantity')->nullable()->after('product_id');
-            $table->decimal('unit_price', 10,3)->nullable()->after('quantity');
+            $table->decimal('unit_price', 10, 3)->nullable()->after('quantity');
         });
     }
 

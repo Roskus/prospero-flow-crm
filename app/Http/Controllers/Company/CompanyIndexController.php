@@ -12,6 +12,7 @@ class CompanyIndexController extends Controller
     {
         $company = new Company();
         $data['companies'] = $company->getAll();
+
         return view('company.index', $data);
     }
 }

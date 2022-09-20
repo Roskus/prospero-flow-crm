@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Lead;
 
-use Illuminate\Http\Request;
 use App\Models\Lead;
+use Illuminate\Http\Request;
 
 class LeadDeleteController
 {
@@ -11,6 +11,7 @@ class LeadDeleteController
     {
         $lead = Lead::find($id);
         $lead->delete();
+
         return redirect('/lead');
     }
 }

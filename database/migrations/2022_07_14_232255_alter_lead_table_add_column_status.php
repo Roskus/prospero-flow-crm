@@ -42,4 +42,3 @@ class AlterLeadTableAddColumnStatus extends Migration
         });
     }
 }
-

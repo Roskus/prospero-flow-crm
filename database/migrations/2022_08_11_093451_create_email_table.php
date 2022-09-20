@@ -17,7 +17,7 @@ class CreateEmailTable extends Migration
             $table->id();
             $table->bigInteger('company_id');
             $table->bigInteger('template_id')->nullable();
-            $table->decimal('version', 2,1)->nullable();
+            $table->decimal('version', 2, 1)->nullable();
             $table->string('from', 255);
             $table->string('to', 255);
             $table->string('cc', 255)->nullable();

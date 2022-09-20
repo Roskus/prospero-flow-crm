@@ -1,16 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Squire\Models\Country;
 
 class CustomerSaveController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)
@@ -31,6 +31,7 @@ class CustomerSaveController extends MainController
         $customer->company = $request->company;
         $customer->website = $request->website;
         $customer->save();
+
         return redirect('/customer');
     }
 }

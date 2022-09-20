@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Account extends Model
 {
     use SoftDeletes;
+
     const ACTIVE = 1;
 
     protected $table = 'account';
@@ -26,7 +28,7 @@ class Account extends Model
     }
 
     /**
-     * @param int $company_id
+     * @param  int  $company_id
      * @return mixed
      */
     public function getAllActiveByCompany(int $company_id)
