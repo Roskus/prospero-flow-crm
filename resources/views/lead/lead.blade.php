@@ -22,20 +22,26 @@
                 <input type="tel" name="phone" id="phone" value="{{ $lead->phone }}" maxlength="15" class="form-control form-control-lg">
             </div>
             <div class="col">
-                <label>{{ __('Mobile') }}</label>
+                <label for="mobile" class="">{{ __('Mobile') }}</label>
                 <input type="tel" name="mobile" id="mobile" value="{{ $lead->mobile }}" maxlength="15" class="form-control form-control-lg">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label>E-mail</label>
+                <label for="email" class="">E-mail</label>
                 <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
             </div>
             <div class="col">
-                <label>Website</label>
+                <label for="website" class="">Website</label>
                 <input type="url" name="website" id="website" value="{{ $lead->website }}" placeholder="https://www.website.com" class="form-control form-control-lg">
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <label for="vat" class="">{{ __('Identity number') }}</label>
+                <input type="text" name="vat" value="{{ $lead->vat }}" class="form-control form-control-lg">
+            </div>
+        </div><!--./row-->
         <div class="row">
             <div class="col">
                 <label>{{ __('Notes') }}</label>
