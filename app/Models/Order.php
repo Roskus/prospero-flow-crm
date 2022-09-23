@@ -1,35 +1,39 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Company;
-use App\Models\Lead;
 use App\Models\Order\Item;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class Order extends Model
 {
     use SoftDeletes;
 
-    # Class Constants
+    // Class Constants
     const CANCELED = 0;
+
     const PENDING = 1;
+
     const CONFIRMED = 2;
+
     const COMPLETED = 3;
 
-    # Class Properties
+    // Class Properties
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'order';
 
     protected ?int $company_id = null;
+
     protected ?int $customer_id;
+
     protected ?int $status;
 
     /**
@@ -41,12 +45,12 @@ final class Order extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('orderCreated', function(Builder $builder) {
+        static::addGlobalScope('orderCreated', function (Builder $builder) {
             $builder->orderby('created_at', 'DESC');
         });
     }
 
-    # Constructor
+    // Constructor
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -57,7 +61,7 @@ final class Order extends Model
         $this->amount = 0.0;
     }
 
-    # Relationships
+    // Relationships
     /**
      * @return Company
      */
@@ -79,8 +83,8 @@ final class Order extends Model
         return $this->hasMany(Item::class, 'order_id', 'id');
     }
 
-    # Accessors and Mutators
-    public function getId() : int
+    // Accessors and Mutators
+    public function getId(): int
     {
         return (int) $this->getAttribute('id');
     }
@@ -88,7 +92,7 @@ final class Order extends Model
     /*
     * @return int
     */
-    public function getCompanyId() : int
+    public function getCompanyId(): int
     {
         return (int) $this->getAttribute('company_id');
     }
@@ -101,13 +105,13 @@ final class Order extends Model
     /**
      * @return int
      */
-    public function getCustomerId() : int
+    public function getCustomerId(): int
     {
         return (int) $this->getAttribute('customer_id');
     }
 
     /**
-     * @param int $customer_id
+     * @param  int  $customer_id
      */
     public function setCustomerId(int $customer_id): void
     {
@@ -117,13 +121,13 @@ final class Order extends Model
     /**
      * @return float
      */
-    public function getAmount() : float
+    public function getAmount(): float
     {
         return (float) $this->getAttribute('amount');
     }
 
     /**
-     * @param float $amount
+     * @param  float  $amount
      */
     public function setAmount(float $amount): void
     {
@@ -135,7 +139,7 @@ final class Order extends Model
      *
      * @return float
      */
-    public function getTotal() : float
+    public function getTotal(): float
     {
         return $this->getAmount();
     }
@@ -153,16 +157,16 @@ final class Order extends Model
      */
     public function getPendingCount(int $company_id)
     {
-        return Order::where('company_id',$company_id)
+        return Order::where('company_id', $company_id)
                     ->where('status', self::PENDING)->count();
     }
 
     /**
-     * @param int $company_id
+     * @param  int  $company_id
      * @return mixed
      */
     public function getAllActiveByCompany(int $company_id)
     {
-        return Order::where('company_id',$company_id)->paginate(10);
+        return Order::where('company_id', $company_id)->paginate(10);
     }
 }

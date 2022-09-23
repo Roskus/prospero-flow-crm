@@ -11,7 +11,7 @@ class TicketSaveController extends MainController
 {
     public function save(Request $request)
     {
-        if($request->id) {
+        if ($request->id) {
             $ticket = Ticket::find($request->id);
         } else {
             $ticket = new Ticket();
@@ -23,6 +23,7 @@ class TicketSaveController extends MainController
         $ticket->created_by = Auth::user()->id;
         $ticket->updated_at = now();
         $ticket->save();
+
         return redirect('/ticket');
     }
 }

@@ -1,9 +1,6 @@
 <?php
-namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use Illuminate\Http\Request;
-use App\Models\Company;
+namespace App\Http\Controllers;
 
 class SetupController extends Controller
 {

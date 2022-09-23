@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Lead;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\MainController;
 use App\Models\Lead;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeadSaveController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)
     {
-        $status  = 'error';
+        $status = 'error';
         if (empty($request->id)) {
             $lead = new Lead();
             $lead->seller_id = Auth::user()->id;
@@ -30,7 +30,7 @@ class LeadSaveController extends MainController
         $lead->phone = $request->phone;
         $lead->mobile = $request->mobile;
         $lead->email = $request->email;
-        $lead->website = rtrim($request->website,'/');
+        $lead->website = rtrim($request->website, '/');
         $lead->notes = $request->notes;
 
         $lead->linkedin = $request->linkedin;
@@ -48,18 +48,22 @@ class LeadSaveController extends MainController
         $lead->industry_id = $request->industry_id;
         $lead->schedule_contact = $request->schedule_contact;
 
-        if($request->status) $lead->status = $request->status;
+        if ($request->status) {
+            $lead->status = $request->status;
+        }
         $lead->updated_at = now();
 
-        if($lead->save())
+        if ($lead->save()) {
             $status = 'success';
+        }
 
         $response = [
             'status' => $status,
             'message' => 'Lead :name successfully saved',
             'name' => $lead->name,
-            'id' => $lead->id
+            'id' => $lead->id,
         ];
+
         return redirect('/lead')->with($response);
     }
 }

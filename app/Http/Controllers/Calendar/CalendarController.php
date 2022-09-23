@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CalendarController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -18,8 +18,7 @@ class CalendarController extends MainController
         $today_day_number = $today->day;
         $day_of_week = Carbon::now()->dayOfWeek;
         $week = [];
-        switch ($day_of_week)
-        {
+        switch ($day_of_week) {
             case 0:
                 $week[0] = $today_day_number;
                 $week[1] = $today_day_number + 1;
@@ -89,6 +88,7 @@ class CalendarController extends MainController
         $data['today_day_number'] = $today_day_number;
         $data['week'] = $week;
         $data['day_of_week'] = $day_of_week;
+
         return view('calendar.calendar', $data);
     }
 }

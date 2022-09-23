@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 class ProductSaveController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      */
     public function save(Request $request)
     {
@@ -25,7 +25,7 @@ class ProductSaveController extends MainController
         $product->category_id = $request->category_id;
         $product->brand_id = $request->brand_id;
         $product->name = $request->name;
-        $product->quantity = !empty($request->quantity) ? $request->quantity : 0;
+        $product->quantity = ! empty($request->quantity) ? $request->quantity : 0;
         $product->cost = $request->cost;
         $product->price = $request->price;
         $product->barcode = $request->barcode;
@@ -34,19 +34,18 @@ class ProductSaveController extends MainController
         $product->save();
 
         $photoFile = $request->file('photo');
-        if (!empty($photoFile)) {
+        if (! empty($photoFile)) {
             // Generate a new random file name
             $uuid = Uuid::uuid4();
             $newFileName = $uuid->toString().'.'.$photoFile->getClientOriginalExtension();
             // Create a path for product photo
             $destinationPath = public_path("asset/upload/product/$product->id");
             try {
-                if (!is_dir($destinationPath)) {
+                if (! is_dir($destinationPath)) {
                     $created = mkdir($destinationPath, 0775, true);
                 } else {
                     $created = true;
                 }
-
 
                 if ($created) {
                     // Always use copy don't try to move in some servers have a issue with permisions and temporary directories.
@@ -62,6 +61,7 @@ class ProductSaveController extends MainController
                 Log::error($t->getMessage());
             }
         }
+
         return redirect('/product')->with('message', '');
     }
 }

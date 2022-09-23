@@ -19,7 +19,7 @@ class CreateEmailTemplateTable extends Migration
             $table->string('subject', 78); // RFC2822 http://www.faqs.org/rfcs/rfc2822.html
             $table->text('body');
             $table->char('lang', 2)->default('en');
-            $table->decimal('version', 2,1)->default(1.0);
+            $table->decimal('version', 2, 1)->default(1.0);
             $table->timestamps();
             $table->softDeletes();
         });

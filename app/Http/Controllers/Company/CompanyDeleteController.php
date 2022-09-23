@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Company;
+use Illuminate\Http\Request;
 
 class CompanyDeleteController extends Controller
 {
@@ -13,6 +13,7 @@ class CompanyDeleteController extends Controller
         $company = Company::find($id);
         $company->delete();
         $company->save();
+
         return redirect('/company');
     }
 }

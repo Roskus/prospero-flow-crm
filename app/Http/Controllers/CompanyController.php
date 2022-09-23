@@ -1,38 +1,34 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Company;
 use Squire\Models\Country;
 
 class CompanyController extends MainController
 {
-
-
     public function add(Request $request)
     {
         $company = new Company();
         $data['company'] = $company;
         $data['countries'] = Country::all();
+
         return view('company.company', $data);
     }
 
-    /**
-     *
-     */
-    public function edit(Request $request,int $id)
+    public function edit(Request $request, int $id)
     {
         $company = Company::find($id);
         $data['company'] = $company;
         $data['countries'] = Country::all();
+
         return view('company/company', $data);
     }
 
-    /**
-     *
-     */
     public function save(Request $request)
     {
         if (empty($request->id)) {
@@ -52,7 +48,7 @@ class CompanyController extends MainController
             $extension = $request->file('logo')->extension();
             $origin_path = $request->file('logo')->getPathName();
 
-            $company_folder = Str::slug($company->name,'_');
+            $company_folder = Str::slug($company->name, '_');
 
             $destination_path = \public_path().DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'company'.DIRECTORY_SEPARATOR.$company_folder;
             try {
@@ -73,6 +69,7 @@ class CompanyController extends MainController
         }
         $company->updated_at = now();
         $company->save();
+
         return redirect('/company');
     }
 }

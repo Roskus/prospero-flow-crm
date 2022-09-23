@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Ticket;
 
 use App\Http\Controllers\MainController;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
 
 class TicketUpdateController extends MainController
@@ -16,6 +16,7 @@ class TicketUpdateController extends MainController
         $ticket = Ticket::find($id);
         $data['ticket'] = $ticket;
         $data['users'] = $user->getAllActiveByCompany(Auth::user()->id);
+
         return view('ticket.ticket', $data);
     }
 }

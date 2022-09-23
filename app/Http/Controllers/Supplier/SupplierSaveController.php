@@ -7,7 +7,6 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 class SupplierSaveController extends MainController
 {
     public function save(Request $request)
@@ -20,6 +19,7 @@ class SupplierSaveController extends MainController
         $supplier->website = $request->website;
         $supplier->updated_at = now();
         $supplier->save();
+
         return redirect('/supplier');
     }
 }

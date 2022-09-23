@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Email;
 
 use App\Http\Controllers\MainController;
 use App\Mail\GenericEmail;
-use Illuminate\Http\Request;
 use App\Models\Email;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -30,6 +30,7 @@ class EmailSendController extends MainController
             $email->status = Email::ERROR;
         }
         $email->save();
+
         return redirect('/email');
     }
 }

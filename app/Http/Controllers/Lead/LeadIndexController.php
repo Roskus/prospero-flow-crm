@@ -1,16 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\Lead;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\MainController;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Lead;
-use Squire\Models\Country;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeadIndexController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -19,6 +19,7 @@ class LeadIndexController extends MainController
         $lead = new Lead();
         $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search);
         $data['search'] = $search;
+
         return view('lead.index', $data);
     }
 }

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api\Customer;
 
-use Illuminate\Http\Request;
 use App\Http\Resources\CustomerResource;
 use App\Models\Lead;
+use Illuminate\Http\Request;
 
 class CustomerListController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)

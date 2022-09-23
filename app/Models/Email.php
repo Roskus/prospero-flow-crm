@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Email extends Model
 {
     use HasFactory;
+
     protected $table = 'email';
 
     const DRAFT = 'draft';
+
     const QUEUE = 'queue';
+
     const SENT = 'sent';
+
     const ERROR = 'error';
 
     public function getAll()

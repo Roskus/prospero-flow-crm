@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Email;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\MainController;
 use App\Models\Email;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EmailSaveController extends MainController
 {
     public function save(Request $request)
     {
-        if(empty($request->id))
-        {
+        if (empty($request->id)) {
             $email = new Email();
             $email->created_at = now();
         } else {
@@ -26,6 +25,7 @@ class EmailSaveController extends MainController
         $email->updated_at = now();
         $email->status = Email::DRAFT;
         $email->save();
+
         return redirect('/email');
     }
 }

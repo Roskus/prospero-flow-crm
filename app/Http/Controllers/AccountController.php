@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Account;
 
 class AccountController extends MainController
 {
@@ -12,22 +12,22 @@ class AccountController extends MainController
     {
         $account = new Account();
         $data['accounts'] = $account->getAllActiveByCompany(Auth::user()->company_id);
+
         return view('account.index', $data);
     }
 
     public function add(Request $request)
     {
-
     }
 
     public function edit(Request $request, int $id = null)
     {
-
     }
 
     /**
      * Save accounts
-     * @param Request $request HTTP request
+     *
+     * @param  Request  $request HTTP request
      */
     public function save(Request $request)
     {
@@ -42,11 +42,11 @@ class AccountController extends MainController
             $account->updated_at = now();
         }
         $account->save();
+
         return redirect('accounting');
     }
 
     public function delete(Request $request, int $id)
     {
-
     }
 }

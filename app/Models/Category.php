@@ -9,10 +9,10 @@ class Category extends Model
     const ACTIVE = 1;
 
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'category';
 
     public function getAll()
@@ -21,7 +21,7 @@ class Category extends Model
     }
 
     /**
-     * @param int $company_id
+     * @param  int  $company_id
      * @return mixed
      */
     public function getAllActiveByCompany(int $company_id)

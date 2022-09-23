@@ -1,5 +1,7 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -22,7 +24,7 @@ class UserTableSeeder extends Seeder
                 'last_name' => 'Test',
                 'email' => 'admin@admin.com',
                 'password' => Hash::make('admin'),
-                'lang' => 'en'
+                'lang' => 'en',
             ]
         );
     }

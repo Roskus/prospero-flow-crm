@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Category;
 
 class CategoryController extends MainController
 {
@@ -12,6 +14,7 @@ class CategoryController extends MainController
     {
         $category = new Category();
         $data['categories'] = $category->getAllActiveByCompany(Auth::user()->company_id);
+
         return view('category.index', $data);
     }
 
@@ -19,6 +22,7 @@ class CategoryController extends MainController
     {
         $category = new Category();
         $data['category'] = $category;
+
         return view('category.category', $data);
     }
 
@@ -26,6 +30,7 @@ class CategoryController extends MainController
     {
         $category = Category::find($id);
         $data['category'] = $category;
+
         return view('category.category', $data);
     }
 
@@ -39,6 +44,7 @@ class CategoryController extends MainController
         $category->name = $request->name;
         $category->company_id = Auth::user()->company_id;
         $category->save();
+
         return redirect('/category');
     }
 }

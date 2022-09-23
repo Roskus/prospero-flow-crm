@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Lead;
 
-use App\Models\Industry;
-use Illuminate\Http\Request;
 use App\Http\Controllers\MainController;
-use Squire\Models\Country;
+use App\Models\Industry;
 use App\Models\Lead;
+use Illuminate\Http\Request;
+use Squire\Models\Country;
 
 class LeadUpdateController extends MainController
 {
     /**
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function update(Request $request, int $id)
@@ -22,6 +22,7 @@ class LeadUpdateController extends MainController
         $data['lead'] = $lead;
         $data['countries'] = Country::orderBy('name')->get();
         $data['industries'] = $industry->getAll();
+
         return view('lead.lead', $data);
     }
 }
