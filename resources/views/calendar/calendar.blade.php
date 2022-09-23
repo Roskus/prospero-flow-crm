@@ -40,17 +40,86 @@
         @for($h=6; $h < 23; $h++)
         <tr>
             <td class="text-center">{{ $h }}:00</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td class="text-center">
+                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[0].' '.$h }}:00')" class="btn btn-primary rounded">+</a>
+            </td>
+            <td class="text-center">
+                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[1] }}')" class="btn btn-primary rounded">+</a>
+            </td>
+            <td class="text-center">
+                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[2] }}')" class="btn btn-primary rounded">+</a>
+            </td>
+            <td class="text-center">
+                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[3] }}')" class="btn btn-primary rounded">+</a>
+            </td>
+            <td class="text-center">
+                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[4] }}')" class="btn btn-primary rounded">+</a>
+            </td>
+            <td class="text-center">
+                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[5] }}')" class="btn btn-primary rounded">+</a>
+            </td>
+            <td class="text-center">
+                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[6] }}')" class="btn btn-primary rounded">+</a>
+            </td>
         </tr>
         @endfor
     </tbody>
     </table>
-    <!--week-->
+    <div id="sheduleEventModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Schedule event') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="calendar">
+                        <div class="row">
+                            <div class="col">
+                                <label>{{ __('Title') }} <span class="text-danger">*</span></label>
+                                <input type="text" name="title" id="title" required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>{{ __('Guest') }} <span class="text-danger">*</span></label>
+                                <input type="text" name="guest" id="guest" required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>{{ __('Date start') }} <span class="text-danger">*</span></label>
+                                <input type="datetime-local" name="date_start" id="date_start" required="required" class="form-control" min="{{ date('Y-m-d H:i') }}">
+                            </div><!--./col-->
+                            <div class="col">
+                                <label>{{ __('Date end') }}</label>
+                                <input type="datetime-local" name="date_end" id="date_end" class="form-control" min="{{ date('Y-m-d H:i') }}">
+                            </div><!--./col-->
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>{{ __('Web meeeting') }}</label>
+                                <input type="url" name="meeting" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>{{ __('Description') }}</label>
+                                <textarea name="description" id="description" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!--week-->
+    @push('scripts')
+        <script src="{{ asset('/asset/js/Calendar.js') }}"></script>
+    @endpush
 @endsection
