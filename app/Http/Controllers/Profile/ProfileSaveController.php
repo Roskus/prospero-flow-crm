@@ -25,6 +25,7 @@ class ProfileSaveController
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->lang = $locale;
+        $user->phone = $request->phone;
         //Update password if change
         if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
             $user->password = Hash::make($request->password);

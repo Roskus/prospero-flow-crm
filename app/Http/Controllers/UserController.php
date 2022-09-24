@@ -34,23 +34,5 @@ class UserController extends MainController
         return view('user.user', $data);
     }
 
-    /**
-     * @param  Request  $request
-     */
-    public function save(Request $request)
-    {
-        $user = ($request->id) ? User::find($request->id) : new User();
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->lang = $request->lang;
-        $user->updated_at = now();
-        if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->updated_at = now();
-        $user->save();
 
-        return redirect('/user');
-    }
 }

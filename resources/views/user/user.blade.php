@@ -24,15 +24,22 @@
                 <input type="email" name="email" id="email" value="{{ $user->email }}" required class="form-control form-control-lg">
             </div>
             <div class="col">
+                <label for="phone" class="col-md-4 control-label">{{ __('Phone') }}</label>
+                <input type="tel" name="phone" id="phone" value="{{ $user->phone }}" required maxlength="15" class="form-control form-control-lg">
+            </div>
+        </div>
+
+        <div class="row form-group mb-3">
+            <div class="col">
                 <label for="lang" class="col-md-4 control-label">{{ __('Language') }}</label>
                 <select name="lang" id="lang" required="required" class="form-control form-control-lg">
                     <option value=""></option>
                     @foreach ($languages as $code => $name)
-                    <option value="{{ $code }}" @if($user->lang == $code) selected="selected" @endif>{{ $name }}</option>
+                        <option value="{{ $code }}" @if($user->lang == $code) selected="selected" @endif>{{ $name }}</option>
                     @endforeach
                 </select>
             </div>
-        </div>
+        </div><!--./row-->
 
         <div class="row form-group mb-3">
             <div class="col {{ $errors->has('password') ? ' has-error' : '' }}">

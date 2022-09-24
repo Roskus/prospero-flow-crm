@@ -25,7 +25,7 @@
 
 <div class="row mt-2">
     <div class="col">
-        <form method="post" action="{{ url("/lead") }}" class="form-inline mb-2">
+        <form method="get" action="{{ url("/lead") }}" class="form-inline mb-2">
             @csrf
             <div class="input-group">
                 <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
