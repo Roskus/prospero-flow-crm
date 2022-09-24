@@ -36,6 +36,7 @@ class LeadIndexController extends MainController
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['statuses'] = $lead->getStatus();
+
         return view('lead.index', $data);
     }
 }
