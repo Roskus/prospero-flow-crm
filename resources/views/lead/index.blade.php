@@ -7,10 +7,13 @@
 
 <div class="row">
     <div class="col">
-        <a href="/lead/create" class="btn btn-primary">{{ __('New') }}</a>
+        <a href="{{ url('/lead/create') }}" class="btn btn-primary">{{ __('New') }}</a>
     </div>
     <div class="col">
-        <a href="/lead/import" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv"></i></a>
+        <a href="{{ url('/lead/import') }}" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv"></i></a>
+    </div>
+    <div class="col">
+        <a href="{{ url('/lead/export') }}" class="btn btn-info">{{ __('Export') }} <i class="las la-file-csv"></i></a>
     </div>
 </div>
 
@@ -28,6 +31,38 @@
                 <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-header">{{ __('Advanced search') }}</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label>{{ __('Country') }}</label>
+                            <select name="country_id" class="form-control">
+                                <option value=""></option>
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->code_2 }}" @if((!empty($country_id)) && $country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>{{ __('Status') }}</label>
+                            <select name="status"  class="form-control">
+                                <option value=""></option>
+
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>{{ __('Seller') }}</label>
+                            <select name="seller_id"  class="form-control">
+                                <option value=""></option>
+                                @foreach($sellers as $seller)
+                                <option value="{{ $seller->id }}">{{ $seller->getFullName() }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div><!--./row-->
                 </div>
             </div>
         </form>

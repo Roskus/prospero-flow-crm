@@ -19,10 +19,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // OpenApi Json Resource
-Route::get('/resource.json', 'Api\Customer\DocGeneratoController@render');
+Route::get('/resource.json', [\App\Http\Controllers\Api\Doc\DocGeneratorController::class, 'render']);
 
 // Customer
-Route::get('/customers', 'Api\Customer\CustomerListController@index');
+//Route::get('/customers', 'Api\Customer\CustomerListController@index');
 
 // Product
-Route::get('/products', 'Api\Product\ProductListController@index');
+//Route::get('/products', 'Api\Product\ProductListController@index');
+
+// Contact
+Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create']);
+//Route::get('/contact', 'Api\Contact\ContactListController@index');
+//Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');

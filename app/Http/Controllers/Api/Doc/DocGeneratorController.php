@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\Doc;
 
 /**
- * @OA\Info(title="Hammer CRM API", version="0.1")
+ * @OA\Info(title="Hammer CRM API", version="1.0")
  */
 class DocGeneratorController
 {
     /**
      * @OA\Get(
-     *     path="/api/resource.json",
+     *     path="/resource.json",
      *     @OA\Response(response="200", description="An example resource")
      * )
      */

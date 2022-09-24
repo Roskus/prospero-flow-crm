@@ -49,15 +49,27 @@ class Lead extends Model
         return Lead::all();
     }
 
-    public function getAllByCompanyId(int $company_id, ?string $search = '')
+    /**
+     * @param int $company_id
+     * @param string|null $search
+     * @param array|null $filters
+     * @return mixed
+     */
+    public function getAllByCompanyId(int $company_id, ?string $search = '', ? array $filters)
     {
         if (empty($search)) {
-            $leads = Lead::where('company_id', $company_id)->paginate(10);
+            $leads = Lead::where('company_id', $company_id);
         } else {
-            $leads = Lead::where('name', 'LIKE', "%$search%")->paginate(10);
+            $leads = Lead::where('name', 'LIKE', "%$search%");
         }
 
-        return $leads;
+        if(is_array($filters))
+        {
+            foreach ($filters as $key => $filter) {
+                $leads->where($key, $filter);
+            }
+        }
+        return $leads->paginate(10);
     }
 
     public function getCountByCompany(int $company_id): int

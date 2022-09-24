@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col">
                 <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="name" value="{{ $lead->name }}" required="required" class="form-control form-control-lg">
+                <input type="text" name="name" value="{{ $lead->name }}" required="required" maxlength="80" class="form-control form-control-lg">
             </div>
             <div class="col">
                 <label>{{ __('Business name') }}</label>
-                <input type="text" name="business_name" value="{{ $lead->business_name }}" class="form-control form-control-lg">
+                <input type="text" name="business_name" value="{{ $lead->business_name }}" maxlength="80" class="form-control form-control-lg">
             </div>
         </div>
         <div class="row">
@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col">
                 <label for="vat" class="">{{ __('Identity number') }}</label>
-                <input type="text" name="vat" value="{{ $lead->vat }}" class="form-control form-control-lg">
+                <input type="text" name="vat" value="{{ $lead->vat }}" maxlength="20" class="form-control form-control-lg">
             </div>
         </div><!--./row-->
         <div class="row">

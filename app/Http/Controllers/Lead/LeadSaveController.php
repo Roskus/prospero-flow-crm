@@ -34,12 +34,12 @@ class LeadSaveController extends MainController
         $lead->website = rtrim($request->website, '/');
         $lead->notes = $request->notes;
 
-        $lead->linkedin = $request->linkedin;
-        $lead->facebook = $request->facebook;
-        $lead->instagram = $request->instagram;
-        $lead->twitter = $request->twitter;
-        $lead->youtube = $request->youtube;
-        $lead->tiktok = $request->tiktok;
+        $lead->linkedin = rtrim($request->linkedin, '/');
+        $lead->facebook = rtrim($request->facebook, '/');
+        $lead->instagram = rtrim($request->instagram, '/');
+        $lead->twitter = rtrim($request->twitter, '/');
+        $lead->youtube = rtrim($request->youtube, '/');
+        $lead->tiktok = rtrim($request->tiktok, '/');
 
         $lead->country_id = $request->country_id;
         $lead->city = $request->city;
