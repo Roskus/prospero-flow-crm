@@ -90,12 +90,15 @@ Route::post('/account/save', 'AccountController@save');
 // User
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');
-Route::get('/user/edit/{id}', 'UserController@edit', function (Request $request, int $id) {});
-Route::post('/user/save', [\App\Http\Controllers\User\UserSaveController::class, 'save'], function (Request $request) {});
+Route::get('/user/edit/{id}', 'UserController@edit', function (Request $request, int $id) {
+});
+Route::post('/user/save', [\App\Http\Controllers\User\UserSaveController::class, 'save'], function (Request $request) {
+});
 
 // Profile
 Route::get('/profile', 'ProfileController@edit');
-Route::post('/profile/save', [\App\Http\Controllers\Profile\ProfileSaveController::class, 'save'], function (Request $request) {});
+Route::post('/profile/save', [\App\Http\Controllers\Profile\ProfileSaveController::class, 'save'], function (Request $request) {
+});
 
 Route::get('/setting', 'SettingController@index');
 Route::get('/home', 'HomeController@index');

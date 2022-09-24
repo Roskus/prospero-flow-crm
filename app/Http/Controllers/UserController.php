@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends MainController
 {
@@ -33,6 +32,4 @@ class UserController extends MainController
 
         return view('user.user', $data);
     }
-
-
 }
