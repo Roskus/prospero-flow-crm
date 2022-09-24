@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
-use App\Models\Company;
 use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,14 +21,12 @@ class LeadIndexController extends MainController
         $user = new User();
         $search = $request->search;
 
-        if($request->country_id)
-        {
+        if ($request->country_id) {
             $filters['country_id'] = $request->country_id;
             $data['country_id'] = $request->country_id;
         }
 
-        if($request->seller_id)
-        {
+        if ($request->seller_id) {
             $filters['seller_id'] = $request->seller_id;
         }
 
@@ -38,6 +35,7 @@ class LeadIndexController extends MainController
         $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
+
         return view('lead.index', $data);
     }
 }
