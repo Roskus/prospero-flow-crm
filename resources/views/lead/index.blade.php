@@ -50,7 +50,9 @@
                             <label>{{ __('Status') }}</label>
                             <select name="status"  class="form-control">
                                 <option value=""></option>
-
+                                @foreach($statuses as $key => $status)
+                                <option value="{{ $key }}">{{ $status }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col">
@@ -172,7 +174,7 @@
     </table>
 
     <div>
-        {{ $leads->links() }}
+        {{ $leads->appends(request()->query())->links() }}
     </div>
 </div>
 <script>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
-use App\Models\Company;
 use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,6 +37,7 @@ class LeadIndexController extends MainController
         $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
+        $data['statuses'] = $lead->getStatus();
         return view('lead.index', $data);
     }
 }
