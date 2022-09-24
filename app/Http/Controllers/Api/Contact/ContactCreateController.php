@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Contact;
 
+use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\Contact;
 
 class ContactCreateController
 {
@@ -14,10 +14,11 @@ class ContactCreateController
      *     @OA\Response(response="400", description="Bad request: Please review required params"),
      *     @OA\Response(response="201", description="Contact created successfully")
      * )
-     * @param Request $request
+     *
+     * @param  Request  $request
      * @return JsonResponse
      */
-    public function create(Request $request) : JsonResponse
+    public function create(Request $request): JsonResponse
     {
         $status = 400;
         $data = [];
@@ -27,7 +28,7 @@ class ContactCreateController
             'first_name' => ['required', 'max:50'],
         ]);
 
-        if($valid) {
+        if ($valid) {
             $contact = new Contact();
             //$contact->company_id = $request->company_id; // @TODO Get this from Token
             $contact->lead_id = $request->lead_id;
@@ -41,6 +42,7 @@ class ContactCreateController
             $status = 201;
             $data['contact'] = ['id' => $contact->id];
         }
+
         return response()->json($data, $status);
     }
 }

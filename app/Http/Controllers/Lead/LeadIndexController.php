@@ -21,14 +21,12 @@ class LeadIndexController extends MainController
         $user = new User();
         $search = $request->search;
 
-        if($request->country_id)
-        {
+        if ($request->country_id) {
             $filters['country_id'] = $request->country_id;
             $data['country_id'] = $request->country_id;
         }
 
-        if($request->seller_id)
-        {
+        if ($request->seller_id) {
             $filters['seller_id'] = $request->seller_id;
         }
 

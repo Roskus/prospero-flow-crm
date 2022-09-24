@@ -50,12 +50,12 @@ class Lead extends Model
     }
 
     /**
-     * @param int $company_id
-     * @param string|null $search
-     * @param array|null $filters
+     * @param  int  $company_id
+     * @param  string|null  $search
+     * @param  array|null  $filters
      * @return mixed
      */
-    public function getAllByCompanyId(int $company_id, ?string $search = '', ? array $filters)
+    public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters)
     {
         if (empty($search)) {
             $leads = Lead::where('company_id', $company_id);
@@ -63,12 +63,12 @@ class Lead extends Model
             $leads = Lead::where('name', 'LIKE', "%$search%");
         }
 
-        if(is_array($filters))
-        {
+        if (is_array($filters)) {
             foreach ($filters as $key => $filter) {
                 $leads->where($key, $filter);
             }
         }
+
         return $leads->paginate(10);
     }
 
