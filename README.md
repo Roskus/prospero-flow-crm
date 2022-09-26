@@ -27,10 +27,21 @@ Pass: admin
 ## API
 We will provide a REST API for exchange information with the CRM
 
+API Docs
+http://hammercrm.localhost/api/documentation
+
 Endpoint:
 /api
 
 For example:
+
+POST /api/auth
+
+GET /api/leads
+
+POST /api/lead
+
+PATCH /api/lead
 
 GET /api/customers
 

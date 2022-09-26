@@ -1,0 +1,32 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Hammer CRM API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/contact": {
+            "post": {
+                "operationId": "f8a36e301608516c260c1e6b084fcc14",
+                "responses": {
+                    "400": {
+                        "description": "Bad request: Please review required params"
+                    },
+                    "201": {
+                        "description": "Contact created successfully"
+                    }
+                }
+            }
+        },
+        "/resource.json": {
+            "get": {
+                "operationId": "992a5eb3e410bc1312705d82f3e64481",
+                "responses": {
+                    "200": {
+                        "description": "API JSON Specification OpenAPI format"
+                    }
+                }
+            }
+        }
+    }
+}
