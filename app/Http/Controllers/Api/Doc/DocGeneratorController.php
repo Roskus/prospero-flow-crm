@@ -15,12 +15,13 @@ class DocGeneratorController
      *     @OA\Response(response="200", description="API JSON Specification OpenAPI format")
      * )
      */
-    public function render() : JsonResponse
+    public function render(): JsonResponse
     {
         $app_path = app_path();
         $openapi = \OpenApi\Generator::scan([
             $app_path.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'Api',
         ]);
+
         return response()->json($openapi->toJson());
     }
 }
