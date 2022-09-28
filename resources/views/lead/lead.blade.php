@@ -63,6 +63,10 @@
                         </select>
                     </div>
                     <div class="col">
+                        <label class="" for="city">{{ __('Province') }}</label>
+                        <input type="text" name="province" id="province" value="{{ $lead->province }}" class="form-control form-control-lg">
+                    </div>
+                    <div class="col">
                         <label class="" for="city">{{ __('City') }}</label>
                         <input type="text" name="city" id="city" value="{{ $lead->city }}" class="form-control form-control-lg">
                     </div>
