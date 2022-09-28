@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 
 class UserController extends MainController
 {
-
-
     public function add(Request $request)
     {
         $user = new User();
