@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
  */
 class DocGeneratorController
 {
-
     /**
      * @OA\Get(
      *     path="/resource.json",

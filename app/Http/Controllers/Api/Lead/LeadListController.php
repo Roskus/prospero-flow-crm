@@ -6,7 +6,6 @@ use App\Models\Lead;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-
 class LeadListController
 {
     /**
@@ -20,7 +19,7 @@ class LeadListController
      * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request) : JsonResponse
+    public function index(Request $request): JsonResponse
     {
         return response()->json(['leads' => Lead::all()]);
     }
