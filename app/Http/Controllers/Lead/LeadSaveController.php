@@ -44,6 +44,7 @@ class LeadSaveController extends MainController
         $lead->country_id = $request->country_id;
         $lead->province = $request->province;
         $lead->city = $request->city;
+        $lead->locality = $request->locality;
         $lead->street = $request->street;
         $lead->zipcode = $request->zipcode;
 
