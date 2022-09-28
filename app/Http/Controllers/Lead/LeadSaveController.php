@@ -42,6 +42,7 @@ class LeadSaveController extends MainController
         $lead->tiktok = rtrim($request->tiktok, '/');
 
         $lead->country_id = $request->country_id;
+        $lead->province = $request->province;
         $lead->city = $request->city;
         $lead->street = $request->street;
         $lead->zipcode = $request->zipcode;
