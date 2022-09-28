@@ -14,7 +14,7 @@ class UserSaveController extends MainController
      */
     public function save(Request $request)
     {
-        if (!empty($request->id)) {
+        if (! empty($request->id)) {
             $user = User::find($request->id);
             $user->created_at = now();
         } else {

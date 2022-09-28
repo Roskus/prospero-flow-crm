@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-
 use App\Http\Controllers\MainController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +13,7 @@ class UserListController extends MainController
     {
         $user = new User();
         $users = (Auth::user()->company_id == 1) ? $user->getAll() : getAllActiveByCompany(Auth::user()->company_id);
-        $data['users'] =  $users;
+        $data['users'] = $users;
 
         return view('user.index', $data);
     }

@@ -88,7 +88,7 @@ Route::get('/accounting', 'AccountController@index');
 Route::post('/account/save', 'AccountController@save');
 
 // User
-Route::get('/user',  [\App\Http\Controllers\User\UserListController::class, 'index'], function (Request $request) {
+Route::get('/user', [\App\Http\Controllers\User\UserListController::class, 'index'], function (Request $request) {
 });
 Route::get('/user/add', 'UserController@add');
 Route::get('/user/edit/{id}', 'UserController@edit', function (Request $request, int $id) {
