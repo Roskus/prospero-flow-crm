@@ -63,12 +63,16 @@
                         </select>
                     </div>
                     <div class="col">
-                        <label class="" for="city">{{ __('Province') }}</label>
+                        <label class="" for="province">{{ __('Province') }}</label>
                         <input type="text" name="province" id="province" value="{{ $lead->province }}" class="form-control form-control-lg">
                     </div>
                     <div class="col">
                         <label class="" for="city">{{ __('City') }}</label>
                         <input type="text" name="city" id="city" value="{{ $lead->city }}" class="form-control form-control-lg">
+                    </div>
+                    <div class="col">
+                        <label class="" for="locality">{{ __('Locality') }}</label>
+                        <input type="text" name="locality" id="locality" value="{{ $lead->locality }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
                 <div class="row">
