@@ -20,15 +20,19 @@ We made a free open source CRM. Our Community Edition (CE) Hammer CRM is based i
 
 ## Demo
 ![](doc/screenshoot.jpg)
-User: admin@admin.com
-
-Pass: admin
+* User: admin@admin.com
+* Pass: admin
 
 ## API
 We will provide a REST API for exchange information with the CRM
 
 API Docs
 http://hammercrm.localhost/api/documentation
+
+Regenerate documentation
+```bash
+php artisan l5-swagger:generate
+```
 
 Endpoint:
 /api

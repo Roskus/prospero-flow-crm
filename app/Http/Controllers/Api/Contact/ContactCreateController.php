@@ -11,6 +11,8 @@ class ContactCreateController
     /**
      * @OA\Post(
      *     path="/contact",
+     *     summary="Create a contact",
+     *     tags={"Contact"},
      *     @OA\Response(response="400", description="Bad request: Please review required params"),
      *     @OA\Response(response="201", description="Contact created successfully")
      * )

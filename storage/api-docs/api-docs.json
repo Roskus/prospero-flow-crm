@@ -7,6 +7,10 @@
     "paths": {
         "/contact": {
             "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Create a contact",
                 "operationId": "f8a36e301608516c260c1e6b084fcc14",
                 "responses": {
                     "400": {
@@ -18,14 +22,36 @@
                 }
             }
         },
-        "/resource.json": {
+        "/leads": {
             "get": {
-                "operationId": "992a5eb3e410bc1312705d82f3e64481",
+                "tags": [
+                    "Leads"
+                ],
+                "summary": "Lead list by company",
+                "operationId": "07609cf1c8db91133985d7f808e06145",
                 "responses": {
                     "200": {
-                        "description": "API JSON Specification OpenAPI format"
+                        "description": "Lead list retrived successfully"
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Lead": {
+                "properties": {
+                    "company_id": {
+                        "type": "number",
+                        "example": "1"
+                    },
+                    "Name": {
+                        "description": "Nombre de grupo",
+                        "type": "string",
+                        "example": "John"
+                    }
+                },
+                "type": "object"
             }
         }
     }

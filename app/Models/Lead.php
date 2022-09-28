@@ -5,7 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 //use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations\OpenApi as OA;
 
+/**
+ *  @OA\Schema(
+ *    schema="Lead",
+ *    type="object",
+ *
+ *    @OA\Property(
+ *      property="company_id",
+ *      type="number",
+ *      example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="name",
+ *        description="Name of the company",
+ *        type="string",
+ *        example="John"
+ *    )
+ * )
+ */
 class Lead extends Model
 {
     //use SoftDeletes;
