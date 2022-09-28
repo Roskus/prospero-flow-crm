@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\MainController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserSaveController extends MainController
@@ -20,6 +21,7 @@ class UserSaveController extends MainController
         } else {
             $user = new User();
         }
+        $user->company_id = Auth::user()->company_id;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
