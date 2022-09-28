@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('lead', function (Blueprint $table) {
-           $table->string('province', 80)->nullable()->after('country_id');
+            $table->string('province', 80)->nullable()->after('country_id');
         });
     }
 
