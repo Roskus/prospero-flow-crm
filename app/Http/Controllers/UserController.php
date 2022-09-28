@@ -7,13 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends MainController
 {
-    public function index(Request $request)
-    {
-        $user = new User();
-        $data['users'] = $user->getAll(); //by company
 
-        return view('user.index', $data);
-    }
 
     public function add(Request $request)
     {
