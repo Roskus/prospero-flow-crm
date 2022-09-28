@@ -25,7 +25,7 @@
             </div>
             <div class="col">
                 <label for="phone" class="col-md-4 control-label">{{ __('Phone') }}</label>
-                <input type="tel" name="phone" id="phone" value="{{ $user->phone }}" required maxlength="15" class="form-control form-control-lg">
+                <input type="tel" name="phone" id="phone" value="{{ $user->phone }}" maxlength="15" class="form-control form-control-lg">
             </div>
         </div>
 

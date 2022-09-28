@@ -27,7 +27,9 @@
     <tr>
         <td><a href="/user/edit/{{ $user->id}}">{{ $user->last_name }}</a></td>
         <td>{{ $user->first_name }}</td>
-        <td>{{ $user->email }}</td>
+        <td>
+            <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+        </td>
         <td>
             @if($user->phone)
                 <a href="tel:{{ $user->phone }}">{{ $user->phone }}</a>
