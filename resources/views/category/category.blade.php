@@ -10,6 +10,10 @@
         <label class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
         <input type="text" name="name" id="name" value="{{ $category->name }}" class="form-control" required="required">
     </div>
+
+    <!-- Validation Errors -->
+    <x-validation-errors :errors="$errors" />
+
     <div class="form-group mt-2">
         <button type="submit" class="btn btn-primary"><span class=""></span> {{ __('Save') }}</button>
     </div>
