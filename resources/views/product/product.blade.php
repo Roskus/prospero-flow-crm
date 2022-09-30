@@ -60,6 +60,10 @@
             <label class="label-control">{{ __('Quantity') }}</label>
             <input type="number" name="quantity" id="quantity" value="{{ $product->quantity }}" class="form-control" step="1" min="0">
         </div>
+        <div class="col">
+            <label>{{ __('Minimun stock') }}</label>
+            <input type="number" name="min_stock" value="0" class="form-control">
+        </div>
     </div>
     <div class="row form-group">
         <div class="col">

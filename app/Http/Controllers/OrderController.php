@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lead;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class OrderController extends MainController
     public function add(Request $request)
     {
         $order = new Order();
-        $customer = new Lead();
+        $customer = new Customer();
         $product = new Product();
         $company_id = Auth::user()->company_id;
         $data['order'] = $order;
