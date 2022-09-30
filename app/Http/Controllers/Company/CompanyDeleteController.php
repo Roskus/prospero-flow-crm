@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
-class CompanyDeleteController extends Controller
+class CompanyDeleteController extends MainController
 {
     public function delete(Request $request, int $id)
     {

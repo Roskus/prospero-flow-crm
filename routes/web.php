@@ -75,10 +75,10 @@ Route::post('/category/save', 'CategoryController@save', function (Request $requ
 // Company
 Route::get('/company', [\App\Http\Controllers\Company\CompanyIndexController::class, 'index'], function (Request $request) {
 });
-Route::get('/company/add', 'CompanyController@add');
-Route::get('/company/edit/{id}', 'CompanyController@edit', function (Request $request, int $id) {
+Route::get('/company/create', [\App\Http\Controllers\Company\CompanyCreateController::class, 'create']);
+Route::get('/company/update/{id}', [\App\Http\Controllers\Company\CompanyUpdateController::class, 'update'], function (Request $request, int $id) {
 });
-Route::post('/company/save', 'CompanyController@save', function (Request $request) {
+Route::post('/company/save', [\App\Http\Controllers\Company\CompanySaveController::class, 'save'], function (Request $request) {
 });
 Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteController::class, 'delete'], function (Request $request, int $id) {
 });

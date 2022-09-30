@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
-class CompanyIndexController extends Controller
+class CompanyIndexController extends MainController
 {
     public function index(Request $request)
     {

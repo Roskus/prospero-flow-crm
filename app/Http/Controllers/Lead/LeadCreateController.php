@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Lead;
 
+use App\Http\Controllers\MainController;
 use App\Models\Industry;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 use Squire\Models\Country;
 
-class LeadCreateController
+class LeadCreateController extends MainController
 {
     /**
      * @param  Request  $request

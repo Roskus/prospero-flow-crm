@@ -1,34 +1,14 @@
 <?php
-
 declare(strict_types=1);
+namespace App\Http\Controllers\Company;
 
-namespace App\Http\Controllers;
-
+use App\Http\Controllers\MainController;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Squire\Models\Country;
 
-class CompanyController extends MainController
+class CompanySaveController extends MainController
 {
-    public function add(Request $request)
-    {
-        $company = new Company();
-        $data['company'] = $company;
-        $data['countries'] = Country::all();
-
-        return view('company.company', $data);
-    }
-
-    public function edit(Request $request, int $id)
-    {
-        $company = Company::find($id);
-        $data['company'] = $company;
-        $data['countries'] = Country::all();
-
-        return view('company/company', $data);
-    }
-
     public function save(Request $request)
     {
         if (empty($request->id)) {

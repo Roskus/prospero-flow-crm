@@ -6,7 +6,7 @@
 </header>
 
 <div class="mb-2">
-    <a href="/company/add" class="btn btn-primary">{{ __('New') }}</a>
+    <a href="/company/create" class="btn btn-primary">{{ __('New') }}</a>
 </div>
 
 <div class="table-responsive">
@@ -27,7 +27,7 @@
     @foreach($companies as $company)
     <tr>
         <td>
-            <a href="/company/edit/{{ $company->id }}">
+            <a href="/company/update/{{ $company->id }}">
             {{ $company->name }}
             </a>
         </td>
