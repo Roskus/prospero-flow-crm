@@ -38,8 +38,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <label>{{ __('Country') }}</label>
-                            <select name="country_id" class="form-control">
+                            <label for="country_id">{{ __('Country') }}</label>
+                            <select name="country_id" id="country_id" class="form-select">
                                 <option value=""></option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->code_2 }}" @if((!empty($country_id)) && $country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
@@ -47,8 +47,8 @@
                             </select>
                         </div>
                         <div class="col">
-                            <label>{{ __('Status') }}</label>
-                            <select name="status"  class="form-control">
+                            <label for="status">{{ __('Status') }}</label>
+                            <select name="status" id="status"  class="form-select">
                                 <option value=""></option>
                                 @foreach($statuses as $key => $status)
                                 <option value="{{ $key }}">{{ $status }}</option>
@@ -56,8 +56,8 @@
                             </select>
                         </div>
                         <div class="col">
-                            <label>{{ __('Seller') }}</label>
-                            <select name="seller_id"  class="form-control">
+                            <label for="seller_id">{{ __('Seller') }}</label>
+                            <select name="seller_id" id="seller_id" class="form-select">
                                 <option value=""></option>
                                 @foreach($sellers as $seller)
                                 <option value="{{ $seller->id }}">{{ $seller->getFullName() }}</option>

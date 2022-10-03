@@ -55,6 +55,11 @@
                 <i class="las la-tools fs-1"></i>
             </a>
         </li>
+        <li class="nav-item fs-5">
+            <a href="{{ url('/report') }}" class="nav-link py-2 border-bottom @if(Request::path() == 'report') active @endif" title="{{ __('Reports') }}" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i class="las la-chart-pie fs-1"></i>
+            </a>
+        </li>
     </ul>
     <div class="dropdown border-top">
         <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">

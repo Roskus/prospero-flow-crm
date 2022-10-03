@@ -26,7 +26,7 @@
         <td>{{ $order->id }}</td>
         <td>{{ $order->customer->last_name.' '.$order->customer->first_name }}</td>
         <td>{{ $order->getAmount() }}</td>
-        <td>{{ $order->customer->created_at->format('Y-m-d H:i:s') }}</td>
+        <td>{{ $order->customer->created_at->format('d/m/Y H:i:s') }}</td>
         <td>
             <a href="/order/edit/{{ $order->id}}" class="btn bt-xs btn-warning text-white">
                 <i class="las la-pen"></i>

@@ -36,6 +36,10 @@ final class Order extends Model
 
     protected ?int $status;
 
+    protected $casts = [
+        'created_at' => 'date',
+    ];
+
     /**
      * @var mixed
      */
