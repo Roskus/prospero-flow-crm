@@ -41,6 +41,10 @@
                 <label for="vat" class="">{{ __('Identity number') }}</label>
                 <input type="text" name="vat" value="{{ $lead->vat }}" maxlength="20" class="form-control form-control-lg">
             </div>
+            <div class="col">
+                <label for="dob">{{ __('Date of birth') }}</label>
+                <input type="date" name="dob" id="dob" value="{{ $lead->dob }}" class="form-control form-control-lg">
+            </div>
         </div><!--./row-->
         <div class="row">
             <div class="col">
