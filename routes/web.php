@@ -139,3 +139,9 @@ Route::get('/ticket/update/{id}', [\App\Http\Controllers\Ticket\TicketUpdateCont
 });
 Route::post('/ticket/save', [\App\Http\Controllers\Ticket\TicketSaveController::class, 'save'], function (Request $request) {
 });
+
+// Unsubscribe
+Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update'], function (Request $request) {
+});
+Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeSaveController::class, 'save'], function (Request $request) {
+});
