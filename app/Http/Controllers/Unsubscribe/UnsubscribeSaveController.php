@@ -10,13 +10,14 @@ class UnsubscribeSaveController extends Controller
 {
     public function save(Request $request)
     {
-        if($request->email) {
+        if ($request->email) {
             $lead = Lead::where('email', $request->email)->first();
-            if($lead) {
+            if ($lead) {
                 $lead->opt_in = 0;
                 $lead->save();
             }
         }
+
         return redirect('/unsubscribe')->with(['message' => __('From this moment you will not receive any more notifications from us')]);
     }
 }
