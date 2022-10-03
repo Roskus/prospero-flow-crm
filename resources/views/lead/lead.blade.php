@@ -58,8 +58,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <label>{{ __('Country') }} <span class="text-danger">*</span></label>
-                        <select name="country_id" id="country_id" required class="form-control form-control-lg">
+                        <label for="country_id">{{ __('Country') }} <span class="text-danger">*</span></label>
+                        <select name="country_id" id="country_id" required class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($countries as $country)
                                 <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
@@ -133,8 +133,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <label>{{ __('Industry') }}</label>
-                        <select name="industry_id" id="industry_id" class="form-control form-control-lg">
+                        <label for="industry_id">{{ __('Industry') }}</label>
+                        <select name="industry_id" id="industry_id" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach($industries as $industry)
                             <option value="{{ $industry->id }}" @if($lead->industry_id == $industry->id) selected="selected" @endif>{{ __($industry->name) }}</option>
@@ -142,8 +142,8 @@
                         </select>
                     </div><!--./col-->
                     <div class="col">
-                        <label>{{ __('Status') }}</label>
-                        <select name="status" id="status" class="form-control form-control-lg">
+                        <label for="status">{{ __('Status') }}</label>
+                        <select name="status" id="status" class="form-select form-control-lg">
                             <option value="">{{ __('Choose') }}</option>
                             @foreach(\App\Models\Lead::getStatus() as $key => $status)
                             <option value="{{ $key }}" @if($lead->status == $key) selected="selected" @endif>{{ __($status) }}</option>
@@ -151,7 +151,7 @@
                         </select>
                     </div>
                     <div class="col">
-                        <label>{{ __('Remember contact') }}</label>
+                        <label for="schedule_contact">{{ __('Remember contact') }}</label>
                         <input type="datetime-local" name="schedule_contact" id="schedule_contact" value="{{ $lead->schedule_contact }}" min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
@@ -186,11 +186,11 @@
         <div class="row">
             <div class="col">
                 <label>{{ __('Phone') }}</label>
-                <input type="phone" name="contact_phone" maxlength="15" class="form-control">
+                <input type="tel" name="contact_phone" maxlength="15" class="form-control">
             </div>
             <div class="col">
                 <label>{{ __('Mobile') }}</label>
-                <input type="phone" name="contact_mobile" maxlength="15" class="form-control">
+                <input type="tel" name="contact_mobile" maxlength="15" class="form-control">
             </div>
         </div>
         <div class="row">
