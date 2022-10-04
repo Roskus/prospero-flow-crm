@@ -61,11 +61,11 @@
     <div class="row form-group">
         <div class="col">
             <label class="label-control">{{ __('Quantity') }}</label>
-            <input type="number" name="quantity" id="quantity" value="{{ $product->quantity }}" class="form-control" step="1" min="0">
+            <input type="number" name="quantity" id="quantity" value="{{ $product->quantity }}" step="1" min="0" class="form-control">
         </div>
         <div class="col">
-            <label>{{ __('Minimun stock') }}</label>
-            <input type="number" name="min_stock" value="0" class="form-control">
+            <label>{{ __('Minimum stock quantity') }}</label>
+            <input type="number" name="min_stock_quantity" value="{{ $product->min_stock_quantity }}" min="0" step="1" class="form-control">
         </div>
     </div>
     <div class="row form-group">
