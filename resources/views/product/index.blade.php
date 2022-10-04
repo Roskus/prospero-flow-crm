@@ -44,7 +44,11 @@
       <td>{{ $product->category->name }}</td>
       <td><a href="{{ url("/product/update/$product->id") }}">{{ $product->name }}</a></td>
       <td>{{ $product->brand->name }}</td>
-      <td class="text-center">{{ $product->quantity }}</td>
+      <td class="text-center">
+          <span class="@if($product->quantity < $product->min_stock_quantity) text-danger @else text-success @endif">
+          {{ $product->quantity }}
+          </span>
+      </td>
       <td>{{ $product->price }}</td><!--Money::format(-->
       <td>{{ $product->created_at }}</td>
       <td>

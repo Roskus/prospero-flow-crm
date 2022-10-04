@@ -2,7 +2,7 @@
 
 @section('content')
 <header>
-   <h1>{{ trans('Order') }}</h1>
+   <h1>{{ trans('Sales Order') }}</h1>
 </header>
 
 <form method="post" id="order-form" action="/order/save">

@@ -22,6 +22,8 @@
         "laravel/ui": "^3.0",
         "ramsey/uuid": "^4.2",
         "shopify/shopify-api": "^1.0",
+        "spatie/icalendar-generator": "^2.4",
+        "spatie/laravel-permission": "^5.5",
         "squirephp/continents-en": "^3.0",
         "squirephp/countries-en": "^3.0",
         "squirephp/countries-es": "^3.0",

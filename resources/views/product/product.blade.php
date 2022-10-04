@@ -4,7 +4,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+EAN13+Text&display=swap" rel="stylesheet">
+<!--
 <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap" rel="stylesheet">
+-->
 
 <header>
    <h1>{{ __('Product') }}</h1>
@@ -70,7 +73,7 @@
             <label class="control">{{ __('Barcode') }}</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="las la-barcode"></i></span>
-                <input type="text" name="barcode" id="barcode" placeholder="EAN-128" value="{{ $product->barcode }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
+                <input type="text" name="barcode" id="barcode" placeholder="EAN-13" value="{{ $product->barcode }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
             </div>
             <div id="barcode-preview" class="barcode">{{ $product->barcode }}</div>
         </div>

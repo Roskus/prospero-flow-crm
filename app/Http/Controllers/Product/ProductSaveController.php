@@ -26,6 +26,7 @@ class ProductSaveController extends MainController
         $product->brand_id = $request->brand_id;
         $product->name = $request->name;
         $product->quantity = ! empty($request->quantity) ? $request->quantity : 0;
+        $product->min_stock_quantity = ! empty($request->min_stock_quantity) ? $request->min_stock_quantity : 0;
         $product->cost = $request->cost;
         $product->price = $request->price;
         $product->barcode = $request->barcode;
