@@ -1,6 +1,6 @@
 /**
  * Hammer
- * @version 1.0.2
+ * @version 1.0.3
  */
 body {
 
@@ -16,9 +16,9 @@ main {
   overflow-y: hidden;
 }
 
-/* EAN-128 */
+/* EAN-13 */
 .barcode {
-  font-family: 'Libre Barcode 128 Text', cursive;
+  font-family: 'Libre Barcode EAN13 Text', cursive;
   font-size: 3em;
 }
 
