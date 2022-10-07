@@ -1,6 +1,7 @@
 {
     "Accounting" : "Accounting",
     "Actions": "Actions",
+    "Add" : "Add",
     "Address" : "Address",
     "Advanced search" : "Advanced search",
     "Advertising" : "Advertising",
@@ -44,6 +45,7 @@
     "Lead :name saved successfully" : "Lead :name saved successfully",
     "Leads" : "Leads",
     "Locality" : "Locality",
+    "Minimum stock quantity" : "Minimum stock quantity",
     "Mobile" : "Mobile",
     "Month" : "Month",
     "Name" : "Name",

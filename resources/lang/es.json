@@ -1,6 +1,7 @@
 {
     "Accounting" : "Contabilidad",
     "Actions": "Acciones",
+    "Add" : "Añadir",
     "Address" : "Dirección",
     "Advanced search" : "Buscador avanzado",
     "Advertising" : "Publicidad",
@@ -44,6 +45,7 @@
     "Lead :name successfully saved" : "Prospecto :name guardado con éxito",
     "Leads" : "Prospectos",
     "Locality" : "Localidad",
+    "Minimum stock quantity" : "Cantidad mínima stock",
     "Mobile" : "Móvil",
     "Month" : "Mes",
     "Name" : "Nombre",

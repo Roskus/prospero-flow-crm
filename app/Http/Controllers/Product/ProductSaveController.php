@@ -18,6 +18,7 @@ class ProductSaveController extends MainController
     {
         if (empty($request->id)) {
             $product = new Product();
+            $product->created_at = now();
         } else {
             $product = Product::find($request->id);
         }
@@ -31,7 +32,10 @@ class ProductSaveController extends MainController
         $product->price = $request->price;
         $product->barcode = $request->barcode;
         $product->sku = $request->sku;
+        $product->elaboration_date = $request->elaboration_date;
+        $product->expiration_date = $request->expiration_date;
         $product->description = $request->description;
+        $product->updated_at = now();
         $product->save();
 
         $photoFile = $request->file('photo');

@@ -20,7 +20,7 @@
                 {{ __('Category') }} <span class="text-danger">*</span>
                 <a href="/category" class="btn btn-outline-primary btn-sm"><i class="las la-plus-square"></i> {{ __('Add') }}</a>
             </label>
-            <select name="category_id" id="category_id" required class="form-control">
+            <select name="category_id" id="category_id" required class="form-select">
                 <option value=""></option>
                 @if(!empty($categories))
                     @foreach($categories as $category)
@@ -34,7 +34,7 @@
                 {{ __('Brand') }}
                 <a href="/brand" class="btn btn-outline-primary btn-sm"><i class="las la-plus-square"></i> {{ __('Add') }}</a>
             </label>
-            <select name="brand_id" id="brand_id" required class="form-control">
+            <select name="brand_id" id="brand_id" required class="form-select">
                 <option value=""></option>
                 @if(!empty($brands))
                     @foreach($brands as $brand)
@@ -80,6 +80,16 @@
         <div class="col">
             <label class="control">{{ __('SKU') }}</label>
             <input type="text" name="sku" id="sku" value="{{ $product->sku }}" class="form-control" placeholder="">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col">
+            <label>{{ __('Elaboration date') }}</label>
+            <input type="date" name="elaboration_date" id="elaboration_date" value="{{ $product->elaboration_date }}" class="form-control">
+        </div>
+        <div class="col">
+            <label>{{ __('Expiration date') }}</label>
+            <input type="date" name="expiration_date" id="expiration_date" value="{{ $product->expiration_date }}" class="form-control">
         </div>
     </div>
     <div class="row form-group">
