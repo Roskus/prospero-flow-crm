@@ -149,4 +149,3 @@ Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateC
 });
 Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeSaveController::class, 'save'], function (Request $request) {
 });
-
