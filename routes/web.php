@@ -55,6 +55,7 @@ Route::post('/lead/import/save', [\App\Http\Controllers\Lead\LeadImportSaveContr
 });
 Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete'], function (Request $request, int $id) {
 });
+Route::get('/lead/export', [\App\Http\Controllers\Lead\LeadExportController::class, 'export']);
 
 //Customer
 Route::match(['get', 'post'], '/customer', [\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
@@ -140,8 +141,12 @@ Route::get('/ticket/update/{id}', [\App\Http\Controllers\Ticket\TicketUpdateCont
 Route::post('/ticket/save', [\App\Http\Controllers\Ticket\TicketSaveController::class, 'save'], function (Request $request) {
 });
 
+//Report
+Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);
+
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update'], function (Request $request) {
 });
 Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeSaveController::class, 'save'], function (Request $request) {
 });
+
