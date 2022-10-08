@@ -29,11 +29,11 @@ class LeadIndexController extends MainController
         if ($request->seller_id) {
             $filters['seller_id'] = $request->seller_id;
         }
-        
+
         if ($request->status) {
-            $filter['status'] = $request->status;   
+            $filter['status'] = $request->status;
         }
-        
+
         $lead = new Lead();
         $data['countries'] = Country::orderBy('name')->get();
         $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
