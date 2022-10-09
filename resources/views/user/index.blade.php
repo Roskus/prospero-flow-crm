@@ -19,6 +19,7 @@
         <th>E-mail</th>
         <th>{{ __('Phone') }}</th>
         <th>{{ __('Language') }}</th>
+        <th>{{ __('Role') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>

@@ -6,6 +6,7 @@
 </header>
 
 <div class="row">
+    @can('read company')
     <div class="col">
         <a href="/company">
             <div class="h1">
@@ -14,6 +15,8 @@
             {{ __('Companies') }}
         </a>
     </div>
+    @endcan
+
     <div class="col">
         <a href="/category">
             <div class="h1">
