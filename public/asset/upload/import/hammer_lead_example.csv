@@ -1,2 +1,2 @@
-name;email;phone;website;country
-John Doe Corp.;john.doe@jhondoecorp.com;www.jhondoecorp.com;us
+name;business_name;phone;email;website;country_id;city;notes;facebook
+John Doe Corp.;John Doe Corp.;1111111111;john.doe@jhondoecorp.com;www.jhondoecorp.com;us;New York;Joe Doe Corportaion LTD other notes;https://facebook.com/joedoe

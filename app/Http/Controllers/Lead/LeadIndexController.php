@@ -31,7 +31,7 @@ class LeadIndexController extends MainController
         }
 
         if ($request->status) {
-            $filter['status'] = $request->status;
+            $filters['status'] = $request->status;
         }
 
         $lead = new Lead();

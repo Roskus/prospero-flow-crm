@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6 col-xl-4">
                 <div class="card">
-                    <h2>{{ __('Leads') }}</h2>
+                    <h2><a href="{{ url('/lead') }}">{{ __('Leads') }}</a></h2>
                     <h3>{{ $lead_count }}</h3>
                 </div>
             </div>

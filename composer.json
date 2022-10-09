@@ -8,6 +8,12 @@
     ],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/roskus/warehouse"
+        }
+    ],
     "require": {
         "php": "^8.0.2",
         "aws/aws-sdk-php": "^3.234",
@@ -52,7 +58,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+	    "Roskus\\Warehouse\\": "packages/roskus/warehouse/src/"
         }
     },
     "autoload-dev": {
