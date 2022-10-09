@@ -67,5 +67,8 @@
     </tbody>
     </table>
 </div>
+<div>
+    {{ $users->appends(request()->query())->links() }}
+</div>
 @endsection
 

@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public function getAll()
     {
-        return User::all();
+        return User::paginate(10);
     }
 
     public function getFullName(): string
@@ -57,6 +57,6 @@ class User extends Authenticatable
 
     public function getAllActiveByCompany(int $company_id)
     {
-        return User::where('company_id', $company_id)->get();
+        return User::where('company_id', $company_id)->paginate(10);
     }
 }
