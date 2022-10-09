@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UserSaveController extends MainController
 {
@@ -42,10 +43,22 @@ class UserSaveController extends MainController
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->lang = $request->lang;
-        $user->updated_at = now();
+
         if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
             $user->password = Hash::make($request->password);
         }
+
+        if(!empty($request->roles))
+        {
+            foreach($request->roles as $role_name)
+            {
+                $role = Role::findByName($role_name);
+                if(!empty($role)) {
+                    $user->assignRole($role);
+                }
+            }
+        }
+
         $user->updated_at = now();
         $user->save();
 

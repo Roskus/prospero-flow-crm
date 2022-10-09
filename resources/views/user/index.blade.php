@@ -25,7 +25,7 @@
         @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
         <th>{{ __('Company') }}</th>
         @endif
-        <th>{{ __('Role') }}</th>
+        <th>{{ __('Roles') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>

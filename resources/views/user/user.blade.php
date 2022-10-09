@@ -32,13 +32,23 @@
         <div class="row form-group mb-3">
             <div class="col">
                 <label for="lang" class="col-md-4 control-label">{{ __('Language') }}</label>
-                <select name="lang" id="lang" required="required" class="form-control form-control-lg">
+                <select name="lang" id="lang" required="required" class="form-select form-control-lg">
                     <option value=""></option>
                     @foreach ($languages as $code => $name)
                         <option value="{{ $code }}" @if($user->lang == $code) selected="selected" @endif>{{ $name }}</option>
                     @endforeach
                 </select>
             </div>
+            @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
+            <div class="col">
+                <label for="roles">{{ __('Roles') }}</label>
+                <select name="roles[]" multiple class="form-select form-control-lg">
+                    @foreach($roles as $role)
+                    <option value="{{ $role->name }}" @if($user->hasRole($role->name)) selected="selected" @endif>{{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
         </div><!--./row-->
 
         <div class="row form-group mb-3">
@@ -59,8 +69,8 @@
 
         <div class="row form-group">
             <div class="col text-end">
-                <a href="/user" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
-                <button type="submit" class="btn btn-primary btn-lg">{{__('Save')}}</button>
+                <a href="{{ url('/user') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
+                <button type="submit" class="btn btn-primary btn-lg">{{ __('Save') }}</button>
             </div>
         </div>
         <input type="hidden" name="id" value="{{ ($user->id) ?? $user->id }}">
