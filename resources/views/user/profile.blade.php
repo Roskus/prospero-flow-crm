@@ -2,15 +2,22 @@
 
 @section('content')
     <header>
-        <h1>{{ trans('hammer.Profile') }}</h1>
+        <h1>{{ __('Profile') }}</h1>
     </header>
+
+    @if(session('status'))
+        <div class="alert alert-{{ session('status') }} mt-2">
+            {!! __(session('message'))  !!}
+        </div>
+    @endif
+
     <form method="POST" action="{{ url('/profile/save') }}" enctype="multipart/form-data" class="form">
         @csrf
 
         <div class="row form-group{{ $errors->has('name') ? ' has-error' : '' }} mb-2">
             <div class="col">
-                <label for="name" class="col-md-4 control-label">{{ __('Name') }}</label>
-                <input type="text" name="first_name" id="first_name" value="{{ $user->first_name }}" required autofocus class="form-control form-control-lg">
+                <label for="name" class="col-md-4 control-label">{{ __('Name') }} <span class="text-danger">*</span></label>
+                <input type="text" name="first_name" id="first_name" value="{{ @old('first_name', $user->first_name) }}" required autofocus class="form-control form-control-lg">
 
                 @if ($errors->has('name'))
                     <span class="help-block">
@@ -74,7 +81,7 @@
         <div class="row form-group mb-2">
             <div class="col">
                 <label for="phone" class="col-md-4 control-label">{{ __('Phone') }}</label>
-                <input type="tel" name="phone" id="phone" value="{{ $user->phone }}" required maxlength="15" class="form-control form-control-lg">
+                <input type="tel" name="phone" id="phone" value="{{ $user->phone }}" maxlength="15" class="form-control form-control-lg">
             </div>
             <div class="col">
                 <label>{{ __('Photo') }}</label>
@@ -86,8 +93,8 @@
         </div>
         <div class="row form-group mt-2">
             <div class="col-md-6 col-md-offset-4">
-                <a href="{{ url('/') }}" class="btn btn-secondary">{{__('Cancel')}}</a>
-                <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+                <a href="{{ url('/') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
             </div>
         </div>
     </form>

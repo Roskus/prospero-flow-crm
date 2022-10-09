@@ -33,6 +33,8 @@
             {{ __('Brands') }}
         </a>
     </div>
+
+    @can('read user')
     <div class="col">
         <a href="/user">
             <div class="h1">
@@ -41,6 +43,8 @@
             {{ __('Users') }}
         </a>
     </div>
+    @endcan
+
     <div class="col">
         <a href="/currency">
             <div class="h1">

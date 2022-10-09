@@ -19,6 +19,7 @@ class ProfileSaveController
      */
     public function save(Request $request)
     {
+        $status = 'success';
         $locale = $request->lang;
         $user = User::find(Auth::user()->id);
         $user->first_name = $request->first_name;
@@ -59,6 +60,7 @@ class ProfileSaveController
         App::setLocale($locale);
         session()->put('locale', $locale);
 
-        return redirect('/profile');
+        $response = ['status' => $status, 'message' => __('Profile saved successfully')];
+        return redirect('/profile')->with($response);
     }
 }

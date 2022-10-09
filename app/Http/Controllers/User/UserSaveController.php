@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserSaveController extends MainController
 {
@@ -15,13 +16,27 @@ class UserSaveController extends MainController
      */
     public function save(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'first_name' => 'required|max:50',
+            'email' => 'required|email|max:254',
+            'lang' => 'required',
+            //'password_confirmation' => 'confirmed:password'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/user')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         if (! empty($request->id)) {
             $user = User::find($request->id);
             $user->created_at = now();
+            //Company should be assigned on create
+            $user->company_id = Auth::user()->company_id;
         } else {
             $user = new User();
         }
-        $user->company_id = Auth::user()->company_id;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;

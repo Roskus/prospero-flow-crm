@@ -91,8 +91,8 @@ Route::post('/account/save', 'AccountController@save');
 // User
 Route::get('/user', [\App\Http\Controllers\User\UserListController::class, 'index'], function (Request $request) {
 });
-Route::get('/user/add', 'UserController@add');
-Route::get('/user/edit/{id}', 'UserController@edit', function (Request $request, int $id) {
+Route::get('/user/create', [\App\Http\Controllers\User\UserCreateController::class, 'create']);
+Route::get('/user/update/{id}', [\App\Http\Controllers\User\UserUpdateController::class, 'update'], function (Request $request, int $id) {
 });
 Route::post('/user/save', [\App\Http\Controllers\User\UserSaveController::class, 'save'], function (Request $request) {
 });

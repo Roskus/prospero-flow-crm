@@ -5,11 +5,14 @@
    <h1>{{ __('Users') }}</h1>
 </header>
 
+@can('create user')
 <div class="row mb-3">
     <div class="col">
-        <a href="/user/add" class="btn btn-primary">{{ __('New') }}</a>
+        <a href="{{ url('/user/create') }}" class="btn btn-primary">{{ __('New') }}</a>
     </div>
 </div>
+@endcan
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover">
     <thead>
@@ -19,6 +22,9 @@
         <th>E-mail</th>
         <th>{{ __('Phone') }}</th>
         <th>{{ __('Language') }}</th>
+        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
+        <th>{{ __('Company') }}</th>
+        @endif
         <th>{{ __('Role') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
@@ -36,14 +42,25 @@
                 <a href="tel:{{ $user->phone }}">{{ $user->phone }}</a>
             @endif
         </td>
-        <td>{{ $user->lang }}
+        <td>{{ $user->lang }}</td>
+        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
+        <td>{{ $user->company->name }}</td>
+        @endif
         <td>
-            <a href="/user/edit/{{ $user->id}}" class="btn bt-xs btn-warning text-white">
+            {{ $user->getRoleNames() }}
+        </td>
+        <td>
+            @can('update user')
+            <a href="{{ url("/user/update/$user->id") }}" class="btn bt-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
-            <a href="/user/delete/{{ $user->id}}" class="btn bt-xs btn-danger">
+            @endcan
+
+            @can('delete user')
+            <a href="{{ url("/user/delete/$user->id") }}" class="btn bt-xs btn-danger">
                 <i class="las la-trash-alt"></i>
             </a>
+            @endcan
         </td>
     </tr>
     @endforeach
