@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Role;
 class UserCreateController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create(Request $request)
@@ -19,6 +19,7 @@ class UserCreateController extends MainController
         $data['user'] = $user;
         $data['languages'] = config('app.locales');
         $data['roles'] = Role::all();
+
         return view('user.user', $data);
     }
 }
