@@ -22,10 +22,16 @@ class LeadExportController extends MainController
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0',
         ];
+        /*
+        $columns = Scheme::getColumnListing('lead');
+        $rowHeaders = implode(',', $columns);
+        */
         $data = $leads->toArray();
 
+        //$content = $rowHeaders."\n";
         foreach ($data as $row) {
-            $content = $row.var_export($row, true);
+            $line = implode(',', $row);
+            $content = $content.$line."\n";
         }
 
         Storage::disk('local')->put(storage_path($fileName), $content);
