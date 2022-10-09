@@ -49,12 +49,7 @@ class UserSaveController extends MainController
         }
 
         if (! empty($request->roles)) {
-            foreach ($request->roles as $role_name) {
-                $role = Role::findByName($role_name);
-                if (! empty($role)) {
-                    $user->assignRole($role);
-                }
-            }
+            $user->syncRoles($request->roles);
         }
 
         $user->updated_at = now();
