@@ -8,12 +8,6 @@
     ],
     "license": "MIT",
     "type": "project",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/roskus/warehouse"
-        }
-    ],
     "require": {
         "php": "^8.0.2",
         "aws/aws-sdk-php": "^3.234",
@@ -33,6 +27,7 @@
         "squirephp/continents-en": "^3.0",
         "squirephp/countries-en": "^3.0",
         "squirephp/countries-es": "^3.0",
+        "squirephp/currencies-en": "^3.3",
         "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
