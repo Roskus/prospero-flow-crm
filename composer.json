@@ -28,12 +28,12 @@
         "squirephp/countries-en": "^3.0",
         "squirephp/countries-es": "^3.0",
         "squirephp/currencies-en": "^3.3",
-        "tymon/jwt-auth": "1.0.*"
+        "tymon/jwt-auth": "1.0.*",
+        "fakerphp/faker": "^1.9.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
         "laravel/pint": "^1.0",
-        "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
