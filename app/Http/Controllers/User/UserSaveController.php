@@ -48,12 +48,10 @@ class UserSaveController extends MainController
             $user->password = Hash::make($request->password);
         }
 
-        if(!empty($request->roles))
-        {
-            foreach($request->roles as $role_name)
-            {
+        if (! empty($request->roles)) {
+            foreach ($request->roles as $role_name) {
                 $role = Role::findByName($role_name);
-                if(!empty($role)) {
+                if (! empty($role)) {
                     $user->assignRole($role);
                 }
             }
