@@ -12,7 +12,7 @@ class UserListController extends MainController
     public function index(Request $request)
     {
         $user = new User();
-        $users =  (Auth::user()->can('create company')) ? $user->getAll() : $user->getAllActiveByCompany(Auth::user()->company_id);
+        $users = (Auth::user()->can('create company')) ? $user->getAll() : $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['users'] = $users;
 
         return view('user.index', $data);
