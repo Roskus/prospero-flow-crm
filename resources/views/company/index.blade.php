@@ -36,7 +36,7 @@
         <td>
             <a href="{{ $company->website }}" target="_blank">{{ $company->website }}</a>
         </td>
-        <td>{{ $company->country_id }}</td>
+        <td class="text-center"><span title="{{ $company->country->name }}">{{ $company->country->flag }}</span></td>
         <td>{{ $company->created_at }}</td>
         <td>{{ $company->updated_at }}</td>
         <td>

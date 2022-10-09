@@ -15,6 +15,7 @@ class CompanySaveController extends MainController
     {
         if (empty($request->id)) {
             $company = new Company();
+            $company->created_at = now();
         } else {
             $company = Company::find($request->id);
         }

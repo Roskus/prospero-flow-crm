@@ -29,13 +29,13 @@ class UserSaveController extends MainController
                 ->withInput();
         }
 
-        if (! empty($request->id)) {
-            $user = User::find($request->id);
+        if (empty($request->id)) {
+            $user = new User();
             $user->created_at = now();
             //Company should be assigned on create
             $user->company_id = Auth::user()->company_id;
         } else {
-            $user = new User();
+            $user = User::find($request->id);
         }
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
