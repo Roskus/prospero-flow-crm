@@ -61,6 +61,7 @@ class ProfileSaveController
         session()->put('locale', $locale);
 
         $response = ['status' => $status, 'message' => __('Profile saved successfully')];
+
         return redirect('/profile')->with($response);
     }
 }

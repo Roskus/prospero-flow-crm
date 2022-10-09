@@ -16,7 +16,7 @@ class UserSaveController extends MainController
      */
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|max:50',
             'email' => 'required|email|max:254',
             'lang' => 'required',
