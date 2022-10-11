@@ -26,6 +26,8 @@
         <th>{{ __('Company') }}</th>
         @endif
         <th>{{ __('Roles') }}</th>
+        <th>{{ __('Updated at') }}</th>
+        <th>{{ __('Last login') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>
@@ -49,6 +51,8 @@
         <td>
             {{ $user->getRoleNames() }}
         </td>
+        <td>{{ $user->updated_at->format('d/m/Y H:i') }}</td>
+        <td>{{ (!empty($user->last_login_at)) ? $user->last_login_at->diffForHumans() : '' }}</td>
         <td>
             @can('update user')
             <a href="{{ url("/user/update/$user->id") }}" class="btn bt-xs btn-warning text-white">

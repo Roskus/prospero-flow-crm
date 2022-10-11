@@ -28,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone', 'password', 'photo', 'lang',
+        'first_name', 'last_name', 'email', 'phone', 'password', 'photo', 'lang', 'last_login_at', 'last_login_ip',
     ];
 
     /**
@@ -38,6 +38,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $casts = [
+        'last_login_at' => 'datetime',
     ];
 
     public function company()
