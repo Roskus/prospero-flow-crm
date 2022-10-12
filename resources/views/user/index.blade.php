@@ -34,7 +34,7 @@
     <tbody>
     @foreach($users as $user)
     <tr>
-        <td><a href="/user/edit/{{ $user->id}}">{{ $user->last_name }}</a></td>
+        <td><a href="{{ url("/user/update/$user->id") }}">{{ $user->last_name }}</a></td>
         <td>{{ $user->first_name }}</td>
         <td>
             <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>

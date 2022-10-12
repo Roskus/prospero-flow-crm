@@ -64,6 +64,8 @@ Route::get('/customer/update/{id}', [\App\Http\Controllers\Customer\CustomerUpda
 });
 Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveController::class, 'save'], function (Request $request) {
 });
+Route::get('/customer/delete/{id}', [\App\Http\Controllers\Customer\CustomerDeleteController::class, 'delete'], function (Request $request, int $id) {
+});
 
 //Category
 Route::get('/category', 'CategoryController@index');
