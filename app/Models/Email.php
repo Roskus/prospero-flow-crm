@@ -23,4 +23,27 @@ class Email extends Model
     {
         return Email::orderBy('created_at', 'DESC')->get();
     }
+
+    /**
+     * @param  int  $company_id
+     * @param  string|null  $search
+     * @param  array|null  $filters
+     * @return mixed
+     */
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
+    {
+        if (empty($search)) {
+            $email = Email::where('company_id', $company_id);
+        } else {
+            $email = Email::where('name', 'LIKE', "%$search%");
+        }
+
+        if (is_array($filters)) {
+            foreach ($filters as $key => $filter) {
+                $email->where($key, $filter);
+            }
+        }
+
+        return $email->paginate(10);
+    }
 }

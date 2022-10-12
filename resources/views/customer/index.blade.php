@@ -6,7 +6,7 @@
 </header>
 
 <div class="">
-    <a href="{{ url('}/customer/create') }}" class="btn btn-primary">{{ __('New') }}</a>
+    <a href="{{ url('/customer/create') }}" class="btn btn-primary">{{ __('New') }}</a>
 </div>
 
 <div class="table-responsive mt-2">
