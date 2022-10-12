@@ -34,6 +34,8 @@ Route::get('/product/update/{id}', [\App\Http\Controllers\Product\ProductUpdateC
 });
 Route::post('/product/save', [\App\Http\Controllers\Product\ProductSaveController::class, 'save'], function (Request $request) {
 });
+Route::get('/product/delete/{id}', [\App\Http\Controllers\Product\ProductDeleteController::class, 'delete'], function (Request $request, int $id) {
+});
 
 //Brand
 Route::get('/brand', 'BrandController@index');
@@ -121,6 +123,8 @@ Route::get('/email/update/{id}', [\App\Http\Controllers\Email\EmailUpdateControl
 Route::post('/email/save', [\App\Http\Controllers\Email\EmailSaveController::class, 'save'], function (Request $request) {
 });
 Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController::class, 'send'], function (Request $request, int $id) {
+});
+Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete'], function (Request $request, int $id) {
 });
 
 // Supplier

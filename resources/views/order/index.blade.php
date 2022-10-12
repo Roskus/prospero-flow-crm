@@ -17,6 +17,8 @@
         <th>{{ __('Customer') }}</th>
         <th>{{ __('Amount') }}</th>
         <th>{{ __('Created at') }}</th>
+        <th>{{ __('Updated at') }}</th>
+        <th>{{ __('Status') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>
@@ -24,9 +26,11 @@
     @foreach($orders as $order)
     <tr>
         <td>{{ $order->id }}</td>
-        <td>{{ $order->customer->last_name.' '.$order->customer->first_name }}</td>
+        <td>{{ (!empty($order->customer)) ? $order->customer->last_name.' '.$order->customer->first_name : '' }}</td>
         <td>{{ $order->getAmount() }}</td>
-        <td>{{ $order->customer->created_at->format('d/m/Y H:i:s') }}</td>
+        <td>{{ $order->created_at->format('d/m/Y H:i:s') }}</td>
+        <td>{{ $order->updated_at->format('d/m/Y H:i:s') }}</td>
+        <td>{{ $order->status }}</td>
         <td>
             <a href="/order/edit/{{ $order->id}}" class="btn bt-xs btn-warning text-white">
                 <i class="las la-pen"></i>
