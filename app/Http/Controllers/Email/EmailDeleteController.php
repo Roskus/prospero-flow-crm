@@ -6,7 +6,6 @@ use App\Http\Controllers\MainController;
 use App\Models\Email;
 use Illuminate\Http\Request;
 
-
 class EmailDeleteController extends MainController
 {
     public function delete(Request $request, int $id)
