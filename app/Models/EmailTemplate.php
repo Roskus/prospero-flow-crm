@@ -9,7 +9,7 @@ class EmailTemplate extends Model
 {
     use HasFactory;
 
-    protected $table = 'email_teamplate';
+    protected $table = 'email_template';
 
     public function getAll()
     {

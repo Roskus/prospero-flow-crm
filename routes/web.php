@@ -127,6 +127,10 @@ Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController:
 Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete'], function (Request $request, int $id) {
 });
 
+// Email template
+Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index'], function (Request $request) {
+});
+
 // Supplier
 Route::match(['get', 'post'], '/supplier', [\App\Http\Controllers\Supplier\SupplierIndexController::class, 'index'], function (Request $request) {
 });

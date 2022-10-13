@@ -7,7 +7,7 @@
 
 <div class="row">
     @can('read company')
-    <div class="col">
+    <div class="col text-center">
         <a href="{{ url('/company') }}">
             <div class="h1">
                 <i class="las la-industry"></i>
@@ -17,7 +17,7 @@
     </div>
     @endcan
 
-    <div class="col">
+    <div class="col text-center">
         <a href="{{ url('/category') }}">
             <div class="h1">
                 <i class="las la-archive"></i>
@@ -26,7 +26,7 @@
         </a>
     </div>
 
-    <div class="col">
+    <div class="col text-center">
         <a href="{{ url('/brand') }}">
             <div class="h1">
                 <i class="las la-apple-alt"></i>
@@ -36,7 +36,7 @@
     </div>
 
     @can('read user')
-    <div class="col">
+    <div class="col text-center">
         <a href="{{ url('/user') }}">
             <div class="h1">
                 <i class="las la-users"></i>
@@ -47,7 +47,7 @@
     @endcan
 
 
-    <div class="col">
+    <div class="col text-center">
         <a href="{{ url('/currency') }}">
             <div class="h1">
                 <i class="las la-euro-sign"></i>
@@ -56,5 +56,13 @@
         </a>
     </div>
 
+        <div class="col text-center">
+            <a href="{{ url('/email-template') }}">
+                <div class="h1">
+                    <i class="las la-envelope-open-text"></i>
+                </div>
+                {{ __('Email templates') }}
+            </a>
+        </div>
 </div>
 @endsection
