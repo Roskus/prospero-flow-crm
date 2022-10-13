@@ -23,6 +23,7 @@ class CustomerIndexController extends MainController
         $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id);
         $data['countries'] = Country::orderBy('name')->get();
         $data['statuses'] = [];
+
         return view('customer.index', $data);
     }
 }
