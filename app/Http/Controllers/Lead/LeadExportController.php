@@ -34,8 +34,8 @@ class LeadExportController extends MainController
             $content = $content.$line."\n";
         }
 
-        Storage::disk('local')->put(storage_path($fileName), $content);
+        Storage::disk('local')->put($fileName, $content);
 
-        return Storage::download(storage_path($fileName));
+        return Storage::download($fileName, null, $headers);
     }
 }
