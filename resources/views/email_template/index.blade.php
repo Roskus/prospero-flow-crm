@@ -6,6 +6,12 @@
     </header>
 
     <div>
-
+        <a href="{{ url('/email-template/create') }}" class="btn btn-primary">{{ __('New') }}</a>
     </div>
+
+    @foreach($templates as $template)
+    <div>
+        <img src="{{ $template->screenshot }}" alt="">
+    </div>
+    @endforeach
 @endsection
