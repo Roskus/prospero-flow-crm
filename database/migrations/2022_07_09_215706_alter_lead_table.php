@@ -27,7 +27,7 @@ class AlterLeadTable extends Migration
      */
     public function down()
     {
-        Schema::table('customer', function (Blueprint $table) {
+        Schema::table('lead', function (Blueprint $table) {
             $table->dropColumn('website');
             $table->dropColumn('notes');
             $table->dropColumn('seller_id');
