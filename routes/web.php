@@ -95,6 +95,10 @@ Route::post('/email/save', [\App\Http\Controllers\Email\EmailSaveController::cla
 Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController::class, 'send']);
 Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete']);
 
+// Email template
+Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index'], function (Request $request) {
+});
+
 // Supplier
 Route::match(['get', 'post'], '/supplier', [\App\Http\Controllers\Supplier\SupplierIndexController::class, 'index']);
 Route::get('/supplier/create', [\App\Http\Controllers\Supplier\SupplierCreateController::class, 'create']);

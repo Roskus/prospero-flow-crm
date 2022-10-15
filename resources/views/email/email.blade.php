@@ -5,7 +5,7 @@
         <h1>New E-mail</h1>
     </header>
 
-    <form method="post" action="/email/save" enctype="multipart/form-data">
+    <form method="post" action="{{ url('/email/save') }}" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col">
@@ -26,13 +26,13 @@
         </div>
         <div class="row">
             <div class="col">
-                <label class="">{{ __('To') }}</label>
+                <label for="to" class="">{{ __('To') }}</label>
                 <input type="email" name="to" id="to" maxlength="255" required value="{{ $email->to }}" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label class="">CC</label>
+                <label for="cc" class="">CC</label>
                 <input type="text" name="cc" id="cc" maxlength="255" class="form-control">
             </div>
         </div>
@@ -44,7 +44,7 @@
         </div>
         <div class="row">
             <div class="col mt-2">
-                <label class="">{{ __('Attachments') }}</label>
+                <label for="attachments" class="">{{ __('Attachments') }}</label>
                 <input type="file" name="attachments[]" class=""> <!-- accept="application/"-->
             </div>
         </div>
