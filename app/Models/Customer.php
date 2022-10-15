@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Customer extends Model
 {
     use SoftDeletes;
+
     const ACTIVE = 1;
 
     /**
@@ -16,6 +17,7 @@ class Customer extends Model
      * @var string
      */
     protected $table = 'customer';
+
     protected $fillable = [
         'company_id',
         'name',
