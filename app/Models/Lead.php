@@ -68,10 +68,11 @@ class Lead extends Model
         'schedule_contact',
         'industry_id',
         'opt_in',
-        'status'
+        'status',
     ];
     protected $hidden = [
-        'deleted_at'
+        'company_id',
+        'deleted_at',
     ];
 
     public function company()
