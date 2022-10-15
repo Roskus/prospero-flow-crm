@@ -12,7 +12,7 @@ class LeadExportController extends MainController
 {
     public function export(Request $request)
     {
-        $content = '';
+        $lead = new Lead();
         $fileName = 'leads_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
         $leads = Lead::where('company_id', Auth::user()->company_id)->get();
         $headers = [
@@ -22,13 +22,13 @@ class LeadExportController extends MainController
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0',
         ];
-        /*
-        $columns = Scheme::getColumnListing('lead');
+
+        $columns = array_merge(['id'], $lead->getFillable(), ['created_at','updated_at',]);
         $rowHeaders = implode(',', $columns);
-        */
+
         $data = $leads->toArray();
 
-        //$content = $rowHeaders."\n";
+        $content = $rowHeaders."\n";
         foreach ($data as $row) {
             $line = implode(',', $row);
             $content = $content.$line."\n";

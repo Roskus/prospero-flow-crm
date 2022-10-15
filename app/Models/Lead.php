@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 
 /**
@@ -26,7 +26,7 @@ use OpenApi\Annotations\OpenApi as OA;
  */
 class Lead extends Model
 {
-    //use SoftDeletes;
+    use SoftDeletes;
     const OPEN = 'open'; //New
 
     const IN_PROGRESS = 'in_progress';
@@ -41,6 +41,38 @@ class Lead extends Model
      * @var string
      */
     protected $table = 'lead';
+    protected $fillable = [
+        'company_id',
+        'name',
+        'business_name',
+        'dob',
+        'vat',
+        'phone',
+        'mobile',
+        'email',
+        'website',
+        'linkedin',
+        'facebook',
+        'instagram',
+        'twitter',
+        'youtube',
+        'tiktok',
+        'notes',
+        'seller_id',
+        'country',
+        'province',
+        'city',
+        'locality',
+        'street',
+        'zipcode',
+        'schedule_contact',
+        'industry_id',
+        'opt_in',
+        'status'
+    ];
+    protected $hidden = [
+        'deleted_at'
+    ];
 
     public function company()
     {
