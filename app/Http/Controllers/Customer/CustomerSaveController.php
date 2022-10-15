@@ -23,8 +23,8 @@ class CustomerSaveController extends MainController
             $customer->updated_at = now();
         }
         $customer->company_id = Auth::user()->company_id;
-        $customer->first_name = $request->first_name;
-        $customer->last_name = $request->last_name;
+        $customer->name = $request->name;
+        $customer->business_name = $request->business_name;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
         $customer->country_id = $request->country_id;

@@ -8,12 +8,12 @@
         {{ csrf_field() }}
         <div class="row">
             <div class="col">
-                <label for="">{{ __('First name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="first_name" value="{{ $customer->first_name }}" required="required" class="form-control form-control-lg">
+                <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
+                <input type="text" name="name" id="name" value="{{ $customer->name }}" required="required" class="form-control form-control-lg">
             </div>
             <div class="col">
-                <label for="">{{ __('Last name') }}</label>
-                <input type="text" name="last_name" value="{{ $customer->last_name }}" class="form-control form-control-lg">
+                <label for="business_name">{{ __('Business name') }}</label>
+                <input type="text" name="business_name" value="{{ $customer->business_name }}" class="form-control form-control-lg">
             </div>
         </div><!--./row-->
         <div class="row">
