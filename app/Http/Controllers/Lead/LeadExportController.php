@@ -23,7 +23,7 @@ class LeadExportController extends MainController
             'Expires' => '0',
         ];
 
-        $columns = array_merge(['id'], $lead->getFillable(), ['created_at','updated_at',]);
+        $columns = array_merge(['id'], $lead->getFillable(), ['created_at', 'updated_at']);
         $rowHeaders = implode(',', $columns);
 
         $data = $leads->toArray();

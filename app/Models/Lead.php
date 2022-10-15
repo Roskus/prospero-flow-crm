@@ -27,6 +27,7 @@ use OpenApi\Annotations\OpenApi as OA;
 class Lead extends Model
 {
     use SoftDeletes;
+
     const OPEN = 'open'; //New
 
     const IN_PROGRESS = 'in_progress';
@@ -41,6 +42,7 @@ class Lead extends Model
      * @var string
      */
     protected $table = 'lead';
+
     protected $fillable = [
         'company_id',
         'name',
@@ -70,6 +72,7 @@ class Lead extends Model
         'opt_in',
         'status',
     ];
+
     protected $hidden = [
         'company_id',
         'deleted_at',
