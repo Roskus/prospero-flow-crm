@@ -25,8 +25,8 @@ class AlterTableOrderItemAddFk extends Migration
      */
     public function down()
     {
-        Schema::table('account', function (Blueprint $table) {
-            $table->dropForeign(['order_id']);
+        Schema::table('order_item', function (Blueprint $table) {
+            $table->dropForeign('order_item_order_id_foreign');
         });
     }
 }
