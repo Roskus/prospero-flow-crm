@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->renameColumn('fist_name', 'name');
+            $table->renameColumn('first_name', 'name');
             $table->renameColumn('last_name', 'business_name');
         });
     }
@@ -27,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->renameColumn('name', 'fist_name');
+            $table->renameColumn('name', 'first_name');
             $table->renameColumn('business_name', 'last_name');
         });
     }
