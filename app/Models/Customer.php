@@ -4,12 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations\OpenApi as OA;
 
+/**
+ *  @OA\Schema(
+ *    schema="Customer",
+ *    type="object",
+ *
+ *    @OA\Property(
+ *      property="company_id",
+ *      type="number",
+ *      example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="name",
+ *        description="Name of the company",
+ *        type="string",
+ *        example="John"
+ *    )
+ * )
+ */
 class Customer extends Model
 {
     use SoftDeletes;
 
-    const ACTIVE = 1;
+    const OPEN = 'open'; //New
+
+    const IN_PROGRESS = 'in_progress';
+
+    const CONVERTED = 'converted'; // Promoted to customer
+
+    const CLOSED = 'closed';
 
     /**
      * The table associated with the model.
@@ -58,9 +83,19 @@ class Customer extends Model
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
     }
 
+    public function seller()
+    {
+        return $this->hasOne(\App\Models\User::class, 'id', 'seller_id');
+    }
+
+    public function industry()
+    {
+        return $this->hasOne(\App\Models\Industry::class, 'id', 'industry_id');
+    }
+
     public function contacts()
     {
-        return $this->hasMany(\App\Models\Contact::class, 'id', 'customer_id');
+        return $this->hasMany(\App\Models\Contact::class, 'customer_id', 'id');
     }
 
     public function getAll()
@@ -68,8 +103,41 @@ class Customer extends Model
         return Customer::all();
     }
 
-    public function getAllByCompanyId(int $company_id)
+    /**
+     * @param  int  $company_id
+     * @param  string|null  $search
+     * @param  array|null  $filters
+     * @return mixed
+     */
+    public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters)
     {
-        return Customer::where('company_id', $company_id)->get();
+        if (empty($search)) {
+            $customers = Customer::where('company_id', $company_id);
+        } else {
+            $customers = Customer::where('name', 'LIKE', "%$search%");
+        }
+
+        if (is_array($filters)) {
+            foreach ($filters as $key => $filter) {
+                $customers->where($key, $filter);
+            }
+        }
+
+        return $customers->paginate(10);
+    }
+
+    public function getCountByCompany(int $company_id): int
+    {
+        return Customer::where('company_id', $company_id)->count();
+    }
+
+    public static function getStatus(): array
+    {
+        return [
+            self::OPEN => 'Open',
+            self::IN_PROGRESS => 'In progress',
+            self::CONVERTED => 'Converted',
+            self::CLOSED => 'Closed',
+        ];
     }
 }

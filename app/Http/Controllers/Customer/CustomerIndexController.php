@@ -17,12 +17,29 @@ class CustomerIndexController extends MainController
      */
     public function index(Request $request)
     {
-        $customer = new Customer();
+        $filters = [];
+        $search = $request->search;
         $user = new User();
-        $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
-        $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id);
+
+        if ($request->country_id) {
+            $filters['country_id'] = $request->country_id;
+            $data['country_id'] = $request->country_id;
+        }
+
+        if ($request->seller_id) {
+            $filters['seller_id'] = $request->seller_id;
+        }
+
+        if ($request->status) {
+            $filters['status'] = $request->status;
+        }
+
+        $customer = new Customer();
         $data['countries'] = Country::orderBy('name')->get();
-        $data['statuses'] = [];
+        $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
+        $data['search'] = $search;
+        $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
+        $data['statuses'] = $customer->getStatus();
 
         return view('customer.index', $data);
     }

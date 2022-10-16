@@ -99,7 +99,7 @@
     <tr>
         <td>{{ $customer->id }}</td>
         <td>
-            <a href="{{ url("/customer/update/$customer->id") }}" title="{{ __('Update') }}">{{ $customer->first_name }} {{ $customer->last_name }}</a>
+            <a href="{{ url("/customer/update/$customer->id") }}" title="{{ __('Update') }}">{{ $customer->name }}</a>
         </td>
         <td>{{ $customer->business_name }}</td>
         <td>
@@ -117,16 +117,54 @@
                 <a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a>
             @endif
         </td>
-        <td><a href="{{ $customer->website }}" target="_blank">{{ $customer->website }}</a></td>
-        <td>{{ (!empty($customer->company)) ? $customer->company->name : '' }}</td>
-        <td>{{ $customer->country_id }}</td>
+        <td>
+            <a href="{{ $customer->website }}" target="_blank">{{ $customer->website }}</a>
+        </td>
+        <td class="text-center">{{ $customer->country_id }}</td>
+        <td>{{ $customer->city }}</td>
+        <td>
+            @if($customer->facebook)
+                <a href="{{ $customer->facebook }}" target="_blank">
+                    <i class="lab la-facebook-square fs-3"></i>
+                </a>
+            @endif
+
+            @if($customer->instagram)
+                <a href="{{ $customer->instagram }}" target="_blank">
+                    <i class="lab la-instagram fs-3"></i>
+                </a>
+            @endif
+
+            @if($customer->linkedin)
+                <a href="{{ $customer->linkedin }}" target="_blank">
+                    <i class="lab la-linkedin fs-3"></i>
+                </a>
+            @endif
+
+            @if($customer->youtube)
+                <a href="{{ $customer->youtube }}" target="_blank">
+                    <i class="lab la-youtube-square fs-3"></i>
+                </a>
+            @endif
+
+            @if($customer->twitter)
+                <a href="{{ $customer->twitter }}" target="_blank">
+                    <i class="lab la-twitter-square fs-3"></i>
+                </a>
+            @endif
+        </td>
+        <td class="text-center">{{ (!empty($customer->seller)) ? $customer->seller->first_name : '' }}</td>
+        <td class="text-center">{{ ($customer->industry) ? __($customer->industry->name) : '' }}</td>
+        <td class="text-center">
+            <span class="badge {{ App\Helpers\LeadStatus::renderBadge($customer->status) }}">{{ $customer->status }}</span>
+        </td>
         <td>{{ $customer->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $customer->updated_at->format('d/m/Y H:i') }}</td>
         <td>
             <a href="{{ url("/customer/update/$customer->id") }}" class="btn btn-xs btn-warning text-white" title="{{ __('Update') }}">
                 <i class="las la-pen"></i>
             </a>
-            <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->first_name }} {{ $customer->last_name }}');" class="btn btn-xs btn-danger">
+            <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->name }}');" class="btn btn-xs btn-danger">
                 <i class="las la-trash-alt"></i>
             </a>
         </td>
@@ -134,6 +172,10 @@
     @endforeach
     </tbody>
     </table>
+
+    <div>
+        {{ $customers->appends(request()->query())->links() }}
+    </div>
 </div>
 <script>
     const Customer = {
