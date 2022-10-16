@@ -75,7 +75,6 @@
     <table class="table table-striped table-bordered table-hover table-sm">
     <thead>
     <tr>
-        <th>#ID</th>
         <th>{{ __('Name') }}</th>
         <th>{{ __('Business name') }}</th>
         <th>{{ __('Phone') }}</th>
@@ -83,9 +82,7 @@
         <th>E-mail</th>
         <th>Website</th>
         <th>{{ __('Country') }}</th>
-        <th>{{ __('City') }}</th>
         <th>Social</th>
-
         <th>{{ __('Seller') }}</th>
         <th>{{ __('Industry') }}</th>
         <th>{{ __('Status') }}</th>
@@ -97,7 +94,6 @@
     <tbody>
     @foreach($leads as $lead)
     <tr>
-        <td>{{ $lead->id }}</td>
         <td>
             <a href="{{ url("/lead/update/$lead->id") }}">{{ $lead->name }}</a>
         </td>
@@ -121,7 +117,6 @@
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
         <td class="text-center">{{ $lead->country_id }}</td>
-        <td>{{ $lead->city }}</td>
         <td>
             @if($lead->facebook)
                 <a href="{{ $lead->facebook }}" target="_blank">
