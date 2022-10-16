@@ -13,14 +13,14 @@ class GenericEmailForQueuing extends Mailable
 
     protected Company $company;
 
-    protected $data;
+    protected array $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Company $company, string $subject, $data)
+    public function __construct(?Company $company = null, ?string $subject = '', ?array $data = [])
     {
         $this->company = $company;
         $this->subject = $subject;
