@@ -68,8 +68,8 @@ var Order =
 
             tds[3].textContent = item.subtotal;
             //Clone row
-            var table_body = document.querySelector('#order-items');
-            var row_clone = document.importNode(product_row.content, true);
+            let table_body = document.querySelector('#order-items');
+            let row_clone = document.importNode(product_row.content, true);
             table_body.appendChild(row_clone);
         } else {
             if(!product_id.options[product_id.selectedIndex].value) product_id.classList.add("is-invalid");
