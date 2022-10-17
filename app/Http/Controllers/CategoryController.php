@@ -39,7 +39,7 @@ class CategoryController extends MainController
     {
         if (empty($request->id)) {
             $request->validate([
-                'name' => ['required', 'string', 'unique:category'],
+                'name' => ['required', 'string', 'unique:category, company_id'],
             ]);
 
             $category = new Category();
