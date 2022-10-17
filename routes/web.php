@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'MainController@index');
 
-Auth::routes(['register' => (env('APP_ENV') != 'production') ? true : false]);
+Auth::routes(['register' => env('APP_ENV') != 'production']);
 
 //Order
 Route::get('/order', 'OrderController@index');
@@ -41,6 +41,7 @@ Route::post('/brand/save', 'BrandController@save');
 Route::match(['get', 'post'], '/lead', [\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);
 Route::get('/lead/create', [\App\Http\Controllers\Lead\LeadCreateController::class, 'create']);
 Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController::class, 'update']);
+Route::get('/lead/promote/{id}', [\App\Http\Controllers\Lead\LeadPromoteCustomerController::class, 'promote']);
 Route::post('/lead/save', [\App\Http\Controllers\Lead\LeadSaveController::class, 'save']);
 Route::get('/lead/import', [\App\Http\Controllers\Lead\LeadImportIndexController::class, 'index']);
 Route::post('/lead/import/save', [\App\Http\Controllers\Lead\LeadImportSaveController::class, 'save']);
@@ -96,8 +97,7 @@ Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController:
 Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete']);
 
 // Email template
-Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index'], function (Request $request) {
-});
+Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
 
 // Supplier
 Route::match(['get', 'post'], '/supplier', [\App\Http\Controllers\Supplier\SupplierIndexController::class, 'index']);
@@ -113,6 +113,9 @@ Route::post('/ticket/save', [\App\Http\Controllers\Ticket\TicketSaveController::
 
 //Report
 Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);
+
+// Web-form
+Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);
 
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);

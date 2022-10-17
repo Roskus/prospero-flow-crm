@@ -61,7 +61,7 @@ class Customer extends Model
         'tiktok',
         'notes',
         'seller_id',
-        'country',
+        'country_id',
         'province',
         'city',
         'locality',

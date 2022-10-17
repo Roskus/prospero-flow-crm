@@ -159,6 +159,11 @@
             <a href="{{  url("/lead/update/$lead->id") }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
+
+            <a href="{{  url("/lead/promote/$lead->id") }}" class="btn btn-xs btn-success text-white">
+                <i class="las la-user-tie"></i>
+            </a>
+
             <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" class="btn btn-xs btn-danger">
                 <i class="las la-trash-alt"></i>
             </a>
