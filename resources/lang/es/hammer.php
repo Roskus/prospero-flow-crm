@@ -7,13 +7,13 @@
 */
 return [
     'Actions' => 'Acciones',
-    'Category' => 'Categoria',
-    'Categories' => 'Categorias',
+    'Category' => 'Categoría',
+    'Categories' => 'Categorías',
     'Company' => 'Empresa',
     'Companies' => 'Empresas',
     'Customer' => 'Cliente',
     'Customers' => 'Clientes',
-    'Exit' => 'Exit',
+    'Exit' => 'Salir',
     'Order' => 'Pedido',
     'Orders' => 'Pedidos',
     'Price' => 'Precio',
