@@ -5,14 +5,14 @@
    <h1>{{ __('Company') }}</h1>
 </header>
 
-<form method="post" action="/company/save" class="form" enctype="multipart/form-data">
+<form method="post" action="{{ url('/company/save') }}" class="form" enctype="multipart/form-data">
     <div class="row">
         <div class="col">
-            <label class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
+            <label for="name" class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
             <input type="text" name="name" id="name" value="{{ $company->name }}" maxlength="80" required="required" class="form-control">
         </div>
         <div class="col">
-            <label class="label-control">{{ __('Country') }} <span class="text-danger">*</span></label>
+            <label for="country_id" class="label-control">{{ __('Country') }} <span class="text-danger">*</span></label>
             <select name="country_id" id="country_id" required class="form-control">
                 <option value=""></option>
                 @foreach ($countries as $country)
@@ -23,7 +23,7 @@
     </div>
     <div>
         <div class="col">
-            <label class="label-control">{{ __('Tax identification') }} <span class="text-danger">*</span></label>
+            <label for="tax_identification" class="label-control">{{ __('Tax identification') }} <span class="text-danger">*</span></label>
             <input type="text" name="tax_identification" id="tax_identification" maxlength="20" class="form-control">
         </div>
         <div class="col">
@@ -32,7 +32,7 @@
     </div>
     <div class="row">
         <div class="col form-group">
-            <label class="label-control">{{ __('Phone') }}</label>
+            <label for="phone" class="label-control">{{ __('Phone') }}</label>
             <input type="tel" name="phone" id="phone" value="{{ $company->phone }}" maxlength="15" class="form-control">
         </div>
 
@@ -43,13 +43,13 @@
     </div>
     <div class="row">
         <div class="col form-group">
-            <label class="label-control">{{ __('Website') }}</label>
+            <label for="website" class="label-control">{{ __('Website') }}</label>
             <input type="url" name="website" id="website" value="{{ $company->website }}" class="form-control">
         </div>
     </div>
     <div class="row">
         <div class="col form-group">
-            <label class="label-control">Logo</label>
+            <label for="logo" class="label-control">Logo</label>
             <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/svg" class="form-control">
             @if($company->logo)
                 <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}" alt="{{ env('APP_NAME') }}" class="logo">

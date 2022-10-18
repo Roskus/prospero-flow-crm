@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\MainController;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class UserUpdateController extends MainController
@@ -15,7 +17,7 @@ class UserUpdateController extends MainController
         $data['user'] = $user;
         $data['languages'] = config('app.locales');
         $data['roles'] = Role::all();
-
+        $data['companies'] = Auth::user()->hasRole('SuperAdmin') ? Company::all() : [];
         return view('user.user', $data);
     }
 }

@@ -67,12 +67,26 @@
             </div>
         </div>
 
-        <div class="row form-group">
-            <div class="col text-end">
-                <a href="{{ url('/user') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
-                <button type="submit" class="btn btn-primary btn-lg">{{ __('Save') }}</button>
+        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
+        <div class="row form-group mb-3">
+            <div class="col">
+                <label for="company_id">{{ __('Company') }}</label>
+                <select name="company_id" id="company_id" required="required" class="form-select form-control-lg">
+                    <option value=""></option>
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}" @if($user->company_id == $company->id) selected="selected" @endif>{{ $company->name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
-        <input type="hidden" name="id" value="{{ ($user->id) ?? $user->id }}">
-    </form>
-@endsection
+        @endif
+
+            <div class="row form-group">
+                <div class="col text-end">
+                    <a href="{{ url('/user') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
+                    <button type="submit" class="btn btn-primary btn-lg">{{ __('Save') }}</button>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{{ ($user->id) ?? $user->id }}">
+        </form>
+    @endsection
