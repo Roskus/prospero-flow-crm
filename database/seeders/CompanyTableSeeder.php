@@ -17,14 +17,6 @@ class CompanyTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('company')->insert(
-            [
-                'name' => 'Test company',
-                'country_id' => 'ES',
-                'email' => 'admin@admin.com',
-                'website' => 'http://www.admin.com',
-                'status' => Company::ACTIVE,
-            ]
-        );
+        Company::factory(5)->create();
     }
 }
