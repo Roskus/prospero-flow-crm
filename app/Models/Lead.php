@@ -135,6 +135,7 @@ class Lead extends Model
     {
         $leads = Lead::where('company_id', $company_id);
         $leads->orderBy('created_at', 'DESC');
+
         return $leads->limit($limit)->get();
     }
 

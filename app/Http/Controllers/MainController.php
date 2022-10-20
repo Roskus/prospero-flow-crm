@@ -24,6 +24,7 @@ class MainController extends Controller
         $data['order_count'] = $order->getPendingCount(Auth::user()->company_id);
         $data['lead_count'] = $lead->getCountByCompany(Auth::user()->company_id);
         $data['leads'] = $lead->getLatestByCompany(Auth::user()->company_id, 4);
+
         return view('dashboard', $data);
     }
 }
