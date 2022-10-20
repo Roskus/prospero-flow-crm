@@ -30,7 +30,7 @@ class AlterCustomerTableCompanyField extends Migration
             if (Schema::hasColumn('customer', 'company')) {
                 $table->dropColumn('company');
             }
-            
+
             $table->dropColumn('website');
         });
     }

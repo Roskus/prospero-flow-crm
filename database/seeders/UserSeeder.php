@@ -29,6 +29,6 @@ class UserSeeder extends Seeder
         ]);
         $user->assignRole($superAdmin);
 
-        User::factory(10)->create();       
+        User::factory(10)->create();
     }
 }

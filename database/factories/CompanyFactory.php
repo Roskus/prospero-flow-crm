@@ -19,13 +19,13 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            "name" => fake()->name(),
-            "logo" => null,
-            "phone" => fake()->phoneNumber(),
-            "email" => fake()->email(),
-            "country_id" => Country::all()->random(),
-            "website" => 'https://' . fake()->domainName(),
-            "status" => Company::ACTIVE,
+            'name' => fake()->name(),
+            'logo' => null,
+            'phone' => fake()->phoneNumber(),
+            'email' => fake()->email(),
+            'country_id' => Country::all()->random(),
+            'website' => 'https://'.fake()->domainName(),
+            'status' => Company::ACTIVE,
         ];
     }
 }
