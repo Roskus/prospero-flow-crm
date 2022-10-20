@@ -27,7 +27,10 @@ class AlterCustomerTableCompanyField extends Migration
     public function down()
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->dropColumn('company');
+            if (Schema::hasColumn('customer', 'company')) {
+                $table->dropColumn('company');
+            }
+            
             $table->dropColumn('website');
         });
     }
