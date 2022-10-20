@@ -131,6 +131,13 @@ class Lead extends Model
         return Lead::where('company_id', $company_id)->count();
     }
 
+    public function getLatestByCompany(int $company_id, int $limit = 10)
+    {
+        $leads = Lead::where('company_id', $company_id);
+        $leads->orderBy('created_at', 'DESC');
+        return $leads->limit($limit)->get();
+    }
+
     public static function getStatus(): array
     {
         return [

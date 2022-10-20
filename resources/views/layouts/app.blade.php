@@ -68,7 +68,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">
                                 @if(empty(Auth::user()->photo))
-                                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                                    <img src="/asset/img/user.jpg" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle">
                                 @else
                                     <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->photo }}" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle">
                                 @endif
@@ -76,12 +76,12 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown10">
                                 <li>
-                                    <a href="/profile" class="dropdown-item">
+                                    <a href="{{ url('/profile') }}" class="dropdown-item">
                                         <i class="las la-user-tie"></i> {{ __('Profile') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/setting" class="dropdown-item">
+                                    <a href="{{ url('/setting') }}" class="dropdown-item">
                                         <i class="las la-cogs"></i> {{ __('Setting') }}
                                     </a>
                                 </li>
