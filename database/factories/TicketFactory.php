@@ -20,16 +20,16 @@ class TicketFactory extends Factory
     public function definition()
     {
         return [
-            "title" => fake()->text(50),
-            "description" => fake()->text(),
-            "company_id" => Company::all()->random(),
-            "customer_id" => Customer::all()->random(),
-            "created_by" => User::all()->random(),
-            "assigned_to" => User::all()->random(),
-            "priority" => fake()->randomElement(['low', 'normal', 'high', 'urgent']),
-            "type" => fake()->randomElement(['', 'question', 'incident', 'issue']),
-            "status" => fake()->randomElement(['new', 'assigned', 'duplicated', 'closed']),
-            "closed_at" => fake()->randomElement([null, fake()->dateTimeThisMonth()]),
+            'title' => fake()->text(50),
+            'description' => fake()->text(),
+            'company_id' => Company::all()->random(),
+            'customer_id' => Customer::all()->random(),
+            'created_by' => User::all()->random(),
+            'assigned_to' => User::all()->random(),
+            'priority' => fake()->randomElement(['low', 'normal', 'high', 'urgent']),
+            'type' => fake()->randomElement(['', 'question', 'incident', 'issue']),
+            'status' => fake()->randomElement(['new', 'assigned', 'duplicated', 'closed']),
+            'closed_at' => fake()->randomElement([null, fake()->dateTimeThisMonth()]),
         ];
     }
 }

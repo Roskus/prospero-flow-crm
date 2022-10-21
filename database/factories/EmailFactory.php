@@ -19,17 +19,17 @@ class EmailFactory extends Factory
     public function definition()
     {
         return [
-            "company_id" => Company::all()->random(),
-            "template_id" => EmailTemplate::all()->random(),
-            "version" => fake()->randomFloat(2, 1, 9),
-            "from" => fake()->email(),
-            "to" => fake()->email(),
-            "cc" => fake()->email(),
-            "subject" => fake()->text(50),
-            "body" => fake()->text(),
-            "lang" => fake()->randomElement(array_keys(config('app.locales'))),
-            "status" => fake()->randomElement(['draft', 'queue', 'sent', 'error']),
-            "schedule_send" => fake()->dateTimeThisMonth(),
+            'company_id' => Company::all()->random(),
+            'template_id' => EmailTemplate::all()->random(),
+            'version' => fake()->randomFloat(2, 1, 9),
+            'from' => fake()->email(),
+            'to' => fake()->email(),
+            'cc' => fake()->email(),
+            'subject' => fake()->text(50),
+            'body' => fake()->text(),
+            'lang' => fake()->randomElement(array_keys(config('app.locales'))),
+            'status' => fake()->randomElement(['draft', 'queue', 'sent', 'error']),
+            'schedule_send' => fake()->dateTimeThisMonth(),
         ];
     }
 }

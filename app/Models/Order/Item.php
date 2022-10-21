@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 final class Item extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'order_item';
 
     private ?int $order_id;

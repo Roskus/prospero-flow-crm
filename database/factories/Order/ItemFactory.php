@@ -19,10 +19,10 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            "order_id" => Order::all()->random(),
-            "product_id" => Product::all()->random(),
-            "quantity" => fake()->numberBetween(1, 99),
-            "unit_price" => fake()->randomFloat(5, 1, 100000),
+            'order_id' => Order::all()->random(),
+            'product_id' => Product::all()->random(),
+            'quantity' => fake()->numberBetween(1, 99),
+            'unit_price' => fake()->randomFloat(5, 1, 100000),
         ];
     }
 }

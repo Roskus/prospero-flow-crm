@@ -18,8 +18,8 @@ class BrandFactory extends Factory
     public function definition()
     {
         return [
-            "company_id" => Company::all()->random(),
-            "name" => fake()->name(),
+            'company_id' => Company::all()->random(),
+            'name' => fake()->name(),
         ];
     }
 }

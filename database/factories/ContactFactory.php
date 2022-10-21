@@ -20,15 +20,15 @@ class ContactFactory extends Factory
     public function definition()
     {
         return [
-            "lead_id" => Lead::all()->random(),
-            "customer_id" => Customer::all()->random(),
-            "first_name" => fake()->firstName(),
-            "last_name" => fake()->lastName(),
-            "phone" => fake()->tollFreePhoneNumber(),
-            "email" => fake()->email(),
-            "linkedin" => fake()->url(),
-            "country" => Country::all()->random(),
-            "notes" => fake()->text(),
+            'lead_id' => Lead::all()->random(),
+            'customer_id' => Customer::all()->random(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'phone' => fake()->tollFreePhoneNumber(),
+            'email' => fake()->email(),
+            'linkedin' => fake()->url(),
+            'country' => Country::all()->random(),
+            'notes' => fake()->text(),
         ];
     }
 }

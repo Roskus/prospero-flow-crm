@@ -19,16 +19,16 @@ class SupplierFactory extends Factory
     public function definition()
     {
         return [
-            "company_id" => Company::all()->random(),
-            "name" => fake()->name(),
-            "phone" => fake()->tollFreePhoneNumber(),
-            "email" => fake()->email(),
-            "website" => fake()->url(),
-            "country_id" => Country::all()->random(),
-            "province" => fake()->word(),
-            "city" => fake()->city(),
-            "street" => fake()->streetAddress(),
-            "zipcode" => fake()->numerify('#####'),
+            'company_id' => Company::all()->random(),
+            'name' => fake()->name(),
+            'phone' => fake()->tollFreePhoneNumber(),
+            'email' => fake()->email(),
+            'website' => fake()->url(),
+            'country_id' => Country::all()->random(),
+            'province' => fake()->word(),
+            'city' => fake()->city(),
+            'street' => fake()->streetAddress(),
+            'zipcode' => fake()->numerify('#####'),
         ];
     }
 }

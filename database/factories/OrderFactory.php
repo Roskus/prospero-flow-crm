@@ -19,10 +19,10 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            "company_id" => Company::all()->random(),
-            "customer_id" => Customer::all()->random(),
-            "amount" => fake()->randomFloat(5, 1, 100000),
-            "status" => fake()->randomElement([0, 1, 2, 3]),
+            'company_id' => Company::all()->random(),
+            'customer_id' => Customer::all()->random(),
+            'amount' => fake()->randomFloat(5, 1, 100000),
+            'status' => fake()->randomElement([0, 1, 2, 3]),
         ];
     }
 }

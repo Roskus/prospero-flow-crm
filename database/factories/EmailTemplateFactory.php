@@ -17,11 +17,11 @@ class EmailTemplateFactory extends Factory
     public function definition()
     {
         return [
-            "from" => fake()->email(),
-            "subject" => fake()->text(50),
-            "body" => fake()->text(),
-            "lang" => fake()->randomElement(array_keys(config('app.locales'))),
-            "version" => fake()->randomFloat(2, 1, 9),
+            'from' => fake()->email(),
+            'subject' => fake()->text(50),
+            'body' => fake()->text(),
+            'lang' => fake()->randomElement(array_keys(config('app.locales'))),
+            'version' => fake()->randomFloat(2, 1, 9),
         ];
     }
 }

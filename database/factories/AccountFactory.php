@@ -19,11 +19,11 @@ class AccountFactory extends Factory
     public function definition()
     {
         return [
-            "company_id" => Company::all()->random(),
-            "issue_date" => fake()->dateTimeBetween('-2 weeks', 'now'),
-            "name" => fake()->name(),
-            "amount" => fake()->randomFloat(5, 1, 100000),
-            "status" => Account::ACTIVE,
+            'company_id' => Company::all()->random(),
+            'issue_date' => fake()->dateTimeBetween('-2 weeks', 'now'),
+            'name' => fake()->name(),
+            'amount' => fake()->randomFloat(5, 1, 100000),
+            'status' => Account::ACTIVE,
         ];
     }
 }
