@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -18,12 +19,17 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'email' => $this->faker->unique()->safeEmail(),
-            //'email_verified_at' => now(),
+            'company_id' => Company::all()->random(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->tollFreePhoneNumber(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'photo' => null,
+            'lang' => fake()->randomElement(array_keys(config('app.locales'))),
             'remember_token' => Str::random(10),
+            'last_login_at' => fake()->dateTimeBetween('-1 week', 'now'),
+            'last_login_ip' => fake()->ipv4(),
         ];
     }
 }

@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CompanyTableSeeder extends Seeder
 {
@@ -17,14 +16,6 @@ class CompanyTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('company')->insert(
-            [
-                'name' => 'Test company',
-                'country_id' => 'ES',
-                'email' => 'admin@admin.com',
-                'website' => 'http://www.admin.com',
-                'status' => Company::ACTIVE,
-            ]
-        );
+        Company::factory(5)->create();
     }
 }
