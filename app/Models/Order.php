@@ -6,11 +6,13 @@ namespace App\Models;
 
 use App\Models\Order\Item;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class Order extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     // Class Constants

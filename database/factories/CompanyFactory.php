@@ -21,7 +21,7 @@ class CompanyFactory extends Factory
         return [
             'name' => fake()->name(),
             'logo' => null,
-            'phone' => fake()->phoneNumber(),
+            'phone' => fake()->tollFreePhoneNumber(),
             'email' => fake()->email(),
             'country_id' => Country::all()->random(),
             'website' => 'https://'.fake()->domainName(),
