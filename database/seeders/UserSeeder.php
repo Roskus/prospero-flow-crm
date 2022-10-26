@@ -28,7 +28,5 @@ class UserSeeder extends Seeder
             'lang' => 'en',
         ]);
         $user->assignRole($superAdmin);
-
-        User::factory(10)->create();
     }
 }

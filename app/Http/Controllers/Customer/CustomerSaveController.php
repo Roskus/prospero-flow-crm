@@ -25,13 +25,47 @@ class CustomerSaveController extends MainController
         $customer->company_id = Auth::user()->company_id;
         $customer->name = $request->name;
         $customer->business_name = $request->business_name;
+        $customer->dob = $request->dob;
+        $customer->vat = $request->vat;
         $customer->phone = $request->phone;
+        $customer->mobile = $request->mobile;
         $customer->email = $request->email;
-        $customer->country_id = $request->country_id;
-        $customer->company = $request->company;
-        $customer->website = $request->website;
-        $customer->save();
+        $customer->website = rtrim($request->website, '/');
+        $customer->notes = $request->notes;
 
-        return redirect('/customer');
+        $customer->linkedin = rtrim($request->linkedin, '/');
+        $customer->facebook = rtrim($request->facebook, '/');
+        $customer->instagram = rtrim($request->instagram, '/');
+        $customer->twitter = rtrim($request->twitter, '/');
+        $customer->youtube = rtrim($request->youtube, '/');
+        $customer->tiktok = rtrim($request->tiktok, '/');
+
+        $customer->country_id = $request->country_id;
+        $customer->province = $request->province;
+        $customer->city = $request->city;
+        $customer->locality = $request->locality;
+        $customer->street = $request->street;
+        $customer->zipcode = $request->zipcode;
+
+        $customer->industry_id = $request->industry_id;
+        $customer->schedule_contact = $request->schedule_contact;
+
+        if ($request->status) {
+            $customer->status = $request->status;
+        }
+        $customer->updated_at = now();
+
+        if ($customer->save()) {
+            $status = 'success';
+        }
+
+        $response = [
+            'status' => $status,
+            'message' => 'Customer :name successfully saved',
+            'name' => $customer->name,
+            'id' => $customer->id,
+        ];
+
+        return redirect('/customer')->with($response);
     }
 }

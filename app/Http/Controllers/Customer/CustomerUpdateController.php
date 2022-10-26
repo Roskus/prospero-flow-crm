@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
+use App\Models\Industry;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Squire\Models\Country;
@@ -17,8 +18,10 @@ class CustomerUpdateController extends MainController
     public function update(Request $request, int $id)
     {
         $customer = Customer::find($id);
+        $industry = new Industry();
         $data['customer'] = $customer;
-        $data['countries'] = Country::all();
+        $data['countries'] = Country::orderBy('name')->get();
+        $data['industries'] = $industry->getAll();
 
         return view('customer.customer', $data);
     }

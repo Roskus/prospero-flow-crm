@@ -2,9 +2,9 @@
 
 @section('content')
     <header>
-        <h1>{{ __('Leads') }}
+        <h1>{{ __('Lead') }}
     </header>
-    <form method="POST" action="/lead/save" class="form">
+    <form method="POST" action="{{ url('/lead/save') }}" class="form">
         {{ csrf_field() }}
         <div class="row">
             <div class="col-12 col-md-6">
@@ -15,7 +15,7 @@
                 <label for="business_name">{{ __('Business name') }}</label>
                 <input type="text" name="business_name" value="{{ $lead->business_name }}" maxlength="80" class="form-control form-control-lg">
             </div>
-        </div>
+        </div><!--./row-->
         <div class="row">
             <div class="col-12 col-md-6">
                 <label for="phone">{{ __('Phone') }}</label>
@@ -25,17 +25,17 @@
                 <label for="mobile" class="">{{ __('Mobile') }}</label>
                 <input type="tel" name="mobile" id="mobile" value="{{ $lead->mobile }}" maxlength="15" class="form-control form-control-lg">
             </div>
-        </div>
+        </div><!--./row-->
         <div class="row">
             <div class="col-12 col-md-6">
-                <label for="email" class="">E-mail</label>
+                <label for="email">E-mail</label>
                 <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
             </div>
             <div class="col-12 col-md-6">
                 <label for="website" class="">Website</label>
                 <input type="url" name="website" id="website" value="{{ $lead->website }}" placeholder="https://www.website.com" class="form-control form-control-lg">
             </div>
-        </div>
+        </div><!--./row-->
         <div class="row">
             <div class="col-12 col-md-6">
                 <label for="vat" class="">{{ __('Identity number') }}</label>
@@ -51,7 +51,7 @@
                 <label>{{ __('Notes') }}</label>
                 <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ $lead->notes }}</textarea>
             </div>
-        </div>
+        </div><!--./row-->
 
         <div class="card mt-2">
             <div class="card-header">{{ __('Address') }}</div>
@@ -160,7 +160,7 @@
 
         <div class="row">
             <div class="col mt-2">
-                <a href="/lead" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
+                <a href="{{ url('/lead') }}" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
                 <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
             </div>
         </div>
