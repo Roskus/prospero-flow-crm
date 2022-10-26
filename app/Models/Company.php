@@ -20,6 +20,15 @@ class Company extends Model
      * @var string
      */
     protected $table = 'company';
+    protected $fillable = [
+        'name',
+        'logo',
+        'phone',
+        'email',
+        'country_id',
+        'website',
+        'status',
+    ];
 
     public function getAll()
     {
