@@ -20,6 +20,7 @@ class Company extends Model
      * @var string
      */
     protected $table = 'company';
+
     protected $fillable = [
         'name',
         'logo',

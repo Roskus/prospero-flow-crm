@@ -31,8 +31,9 @@ class UserCreate extends Command
     public function handle()
     {
         $companyId = $this->argument('company');
-        if(is_null($companyId))
+        if (is_null($companyId)) {
             $companyId = $this->ask('What is the id of the company?');
+        }
 
         $first_name = $this->ask('What is the first name of the user?');
         $last_name = $this->ask('What is the last name of the user?');
