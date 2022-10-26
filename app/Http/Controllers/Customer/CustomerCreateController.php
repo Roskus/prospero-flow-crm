@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
-use App\Models\Industry;
 use App\Models\Customer;
+use App\Models\Industry;
 use Illuminate\Http\Request;
 use Squire\Models\Country;
 
@@ -21,6 +21,7 @@ class CustomerCreateController extends MainController
         $data['customer'] = $customer;
         $data['countries'] = Country::orderBy('name')->get();
         $data['industries'] = $industry->getAll();
+
         return view('customer.customer', $data);
     }
 }
