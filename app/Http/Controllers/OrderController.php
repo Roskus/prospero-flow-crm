@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -18,8 +17,6 @@ class OrderController extends MainController
 
         return view('order/index', $data);
     }
-
-
 
     /**
      * @param  Request  $request
