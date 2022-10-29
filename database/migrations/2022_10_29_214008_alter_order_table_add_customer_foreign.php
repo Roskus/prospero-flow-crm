@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::table('order', function (Blueprint $table) {
-            $table->foreign('customer_id')->references('id')->on('customer');
+            $table->foreign('customer_id', 'order_customer_fk')->references('id')->on('customer');
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -25,8 +27,10 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::table('order', function (Blueprint $table) {
-            $table->dropForeign(['customer_id']);
+            $table->dropForeign('order_customer_fk');
         });
+        Schema::enableForeignKeyConstraints();
     }
 };
