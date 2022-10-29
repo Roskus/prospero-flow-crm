@@ -63,7 +63,7 @@
                 @else
                     @foreach($order->items as $item)
                     <tr>
-                        <td>{{ $item->product->name }}</td>
+                        <td>{{ (!empty($item->product)) ? $item->product->name : '' }}</td>
                         <td>{{ $item->unit_price }}</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ ($item->unit_price * $item->quantity) }}</td>

@@ -6,7 +6,7 @@
 </header>
 
 <div class="mb-2">
-  <a href="/order/add" class="btn btn-primary">{{ trans('New order') }}</a>
+  <a href="{{ url('order/create') }}" class="btn btn-primary">{{ __('New') }}</a>
 </div>
 
 <div class="table-responsive">

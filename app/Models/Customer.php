@@ -109,7 +109,7 @@ class Customer extends Model
      * @param  array|null  $filters
      * @return mixed
      */
-    public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters)
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
         if (empty($search)) {
             $customers = Customer::where('company_id', $company_id);
