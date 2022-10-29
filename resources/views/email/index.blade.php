@@ -6,7 +6,7 @@
     </header>
 
     <div>
-        <a href="/email/create" class="btn btn-primary">{{ __('New') }}</a>
+        <a href="{{ url('/email/create') }}" class="btn btn-primary">{{ __('New') }}</a>
     </div>
 
     <form method="post" action="{{ url('/email') }}">
@@ -18,7 +18,7 @@
     <thead>
     <tr>
         <td>{{ __('Subject') }}</td>
-        <td>To</td>
+        <td>{{ __('To') }}</td>
         <td>Updated at</td>
         <td>{{ __('Status') }}</td>
         <td>{{ __('Actions') }}</td>
@@ -28,7 +28,7 @@
     @foreach($emails as $email)
     <tr>
         <td>
-            <a href="/email/update/{{ $email->id }}">{{ $email->subject }}</a>
+            <a href="{{ url("/email/update/$email->id") }}">{{ $email->subject }}</a>
         </td>
         <td>{{ $email->to }}</td>
         <td>{{ $email->updated_at->format('d/m/Y H:i') }}</td>
@@ -36,7 +36,7 @@
             {{ $email->status }}
         </td>
         <td>
-            <a href="{{ url("/email/update/$email->id") }}" class="btn btn-warning">
+            <a href="{{ url("/email/update/$email->id") }}" class="btn btn-warning" title="{{ __('Edit') }}">
                 <i class="las la-edit"></i>
             </a>
             @if($email->status != \App\Models\Email::SENT)

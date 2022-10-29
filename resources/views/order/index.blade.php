@@ -26,16 +26,16 @@
     @foreach($orders as $order)
     <tr>
         <td>{{ $order->id }}</td>
-        <td>{{ (!empty($order->customer)) ? $order->customer->last_name.' '.$order->customer->first_name : '' }}</td>
+        <td>{{ (!empty($order->customer)) ? $order->customer->name : '' }}</td>
         <td>{{ $order->getAmount() }}</td>
         <td>{{ $order->created_at->format('d/m/Y H:i:s') }}</td>
         <td>{{ $order->updated_at->format('d/m/Y H:i:s') }}</td>
         <td>{{ $order->status }}</td>
         <td>
-            <a href="/order/edit/{{ $order->id}}" class="btn bt-xs btn-warning text-white">
+            <a href="/order/edit/{{ $order->id}}" class="btn bt-xs btn-warning text-white" title="{{ __('Edit') }}">
                 <i class="las la-pen"></i>
             </a>
-            <a href="/order/delete/{{ $order->id}}" class="btn bt-xs btn-danger">
+            <a href="/order/delete/{{ $order->id}}" class="btn bt-xs btn-danger" title="{{ __('Delete') }}">
                 <i class="las la-trash-alt"></i>
             </a>
         </td>

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New migration for web_form table, run: ```bash php artisan migrate```
 - Promote Lead to Customer working
 - We add custom console commands:
+- Improve database, add migration, order relation with company and customer
 
 Create a new company
   ```bash
