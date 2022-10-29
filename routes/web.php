@@ -110,6 +110,7 @@ Route::match(['get', 'post'], '/ticket', [\App\Http\Controllers\Ticket\TicketInd
 Route::get('/ticket/create', [\App\Http\Controllers\Ticket\TicketCreateController::class, 'create']);
 Route::get('/ticket/update/{id}', [\App\Http\Controllers\Ticket\TicketUpdateController::class, 'update']);
 Route::post('/ticket/save', [\App\Http\Controllers\Ticket\TicketSaveController::class, 'save']);
+Route::get('/ticket/delete/{id}', [\App\Http\Controllers\Ticket\TicketDeleteController::class, 'delete']);
 
 //Report
 Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);

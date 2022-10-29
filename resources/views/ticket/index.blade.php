@@ -35,6 +35,23 @@
             <td>
 
             </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+                <a href="{{ url("ticket/update/$ticket->id") }}" class="btn btn-xs btn-warning text-white">
+                    <i class="las la-pen"></i>
+                </a>
+                <a href="{{ url("ticket/delete/$ticket->id") }}" class="btn btn-xs btn-danger">
+                    <i class="las la-trash-alt"></i>
+                </a>
+            </td>
         </tr>
         @endforeach
         </tbody>

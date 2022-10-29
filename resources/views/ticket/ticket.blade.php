@@ -32,6 +32,7 @@
     </div><!--./row-->
     <div class="row">
         <div class="col mt-2">
+            <a href="{{ url('/ticket') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
             <button class="btn btn-primary">{{ __('Save') }}</button>
         </div>
     </div><!--./row-->
