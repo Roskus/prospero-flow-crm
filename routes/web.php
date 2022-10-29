@@ -20,7 +20,7 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 
 //Order
 Route::get('/order', 'OrderController@index');
-Route::get('/order/add', 'OrderController@add');
+Route::get('/order/create', [\App\Http\Controllers\Order\OrderCreateController::class, 'create']);
 Route::get('/order/edit/{id}', 'OrderController@edit');
 Route::post('/order/save', 'OrderController@save');
 
