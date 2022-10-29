@@ -302,6 +302,21 @@
                     })
                 })
             });
+
+            $('#website').on('keyup paste', function() {
+                let $el = $(this);
+                setTimeout(function() {
+                    $el.val(function(i, val) {
+                        if(val.length == 0) return;
+                        let prefix = 'https://';
+                        if (val.substr(0, prefix.length) !== prefix)
+                        {
+                            val = prefix + val.trim();
+                        }
+                        return val;
+                    })
+                })
+            });
         </script>
     @endpush
 @endsection
