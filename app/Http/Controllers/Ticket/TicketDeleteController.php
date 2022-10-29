@@ -12,6 +12,7 @@ class TicketDeleteController extends MainController
     {
         $ticket = Ticket::find($id);
         $ticket->delete();
+
         return redirect('/ticket');
     }
 }
