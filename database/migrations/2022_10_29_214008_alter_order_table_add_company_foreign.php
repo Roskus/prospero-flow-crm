@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('order', function (Blueprint $table) {
             $table->foreign('company_id')->references('id')->on('company');
-            $table->foreign('customer_id')->references('id')->on('customer');
         });
     }
 
@@ -28,7 +27,6 @@ return new class extends Migration
     {
         Schema::table('order', function (Blueprint $table) {
             $table->dropForeign(['company_id']);
-            $table->dropForeign(['customer_id']);
         });
     }
 };
