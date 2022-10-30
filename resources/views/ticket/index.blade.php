@@ -19,6 +19,7 @@
             <th>{{ __('Customer') }}</th>
             <th>{{ __('Created by') }}</th>
             <th>{{ __('Assigned to') }}</th>
+            <th>{{ __('Order') }}</th>
             <th>{{ __('Type') }}</th>
             <th>{{ __('Priority') }}</th>
             <th>{{ __('Status') }}</th>
@@ -31,11 +32,14 @@
         @foreach($tickets as $ticket)
         <tr>
             <td>{{ $ticket->id }}</td>
-            <td>{{ (!empty($ticket->customer)) ? $ticket->customer->name : '' }}</td>
             <td>
                 <a href="{{ url("ticket/update/$ticket->id") }}">{{ $ticket->title }}</a>
             </td>
+            <td>{{ (!empty($ticket->customer)) ? $ticket->customer->name : '' }}</td>
             <td>{{ $ticket->createdBy->first_name.' '.$ticket->createdBy->last_name }}</td>
+            <td>
+
+            </td>
             <td>
 
             </td>
