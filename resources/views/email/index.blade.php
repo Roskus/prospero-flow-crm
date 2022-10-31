@@ -5,13 +5,20 @@
         <h1>E-mail</h1>
     </header>
 
-    <div>
-        <a href="{{ url('/email/create') }}" class="btn btn-primary">{{ __('New') }}</a>
-    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url('/email/create') }}" class="btn btn-primary">{{ __('New') }}</a>
+        </div>
 
-    <form method="post" action="{{ url('/email') }}">
-        @csrf
-    </form>
+        <div class="col">
+            <form method="GET" action="{{ url('/email') }}">
+                <div class="input-group">
+                    <input name="search" type="search" class="form-control" placeholder="{{ __('Search') }}" value="{{ request()->get('search') }}">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-search"><i class="las la-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>    
 
     <div class="mt-2">
     <table class="table table-bordered table-striped">
