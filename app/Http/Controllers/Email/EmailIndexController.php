@@ -11,8 +11,10 @@ class EmailIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $email = new Email();
-        $data['emails'] = $email->getAllByCompanyId(Auth::user()->company_id);
+        $data['emails'] = (new Email())->getAllByCompanyId(
+            Auth::user()->company_id,
+            $request->search
+        );
 
         return view('email.index', $data);
     }

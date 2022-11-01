@@ -35,7 +35,8 @@ class Email extends Model
         if (empty($search)) {
             $email = Email::where('company_id', $company_id);
         } else {
-            $email = Email::where('name', 'LIKE', "%$search%");
+            $email = Email::where('to', 'LIKE', "%$search%")
+                            ->orWhere('subject', 'LIKE', "%$search%");
         }
 
         if (is_array($filters)) {
