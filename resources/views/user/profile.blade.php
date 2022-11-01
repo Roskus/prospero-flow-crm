@@ -63,7 +63,10 @@
         <div class="row form-group{{ $errors->has('password') ? ' has-error' : '' }} mb-2">
             <div class="col">
                 <label for="password" class="col-md-4 control-label">{{ __('Password') }}</label>
-                <input type="password" name="password" id="password" autocomplete="off" class="form-control form-control-lg">
+                <div class="input-group">
+                    <input type="password" name="password" id="password" autocomplete="off" class="form-control form-control-lg">
+                    <span class="input-group-text"><i role="button" toggle="#password" class="las la-eye toggle-password"></i></span>
+                </div>                
 
                 @if ($errors->has('password'))
                     <span class="help-block">
@@ -74,7 +77,10 @@
 
             <div class="col-md-6">
                 <label for="password-confirm" class="col-md-4 control-label">{{ __('Confirm password') }}</label>
-                <input type="password" name="password_confirmation" id="password-confirm" autocomplete="off" class="form-control form-control-lg">
+                <div class="input-group">
+                    <input type="password" name="password_confirmation" id="password-confirm" autocomplete="off" class="form-control form-control-lg">
+                    <span class="input-group-text"><i role="button" toggle="#password-confirm" class="las la-eye toggle-password"></i></span>
+                </div>
             </div>
         </div><!--./row-->
 
@@ -98,4 +104,17 @@
             </div>
         </div>
     </form>
+    @push('scripts')
+    <script>
+        $(".toggle-password").click(function() {
+            $(this).toggleClass("la-eye la-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+    @endpush
 @endsection
