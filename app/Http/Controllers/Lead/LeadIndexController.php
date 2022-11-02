@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
+use App\Models\Industry;
 use App\Models\Lead;
 use App\Models\User;
-use App\Models\Industry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Squire\Models\Country;
@@ -46,6 +46,7 @@ class LeadIndexController extends MainController
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['statuses'] = $lead->getStatus();
         $data['industries'] = Industry::all();
+
         return view('lead.index', $data);
     }
 }
