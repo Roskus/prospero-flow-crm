@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
@@ -26,6 +27,7 @@ use OpenApi\Annotations\OpenApi as OA;
  */
 class Lead extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     const OPEN = 'open'; //New
