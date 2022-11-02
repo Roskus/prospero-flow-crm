@@ -91,6 +91,7 @@ Route::match(['get', 'post'], '/calendar', [\App\Http\Controllers\Calendar\Calen
 // Email
 Route::match(['get', 'post'], '/email', [\App\Http\Controllers\Email\EmailIndexController::class, 'index']);
 Route::get('/email/create', [\App\Http\Controllers\Email\EmailCreateController::class, 'create']);
+Route::get('/email/view/{id}', [\App\Http\Controllers\Email\EmailViewController::class, 'view']);
 Route::get('/email/update/{id}', [\App\Http\Controllers\Email\EmailUpdateController::class, 'update']);
 Route::post('/email/save', [\App\Http\Controllers\Email\EmailSaveController::class, 'save']);
 Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController::class, 'send']);

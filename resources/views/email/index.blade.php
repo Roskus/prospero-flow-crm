@@ -18,7 +18,7 @@
                 </div>
             </form>
         </div>
-    </div>    
+    </div>
 
     <div class="mt-2">
     <table class="table table-bordered table-striped">
@@ -26,7 +26,7 @@
     <tr>
         <td>{{ __('Subject') }}</td>
         <td>{{ __('To') }}</td>
-        <td>Updated at</td>
+        <td>{{ __('Updated at') }}</td>
         <td>{{ __('Status') }}</td>
         <td>{{ __('Actions') }}</td>
     </tr>
@@ -43,6 +43,9 @@
             {{ $email->status }}
         </td>
         <td>
+            <a href="{{ url("/email/view/$email->id") }}" title="{{ __('View') }}" target="_blank" class="btn btn-secondary">
+                <i class="las la-glasses"></i>
+            </a>
             <a href="{{ url("/email/update/$email->id") }}" class="btn btn-warning" title="{{ __('Edit') }}">
                 <i class="las la-edit"></i>
             </a>
