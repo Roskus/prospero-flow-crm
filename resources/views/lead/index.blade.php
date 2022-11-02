@@ -64,6 +64,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="col">
+                            <label for="industry_id">{{ __('Industry') }}</label>
+                            <select name="industry_id" id="industry_id" class="form-select">
+                                <option value=""></option>
+                                @foreach($industries as $industry)
+                                    <option value="{{ $industry->id }}">{{ $industry->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div><!--./row-->
                 </div>
             </div>

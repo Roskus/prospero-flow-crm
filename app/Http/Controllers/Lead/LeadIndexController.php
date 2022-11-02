@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Lead;
 use App\Http\Controllers\MainController;
 use App\Models\Lead;
 use App\Models\User;
+use App\Models\Industry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Squire\Models\Country;
@@ -34,13 +35,17 @@ class LeadIndexController extends MainController
             $filters['status'] = $request->status;
         }
 
+        if ($request->industry_id) {
+            $filters['industry_id'] = $request->industry_id;
+        }
+
         $lead = new Lead();
         $data['countries'] = Country::orderBy('name')->get();
         $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['statuses'] = $lead->getStatus();
-
+        $data['industries'] = Industry::all();
         return view('lead.index', $data);
     }
 }
