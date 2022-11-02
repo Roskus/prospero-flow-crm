@@ -60,9 +60,9 @@
             min-height: 300px;
         }
     </style>
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/super-build/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/super-build/ckeditor.js"></script>
     <!-- spanish translation -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/super-build/translations/es.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/super-build/translations/es.js"></script>
 
     <script>
         CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
