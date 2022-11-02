@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Api\Contact;
 
@@ -18,7 +20,7 @@ class ContactCreateControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_create_contact() : void
+    public function can_create_contact(): void
     {
         $user = $this->signin();
 
@@ -58,11 +60,10 @@ class ContactCreateControllerTest extends TestCase
             ->assertSee($data['first_name']);
     }
 
-
     /**
      * @test
      */
-    public function create_contact_have_missing_parameters() : void
+    public function create_contact_have_missing_parameters(): void
     {
         $user = $this->signin();
 
