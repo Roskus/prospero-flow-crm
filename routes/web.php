@@ -19,7 +19,7 @@ Route::get('/', 'MainController@index');
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
 //Order
-Route::get('/order', 'OrderController@index');
+Route::get('/order', [\App\Http\Controllers\Order\OrderIndexController::class, 'index']);
 Route::get('/order/create', [\App\Http\Controllers\Order\OrderCreateController::class, 'create']);
 Route::get('/order/edit/{id}', 'OrderController@edit');
 Route::post('/order/save', 'OrderController@save');
