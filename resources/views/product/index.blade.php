@@ -6,7 +6,7 @@
 </header>
 
 <div class="mb-2">
-  <a href="{{ url('/product/create') }}" class="btn btn-primary">{{ trans('New product') }}</a>
+  <a href="{{ url('/product/create') }}" class="btn btn-primary">{{ __('New') }}</a>
 </div>
 
 <div class="row mt-2">
@@ -28,13 +28,13 @@
   <thead>
   <tr>
       <th>#ID</th>
-      <th>{{ trans('Category') }}</th>
-      <th>{{ trans('Name') }}</th>
-      <th>{{ trans('Brand') }}</th>
-      <th class="text-center">{{ trans('Quantity') }}</th>
-      <th>{{ trans('Price') }}</th>
-      <th>{{ trans('Created at') }}</th>
-      <th>{{ trans('Actions') }}</th>
+      <th>{{ __('Category') }}</th>
+      <th>{{ __('Name') }}</th>
+      <th>{{ __('Brand') }}</th>
+      <th class="text-center">{{ __('Quantity') }}</th>
+      <th>{{ __('Price') }}</th>
+      <th>{{ __('Created at') }}</th>
+      <th>{{ __('Actions') }}</th>
   </tr>
   </thead>
   <tbody>
@@ -49,8 +49,8 @@
           {{ $product->quantity }}
           </span>
       </td>
-      <td>{{ $product->price }}</td><!--Money::format(-->
-      <td>{{ $product->created_at }}</td>
+      <td>{{ $product->price }} {{ Auth::user()->company->country->currency->symbol }}</td><!--Money::format(-->
+      <td>{{ $product->created_at->format('d/m/Y H:i') }}</td>
       <td>
         <a href="{{ url("/product/update/$product->id") }}" class="btn bt-xs btn-warning text-white">
             <i class="las la-pen"></i>
