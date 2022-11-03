@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class OrderController extends MainController
 {
-
-
     /**
      * @param  Request  $request
      * @param  int  $id
