@@ -25,7 +25,7 @@
             <select name="assigned_to" required="required" class="form-select form-control-lg">
                 <option value=""></option>
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->first_name.' '.$user->last_name }}</option>
+                    <option value="{{ $user->id }}" @if($ticket->assigned_to == $user->id) selected="selected" @endif>{{ $user->first_name.' '.$user->last_name }}</option>
                 @endforeach
             </select>
         </div><!--./col-->

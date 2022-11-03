@@ -16,11 +16,12 @@ class TicketSaveController extends MainController
         } else {
             $ticket = new Ticket();
             $ticket->created_at = now();
+            $ticket->created_by = Auth::user()->id;
         }
         $ticket->company_id = Auth::user()->company_id;
         $ticket->title = $request->title;
         $ticket->description = $request->description;
-        $ticket->created_by = Auth::user()->id;
+        $ticket->assigned_to = $request->assigned_to;
         $ticket->updated_at = now();
         $ticket->save();
 
