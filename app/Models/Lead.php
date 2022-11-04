@@ -125,7 +125,7 @@ class Lead extends Model
             }
         }
 
-        return $leads->paginate(10);
+        return $leads->with('seller', 'industry')->paginate(10);
     }
 
     public function getCountByCompany(int $company_id): int

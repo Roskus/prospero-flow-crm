@@ -123,7 +123,7 @@ class Customer extends Model
             }
         }
 
-        return $customers->paginate(10);
+        return $customers->with('seller', 'industry')->paginate(10);
     }
 
     public function getCountByCompany(int $company_id): int

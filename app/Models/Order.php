@@ -171,6 +171,6 @@ final class Order extends Model
      */
     public function getAllActiveByCompany(int $company_id)
     {
-        return Order::where('company_id', $company_id)->paginate(10);
+        return Order::with('customer')->where('company_id', $company_id)->paginate(10);
     }
 }
