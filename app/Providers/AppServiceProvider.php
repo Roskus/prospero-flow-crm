@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Blade::withoutDoubleEncoding();
-        Paginator::useBootstrap();
+        Paginator::useBootstrapFive();
     }
 
     /**
