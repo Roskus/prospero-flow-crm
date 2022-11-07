@@ -42,7 +42,7 @@ class Product extends Model
 
     public function getAllByCompanyId($company_id)
     {
-        return Product::where('company_id', '=', $company_id)
+        return Product::with('category', 'brand')->where('company_id', '=', $company_id)
                         ->orderBy('name', 'asc')->get();
     }
 }
