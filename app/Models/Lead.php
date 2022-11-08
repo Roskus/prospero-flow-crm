@@ -118,10 +118,10 @@ class Lead extends Model
      */
     public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters)
     {
-        if (empty($search)) {
-            $leads = Lead::where('company_id', $company_id);
-        } else {
-            $leads = Lead::where('name', 'LIKE', "%$search%");
+        $leads = Lead::where('company_id', $company_id);
+        if (!empty($search)) {
+            $leads->where('name', 'LIKE', "%$search%")
+                  ->orWhere('tags', 'LIKE', "%$search%");
         }
 
         if (is_array($filters)) {
@@ -133,6 +133,10 @@ class Lead extends Model
         return $leads->with('seller', 'industry')->paginate(10);
     }
 
+    /**
+     * @param int $company_id
+     * @return int
+     */
     public function getCountByCompany(int $company_id): int
     {
         return Lead::where('company_id', $company_id)->count();

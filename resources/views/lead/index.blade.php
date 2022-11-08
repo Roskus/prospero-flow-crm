@@ -94,6 +94,7 @@
         <th>Social</th>
         <th>{{ __('Seller') }}</th>
         <th>{{ __('Industry') }}</th>
+        <th>{{ __('Tags') }}</th>
         <th>{{ __('Status') }}</th>
         <th>{{ __('Created at') }}</th>
         <th>{{ __('Updated at') }}</th>
@@ -159,6 +160,13 @@
         </td>
         <td class="text-center">{{ $lead->seller->first_name }}</td>
         <td class="text-center">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
+        <td class="text-center">
+            @if($lead->tags)
+                @foreach($lead->tags as $tag)
+                    <a href="{{ url("/lead?search=$tag") }}">{{ $tag }}</a>
+                @endforeach
+            @endif
+        </td>
         <td class="text-center">
             <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">{{ $lead->status }}</span>
         </td>
