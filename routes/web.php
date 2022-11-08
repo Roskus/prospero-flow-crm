@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'MainController@index');
+// PWA - Progresive Web App
+Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'renderWebManifest'])->name('manifest');
 
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
