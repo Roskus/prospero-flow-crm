@@ -119,7 +119,7 @@ class Lead extends Model
     public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters)
     {
         $leads = Lead::where('company_id', $company_id);
-        if (!empty($search)) {
+        if (! empty($search)) {
             $leads->where('name', 'LIKE', "%$search%")
                   ->orWhere('tags', 'LIKE', "%$search%");
         }
@@ -134,7 +134,7 @@ class Lead extends Model
     }
 
     /**
-     * @param int $company_id
+     * @param  int  $company_id
      * @return int
      */
     public function getCountByCompany(int $company_id): int

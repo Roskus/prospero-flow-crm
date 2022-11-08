@@ -117,7 +117,7 @@ class Customer extends Model
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
         $customers = Customer::where('company_id', $company_id);
-        if (!empty($search)) {
+        if (! empty($search)) {
             $customers->where('name', 'LIKE', "%$search%")
                       ->orWhere('tags', 'LIKE', "%$search%");
         }
