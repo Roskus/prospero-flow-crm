@@ -155,6 +155,12 @@
                         <input type="datetime-local" name="schedule_contact" id="schedule_contact" value="{{ $lead->schedule_contact }}" min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
+                <div class="row">
+                    <div class="col mt-2">
+                        <label for="tags">{{ __('Tags') }}</label>
+                        <textarea name="tags" id="tags" class="form-control form-control-lg">{{ $lead->tags }}</textarea>
+                    </div>
+                </div>
             </div><!--./card-body-->
         </div><!--./card-->
 
@@ -168,7 +174,7 @@
     </form>
 
     @if($lead->id)
-    <div class="accordion mt-2">
+    <div class="card accordion mt-2">
         <div class="accordion-header" id="headingContact">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="true" aria-controls="collapseContact">
             {{ __('Contacts') }}
