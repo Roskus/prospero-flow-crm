@@ -173,15 +173,15 @@
         <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
         <td>
-            <a href="{{  url("/lead/update/$lead->id") }}" class="btn btn-xs btn-warning text-white">
+            <a href="{{  url("/lead/update/$lead->id") }}" class="btn btn-xs btn-warning text-white" title="{{ __('Update') }}">
                 <i class="las la-pen"></i>
             </a>
 
-            <a href="{{  url("/lead/promote/$lead->id") }}" class="btn btn-xs btn-success text-white">
+            <a href="{{  url("/lead/promote/$lead->id") }}" class="btn btn-xs btn-success text-white" title="{{ __('Promote') }}">
                 <i class="las la-user-tie"></i>
             </a>
 
-            <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" class="btn btn-xs btn-danger">
+            <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" class="btn btn-xs btn-danger" title="{{ __('Delete') }}">
                 <i class="las la-trash-alt"></i>
             </a>
         </td>

@@ -43,21 +43,21 @@
             {{ $email->status }}
         </td>
         <td>
-            <a href="{{ url("/email/view/$email->id") }}" title="{{ __('View') }}" target="_blank" class="btn btn-secondary">
+            <a href="{{ url("/email/view/$email->id") }}" title="{{ __('Preview') }}" target="_blank" class="btn btn-secondary">
                 <i class="las la-glasses"></i>
             </a>
-            <a href="{{ url("/email/update/$email->id") }}" class="btn btn-warning" title="{{ __('Edit') }}">
+            <a href="{{ url("/email/update/$email->id") }}" title="{{ __('Edit') }}" class="btn btn-warning">
                 <i class="las la-edit"></i>
             </a>
             @if($email->status != \App\Models\Email::SENT)
-            <a href="{{ url("/email/send/$email->id") }}" class="btn btn-primary">
+            <a href="{{ url("/email/send/$email->id") }}" title="{{ __('Send') }}" class="btn btn-primary">
                 <i class="las la-envelope"></i>
             </a>
-            <a href="{{ url("/email/delete/$email->id") }}" class="btn btn-danger">
+            <a href="{{ url("/email/delete/$email->id") }}" title="{{ __('Delete') }}" class="btn btn-danger">
                 <i class="las la-trash"></i>
             </a>
             @else
-                <a href="{{ url("/email/archive/$email->id") }}" class="btn btn-success" title="{{ __('Archive') }}">
+                <a href="{{ url("/email/archive/$email->id") }}" title="{{ __('Archive') }}" class="btn btn-success">
                     <i class="las la-trash"></i>
                 </a>
             @endif
