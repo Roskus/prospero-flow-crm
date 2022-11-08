@@ -70,7 +70,12 @@ class Customer extends Model
         'schedule_contact',
         'industry_id',
         'opt_in',
+        'tags',
         'status',
+    ];
+
+    protected $casts = [
+        'tags' => 'array',
     ];
 
     protected $hidden = [
@@ -111,10 +116,10 @@ class Customer extends Model
      */
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
-        if (empty($search)) {
-            $customers = Customer::where('company_id', $company_id);
-        } else {
-            $customers = Customer::where('name', 'LIKE', "%$search%");
+        $customers = Customer::where('company_id', $company_id);
+        if (! empty($search)) {
+            $customers->where('name', 'LIKE', "%$search%")
+                      ->orWhere('tags', 'LIKE', "%$search%");
         }
 
         if (is_array($filters)) {
