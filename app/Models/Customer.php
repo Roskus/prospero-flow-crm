@@ -75,7 +75,7 @@ class Customer extends Model
     ];
 
     protected $casts = [
-        'tags' => 'array'
+        'tags' => 'array',
     ];
 
     protected $hidden = [
