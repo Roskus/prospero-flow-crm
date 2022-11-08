@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('product', function (Blueprint $table) {
-            $table->decimal('capacity', 10,2)->nullable()->after('quantity');
-            $table->enum('capacity_measure', ['','l','dl','cl','ml','kg','g','mg'])->after('capacity');
+            $table->decimal('capacity', 10, 2)->nullable()->after('quantity');
+            $table->enum('capacity_measure', ['', 'l', 'dl', 'cl', 'ml', 'kg', 'g', 'mg'])->after('capacity');
         });
     }
 
