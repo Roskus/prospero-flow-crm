@@ -50,7 +50,7 @@ class CustomerSaveController extends MainController
         $customer->industry_id = $request->industry_id;
         $customer->schedule_contact = $request->schedule_contact;
 
-        $customer->tags = json_encode(explode( ',', $request->tags));
+        $customer->tags = json_encode(explode(',', $request->tags));
 
         if ($request->status) {
             $customer->status = $request->status;
