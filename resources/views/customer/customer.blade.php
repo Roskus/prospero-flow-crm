@@ -155,6 +155,12 @@
                         <input type="datetime-local" name="schedule_contact" id="schedule_contact" value="{{ $customer->schedule_contact }}" min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
+                <div class="row">
+                    <div class="col mt-2">
+                        <label for="tags">{{ __('Tags') }}</label>
+                        <textarea name="tags" id="tags" class="form-control form-control-lg">{{ implode(',', $customer->tags) }}</textarea>
+                    </div>
+                </div>
             </div><!--./card-body-->
         </div><!--./card-->
 

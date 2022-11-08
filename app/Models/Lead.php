@@ -72,7 +72,12 @@ class Lead extends Model
         'schedule_contact',
         'industry_id',
         'opt_in',
+        'tags',
         'status',
+    ];
+
+    protected $casts = [
+        'tags' => 'array'
     ];
 
     protected $hidden = [

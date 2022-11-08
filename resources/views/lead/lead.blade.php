@@ -158,7 +158,7 @@
                 <div class="row">
                     <div class="col mt-2">
                         <label for="tags">{{ __('Tags') }}</label>
-                        <textarea name="tags" id="tags" class="form-control form-control-lg">{{ $lead->tags }}</textarea>
+                        <textarea name="tags" id="tags" class="form-control form-control-lg">{{ implode(',', $lead->tags) }}</textarea>
                     </div>
                 </div>
             </div><!--./card-body-->
