@@ -10,6 +10,7 @@
     <meta name="googlebot" content="noindex">
     <title>{{ isset($title) ? $title.' | Hammer CRM' : 'Hammer CRM' }}</title>
     <link rel="icon" href="/favicon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url('/asset/img/hammer.png') }}">
     <link rel="manifest" href="{{ url('/manifest') }}">
 
     <!-- Bootstrap -->
