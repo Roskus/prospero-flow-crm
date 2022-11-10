@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\CompanyCreate::class,
         Commands\UserCreate::class,
+        Commands\CampaignSender::class,
     ];
 
     /**
