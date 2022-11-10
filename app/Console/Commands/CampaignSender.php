@@ -51,7 +51,8 @@ class CampaignSender extends Command
                             ->where('industry_id', 34)
                             ->whereNotNull('email')
                             ->get();
-            $this->info('Contacts to send the campaign: '.$contacts->count());
+            $contacts_count = $contacts->count();
+            $this->info("Contacts to send the campaign: $contacts_count");
             $company = Company::find($campaign->company_id);
 
             foreach($contacts as $contact)
@@ -64,6 +65,9 @@ class CampaignSender extends Command
                     Log::error($t->getMessage());
                 }
             }
+            $campaign->send_at = now();
+            $campaign->emails_count = $contacts_count;
+            $campaign->save();
         }
         return Command::SUCCESS;
     }
