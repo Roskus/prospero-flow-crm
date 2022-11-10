@@ -3,12 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Mail\GenericEmail;
-use App\Models\Company;
-use App\Models\Email;
-use Illuminate\Console\Command;
 use App\Models\Campaign;
+use App\Models\Company;
 use App\Models\Lead;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -42,9 +40,7 @@ class CampaignSender extends Command
                                 //->where('schedule_send_time')
                                 ->get();
 
-
-        foreach($campaigns as $campaign)
-        {
+        foreach ($campaigns as $campaign) {
             $this->info("Campaign to send: $campaign->subject");
             //Todo get contacts by campaign
             $contacts = Lead::where('company_id', 1)
@@ -54,8 +50,7 @@ class CampaignSender extends Command
             $this->info('Contacts to send the campaign: '.$contacts->count());
             $company = Company::find($campaign->company_id);
 
-            foreach($contacts as $contact)
-            {
+            foreach ($contacts as $contact) {
                 $emailTemplate = new GenericEmail($company, $campaign->subject, ['body' => $campaign->body]);
                 try {
                     $this->info("Send email to: $contact->email");
@@ -65,6 +60,7 @@ class CampaignSender extends Command
                 }
             }
         }
+
         return Command::SUCCESS;
     }
 }
