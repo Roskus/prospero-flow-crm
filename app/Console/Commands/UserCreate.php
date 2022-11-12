@@ -14,7 +14,7 @@ class UserCreate extends Command
      *
      * @var string
      */
-    protected $signature = 'user:create {company?}';
+    protected $signature = 'crm:user:create {company?}';
 
     /**
      * The console command description.

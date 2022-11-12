@@ -12,7 +12,7 @@ class CompanyCreate extends Command
      *
      * @var string
      */
-    protected $signature = 'company:create';
+    protected $signature = 'crm:company:create';
 
     /**
      * The console command description.

@@ -17,7 +17,7 @@ class CampaignSender extends Command
      *
      * @var string
      */
-    protected $signature = 'campaign:send';
+    protected $signature = 'crm:campaign:send';
 
     /**
      * The console command description.
