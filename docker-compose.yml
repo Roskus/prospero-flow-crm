@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: hammer_crm:dev
+    depends_on:
+      - mysql
+    ports:
+      - 8080:80
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=hammer_crm
+      - DB_USERNAME=hammer_crm_user
+      - DB_PASSWORD=secret
+    volumes:
+      - .:/var/www/html
+    networks:
+      - hammer_crm_network
+    
+  mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret_root_password
+      - MYSQL_DATABASE=hammer_crm
+      - MYSQL_USER=hammer_crm_user
+      - MYSQL_PASSWORD=secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - hammer_crm_network
+
+networks:
+    hammer_crm_network:
+      driver: bridge
+   
