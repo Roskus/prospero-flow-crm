@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Campaign;
 
 use App\Http\Controllers\MainController;
-use Illuminate\Http\Request;
 use App\Models\Campaign;
+use Illuminate\Http\Request;
 
 class CampaignSaveController extends MainController
 {
@@ -19,6 +19,7 @@ class CampaignSaveController extends MainController
         $campaign->subject = $request->subject;
         $campaign->updated_at = now();
         $campaign->save();
+
         return redirect('/campaign');
     }
 }

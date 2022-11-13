@@ -12,6 +12,7 @@ class CampaignUpdateController extends MainController
     {
         $campaign = Campaign::find($id);
         $data['campaign'] = $campaign;
+
         return view('campaign.campaign', $data);
     }
 }

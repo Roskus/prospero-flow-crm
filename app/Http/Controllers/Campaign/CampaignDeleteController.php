@@ -12,6 +12,7 @@ class CampaignDeleteController extends MainController
     {
         $campaign = Campaign::find($id);
         $campaign->delete();
+
         return redirect('campaign');
     }
 }

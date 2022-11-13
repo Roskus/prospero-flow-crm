@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Campaign;
 
 use App\Http\Controllers\MainController;
-use Illuminate\Http\Request;
 use App\Models\Campaign;
+use Illuminate\Http\Request;
 
 class CampaignCreateController extends MainController
 {
@@ -12,6 +12,7 @@ class CampaignCreateController extends MainController
     {
         $campaign = new Campaign();
         $data['campaign'] = $campaign;
+
         return view('campaign.campaign', $data);
     }
 }

@@ -13,6 +13,7 @@ class CampaignIndexController extends MainController
     {
         $campaign = new Campaign();
         $data['campaigns'] = $campaign->getAllByCompany(Auth::user()->company_id);
+
         return view('campaign.index', $data);
     }
 }
