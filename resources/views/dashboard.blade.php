@@ -36,6 +36,7 @@
                             <th>{{ __('Phone') }}</th>
                             <th>{{ __('Mobile') }}</th>
                             <th>E-mail</th>
+                            <th>{{ __('Website') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Created at') }}</th>
                         </tr>
@@ -61,6 +62,9 @@
                                 @if($lead->email)
                                     <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
                                 @endif
+                            </td>
+                            <td>
+                                <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
                             </td>
                             <td class="text-center">
                                 <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">{{ $lead->status }}</span>
