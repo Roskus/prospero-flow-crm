@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Squire\Models\Country;
 use OpenApi\Annotations\OpenApi as OA;
 
 /**
@@ -93,6 +94,11 @@ class Lead extends Model
     public function seller()
     {
         return $this->hasOne(\App\Models\User::class, 'id', 'seller_id');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 
     public function industry()

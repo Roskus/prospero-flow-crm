@@ -102,6 +102,12 @@ Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteControl
 // Email template
 Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
 
+// Campaign
+Route::match(['get', 'post'], '/campaign', [\App\Http\Controllers\Campaign\CampaignIndexController::class, 'index']);
+Route::get('/campaign/create', [\App\Http\Controllers\Campaign\CampaignCreateController::class, 'create']);
+Route::get('/campaign/update/{id}', [\App\Http\Controllers\Campaign\CampaignUpdateController::class, 'update']);
+Route::post('/campaign/save', [\App\Http\Controllers\Campaign\CampaignSaveController::class, 'save']);
+
 // Supplier
 Route::match(['get', 'post'], '/supplier', [\App\Http\Controllers\Supplier\SupplierIndexController::class, 'index']);
 Route::get('/supplier/create', [\App\Http\Controllers\Supplier\SupplierCreateController::class, 'create']);

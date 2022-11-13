@@ -117,7 +117,9 @@
         <td>
             <a href="{{ $customer->website }}" target="_blank">{{ $customer->website }}</a>
         </td>
-        <td class="text-center">{{ $customer->country_id }}</td>
+        <td class="text-center" title="{{ $customer->country->name }}">
+            {{ $customer->country->flag }}
+        </td>
         <td>
             @if($customer->facebook)
                 <a href="{{ $customer->facebook }}" target="_blank">
@@ -164,10 +166,10 @@
         <td>{{ $customer->created_at->format('d/m/Y H:i') }}</td>
         <td>{{ $customer->updated_at->format('d/m/Y H:i') }}</td>
         <td>
-            <a href="{{ url("/customer/update/$customer->id") }}" class="btn btn-xs btn-warning text-white" title="{{ __('Update') }}">
+            <a href="{{ url("/customer/update/$customer->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
-            <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->name }}');" class="btn btn-xs btn-danger">
+            <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->name }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                 <i class="las la-trash-alt"></i>
             </a>
         </td>

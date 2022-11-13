@@ -126,7 +126,9 @@
         <td>
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
-        <td class="text-center">{{ $lead->country_id }}</td>
+        <td class="text-center" title="{{ $lead->country->name }}">
+            {{ $lead->country->flag }}
+        </td>
         <td>
             @if($lead->facebook)
                 <a href="{{ $lead->facebook }}" target="_blank">
