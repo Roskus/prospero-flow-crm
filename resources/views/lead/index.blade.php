@@ -159,6 +159,12 @@
                     <i class="lab la-twitter-square fs-3"></i>
                 </a>
             @endif
+
+            @if($lead->mobile)
+                <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank">
+                    <i class="lab la-whatsapp fs-3"></i>
+                </a>
+            @endif
         </td>
         <td class="text-center">{{ $lead->seller->first_name }}</td>
         <td class="text-center">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
