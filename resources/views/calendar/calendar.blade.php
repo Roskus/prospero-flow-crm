@@ -99,7 +99,7 @@
                         <div class="row">
                             <div class="col">
                                 <label>{{ __('Web meeting') }}</label>
-                                <input type="url" name="meeting" id="meeting" placeholder="https://meet.jit.si/{{ Auth::user->company->name }}" class="form-control">
+                                <input type="url" name="meeting" id="meeting" value="https://meet.jit.si/{{ auth()->user()->company->name }}" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -111,7 +111,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="button" onclick="Calendar.close()" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                     <button type="button" onclick="Calendar.save()" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
