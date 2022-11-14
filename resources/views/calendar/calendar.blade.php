@@ -82,8 +82,8 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label>{{ __('Guest') }} <span class="text-danger">*</span></label>
-                                <input type="text" name="guest" id="guest" required="required" class="form-control">
+                                <label>{{ __('Guests') }} <span class="text-danger">*</span></label>
+                                <input type="text" name="guests" id="guests" required="required" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -98,8 +98,8 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label>{{ __('Web meeeting') }}</label>
-                                <input type="url" name="meeting" class="form-control">
+                                <label>{{ __('Web meeting') }}</label>
+                                <input type="url" name="meeting" id="meeting" placeholder="https://meet.jit.si/{{ Auth::user->company->name }}" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -112,7 +112,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button type="button" onclick="Calendar.save()" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
