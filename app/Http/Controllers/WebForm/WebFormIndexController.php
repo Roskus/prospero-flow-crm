@@ -10,6 +10,7 @@ class WebFormIndexController extends MainController
     public function index(Request $request)
     {
         $data['webforms'] = [];
+
         return view('web_form.index', $data);
     }
 }
