@@ -10,10 +10,10 @@
         <a href="{{ url('/lead/create') }}" class="btn btn-primary">{{ __('New') }}</a>
     </div>
     <div class="col">
-        <a href="{{ url('/lead/import') }}" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv"></i></a>
-    </div>
-    <div class="col">
-        <a href="{{ url('/lead/export') }}" class="btn btn-info">{{ __('Export') }} <i class="las la-file-csv"></i></a>
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <a href="{{ url('/lead/import') }}" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
+            <a href="{{ url('/lead/export') }}" class="btn btn-info">{{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
+        </div><!--./btn-group-->
     </div>
 </div>
 

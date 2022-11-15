@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
 use App\Models\Customer;
+use App\Models\Industry;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,13 +35,18 @@ class CustomerIndexController extends MainController
             $filters['status'] = $request->status;
         }
 
+        if ($request->industry_id) {
+            $filters['industry_id'] = $request->industry_id;
+        }
+
         $customer = new Customer();
         $data['countries'] = Country::orderBy('name')->get();
         $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['statuses'] = $customer->getStatus();
-
+        $data['industries'] = Industry::all();
+        
         return view('customer.index', $data);
     }
 }

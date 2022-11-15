@@ -10,10 +10,10 @@
         <a href="{{ url('/customer/create') }}" class="btn btn-primary">{{ __('New') }}</a>
     </div>
     <div class="col">
-        <a href="{{ url('/customer/import') }}" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv"></i></a>
-    </div>
-    <div class="col">
-        <a href="{{ url('/customer/export') }}" class="btn btn-info">{{ __('Export') }} <i class="las la-file-csv"></i></a>
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <a href="{{ url('/customer/import') }}" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
+            <a href="{{ url('/customer/export') }}" class="btn btn-info">{{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
+        </div><!--./btn-group-->
     </div>
 </div>
 
@@ -61,6 +61,15 @@
                                 <option value=""></option>
                                 @foreach($sellers as $seller)
                                 <option value="{{ $seller->id }}">{{ $seller->getFullName() }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="industry_id">{{ __('Industry') }}</label>
+                            <select name="industry_id" id="industry_id" class="form-select">
+                                <option value=""></option>
+                                @foreach($industries as $industry)
+                                    <option value="{{ $industry->id }}">{{ $industry->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -148,6 +157,12 @@
             @if($customer->twitter)
                 <a href="{{ $customer->twitter }}" target="_blank">
                     <i class="lab la-twitter-square fs-3"></i>
+                </a>
+            @endif
+
+            @if($customer->mobile)
+                <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}" target="_blank">
+                    <i class="lab la-whatsapp fs-3"></i>
                 </a>
             @endif
         </td>
