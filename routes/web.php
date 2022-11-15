@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'MainController@index');
+Route::get('/',  [\App\Http\Controllers\MainController::class, 'index']);
 // PWA - Progresive Web App
 Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'renderWebManifest'])->name('manifest');
 
@@ -23,21 +23,21 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 //Order
 Route::get('/order', [\App\Http\Controllers\Order\OrderIndexController::class, 'index']);
 Route::get('/order/create', [\App\Http\Controllers\Order\OrderCreateController::class, 'create']);
-Route::get('/order/edit/{id}', 'OrderController@edit');
-Route::post('/order/save', 'OrderController@save');
+Route::get('/order/edit/{id}', [\App\Http\Controllers\OrderController::class, 'edit']);
+Route::post('/order/save', [\App\Http\Controllers\OrderController::class, 'save']);
 
 //Product
-Route::match(['get', 'post'], '/product', 'ProductController@index');
+Route::match(['get', 'post'], '/product', [\App\Http\Controllers\ProductController::class, 'index']);
 Route::get('/product/create', [\App\Http\Controllers\Product\ProductCreateController::class, 'create']);
 Route::get('/product/update/{id}', [\App\Http\Controllers\Product\ProductUpdateController::class, 'update']);
 Route::post('/product/save', [\App\Http\Controllers\Product\ProductSaveController::class, 'save']);
 Route::get('/product/delete/{id}', [\App\Http\Controllers\Product\ProductDeleteController::class, 'delete']);
 
 //Brand
-Route::get('/brand', 'BrandController@index');
-Route::get('/brand/add', 'BrandController@add');
-Route::get('/brand/edit/{id}', 'BrandController@edit');
-Route::post('/brand/save', 'BrandController@save');
+Route::get('/brand', [\App\Http\Controllers\BrandController::class, 'index']);
+Route::get('/brand/add', [\App\Http\Controllers\BrandController::class, 'add']);
+Route::get('/brand/edit/{id}', [\App\Http\Controllers\BrandController::class, 'edit']);
+Route::post('/brand/save', [\App\Http\Controllers\BrandController::class, 'save']);
 
 // Lead
 Route::match(['get', 'post'], '/lead', [\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);
@@ -58,10 +58,10 @@ Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveContro
 Route::get('/customer/delete/{id}', [\App\Http\Controllers\Customer\CustomerDeleteController::class, 'delete']);
 
 //Category
-Route::get('/category', 'CategoryController@index');
-Route::get('/category/add', 'CategoryController@add');
-Route::get('/category/edit/{id}', 'CategoryController@edit');
-Route::post('/category/save', 'CategoryController@save');
+Route::get('/category', [\App\Http\Controllers\CategoryController::class,'index']);
+Route::get('/category/add', [\App\Http\Controllers\CategoryController::class,'add']);
+Route::get('/category/edit/{id}', [\App\Http\Controllers\CategoryController::class,'edit']);
+Route::post('/category/save', [\App\Http\Controllers\CategoryController::class,'save']);
 
 // Company
 Route::get('/company', [\App\Http\Controllers\Company\CompanyIndexController::class, 'index']);
@@ -71,8 +71,8 @@ Route::post('/company/save', [\App\Http\Controllers\Company\CompanySaveControlle
 Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteController::class, 'delete']);
 
 // Account
-Route::get('/accounting', 'AccountController@index');
-Route::post('/account/save', 'AccountController@save');
+Route::get('/accounting', [\App\Http\Controllers\AccountController::class, 'index']);
+Route::post('/account/save', [\App\Http\Controllers\AccountController::class, 'save']);
 
 // User
 Route::get('/user', [\App\Http\Controllers\User\UserListController::class, 'index']);
@@ -81,11 +81,11 @@ Route::get('/user/update/{id}', [\App\Http\Controllers\User\UserUpdateController
 Route::post('/user/save', [\App\Http\Controllers\User\UserSaveController::class, 'save']);
 
 // Profile
-Route::get('/profile', 'ProfileController@edit');
+Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit']);
 Route::post('/profile/save', [\App\Http\Controllers\Profile\ProfileSaveController::class, 'save']);
 
-Route::get('/setting', 'SettingController@index');
-Route::get('/home', 'HomeController@index');
+Route::get('/setting', [\App\Http\Controllers\SettingController::class,'index']);
+Route::get('/home', [\App\Http\Controllers\HomeController::class,'index']);
 
 // Calendar
 Route::match(['get', 'post'], '/calendar', [\App\Http\Controllers\Calendar\CalendarController::class, 'index']);

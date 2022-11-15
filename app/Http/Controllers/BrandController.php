@@ -16,13 +16,6 @@ class BrandController extends MainController
         return view('brand.index', $data);
     }
 
-    public function add(Request $request)
-    {
-        $brand = new Brand();
-        $data['brand'] = $brand;
-
-        return view('brand.brand', $data);
-    }
 
     public function edit(Request $request, int $id)
     {

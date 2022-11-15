@@ -28,6 +28,7 @@ class ContactCreateController
             'lead_id' => ['required'],
             'email' => ['required', 'max:254'],
             'first_name' => ['required', 'max:50'],
+            'phone' => ['required', 'max:15'],
         ]);
 
         if ($valid) {

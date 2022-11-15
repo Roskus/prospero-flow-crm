@@ -16,6 +16,7 @@ window.Calendar = {
         const myModal = new bootstrap.Modal(document.getElementById('sheduleEventModal'), options);
         myModal.hide();
         //@TODO
-        
+
     }
+
 }

@@ -13,13 +13,16 @@
         "aws/aws-sdk-php": "^3.234",
         "darkaonline/l5-swagger": "^8.3",
         "doctrine/dbal": "^3.4",
+        "fakerphp/faker": "^1.9.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/helpers": "^1.4",
+        "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.0",
+        "qoraiche/laravel-mail-editor": "^4.0",
         "ramsey/uuid": "^4.2",
         "shopify/shopify-api": "^1.0",
         "spatie/icalendar-generator": "^2.4",
@@ -28,8 +31,7 @@
         "squirephp/countries-en": "^3.0",
         "squirephp/countries-es": "^3.0",
         "squirephp/currencies-en": "^3.3",
-        "tymon/jwt-auth": "1.0.*",
-        "fakerphp/faker": "^1.9.1"
+        "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

@@ -19,3 +19,11 @@ Create a new user for a company
   ```bash
   user:create
   ```
+
+### 2022-11-15 Update Laravel version
+```bash
+composer install
+composer dump-autoload
+php artisan migrate
+```
+
