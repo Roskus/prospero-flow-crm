@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 class LeadReadController
 {
     /**
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function read(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $lead = Lead::find($id);
+
         return response()->json(['lead' => $lead]);
     }
 }

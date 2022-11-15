@@ -47,6 +47,7 @@ class LeadCreateController
             $status = 201;
             $data['lead'] = ['id' => $lead->id];
         }
+
         return response()->json($data, $status);
     }
 }

@@ -15,5 +15,4 @@ class BrandCreateController extends MainController
 
         return view('brand.brand', $data);
     }
-
 }

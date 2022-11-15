@@ -16,7 +16,6 @@ class BrandController extends MainController
         return view('brand.index', $data);
     }
 
-
     public function edit(Request $request, int $id)
     {
         $brand = Brand::find($id);

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',  [\App\Http\Controllers\MainController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\MainController::class, 'index']);
 // PWA - Progresive Web App
 Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'renderWebManifest'])->name('manifest');
 
@@ -58,10 +58,10 @@ Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveContro
 Route::get('/customer/delete/{id}', [\App\Http\Controllers\Customer\CustomerDeleteController::class, 'delete']);
 
 //Category
-Route::get('/category', [\App\Http\Controllers\CategoryController::class,'index']);
-Route::get('/category/add', [\App\Http\Controllers\CategoryController::class,'add']);
-Route::get('/category/edit/{id}', [\App\Http\Controllers\CategoryController::class,'edit']);
-Route::post('/category/save', [\App\Http\Controllers\CategoryController::class,'save']);
+Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'index']);
+Route::get('/category/add', [\App\Http\Controllers\CategoryController::class, 'add']);
+Route::get('/category/edit/{id}', [\App\Http\Controllers\CategoryController::class, 'edit']);
+Route::post('/category/save', [\App\Http\Controllers\CategoryController::class, 'save']);
 
 // Company
 Route::get('/company', [\App\Http\Controllers\Company\CompanyIndexController::class, 'index']);
@@ -84,8 +84,8 @@ Route::post('/user/save', [\App\Http\Controllers\User\UserSaveController::class,
 Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit']);
 Route::post('/profile/save', [\App\Http\Controllers\Profile\ProfileSaveController::class, 'save']);
 
-Route::get('/setting', [\App\Http\Controllers\SettingController::class,'index']);
-Route::get('/home', [\App\Http\Controllers\HomeController::class,'index']);
+Route::get('/setting', [\App\Http\Controllers\SettingController::class, 'index']);
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
 
 // Calendar
 Route::match(['get', 'post'], '/calendar', [\App\Http\Controllers\Calendar\CalendarController::class, 'index']);
