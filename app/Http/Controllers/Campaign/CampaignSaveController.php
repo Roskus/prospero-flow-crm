@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Campaign;
 use App\Http\Controllers\MainController;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CampaignSaveController extends MainController
 {
@@ -12,6 +13,7 @@ class CampaignSaveController extends MainController
     {
         if (empty($request->id)) {
             $campaign = new Campaign();
+            $campaign->company_id = Auth::user()->company_id;
             $campaign->created_at = now();
         } else {
             $campaign = Campaign::find($request->id);

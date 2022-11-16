@@ -29,10 +29,22 @@
             <i class="las la-calendar"></i> {{ __('Calendar') }}
         </a>
     </li>
-    <li class="nav-item">
-        <a href="{{ url('/email') }}" class="nav-link @if(Request::path() == 'email') active @endif fs-5">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="las la-envelope-open-text"></i> E-mail
         </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ url('/email') }}" class="dropdown-item @if(Request::path() == 'email') active @endif fs-5">
+                    <i class="las la-envelope-open-text"></i> E-mail
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/campaign') }}" class="dropdown-item @if(Request::path() == 'campaign') active @endif fs-5">
+                    <i class="las la-envelope-open-text"></i> {{ __('Campaign') }}
+                </a>
+            </li>
+        </ul>
     </li>
     <li class="nav-item fs-5">
         <a href="{{ url('/accounting') }}" class="nav-link @if(Request::path() == 'accounting') active @endif">
