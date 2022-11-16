@@ -46,7 +46,7 @@ class CustomerIndexController extends MainController
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['statuses'] = $customer->getStatus();
         $data['industries'] = Industry::all();
-        
+
         return view('customer.index', $data);
     }
 }
