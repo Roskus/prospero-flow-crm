@@ -6,5 +6,4 @@ use App\Http\Controllers\MainController;
 
 class AccountCreateController extends MainController
 {
-
 }
