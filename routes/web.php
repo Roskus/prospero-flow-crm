@@ -23,8 +23,9 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 //Order
 Route::get('/order', [\App\Http\Controllers\Order\OrderIndexController::class, 'index']);
 Route::get('/order/create', [\App\Http\Controllers\Order\OrderCreateController::class, 'create']);
-Route::get('/order/edit/{id}', [\App\Http\Controllers\OrderController::class, 'edit']);
-Route::post('/order/save', [\App\Http\Controllers\OrderController::class, 'save']);
+Route::get('/order/update/{id}', [\App\Http\Controllers\Order\OrderUpdateController::class, 'update']);
+Route::get('/order/delete/{id}', [\App\Http\Controllers\Order\OrderDeleteController::class, 'delete']);
+Route::post('/order/save', [\App\Http\Controllers\Order\OrderSaveController::class, 'save']);
 
 //Product
 Route::match(['get', 'post'], '/product', [\App\Http\Controllers\ProductController::class, 'index']);
