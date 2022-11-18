@@ -28,7 +28,7 @@ Route::get('/order/delete/{id}', [\App\Http\Controllers\Order\OrderDeleteControl
 Route::post('/order/save', [\App\Http\Controllers\Order\OrderSaveController::class, 'save']);
 
 //Product
-Route::match(['get', 'post'], '/product', [\App\Http\Controllers\ProductController::class, 'index']);
+Route::match(['get', 'post'], '/product', [\App\Http\Controllers\Product\ProductIndexController::class, 'index']);
 Route::get('/product/create', [\App\Http\Controllers\Product\ProductCreateController::class, 'create']);
 Route::get('/product/update/{id}', [\App\Http\Controllers\Product\ProductUpdateController::class, 'update']);
 Route::post('/product/save', [\App\Http\Controllers\Product\ProductSaveController::class, 'save']);
