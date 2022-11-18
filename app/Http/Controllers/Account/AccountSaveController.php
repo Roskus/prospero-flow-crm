@@ -1,29 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\MainController;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AccountController extends MainController
+class AccountSaveController extends MainController
 {
-    public function index(Request $request)
-    {
-        $account = new Account();
-        $data['accounts'] = $account->getAllActiveByCompany(Auth::user()->company_id);
-
-        return view('account.index', $data);
-    }
-
-    public function add(Request $request)
-    {
-    }
-
-    public function edit(Request $request, int $id = null)
-    {
-    }
-
     /**
      * Save accounts
      *
@@ -44,9 +29,5 @@ class AccountController extends MainController
         $account->save();
 
         return redirect('accounting');
-    }
-
-    public function delete(Request $request, int $id)
-    {
     }
 }

@@ -71,8 +71,8 @@ Route::post('/company/save', [\App\Http\Controllers\Company\CompanySaveControlle
 Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteController::class, 'delete']);
 
 // Account
-Route::get('/accounting', [\App\Http\Controllers\AccountController::class, 'index']);
-Route::post('/account/save', [\App\Http\Controllers\AccountController::class, 'save']);
+Route::get('/accounting', [\App\Http\Controllers\Account\AccountIndexController::class, 'index']);
+Route::post('/account/save', [\App\Http\Controllers\Account\AccountSaveController::class, 'save']);
 
 // User
 Route::get('/user', [\App\Http\Controllers\User\UserListController::class, 'index']);
