@@ -83,7 +83,7 @@ Route::get('/user/update/{id}', [\App\Http\Controllers\User\UserUpdateController
 Route::post('/user/save', [\App\Http\Controllers\User\UserSaveController::class, 'save']);
 
 // Profile
-Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit']);
+Route::get('/profile', [\App\Http\Controllers\Profile\ProfileUpdateController::class, 'update']);
 Route::post('/profile/save', [\App\Http\Controllers\Profile\ProfileSaveController::class, 'save']);
 
 Route::get('/setting', [\App\Http\Controllers\SettingController::class, 'index']);
