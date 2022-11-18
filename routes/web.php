@@ -34,10 +34,11 @@ Route::post('/product/save', [\App\Http\Controllers\Product\ProductSaveControlle
 Route::get('/product/delete/{id}', [\App\Http\Controllers\Product\ProductDeleteController::class, 'delete']);
 
 //Brand
-Route::get('/brand', [\App\Http\Controllers\BrandController::class, 'index']);
-Route::get('/brand/add', [\App\Http\Controllers\BrandController::class, 'add']);
-Route::get('/brand/edit/{id}', [\App\Http\Controllers\BrandController::class, 'edit']);
-Route::post('/brand/save', [\App\Http\Controllers\BrandController::class, 'save']);
+Route::get('/brand', [\App\Http\Controllers\Brand\BrandIndexController::class, 'index']);
+Route::get('/brand/create', [\App\Http\Controllers\Brand\BrandCreateController::class, 'create']);
+Route::get('/brand/update/{id}', [\App\Http\Controllers\Brand\BrandUpdateController::class, 'update']);
+Route::get('/brand/delete/{id}', [\App\Http\Controllers\Brand\BrandDeleteController::class, 'delete']);
+Route::post('/brand/save', [\App\Http\Controllers\Brand\BrandSaveController::class, 'save']);
 
 // Lead
 Route::match(['get', 'post'], '/lead', [\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);

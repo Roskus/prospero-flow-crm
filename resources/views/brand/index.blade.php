@@ -6,7 +6,7 @@
     </header>
 
     <div class="mb-2">
-        <a href="/brand/add" class="btn btn-primary">{{ __('New') }}</a>
+        <a href="{{ url('/brand/create') }}" class="btn btn-primary">{{ __('New') }}</a>
     </div>
 
     <div class="table-responsive">
@@ -20,10 +20,10 @@
         @foreach ($brands as $brand)
         <tr>
             <td>
-                <a href="/brand/edit/{{ $brand->id }}">{{ $brand->name }}</a>
+                <a href="{{ url('/brand/update/'.$brand->id) }}">{{ $brand->name }}</a>
             </td>
             <td>
-                <a href="/brand/edit/{{ $brand->id }}" class="btn btn-xs btn-warning text-white">
+                <a href="{{ url('/brand/update/'.$brand->id) }}" class="btn btn-xs btn-warning text-white">
                     <i class="las la-pen"></i>
                 </a>
                 <a onclick="Brand.delete({{ $brand->id }}, '{{ $brand->name }}');" class="btn btn-xs btn-danger">
