@@ -59,10 +59,11 @@ Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveContro
 Route::get('/customer/delete/{id}', [\App\Http\Controllers\Customer\CustomerDeleteController::class, 'delete']);
 
 //Category
-Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'index']);
-Route::get('/category/add', [\App\Http\Controllers\CategoryController::class, 'add']);
-Route::get('/category/edit/{id}', [\App\Http\Controllers\CategoryController::class, 'edit']);
-Route::post('/category/save', [\App\Http\Controllers\CategoryController::class, 'save']);
+Route::get('/category', [\App\Http\Controllers\Category\CategoryIndexController::class, 'index']);
+Route::get('/category/create', [\App\Http\Controllers\Category\CategoryCreateController::class, 'create']);
+Route::get('/category/update/{id}', [\App\Http\Controllers\Category\CategoryUpdateController::class, 'update']);
+Route::get('/category/delete/{id}', [\App\Http\Controllers\Category\CategoryDeleteController::class, 'delete']);
+Route::post('/category/save', [\App\Http\Controllers\Category\CategorySaveController::class, 'save']);
 
 // Company
 Route::get('/company', [\App\Http\Controllers\Company\CompanyIndexController::class, 'index']);
