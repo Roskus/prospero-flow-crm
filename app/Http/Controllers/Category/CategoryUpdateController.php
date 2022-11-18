@@ -15,5 +15,4 @@ class CategoryUpdateController extends MainController
 
         return view('category.category', $data);
     }
-
 }
