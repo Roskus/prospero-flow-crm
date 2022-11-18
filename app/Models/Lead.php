@@ -136,7 +136,7 @@ class Lead extends Model
             }
         }
 
-        return $leads->with('seller', 'industry')->paginate(10);
+        return $leads->with('seller', 'industry')->orderBy('created_at', 'desc')->paginate(10);
     }
 
     /**
