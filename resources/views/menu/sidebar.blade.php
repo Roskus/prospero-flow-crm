@@ -10,42 +10,42 @@
                 <i class="las la-compass fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/lead') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(),'lead')) active @endif" title="{{ __('Leads') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-filter fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/customer') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'customer')) active @endif" title="{{ __('Customers') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-user-alt fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/order') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'order')) active @endif" title="{{ __('Orders') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-receipt fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/product') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'product')) active @endif" title="{{ __('Products') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-box fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/calendar') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'calendar')) active @endif" title="{{ __('Calendar') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-calendar fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/email') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'email')) active @endif" title="E-mail" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-envelope-open-text fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/accounting') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'accounting')) active @endif" title="{{ __('Accounting') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-coins fs-1"></i>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a href="{{ url('/supplier') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(),'supplier')) active @endif" title="{{ __('Suppliers') }}" data-bs-toggle="tooltip" data-bs-placement="right">
                 <i class="las la-dolly fs-1"></i>
             </a>

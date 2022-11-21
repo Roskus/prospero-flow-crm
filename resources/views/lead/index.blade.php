@@ -171,7 +171,7 @@
         <td class="text-center">
             @if($lead->tags)
                 @foreach($lead->tags as $tag)
-                    <a href="{{ url("/lead?search=$tag") }}">{{ $tag }}</a>
+                    <a href="{{ url("/lead?search=$tag") }}" class="badge bg-{{ $colors[array_rand($colors)] }}">{{ $tag }}</a>
                 @endforeach
             @endif
         </td>

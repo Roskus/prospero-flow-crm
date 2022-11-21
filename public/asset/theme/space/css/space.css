@@ -1,0 +1,11 @@
+/**
+ * Space Theme
+ * https://coolors.co/palette/353535-3c6e71-ffffff-d9d9d9-284b63
+ */
+.nav-pills {
+    --bs-nav-pills-link-active-bg: #284B63 !important;
+}
+
+.nav-pills .nav-link {
+    --bs-nav-link-color: #284B63 !important;
+}

@@ -40,6 +40,7 @@ class LeadIndexController extends MainController
         }
 
         $lead = new Lead();
+        $data['colors'] = config('color');
         $data['countries'] = Country::orderBy('name')->get();
         $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;

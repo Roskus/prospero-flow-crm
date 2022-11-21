@@ -1,7 +1,17 @@
 /**
- * Hammer
- * @version 1.0.3
+ * Hammer CRM
  */
+:root {
+    --red: #F94144;
+    --orange: #F3722C;
+    --light-orange: #F8961E;
+    --yellow: #F9C74F;
+    --green: #90BE6D;
+    --light-green: #43AA8B;
+    --blue: #577590;
+    --dark-blue: #023047;
+}
+
 body {
 
 }
@@ -16,9 +26,40 @@ main {
   overflow-y: hidden;
 }
 
+.nav-pills .nav-item {
+    --bs-nav-pills-link-active-bg: #284B63 !important;
+    padding: 4px;
+}
+
 /* EAN-13 */
 .barcode {
   font-family: 'Libre Barcode EAN13 Text', cursive;
   font-size: 3em;
 }
 
+/*
+https://coolors.co/palette/f94144-f3722c-f8961e-f9c74f-90be6d-43aa8b-577590
+*/
+.bg-red {
+    background-color: var(--red);
+}
+
+.bg-orange {
+    background-color: var(--orange);
+}
+
+.bg-light-orange {
+    background-color: var(--light-orange);
+}
+
+.bg-yellow {
+    background-color: var(--yellow);
+}
+
+.bg-blue {
+    background-color: var(--blue);
+}
+
+.bg-dark-blue {
+    background-color: var(--dark-blue);
+}
