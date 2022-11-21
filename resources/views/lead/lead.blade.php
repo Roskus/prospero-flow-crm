@@ -282,7 +282,7 @@
 
     @push('scripts')
         <script>
-            $('#phone').on('paste', function() {
+            $('#phone').on('keyup paste', function() {
                 let $el = $(this);
                 setTimeout(function() {
                     $el.val(function(i, val) {
@@ -291,7 +291,7 @@
                 })
             });
 
-            $('#mobile').on('paste', function() {
+            $('#mobile').on('keyup paste', function() {
                 let $el = $(this);
                 setTimeout(function() {
                     $el.val(function(i, val) {
