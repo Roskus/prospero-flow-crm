@@ -16,6 +16,8 @@ class LeadStatus
             case Lead::IN_PROGRESS:
                 $badge = 'text-bg-warning';
                 break;
+            default:
+                $badge = 'text-bg-dark';
         }
 
         return $badge;
