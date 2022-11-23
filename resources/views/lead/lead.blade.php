@@ -66,15 +66,15 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6">
                         <label for="province" class="">{{ __('Province') }}</label>
                         <input type="text" name="province" id="province" value="{{ $lead->province }}" class="form-control form-control-lg">
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6">
                         <label class="" for="city">{{ __('City') }}</label>
                         <input type="text" name="city" id="city" value="{{ $lead->city }}" class="form-control form-control-lg">
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6">
                         <label class="" for="locality">{{ __('Locality') }}</label>
                         <input type="text" name="locality" id="locality" value="{{ $lead->locality }}" class="form-control form-control-lg">
                     </div>
@@ -97,18 +97,19 @@
             <div class="card-body">
             <div class="row">
                 <div class="col-12 col-md-6">
-                    <label for="linkedin">Linkedin</label>
-                    <input type="url" name="linkedin" value="{{ $lead->linkedin }}" placeholder="https://www.linkedin.com/" class="form-control form-control-lg">
-                </div>
-                <div class="col-12 col-md-6">
                     <label for="facebook">Facebook</label>
                     <input type="url" name="facebook" value="{{ $lead->facebook }}" placeholder="https://www.facebook.com/" class="form-control form-control-lg">
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-12 col-md-6">
                     <label for="instagram">Instagram</label>
                     <input type="url" name="instagram" value="{{ $lead->instagram }}" placeholder="https://www.instagram.com/" class="form-control form-control-lg">
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-12 col-md-6">
+                    <label for="linkedin">Linkedin</label>
+                    <input type="url" name="linkedin" value="{{ $lead->linkedin }}" placeholder="https://www.linkedin.com/" class="form-control form-control-lg">
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="twitter">Twitter</label>
