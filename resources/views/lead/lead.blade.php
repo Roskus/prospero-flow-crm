@@ -98,32 +98,32 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <label for="facebook">Facebook</label>
-                    <input type="url" name="facebook" value="{{ $lead->facebook }}" placeholder="https://www.facebook.com/" class="form-control form-control-lg">
+                    <input type="url" name="facebook" value="{{ $lead->facebook }}" placeholder="https://www.facebook.com/" maxlength="255" class="form-control form-control-lg">
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="instagram">Instagram</label>
-                    <input type="url" name="instagram" value="{{ $lead->instagram }}" placeholder="https://www.instagram.com/" class="form-control form-control-lg">
+                    <input type="url" name="instagram" value="{{ $lead->instagram }}" placeholder="https://www.instagram.com/" maxlength="255" class="form-control form-control-lg">
                 </div>
             </div>
             <div class="row">
 
                 <div class="col-12 col-md-6">
                     <label for="linkedin">Linkedin</label>
-                    <input type="url" name="linkedin" value="{{ $lead->linkedin }}" placeholder="https://www.linkedin.com/" class="form-control form-control-lg">
+                    <input type="url" name="linkedin" value="{{ $lead->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="twitter">Twitter</label>
-                    <input type="url" name="twitter" value="{{ $lead->twitter }}" placeholder="https://twitter.com/" class="form-control form-control-lg">
+                    <input type="url" name="twitter" value="{{ $lead->twitter }}" placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
                     <label for="youtube">YouTube</label>
-                    <input type="url" name="youtube" value="{{ $lead->youtube }}" placeholder="https://www.youtube.com/" class="form-control form-control-lg">
+                    <input type="url" name="youtube" value="{{ $lead->youtube }}" placeholder="https://www.youtube.com/" maxlength="255" class="form-control form-control-lg">
                 </div>
                 <div class="col-12 col-md-6">
                     <label>TikTok</label>
-                    <input type="url" name="tiktok" value="{{ $lead->tiktok }}" placeholder="https://www.tiktok.com/" class="form-control form-control-lg">
+                    <input type="url" name="tiktok" value="{{ $lead->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
                 </div>
             </div>
             </div><!--./card-body-->
