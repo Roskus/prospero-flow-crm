@@ -6,13 +6,13 @@
 </header>
 
 <div class="row">
-    <div class="col">
-        <a href="{{ url('/lead/create') }}" class="btn btn-primary">{{ __('New') }}</a>
+    <div class="col d-flex">
+        <a href="{{ url('/lead/create') }}" class="btn btn-primary d-flex flex-fill align-items-center justify-content-center">{{ __('New') }}</a>
     </div>
     <div class="col">
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <a href="{{ url('/lead/import') }}" class="btn btn-success">{{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
-            <a href="{{ url('/lead/export') }}" class="btn btn-info">{{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
+        <div class="btn-group d-flex" role="group" aria-label="Basic mixed styles example">
+            <a href="{{ url('/lead/import') }}" class="btn btn-success d-block">{{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
+            <a href="{{ url('/lead/export') }}" class="btn btn-info d-block">{{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
         </div><!--./btn-group-->
     </div>
 </div>
@@ -29,9 +29,7 @@
             @csrf
             <div class="input-group">
                 <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>
-                </div>
+                <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>                
             </div>
             <div class="card mt-2">
                 <div class="card-header">{{ __('Advanced search') }}</div>
@@ -90,97 +88,97 @@
         <th>{{ __('Mobile') }}</th>
         <th>E-mail</th>
         <th>Website</th>
-        <th>{{ __('Country') }}</th>
-        <th>Social</th>
-        <th>{{ __('Seller') }}</th>
-        <th>{{ __('Industry') }}</th>
-        <th>{{ __('Tags') }}</th>
-        <th>{{ __('Status') }}</th>
-        <th>{{ __('Created at') }}</th>
-        <th>{{ __('Updated at') }}</th>
+        <th class="d-none d-sm-table-cell">{{ __('Country') }}</th>
+        <th class="d-none d-sm-table-cell">Social</th>
+        <th class="text-center">{{ __('Seller') }}</th>
+        <th class="text-center d-none d-sm-table-cell">{{ __('Industry') }}</th>
+        <th class="text-center d-none d-sm-table-cell">{{ __('Tags') }}</th>
+        <th class="d-none d-sm-table-cell">{{ __('Status') }}</th>
+        <th class="d-none d-sm-table-cell">{{ __('Created at') }}</th>
+        <th class="d-none d-sm-table-cell">{{ __('Updated at') }}</th>
         <th>{{ __('Actions') }}</th>
     </tr>
     </thead>
     <tbody>
     @foreach($leads as $lead)
     <tr>
-        <td>
+        <td class="text-nowrap">
             <a href="{{ url("/lead/update/$lead->id") }}">{{ $lead->name }}</a>
         </td>
-        <td>{{ $lead->business_name }}</td>
-        <td>
+        <td class="text-nowrap">{{ $lead->business_name }}</td>
+        <td class="text-nowrap">
             @if($lead->phone)
                 <a href="tel:{{ $lead->phone }}" target="_blank">{{ $lead->phone }}</a>
             @endif
         </td>
-        <td>
+        <td class="text-nowrap">
             @if($lead->mobile)
                 <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank">{{ $lead->mobile }}</a>
             @endif
         </td>
-        <td>
+        <td class="text-nowrap">
             @if($lead->email)
             <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
             @endif
         </td>
-        <td>
+        <td class="text-nowrap">
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
-        <td class="text-center" title="{{ $lead->country->name }}">
+        <td class="text-center d-none d-sm-table-cell" title="{{ $lead->country->name }}">
             {{ $lead->country->flag }}
         </td>
-        <td>
+        <td class="text-nowrap d-none d-sm-table-cell">
             @if($lead->facebook)
-                <a href="{{ $lead->facebook }}" target="_blank">
+                <a href="{{ $lead->facebook }}" target="_blank" class="text-decoration-none">
                     <i class="lab la-facebook-square fs-3"></i>
                 </a>
             @endif
 
             @if($lead->instagram)
-                <a href="{{ $lead->instagram }}" target="_blank">
+                <a href="{{ $lead->instagram }}" target="_blank" class="text-decoration-none">
                     <i class="lab la-instagram fs-3"></i>
                 </a>
             @endif
 
             @if($lead->linkedin)
-                <a href="{{ $lead->linkedin }}" target="_blank">
+                <a href="{{ $lead->linkedin }}" target="_blank" class="text-decoration-none">
                     <i class="lab la-linkedin fs-3"></i>
                 </a>
             @endif
 
             @if($lead->youtube)
-                <a href="{{ $lead->youtube }}" target="_blank">
+                <a href="{{ $lead->youtube }}" target="_blank" class="text-decoration-none">
                     <i class="lab la-youtube-square fs-3"></i>
                 </a>
             @endif
 
             @if($lead->twitter)
-                <a href="{{ $lead->twitter }}" target="_blank">
+                <a href="{{ $lead->twitter }}" target="_blank" class="text-decoration-none">
                     <i class="lab la-twitter-square fs-3"></i>
                 </a>
             @endif
 
             @if($lead->mobile)
-                <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank">
+                <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank" class="text-decoration-none">
                     <i class="lab la-whatsapp fs-3"></i>
                 </a>
             @endif
         </td>
-        <td class="text-center">{{ $lead->seller->first_name }}</td>
-        <td class="text-center">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
-        <td class="text-center">
+        <td class="text-center text-nowrap">{{ $lead->seller->first_name }}</td>
+        <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
+        <td class="text-center text-nowrap d-none d-sm-table-cell">
             @if($lead->tags)
                 @foreach($lead->tags as $tag)
-                    <a href="{{ url("/lead?search=$tag") }}" class="badge bg-{{ $colors[array_rand($colors)] }}">{{ $tag }}</a>
+                    <a href="{{ url("/lead?search=$tag") }}" class="badge {{ $bootstrap_colors[array_rand($bootstrap_colors)] }} text-decoration-none">{{ $tag }}</a>
                 @endforeach
             @endif
         </td>
-        <td class="text-center">
+        <td class="text-center text-nowrap d-none d-sm-table-cell">
             <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">{{ $lead->status }}</span>
         </td>
-        <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
-        <td>{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
-        <td>
+        <td class="text-nowrap d-none d-sm-table-cell">{{ $lead->created_at->format('d/m/Y H:i') }}</td>
+        <td class="text-nowrap d-none d-sm-table-cell">{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
+        <td class="text-nowrap">
             <a href="{{  url("/lead/update/$lead->id") }}" class="btn btn-xs btn-warning text-white" title="{{ __('Update') }}">
                 <i class="las la-pen"></i>
             </a>
