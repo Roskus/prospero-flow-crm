@@ -19,8 +19,8 @@ class LeadIndexController extends MainController
     public function index(Request $request)
     {
         $filters = [];
-        $user = new User();
         $search = $request->search;
+        $user = new User();
 
         if ($request->country_id) {
             $filters['country_id'] = $request->country_id;

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
-use App\Models\Customer;
 use App\Models\Industry;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +40,8 @@ class CustomerIndexController extends MainController
         }
 
         $customer = new Customer();
+        $data['colors'] = config('color');
+        $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info', 'text-bg-light', 'text-bg-dark'];
         $data['countries'] = Country::orderBy('name')->get();
         $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;

@@ -29,7 +29,7 @@
             @csrf
             <div class="input-group">
                 <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
-                <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>                
+                <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>
             </div>
             <div class="card mt-2">
                 <div class="card-header">{{ __('Advanced search') }}</div>
@@ -88,7 +88,7 @@
         <th>{{ __('Mobile') }}</th>
         <th>E-mail</th>
         <th>Website</th>
-        <th class="d-none d-sm-table-cell">{{ __('Country') }}</th>
+        <th>{{ __('Country') }}</th>
         <th class="d-none d-sm-table-cell">Social</th>
         <th class="text-center">{{ __('Seller') }}</th>
         <th class="text-center d-none d-sm-table-cell">{{ __('Industry') }}</th>
@@ -103,7 +103,7 @@
     @foreach($leads as $lead)
     <tr>
         <td class="text-nowrap">
-            <a href="{{ url("/lead/update/$lead->id") }}">{{ $lead->name }}</a>
+            <a href="{{ url("/lead/update/$lead->id") }}" title="{{ __('Update') }}">{{ $lead->name }}</a>
         </td>
         <td class="text-nowrap">{{ $lead->business_name }}</td>
         <td class="text-nowrap">
@@ -124,7 +124,7 @@
         <td class="text-nowrap">
             <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
         </td>
-        <td class="text-center d-none d-sm-table-cell" title="{{ $lead->country->name }}">
+        <td class="text-center d-sm-table-cell" title="{{ $lead->country->name }}">
             {{ $lead->country->flag }}
         </td>
         <td class="text-nowrap d-none d-sm-table-cell">
@@ -179,15 +179,15 @@
         <td class="text-nowrap d-none d-sm-table-cell">{{ $lead->created_at->format('d/m/Y H:i') }}</td>
         <td class="text-nowrap d-none d-sm-table-cell">{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
         <td class="text-nowrap">
-            <a href="{{  url("/lead/update/$lead->id") }}" class="btn btn-xs btn-warning text-white" title="{{ __('Update') }}">
+            <a href="{{ url("/lead/update/$lead->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
 
-            <a href="{{  url("/lead/promote/$lead->id") }}" class="btn btn-xs btn-success text-white" title="{{ __('Promote') }}">
+            <a href="{{  url("/lead/promote/$lead->id") }}" title="{{ __('Promote') }}" class="btn btn-xs btn-success text-white">
                 <i class="las la-user-tie"></i>
             </a>
 
-            <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" class="btn btn-xs btn-danger" title="{{ __('Delete') }}">
+            <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                 <i class="las la-trash-alt"></i>
             </a>
         </td>
@@ -205,7 +205,7 @@
         delete : function(id, name) {
             let res = confirm("{{ __('Are you sure you want to delete the lead?') }}");
             if(res)
-                window.location = '/lead/delete/'+id;
+                window.location = '{{ url('/lead/delete/') }}/'+id;
         }
     };
 </script>

@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="name" value="{{ $lead->name }}" required="required" maxlength="80" class="form-control form-control-lg">
+                <input type="text" name="name" id="name" value="{{ $lead->name }}" required="required" maxlength="80" class="form-control form-control-lg">
             </div>
             <div class="col-12 col-md-6">
                 <label for="business_name">{{ __('Business name') }}</label>
-                <input type="text" name="business_name" value="{{ $lead->business_name }}" maxlength="80" class="form-control form-control-lg">
+                <input type="text" name="business_name" id="business_name" value="{{ $lead->business_name }}" maxlength="80" class="form-control form-control-lg">
             </div>
         </div><!--./row-->
         <div class="row">
@@ -28,12 +28,12 @@
         </div><!--./row-->
         <div class="row">
             <div class="col-12 col-md-6">
-                <label for="email">E-mail</label>
+                <label for="email" class="">E-mail</label>
                 <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
             </div>
             <div class="col-12 col-md-6">
                 <label for="website" class="">Website</label>
-                <input type="url" name="website" id="website" value="{{ $lead->website }}" placeholder="https://www.website.com" class="form-control form-control-lg">
+                <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $lead->website }}" maxlength="255" class="form-control form-control-lg">
             </div>
         </div><!--./row-->
         <div class="row">
@@ -48,7 +48,7 @@
         </div><!--./row-->
         <div class="row">
             <div class="col">
-                <label>{{ __('Notes') }}</label>
+                <label for="notes">{{ __('Notes') }}</label>
                 <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ $lead->notes }}</textarea>
             </div>
         </div><!--./row-->
@@ -71,11 +71,11 @@
                         <input type="text" name="province" id="province" value="{{ $lead->province }}" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="" for="city">{{ __('City') }}</label>
+                        <label for="city" class="">{{ __('City') }}</label>
                         <input type="text" name="city" id="city" value="{{ $lead->city }}" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="" for="locality">{{ __('Locality') }}</label>
+                        <label for="locality" class="">{{ __('Locality') }}</label>
                         <input type="text" name="locality" id="locality" value="{{ $lead->locality }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
@@ -106,7 +106,6 @@
                 </div>
             </div>
             <div class="row">
-
                 <div class="col-12 col-md-6">
                     <label for="linkedin">Linkedin</label>
                     <input type="url" name="linkedin" value="{{ $lead->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">

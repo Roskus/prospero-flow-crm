@@ -15,12 +15,13 @@ class CustomerSaveController extends MainController
      */
     public function save(Request $request)
     {
+        $status = 'error';
         if (empty($request->id)) {
             $customer = new Customer();
+            $customer->seller_id = Auth::user()->id;
             $customer->created_at = now();
         } else {
             $customer = Customer::find($request->id);
-            $customer->updated_at = now();
         }
         $customer->company_id = Auth::user()->company_id;
         $customer->name = $request->name;
@@ -50,7 +51,7 @@ class CustomerSaveController extends MainController
         $customer->industry_id = $request->industry_id;
         $customer->schedule_contact = $request->schedule_contact;
 
-        $customer->tags = json_encode(explode(',', $request->tags));
+        $customer->tags = explode(',', $request->tags);
 
         if ($request->status) {
             $customer->status = $request->status;
