@@ -28,6 +28,7 @@
   <thead>
   <tr>
       <th>#ID</th>
+      <th>{{ __('Photo') }}</th>
       <th>{{ __('Category') }}</th>
       <th>{{ __('Name') }}</th>
       <th>{{ __('Brand') }}</th>
@@ -41,6 +42,11 @@
   @foreach($products as $product)
   <tr>
       <td>{{ $product->id }}</td>
+      <td>
+          @if($product->photo)
+              <img src="{{ asset("/asset/upload/product/$product->id/$product->photo")}}" alt="" class="img-fluid img-thumbnail">
+          @endif
+      </td>
       <td>{{ $product->category->name }}</td>
       <td><a href="{{ url("/product/update/$product->id") }}">{{ $product->name }}</a></td>
       <td>{{ $product->brand->name }}</td>
