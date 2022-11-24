@@ -89,11 +89,11 @@
                         <div class="row">
                             <div class="col">
                                 <label>{{ __('Date start') }} <span class="text-danger">*</span></label>
-                                <input type="datetime-local" name="date_start" id="date_start" required="required" class="form-control" min="{{ date('Y-m-d H:i') }}">
+                                <input type="datetime-local" name="start_date" id="start_date" required="required" class="form-control" min="{{ date('Y-m-d H:i') }}">
                             </div><!--./col-->
                             <div class="col">
                                 <label>{{ __('Date end') }}</label>
-                                <input type="datetime-local" name="date_end" id="date_end" class="form-control" min="{{ date('Y-m-d H:i') }}">
+                                <input type="datetime-local" name="end_date" id="end_date" class="form-control" min="{{ date('Y-m-d H:i') }}">
                             </div><!--./col-->
                         </div>
                         <div class="row">

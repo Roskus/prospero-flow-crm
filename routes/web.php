@@ -92,6 +92,7 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
 
 // Calendar
 Route::match(['get', 'post'], '/calendar', [\App\Http\Controllers\Calendar\CalendarController::class, 'index']);
+Route::post('/calendar/event/save', [\App\Http\Controllers\Calendar\SaveCalendarEventController::class, 'save']);
 
 // Email
 Route::match(['get', 'post'], '/email', [\App\Http\Controllers\Email\EmailIndexController::class, 'index']);
