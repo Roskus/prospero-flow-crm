@@ -1,16 +1,17 @@
 <?php
+
 namespace App\Http\Controllers\Calendar;
 
-use \App\Http\Controllers\MainController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\MainController;
 use App\Models\Calendar;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SaveCalendarEventController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function save(Request $request)
