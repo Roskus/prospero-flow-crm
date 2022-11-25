@@ -6,24 +6,13 @@
     </header>
     <div>
         <div class="row">
-            <!-- Lead Count -->
             <div class="col-md-6 col-xl-4 mb-2">
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{ url('/lead') }}" class="">{{ __('Leads') }}</a>
-                    </div>
-                    <div class="card-body">
-
-                        <h3>{{ $lead_count }}</h3>
-                    </div>
-                </div><!--./card-->
-            </div>
-            <!-- Lead Count -->
-            <!-- Last Leads -->
-            <div class="col-md-6 col-xl-4 mb-2">
-                <div class="card">
-                    <div class="card-header">
-                        <a href="{{ url('/lead') }}" class="">{{ __('Lastest leads') }}</a>
+                        <h4 class="d-flex d-flex justify-content-between m-0">
+                            <a href="{{ url('/lead') }}" class="text-decoration-none text-body">{{ __('Leads') }}</a>
+                            <span class="badge rounded-pill text-bg-success">{{ $lead_count }}</span>
+                        </h4>
                     </div>
                     <div class="card-body table-responsive">
                     @if(!empty($leads))

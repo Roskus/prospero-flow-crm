@@ -174,7 +174,7 @@
     </form>
 
     @if($lead->id)
-    <div class="card accordion mt-2">
+    <div class="card accordion mt-2 mb-5">
         <div class="accordion-header" id="headingContact">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="true" aria-controls="collapseContact">
             {{ __('Contacts') }}
@@ -193,15 +193,9 @@
                             <label>{{ __('Last name') }}</label>
                             <input type="text" name="contact_last_name" class="form-control">
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col">
                             <label>{{ __('Phone') }}</label>
                             <input type="tel" name="contact_phone" maxlength="15" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label>{{ __('Mobile') }}</label>
-                            <input type="tel" name="contact_mobile" maxlength="15" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -229,7 +223,6 @@
                         <th>{{ __('First name') }}</th>
                         <th>{{ __('Last name') }}</th>
                         <th>{{ __('Phone') }}</th>
-                        <th>{{ __('Mobile') }}</th>
                         <th>E-mail</th>
                         <th>Linkedin</th>
                         <th>{{ __('Created at') }}</th>
