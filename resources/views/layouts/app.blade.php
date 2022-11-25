@@ -35,7 +35,7 @@
 <body>
 @auth
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
                 @if(empty(Auth::user()->company->logo))
@@ -76,7 +76,7 @@
                                 @else
                                     <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->photo }}" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle">
                                 @endif
-                                {{ Auth::user()->first_name }} ({{ Auth::user()->company->name }})<span class="caret"></span>
+                                {{ Auth::user()->first_name }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown10">
                                 <li>
