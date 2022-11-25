@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use Exception;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Throwable;
 
 class AuthServiceProvider extends ServiceProvider
 {
