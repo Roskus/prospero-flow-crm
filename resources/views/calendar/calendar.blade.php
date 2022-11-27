@@ -16,7 +16,7 @@
                 <a href="{{ route('calendar.index',$date->copy()->addMonth()->toDateString()) }}"
                     class="btn btn-outline-dark me-2" title="{{ __('Next month') }}"><i
                         class="las la-chevron-right"></i></a>
-                <span class="fs-5">{{ $date->format('F Y') }}</span>
+                <span class="fs-5">{{ __('calendar.'.$date->format('F')) }} {{ $date->format('Y') }}</span>
             </div>
         </div>
     </div>
@@ -25,13 +25,13 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col text-center border">{{ __('Monday') }}</div>
-                    <div class="col text-center border">{{ __('Tuesday') }}</div>
-                    <div class="col text-center border">{{ __('Wednesday') }}</div>
-                    <div class="col text-center border">{{ __('Thursday') }}</div>
-                    <div class="col text-center border">{{ __('Friday') }}</div>
-                    <div class="col text-center border">{{ __('Saturday') }}</div>
-                    <div class="col text-center border">{{ __('Sunday') }}</div>
+                    <div class="col text-center border">{{ __('calendar.Monday') }}</div>
+                    <div class="col text-center border">{{ __('calendar.Tuesday') }}</div>
+                    <div class="col text-center border">{{ __('calendar.Wednesday') }}</div>
+                    <div class="col text-center border">{{ __('calendar.Thursday') }}</div>
+                    <div class="col text-center border">{{ __('calendar.Friday') }}</div>
+                    <div class="col text-center border">{{ __('calendar.Saturday') }}</div>
+                    <div class="col text-center border">{{ __('calendar.Sunday') }}</div>
                 </div>
                 <div class="row" style="height: 14vh;">
 
