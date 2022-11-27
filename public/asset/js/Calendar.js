@@ -5,7 +5,7 @@
 window.Calendar = {
     scheduleEvent : function(startDate)
     {
-        const date = document.getElementById('date');
+        let date = document.getElementById('date');
         date.value = startDate;
         
         const options = {
