@@ -5,7 +5,9 @@
 window.Calendar = {
     scheduleEvent : function(startDate)
     {
-        console.log('Schedule: '+startDate);
+        let date = document.getElementById('date');
+        date.value = startDate;
+        
         const options = {
             focus: true
         }

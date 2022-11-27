@@ -5,120 +5,141 @@
         <h1>{{ __('Calendar') }}</h1>
     </header>
 
-    <div class="row">
-        <div class="col text-center">
-            <a onclick="">{{ __('Today') }}</a>
-        </div>
-        <div class="col text-center">
-            {{ __('calendar.'.date('F')) }} {{ date('Y') }}
-        </div>
-        <div class="col text-center">
-            <div>{{ __('Day') }}</div>
-            <div>
-                <a onclick="" class="active">{{ __('Week') }}</a>
+    <div class="row m-2">
+        <div class="card">
+            <div class="card-body d-flex">
+                <a href="{{ route('calendar.index') }}" class="btn btn-outline-dark me-2"
+                    title="{{ __('Today') }}">{{ __('Today') }}</a>
+                <a href="{{ route('calendar.index',$date->copy()->subMonth()->toDateString()) }}"
+                    class="btn btn-outline-dark me-2" title="{{ __('Previous month') }}"><i
+                        class="las la-chevron-left"></i></a>
+                <a href="{{ route('calendar.index',$date->copy()->addMonth()->toDateString()) }}"
+                    class="btn btn-outline-dark me-2" title="{{ __('Next month') }}"><i
+                        class="las la-chevron-right"></i></a>
+                <span class="fs-5">{{ $date->format('F Y') }}</span>
             </div>
-            <div>{{ __('Month') }}</div>
         </div>
     </div>
 
-    <!--week-->
+    <div class="row m-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col text-center border">{{ __('Monday') }}</div>
+                    <div class="col text-center border">{{ __('Tuesday') }}</div>
+                    <div class="col text-center border">{{ __('Wednesday') }}</div>
+                    <div class="col text-center border">{{ __('Thursday') }}</div>
+                    <div class="col text-center border">{{ __('Friday') }}</div>
+                    <div class="col text-center border">{{ __('Saturday') }}</div>
+                    <div class="col text-center border">{{ __('Sunday') }}</div>
+                </div>
+                <div class="row" style="height: 14vh;">
 
-    <table class="table table-bordered table-striped table-hovered">
-    <thead>
-        <tr>
-            <td>&nbsp;</td>
-            <td class="text-center @if($day_of_week == 0) fw-bold @endif">{{ __('calendar.Sunday') }} {{ $week[0] }}</td>
-            <td class="text-center @if($day_of_week == 1) fw-bold @endif">{{ __('calendar.Monday') }} {{ $week[1] }}</td>
-            <td class="text-center @if($day_of_week == 2) fw-bold @endif">{{ __('calendar.Tuesday') }} {{ $week[2] }}</td>
-            <td class="text-center @if($day_of_week == 3) fw-bold @endif">{{ __('calendar.Wednesday') }} {{ $week[3] }}</td>
-            <td class="text-center @if($day_of_week == 4) fw-bold @endif">{{ __('calendar.Thursday') }} {{ $week[4] }}</td>
-            <td class="text-center @if($day_of_week == 5) fw-bold @endif">{{ __('calendar.Friday') }} {{ $week[5] }}</td>
-            <td class="text-center @if($day_of_week == 6) fw-bold @endif">{{ __('calendar.Saturday') }} {{ $week[6] }}</td>
-        </tr>
-    </thead>
-    <tbody>
-        @for($h=6; $h < 23; $h++)
-        <tr>
-            <td class="text-center">{{ $h }}:00</td>
-            <td class="text-center">
-                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[0].' '.$h }}:00')" class="btn btn-primary rounded">+</a>
-            </td>
-            <td class="text-center">
-                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[1] }}')" class="btn btn-primary rounded">+</a>
-            </td>
-            <td class="text-center">
-                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[2] }}')" class="btn btn-primary rounded">+</a>
-            </td>
-            <td class="text-center">
-                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[3] }}')" class="btn btn-primary rounded">+</a>
-            </td>
-            <td class="text-center">
-                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[4] }}')" class="btn btn-primary rounded">+</a>
-            </td>
-            <td class="text-center">
-                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[5] }}')" class="btn btn-primary rounded">+</a>
-            </td>
-            <td class="text-center">
-                <a onclick="Calendar.scheduleEvent('{{ date('Y-m-').$week[6] }}')" class="btn btn-primary rounded">+</a>
-            </td>
-        </tr>
-        @endfor
-    </tbody>
-    </table>
+                    @while ($startOfCalendar <= $endOfCalendar)
+                        <div class="col text-center border d-flex flex-column" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')">
+                            <span class="mb-1">{{ $startOfCalendar->format('j') }}</span>
+                            @foreach ( $events->where('start_date', $startOfCalendar) as $event)
+                                <span class="badge text-bg-secondary mb-1">{{ $event->title }}</span>
+                            @endforeach                            
+                        </div>
+
+                        @if ($startOfCalendar->isoWeekday() == 7 && $startOfCalendar->copy()->addDay() <= $endOfCalendar)
+                            </div>
+                            <div class="row" style="height: 14vh;">
+                        @endif
+
+                        @php
+                            $startOfCalendar->addDay();
+                        @endphp
+                    @endwhile
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="sheduleEventModal" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('Schedule event') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="calendar">
+        <form action="{{ route('calendar.save') }}" method="POST">
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        {{ __('Add event') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                         <div class="row">
                             <div class="col">
-                                <label>{{ __('Title') }} <span class="text-danger">*</span></label>
-                                <input type="text" name="title" id="title" required="required" class="form-control">
+                                <input type="text" class="form-control" name="title" id="title" required placeholder="{{ __('Add title') }}">
+                            </div>
+                        </div>    
+                        <div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="date" class="form-label">{{ __('Date') }}</label>
+                                    <input type="date" name="date" id="date" required class="form-control mb-3">
+                                </div>
+                                <div class="col">
+                                    <label for="date" class="form-label">{{ __('Date') }}</label>
+                                    <input type="date" name="end_date" id="end_date" class="form-control mb-3">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="start_time" class="form-label">{{ __('Start time') }}</label>
+                                    <input type="time" class="form-control" name="start_time" id="start_time">
+                                </div>
+                                <div class="col">    
+                                    <label for="end_time" class="form-label">{{ __('End time') }}</label>
+                                    <input type="time" class="form-control" name="end_time" id="end_time">
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" value="1" id="is_all_day" name="is_all_day">
+                                <label class="form-check-label" for="is_all_day">
+                                    {{ __('Is all day?') }}
+                                </label>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col">
+                                    <label for="description" class="form-label">{{ __('Description') }}</label>
+                                    <textarea class="form-control mb-3" name="description" id="description" cols="30" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="guests" class="form-label">{{ __('Guests') }}</label>
+                                    <input type="text" class="form-control mb-3" name="guests" id="guests">
+                                </div>    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="meeting" class="form-label">{{ __('Meeting') }}</label>
+                                    <input type="text" class="form-control mb-3" name="meeting" id="meeting">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="address" class="form-label">{{ __('Address') }}</label>
+                                    <input type="text" class="form-control mb-3" name="address" id="address">
+                                    <div id="map"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>{{ __('Guests') }} <span class="text-danger">*</span></label>
-                                <input type="text" name="guests" id="guests" required="required" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>{{ __('Date start') }} <span class="text-danger">*</span></label>
-                                <input type="datetime-local" name="start_date" id="start_date" required="required" class="form-control" min="{{ date('Y-m-d H:i') }}">
-                            </div><!--./col-->
-                            <div class="col">
-                                <label>{{ __('Date end') }}</label>
-                                <input type="datetime-local" name="end_date" id="end_date" class="form-control" min="{{ date('Y-m-d H:i') }}">
-                            </div><!--./col-->
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>{{ __('Web meeting') }}</label>
-                                <input type="url" name="meeting" id="meeting" value="https://meet.jit.si/{{ auth()->user()->company->name }}" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>{{ __('Description') }}</label>
-                                <textarea name="description" id="description" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" onclick="Calendar.close()" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" onclick="Calendar.save()" class="btn btn-primary">{{ __('Save') }}</button>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="latitude" id="latitude" value="">
+                        <input type="hidden" name="longitude" id="longitude" value="">
+
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
-    <!--week-->
     @push('scripts')
         <script src="{{ asset('/asset/js/Calendar.js') }}"></script>
     @endpush
