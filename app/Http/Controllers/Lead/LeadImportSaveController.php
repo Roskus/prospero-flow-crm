@@ -30,9 +30,9 @@ class LeadImportSaveController extends MainController
         }
 
         // HEADER
-        //name;business_name;phone;email;website;country_id;notes;facebook
+        //name;business_name;phone;email;website;country_id;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
         $rowCount = 0;
-        $separator = ',';
+        $separator =  (!empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
             //Skip header starting in 1
             if ($data[0] == 'name') {
@@ -51,6 +51,13 @@ class LeadImportSaveController extends MainController
             $lead->city = $data[6];
             $lead->notes = $data[7];
             $lead->facebook = (isset($data[8])) ? $data[8] : null;
+            $lead->instagram = (isset($data[9])) ? $data[9] : null;
+            $lead->linkedin = (isset($data[10])) ? $data[10] : null;
+            $lead->twitter = (isset($data[11])) ? $data[11] : null;
+            $lead->youtube = (isset($data[12])) ? $data[12] : null;
+            $lead->tiktok = (isset($data[13])) ? $data[13] : null;
+
+            $lead->tags = (isset($data[14])) ? $data[14] : null;
 
             $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
