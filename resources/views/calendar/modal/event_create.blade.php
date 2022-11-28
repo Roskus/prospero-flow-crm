@@ -10,6 +10,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
+                            <label>{{ __('Title') }}</label>
                             <input type="text" class="form-control" name="title" id="title" required placeholder="{{ __('Add title') }}">
                         </div>
                     </div>
@@ -17,6 +18,10 @@
                         <div class="row">
                             <div class="col">
                                 <label for="date" class="form-label">{{ __('Date') }}</label>
+                                <input class="form-check-input" type="checkbox" value="1" id="is_all_day" name="is_all_day">
+                                <label class="form-check-label" for="is_all_day">
+                                    {{ __('Is all day?') }}
+                                </label>
                                 <input type="date" name="date" id="date" required class="form-control mb-3">
                             </div>
                             <div class="col">
@@ -35,13 +40,6 @@
                             </div>
                         </div>
 
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" value="1" id="is_all_day" name="is_all_day">
-                            <label class="form-check-label" for="is_all_day">
-                                {{ __('Is all day?') }}
-                            </label>
-                        </div>
-
                         <div class="row">
                             <div class="col">
                                 <label for="description" class="form-label">{{ __('Description') }}</label>
@@ -52,6 +50,9 @@
                             <div class="col">
                                 <label for="guests" class="form-label">{{ __('Guests') }}</label>
                                 <input type="text" class="form-control mb-3" name="guests" id="guests">
+                                <select name="guest_list" readonly multiple class="form-control">
+
+                                </select>
                             </div>
                         </div>
                         <div class="row">
