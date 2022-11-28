@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LeadImportSaveController extends MainController
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function save(Request $request)
     {
         if (! $request->hasFile('upload')) {
@@ -44,7 +48,7 @@ class LeadImportSaveController extends MainController
             $lead->company_id = Auth::user()->company_id;
             $lead->name = $data[0];
             $lead->business_name = $data[1];
-            $lead->phone = $data[2];
+            $lead->phone = str_replace(' ', '', $data[2]);
             $lead->email = $data[3];
             $lead->website = rtrim($data[4], '/');
             $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
@@ -63,15 +67,23 @@ class LeadImportSaveController extends MainController
             $lead->created_at = now();
             try {
                 $lead->save();
+                $rowCount++;
             } catch (\Throwable $t) {
                 //Log here
                 echo $rowCount;
             }
-            $rowCount++;
         }
         fclose($handle);
 
         $data['row_count'] = $rowCount;
+
+        $status = ($rowCount > 0) ? true : false;
+
+        $response = [
+            'status' => $status,
+            'message' => ($status) ? 'Leads imported :count successfully' : 'An error occurred while importing leads',
+            'count' => $rowCount,
+        ];
 
         return redirect('/lead')->with($data);
     }

@@ -19,7 +19,11 @@
 
 @if(session('status'))
     <div class="alert alert-{{ session('status') }} mt-2">
-        {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url("/lead/update/".session('id')).">".session('name')."</a>"])  !!}
+        @if(session('id'))
+            {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url("/lead/update/".session('id')).">".session('name')."</a>"])  !!}
+        @else
+            {{ __(session('message'), ['count' => session('count')]) }}
+        @endif
     </div>
 @endif
 
