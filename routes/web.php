@@ -75,6 +75,9 @@ Route::get('/company/update/{id}', [\App\Http\Controllers\Company\CompanyUpdateC
 Route::post('/company/save', [\App\Http\Controllers\Company\CompanySaveController::class, 'save']);
 Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteController::class, 'delete']);
 
+// Contact
+Route::post('/contact/save', [\App\Http\Controllers\Contact\ContactSaveController::class, 'save']);
+
 // Account
 Route::get('/accounting', [\App\Http\Controllers\Account\AccountIndexController::class, 'index']);
 Route::post('/account/save', [\App\Http\Controllers\Account\AccountSaveController::class, 'save']);

@@ -48,7 +48,7 @@ class LeadImportSaveController extends MainController
             $lead->company_id = Auth::user()->company_id;
             $lead->name = $data[0];
             $lead->business_name = $data[1];
-            $lead->phone = str_replace([' ','(', ')', '.'], '', $data[2]);
+            $lead->phone = str_replace([' ','(', ')', '.', '-'], '', $data[2]);
             $lead->email = $data[3];
             $lead->website = rtrim($data[4], '/');
             $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
