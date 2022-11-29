@@ -31,7 +31,7 @@ class ContactSaveController extends MainController
         $contact->updated_at = now();
         try {
             $contact->save();
-        } catch (\Throwable $t){
+        } catch (\Throwable $t) {
             Log::error($t->getMessage());
         }
 
