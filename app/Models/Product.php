@@ -20,6 +20,20 @@ class Product extends Model
      */
     protected $table = 'product';
 
+    protected $fillable = [
+        'company_id',
+        'category_id',
+        'brand_id',
+        'name',
+        'model',
+        'sku',
+        'barcode',
+        'photo',
+        'cost',
+        'price',
+        'description',
+    ];
+
     public function company()
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
