@@ -10,7 +10,7 @@ class ContactSaveController extends MainController
 {
     public function save(Request $request)
     {
-        if(empty($request->id)) {
+        if (empty($request->id)) {
             $contact = new Contact();
             $contact->created_at = now();
         } else {
@@ -23,6 +23,7 @@ class ContactSaveController extends MainController
         $contact->email = $request->contact_email;
         $contact->updated_at = now();
         $contact->save();
+
         return back();
     }
 }
