@@ -32,28 +32,32 @@
         </form>
     </div>
 
-    <div class="table-responsive mt-2">
-        <table class="table table-bordered table-striped table-hover">
-        <thead>
-            <tr>
-                <th>{{ __('Created at') }}</th>
-                <th>{{ __('Issue date') }}</th>
-                <th>{{ __('Name') }}</th>
-                <th>{{ __('Amount') }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach ($accounts as $account)
-        <tr>
-            <td>{{ $account->created_at->format('d/m/Y H:i') }}</td>
-            <td>{{ $account->issue_date->format('d/m/Y H:i') }}</td>
-            <td>
-                <a href="/account/edit/{{ $account->id }}">{{ $account->name }}</a>
-            </td>
-            <td>{{ $account->amount }}</td>
-        </tr>
-        @endforeach
-        </tbody>
-        </table>
+    <div class="card mt-2">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ __('Created at') }}</th>
+                        <th>{{ __('Issue date') }}</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Amount') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach ($accounts as $account)
+                <tr>
+                    <td>{{ $account->created_at->format('d/m/Y H:i') }}</td>
+                    <td>{{ $account->issue_date->format('d/m/Y H:i') }}</td>
+                    <td>
+                        <a href="/account/edit/{{ $account->id }}">{{ $account->name }}</a>
+                    </td>
+                    <td>{{ $account->amount }}</td>
+                </tr>
+                @endforeach
+                </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 @endsection
