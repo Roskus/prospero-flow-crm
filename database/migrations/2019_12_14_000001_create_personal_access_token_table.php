@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('personal_access_tokens');
 
-        if (!Schema::hasTable('personal_access_token')) {
+        if (! Schema::hasTable('personal_access_token')) {
             Schema::create('personal_access_token', function (Blueprint $table) {
                 $table->id();
                 $table->morphs('tokenable');
