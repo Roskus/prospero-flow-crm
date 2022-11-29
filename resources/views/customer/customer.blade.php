@@ -6,52 +6,56 @@
     </header>
     <form method="POST" action="{{ url('/customer/save') }}" class="form">
         {{ csrf_field() }}
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="name" id="name" value="{{ $customer->name }}" required="required" maxlength="80" class="form-control form-control-lg">
+        <div class="card mt-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
+                        <input type="text" name="name" id="name" value="{{ $customer->name }}" required="required" maxlength="80" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="business_name">{{ __('Business name') }}</label>
+                        <input type="text" name="business_name" id="business_name" value="{{ $customer->business_name }}" maxlength="80" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label for="phone">{{ __('Phone') }}</label>
+                        <input type="tel" name="phone" id="phone" value="{{ $customer->phone }}" maxlength="15" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="mobile" class="">{{ __('Mobile') }}</label>
+                        <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label for="email" class="">E-mail</label>
+                        <input type="email" name="email" id="email" value="{{ $customer->email }}" maxlength="254" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="website" class="">Website</label>
+                        <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $customer->website }}" maxlength="255" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label for="vat" class="">{{ __('Identity number') }}</label>
+                        <input type="text" name="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="dob">{{ __('Date of birth') }}</label>
+                        <input type="date" name="dob" id="dob" value="{{ $customer->dob }}" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+                <div class="row">
+                    <div class="col">
+                        <label for="notes">{{ __('Notes') }}</label>
+                        <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ $customer->notes }}</textarea>
+                    </div>
+                </div><!--./row-->
             </div>
-            <div class="col-12 col-md-6">
-                <label for="business_name">{{ __('Business name') }}</label>
-                <input type="text" name="business_name" id="business_name" value="{{ $customer->business_name }}" maxlength="80" class="form-control form-control-lg">
-            </div>
-        </div><!--./row-->
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <label for="phone">{{ __('Phone') }}</label>
-                <input type="tel" name="phone" id="phone" value="{{ $customer->phone }}" maxlength="15" class="form-control form-control-lg">
-            </div>
-            <div class="col-12 col-md-6">
-                <label for="mobile" class="">{{ __('Mobile') }}</label>
-                <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
-            </div>
-        </div><!--./row-->
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <label for="email" class="">E-mail</label>
-                <input type="email" name="email" id="email" value="{{ $customer->email }}" maxlength="254" class="form-control form-control-lg">
-            </div>
-            <div class="col-12 col-md-6">
-                <label for="website" class="">Website</label>
-                <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $customer->website }}" maxlength="255" class="form-control form-control-lg">
-            </div>
-        </div><!--./row-->
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <label for="vat" class="">{{ __('Identity number') }}</label>
-                <input type="text" name="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
-            </div>
-            <div class="col-12 col-md-6">
-                <label for="dob">{{ __('Date of birth') }}</label>
-                <input type="date" name="dob" id="dob" value="{{ $customer->dob }}" class="form-control form-control-lg">
-            </div>
-        </div><!--./row-->
-        <div class="row">
-            <div class="col">
-                <label for="notes">{{ __('Notes') }}</label>
-                <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ $customer->notes }}</textarea>
-            </div>
-        </div><!--./row-->
+        </div><!--./card-->
 
         <div class="card mt-2">
             <div class="card-header">{{ __('Address') }}</div>
@@ -107,7 +111,7 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
-		    <label for="linkedin">Linkedin</label>
+		            <label for="linkedin">Linkedin</label>
                     <input type="url" name="linkedin" value="{{ $customer->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">
                 </div>
                 <div class="col-12 col-md-6">
@@ -183,11 +187,12 @@
         <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
             <div class="accordion-body">
                 <form method="post" action="{{ url('/contact/save') }}">
+                    @csrf
                     <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                     <div class="row">
                         <div class="col">
                             <label>{{ __('First name') }}</label>
-                            <input type="text" name="contact_first_name" class="form-control">
+                            <input type="text" name="contact_first_name" required class="form-control">
                         </div>
                         <div class="col">
                             <label>{{ __('Last name') }}</label>
@@ -286,7 +291,7 @@
             let $el = $(this);
             setTimeout(function() {
                 $el.val(function(i, val) {
-                    return val.replace(/[ -.]/g, '')
+                    return val.replace(/[ ()-.]/g, '')
                 })
             })
         });
@@ -310,18 +315,18 @@
         });
 
         $('#website').on('keyup paste', function() {
-                let $el = $(this);
-                setTimeout(function() {
-                    $el.val(function(i, val) {
-                        if(val.length == 0) return;
-                        let prefix = 'https://';
-                        if (val.substr(0, prefix.length) !== prefix)
-                        {
-                            val = prefix + val.trim();
-                        }
-                        return val;
-                    })
+            let $el = $(this);
+            setTimeout(function() {
+                $el.val(function(i, val) {
+                    if(val.length == 0) return;
+                    let prefix = 'https://';
+                    if (val.substr(0, prefix.length) !== prefix)
+                    {
+                        val = prefix + val.trim();
+                    }
+                    return val;
                 })
+            })
         });
     </script>
     @endpush
