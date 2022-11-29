@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class LeadImportSaveController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)
@@ -36,7 +36,7 @@ class LeadImportSaveController extends MainController
         // HEADER
         //name;business_name;phone;email;website;country_id;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
         $rowCount = 0;
-        $separator =  (!empty($request->separator)) ? $request->separator : ';';
+        $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
             //Skip header starting in 1
             if ($data[0] == 'name') {
