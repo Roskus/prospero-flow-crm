@@ -15,4 +15,9 @@ class Contact extends Model
     {
         return $this->belongsTo(\App\Models\Lead::class);
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(\App\Models\Customer::class);
+    }
 }
