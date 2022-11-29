@@ -34,13 +34,11 @@ class UserSaveController extends MainController
             $user->created_at = now();
             //Company should be assigned on create
             $user->company_id = Auth::user()->company_id;
-
         } else {
             $user = User::find($request->id);
         }
 
-        if(Auth::user()->hasRole('SuperAdmin'))
-        {
+        if (Auth::user()->hasRole('SuperAdmin')) {
             $user->company_id = $request->company_id;
         }
 
