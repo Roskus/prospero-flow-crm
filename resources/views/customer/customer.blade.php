@@ -185,7 +185,7 @@
             </button>
         </div>
         <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
+            <div class="accordion-body bg-white">
                 <form method="post" action="{{ url('/contact/save') }}">
                     @csrf
                     <input type="hidden" name="customer_id" value="{{ $customer->id }}">
@@ -225,7 +225,6 @@
                         </div>
                     </div>
                 </form>
-
 
                 <div class="mt-2 table-responsive">
                     <table class="table table-bordered table-hover table-striped table-sm">

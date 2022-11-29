@@ -14,6 +14,11 @@
             <i class="las la-user-alt"></i> {{ __('Customers') }}
         </a>
     </li>
+    <li>
+        <a href="{{ url('/order') }}" class="nav-link fs-5 @if(Request::path() == 'order') active @endif">
+            <i class="las la-receipt"></i> {{ __('Orders') }}
+        </a>
+    </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="las la-envelope-open-text"></i> E-mail
@@ -31,21 +36,12 @@
             </li>
         </ul>
     </li>
-    <li class="nav-item fs-5">
-        <a href="{{ url('/accounting') }}" class="nav-link @if(Request::path() == 'accounting') active @endif">
-            <i class="las la-coins"></i> {{ __('Accounting') }}
-        </a>
-    </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="las la-plus"></i> {{ __('More') }}
         </a>
         <ul class="dropdown-menu">
-            <li>
-                <a href="{{ url('/order') }}" class="dropdown-item fs-5 @if(Request::path() == 'order') active @endif">
-                    <i class="las la-receipt"></i> {{ __('Orders') }}
-                </a>
-            </li>
+
             <li>
                 <a href="{{ url('/product') }}" class="dropdown-item fs-5 @if(Request::path() == 'product') active @endif">
                     <i class="las la-box"></i> {{ __('Products') }}
@@ -57,13 +53,18 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('/ticket') }}" class="dropdown-item fs-5 @if(Request::path() == 'ticket') active @endif" title="{{ __('Tickets') }}">
-                    <i class="las la-tools"></i> {{ __('Tickets') }}
+                <a href="{{ url('/calendar') }}" class="dropdown-item fs-5 @if(Request::path() == 'calendar') active @endif">
+                    <i class="las la-calendar"></i> {{ __('Calendar') }}
+                </a>
+            </li>
+            <li class="nav-item fs-5">
+                <a href="{{ url('/accounting') }}" class="dropdown-item @if(Request::path() == 'accounting') active @endif">
+                    <i class="las la-coins"></i> {{ __('Accounting') }}
                 </a>
             </li>
             <li>
-                <a href="{{ url('/calendar') }}" class="dropdown-item fs-5 @if(Request::path() == 'calendar') active @endif">
-                    <i class="las la-calendar"></i> {{ __('Calendar') }}
+                <a href="{{ url('/ticket') }}" class="dropdown-item fs-5 @if(Request::path() == 'ticket') active @endif" title="{{ __('Tickets') }}">
+                    <i class="las la-tools"></i> {{ __('Tickets') }}
                 </a>
             </li>
         </ul>
