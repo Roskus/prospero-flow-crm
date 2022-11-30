@@ -36,11 +36,11 @@
                 <div class="row" style="height: 14vh;">
 
                     @while ($startOfCalendar <= $endOfCalendar)
-                        <div class="col text-center border" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')">
+                        <div class="col text-center border p-1" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')">
                             <span class="mb-1 @if($startOfCalendar->isToday()) badge rounded-pill text-bg-primary @endif">{{ $startOfCalendar->format('j') }}</span>
                             <div class="d-flex flex-column">
                             @foreach ( $events->where('start_date', $startOfCalendar) as $event)
-                                <span class="badge text-bg-secondary mb-1">{{ $event->title }}</span>
+                                <span class="badge text-bg-secondary mb-1 text-wrap">{{ $event->title }}</span>
                             @endforeach
                             </div>
                         </div>
