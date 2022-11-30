@@ -13,6 +13,7 @@ class SupplierUpdateController extends MainController
     {
         $data['countries'] = Country::orderBy('name')->get();
         $data['supplier'] = Supplier::find($id);
+
         return view('supplier.supplier', $data);
     }
 }
