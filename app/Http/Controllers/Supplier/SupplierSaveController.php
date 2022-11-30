@@ -17,7 +17,7 @@ class SupplierSaveController extends MainController
         $supplier->phone = $request->phone;
         $supplier->email = $request->email;
         $supplier->website = $request->website;
-        $supplier->country_id= $request->country_id;
+        $supplier->country_id = $request->country_id;
         $supplier->updated_at = now();
         $supplier->save();
 
