@@ -23,7 +23,7 @@ class SaveCalendarEventController extends MainController
         } else {
             $calendar = Calendar::find($request->id);
         }
-        
+
         $calendar->company_id = Auth::user()->company_id;
         $calendar->user_id = Auth::user()->id;
         $calendar->start_date = new Carbon($request->date.' '.$request->start_time);
