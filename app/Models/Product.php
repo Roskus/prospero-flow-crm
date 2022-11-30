@@ -57,10 +57,11 @@ class Product extends Model
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
         $products = Product::with('category', 'brand')->where('company_id', '=', $company_id);
-        if (!empty($search)) {
+        if (! empty($search)) {
             $products->where('name', 'LIKE', "%$search%")
                     ->orWhere('sku', 'LIKE', "%$search%");
         }
+
         return $products->orderBy('name', 'asc')->paginate(10);
     }
 }
