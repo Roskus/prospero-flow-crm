@@ -20,8 +20,7 @@ class CalendarController extends MainController
         $endOfCalendar = $date->copy()->lastOfMonth()->endOfWeek(Carbon::SUNDAY);
 
         $events = Calendar::whereUserId(auth()->id())
-                            ->where('start_date', '>=', $startOfCalendar)
-                            ->where('start_date', '<=', $endOfCalendar)
+                            ->whereBetween('start_date', [$startOfCalendar, $endOfCalendar])
                             ->get();
 
         return view('calendar.calendar', compact('date', 'startOfCalendar', 'endOfCalendar', 'events'));

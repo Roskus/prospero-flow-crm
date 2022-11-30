@@ -2,68 +2,53 @@
  * @version 1.0.1
  * @type {{scheduleEvent: Window.Calendar.scheduleEvent, save: Window.Calendar.save}}
  */
+
+const options = {
+    focus: true
+}
+const myModal = new bootstrap.Modal(document.getElementById('sheduleEventModal'), options);
+
 window.Calendar = {
     scheduleEvent : function(startDate)
     {
         let date = document.getElementById('date');
         date.value = startDate;
-        
-        const options = {
-            focus: true
-        }
-        const myModal = new bootstrap.Modal(document.getElementById('sheduleEventModal'), options);
+
         myModal.show();
     },
-    save: function()
+    read: function(id)
     {
-        const options = {
-            focus: true
-        }
-        const myModal = new bootstrap.Modal(document.getElementById('sheduleEventModal'), options);
-
-
-        let token = document.getElementsByName('csrf-token')[0].getAttribute('content');
-        let title = $('#title').val();
-        let start_date = $('#start_date').val();
-        let end_date = $('#end_date').val();
-        let guests = $('#guests').val();
-        let description = $('#description').val();
-        let meeting = $('#meeting').val();
-
-        //address
-        //latitude
-        //longitude
-
-        let eventObj = {
-            title : title,
-            start_date: start_date,
-            end_date: end_date,
-            guests: guests,
-            is_all_day: null, //@TODO
-            description: description,
-            meeting: meeting,
-            _token: token
-        }
-
-        let postEventString = JSON.stringify(eventObj)
-        fetch("/calendar/event/save", {
-            method: 'post',
-            body: postEventString,
+        fetch("/calendar/event/update/" + id, {
+            method: 'get',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
             return response.json()
-        }).then((res) => {
-            if (res.status === 201) {
-                console.log("Post successfully created!")
+        }).then((data) => {
+            $('#id').val(data.id); 
+            $('#title').val(data.title); 
+            
+            var regEx = /^\d{4}-\d{2}-\d{2}/;
+            $('#end_date').val((data.end_date).match(regEx)[0]);
 
-            }
+            $('#is_all_day').prop('checked', (data.is_all_day == 1) ? true : false);            
+
+            var regEx = /\d{2}:\d{2}/;
+            $('#start_time').val((data.start_date).match(regEx)[0]);
+
+            var regEx = /\d{2}:\d{2}/;
+            $('#end_time').val((data.end_date).match(regEx)[0]);
+            
+            $('#guests').val(data.guests);
+            $('#description').val(data.description);
+            $('#meeting').val(data.meeting);
+            $('#address').val(data.address);        
+
+            myModal.show();
         }).catch((error) => {
             console.log(error)
         });
-        myModal.hide();
     }
-
 }

@@ -1,10 +1,11 @@
 <div id="sheduleEventModal" class="modal" tabindex="-1">
     <form action="{{ route('calendar.save') }}" method="POST">
         @csrf
+        <input type="hidden" name="id" id="id">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    {{ __('Add event') }}
+                    <h5 class="modal-title">{{ __('Add event') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

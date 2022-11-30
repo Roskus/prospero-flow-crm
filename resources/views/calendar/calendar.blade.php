@@ -39,8 +39,8 @@
                         <div class="col text-center border p-1" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')">
                             <span class="mb-1 @if($startOfCalendar->isToday()) badge rounded-pill text-bg-primary @endif">{{ $startOfCalendar->format('j') }}</span>
                             <div class="d-flex flex-column">
-                            @foreach ( $events->where('start_date', $startOfCalendar) as $event)
-                                <span class="badge text-bg-secondary mb-1 text-wrap">{{ $event->title }}</span>
+                            @foreach ( $events->whereBetween('start_date', [$startOfCalendar->copy()->startOfDay(), $startOfCalendar->copy()->endOfDay()]) as $event)
+                                <span role="button" class="badge text-bg-secondary mb-1 text-wrap" onclick="Calendar.read('{{ $event->id }}')">{{ $event->title }}</span>
                             @endforeach
                             </div>
                         </div>
