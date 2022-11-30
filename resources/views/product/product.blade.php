@@ -105,9 +105,9 @@
                     <label class="label-control">{{ __('Photo') }}</label>
                     <input type="file" name="photo" class="form-control">
                 </div>
-                <div class="col">
+                <div class="col pt-4">
                     @if($product->photo)
-                        <picture class="mt-2 mb-2">
+                        <picture class="">
                             <img src="{{ asset("/asset/upload/product/$product->id/$product->photo")}}" alt="" width="250" class="img-fluid img-thumbnail">
                         </picture>
                     @endif
