@@ -85,11 +85,11 @@
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <label class="">{{ __('Street') }}</label>
+                        <label for="street" class="">{{ __('Street') }}</label>
                         <input type="text" name="street" id="street" value="{{ $lead->street }}" class="form-control form-control-lg" maxlength="80">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="">{{ __('Zipcode') }}</label>
+                        <label for="zipcode" class="">{{ __('Zipcode') }}</label>
                         <input type="text" name="zipcode" id="zipcode" value="{{ $lead->zipcode }}" class="form-control form-control-lg" maxlength="10">
                     </div>
                 </div><!--./row-->
