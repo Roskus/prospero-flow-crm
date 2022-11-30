@@ -18,10 +18,6 @@
                         <div class="row">
                             <div class="col">
                                 <label for="date" class="form-label">{{ __('Date') }}</label>
-                                <input class="form-check-input" type="checkbox" value="1" id="is_all_day" name="is_all_day">
-                                <label class="form-check-label" for="is_all_day">
-                                    {{ __('Is all day?') }}
-                                </label>
                                 <input type="date" name="date" id="date" required class="form-control mb-3">
                             </div>
                             <div class="col">
@@ -32,6 +28,10 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="start_time" class="form-label">{{ __('Start time') }}</label>
+                                <input class="form-check-input" type="checkbox" value="1" id="is_all_day" name="is_all_day">
+                                <label class="form-check-label" for="is_all_day">
+                                    {{ __('Is all day?') }}
+                                </label>
                                 <input type="time" class="form-control" name="start_time" id="start_time">
                             </div>
                             <div class="col">
@@ -49,7 +49,12 @@
                         <div class="row">
                             <div class="col">
                                 <label for="guests" class="form-label">{{ __('Guests') }}</label>
-                                <input type="text" class="form-control mb-3" name="guests" id="guests">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="guests" id="guests">
+                                    <a class="input-group-text btn btn-primary" id="basic-addon1">
+                                        <i class="las la-plus-circle"></i>
+                                    </a>
+                                </div>
                                 <select name="guest_list" readonly multiple class="form-control">
 
                                 </select>
@@ -58,7 +63,12 @@
                         <div class="row">
                             <div class="col">
                                 <label for="meeting" class="form-label">{{ __('Meeting') }}</label>
-                                <input type="text" class="form-control mb-3" name="meeting" id="meeting">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="las la-video"></i>
+                                    </span>
+                                    <input type="text" class="form-control" name="meeting" id="meeting">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
