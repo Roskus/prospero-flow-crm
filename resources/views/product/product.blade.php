@@ -104,16 +104,18 @@
                 <div class="col">
                     <label class="label-control">{{ __('Photo') }}</label>
                     <input type="file" name="photo" class="form-control">
+                </div>
+                <div class="col">
                     @if($product->photo)
-                    <picture class="mt-2 mb-2">
-                        <img src="{{ asset("/asset/upload/product/$product->id/$product->photo")}}" alt="" width="250" class="img-fluid img-thumbnail">
-                    </picture>
+                        <picture class="mt-2 mb-2">
+                            <img src="{{ asset("/asset/upload/product/$product->id/$product->photo")}}" alt="" width="250" class="img-fluid img-thumbnail">
+                        </picture>
                     @endif
                 </div>
             </div>
             <div class="form-group mt-2">
                 <a href="/product" class="btn btn-outline-secondary">{{ __('Cancel') }}</a>
-                <button type="submit" class="btn btn-primary"><span class=""></span> {{ __('Save') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
             </div>
             <input type="hidden" name="id" id="id" value="{{ $product->id }}">
             {{ csrf_field() }}
