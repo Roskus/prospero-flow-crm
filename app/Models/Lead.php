@@ -127,6 +127,7 @@ class Lead extends Model
         $leads = Lead::where('company_id', $company_id);
         if (! empty($search)) {
             $leads->where('name', 'LIKE', "%$search%")
+                  ->orWhere('business_name', 'LIKE', "%$search%")
                   ->orWhere('tags', 'LIKE', "%$search%");
         }
 

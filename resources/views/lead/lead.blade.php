@@ -214,7 +214,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col mt-1">
+                        <div class="col">
+                            <label>{{ __('Notes') }}</label>
+                            <textarea name="contact_notes" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mt-2">
                             <button type="submit" class="btn btn-secondary">{{ __('Save') }}</button>
                         </div>
                     </div>

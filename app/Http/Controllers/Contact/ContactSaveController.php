@@ -24,10 +24,10 @@ class ContactSaveController extends MainController
         $contact->first_name = $request->contact_first_name;
         $contact->last_name = $request->contact_last_name;
         $contact->phone = $request->contact_phone;
-        $contact->email = $request->contact_email;
+        $contact->email = strtolower(trim($request->contact_email));
         $contact->linkedin = $request->contact_linkedin;
         //$contact->country = $request->contact_country;
-        //$contact->notes = $request->contact_notes;
+        $contact->notes = $request->contact_notes;
         $contact->updated_at = now();
         try {
             $contact->save();
