@@ -51,8 +51,10 @@ class Customer extends Model
         'dob',
         'vat',
         'phone',
+        'phone2',
         'mobile',
         'email',
+        'email2',
         'website',
         'linkedin',
         'facebook',
@@ -125,6 +127,7 @@ class Customer extends Model
         $customers = Customer::where('company_id', $company_id);
         if (! empty($search)) {
             $customers->where('name', 'LIKE', "%$search%")
+                      ->orWhere('business_name', 'LIKE', "%$search%")
                       ->orWhere('tags', 'LIKE', "%$search%");
         }
 

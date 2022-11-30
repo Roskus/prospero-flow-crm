@@ -24,8 +24,8 @@
                         <input type="tel" name="phone" id="phone" value="{{ $lead->phone }}" maxlength="15" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="mobile" class="">{{ __('Mobile') }}</label>
-                        <input type="tel" name="mobile" id="mobile" value="{{ $lead->mobile }}" maxlength="15" class="form-control form-control-lg">
+                        <label for="phone2">{{ __('Phone') }} 2</label>
+                        <input type="tel" name="phone2" id="phone2" value="{{ $lead->phone2 }}" maxlength="15" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
                 <div class="row">
@@ -34,10 +34,20 @@
                         <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
+                        <label for="email2" class="">E-mail 2</label>
+                        <input type="email" name="email2" id="email2" value="{{ $lead->email2 }}" maxlength="254" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label for="mobile" class="">{{ __('Mobile') }}</label>
+                        <input type="tel" name="mobile" id="mobile" value="{{ $lead->mobile }}" maxlength="15" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-12 col-md-6">
                         <label for="website" class="">Website</label>
                         <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $lead->website }}" maxlength="255" class="form-control form-control-lg">
                     </div>
-                </div><!--./row-->
+                </div>
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="vat" class="">{{ __('Identity number') }}</label>
@@ -198,9 +208,15 @@
                             <label>{{ __('Last name') }}</label>
                             <input type="text" name="contact_last_name" class="form-control">
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col">
                             <label>{{ __('Phone') }}</label>
                             <input type="tel" name="contact_phone" maxlength="15" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label>{{ __('Mobile') }}</label>
+                            <input type="tel" name="contact_mobile" maxlength="15" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -226,7 +242,6 @@
                     </div>
                 </form>
 
-
                 <div class="mt-2 table-responsive">
                     <table class="table table-bordered table-hover table-striped table-sm">
                     <thead>
@@ -234,6 +249,7 @@
                         <th>{{ __('First name') }}</th>
                         <th>{{ __('Last name') }}</th>
                         <th>{{ __('Phone') }}</th>
+                        <th>{{ __('Mobile') }}</th>
                         <th>E-mail</th>
                         <th>Linkedin</th>
                         <th>{{ __('Created at') }}</th>
@@ -249,7 +265,12 @@
                             <td>{{ $contact->last_name }}</td>
                             <td>
                                 @if($contact->phone)
-                                <a href="https://api.whatsapp.com/send/?phone={{ $contact->phone }}&text={{ __('Hello') }}">{{ $contact->phone }}</a>
+                                <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($contact->mobile)
+                                    <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}">{{ $contact->mobile }}</a>
                                 @endif
                             </td>
                             <td>
@@ -285,48 +306,48 @@
     @endif
 
     @push('scripts')
-        <script>
-            $('#phone').on('keyup paste', function() {
-                let $el = $(this);
-                setTimeout(function() {
-                    $el.val(function(i, val) {
-                        return val.replace(/[ ()-.]/g, '')
-                    })
+    <script>
+        $('#phone').on('keyup paste', function() {
+            let $el = $(this);
+            setTimeout(function() {
+                $el.val(function(i, val) {
+                    return val.replace(/[ ()-.]/g, '')
                 })
-            });
+            })
+        });
 
-            $('#mobile').on('keyup paste', function() {
-                let $el = $(this);
-                setTimeout(function() {
-                    $el.val(function(i, val) {
-                        return val.replace(/[ ()-.]/g, '')
-                    })
+        $('#mobile').on('keyup paste', function() {
+            let $el = $(this);
+            setTimeout(function() {
+                $el.val(function(i, val) {
+                    return val.replace(/[ ()-.]/g, '')
                 })
-            });
+            })
+        });
 
-            $('#email').on('paste', function() {
-                let $el = $(this);
-                setTimeout(function() {
-                    $el.val(function(i, val) {
-                        return val.replace('mailto:', '').trim()
-                    })
+        $('#email').on('paste', function() {
+            let $el = $(this);
+            setTimeout(function() {
+                $el.val(function(i, val) {
+                    return val.replace('mailto:', '').trim()
                 })
-            });
+            })
+        });
 
-            $('#website').on('keyup paste', function() {
-                let $el = $(this);
-                setTimeout(function() {
-                    $el.val(function(i, val) {
-                        if(val.length == 0) return;
-                        let prefix = 'https://';
-                        if (val.substr(0, prefix.length) !== prefix)
-                        {
-                            val = prefix + val.trim();
-                        }
-                        return val;
-                    })
+        $('#website').on('keyup paste', function() {
+            let $el = $(this);
+            setTimeout(function() {
+                $el.val(function(i, val) {
+                    if(val.length == 0) return;
+                    let prefix = 'https://';
+                    if (val.substr(0, prefix.length) !== prefix)
+                    {
+                        val = prefix + val.trim();
+                    }
+                    return val;
                 })
-            });
-        </script>
+            })
+        });
+    </script>
     @endpush
 @endsection

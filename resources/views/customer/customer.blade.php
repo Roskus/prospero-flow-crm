@@ -24,8 +24,8 @@
                         <input type="tel" name="phone" id="phone" value="{{ $customer->phone }}" maxlength="15" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="mobile" class="">{{ __('Mobile') }}</label>
-                        <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
+                        <label for="phone2">{{ __('Phone') }} 2</label>
+                        <input type="tel" name="phone2" id="phone2" value="{{ $customer->phone2 }}" maxlength="15" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
                 <div class="row">
@@ -34,10 +34,20 @@
                         <input type="email" name="email" id="email" value="{{ $customer->email }}" maxlength="254" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
+                        <label for="email2" class="">E-mail 2</label>
+                        <input type="email" name="email2" id="email2" value="{{ $customer->email2 }}" maxlength="254" class="form-control form-control-lg">
+                    </div>
+                </div><!--./row-->
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label for="mobile" class="">{{ __('Mobile') }}</label>
+                        <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-12 col-md-6">
                         <label for="website" class="">Website</label>
                         <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $customer->website }}" maxlength="255" class="form-control form-control-lg">
                     </div>
-                </div><!--./row-->
+                </div>
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="vat" class="">{{ __('Identity number') }}</label>
@@ -54,7 +64,7 @@
                         <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ $customer->notes }}</textarea>
                     </div>
                 </div><!--./row-->
-            </div>
+            </div><!--./card-body-->
         </div><!--./card-->
 
         <div class="card mt-2">
@@ -79,17 +89,17 @@
                         <input type="text" name="city" id="city" value="{{ $customer->city }}" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="locality"class="">{{ __('Locality') }}</label>
+                        <label for="locality" class="">{{ __('Locality') }}</label>
                         <input type="text" name="locality" id="locality" value="{{ $customer->locality }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <label class="">{{ __('Street') }}</label>
+                        <label for="street" class="">{{ __('Street') }}</label>
                         <input type="text" name="street" id="street" value="{{ $customer->street }}" class="form-control form-control-lg" maxlength="80">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="">{{ __('Zipcode') }}</label>
+                        <label for="zipcode" class="">{{ __('Zipcode') }}</label>
                         <input type="text" name="zipcode" id="zipcode" value="{{ $customer->zipcode }}" class="form-control form-control-lg" maxlength="10">
                     </div>
                 </div><!--./row-->
@@ -220,7 +230,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col mt-1">
+                        <div class="col">
+                            <label>{{ __('Notes') }}</label>
+                            <textarea name="contact_notes" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mt-2">
                             <button type="submit" class="btn btn-secondary">{{ __('Save') }}</button>
                         </div>
                     </div>
@@ -249,7 +265,12 @@
                             <td>{{ $contact->last_name }}</td>
                             <td>
                                 @if($contact->phone)
-                                <a href="https://api.whatsapp.com/send/?phone={{ $contact->phone }}&text={{ __('Hello') }}">{{ $contact->phone }}</a>
+                                <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($contact->mobile)
+                                    <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}">{{ $contact->mobile }}</a>
                                 @endif
                             </td>
                             <td>

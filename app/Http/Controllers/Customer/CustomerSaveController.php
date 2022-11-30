@@ -29,8 +29,10 @@ class CustomerSaveController extends MainController
         $customer->dob = $request->dob;
         $customer->vat = $request->vat;
         $customer->phone = $request->phone;
+        $customer->phone2 = $request->phone2;
         $customer->mobile = $request->mobile;
         $customer->email = $request->email;
+        $customer->email2 = $request->email2;
         $customer->website = rtrim($request->website, '/');
         $customer->notes = $request->notes;
 
