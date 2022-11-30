@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\MainController;
 use Illuminate\Http\Request;
-use App\Models\Product;
 
 class ProductImportSaveController extends MainController
 {
@@ -16,7 +15,7 @@ class ProductImportSaveController extends MainController
 
         $file = $request->file('upload');
         $extension = $file->getClientOriginalExtension();
-        
+
         return redirect('/product'); //->with($data);
     }
 }
