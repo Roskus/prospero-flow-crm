@@ -13,10 +13,13 @@ class ProductIndexController extends MainController
 {
     public function index(Request $request)
     {
+        $filters = [];
+        $search = $request->search;
         $product = new Product();
         $category = new Category();
         $brand = new Brand();
-        $data['products'] = $product->getAllByCompanyId(Auth::user()->company_id);
+        $data['search'] = $search;
+        $data['products'] = $product->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['categories'] = $category->getAllActiveByCompany(Auth::user()->company_id);
         $data['brands'] = $brand->getAllActiveByCompany(Auth::user()->company_id);
 

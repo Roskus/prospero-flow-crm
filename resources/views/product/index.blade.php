@@ -72,6 +72,10 @@
             @endforeach
             </tbody>
             </table>
+
+            <div>
+                {{ $products->appends(request()->query())->links() }}
+            </div>
         </div>
     </div><!--./card-body-->
 </div><!--./card-->
