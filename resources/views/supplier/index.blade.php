@@ -35,9 +35,17 @@
                     <a href="{{ $supplier->website }}" target="_blank">{{ $supplier->website }}</a>
                     @endif
                 </td>
-                <td>{{ $supplier->country_id }}</td>
-                <td>
-                    <a href="{{ url("/supplier/update/$supplier->id") }}"></a>
+                <td class="text-center d-sm-table-cell" title="{{ $supplier->country->name }}">
+                    {{ $supplier->country->flag }}
+                </td>
+                <td class="text-nowrap">
+                    <a href="{{ url("/supplier/update/$supplier->id") }}" class="btn btn-xs btn-warning text-white">
+                        <i class="las la-pen"></i>
+                    </a>
+
+                    <a onclick="Supplier.delete({{ $supplier->id }}, '{{ $supplier->name }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
+                        <i class="las la-trash-alt"></i>
+                    </a>
                 </td>
             </tr>
             @endforeach

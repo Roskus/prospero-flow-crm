@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Supplier;
 use App\Http\Controllers\MainController;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Squire\Models\Country;
 
 class SupplierCreateController extends MainController
 {
@@ -12,6 +13,7 @@ class SupplierCreateController extends MainController
     {
         $supplier = new Supplier();
         $data['supplier'] = $supplier;
+        $data['countries'] = Country::orderBy('name')->get();
 
         return view('supplier.supplier', $data);
     }
