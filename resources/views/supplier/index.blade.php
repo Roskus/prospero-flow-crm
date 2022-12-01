@@ -35,8 +35,8 @@
                     <a href="{{ $supplier->website }}" target="_blank">{{ $supplier->website }}</a>
                     @endif
                 </td>
-                <td class="text-center d-sm-table-cell" title="{{ (!empty($supplier->country) ? $supplier->country->name : '' }}">
-                    {{ (!empty($supplier->country) ? $supplier->country->flag : '' }}
+                <td class="text-center d-sm-table-cell" title="{{ !empty($supplier->country) ? $supplier->country->name : '' }}">
+                    {{ !empty($supplier->country) ? $supplier->country->flag : '' }}
                 </td>
                 <td class="text-nowrap">
                     <a href="{{ url("/supplier/update/$supplier->id") }}" class="btn btn-xs btn-warning text-white">
