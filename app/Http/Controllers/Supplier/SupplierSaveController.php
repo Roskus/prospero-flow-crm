@@ -14,7 +14,9 @@ class SupplierSaveController extends MainController
         $supplier = (empty($request->id)) ? new Supplier() : Supplier::find($request->id);
         $supplier->company_id = Auth::user()->company_id;
         $supplier->name = $request->name;
+        $supplier->business_name = $request->business_name;
         $supplier->phone = $request->phone;
+        $supplier->vat = $request->vat;
         $supplier->email = $request->email;
         $supplier->website = $request->website;
         $supplier->country_id = $request->country_id;

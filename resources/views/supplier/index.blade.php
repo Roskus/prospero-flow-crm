@@ -15,6 +15,8 @@
             <thead>
             <tr>
                 <th>{{ __('Name') }}</th>
+                <th>{{ __('Business name') }}</th>
+                <th>{{ __('Identity number') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>E-mail</th>
                 <th>{{ __('Website') }}</th>
@@ -28,6 +30,8 @@
                 <td>
                     <a href="{{ url("/supplier/update/$supplier->id") }}">{{ $supplier->name }}</a>
                 </td>
+                <td>{{ $supplier->business_name }}</td>
+                <td>{{ $supplier->vat }}</td>
                 <td>{{ $supplier->phone }}</td>
                 <td>{{ $supplier->email }}</td>
                 <td>

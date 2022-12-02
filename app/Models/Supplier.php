@@ -11,6 +11,25 @@ class Supplier extends Model
     use HasFactory;
 
     protected $table = 'supplier';
+    protected $fillable = [
+        'company_id',
+        'name',
+        'business_name',
+        'vat',
+        'phone',
+        'email',
+        'website',
+        'country_id',
+        'province',
+        'city',
+        'street',
+        'zipcode',
+    ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     public function country()
     {

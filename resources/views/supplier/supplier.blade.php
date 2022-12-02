@@ -14,8 +14,18 @@
                     <input type="text" name="name" value="{{ $supplier->name }}" required="required" class="form-control">
                 </div>
                 <div class="col">
+                    <label>{{ __('Business name') }}</label>
+                    <input type="text" name="business_name" value="{{ $supplier->business_name }}" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <label>{{ __('Phone') }}</label>
                     <input type="tel" name="phone" value="{{ $supplier->phone }}" maxlength="15" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="vat" class="">{{ __('Identity number') }}</label>
+                    <input type="text" name="vat" value="{{ $supplier->vat }}" maxlength="20" class="form-control form-control-lg">
                 </div>
             </div>
             <div class="row">
