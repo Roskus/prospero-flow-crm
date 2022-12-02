@@ -33,8 +33,8 @@ class LeadImportSaveController extends MainController
             return redirect('/lead')->withErrors(__("Can't read uploaded file"));
         }
 
-        // HEADER
-        //name;business_name;phone;email;website;country_id;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
+        // HEADER (15)
+        //name;business_name;phone;email;website;country_id;city;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
         $rowCount = 0;
         $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
@@ -43,9 +43,16 @@ class LeadImportSaveController extends MainController
                 continue;
             }
 
+            // if row is empty continue
+            if (empty($data[0])) {
+                continue;
+            }
+
             $country = trim($data[5]);
             $lead = new Lead();
+
             $lead->company_id = Auth::user()->company_id;
+
             $lead->name = $data[0];
             $lead->business_name = $data[1];
             $lead->phone = str_replace([' ', '(', ')', '.', '-'], '', $data[2]);
