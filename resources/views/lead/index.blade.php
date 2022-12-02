@@ -129,8 +129,10 @@
                 <td class="text-nowrap">
                     <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
                 </td>
-                <td class="text-center d-sm-table-cell" title="{{ $lead->country->name }}">
+                <td class="text-center d-sm-table-cell" title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
+                    @if(!empty($lead->country))
                     {{ $lead->country->flag }}
+                    @endif
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
                     @if($lead->facebook)
