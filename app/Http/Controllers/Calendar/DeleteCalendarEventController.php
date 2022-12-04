@@ -15,6 +15,7 @@ class DeleteCalendarEventController extends MainController
     public function delete(Request $request, int $id)
     {
         Calendar::find($id)->delete();
+
         return back();
     }
 }
