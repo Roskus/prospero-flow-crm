@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\MainController;
-use Illuminate\Http\Request;
-use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ProductImportSaveController extends MainController
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)
@@ -38,11 +38,9 @@ class ProductImportSaveController extends MainController
         //dd($brands);
         //name;category;brand;model;sku;barcode;cost;price;description;tags
 
-
         $rowCount = 0;
         $separator = ';'; //(! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 2000, $separator)) !== false) {
-
             //Skip header starting in 1
 
             if ($data[0] == 'name') {
@@ -50,7 +48,7 @@ class ProductImportSaveController extends MainController
             }
 
             // if row is empty continue
-             if (empty($data[0])) {
+            if (empty($data[0])) {
                 continue;
             }
 
@@ -71,7 +69,7 @@ class ProductImportSaveController extends MainController
                 $product->save();
                 $rowCount++;
             } catch (\Throwable $t) {
-                Log::error($t->getMessage().' | row number:'.($rowCount+1));
+                Log::error($t->getMessage().' | row number:'.($rowCount + 1));
             }
         }
         fclose($handle);
@@ -85,7 +83,4 @@ class ProductImportSaveController extends MainController
 
         return redirect('/product')->with($response);
     }
-
-
-
 }

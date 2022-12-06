@@ -6,7 +6,6 @@ class Domain
 {
     public static function isValid(string $url) : bool
     {
-
         $validation = FALSE;
         /*Parse URL*/
         $urlparts = parse_url(filter_var($url, FILTER_SANITIZE_URL));

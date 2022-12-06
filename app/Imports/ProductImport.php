@@ -32,5 +32,4 @@ class ProductImport implements ToModel, SkipsEmptyRows, WithHeadingRow, WithVali
             ],
         ];
     }
-
 }

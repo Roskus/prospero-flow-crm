@@ -28,10 +28,10 @@ class Brand extends Model
     }
 
     /**
-     * @param int $company_id
+     * @param  int  $company_id
      * @return array
      */
-    public static function getAllActiveAsArrayByCompany(int $company_id) : array
+    public static function getAllActiveAsArrayByCompany(int $company_id): array
     {
         return Brand::where('company_id', $company_id)
             ->orderBy('name', 'asc')
@@ -40,18 +40,18 @@ class Brand extends Model
     }
 
     /**
-     * @param array $brands
-     * @param string $name
+     * @param  array  $brands
+     * @param  string  $name
      * @return int|null
      */
-    public static function getBrandIdByName(array $brands, string $name) : ?int
+    public static function getBrandIdByName(array $brands, string $name): ?int
     {
-        foreach ($brands as $brand)
-        {
+        foreach ($brands as $brand) {
             if ($brand['name'] == $name) {
                 return (int) $brand['id'];
             }
         }
+
         return null;
     }
 }

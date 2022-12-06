@@ -13,5 +13,4 @@ class CustomerImportExcelSaveController extends MainController
         Excel::import(new CustomerImport, request()->file('upload'));
         return redirect('/customer')->with('success', 'All good!');
     }
-
 }
