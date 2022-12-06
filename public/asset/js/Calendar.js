@@ -27,27 +27,25 @@ window.Calendar = {
         }).then((response) => {
             return response.json()
         }).then((data) => {
-            $('#form_delete').prop('action', route_calendar_controller + "/event/delete/" + data.id);
-            $('#form_delete').removeClass("invisible").addClass("visible");
+            let regExDate = /^\d{4}-\d{2}-\d{2}/;
+            let regExTime = /\d{2}:\d{2}/;
+            $('#form_delete').removeClass("invisible").addClass("visible").prop('action', route_calendar_controller + "/event/delete/" + data.id);
             $('.event_id').val(data.id);
-            
-            $('#title').val(data.title); 
-            
-            var regEx = /^\d{4}-\d{2}-\d{2}/;
-            $('#end_date').val((data.end_date).match(regEx)[0]);
 
-            $('#is_all_day').prop('checked', (data.is_all_day == 1) ? true : false);            
+            $('#title').val(data.title);
 
-            var regEx = /\d{2}:\d{2}/;
-            $('#start_time').val((data.start_date).match(regEx)[0]);
 
-            var regEx = /\d{2}:\d{2}/;
-            $('#end_time').val((data.end_date).match(regEx)[0]);
-            
+            $('#end_date').val((data.end_date).match(regExDate)[0]);
+
+            $('#is_all_day').prop('checked', (data.is_all_day == 1) ? true : false);
+
+            $('#start_time').val((data.start_date).match(regExTime)[0]);
+            $('#end_time').val((data.end_date).match(regExTime)[0]);
+
             $('#guests').val(data.guests);
             $('#description').val(data.description);
             $('#meeting').val(data.meeting);
-            $('#address').val(data.address);        
+            $('#address').val(data.address);
 
             myModal.show();
         }).catch((error) => {

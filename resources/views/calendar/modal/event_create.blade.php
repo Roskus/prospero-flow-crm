@@ -59,6 +59,9 @@
                             <div class="col">
                                 <label for="guests" class="form-label">{{ __('Guests') }}</label>
                                 <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="las la-user-plus"></i>
+                                    </span>
                                     <input type="text" class="form-control" name="guests" id="guests">
                                     <a class="input-group-text btn btn-primary" id="basic-addon1">
                                         <i class="las la-plus-circle"></i>
@@ -77,6 +80,18 @@
                                         <i class="las la-video"></i>
                                     </span>
                                     <input type="text" class="form-control" name="meeting" id="meeting">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="las la-plus-circle"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.jit.si/')">Jitsi Meet</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://zoom.us/j/')">Zoom</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.google.com/')">Google Meet</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://teams.microsoft.com/')">Microsoft Teams</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://whereby.com/')">Whereby</a></li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
                         </div>
