@@ -36,5 +36,4 @@ class CustomerImport implements ToModel, SkipsEmptyRows, WithHeadingRow, WithVal
             ],
         ];
     }
-
 }
