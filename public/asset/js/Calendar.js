@@ -18,7 +18,7 @@ window.Calendar = {
     },
     read: function(id)
     {
-        fetch("/calendar/event/update/" + id, {
+        fetch(route_calendar_controller + "/event/update/" + id, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -27,7 +27,10 @@ window.Calendar = {
         }).then((response) => {
             return response.json()
         }).then((data) => {
-            $('#id').val(data.id); 
+            $('#form_delete').prop('action', route_calendar_controller + "/event/delete/" + data.id);
+            $('#form_delete').removeClass("invisible").addClass("visible");
+            $('.event_id').val(data.id);
+            
             $('#title').val(data.title); 
             
             var regEx = /^\d{4}-\d{2}-\d{2}/;

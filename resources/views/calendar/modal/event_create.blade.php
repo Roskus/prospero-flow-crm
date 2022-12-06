@@ -1,13 +1,21 @@
 <div id="sheduleEventModal" class="modal" tabindex="-1">
-    <form action="{{ route('calendar.save') }}" method="POST">
-        @csrf
-        <input type="hidden" name="id" id="id">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('Add event') }}</h5>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('Add event') }}</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <form method="POST" id="form_delete" class="invisible">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="id" class="event_id">
+                        <button type="submit" class="bg-transparent border border-0 fs-4"><i class="las la-trash-alt"></i></button>
+                    </form>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+            </div>
+            <form action="{{ route('calendar.save') }}" method="POST">
+                @csrf
+                <input type="hidden" name="id" class="event_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
@@ -80,7 +88,9 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
+
                 <div class="modal-footer">
                     <input type="hidden" name="latitude" id="latitude" value="">
                     <input type="hidden" name="longitude" id="longitude" value="">
@@ -88,7 +98,8 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
+
 </div>
