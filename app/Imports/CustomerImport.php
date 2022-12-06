@@ -4,5 +4,4 @@ namespace App\Imports;
 
 class CustomerImport
 {
-
 }

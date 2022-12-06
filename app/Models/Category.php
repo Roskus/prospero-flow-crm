@@ -37,10 +37,10 @@ class Category extends Model
     }
 
     /**
-     * @param int $company_id
+     * @param  int  $company_id
      * @return array
      */
-    public static function getAllActiveAsArrayByCompany(int $company_id) : array
+    public static function getAllActiveAsArrayByCompany(int $company_id): array
     {
         return Category::where('company_id', $company_id)
             ->orderBy('name', 'asc')
@@ -49,17 +49,17 @@ class Category extends Model
     }
 
     /**
-     * @param string $category_name
+     * @param  string  $category_name
      * @return int|null
      */
-    public static function getCategoryIdByName(array $categories, string $category_name) : ?int
+    public static function getCategoryIdByName(array $categories, string $category_name): ?int
     {
-        foreach ($categories as $category)
-        {
+        foreach ($categories as $category) {
             if ($category['name'] == $category_name) {
                 return $category['id'];
             }
         }
+
         return null;
     }
 }
