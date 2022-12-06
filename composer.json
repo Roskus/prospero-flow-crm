@@ -22,6 +22,8 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.0",
+        "maatwebsite/excel": "^3.1",
+        "psr/simple-cache": "^2.0",
         "qoraiche/laravel-mail-editor": "^4.0",
         "ramsey/uuid": "^4.2",
         "shopify/shopify-api": "^1.0",
