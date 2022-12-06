@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<header>
-   <h1>{{ __('Products') }}</h1>
+<header class="col-md-4 col-lg- order-md-last">
+   <h2 class="mb-3">
+       <span class="pr-2">{{ __('Products') }}</span>
+       <span class="badge rounded-pill text-bg-success flex">{{ $products->count() }}</span>
+   </h2>
 </header>
 
 <div class="mb-2">
@@ -51,10 +54,10 @@
                   <img src="{{ asset("/asset/upload/product/$product->id/$product->photo")}}" alt="" width="100" class="img-fluid img-thumbnail">
                 @endif
                 </td>
-                <td>{{ $product->category->name }}</td>
+                <td>{{ (!empty($product->category)) ? $product->category->name : '' }}</td>
                 <td><a href="{{ url("/product/update/$product->id") }}">{{ $product->name }}</a></td>
                 <td>{{ $product->sku }}</td>
-                <td>{{ $product->brand->name }}</td>
+                <td>{{ (!empty($product->brand)) ? $product->brand->name : '' }}</td>
                 <td class="text-center">
                 <span class="@if($product->quantity < $product->min_stock_quantity) text-danger @else text-success @endif">
                     {{ $product->quantity }}

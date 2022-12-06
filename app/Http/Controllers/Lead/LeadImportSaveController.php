@@ -33,13 +33,13 @@ class LeadImportSaveController extends MainController
             return redirect('/lead')->withErrors(__("Can't read uploaded file"));
         }
 
-        // HEADER (15)
-        //name;business_name;phone;email;website;country_id;city;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
+        // HEADER (17)
+        //name;business_name;phone;phone2;email;email2;website;country_id;city;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
         $rowCount = 0;
         $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
             //Skip header starting in 1
-            if ($data[0] == 'name') {
+            if ($rowCount === 0) {
                 continue;
             }
 
@@ -48,7 +48,7 @@ class LeadImportSaveController extends MainController
                 continue;
             }
 
-            $country = trim($data[5]);
+            $country = trim($data[7]);
             $lead = new Lead();
 
             $lead->company_id = Auth::user()->company_id;
@@ -56,19 +56,21 @@ class LeadImportSaveController extends MainController
             $lead->name = $data[0];
             $lead->business_name = $data[1];
             $lead->phone = str_replace([' ', '(', ')', '.', '-'], '', $data[2]);
-            $lead->email = $data[3];
-            $lead->website = rtrim($data[4], '/');
+            $lead->phone2 = str_replace([' ', '(', ')', '.', '-'], '', $data[3]);
+            $lead->email = $data[4];
+            $lead->email2 = $data[5];
+            $lead->website = rtrim($data[6], '/');
             $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
-            $lead->city = $data[6];
-            $lead->notes = $data[7];
-            $lead->facebook = (isset($data[8])) ? $data[8] : null;
-            $lead->instagram = (isset($data[9])) ? $data[9] : null;
-            $lead->linkedin = (isset($data[10])) ? $data[10] : null;
-            $lead->twitter = (isset($data[11])) ? $data[11] : null;
-            $lead->youtube = (isset($data[12])) ? $data[12] : null;
-            $lead->tiktok = (isset($data[13])) ? $data[13] : null;
+            $lead->city = $data[8];
+            $lead->notes = $data[9];
+            $lead->facebook = (isset($data[10])) ? $data[10] : null;
+            $lead->instagram = (isset($data[11])) ? $data[11] : null;
+            $lead->linkedin = (isset($data[12])) ? $data[12] : null;
+            $lead->twitter = (isset($data[13])) ? $data[13] : null;
+            $lead->youtube = (isset($data[14])) ? $data[14] : null;
+            $lead->tiktok = (isset($data[15])) ? $data[15] : null;
 
-            $lead->tags = (isset($data[14])) ? $data[14] : null;
+            $lead->tags = (isset($data[16])) ? $data[16] : null;
 
             $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
@@ -82,8 +84,6 @@ class LeadImportSaveController extends MainController
         }
         fclose($handle);
 
-        $data['row_count'] = $rowCount;
-
         $status = ($rowCount > 0) ? true : false;
 
         $response = [
@@ -92,6 +92,6 @@ class LeadImportSaveController extends MainController
             'count' => $rowCount,
         ];
 
-        return redirect('/lead')->with($data);
+        return redirect('/lead')->with($response);
     }
 }

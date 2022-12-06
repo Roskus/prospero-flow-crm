@@ -6,7 +6,7 @@
     </header>
 
     <div>
-        <a href="/asset/upload/import/hammer_lead_example.csv" target="_blank" class="btn btn-outline-success">{{ __('Download example file') }} <i class="las la-file-csv"></i></a>
+        <a href="/asset/upload/example/hammer_customer_example_20221206.csv" target="_blank" class="btn btn-outline-success">{{ __('Download example file') }} <i class="las la-file-csv"></i></a>
     </div>
 
     <form method="POST" action="{{ url('/customer/import/save') }}" enctype="multipart/form-data" class="form">

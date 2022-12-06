@@ -7,11 +7,11 @@
 
     <div class="row">
         <div class="col">
-            <a href="{{ url('/asset/upload/import/hammer_product_example.csv') }}" target="_blank" class="btn btn-outline-success">{{ __('Download example file') }} <i class="las la-file-csv"></i></a>
+            <a href="{{ url('/asset/upload/example/hammer_product_example_20221206.csv') }}" target="_blank" class="btn btn-outline-success">{{ __('Download example file') }} <i class="las la-file-csv"></i></a>
         </div>
     </div>
 
-    <form method="POST" action="{{ url('/product/import/save') }}" enctype="multipart/form-data" class="form">
+    <form method="POST" action="{{ url('/product/import/save') }}" enctype="multipart/form-data" class="form mt-2">
         @csrf
         <div class="row">
             <div class="col">
