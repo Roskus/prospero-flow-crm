@@ -6,6 +6,7 @@ use App\Http\Controllers\MainController;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LeadImportSaveController extends MainController
 {
@@ -39,7 +40,7 @@ class LeadImportSaveController extends MainController
         $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
             //Skip header starting in 1
-            if ($rowCount === 0) {
+            if ($data[0] == 'name') {
                 continue;
             }
 
@@ -78,8 +79,7 @@ class LeadImportSaveController extends MainController
                 $lead->save();
                 $rowCount++;
             } catch (\Throwable $t) {
-                //Log here
-                echo $rowCount;
+                Log::error($t->getMessage().' | row number:'.($rowCount + 1));
             }
         }
         fclose($handle);
