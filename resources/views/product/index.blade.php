@@ -4,7 +4,7 @@
 <header class="col-md-4 col-lg- order-md-last">
    <h2 class="mb-3">
        <span class="pr-2">{{ __('Products') }}</span>
-       <span class="badge rounded-pill text-bg-success flex">{{ $products->count() }}</span>
+       <span class="badge rounded-pill text-bg-success flex">{{ $product_count }}</span>
    </h2>
 </header>
 
