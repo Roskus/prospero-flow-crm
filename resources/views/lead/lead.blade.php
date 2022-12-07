@@ -307,7 +307,7 @@
 
     @push('scripts')
     <script>
-        $('#phone').on('keyup paste', function() {
+        $('#phone, #phone2').on('keyup paste', function() {
             let $el = $(this);
             setTimeout(function() {
                 $el.val(function(i, val) {
@@ -325,7 +325,7 @@
             })
         });
 
-        $('#email').on('paste', function() {
+        $('#email, #email2').on('keyup paste', function() {
             let $el = $(this);
             setTimeout(function() {
                 $el.val(function(i, val) {
@@ -339,10 +339,11 @@
             setTimeout(function() {
                 $el.val(function(i, val) {
                     if(val.length == 0) return;
-                    let prefix = 'https://';
-                    if (val.substr(0, prefix.length) !== prefix)
+                    let protocol = 'http://';
+                    let protocolSecure = 'https://';
+                    if (val.substr(0, protocol.length) !== protocol && val.substr(0, protocolSecure.length) !== protocolSecure)
                     {
-                        val = prefix + val.trim();
+                        val = protocolSecure + val.trim();
                     }
                     return val;
                 })

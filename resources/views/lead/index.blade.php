@@ -117,12 +117,12 @@
                 <td class="text-nowrap">{{ $lead->business_name }}</td>
                 <td class="text-nowrap">
                     @if($lead->phone)
-                        <a href="tel:{{ $lead->phone }}" target="_blank">{{ $lead->phone }}</a>
+                        <a href="tel:{{ $lead->phone }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($lead->phone) }}</a>
                     @endif
                 </td>
                 <td class="text-nowrap">
                     @if($lead->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank">{{ $lead->mobile }}</a>
+                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}</a>
                     @endif
                 </td>
                 <td class="text-nowrap">
