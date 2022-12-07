@@ -2,7 +2,11 @@
 
 @section('content')
 <header>
-   <h1>{{ __('Leads') }}</h1>
+    <h1 class="mb-3">
+        <span class="pr-2">{{ __('Leads') }}</span>
+        <span class="badge rounded-pill text-bg-success flex">{{ $lead_count }}</span>
+    </h1>
+
 </header>
 
 <div class="row">

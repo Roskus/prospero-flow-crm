@@ -43,6 +43,7 @@ class LeadIndexController extends MainController
         $data['colors'] = config('color');
         $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info', 'text-bg-light', 'text-bg-dark'];
         $data['countries'] = Country::orderBy('name')->get();
+        $data['lead_count'] = Lead::where('company_id', Auth::user()->company_id)->count();
         $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);

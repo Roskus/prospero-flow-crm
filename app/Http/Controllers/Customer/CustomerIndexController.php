@@ -43,6 +43,7 @@ class CustomerIndexController extends MainController
         $data['colors'] = config('color');
         $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info', 'text-bg-light', 'text-bg-dark'];
         $data['countries'] = Country::orderBy('name')->get();
+        $data['customer_count'] = Customer::where('company_id', Auth::user()->company_id)->count();
         $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
