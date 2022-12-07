@@ -64,8 +64,8 @@
                 </span>
                 </td>
                 <td>{{ $product->price }} {{ Auth::user()->company->country->currency->symbol }}</td><!--Money::format(-->
-                <td>{{ $product->created_at->format('d/m/Y H:i') }}</td>
-                <td>
+                <td class="text-nowrap">{{ $product->created_at->format('d/m/Y H:i') }}</td>
+                <td class="text-nowrap">
                     <a href="{{ url("/product/update/$product->id") }}" class="btn bt-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
