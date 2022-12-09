@@ -35,10 +35,12 @@
                 <i class="las la-calendar fs-1"></i>
             </a>
         </li>
-        <li class="nav-item">
-            <a href="{{ url('/email') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'email')) active @endif" title="E-mail" data-bs-toggle="tooltip" data-bs-placement="right">
-                <i class="las la-envelope-open-text fs-1"></i>
-            </a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle px-0 @if(in_array(Request::path(), ['email', 'campaign'])) active @endif" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="las la-envelope-open-text fs-1"></i></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ url('/email') }}" class="dropdown-item @if(Request::path() == 'email') active @endif fs-6"><i class="las la-envelope-open-text"></i> E-mail</a></li>
+                <li><a href="{{ url('/campaign') }}" class="dropdown-item @if(Request::path() == 'campaign') active @endif fs-6"><i class="las la-envelope-open-text"></i> {{ __('Campaign') }}</a></li>
+            </ul>
         </li>
         <li class="nav-item">
             <a href="{{ url('/accounting') }}" class="nav-link py-2 border-bottom @if(str_contains(Request::path(), 'accounting')) active @endif" title="{{ __('Accounting') }}" data-bs-toggle="tooltip" data-bs-placement="right">
