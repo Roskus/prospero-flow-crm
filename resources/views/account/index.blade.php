@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <header>
-        <h1>{{ __('Accounting') }}</h1>
-    </header>
+    @include('layouts.partials._header', ['title' =>  __('Accounting')])
 
     <div>
         <form id="accountCreate" method="post" action="/account/save" class="form-horizontal">

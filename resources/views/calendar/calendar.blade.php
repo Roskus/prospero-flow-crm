@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <header>
-        <h1>{{ __('Calendar') }}</h1>
-    </header>
+    @include('layouts.partials._header', ['title' =>  __('Calendar')])
 
     <div class="row m-2">
         <div class="card">

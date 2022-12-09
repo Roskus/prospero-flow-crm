@@ -1,12 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<header>
-    <h1 class="mb-3">
-        <span class="pr-2">{{ __('Customers') }}</span>
-        <span class="badge rounded-pill text-bg-success flex">{{ $customer_count }}</span>
-    </h1>
-</header>
+@include('layouts.partials._header', ['title' =>  __('Customers'), 'count' => $customer_count])
 
 <div class="row">
     <div class="col d-flex">

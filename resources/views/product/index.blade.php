@@ -1,12 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<header class="col-md-4 col-lg- order-md-last">
-   <h2 class="mb-3">
-       <span class="pr-2">{{ __('Products') }}</span>
-       <span class="badge rounded-pill text-bg-success flex">{{ $product_count }}</span>
-   </h2>
-</header>
+@include('layouts.partials._header', ['title' =>  __('Products'), 'count' => $product_count])
 
 <div class="mb-2">
   <a href="{{ url('/product/create') }}" class="btn btn-primary">{{ __('New') }}</a>

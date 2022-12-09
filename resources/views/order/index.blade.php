@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<header>
-   <h1>{{ trans('Orders') }}</h1>
-</header>
+@include('layouts.partials._header', ['title' =>  __('Orders')])
 
 <div class="mb-2">
   <a href="{{ url('order/create') }}" class="btn btn-primary">{{ __('New') }}</a>

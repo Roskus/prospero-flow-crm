@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <header>
-        <h1>E-mail</h1>
-    </header>
+    @include('layouts.partials._header', ['title' =>  __('E-mail')])
 
     <div class="row">
         <div class="col">
