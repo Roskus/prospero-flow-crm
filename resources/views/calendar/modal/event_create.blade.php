@@ -19,7 +19,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <label>{{ __('Title') }}</label>
+                            <label for="title">{{ __('Title') }}</label>
                             <input type="text" class="form-control" name="title" id="title" required placeholder="{{ __('Add title') }}">
                         </div>
                     </div>
@@ -27,20 +27,20 @@
                         <div class="row">
                             <div class="col">
                                 <label for="date" class="form-label">{{ __('Start Date') }}</label>
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-2">
                                     <span class="input-group-text"><i class="las la-calendar"></i></span>
                                     <input type="date" name="date" id="date" required class="form-control">
                                 </div>
                             </div>
                             <div class="col">
-                                <label for="date" class="form-label">{{ __('Date') }}</label>
-                                <div class="input-group mb-3">
+                                <label for="end_date" class="form-label">{{ __('Date') }}</label>
+                                <div class="input-group mb-2">
                                     <span class="input-group-text"><i class="las la-calendar"></i></span>
                                     <input type="date" name="end_date" id="end_date" class="form-control">
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-2">
                             <div class="col">
                                 <label for="start_time" class="form-label">{{ __('Start time') }}</label>
                                 <input class="form-check-input" type="checkbox" value="1" id="is_all_day" name="is_all_day">
@@ -64,13 +64,13 @@
                         <div class="row">
                             <div class="col">
                                 <label for="description" class="form-label">{{ __('Description') }}</label>
-                                <textarea class="form-control mb-3" name="description" id="description" cols="30" rows="5"></textarea>
+                                <textarea class="form-control mb-2" name="description" id="description" cols="30" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="guests" class="form-label">{{ __('Guests') }}</label>
-                                <div class="input-group mb-3">
+                                <label for="guest" class="form-label">{{ __('Guests') }}</label>
+                                <div class="input-group mb-2">
                                     <span class="input-group-text" id="basic-addon1">
                                         <i class="las la-user-plus"></i>
                                     </span>
@@ -87,23 +87,21 @@
                         <div class="row">
                             <div class="col">
                                 <label for="meeting" class="form-label">{{ __('Meeting') }}</label>
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-2">
                                     <span class="input-group-text" id="basic-addon1">
                                         <i class="las la-video"></i>
                                     </span>
                                     <input type="text" class="form-control" name="meeting" id="meeting">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="las la-plus-circle"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.jit.si/')">Jitsi Meet</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://zoom.us/j/')">Zoom</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.google.com/')">Google Meet</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://teams.microsoft.com/')">Microsoft Teams</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://whereby.com/')">Whereby</a></li>
-                                        </ul>
-                                    </span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.jit.si/')">Jitsi Meet</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://zoom.us/j/')">Zoom</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.google.com/')">Google Meet</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://teams.microsoft.com/')">Microsoft Teams</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://whereby.com/')">Whereby</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
