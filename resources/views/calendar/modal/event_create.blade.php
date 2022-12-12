@@ -26,12 +26,18 @@
                     <div>
                         <div class="row">
                             <div class="col">
-                                <label for="date" class="form-label">{{ __('Date') }}</label>
-                                <input type="date" name="date" id="date" required class="form-control mb-3">
+                                <label for="date" class="form-label">{{ __('Start Date') }}</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="las la-calendar"></i></span>
+                                    <input type="date" name="date" id="date" required class="form-control">
+                                </div>
                             </div>
                             <div class="col">
                                 <label for="date" class="form-label">{{ __('Date') }}</label>
-                                <input type="date" name="end_date" id="end_date" class="form-control mb-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="las la-calendar"></i></span>
+                                    <input type="date" name="end_date" id="end_date" class="form-control">
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -41,11 +47,17 @@
                                 <label class="form-check-label" for="is_all_day">
                                     {{ __('Is all day?') }}
                                 </label>
-                                <input type="time" class="form-control" name="start_time" id="start_time">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="las la-clock"></i></span>
+                                    <input type="time" class="form-control" name="start_time" id="start_time">
+                                </div>
                             </div>
                             <div class="col">
                                 <label for="end_time" class="form-label">{{ __('End time') }}</label>
-                                <input type="time" class="form-control" name="end_time" id="end_time">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="las la-clock"></i></span>
+                                    <input type="time" class="form-control" name="end_time" id="end_time">
+                                </div>
                             </div>
                         </div>
 
@@ -62,12 +74,12 @@
                                     <span class="input-group-text" id="basic-addon1">
                                         <i class="las la-user-plus"></i>
                                     </span>
-                                    <input type="text" class="form-control" name="guests" id="guests">
-                                    <a class="input-group-text btn btn-primary" id="basic-addon1">
+                                    <input type="text" class="form-control" name="guest" id="guest">
+                                    <a class="input-group-text btn btn-primary" onclick="Calendar.addGuest()" id="basic-addon1">
                                         <i class="las la-plus-circle"></i>
                                     </a>
                                 </div>
-                                <select name="guest_list" readonly multiple class="form-control">
+                                <select name="guest_list[]" id="guest_list" multiple class="form-control">
 
                                 </select>
                             </div>
@@ -98,7 +110,12 @@
                         <div class="row">
                             <div class="col">
                                 <label for="address" class="form-label">{{ __('Address') }}</label>
-                                <input type="text" class="form-control mb-3" name="address" id="address">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">
+                                        <i class="las la-map-marker"></i>
+                                    </span>
+                                    <input type="text" class="form-control" name="address" id="address">
+                                </div>
                                 <div id="map"></div>
                             </div>
                         </div>
@@ -116,5 +133,4 @@
             </form>
         </div>
     </div>
-
-</div>
+</div><!--./modal-->

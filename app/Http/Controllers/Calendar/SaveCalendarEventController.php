@@ -12,7 +12,7 @@ class SaveCalendarEventController extends MainController
 {
     /**
      * @param  Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function save(Request $request)
     {
@@ -31,7 +31,7 @@ class SaveCalendarEventController extends MainController
         $calendar->is_all_day = $request->is_all_day;
         $calendar->title = $request->title;
         $calendar->description = $request->description;
-        $calendar->guests = json_encode($request->guests);
+        $calendar->guests = $request->guest_list;
         $calendar->meeting = $request->meeting;
         $calendar->address = $request->address;
         $calendar->latitude = $request->latitude;

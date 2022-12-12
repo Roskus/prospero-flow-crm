@@ -34,7 +34,6 @@ window.Calendar = {
 
             $('#title').val(data.title);
 
-
             $('#end_date').val((data.end_date).match(regExDate)[0]);
 
             $('#is_all_day').prop('checked', (data.is_all_day == 1) ? true : false);
@@ -42,7 +41,14 @@ window.Calendar = {
             $('#start_time').val((data.start_date).match(regExTime)[0]);
             $('#end_time').val((data.end_date).match(regExTime)[0]);
 
-            $('#guests').val(data.guests);
+            let guest_list = $("#guest_list");
+            for(let i = 0; i < data.guests.length; i++) {
+                let option = document.createElement("option");
+                let guest = data.guests[i];
+                option.textContent = guest;
+                option.value = guest;
+                guest_list.append(option);
+            }
             $('#description').val(data.description);
             $('#meeting').val(data.meeting);
             $('#address').val(data.address);
@@ -51,5 +57,14 @@ window.Calendar = {
         }).catch((error) => {
             console.log(error)
         });
+    },
+    addGuest: function ()
+    {
+        let guest = $("#guest").val();
+        let guest_list = $("#guest_list");
+        let option = document.createElement("option");
+        option.textContent = guest;
+        option.value = guest;
+        guest_list.append(option);
     }
 }
