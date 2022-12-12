@@ -21,31 +21,49 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="phone">{{ __('Phone') }}</label>
-                        <input type="tel" name="phone" id="phone" value="{{ $lead->phone }}" maxlength="15" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-phone"></i></span>
+                            <input type="tel" name="phone" id="phone" value="{{ $lead->phone }}" maxlength="15" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="phone2">{{ __('Phone') }} 2</label>
-                        <input type="tel" name="phone2" id="phone2" value="{{ $lead->phone2 }}" maxlength="15" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-phone"></i></span>
+                            <input type="tel" name="phone2" id="phone2" value="{{ $lead->phone2 }}" maxlength="15" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="email" class="">E-mail</label>
-                        <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-envelope"></i></span>
+                            <input type="email" name="email" id="email" value="{{ $lead->email }}" maxlength="254" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="email2" class="">E-mail 2</label>
-                        <input type="email" name="email2" id="email2" value="{{ $lead->email2 }}" maxlength="254" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-envelope"></i></span>
+                            <input type="email" name="email2" id="email2" value="{{ $lead->email2 }}" maxlength="254" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="mobile" class="">{{ __('Mobile') }}</label>
-                        <input type="tel" name="mobile" id="mobile" value="{{ $lead->mobile }}" maxlength="15" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="lab la-whatsapp"></i></span>
+                            <input type="tel" name="mobile" id="mobile" value="{{ $lead->mobile }}" maxlength="15" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="website" class="">Website</label>
-                        <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $lead->website }}" maxlength="255" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-globe"></i></span>
+                            <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $lead->website }}" maxlength="255" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -55,7 +73,10 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
-                        <input type="date" name="dob" id="dob" value="{{ $lead->dob }}" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-calendar-day"></i></span>
+                            <input type="date" name="dob" id="dob" value="{{ $lead->dob }}" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div><!--./row-->
                 <div class="row">

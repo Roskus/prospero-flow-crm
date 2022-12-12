@@ -36,7 +36,7 @@
             </li>
             <li>
                 <a href="{{ url('/campaign') }}" class="dropdown-item @if(Request::path() == 'campaign') active @endif fs-6">
-                    <i class="las la-envelope-open-text"></i> {{ __('Campaign') }}
+                    <i class="las la-mail-bulk"></i> {{ __('Campaign') }}
                 </a>
             </li>
         </ul>
