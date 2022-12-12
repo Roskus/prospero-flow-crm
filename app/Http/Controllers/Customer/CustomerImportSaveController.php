@@ -56,9 +56,9 @@ class CustomerImportSaveController extends MainController
 
             $customer->name = $data[0];
             $customer->business_name = $data[1];
-            $customer->phone = str_replace([' ', '(', ')', '.', '-'], '', $data[2]);
-            $customer->phone2 = str_replace([' ', '(', ')', '.', '-'], '', $data[3]);
-            $customer->mobile = str_replace([' ', '(', ')', '.', '-'], '', $data[4]);
+            $customer->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[2]);
+            $customer->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[3]);
+            $customer->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[4]);
             $customer->email = $data[5];
             $customer->email2 = $data[6];
             $customer->website = rtrim($data[7], '/');

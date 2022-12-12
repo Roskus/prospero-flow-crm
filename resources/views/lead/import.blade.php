@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col">
-            <a href="{{ url('/asset/upload/example/hammer_lead_example_20221206.csv') }}" target="_blank" class="btn btn-outline-success">{{ __('Download example file') }} <i class="las la-file-csv"></i></a>
+            <a href="{{ url('/asset/upload/example/hammer_lead_example_20221212.csv') }}" target="_blank" class="btn btn-outline-success">{{ __('Download example file') }} <i class="las la-file-csv"></i></a>
         </div>
     </div>
 
@@ -15,8 +15,8 @@
         @csrf
         <div class="row">
             <div class="col">
-                <label>{{ __('File') }}</label>
-                <input type="file" name="upload" accept="text/csv" required>
+                <label for="upload">{{ __('File') }}</label>
+                <input type="file" name="upload" id="upload" accept="text/csv" required>
             </div>
             <div class="col">
                 <label for="separator">{{ __('Separator') }}</label>

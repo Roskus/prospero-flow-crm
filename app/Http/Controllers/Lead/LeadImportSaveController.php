@@ -49,29 +49,30 @@ class LeadImportSaveController extends MainController
                 continue;
             }
 
-            $country = trim($data[7]);
+            $country = trim($data[8]);
             $lead = new Lead();
 
             $lead->company_id = Auth::user()->company_id;
 
             $lead->name = $data[0];
             $lead->business_name = $data[1];
-            $lead->phone = str_replace([' ', '(', ')', '.', '-'], '', $data[2]);
-            $lead->phone2 = str_replace([' ', '(', ')', '.', '-'], '', $data[3]);
-            $lead->email = $data[4];
-            $lead->email2 = $data[5];
-            $lead->website = rtrim($data[6], '/');
+            $lead->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[2]);
+            $lead->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[3]);
+            $lead->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[4]);
+            $lead->email = $data[5];
+            $lead->email2 = $data[6];
+            $lead->website = rtrim($data[7], '/');
             $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
-            $lead->city = $data[8];
-            $lead->notes = $data[9];
-            $lead->facebook = (isset($data[10])) ? $data[10] : null;
-            $lead->instagram = (isset($data[11])) ? $data[11] : null;
-            $lead->linkedin = (isset($data[12])) ? $data[12] : null;
-            $lead->twitter = (isset($data[13])) ? $data[13] : null;
-            $lead->youtube = (isset($data[14])) ? $data[14] : null;
-            $lead->tiktok = (isset($data[15])) ? $data[15] : null;
+            $lead->city = $data[9];
+            $lead->notes = $data[10];
+            $lead->facebook = (isset($data[11])) ? $data[11] : null;
+            $lead->instagram = (isset($data[12])) ? $data[12] : null;
+            $lead->linkedin = (isset($data[13])) ? $data[13] : null;
+            $lead->twitter = (isset($data[14])) ? $data[14] : null;
+            $lead->youtube = (isset($data[15])) ? $data[15] : null;
+            $lead->tiktok = (isset($data[16])) ? $data[16] : null;
 
-            $lead->tags = (isset($data[16])) ? $data[16] : null;
+            $lead->tags = (isset($data[17])) ? $data[17] : null;
 
             $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
