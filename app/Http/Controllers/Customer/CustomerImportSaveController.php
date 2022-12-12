@@ -49,7 +49,7 @@ class CustomerImportSaveController extends MainController
                 continue;
             }
 
-            $country = trim($data[7]);
+            $country = trim($data[8]);
             $customer = new Customer();
 
             $customer->company_id = Auth::user()->company_id;
@@ -58,20 +58,21 @@ class CustomerImportSaveController extends MainController
             $customer->business_name = $data[1];
             $customer->phone = str_replace([' ', '(', ')', '.', '-'], '', $data[2]);
             $customer->phone2 = str_replace([' ', '(', ')', '.', '-'], '', $data[3]);
-            $customer->email = $data[4];
-            $customer->email2 = $data[5];
-            $customer->website = rtrim($data[6], '/');
+            $customer->mobile = str_replace([' ', '(', ')', '.', '-'], '', $data[4]);
+            $customer->email = $data[5];
+            $customer->email2 = $data[6];
+            $customer->website = rtrim($data[7], '/');
             $customer->country_id = strlen($country) == 2 ? strtolower($country) : '';
-            $customer->city = $data[8];
-            $customer->notes = $data[9];
-            $customer->facebook = (isset($data[10])) ? $data[10] : null;
-            $customer->instagram = (isset($data[11])) ? $data[11] : null;
-            $customer->linkedin = (isset($data[12])) ? $data[12] : null;
-            $customer->twitter = (isset($data[13])) ? $data[13] : null;
-            $customer->youtube = (isset($data[14])) ? $data[14] : null;
-            $customer->tiktok = (isset($data[15])) ? $data[15] : null;
+            $customer->city = $data[9];
+            $customer->notes = $data[10];
+            $customer->facebook = (isset($data[11])) ? $data[11] : null;
+            $customer->instagram = (isset($data[12])) ? $data[12] : null;
+            $customer->linkedin = (isset($data[13])) ? $data[13] : null;
+            $customer->twitter = (isset($data[14])) ? $data[14] : null;
+            $customer->youtube = (isset($data[15])) ? $data[15] : null;
+            $customer->tiktok = (isset($data[16])) ? $data[16] : null;
 
-            $customer->tags = (isset($data[16])) ? $data[16] : null;
+            $customer->tags = (isset($data[17])) ? $data[17] : null;
 
             $customer->seller_id = Auth::user()->id;
             $customer->created_at = now();
