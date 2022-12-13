@@ -21,31 +21,49 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="phone">{{ __('Phone') }}</label>
-                        <input type="tel" name="phone" id="phone" value="{{ $customer->phone }}" maxlength="15" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-phone"></i></span>
+                            <input type="tel" name="phone" id="phone" value="{{ $customer->phone }}" maxlength="15" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="phone2">{{ __('Phone') }} 2</label>
-                        <input type="tel" name="phone2" id="phone2" value="{{ $customer->phone2 }}" maxlength="15" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-phone"></i></span>
+                            <input type="tel" name="phone2" id="phone2" value="{{ $customer->phone2 }}" maxlength="15" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="email" class="">E-mail</label>
-                        <input type="email" name="email" id="email" value="{{ $customer->email }}" maxlength="254" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-envelope"></i></span>
+                            <input type="email" name="email" id="email" value="{{ $customer->email }}" maxlength="254" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="email2" class="">E-mail 2</label>
-                        <input type="email" name="email2" id="email2" value="{{ $customer->email2 }}" maxlength="254" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-envelope"></i></span>
+                            <input type="email" name="email2" id="email2" value="{{ $customer->email2 }}" maxlength="254" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="mobile" class="">{{ __('Mobile') }}</label>
-                        <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="lab la-whatsapp"></i></span>
+                            <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="website" class="">Website</label>
-                        <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $customer->website }}" maxlength="255" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-globe"></i></span>
+                            <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $customer->website }}" maxlength="255" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -55,7 +73,10 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
-                        <input type="date" name="dob" id="dob" value="{{ $customer->dob }}" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-calendar-day"></i></span>
+                            <input type="date" name="dob" id="dob" value="{{ $customer->dob }}" class="form-control form-control-lg">
+                        </div>
                     </div>
                 </div><!--./row-->
                 <div class="row">
@@ -112,31 +133,49 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <label for="facebook">Facebook</label>
-                    <input type="url" name="facebook" value="{{ $customer->facebook }}" placeholder="https://www.facebook.com/" maxlength="255" class="form-control form-control-lg">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-facebook-f"></i></span>
+                        <input type="url" name="facebook" id="facebook" value="{{ $customer->facebook }}" placeholder="https://www.facebook.com/" maxlength="255" class="form-control form-control-lg">
+                    </div><!--./input-group-->
+                </div><!--./col-->
                 <div class="col-12 col-md-6">
                     <label for="instagram">Instagram</label>
-                    <input type="url" name="instagram" value="{{ $customer->instagram }}" placeholder="https://www.instagram.com/" maxlength="255" class="form-control form-control-lg">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-instagram"></i></span>
+                        <input type="url" name="instagram" id="instagram" value="{{ $customer->instagram }}" placeholder="https://www.instagram.com/" maxlength="255" class="form-control form-control-lg">
+                    </div><!--./input-group-->
+                </div><!--./col-->
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
 		            <label for="linkedin">Linkedin</label>
-                    <input type="url" name="linkedin" value="{{ $customer->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
+                        <input type="url" name="linkedin" value="{{ $customer->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">
+                    </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="twitter">Twitter</label>
-                    <input type="url" name="twitter" value="{{ $customer->twitter }}" placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-twitter"></i></span>
+                        <input type="url" name="twitter" value="{{ $customer->twitter }}" placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
                     <label for="youtube">YouTube</label>
-                    <input type="url" name="youtube" value="{{ $customer->youtube }}" placeholder="https://www.youtube.com/" maxlength="255" class="form-control form-control-lg">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-youtube"></i></span>
+                        <input type="url" name="youtube" value="{{ $customer->youtube }}" placeholder="https://www.youtube.com/" maxlength="255" class="form-control form-control-lg">
+                    </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <label>TikTok</label>
-                    <input type="url" name="tiktok" value="{{ $customer->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
+                    <div class="input-group">
+                        <span class="input-group-text"></span>
+                        <input type="url" name="tiktok" value="{{ $customer->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
+                    </div>
                 </div>
             </div>
             </div><!--./card-body-->
@@ -171,7 +210,7 @@
                 </div><!--./row-->
                 <div class="row">
                     <div class="col mt-2">
-                        <label for="tags">{{ __('Tags') }}</label>
+                        <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
                         <textarea name="tags" id="tags" class="form-control form-control-lg">{{ (!empty($customer->tags)) ? implode(',', $customer->tags) : '' }}</textarea>
                     </div>
                 </div>
@@ -194,45 +233,58 @@
             {{ __('Contacts') }}
             </button>
         </div>
-        <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+
             <div class="accordion-body bg-white">
+                <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <form method="post" action="{{ url('/contact/save') }}">
                     @csrf
                     <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                     <div class="row">
                         <div class="col">
-                            <label>{{ __('First name') }}</label>
-                            <input type="text" name="contact_first_name" required class="form-control">
+                            <label for="contact_first_name">{{ __('First name') }}</label>
+                            <input type="text" name="contact_first_name" id="contact_first_name" required class="form-control">
                         </div>
                         <div class="col">
-                            <label>{{ __('Last name') }}</label>
-                            <input type="text" name="contact_last_name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label>{{ __('Phone') }}</label>
-                            <input type="tel" name="contact_phone" maxlength="15" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label>{{ __('Mobile') }}</label>
-                            <input type="tel" name="contact_mobile" maxlength="15" class="form-control">
+                            <label for="contact_last_name">{{ __('Last name') }}</label>
+                            <input type="text" name="contact_last_name" id="contact_last_name" class="form-control">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label>E-mail</label>
-                            <input type="email" name="contact_email" class="form-control">
+                            <label for="contact_phone">{{ __('Phone') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="las la-phone"></i></span>
+                                <input type="tel" name="contact_phone" id="contact_phone" maxlength="15" class="form-control">
+                            </div>
                         </div>
                         <div class="col">
-                            <label>Linkedin</label>
-                            <input type="url" name="contact_linkedin" class="form-control">
+                            <label for="contact_mobile">{{ __('Mobile') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="las la-mobile"></i></span>
+                                <input type="tel" name="contact_mobile" id="contact_mobile" maxlength="15" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label>{{ __('Notes') }}</label>
-                            <textarea name="contact_notes" class="form-control"></textarea>
+                            <label for="contact_email">E-mail</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="las la-envelope"></i></span>
+                                <input type="email" name="contact_email" id="contact_email" maxlength="254" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="contact_linkedin">Linkedin</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
+                                <input type="url" name="contact_linkedin" id="contact_linkedin" placeholder="https://linkedin.com/in/" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="contact_notes">{{ __('Notes') }}</label>
+                            <textarea name="contact_notes" id="contact_notes" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -241,6 +293,7 @@
                         </div>
                     </div>
                 </form>
+                </div><!--./collapse-->
 
                 <div class="mt-2 table-responsive">
                     <table class="table table-bordered table-hover table-striped table-sm">
@@ -251,7 +304,7 @@
                         <th>{{ __('Phone') }}</th>
                         <th>{{ __('Mobile') }}</th>
                         <th>E-mail</th>
-                        <th>Linkedin</th>
+                        <th>Social</th>
                         <th>{{ __('Created at') }}</th>
                         <th>{{ __('Updated at') }}</th>
                         <th>{{ __('Actions') }}</th>
@@ -277,16 +330,19 @@
                                 @if($contact->email)
                                 <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
                                 @endif
+                                <div class="d-none">
+                                    <input type="email" name="contact_email" value="{{ $contact->email }}" maxlength="254" class="form-control">
+                                </div>
                             </td>
                             <td>
                                 @if($contact->linkedin)
-                                <a href="{{ $contact->linkedin }}">{{ $contact->linkedin }}</a>
+                                <a href="{{ $contact->linkedin }}"><i class="lab la-linkedin"></i></a>
                                 @endif
                             </td>
-                            <td>{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
+                            <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
                             <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
-                            <td>
-                                <a href="/contact/update/{{ $contact->id }}" class="btn btn-xs btn-warning text-white">
+                            <td class="no-wrap">
+                                <a href="#" onclick="Contact.update({{ $contact->id }})" class="btn btn-xs btn-warning text-white">
                                     <i class="las la-pen"></i>
                                 </a>
                             </td>
@@ -301,13 +357,13 @@
                     </table>
                 </div>
             </div><!--./card-body-->
-        </div><!--./collapse-->
+
     </div>
     @endif
 
     @push('scripts')
     <script>
-        $('#phone').on('keyup paste', function() {
+        $('#phone, #phone2').on('keyup paste', function() {
             let $el = $(this);
             setTimeout(function() {
                 $el.val(function(i, val) {
@@ -325,7 +381,7 @@
             })
         });
 
-        $('#email').on('keyup paste', function() {
+        $('#email, #email2').on('keyup paste', function() {
             let $el = $(this);
             setTimeout(function() {
                 $el.val(function(i, val) {
@@ -339,15 +395,26 @@
             setTimeout(function() {
                 $el.val(function(i, val) {
                     if(val.length == 0) return;
-                    let prefix = 'https://';
-                    if (val.substr(0, prefix.length) !== prefix)
+                    let protocol = 'http://';
+                    let protocolSecure = 'https://';
+                    if (val.substr(0, protocol.length) !== protocol && val.substr(0, protocolSecure.length) !== protocolSecure)
                     {
-                        val = prefix + val.trim();
+                        val = protocolSecure + val.trim();
                     }
                     return val;
                 })
             })
         });
+
+        const Contact = {
+            update: function (id) {
+                let form = $('#form_contact_'+id);
+                let inputs = form.filter(':input');
+                inputs.each(function() {
+                    this.removeAttr('disabled');
+                });
+            }
+        }
     </script>
     @endpush
 @endsection
