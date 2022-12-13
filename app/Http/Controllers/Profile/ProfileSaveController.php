@@ -26,6 +26,7 @@ class ProfileSaveController
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->lang = $locale;
+        $user->timezone = $request->timezone;
         $user->phone = $request->phone;
         //Update password if change
         if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {

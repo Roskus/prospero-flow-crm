@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <header>
-        <h1>{{ __('Profile') }}</h1>
-    </header>
+    @include('layouts.partials._header', ['title' => __('Profile')])
 
     @if(session('status'))
         <div class="alert alert-{{ session('status') }} mt-2">
@@ -49,7 +47,9 @@
                         </span>
                     @endif
                 </div><!--./col-->
+            </div><!--./row-->
 
+            <div class="row">
                 <div class="col">
                     <label for="lang" class="col-md-4 control-label">{{ __('Language') }}</label>
                     <select name="lang" id="lang" required="required" class="form-control form-control-lg">
@@ -59,7 +59,17 @@
                         @endforeach
                     </select>
                 </div>
-            </div><!--./row-->
+                <div class="col">
+                    <label for="timezone" class="control-label">{{ __('Timezones') }}</label>
+                    <input class="form-control form-control-lg" list="timezoneOptions" id="timezone" name="timezone" value="{{ $user->timezone }}" placeholder="Type to search...">
+                    
+                    <datalist id="timezoneOptions">
+                        @foreach ($timezones as $name)
+                            <option value="{{ $name }}">
+                        @endforeach
+                    </datalist>
+                </div>
+            </div>
 
             <div class="row form-group{{ $errors->has('password') ? ' has-error' : '' }} mb-2">
                 <div class="col">

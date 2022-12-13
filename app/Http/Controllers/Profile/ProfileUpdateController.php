@@ -23,6 +23,7 @@ class ProfileUpdateController extends MainController
     {
         $data['user'] = User::find(Auth::user()->id);
         $data['languages'] = config('app.locales');
+        $data['timezones'] = timezone_identifiers_list();
 
         return view('user.profile', $data);
     }
