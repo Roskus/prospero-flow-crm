@@ -40,6 +40,9 @@ window.Calendar = {
 
             $('#start_time').val((data.start_date).match(regExTime)[0]);
             $('#end_time').val((data.end_date).match(regExTime)[0]);
+            $('#description').val(data.description);
+            $('#meeting').val(data.meeting);
+            $('#address').val(data.address);
 
             let guest_list = $("#guest_list");
             for(let i = 0; i < data.guests.length; i++) {
@@ -49,9 +52,6 @@ window.Calendar = {
                 option.value = guest;
                 guest_list.append(option);
             }
-            $('#description').val(data.description);
-            $('#meeting').val(data.meeting);
-            $('#address').val(data.address);
 
             myModal.show();
         }).catch((error) => {
