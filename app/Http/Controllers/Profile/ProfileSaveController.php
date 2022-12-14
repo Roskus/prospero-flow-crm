@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ProfileSaveController
 {
@@ -19,6 +20,14 @@ class ProfileSaveController
      */
     public function save(Request $request)
     {
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('user')->ignore(Auth::user())],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'timezone' => ['string', 'timezone'],
+            'photo' => ['image'],
+        ]);
+
         $status = 'success';
         $locale = $request->lang;
         $user = User::find(Auth::user()->id);

@@ -111,6 +111,7 @@
         @include('menu.sidebar')
     @endauth
     <div class="container-fluid @auth mt-5 pt-3 @endauth" style="overflow-y: scroll;">
+        @include('layouts.partials._errors')
         @yield('content')
     </div>
 </main>
