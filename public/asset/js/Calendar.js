@@ -63,8 +63,10 @@ window.Calendar = {
         let guest = $("#guest").val();
         let guest_list = $("#guest_list");
         let option = document.createElement("option");
-        option.textContent = guest;
-        option.value = guest;
-        guest_list.append(option);
+        if(guest != '') {
+            option.textContent = guest;
+            option.value = guest;
+            guest_list.append(option);
+        }
     }
 }
