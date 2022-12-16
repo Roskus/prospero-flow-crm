@@ -11,6 +11,7 @@ const myModal = new bootstrap.Modal(document.getElementById('sheduleEventModal')
 window.Calendar = {
     scheduleEvent : function(startDate)
     {
+        document.getElementById('event_form').reset();
         let date = document.getElementById('date');
         date.value = startDate;
 
