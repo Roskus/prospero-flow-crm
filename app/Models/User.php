@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -72,5 +74,12 @@ class User extends Authenticatable
     public function getAllActiveByCompany(int $company_id)
     {
         return User::where('company_id', $company_id)->paginate(10);
+    }
+
+    protected function timezone(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ?? config('app.timezone'),
+        );
     }
 }
