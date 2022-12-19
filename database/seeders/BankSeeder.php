@@ -30,9 +30,8 @@ class BankSeeder extends Seeder
         DB::table('bank')->insert(['country' => 'al', 'name' => 'United Bank of Albania', 'website' => 'https://uba.com.al']);
 
         //Andorra
-        DB::table('bank')->insert(['country'=> 'ad', 'name' => 'Andbank', 'bic' => 'BACAADAD', 'phone' => '+376739011', 'email' => 'info@andbank.com', 'website' => 'https://www.andbank.com']);
-        DB::table('bank')->insert(['country'=> 'ad', 'name' => 'Crèdit Andorrà, SA', 'bic' => 'CRDAADAD', 'phone' => '+376888888', 'email' => 'info@creditandorra.ad', 'website' => 'https://comercial.creditandorragroup.ad/en']);
-        DB::table('bank')->insert(['country'=> 'ad', 'name' => 'Mora Banc Grup, SA', 'bic' => 'BINAADAD', 'phone' => '+376884884', 'email' => 'morabanc@morabanc.ad', 'website' => 'https://www.morabanc.ad']);
-
+        DB::table('bank')->insert(['country' => 'ad', 'name' => 'Andbank', 'bic' => 'BACAADAD', 'phone' => '+376739011', 'email' => 'info@andbank.com', 'website' => 'https://www.andbank.com']);
+        DB::table('bank')->insert(['country' => 'ad', 'name' => 'Crèdit Andorrà, SA', 'bic' => 'CRDAADAD', 'phone' => '+376888888', 'email' => 'info@creditandorra.ad', 'website' => 'https://comercial.creditandorragroup.ad/en']);
+        DB::table('bank')->insert(['country' => 'ad', 'name' => 'Mora Banc Grup, SA', 'bic' => 'BINAADAD', 'phone' => '+376884884', 'email' => 'morabanc@morabanc.ad', 'website' => 'https://www.morabanc.ad']);
     }
 }
