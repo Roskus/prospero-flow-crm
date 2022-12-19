@@ -13,7 +13,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             </div>
-            <form action="{{ route('calendar.save') }}" method="POST">
+            <form id="event_form" action="{{ route('calendar.save') }}" method="POST">
                 @csrf
                 <input type="hidden" name="id" class="event_id">
                 <div class="modal-body">
