@@ -14,8 +14,6 @@ class LeadImportSaveControllerTest extends TestCase
     /** @test */
     public function it_can_import_leads_from_csv()
     {
-        $this->withoutExceptionHandling();
-
         $user = $this->signIn();
         $this->actingAs($user);
 
