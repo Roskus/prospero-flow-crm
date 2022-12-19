@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 80);
             $table->string('country', 2);
-            $table->string('bic', 8); //SWIF
+            $table->string('bic', 8)->nullable(); //SWIF
             $table->string('phone', 15)->nullable();
             $table->string('email', 254)->nullable();
             $table->string('website', 255)->nullable();
