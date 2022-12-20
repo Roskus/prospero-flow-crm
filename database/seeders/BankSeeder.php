@@ -16,8 +16,7 @@ class BankSeeder extends Seeder
     public function run()
     {
         //Albania
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'Alpha Bank (Albania)', 'website' => 'https://alphabank.al']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'American Bank of Investments (ABI)', 'website' => 'https://abi.al']);
+        DB::table('bank')->insert(['country' => 'al', 'name' => 'American Bank of Investments (ABI)', 'bic' => 'EMPOALTR', 'website' => 'https://abi.al']);
         DB::table('bank')->insert(['country' => 'al', 'name' => 'BKT', 'website' => 'https://bkt.com.al']);
         DB::table('bank')->insert(['country' => 'al', 'name' => 'Credins Bank (CB)', 'website' => 'https://bankacredins.com']);
         DB::table('bank')->insert(['country' => 'al', 'name' => 'Fibank', 'website' => 'https://fibank.al']);
