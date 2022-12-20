@@ -12,7 +12,6 @@ use Squire\Models\Country;
  *  @OA\Schema(
  *    schema="Lead",
  *    type="object",
- *
  *    @OA\Property(
  *      property="company_id",
  *      type="number",

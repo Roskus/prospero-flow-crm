@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
@@ -11,7 +12,6 @@ use Squire\Models\Country;
  *  @OA\Schema(
  *    schema="Customer",
  *    type="object",
- *
  *    @OA\Property(
  *      property="company_id",
  *      type="number",
@@ -27,7 +27,7 @@ use Squire\Models\Country;
  */
 class Customer extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     const OPEN = 'open'; //New
 
