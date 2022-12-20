@@ -125,9 +125,9 @@
                 <td class="text-nowrap">
                     <a href="{{ $customer->website }}" target="_blank">{{ $customer->website }}</a>
                 </td>
-                <td class="text-center d-sm-table-cell" title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
-                    @if(!empty($lead->country))
-                    {{ $lead->country->flag }}
+                <td class="text-center d-sm-table-cell" title="{{ (!empty($customer->country)) ? $customer->country->name : '' }}">
+                    @if(!empty($customer->country))
+                    {{ $customer->country->flag }}
                     @endif
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
