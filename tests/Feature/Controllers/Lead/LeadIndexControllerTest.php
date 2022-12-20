@@ -2,12 +2,10 @@
 
 namespace Tests\Feature\Controllers\Lead;
 
-use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LeadIndexControllerTest extends TestCase
@@ -32,7 +30,7 @@ class LeadIndexControllerTest extends TestCase
         $response->assertSee($lead2->name);
 
         // SEARCH
-        $response = $this->get('/lead?search=' . $lead->name);
+        $response = $this->get('/lead?search='.$lead->name);
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
 
@@ -41,15 +39,15 @@ class LeadIndexControllerTest extends TestCase
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
 
-        $response = $this->get('/lead?seller_id=' . $user->id);
+        $response = $this->get('/lead?seller_id='.$user->id);
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
 
         $response = $this->get('/lead?status=open');
         $response->assertSee($lead->name);
-        $response->assertDontSee($lead2->name);        
+        $response->assertDontSee($lead2->name);
 
-        $response = $this->get('/lead?industry_id=' . $industry->id);
+        $response = $this->get('/lead?industry_id='.$industry->id);
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
     }
