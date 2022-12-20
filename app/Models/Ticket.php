@@ -25,4 +25,9 @@ class Ticket extends Model
     {
         return Ticket::with('customer', 'createdBy')->where('company_id', $company_id)->orderBy('created_at', 'DESC')->get();
     }
+
+    public function priorities() : array
+    {
+        return ['low', 'medium', 'high'];
+    }
 }

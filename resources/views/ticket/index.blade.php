@@ -47,15 +47,15 @@
                     <td>
 
                     </td>
-                    <td>
-
+                    <td class="text-center">
+                        {{ $ticket->priority }}
                     </td>
                     <td>
 
                     </td>
-                    <td>{{ $ticket->created_at }}</td>
-                    <td>{{ $ticket->updated_at }}</td>
-                    <td>
+                    <td>{{ $ticket->created_at->format('d/m/Y H:i') }}</td>
+                    <td>{{ (!empty($ticket->updated_at)) ? $ticket->updated_at->format('d/m/Y H:i') : '' }}</td>
+                    <td class="">
                         <a href="{{ url("ticket/update/$ticket->id") }}" class="btn btn-xs btn-warning text-white">
                             <i class="las la-pen"></i>
                         </a>

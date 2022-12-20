@@ -47,13 +47,16 @@
             <label for="priority">{{ __('Priority') }}</label>
             <select name="priority" id="priority" class="form-select form-control-lg">
                 <option value=""></option>
+                @foreach($ticket->priorities() as $priority)
+                    <option value="{{ $priority }}" @if(!empty($ticket->priority) && $ticket->priority == $priority) selected="selected" @endif>{{ __($priority) }}</option>
+                @endforeach
             </select>
         </div><!--./col-->
     </div><!--./row-->
     <div class="row">
         <div class="col">
-            <label>{{ __('Attachments') }}</label>
-            <input type="file" name="attachment[]">
+            <label for="attachment">{{ __('Attachments') }}</label>
+            <input type="file" name="attachment[]" id="attachment">
         </div>
     </div>
     <div class="row">
