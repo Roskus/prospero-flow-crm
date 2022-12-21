@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Email\Attach;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,11 @@ class Email extends Model
     const SENT = 'sent';
 
     const ERROR = 'error';
+
+    public function attachments()
+    {
+        return $this->hasMany(Attach::class);
+    }
 
     public function getAll()
     {
