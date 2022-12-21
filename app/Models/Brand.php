@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
+    protected $guarded = ['id'];
+
     protected $table = 'brand';
 
     public function getAll()
