@@ -28,7 +28,7 @@ class EmailFactory extends Factory
             'subject' => $this->faker->title(),
             'body' => $this->faker->text(),
             'lang' => $this->faker->randomElement(array_keys(config('app.locales'))),
-            'status' => $this->faker->randomElement(['draft','queue','sent','error']),
+            'status' => $this->faker->randomElement(['draft', 'queue', 'sent', 'error']),
             'schedule_send' => now(),
         ];
     }

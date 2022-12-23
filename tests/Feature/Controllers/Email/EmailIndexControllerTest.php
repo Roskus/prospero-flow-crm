@@ -2,11 +2,9 @@
 
 namespace Tests\Feature\Controllers\Email;
 
-use App\Models\Company;
 use App\Models\Email;
 use App\Models\EmailTemplate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EmailIndexControllerTest extends TestCase
@@ -30,7 +28,7 @@ class EmailIndexControllerTest extends TestCase
         $response->assertSee($email2->subject);
         $response->assertSee($email2->to);
 
-        $response = $this->get('/email?search=' . $email->subject);
+        $response = $this->get('/email?search='.$email->subject);
         $response->assertStatus(200);
         $response->assertSee($email->subject);
         $response->assertSee($email->to);
