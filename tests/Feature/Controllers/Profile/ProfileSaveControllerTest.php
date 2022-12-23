@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers\Profile;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProfileSaveControllerTest extends TestCase
@@ -21,8 +20,8 @@ class ProfileSaveControllerTest extends TestCase
         $response->assertSessionHasErrors();
 
         $data = [
-            'first_name' => fake()->name(), 
-            'last_name' => fake()->name(), 
+            'first_name' => fake()->name(),
+            'last_name' => fake()->name(),
             'email' => fake()->email(),
             'lang' => fake()->randomElement(array_keys(config('app.locales'))),
         ];
@@ -38,15 +37,15 @@ class ProfileSaveControllerTest extends TestCase
         $oldPassword = $user->password;
         $newPassword = fake()->password(8);
         $data = [
-            'first_name' => fake()->name(), 
-            'last_name' => fake()->name(), 
+            'first_name' => fake()->name(),
+            'last_name' => fake()->name(),
             'email' => fake()->email(),
             'lang' => fake()->randomElement(array_keys(config('app.locales'))),
             'password' => $newPassword,
             'password_confirmation' => $newPassword,
         ];
         $response = $this->post('profile/save', $data);
-        
+
         $this->assertNotEquals($oldPassword, User::first()->password);
     }
 }
