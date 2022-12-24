@@ -27,6 +27,17 @@ class EmailIndexControllerTest extends TestCase
         $response->assertSee($email->to);
         $response->assertSee($email2->subject);
         $response->assertSee($email2->to);
+    }
+
+    /** @test */
+    public function it_can_search_emails_index()
+    {
+        $user = $this->signIn();
+        $this->actingAs($user);
+
+        EmailTemplate::factory()->create();
+        $email = Email::factory()->create();
+        $email2 = Email::factory()->create();
 
         $response = $this->get('/email?search='.$email->subject);
         $response->assertStatus(200);
