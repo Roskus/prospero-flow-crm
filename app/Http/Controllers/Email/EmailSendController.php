@@ -1,5 +1,5 @@
 <?php
-
+declare( strict_types = 1 );
 namespace App\Http\Controllers\Email;
 
 use App\Http\Controllers\MainController;
@@ -18,7 +18,7 @@ class EmailSendController extends MainController
      */
     public function send(Request $request, int $id)
     {
-        $email = Email::find($id);
+        $email = Email::findOrFail($id);
         $email->status = Email::QUEUE;
         $email->save();
         $emailTemplate = new GenericEmail(Auth::user()->company, $email->subject, ['body' => $email->body]);
