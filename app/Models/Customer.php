@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,16 +12,48 @@ use Squire\Models\Country;
  *  @OA\Schema(
  *    schema="Customer",
  *    type="object",
- *    @OA\Property(
- *      property="company_id",
- *      type="number",
- *      example="1"
- *    ),
+ *    required={"name", "country"},
+ *
  *    @OA\Property(
  *        property="name",
  *        description="Name of the company",
  *        type="string",
- *        example="John"
+ *        example="My Company"
+ *    ),
+ *
+ *    @OA\Property(
+ *        property="business_name",
+ *        description="Business name or legal name of the company",
+ *        type="string",
+ *        example="My Company S.A."
+ *    ),
+ *
+ *    @OA\Property(
+ *        property="dob",
+ *        description="Date of fundation of the company",
+ *        type="date",
+ *        example="1990-02-20"
+ *    ),
+ *
+ *    @OA\Property(
+ *        property="vat",
+ *        description="VAT/NIF of the company",
+ *        type="string",
+ *        example="ESX1234567X"
+ *    ),
+ *
+ *    @OA\Property(
+ *        property="phone",
+ *        description="Phone of the company",
+ *        type="string",
+ *        example="+3464500000"
+ *    ),
+ *
+ *    @OA\Property(
+ *        property="phone2",
+ *        description="Phone2 of the company",
+ *        type="string",
+ *        example="+3464500000"
  *    )
  * )
  */

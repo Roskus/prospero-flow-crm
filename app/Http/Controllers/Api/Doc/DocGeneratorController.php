@@ -3,9 +3,23 @@
 namespace App\Http\Controllers\Api\Doc;
 
 use Illuminate\Http\JsonResponse;
+$api_host = (getenv() === "production") ? "roskus.com" : "localhost";
+define("API_HOST", $api_host);
 
 /**
- * @OA\Info(title="Hammer CRM API", version="1.0")
+ * @OA\Info(
+ *    title="Hammer CRM API",
+ *    version="1.0.0",
+ *    description="",
+ *    @OA\Contact(
+ *        name="roskus",
+ *        email="hello@roskus.com"
+ *    )
+ * ),
+ * @OA\Server(
+ *     url="/api",
+ * ),
+ * @OA\Server(url=API_HOST)
  */
 class DocGeneratorController
 {

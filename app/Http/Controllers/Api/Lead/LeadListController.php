@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Http\Controllers\Api\Lead;
 
 use App\Models\Lead;
@@ -13,7 +13,12 @@ class LeadListController
      *      path="/leads",
      *      summary="Lead list by company",
      *      tags={"Leads"},
-     *      @OA\Response(response="200", description="Lead list retrived successfully")
+     *      security={ {"bearer": {} }},
+     *      @OA\Response(
+     *          response="200",
+     *          description="Lead list retrived successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/Lead")
+     *      )
      * )
      *
      * @param  Request  $request
