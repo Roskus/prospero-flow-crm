@@ -11,13 +11,20 @@ class ProfileSaveControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_save_profile()
+    public function it_can_not_save_profile_without_data()
     {
         $user = $this->signIn();
         $this->actingAs($user);
 
         $response = $this->post('profile/save', []);
         $response->assertSessionHasErrors();
+    }
+
+    /** @test */
+    public function it_can_save_profile()
+    {
+        $user = $this->signIn();
+        $this->actingAs($user);
 
         $data = [
             'first_name' => fake()->name(),
@@ -32,8 +39,14 @@ class ProfileSaveControllerTest extends TestCase
         $response->assertSee($data['first_name']);
         $response->assertSee($data['last_name']);
         $response->assertSee($data['email']);
+    }
 
-        // UPDATE PASSWORD
+    /** @test */
+    public function it_can_update_password()
+    {
+        $user = $this->signIn();
+        $this->actingAs($user);
+
         $oldPassword = $user->password;
         $newPassword = fake()->password(8);
         $data = [
