@@ -18,21 +18,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *    schema="User",
  *    type="object",
  *    required={"first_name", "email", "password"},
- *
  *    @OA\Property(
  *        property="first_name",
  *        description="First Name of the user",
  *        type="string",
  *        example="John"
  *    ),
- *
  *    @OA\Property(
  *        property="last_name",
  *        description="Last Name of the user",
  *        type="string",
  *        example="Smith"
  *    ),
- *
  *    @OA\Property(
  *        property="email",
  *        description="Email of the user",
@@ -40,14 +37,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *        format="email",
  *        example="john.smith@company.com"
  *    ),
- *
  *    @OA\Property(
  *        property="phone",
  *        description="Phone of the user",
  *        type="string",
  *        example="+3464500000"
  *    ),
- *
  *    @OA\Property(
  *        property="password",
  *        description="Password of the user",

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api\Doc;
 
 use Illuminate\Http\JsonResponse;
-$api_host = (getenv() === "production") ? "roskus.com" : "localhost";
-define("API_HOST", $api_host);
+
+$api_host = (getenv() === 'production') ? 'roskus.com' : 'localhost';
+define('API_HOST', $api_host);
 
 /**
  * @OA\Info(

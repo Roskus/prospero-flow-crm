@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Lead;
 
 use App\Models\Lead;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class LeadReadController
 {
@@ -23,6 +23,7 @@ class LeadReadController
      *      @OA\Response(response="200", description="Lead found"),
      *      @OA\Response(response="404", description="Lead not found")
      * )
+     *
      * @param  Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
@@ -30,15 +31,13 @@ class LeadReadController
     public function read(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $lead = null;
-        try
-        {
+        try {
             $lead = Lead::findOrFail($id);
             $status = 200;
-        }
-        catch(ModelNotFoundException $e)
-        {
+        } catch(ModelNotFoundException $e) {
             $status = 404;
         }
+
         return response()->json(['lead' => $lead], $status);
     }
 }
