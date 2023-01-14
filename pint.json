@@ -1,0 +1,6 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "phpdoc_separation": false
+    } 
+}
