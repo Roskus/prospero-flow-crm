@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
-
     /**
      * Create a new AuthController instance.
      *
@@ -79,5 +78,4 @@ class LoginController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 60,
         ]);
     }
-
 }
