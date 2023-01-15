@@ -1,5 +1,7 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,6 +68,7 @@ class Contact extends Model
     use HasFactory;
 
     protected $table = 'contact';
+
     protected $fillable = [
         'first_name',
         'last_name',
