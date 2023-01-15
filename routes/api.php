@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,10 @@ Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::clas
 Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create']);
 //Route::get('/contact', 'Api\Contact\ContactListController@index');
 //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');
+
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('logout', [LoginController::class, 'logout']);
+    Route::post('refresh', [LoginController::class, 'refresh']);
+    Route::post('me', [LoginController::class, 'me']);
+});

@@ -2,9 +2,62 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Hammer CRM API",
-        "version": "1.0"
+        "description": "",
+        "contact": {
+            "name": "roskus",
+            "email": "hello@roskus.com"
+        },
+        "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "/api"
+        },
+        {
+            "url": "localhost"
+        }
+    ],
     "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/contact": {
             "post": {
                 "tags": [
@@ -22,6 +75,30 @@
                 }
             }
         },
+        "/resource.json": {
+            "get": {
+                "operationId": "992a5eb3e410bc1312705d82f3e64481",
+                "responses": {
+                    "200": {
+                        "description": "API JSON Specification OpenAPI format"
+                    }
+                }
+            }
+        },
+        "/lead": {
+            "post": {
+                "tags": [
+                    "Leads"
+                ],
+                "summary": "Create a Lead",
+                "operationId": "8d1263bbc718849f160beea1cb484af5",
+                "responses": {
+                    "201": {
+                        "description": "Lead created successfully"
+                    }
+                }
+            }
+        },
         "/leads": {
             "get": {
                 "tags": [
@@ -31,7 +108,47 @@
                 "operationId": "07609cf1c8db91133985d7f808e06145",
                 "responses": {
                     "200": {
-                        "description": "Lead list retrived successfully"
+                        "description": "Lead list retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lead"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/lead/{id}": {
+            "get": {
+                "tags": [
+                    "Leads"
+                ],
+                "summary": "Get Lead information",
+                "operationId": "84aa3cda6c25be70d711ad23143b901b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Lead",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lead found"
+                    },
+                    "404": {
+                        "description": "Lead not found"
                     }
                 }
             }
@@ -39,16 +156,214 @@
     },
     "components": {
         "schemas": {
-            "Lead": {
+            "Company": {
+                "required": [
+                    "name",
+                    "country_id"
+                ],
                 "properties": {
-                    "company_id": {
-                        "type": "number",
-                        "example": "1"
+                    "name": {
+                        "description": "Name of the company",
+                        "type": "string",
+                        "example": "My Company"
                     },
-                    "Name": {
-                        "description": "Nombre de grupo",
+                    "phone": {
+                        "description": "Phone of the company",
+                        "type": "string",
+                        "example": "+34645600000"
+                    },
+                    "email": {
+                        "description": "Email of the company",
+                        "type": "string",
+                        "format": "email",
+                        "example": "info@company.com"
+                    },
+                    "country_id": {
+                        "description": "Country ISO code of the company",
+                        "type": "string",
+                        "example": "ES"
+                    },
+                    "website": {
+                        "description": "Website of the company",
+                        "type": "string",
+                        "example": "https://www.company.com"
+                    }
+                },
+                "type": "object"
+            },
+            "Contact": {
+                "required": [
+                    "first_name"
+                ],
+                "properties": {
+                    "first_name": {
+                        "description": "Firstname of the contact",
                         "type": "string",
                         "example": "John"
+                    },
+                    "last_name": {
+                        "description": "Lastname of the contact",
+                        "type": "string",
+                        "example": "Smith"
+                    },
+                    "phone": {
+                        "description": "Phone of the contact",
+                        "type": "string",
+                        "example": "+34645000000"
+                    },
+                    "email": {
+                        "description": "Email of the contact",
+                        "type": "string",
+                        "example": "john.smith@company.com"
+                    },
+                    "linkedin": {
+                        "description": "Linkedin url of the contact",
+                        "type": "string",
+                        "example": "https://likedin.com/in/contactname"
+                    },
+                    "country": {
+                        "description": "Country ISO code of the contact",
+                        "type": "string",
+                        "example": "CO"
+                    },
+                    "notes": {
+                        "description": "Notes of the contact",
+                        "type": "string",
+                        "example": "We meet last time at the Coffe Shop inside the hotel."
+                    }
+                },
+                "type": "object"
+            },
+            "Customer": {
+                "required": [
+                    "name",
+                    "country"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Name of the company",
+                        "type": "string",
+                        "example": "My Company"
+                    },
+                    "business_name": {
+                        "description": "Business name or legal name of the company",
+                        "type": "string",
+                        "example": "My Company S.A."
+                    },
+                    "dob": {
+                        "description": "Date of fundation of the company",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-02-20"
+                    },
+                    "vat": {
+                        "description": "VAT/NIF of the company",
+                        "type": "string",
+                        "example": "ESX1234567X"
+                    },
+                    "phone": {
+                        "description": "Phone of the company",
+                        "type": "string",
+                        "example": "+3464500000"
+                    },
+                    "phone2": {
+                        "description": "Phone2 of the company",
+                        "type": "string",
+                        "example": "+3464500000"
+                    }
+                },
+                "type": "object"
+            },
+            "Lead": {
+                "required": [
+                    "name",
+                    "country"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Name of the lead",
+                        "type": "string",
+                        "example": "My Company"
+                    },
+                    "business_name": {
+                        "description": "Business name or legal name of the lead",
+                        "type": "string",
+                        "example": "My Company S.A."
+                    },
+                    "dob": {
+                        "description": "Date of fundation of the lead",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-02-20"
+                    },
+                    "vat": {
+                        "description": "VAT/NIF of the lead",
+                        "type": "string",
+                        "example": "ESX1234567X"
+                    },
+                    "phone": {
+                        "description": "Phone of the lead",
+                        "type": "string",
+                        "example": "+3464500000"
+                    },
+                    "phone2": {
+                        "description": "Phone2 of the lead",
+                        "type": "string",
+                        "example": "+3464500000"
+                    },
+                    "mobile": {
+                        "description": "Mobile of the lead",
+                        "type": "string",
+                        "example": "+3464500000"
+                    },
+                    "email": {
+                        "description": "Email of the lead",
+                        "type": "string",
+                        "format": "email",
+                        "example": "jhon.doe@email.com"
+                    },
+                    "email2": {
+                        "description": "Email2 of the lead",
+                        "type": "string",
+                        "format": "email",
+                        "example": "jhon.doe@email.com"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "required": [
+                    "first_name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "first_name": {
+                        "description": "First Name of the user",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "description": "Last Name of the user",
+                        "type": "string",
+                        "example": "Smith"
+                    },
+                    "email": {
+                        "description": "Email of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.smith@company.com"
+                    },
+                    "phone": {
+                        "description": "Phone of the user",
+                        "type": "string",
+                        "example": "+3464500000"
+                    },
+                    "password": {
+                        "description": "Password of the user",
+                        "type": "string",
+                        "format": "password",
+                        "example": ""
                     }
                 },
                 "type": "object"
