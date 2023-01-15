@@ -15,56 +15,48 @@ use Squire\Models\Country;
  *    schema="Lead",
  *    type="object",
  *    required={"name", "country"},
- *
  *    @OA\Property(
  *        property="name",
  *        description="Name of the lead",
  *        type="string",
  *        example="My Company"
  *    ),
- *
  *    @OA\Property(
  *        property="business_name",
  *        description="Business name or legal name of the lead",
  *        type="string",
  *        example="My Company S.A."
  *    ),
- *
  *    @OA\Property(
  *        property="dob",
  *        description="Date of fundation of the lead",
  *        type="date",
  *        example="1990-02-20"
  *    ),
- *
  *    @OA\Property(
  *        property="vat",
  *        description="VAT/NIF of the lead",
  *        type="string",
  *        example="ESX1234567X"
  *    ),
- *
  *    @OA\Property(
  *        property="phone",
  *        description="Phone of the lead",
  *        type="string",
  *        example="+3464500000"
  *    ),
- *
  *    @OA\Property(
  *        property="phone2",
  *        description="Phone2 of the lead",
  *        type="string",
  *        example="+3464500000"
  *    ),
- *
  *    @OA\Property(
  *        property="mobile",
  *        description="Mobile of the lead",
  *        type="string",
  *        example="+3464500000"
  *    ),
- *
  *    @OA\Property(
  *        property="email",
  *        description="Email of the lead",
@@ -72,7 +64,6 @@ use Squire\Models\Country;
  *        format="email",
  *        example="jhon.doe@email.com"
  *    ),
- *
  *    @OA\Property(
  *        property="email2",
  *        description="Email2 of the lead",

@@ -11,27 +11,25 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  *  @OA\Schema(
  *    schema="User",
  *    type="object",
  *    required={"first_name", "email", "password"},
- *
  *    @OA\Property(
  *        property="first_name",
  *        description="First Name of the user",
  *        type="string",
  *        example="John"
  *    ),
- *
  *    @OA\Property(
  *        property="last_name",
  *        description="Last Name of the user",
  *        type="string",
  *        example="Smith"
  *    ),
- *
  *    @OA\Property(
  *        property="email",
  *        description="Email of the user",
@@ -39,14 +37,12 @@ use Spatie\Permission\Traits\HasRoles;
  *        format="email",
  *        example="john.smith@company.com"
  *    ),
- *
  *    @OA\Property(
  *        property="phone",
  *        description="Phone of the user",
  *        type="string",
  *        example="+3464500000"
  *    ),
- *
  *    @OA\Property(
  *        property="password",
  *        description="Password of the user",
@@ -56,7 +52,7 @@ use Spatie\Permission\Traits\HasRoles;
  *    )
  *  )
  */
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;
     use HasFactory;
@@ -125,5 +121,25 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn ($value) => $value ?? config('app.timezone'),
         );
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

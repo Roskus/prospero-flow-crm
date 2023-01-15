@@ -12,49 +12,42 @@ use Illuminate\Database\Eloquent\Model;
  *    schema="Contact",
  *    type="object",
  *    required={"first_name"},
- *
  *    @OA\Property(
  *        property="first_name",
  *        description="Firstname of the contact",
  *        type="string",
  *        example="John"
  *    ),
- *
  *    @OA\Property(
  *        property="last_name",
  *        description="Lastname of the contact",
  *        type="string",
  *        example="Smith"
  *    ),
- *
  *    @OA\Property(
  *        property="phone",
  *        description="Phone of the contact",
  *        type="string",
  *        example="+34645000000"
  *    ),
- *
  *    @OA\Property(
  *        property="email",
  *        description="Email of the contact",
  *        type="string",
  *        example="john.smith@company.com"
  *    ),
- *
  *    @OA\Property(
  *        property="linkedin",
  *        description="Linkedin url of the contact",
  *        type="string",
  *        example="https://likedin.com/in/contactname"
  *    ),
- *
  *    @OA\Property(
  *        property="country",
  *        description="Country ISO code of the contact",
  *        type="string",
  *        example="CO"
  *    ),
- *
  *    @OA\Property(
  *        property="notes",
  *        description="Notes of the contact",
