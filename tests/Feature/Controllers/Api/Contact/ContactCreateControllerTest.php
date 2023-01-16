@@ -22,7 +22,8 @@ class ContactCreateControllerTest extends TestCase
      */
     public function can_create_contact(): void
     {
-        $user = $this->signin();
+        $user = $this->signIn();
+        $this->actingAs($user, 'api');
 
         Industry::factory()->create();
         $lead = Lead::factory()->create();
@@ -68,7 +69,8 @@ class ContactCreateControllerTest extends TestCase
      */
     public function create_contact_have_missing_parameters(): void
     {
-        $user = $this->signin();
+        $user = $this->signIn();
+        $this->actingAs($user, 'api');
 
         $response = $this->json('POST', '/api/contact/', [
             'email' => 'email@example.com',

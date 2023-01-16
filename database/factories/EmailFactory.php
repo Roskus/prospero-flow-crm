@@ -25,7 +25,7 @@ class EmailFactory extends Factory
             'from' => $this->faker->email(),
             'to' => $this->faker->email(),
             'cc' => $this->faker->email(),
-            'subject' => $this->faker->title(),
+            'subject' => $this->faker->sentence(3),
             'body' => $this->faker->text(),
             'lang' => $this->faker->randomElement(array_keys(config('app.locales'))),
             'status' => $this->faker->randomElement(['draft', 'queue', 'sent', 'error']),
