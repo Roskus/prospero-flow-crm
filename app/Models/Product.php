@@ -7,6 +7,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ *  @OA\Schema(
+ *    schema="Product",
+ *    type="object",
+ *    required={"category_id", "name"},
+ *  )
+ */
 class Product extends Model
 {
     use SoftDeletes;

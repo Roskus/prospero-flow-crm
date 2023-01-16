@@ -23,8 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/resource.json', [\App\Http\Controllers\Api\Doc\DocGeneratorController::class, 'render']);
 
 // Lead
-Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:sanctum']);
-Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:sanctum']);
+Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
+Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
+Route::get('lead', [\App\Http\Controllers\Api\Lead\LeadListController::class, 'index'])->middleware(['auth:api']);
 
 // Customer
 //Route::get('/customers', 'Api\Customer\CustomerListController@index');
@@ -33,7 +34,7 @@ Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::clas
 //Route::get('/products', 'Api\Product\ProductListController@index');
 
 // Contact
-Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create']);
+Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
 //Route::get('/contact', 'Api\Contact\ContactListController@index');
 //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');
 

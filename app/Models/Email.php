@@ -8,6 +8,12 @@ use App\Models\Email\Attach;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *  @OA\Schema(
+ *    schema="Email",
+ *    type="object"
+ *  )
+ */
 class Email extends Model
 {
     use HasFactory;

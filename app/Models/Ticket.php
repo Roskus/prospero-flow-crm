@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *  @OA\Schema(
+ *    schema="Ticket",
+ *    type="object",
+ *    required={"category_id", "name"},
+ *  )
+ */
 class Ticket extends Model
 {
     use HasFactory;
