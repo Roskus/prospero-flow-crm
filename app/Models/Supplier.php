@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Squire\Models\Country;
 
+/**
+ *  @OA\Schema(
+ *    schema="Supplier",
+ *    type="object",
+ *    required={"name"},
+ *  )
+ */
 class Supplier extends Model
 {
     use HasFactory;

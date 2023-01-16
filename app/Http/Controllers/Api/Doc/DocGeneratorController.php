@@ -4,17 +4,22 @@ namespace App\Http\Controllers\Api\Doc;
 
 use Illuminate\Http\JsonResponse;
 
-$api_host = (getenv() === 'production') ? 'roskus.com' : 'localhost';
-define('API_HOST', $api_host);
+define('API_HOST', env('APP_API_URL'));
 
 /**
  * @OA\Info(
  *    title="Hammer CRM API",
- *    version="1.0.0",
+ *    version="1.0.1",
  *    description="",
  *    @OA\Contact(
- *        name="roskus",
- *        email="hello@roskus.com"
+ *          name="roskus",
+ *          email="hello@roskus.com"
+ *    ),
+ *    @OA\SecurityScheme(
+ *          securityScheme="bearerAuth",
+ *          type="apiKey",
+ *          name="Authorization",
+ *          in="header",
  *    )
  * ),
  * @OA\Server(
