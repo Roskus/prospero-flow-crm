@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.0.2",
         "aws/aws-sdk-php": "^3.234",
+        "bugsnag/bugsnag-laravel": "^2.0",
         "darkaonline/l5-swagger": "^8.3",
         "doctrine/dbal": "^3.4",
         "fakerphp/faker": "^1.9.1",

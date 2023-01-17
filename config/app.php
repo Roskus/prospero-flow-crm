@@ -213,7 +213,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        \Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
     ],
 
     /*
@@ -230,6 +230,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
     ])->toArray(),
 
     'locales' => [
