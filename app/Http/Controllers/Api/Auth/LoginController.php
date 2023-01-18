@@ -17,8 +17,8 @@ class LoginController extends ApiController
      *          description="Pass user credentials",
      *          @OA\JsonContent(
      *              required={"email", "password"},
-     *              @OA\Property(property="email", type="string", format="email", example="user@mail.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345")
+     *              @OA\Property(property="email", type="string", format="email", example="admin@admin.com"),
+     *              @OA\Property(property="password", type="string", format="password", example="admin")
      *          ),
      *      ),
      *      @OA\Response(

@@ -15,12 +15,15 @@ define('API_HOST', env('APP_API_URL'));
  *          name="roskus",
  *          email="hello@roskus.com"
  *    ),
- *    @OA\SecurityScheme(
- *          securityScheme="bearerAuth",
- *          type="apiKey",
- *          name="Authorization",
- *          in="header",
- *    )
+ * ),
+ * @OA\SecurityScheme(
+ *      type="http",
+ *      description="Authorisation with JWT generated tokens",
+ *      name="Authorization",
+ *      in="header",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ *      securityScheme="bearerAuth"
  * ),
  * @OA\Server(
  *     url="/api",

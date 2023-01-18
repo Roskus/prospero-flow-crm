@@ -12,10 +12,10 @@ class LeadListController
 {
     /**
      * @OA\Get(
-     *      path="/leads",
+     *      path="/lead",
      *      summary="Lead list by company",
      *      tags={"Leads"},
-     *      security={ {"bearer": {} }},
+     *      security={ {"bearerAuth": {} }},
      *      @OA\Response(
      *          response="200",
      *          description="Lead list retrived successfully",
