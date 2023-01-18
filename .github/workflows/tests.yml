@@ -56,7 +56,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Generate JWT secret
-        run: php artisan jwt:secret
+        run: php artisan jwt:secret -f
 
       - name: Clear Config
         run: php artisan config:clear
