@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -12,6 +13,98 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *    schema="Product",
  *    type="object",
  *    required={"category_id", "name"},
+ *    @OA\Property(
+ *        property="category_id",
+ *        description="Category ID of the product",
+ *        type="int",
+ *        example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="brand_id",
+ *        description="Brand ID of the product",
+ *        type="int",
+ *        example="2"
+ *    ),
+ *    @OA\Property(
+ *        property="name",
+ *        description="Name of the product",
+ *        type="string",
+ *        example="Hervidor Russell Hobbs"
+ *    ),
+ *    @OA\Property(
+ *        property="model",
+ *        description="Model of the product",
+ *        type="string",
+ *        example="Colours Plus+"
+ *    ),
+ *    @OA\Property(
+ *        property="sku",
+ *        description="SKU of the product",
+ *        type="string",
+ *        example="RUS*24994-70"
+ *    ),
+ *    @OA\Property(
+ *        property="barcode",
+ *        description="EAN-13 barcode of the product",
+ *        type="string",
+ *        example="4008496982943"
+ *    ),
+ *    @OA\Property(
+ *        property="photo",
+ *        description="Photo of the product",
+ *        type="string",
+ *        example="product.jpg"
+ *    ),
+ *    @OA\Property(
+ *        property="cost",
+ *        description="Cost of the product",
+ *        type="number",
+ *        example="10.5"
+ *    ),
+ *    @OA\Property(
+ *        property="price",
+ *        description="Price of the product",
+ *        type="number",
+ *        example="21.70"
+ *    ),
+ *    @OA\Property(
+ *        property="min_stock_quantity",
+ *        description="Min Stock Quantity of the product",
+ *        type="int",
+ *        example="10"
+ *    ),
+ *    @OA\Property(
+ *        property="quantity",
+ *        description="Quantity of the product",
+ *        type="int",
+ *        example="33"
+ *    ),
+ *    @OA\Property(
+ *        property="description",
+ *        description="Description of the product",
+ *        type="string",
+ *        example="This is a product description"
+ *    ),
+ *    @OA\Property(
+ *        property="elaboration_date",
+ *        description="Elaboration date of the product",
+ *        type="string",
+ *        format="date",
+ *        example="2023-01-01"
+ *    ),
+ *    @OA\Property(
+ *        property="expiration_date",
+ *        description="Expiration date of the product",
+ *        type="string",
+ *        format="date",
+ *        example="2023-12-01"
+ *    ),
+ *    @OA\Property(
+ *        property="tags",
+ *        description="Tags of the product",
+ *        type="string",
+ *        example="['hervidor', 'pava electrica']"
+ *    )
  *  )
  */
 class Product extends Model
@@ -38,20 +131,31 @@ class Product extends Model
         'photo',
         'cost',
         'price',
+        'min_stock_quantity',
+        'quantity',
+        //'capacity',
+        //'capacity_measure',
         'description',
+        'elaboration_date',
+        'expiration_date',
+        'tags',
     ];
 
-    public function company()
+    protected $hidden = [
+        'deleted_at',
+    ];
+
+    public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
-    public function category()
+    public function category(): HasOne
     {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
 
-    public function brand()
+    public function brand(): HasOne
     {
         return $this->hasOne('App\Models\Brand', 'id', 'brand_id');
     }

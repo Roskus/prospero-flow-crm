@@ -28,6 +28,7 @@ class ProductListController
     {
         $count = Product::where('company_id', Auth::user()->company_id)->count();
         $products = Product::where('company_id', Auth::user()->company_id)->get();
+
         return response()->json(['count' => $count, 'products' => $products]);
     }
 }

@@ -193,6 +193,46 @@
                     }
                 ]
             }
+        },
+        "/product/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Product information",
+                "operationId": "231948bcc1da3391aec233a0261203d4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -387,6 +427,85 @@
                     "category_id",
                     "name"
                 ],
+                "properties": {
+                    "category_id": {
+                        "description": "Category ID of the product",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "brand_id": {
+                        "description": "Brand ID of the product",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "name": {
+                        "description": "Name of the product",
+                        "type": "string",
+                        "example": "Hervidor Russell Hobbs"
+                    },
+                    "model": {
+                        "description": "Model of the product",
+                        "type": "string",
+                        "example": "Colours Plus+"
+                    },
+                    "sku": {
+                        "description": "SKU of the product",
+                        "type": "string",
+                        "example": "RUS*24994-70"
+                    },
+                    "barcode": {
+                        "description": "EAN-13 barcode of the product",
+                        "type": "string",
+                        "example": "4008496982943"
+                    },
+                    "photo": {
+                        "description": "Photo of the product",
+                        "type": "string",
+                        "example": "product.jpg"
+                    },
+                    "cost": {
+                        "description": "Cost of the product",
+                        "type": "number",
+                        "example": "10.5"
+                    },
+                    "price": {
+                        "description": "Price of the product",
+                        "type": "number",
+                        "example": "21.70"
+                    },
+                    "min_stock_quantity": {
+                        "description": "Min Stock Quantity of the product",
+                        "type": "integer",
+                        "example": "10"
+                    },
+                    "quantity": {
+                        "description": "Quantity of the product",
+                        "type": "integer",
+                        "example": "33"
+                    },
+                    "description": {
+                        "description": "Description of the product",
+                        "type": "string",
+                        "example": "This is a product description"
+                    },
+                    "elaboration_date": {
+                        "description": "Elaboration date of the product",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-01-01"
+                    },
+                    "expiration_date": {
+                        "description": "Expiration date of the product",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-12-01"
+                    },
+                    "tags": {
+                        "description": "Tags of the product",
+                        "type": "string",
+                        "example": "['hervidor', 'pava electrica']"
+                    }
+                },
                 "type": "object"
             },
             "Supplier": {

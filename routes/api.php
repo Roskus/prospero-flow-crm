@@ -26,6 +26,7 @@ Route::middleware(['api'])->group(function () {
 
     // Product
     Route::get('/product', [App\Http\Controllers\Api\Product\ProductListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/product/{id}', [App\Http\Controllers\Api\Product\ProductReadController::class, 'read'])->middleware(['auth:api']);
 
     // Contact
     Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);

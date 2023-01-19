@@ -32,6 +32,7 @@ class LeadListController extends ApiController
     {
         $count = Lead::where('company_id', Auth::user()->company_id)->count();
         $leads = Lead::where('company_id', Auth::user()->company_id)->get();
+
         return response()->json(['count' => $count, 'leads' => $leads]);
     }
 }
