@@ -33,6 +33,9 @@ Route::middleware(['api'])->group(function () {
     //Route::get('/contact', 'Api\Contact\ContactListController@index');
     //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');
 
+    // User
+    Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
+
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
         Route::post('logout', [LoginController::class, 'logout']);

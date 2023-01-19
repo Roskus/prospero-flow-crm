@@ -233,6 +233,32 @@
                     }
                 ]
             }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User list by company",
+                "operationId": "76116f456aca8262d527c356c1b2ffe9",
+                "responses": {
+                    "200": {
+                        "description": "Users list retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -444,6 +470,33 @@
                         "description": "Amount of the Order",
                         "type": "number",
                         "example": "21.70"
+                    },
+                    "items": {
+                        "description": "Items of the Order",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem"
+                        },
+                        "example": ""
+                    }
+                },
+                "type": "object"
+            },
+            "OrderItem": {
+                "required": [
+                    "product_id",
+                    "quantity"
+                ],
+                "properties": {
+                    "product_id": {
+                        "description": "Product ID of the Item",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "quantity": {
+                        "description": "Quantity of the Item",
+                        "type": "integer",
+                        "example": "3"
                     }
                 },
                 "type": "object"

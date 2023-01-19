@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Models\Order\Item;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -25,6 +27,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *        description="Amount of the Order",
  *        type="number",
  *        example="21.70"
+ *    ),
+ *    @OA\Property(
+ *        property="items",
+ *        description="Items of the Order",
+ *        type="array",
+ *        @OA\Items(ref="#/components/schemas/OrderItem"),
+ *        example=""
  *    )
  *  )
  */
@@ -42,23 +51,20 @@ final class Order extends Model
     const COMPLETED = 3;
 
     // Class Properties
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
+
     protected $table = 'order';
 
     protected $fillable = [
         'customer_id',
         'amount',
     ];
+
     protected $casts = [
         'created_at' => 'date',
     ];
 
     protected $hidden = [
-        'deleted_at' => 'date',
+        'deleted_at',
     ];
 
     protected ?int $company_id = null;
@@ -66,8 +72,6 @@ final class Order extends Model
     protected ?int $customer_id;
 
     protected ?int $status;
-
-
 
     /**
      * @var mixed
@@ -95,17 +99,17 @@ final class Order extends Model
     }
 
     // Relationships
-    public function company(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
-    public function customer(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function customer(): HasOne
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
-    public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'order_id', 'id');
     }
