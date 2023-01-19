@@ -237,6 +237,13 @@
     },
     "components": {
         "schemas": {
+            "Calendar": {
+                "required": [
+                    "start_date",
+                    "title"
+                ],
+                "type": "object"
+            },
             "Campaign": {
                 "required": [
                     "subject",
@@ -418,6 +425,25 @@
                         "type": "string",
                         "format": "email",
                         "example": "jhon.doe@email.com"
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "required": [
+                    "customer_id",
+                    "amount"
+                ],
+                "properties": {
+                    "customer_id": {
+                        "description": "Customer ID of the Order",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "amount": {
+                        "description": "Amount of the Order",
+                        "type": "number",
+                        "example": "21.70"
                     }
                 },
                 "type": "object"

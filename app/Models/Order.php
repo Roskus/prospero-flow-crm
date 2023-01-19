@@ -9,6 +9,25 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ *  @OA\Schema(
+ *    schema="Order",
+ *    type="object",
+ *    required={"customer_id", "amount"},
+ *    @OA\Property(
+ *        property="customer_id",
+ *        description="Customer ID of the Order",
+ *        type="int",
+ *        example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="amount",
+ *        description="Amount of the Order",
+ *        type="number",
+ *        example="21.70"
+ *    )
+ *  )
+ */
 final class Order extends Model
 {
     use SoftDeletes;
@@ -30,15 +49,25 @@ final class Order extends Model
      */
     protected $table = 'order';
 
+    protected $fillable = [
+        'customer_id',
+        'amount',
+    ];
+    protected $casts = [
+        'created_at' => 'date',
+    ];
+
+    protected $hidden = [
+        'deleted_at' => 'date',
+    ];
+
     protected ?int $company_id = null;
 
     protected ?int $customer_id;
 
     protected ?int $status;
 
-    protected $casts = [
-        'created_at' => 'date',
-    ];
+
 
     /**
      * @var mixed
@@ -66,23 +95,17 @@ final class Order extends Model
     }
 
     // Relationships
-    /**
-     * @return Company
-     */
-    public function company()
+    public function company(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
-    /**
-     * @return Lead
-     */
-    public function customer()
+    public function customer(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
-    public function items()
+    public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Item::class, 'order_id', 'id');
     }
@@ -122,17 +145,11 @@ final class Order extends Model
         $this->setAttribute('customer_id', $customer_id);
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return (float) $this->getAttribute('amount');
     }
 
-    /**
-     * @param  float  $amount
-     */
     public function setAmount(float $amount): void
     {
         $this->setAttribute('amount', $amount);
@@ -156,10 +173,7 @@ final class Order extends Model
         return Order::all();
     }
 
-    /**
-     * @return int
-     */
-    public function getPendingCount(int $company_id)
+    public function getPendingCount(int $company_id): int
     {
         return Order::where('company_id', $company_id)
                     ->where('status', self::PENDING)->count();
