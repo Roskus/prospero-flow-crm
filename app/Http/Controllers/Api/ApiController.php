@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 
 class ApiController extends Controller
 {
+    protected User|null $user = null;
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        try {
+            $this->user = Auth::user();
+        } catch (\PHPOpenSourceSaver\JWTAuth\Exceptions\UserNotDefinedException $e) {
+            return response()->json(['error' => $e->getMessage()],403);
+        }
     }
 }

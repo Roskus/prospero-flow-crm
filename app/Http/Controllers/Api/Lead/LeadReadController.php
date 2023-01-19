@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Api\Lead;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Lead;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class LeadReadController
+class LeadReadController extends ApiController
 {
     /**
      * @OA\Get (
      *     path="/lead/{id}",
      *     summary="Get Lead information",
      *     tags={"Leads"},
+     *     security={{"bearerAuth": {} }},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -20,7 +23,11 @@ class LeadReadController
      *         required=true,
      *         @OA\Schema(type="integer")
      *      ),
-     *      @OA\Response(response="200", description="Lead found"),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Lead found",
+     *          @OA\JsonContent(ref="#/components/schemas/Lead")
+     *      ),
      *      @OA\Response(response="404", description="Lead not found")
      * )
      *
@@ -28,11 +35,11 @@ class LeadReadController
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function read(Request $request, int $id): \Illuminate\Http\JsonResponse
+    public function read(int $id): \Illuminate\Http\JsonResponse
     {
         $lead = null;
         try {
-            $lead = Lead::findOrFail($id);
+            $lead = Lead::where('company_id', Auth::user()->company_id)->where('id', $id)->first();
             $status = 200;
         } catch(ModelNotFoundException $e) {
             $status = 404;

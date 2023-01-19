@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class LoginController extends ApiController
+class LoginController extends Controller
 {
     /**
      * Login and get a JWT given auth credentials.
@@ -33,10 +35,16 @@ class LoginController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
         $credentials = request(['email', 'password']);
         $token = auth('api')->attempt($credentials);
+
         if (! $token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

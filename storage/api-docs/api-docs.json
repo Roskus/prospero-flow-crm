@@ -7,14 +7,14 @@
             "name": "roskus",
             "email": "hello@roskus.com"
         },
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "servers": [
         {
             "url": "/api"
         },
         {
-            "url": "localhost"
+            "url": "http://hammercrm.localhost/api"
         }
     ],
     "paths": {
@@ -24,6 +24,8 @@
                     "Auth"
                 ],
                 "summary": "Login",
+                "description": "Login and get a JWT given auth credentials.",
+                "operationId": "79470e1e4d9222065432491a36cad427",
                 "requestBody": {
                     "description": "Pass user credentials",
                     "required": true,
@@ -38,12 +40,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "user@mail.com"
+                                        "example": "admin@admin.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "PassWord12345"
+                                        "example": "admin"
                                     }
                                 },
                                 "type": "object"
@@ -54,6 +56,9 @@
                 "responses": {
                     "200": {
                         "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized or wrong credentials"
                     }
                 }
             }
@@ -86,26 +91,12 @@
             }
         },
         "/lead": {
-            "post": {
-                "tags": [
-                    "Leads"
-                ],
-                "summary": "Create a Lead",
-                "operationId": "8d1263bbc718849f160beea1cb484af5",
-                "responses": {
-                    "201": {
-                        "description": "Lead created successfully"
-                    }
-                }
-            }
-        },
-        "/leads": {
             "get": {
                 "tags": [
                     "Leads"
                 ],
                 "summary": "Lead list by company",
-                "operationId": "07609cf1c8db91133985d7f808e06145",
+                "operationId": "193d5bd62ab61d2bb3085d68251a542c",
                 "responses": {
                     "200": {
                         "description": "Lead list retrived successfully",
@@ -120,9 +111,21 @@
                 },
                 "security": [
                     {
-                        "bearer": []
+                        "bearerAuth": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Leads"
+                ],
+                "summary": "Create a Lead",
+                "operationId": "8d1263bbc718849f160beea1cb484af5",
+                "responses": {
+                    "201": {
+                        "description": "Lead created successfully"
+                    }
+                }
             }
         },
         "/lead/{id}": {
@@ -145,17 +148,62 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Lead found"
+                        "description": "Lead found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lead"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Lead not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/product": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Product list by company",
+                "operationId": "e1cb1feb7788e5ab27487c293ab1855e",
+                "responses": {
+                    "200": {
+                        "description": "Products list retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
     "components": {
         "schemas": {
+            "Campaign": {
+                "required": [
+                    "subject",
+                    "body"
+                ],
+                "type": "object"
+            },
             "Company": {
                 "required": [
                     "name",
@@ -274,6 +322,9 @@
                 },
                 "type": "object"
             },
+            "Email": {
+                "type": "object"
+            },
             "Lead": {
                 "required": [
                     "name",
@@ -331,6 +382,26 @@
                 },
                 "type": "object"
             },
+            "Product": {
+                "required": [
+                    "category_id",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "Supplier": {
+                "required": [
+                    "name"
+                ],
+                "type": "object"
+            },
+            "Ticket": {
+                "required": [
+                    "category_id",
+                    "name"
+                ],
+                "type": "object"
+            },
             "User": {
                 "required": [
                     "first_name",
@@ -367,6 +438,16 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Authorisation with JWT generated tokens",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     }

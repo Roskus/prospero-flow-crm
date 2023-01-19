@@ -25,7 +25,7 @@ Route::middleware(['api'])->group(function () {
     //Route::get('/customers', 'Api\Customer\CustomerListController@index');
 
     // Product
-    //Route::get('/products', 'Api\Product\ProductListController@index');
+    Route::get('/product', [App\Http\Controllers\Api\Product\ProductListController::class, 'index'])->middleware(['auth:api']);
 
     // Contact
     Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
@@ -46,4 +46,6 @@ Route::middleware(['api'])->group(function () {
 Route::post('/auth/login', [LoginController::class, 'login']);
 
 // OpenApi Json Resource
-Route::get('/resource.json', [\App\Http\Controllers\Api\Doc\DocGeneratorController::class, 'render']);
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/resource.json', [\App\Http\Controllers\Api\Doc\DocGeneratorController::class, 'render']);
+});
