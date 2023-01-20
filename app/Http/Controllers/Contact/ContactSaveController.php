@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contact;
 use App\Http\Controllers\MainController;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ContactSaveController extends MainController
@@ -13,6 +14,7 @@ class ContactSaveController extends MainController
     {
         if (empty($request->id)) {
             $contact = new Contact();
+            $contact->company_id = Auth::user()->company_id;
             $contact->created_at = now();
         } else {
             $contact = Contact::find($request->id);

@@ -13,7 +13,27 @@ use Illuminate\Support\Facades\Auth;
  *  @OA\Schema(
  *    schema="Calendar",
  *    type="object",
- *    required={"start_date", "title"}
+ *    required={"user_id", "start_date", "title"},
+ *    @OA\Property(
+ *        property="user_id",
+ *        description="Id of the User",
+ *        type="int",
+ *        example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="start_date",
+ *        description="Start ISO date of the event",
+ *        type="string",
+ *        format="date",
+ *        example="YYYY-MM-DD"
+ *    ),
+ *    @OA\Property(
+ *        property="title",
+ *        description="Title of the calendar event",
+ *        type="string",
+ *        example="My amaizing event!"
+ *    ),
+ *
  *  )
  */
 class Calendar extends Model
@@ -37,12 +57,13 @@ class Calendar extends Model
         'longitude',
     ];
 
-    protected $casts = [
-        'guests' => 'array',
+    protected $hidden = [
+        'company_id',
+        'deleted_at',
     ];
 
-    protected $hidden = [
-        'deleted_at',
+    protected $casts = [
+        'guests' => 'array',
     ];
 
     protected function startDate(): Attribute

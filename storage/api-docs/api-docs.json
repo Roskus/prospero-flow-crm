@@ -101,7 +101,12 @@
                     "201": {
                         "description": "Contact created successfully"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/customer": {
@@ -506,9 +511,28 @@
         "schemas": {
             "Calendar": {
                 "required": [
+                    "user_id",
                     "start_date",
                     "title"
                 ],
+                "properties": {
+                    "user_id": {
+                        "description": "Id of the User",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "start_date": {
+                        "description": "Start ISO date of the event",
+                        "type": "string",
+                        "format": "date",
+                        "example": "YYYY-MM-DD"
+                    },
+                    "title": {
+                        "description": "Title of the calendar event",
+                        "type": "string",
+                        "example": "My amaizing event!"
+                    }
+                },
                 "type": "object"
             },
             "Campaign": {
