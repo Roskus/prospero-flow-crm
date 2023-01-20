@@ -72,6 +72,10 @@ class Contact extends Model
         'notes',
     ];
 
+    protected $hidden = [
+        'company_id',
+    ];
+
     public function lead()
     {
         return $this->belongsTo(\App\Models\Lead::class);

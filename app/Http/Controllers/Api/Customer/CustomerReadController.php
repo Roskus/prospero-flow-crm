@@ -2,34 +2,34 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\Product;
+namespace App\Http\Controllers\Api\Customer;
 
-use App\Models\Product;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProductReadController
+class CustomerReadController
 {
     /**
      * @OA\Get (
-     *     path="/product/{id}",
-     *     summary="Get Product information",
-     *     tags={"Product"},
+     *     path="/customer/{id}",
+     *     summary="Get Customer information",
+     *     tags={"Customer"},
      *     security={{"bearerAuth": {} }},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="Id of Product",
+     *         description="Id of the Customer",
      *         required=true,
      *         @OA\Schema(type="integer")
      *      ),
      *      @OA\Response(
      *          response="200",
-     *          description="Product found",
-     *          @OA\JsonContent(ref="#/components/schemas/Product")
+     *          description="Customer found",
+     *          @OA\JsonContent(ref="#/components/schemas/Customer")
      *      ),
-     *      @OA\Response(response="404", description="Product not found")
+     *      @OA\Response(response="404", description="Customer not found")
      * )
      * @param  Request  $request
      * @param  int  $id
@@ -37,14 +37,14 @@ class ProductReadController
      */
     public function read(Request $request, int $id)
     {
-        $product = null;
+        $customer = null;
         try {
-            $product = Product::where('company_id', Auth::user()->company_id)->where('id', $id)->first();
+            $customer = Customer::where('company_id', Auth::user()->company_id)->where('id', $id)->first();
             $status = 200;
         } catch(ModelNotFoundException $e) {
             $status = 404;
         }
 
-        return response()->json(['product' => $product], $status);
+        return response()->json(['customer' => $customer], $status);
     }
 }

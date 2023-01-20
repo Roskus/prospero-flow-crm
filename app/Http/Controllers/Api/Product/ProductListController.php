@@ -11,8 +11,8 @@ class ProductListController
     /**
      * @OA\Get(
      *      path="/product",
-     *      summary="Product list by company",
-     *      tags={"Products"},
+     *      summary="Products list by company",
+     *      tags={"Product"},
      *      security={{"bearerAuth": {} }},
      *      @OA\Response(
      *          response="200",

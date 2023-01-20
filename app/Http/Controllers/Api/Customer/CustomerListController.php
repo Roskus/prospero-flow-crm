@@ -2,18 +2,32 @@
 
 namespace App\Http\Controllers\Api\Customer;
 
-use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerListController
 {
     /**
+     * @OA\Get(
+     *      path="/customer",
+     *      summary="Customer list by company",
+     *      tags={"Customer"},
+     *      security={{"bearerAuth": {} }},
+     *      @OA\Response(
+     *          response="200",
+     *          description="Customers list retrived successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/Customer")
+     *      )
+     * )
      * @param  Request  $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        return CustomerResource::collection(Customer::all());
+        $count = Customer::where('company_id', Auth::user()->company_id)->count();
+        $customers = Customer::where('company_id', Auth::user()->company_id)->get();
+
+        return response()->json(['count' => $count, 'customers' => $customers]);
     }
 }

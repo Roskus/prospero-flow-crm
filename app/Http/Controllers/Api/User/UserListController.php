@@ -11,8 +11,8 @@ class UserListController
     /**
      * @OA\Get(
      *      path="/user",
-     *      summary="User list by company",
-     *      tags={"Users"},
+     *      summary="Users list by company",
+     *      tags={"User"},
      *      security={{"bearerAuth": {} }},
      *      @OA\Response(
      *          response="200",

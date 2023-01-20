@@ -142,6 +142,7 @@ class Product extends Model
     ];
 
     protected $hidden = [
+        'company_id',
         'deleted_at',
     ];
 

@@ -17,24 +17,31 @@ use Illuminate\Support\Facades\Route;
 /** PROTECTED ROUTES */
 Route::middleware(['api'])->group(function () {
     // Lead
-    Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
     Route::get('lead', [\App\Http\Controllers\Api\Lead\LeadListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
 
     // Customer
-    //Route::get('/customers', 'Api\Customer\CustomerListController@index');
+    Route::get('customer', [\App\Http\Controllers\Api\Customer\CustomerListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('lead/{id}', [\App\Http\Controllers\Api\Customer\CustomerReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('customer', [\App\Http\Controllers\Api\Customer\CustomerCreateController::class, 'create'])->middleware(['auth:api']);
 
     // Product
     Route::get('/product', [App\Http\Controllers\Api\Product\ProductListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/product/{id}', [App\Http\Controllers\Api\Product\ProductReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('customer', [\App\Http\Controllers\Api\Product\ProductCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('customer', [\App\Http\Controllers\Api\Product\ProductUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('customer', [\App\Http\Controllers\Api\Product\ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Contact
+    Route::get('/contact', [\App\Http\Controllers\Api\Contact\ContactListController::class, 'index'])->middleware(['auth:api']);
     Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
-    //Route::get('/contact', 'Api\Contact\ContactListController@index');
+
     //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');
 
     // User
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/user/{id}', [\App\Http\Controllers\Api\User\UserReadController::class, 'read'])->middleware(['auth:api']);
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {

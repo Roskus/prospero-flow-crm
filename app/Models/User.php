@@ -60,11 +60,6 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
     use HasRoles;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'user';
 
     /**
@@ -73,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone', 'password', 'photo', 'lang', 'last_login_at', 'last_login_ip',
+        'first_name', 'last_name', 'email', 'phone', 'password', 'photo', 'lang', 'timezone', 'last_login_at', 'last_login_ip',
     ];
 
     /**
@@ -82,8 +77,10 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
+        'company_id',
         'password',
         'remember_token',
+        'deleted_at',
     ];
 
     /**

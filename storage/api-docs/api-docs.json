@@ -7,7 +7,7 @@
             "name": "roskus",
             "email": "hello@roskus.com"
         },
-        "version": "1.0.1"
+        "version": "1.0.2"
     },
     "servers": [
         {
@@ -64,6 +64,30 @@
             }
         },
         "/contact": {
+            "get": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Contact list by company",
+                "operationId": "cdf5305fc397e1fb9638f58e694a2862",
+                "responses": {
+                    "200": {
+                        "description": "Contact list retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Contact"
@@ -80,20 +104,96 @@
                 }
             }
         },
-        "/resource.json": {
+        "/customer": {
             "get": {
-                "operationId": "992a5eb3e410bc1312705d82f3e64481",
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Customer list by company",
+                "operationId": "512650342e70b8f0b2106055716e9ea8",
                 "responses": {
                     "200": {
-                        "description": "API JSON Specification OpenAPI format"
+                        "description": "Customers list retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Create a Customer",
+                "operationId": "f00df859fb5c0d6efa0ead144397a64e",
+                "responses": {
+                    "201": {
+                        "description": "Customer created successfully"
+                    },
+                    "400": {
+                        "description": "Bad request, please review the parameters"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/customer/{id}": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get Customer information",
+                "operationId": "1cea41a2441b5b00ecfca1bd28619305",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Customer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Customer found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Customer not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/lead": {
             "get": {
                 "tags": [
-                    "Leads"
+                    "Lead"
                 ],
                 "summary": "Lead list by company",
                 "operationId": "193d5bd62ab61d2bb3085d68251a542c",
@@ -117,21 +217,40 @@
             },
             "post": {
                 "tags": [
-                    "Leads"
+                    "Lead"
                 ],
                 "summary": "Create a Lead",
                 "operationId": "8d1263bbc718849f160beea1cb484af5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Lead created successfully"
+                    },
+                    "400": {
+                        "description": "Bad request, please review the parameters"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/lead/{id}": {
             "get": {
                 "tags": [
-                    "Leads"
+                    "Lead"
                 ],
                 "summary": "Get Lead information",
                 "operationId": "84aa3cda6c25be70d711ad23143b901b",
@@ -171,9 +290,9 @@
         "/product": {
             "get": {
                 "tags": [
-                    "Products"
+                    "Product"
                 ],
-                "summary": "Product list by company",
+                "summary": "Products list by company",
                 "operationId": "e1cb1feb7788e5ab27487c293ab1855e",
                 "responses": {
                     "200": {
@@ -192,12 +311,32 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Create a Product",
+                "operationId": "87e3b94773fcb94cd65b773b47a6cca0",
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully"
+                    },
+                    "400": {
+                        "description": "Bad request, please review the parameters"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/product/{id}": {
             "get": {
                 "tags": [
-                    "Products"
+                    "Product"
                 ],
                 "summary": "Get Product information",
                 "operationId": "231948bcc1da3391aec233a0261203d4",
@@ -232,14 +371,76 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "put": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Update a Product",
+                "operationId": "119f106297a93d02177462c9a32adf68",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully"
+                    },
+                    "400": {
+                        "description": "Bad request, please review the parameters"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Delete a Product",
+                "operationId": "03480045f76eb685a4448180fe082155",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully"
+                    },
+                    "400": {
+                        "description": "Bad request, please review the parameters"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/user": {
             "get": {
                 "tags": [
-                    "Users"
+                    "User"
                 ],
-                "summary": "User list by company",
+                "summary": "Users list by company",
                 "operationId": "76116f456aca8262d527c356c1b2ffe9",
                 "responses": {
                     "200": {
@@ -251,6 +452,46 @@
                                 }
                             }
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User information",
+                "operationId": "1ecd17228eb2a3fb74edcc70ffe2102e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of User",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
                     }
                 },
                 "security": [

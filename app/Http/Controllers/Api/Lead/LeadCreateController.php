@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Lead;
 
 use App\Models\Lead;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeadCreateController
 {
@@ -12,8 +15,17 @@ class LeadCreateController
      * @OA\Post (
      *      path="/lead",
      *      summary="Create a Lead",
-     *      tags={"Leads"},
-     *      @OA\Response(response="201", description="Lead created successfully")
+     *      tags={"Lead"},
+     *      security={{"bearerAuth": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id of Product",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(response="201", description="Lead created successfully"),
+     *      @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
      * @param  Request  $request
@@ -24,16 +36,15 @@ class LeadCreateController
         $status = 400;
         $data = [];
         $valid = $request->validate([
-            'company_id' => ['required'],
-            'email' => ['required', 'max:254'],
             'first_name' => ['required', 'max:50'],
+            'email' => ['required', 'max:254'],
             'phone' => ['required', 'max:15'],
             'country_id' => ['required', 'max:2'],
         ]);
 
         if ($valid) {
             $lead = new Lead();
-            $lead->company_id = $request->company_id;
+            $lead->company_id = Auth::user()->company_id;
             $lead->name = $request->name;
             $lead->business_name = $request->business_name;
             $lead->phone = $request->phone;

@@ -9,7 +9,7 @@ define('API_HOST', env('APP_API_URL'));
 /**
  * @OA\Info(
  *    title="Hammer CRM API",
- *    version="1.0.1",
+ *    version="1.0.2",
  *    description="",
  *    @OA\Contact(
  *          name="roskus",
@@ -32,12 +32,6 @@ define('API_HOST', env('APP_API_URL'));
  */
 class DocGeneratorController
 {
-    /**
-     * @OA\Get(
-     *     path="/resource.json",
-     *     @OA\Response(response="200", description="API JSON Specification OpenAPI format")
-     * )
-     */
     public function render(): JsonResponse
     {
         $app_path = app_path();
