@@ -8,15 +8,44 @@ We made a free open source CRM. Our Community Edition (CE) Hammer CRM is based i
 
 ## Setup
 
-* Clone:
-* git ```git clone git@github.com:Roskus/hammercrm.git```
-* Run: ```composer install```
-* Check permissions
-* Run ```cp .env.example .env```
-* Edit .env set language, database.
-* Run ```php artisan key:generate```
-* Run ```php artisan migrate```
-* Generate JWT Secret ```php artisan jwt:secret```
+### Clone the project:
+```terminal
+git clone git@github.com:Roskus/hammercrm.git
+```
+
+### Setup docker
+```terminal
+docker-compose build
+docker-compose up -d
+```
+
+### Inside the container
+
+```
+docker exec -it crmroskuscom_php_1 /bin/bash
+```
+
+Install dependencies:
+```
+composer install
+```
+Copy template config
+```
+cp .env.example .env
+```
+Edit your .env config file and set language, database
+```
+php artisan key:generate
+```
+Run migrations and seeders
+```
+php artisan migrate
+php artisan db:seed
+```
+Generate JWT Secret
+```
+php artisan jwt:secret
+```
 
 ## Demo
 ![](doc/screenshoot.jpg)
@@ -37,17 +66,21 @@ php artisan l5-swagger:generate
 Endpoint:
 /api
 
-For example:
+Some API Endpoint for the full list check the doc:
 
-POST /api/auth
+[POST] /api/auth
 
-GET /api/leads
+[GET] /api/lead
 
-POST /api/lead
+[GET] /api/lead/{id}
 
-PATCH /api/lead
+[POST] /api/lead
 
-GET /api/customers
+[PUT] /api/lead/{id}
+
+[DELETE] /api/lead/{id}
+
+[GET] /api/customer
 
 ## Resources
 Icon font Line Awesome

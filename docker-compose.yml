@@ -1,0 +1,55 @@
+# sudo docker-compose up -d
+version: "3.9"
+services:
+  php:
+    #image: php:8.1-fpm
+    build: './etc/infrastructure/php'
+    volumes:
+    - ./etc/.bashrc:/root/.bashrc
+    - .:/var/www/crm/
+    - ./etc/infrastructure/nginx/conf.d:/etc/nginx/conf.d/
+    working_dir: /var/www/crm/
+    links:
+    - db
+    - cache
+  web:
+    #image: nginx:stable
+    build: './etc/infrastructure/nginx'
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+    - ./etc/.bashrc:/root/.bashrc
+    - .:/var/www/crm/
+    - ./etc/infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    - ./etc/infrastructure/nginx/static.conf:/etc/nginx/conf.d/static.conf
+    - ./etc/infrastructure/nginx/ssl/:/etc/ssl/
+    - ./etc/infrastructure/nginx/conf.d:/etc/nginx/conf.d/
+    links:
+    - cache
+    - db
+    - php
+    depends_on:
+    - php
+  cache:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./etc/infrastructure/redis/redis.conf:/etc/redis/redis.conf
+  db:
+    image: mariadb:10.7
+    ports:
+    - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_USER={$DB_USERNAME}
+      - MYSQL_PASSWORD={$DB_PASSWORD}
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
