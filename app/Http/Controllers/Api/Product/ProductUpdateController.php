@@ -28,6 +28,5 @@ class ProductUpdateController
      */
     public function update(Request $request, int $id)
     {
-
     }
 }

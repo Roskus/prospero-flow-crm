@@ -26,8 +26,8 @@ class ProductDeleteController
      *      @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return JsonResponse
      */
     public function delete(Request $request, int $id)

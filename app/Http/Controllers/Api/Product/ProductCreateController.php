@@ -19,6 +19,5 @@ class ProductCreateController
      */
     public function create()
     {
-
     }
 }
