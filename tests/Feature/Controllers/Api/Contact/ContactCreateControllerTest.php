@@ -79,13 +79,13 @@ class ContactCreateControllerTest extends TestCase
         $response->assertStatus(422);
 
         $response->assertJson([
-            'message' => 'The lead id field is required. (and 2 more errors)',
+            'message' => 'The first name field is required. (and 2 more errors)',
             'errors' => [
-                'lead_id' => [
-                    'The lead id field is required.',
-                ],
                 'first_name' => [
                     'The first name field is required.',
+                ],
+                'lead_id' => [
+                    'The lead id field is required.',
                 ],
                 'phone' => [
                     'The phone field is required.',
