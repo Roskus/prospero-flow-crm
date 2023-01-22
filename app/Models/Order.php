@@ -120,9 +120,6 @@ final class Order extends Model
         return (int) $this->getAttribute('id');
     }
 
-    /*
-    * @return int
-    */
     public function getCompanyId(): int
     {
         return (int) $this->getAttribute('company_id');
@@ -133,17 +130,11 @@ final class Order extends Model
         $this->setAttribute('company_id', $company_id);
     }
 
-    /**
-     * @return int
-     */
     public function getCustomerId(): int
     {
         return (int) $this->getAttribute('customer_id');
     }
 
-    /**
-     * @param  int  $customer_id
-     */
     public function setCustomerId(int $customer_id): void
     {
         $this->setAttribute('customer_id', $customer_id);
@@ -161,18 +152,13 @@ final class Order extends Model
 
     /**
      * Return amount - discounts + taxes
-     *
-     * @return float
      */
     public function getTotal(): float
     {
         return $this->getAmount();
     }
 
-    /**
-     * @return Order[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function getAll()
+    public function getAll(): \Illuminate\Database\Eloquent\Collection
     {
         return Order::all();
     }
@@ -183,10 +169,6 @@ final class Order extends Model
                     ->where('status', self::PENDING)->count();
     }
 
-    /**
-     * @param  int  $company_id
-     * @return mixed
-     */
     public function getAllActiveByCompany(int $company_id)
     {
         return Order::with('customer')->where('company_id', $company_id)->paginate(10);

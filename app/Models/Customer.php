@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
@@ -114,40 +118,37 @@ class Customer extends Model
         'deleted_at',
     ];
 
-    public function company()
+    public function company(): HasOne
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
     }
 
-    public function seller()
+    public function seller(): HasOne
     {
-        return $this->hasOne(\App\Models\User::class, 'id', 'seller_id');
+        return $this->hasOne(User::class, 'id', 'seller_id');
     }
 
-    public function country()
+    public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
     }
 
-    public function industry()
+    public function industry(): HasOne
     {
-        return $this->hasOne(\App\Models\Industry::class, 'id', 'industry_id');
+        return $this->hasOne(Industry::class, 'id', 'industry_id');
     }
 
-    public function contacts()
+    public function contacts(): HasMany
     {
-        return $this->hasMany(\App\Models\Contact::class, 'customer_id', 'id');
+        return $this->hasMany(Contact::class, 'customer_id', 'id');
     }
 
-    public function getAll()
+    public function getAll(): Collection
     {
         return Customer::all();
     }
 
     /**
-     * @param  int  $company_id
-     * @param  string|null  $search
-     * @param  array|null  $filters
      * @return mixed
      */
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)

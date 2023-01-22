@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Email\Attach;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  *  @OA\Schema(
@@ -28,7 +29,7 @@ class Email extends Model
 
     const ERROR = 'error';
 
-    public function attachments()
+    public function attachments(): HasMany
     {
         return $this->hasMany(Attach::class);
     }
@@ -38,12 +39,6 @@ class Email extends Model
         return Email::orderBy('created_at', 'DESC')->get();
     }
 
-    /**
-     * @param  int  $company_id
-     * @param  string|null  $search
-     * @param  array|null  $filters
-     * @return mixed
-     */
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
         if (empty($search)) {
