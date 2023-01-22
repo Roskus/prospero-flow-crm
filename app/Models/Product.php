@@ -153,12 +153,12 @@ class Product extends Model
 
     public function category(): HasOne
     {
-        return $this->hasOne('App\Models\Category', 'id', 'category_id');
+        return $this->hasOne(\App\Models\Category::class, 'id', 'category_id');
     }
 
     public function brand(): HasOne
     {
-        return $this->hasOne('App\Models\Brand', 'id', 'brand_id');
+        return $this->hasOne(\App\Models\Brand::class, 'id', 'brand_id');
     }
 
     public function getAll()
