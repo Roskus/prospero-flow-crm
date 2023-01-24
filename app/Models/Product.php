@@ -113,11 +113,6 @@ class Product extends Model
 
     const ACTIVE = 1;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'product';
 
     protected $fillable = [

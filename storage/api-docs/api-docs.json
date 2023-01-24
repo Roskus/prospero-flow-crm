@@ -95,18 +95,13 @@
                 "summary": "Create a contact",
                 "operationId": "f8a36e301608516c260c1e6b084fcc14",
                 "responses": {
-                    "400": {
-                        "description": "Bad request: Please review required params"
-                    },
                     "201": {
                         "description": "Contact created successfully"
+                    },
+                    "400": {
+                        "description": "Bad request: Please review required params"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/customer": {
@@ -542,6 +537,18 @@
                 ],
                 "type": "object"
             },
+            "Category": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "My category"
+                    }
+                },
+                "type": "object"
+            },
             "Company": {
                 "required": [
                     "name",
@@ -856,6 +863,59 @@
                 "required": [
                     "name"
                 ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Supplier name"
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "example": "Supplier name S.A"
+                    },
+                    "vat": {
+                        "type": "string",
+                        "example": "L12345678A"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+34000000000"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "info@suppliername.com"
+                    },
+                    "website": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://suppliername.com"
+                    },
+                    "country_id": {
+                        "description": "ISO Code 2",
+                        "type": "string",
+                        "example": "UK"
+                    },
+                    "province": {
+                        "type": "string",
+                        "example": "London"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "London"
+                    },
+                    "street": {
+                        "type": "string",
+                        "example": "Street name, 5"
+                    },
+                    "zipcode": {
+                        "type": "string",
+                        "example": "EC4N 1SA"
+                    }
+                },
                 "type": "object"
             },
             "Ticket": {

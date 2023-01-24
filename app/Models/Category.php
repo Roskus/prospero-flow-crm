@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(schema: 'Category', required: ['name'])]
 class Category extends Model
 {
     const ACTIVE = 1;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'category';
 
     protected $fillable = [
@@ -20,15 +19,21 @@ class Category extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'company_id',
+        'deleted_at',
+    ];
+
+    protected int $company_id;
+
+    #[OAT\Property(type: 'string', example: 'My category')]
+    protected string $name;
+
     public function getAll()
     {
         return Category::orderBy('name', 'asc')->get();
     }
 
-    /**
-     * @param  int  $company_id
-     * @return mixed
-     */
     public function getAllActiveByCompany(int $company_id)
     {
         return Category::where('company_id', $company_id)
@@ -36,10 +41,6 @@ class Category extends Model
                         ->get();
     }
 
-    /**
-     * @param  int  $company_id
-     * @return array
-     */
     public static function getAllActiveAsArrayByCompany(int $company_id): array
     {
         return Category::where('company_id', $company_id)
@@ -48,10 +49,6 @@ class Category extends Model
             ->toArray();
     }
 
-    /**
-     * @param  string  $category_name
-     * @return int|null
-     */
     public static function getCategoryIdByName(array $categories, string $category_name): ?int
     {
         foreach ($categories as $category) {
