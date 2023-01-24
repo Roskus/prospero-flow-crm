@@ -13,5 +13,6 @@ return function (RectorConfig $rectorConfig) {
     $rectorConfig->paths([
         __DIR__.'/app',
         __DIR__.'/database',
+        __DIR__.'/tests',
     ]);
 };
