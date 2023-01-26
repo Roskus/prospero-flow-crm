@@ -43,6 +43,9 @@ Route::middleware(['api'])->group(function () {
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/user/{id}', [\App\Http\Controllers\Api\User\UserReadController::class, 'read'])->middleware(['auth:api']);
 
+    // Supplier
+    Route::get('/supplier', [App\Http\Controllers\Api\Supplier\SupplierListController::class, 'index'])->middleware(['auth:api']);
+
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
         Route::post('logout', [LoginController::class, 'logout']);

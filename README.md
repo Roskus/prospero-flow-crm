@@ -22,7 +22,7 @@ docker-compose up -d
 ### Inside the container
 
 ```
-docker exec -it crmroskuscom_php_1 /bin/bash
+docker exec -it hammercrm_php_1 /bin/bash
 ```
 
 Install dependencies:
