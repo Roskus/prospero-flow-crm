@@ -6,56 +6,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OAT;
 
-/**
- *  @OA\Schema(
- *    schema="Contact",
- *    type="object",
- *    required={"first_name"},
- *    @OA\Property(
- *        property="first_name",
- *        description="Firstname of the contact",
- *        type="string",
- *        example="John"
- *    ),
- *    @OA\Property(
- *        property="last_name",
- *        description="Lastname of the contact",
- *        type="string",
- *        example="Smith"
- *    ),
- *    @OA\Property(
- *        property="phone",
- *        description="Phone of the contact",
- *        type="string",
- *        example="+34645000000"
- *    ),
- *    @OA\Property(
- *        property="email",
- *        description="Email of the contact",
- *        type="string",
- *        example="john.smith@company.com"
- *    ),
- *    @OA\Property(
- *        property="linkedin",
- *        description="Linkedin url of the contact",
- *        type="string",
- *        example="https://likedin.com/in/contactname"
- *    ),
- *    @OA\Property(
- *        property="country",
- *        description="Country ISO code of the contact",
- *        type="string",
- *        example="CO"
- *    ),
- *    @OA\Property(
- *        property="notes",
- *        description="Notes of the contact",
- *        type="string",
- *        example="We meet last time at the Coffe Shop inside the hotel."
- *    )
- *  )
- */
+#[OAT\Schema(schema: 'Contact', required: ['first_name'])]
 class Contact extends Model
 {
     use HasFactory;
@@ -75,6 +28,32 @@ class Contact extends Model
     protected $hidden = [
         'company_id',
     ];
+
+    #[OAT\Property(type: 'int', example: 1)]
+    protected ?int $id;
+
+    private ?int $company_id;
+
+    #[OAT\Property(description: 'Name of the contact', type: 'string', example: 'John')]
+    protected string $first_name;
+
+    #[OAT\Property(description: 'Lastname of the contact', type: 'string', example: 'Smith')]
+    protected ?string $last_name;
+
+    #[OAT\Property(description: 'Phone of the contact', type: 'string', example: '+34645000000')]
+    protected ?string $phone;
+
+    #[OAT\Property(description: 'Email of the contact', type: 'string', format: 'email', example: 'john.smith@company.com')]
+    protected ?string $email;
+
+    #[OAT\Property(description: 'Linkedin url of the contact', type: 'string', format: 'url', example: 'https://likedin.com/in/contactname')]
+    protected ?string $linkedin;
+
+    #[OAT\Property(description: 'Country ISO code of the contact', type: 'string', example: 'UK')]
+    protected ?string $country;
+
+    #[OAT\Property(description: 'Notes of the contact', type: 'string', example: 'We meet last time at the Coffee Shop inside the hotel.')]
+    protected ?string $notes;
 
     public function lead()
     {

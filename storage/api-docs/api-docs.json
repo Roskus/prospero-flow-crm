@@ -506,7 +506,8 @@
         "schemas": {
             "Bank": {
                 "required": [
-                    "name"
+                    "name",
+                    "country"
                 ],
                 "properties": {
                     "id": {
@@ -516,6 +517,49 @@
                     "name": {
                         "type": "string",
                         "example": "Bank of America"
+                    },
+                    "country": {
+                        "description": "Country code ISO-2",
+                        "type": "string",
+                        "example": "FR"
+                    },
+                    "bic": {
+                        "description": "BIC of the bank",
+                        "type": "string",
+                        "example": ""
+                    },
+                    "phone": {
+                        "description": "Phone of the bank",
+                        "type": "string",
+                        "example": "+3400000000"
+                    },
+                    "email": {
+                        "description": "Email of the bank",
+                        "type": "string",
+                        "format": "email",
+                        "example": "bank@bank.com"
+                    },
+                    "website": {
+                        "description": "Website of the bank",
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://bank.com"
+                    }
+                },
+                "type": "object"
+            },
+            "Brand": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "My brand"
                     }
                 },
                 "type": "object"
@@ -558,11 +602,30 @@
                     },
                     "subject": {
                         "type": "string",
-                        "example": "My Amazing campaign"
+                        "example": "My amazing campaign"
                     },
                     "body": {
                         "type": "string",
                         "example": "My awesome campaign content"
+                    },
+                    "schedule_send_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-01-10"
+                    },
+                    "schedule_send_time": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "16:15:00"
+                    },
+                    "send_at": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-01-10"
+                    },
+                    "emails_count": {
+                        "type": "integer",
+                        "example": 100
                     }
                 },
                 "type": "object"
@@ -619,8 +682,12 @@
                     "first_name"
                 ],
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
                     "first_name": {
-                        "description": "Firstname of the contact",
+                        "description": "Name of the contact",
                         "type": "string",
                         "example": "John"
                     },
@@ -637,22 +704,24 @@
                     "email": {
                         "description": "Email of the contact",
                         "type": "string",
+                        "format": "email",
                         "example": "john.smith@company.com"
                     },
                     "linkedin": {
                         "description": "Linkedin url of the contact",
                         "type": "string",
+                        "format": "url",
                         "example": "https://likedin.com/in/contactname"
                     },
                     "country": {
                         "description": "Country ISO code of the contact",
                         "type": "string",
-                        "example": "CO"
+                        "example": "UK"
                     },
                     "notes": {
                         "description": "Notes of the contact",
                         "type": "string",
-                        "example": "We meet last time at the Coffe Shop inside the hotel."
+                        "example": "We meet last time at the Coffee Shop inside the hotel."
                     }
                 },
                 "type": "object"
