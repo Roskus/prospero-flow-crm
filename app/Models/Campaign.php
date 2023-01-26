@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OAT;
 
 //use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- *  @OA\Schema(
- *    schema="Campaign",
- *    type="object",
- *    required={"subject", "body"},
- *  )
- */
+#[OAT\Schema(schema: 'Campaign', required: ['subject', 'body'], type: 'object')]
 class Campaign extends Model
 {
     use HasFactory;
@@ -31,6 +28,15 @@ class Campaign extends Model
             'send_at',
             'emails_count',
         ];
+
+    #[OAT\Property(type: 'int', example: 1)]
+    protected ?int $id;
+
+    #[OAT\Property(type: 'string', example: 'My Amazing campaign')]
+    protected string $subject;
+
+    #[OAT\Property(type: 'string', example: 'My awesome campaign content')]
+    protected string $body;
 
     public function getAllByCompany(int $campaign_id)
     {

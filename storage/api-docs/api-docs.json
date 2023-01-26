@@ -504,6 +504,22 @@
     },
     "components": {
         "schemas": {
+            "Bank": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Bank of America"
+                    }
+                },
+                "type": "object"
+            },
             "Calendar": {
                 "required": [
                     "user_id",
@@ -535,6 +551,20 @@
                     "subject",
                     "body"
                 ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "subject": {
+                        "type": "string",
+                        "example": "My Amazing campaign"
+                    },
+                    "body": {
+                        "type": "string",
+                        "example": "My awesome campaign content"
+                    }
+                },
                 "type": "object"
             },
             "Category": {
@@ -668,6 +698,22 @@
                 "type": "object"
             },
             "Email": {
+                "type": "object"
+            },
+            "Industry": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 6
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Automotive"
+                    }
+                },
                 "type": "object"
             },
             "Lead": {
@@ -920,9 +966,27 @@
             },
             "Ticket": {
                 "required": [
-                    "category_id",
-                    "name"
+                    "title",
+                    "description"
                 ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "An issue occur with the order #3"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "My order dosen't include one of the products we request"
+                    },
+                    "customer_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
                 "type": "object"
             },
             "User": {
