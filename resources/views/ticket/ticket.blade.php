@@ -9,20 +9,23 @@
     @csrf
     <div class="row">
         <div class="col">
-            <label>{{ __('Title') }}</label>
+            <label for="title">{{ __('Title') }}</label>
             <input type="text" name="title" id="title" value="{{ $ticket->title }}" maxlength="80" required="required" class="form-control">
         </div>
     </div><!--./row-->
     <div class="row">
         <div class="col">
             <label for="customer_id">{{ __('Customer') }}</label>
-            <select name="customer_id" id="customer" class="form-select form-control-lg">
+            <select name="customer_id" id="customer_id" class="form-select form-control-lg">
                 <option value=""></option>
+                @foreach($customers as $customer)
+                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                @endforeach
             </select>
         </div><!--./col-->
         <div class="col">
-            <label>{{ __('Assigned to') }}</label>
-            <select name="assigned_to" required="required" class="form-select form-control-lg">
+            <label for="assigned_to">{{ __('Assigned to') }}</label>
+            <select name="assigned_to" id="assigned_to" required="required" class="form-select form-control-lg">
                 <option value=""></option>
                 @foreach($users as $user)
                     <option value="{{ $user->id }}" @if($ticket->assigned_to == $user->id) selected="selected" @endif>{{ $user->first_name.' '.$user->last_name }}</option>
@@ -32,15 +35,18 @@
     </div><!--./row-->
     <div class="row">
         <div class="col">
-            <label>{{ __('Description') }}</label>
-            <textarea name="description" required="required" class="form-control">{{ $ticket->description }}</textarea>
+            <label for="description">{{ __('Description') }}</label>
+            <textarea name="description" id="description" required="required" class="form-control">{{ $ticket->description }}</textarea>
         </div>
     </div><!--./row-->
     <div class="row">
         <div class="col">
-            <label for="type_id">{{ __('Type') }}</label>
-            <select name="type_id" id="type_id" class="form-select form-control-lg">
+            <label for="type">{{ __('Type') }}</label>
+            <select name="type" id="type" class="form-select form-control-lg">
                 <option value=""></option>
+                @foreach($ticket->types() as $type)
+                    <option value="{{ $type }}" @if(!empty($ticket->type) && $ticket->type == $type) selected="selected" @endif>{{ __($type) }}</option>
+                @endforeach
             </select>
         </div><!--./col-->
         <div class="col">
