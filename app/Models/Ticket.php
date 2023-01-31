@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(schema: 'Ticket', required: ['title', 'description'], type: 'object')]
@@ -19,6 +20,8 @@ class Ticket extends Model
         'title',
         'description',
         'customer_id',
+        'type',
+        'priority',
     ];
 
     protected $hidden = [
@@ -38,14 +41,19 @@ class Ticket extends Model
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $customer_id;
 
-    public function customer()
+    public function customer(): HasOne
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
-    public function createdBy()
+    public function createdBy(): HasOne
     {
-        return $this->hasOne(\App\Models\User::class, 'id', 'created_by');
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
+
+    public function assignedTo(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'assigned_to');
     }
 
     public function getLatestByCompany(int $company_id)
@@ -56,5 +64,10 @@ class Ticket extends Model
     public function priorities(): array
     {
         return ['low', 'medium', 'high'];
+    }
+
+    public function types(): array
+    {
+        return ['issue', 'product'];
     }
 }

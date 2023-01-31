@@ -69,11 +69,6 @@ class Customer extends Model
 
     const CLOSED = 'closed';
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'customer';
 
     protected $fillable = [

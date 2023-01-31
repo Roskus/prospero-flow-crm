@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,48 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use OpenApi\Attributes as OAT;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 
-/**
- *  @OA\Schema(
- *    schema="User",
- *    type="object",
- *    required={"first_name", "email", "password"},
- *    @OA\Property(
- *        property="first_name",
- *        description="First Name of the user",
- *        type="string",
- *        example="John"
- *    ),
- *    @OA\Property(
- *        property="last_name",
- *        description="Last Name of the user",
- *        type="string",
- *        example="Smith"
- *    ),
- *    @OA\Property(
- *        property="email",
- *        description="Email of the user",
- *        type="string",
- *        format="email",
- *        example="john.smith@company.com"
- *    ),
- *    @OA\Property(
- *        property="phone",
- *        description="Phone of the user",
- *        type="string",
- *        example="+3464500000"
- *    ),
- *    @OA\Property(
- *        property="password",
- *        description="Password of the user",
- *        type="string",
- *        format="password",
- *        example=""
- *    )
- *  )
- */
+#[OAT\Schema(schema: 'User', required: ['first_name', 'email', 'password'])]
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;
@@ -62,20 +27,10 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'user';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'first_name', 'last_name', 'email', 'phone', 'password', 'photo', 'lang', 'timezone', 'last_login_at', 'last_login_ip',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'company_id',
         'password',
@@ -83,17 +38,46 @@ class User extends Authenticatable implements JWTSubject
         'deleted_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
     ];
 
-    public function company()
+    #[OAT\Property(type: 'int', example: 1)]
+    private ?int $id = null;
+
+    private ?int $company_id = null;
+
+    #[OAT\Property(description:'First Name of the user', type: 'string', example: 'John')]
+    protected ?string $first_name = null;
+
+    #[OAT\Property(description:'Last Name of the user', type: 'string', example: 'Smith')]
+    protected ?string $last_name = null;
+
+    #[OAT\Property(description: 'Email of the user', type: 'string', format: 'email', example: 'john.smith@company.com')]
+    protected ?string $email = null;
+
+    #[OAT\Property(description: 'Phone of the user', type: 'string', example: '+3464500000')]
+    protected ?string $phone = null;
+
+    #[OAT\Property(description: 'Password of the user', type: 'string', format: 'password', example: 'qwerty')]
+//    protected ?string $password = null;
+
+    #[OAT\Property(type: 'string', example: 'profile.jpg')]
+    protected ?string $photo = null;
+
+    #[OAT\Property(type: 'string', example: 'es')]
+    protected ?string $lang = null;
+
+    #[OAT\Property(type: 'string', example: 'UTC')]
+    protected ?string $timezone = null;
+
+    public function setPassword(string $password)
+    {
+        $this->password = $password;
+    }
+
+    public function company(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
     }

@@ -10,33 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Attributes as OAT;
 
-/**
- *  @OA\Schema(
- *    schema="Order",
- *    type="object",
- *    required={"customer_id", "amount"},
- *    @OA\Property(
- *        property="customer_id",
- *        description="Customer ID of the Order",
- *        type="int",
- *        example="1"
- *    ),
- *    @OA\Property(
- *        property="amount",
- *        description="Amount of the Order",
- *        type="number",
- *        example="21.70"
- *    ),
- *    @OA\Property(
- *        property="items",
- *        description="Items of the Order",
- *        type="array",
- *        @OA\Items(ref="#/components/schemas/OrderItem"),
- *        example=""
- *    )
- *  )
- */
+#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount'])]
 final class Order extends Model
 {
     use SoftDeletes;
@@ -67,16 +43,18 @@ final class Order extends Model
         'deleted_at',
     ];
 
-    protected ?int $company_id = null;
+    #[OAT\Property(type: 'int', example: 1)]
+    private ?int $id;
 
+    private ?int $company_id = null;
+
+    #[OAT\Property(type: 'int', example: 1)]
     protected ?int $customer_id;
 
-    protected ?int $status;
+    #[OAT\Property(type: 'float', example: 72.30)]
+    protected float $amount = 0.0;
 
-    /**
-     * @var mixed
-     */
-    private ?float $amount;
+    protected ?int $status;
 
     protected static function boot()
     {

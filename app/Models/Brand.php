@@ -24,7 +24,7 @@ class Brand extends Model
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $id;
+    private ?int $id;
 
     private ?int $company_id;
 

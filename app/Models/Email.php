@@ -8,13 +8,9 @@ use App\Models\Email\Attach;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use OpenApi\Attributes as OAT;
 
-/**
- *  @OA\Schema(
- *    schema="Email",
- *    type="object"
- *  )
- */
+#[OAT\Schema(schema: 'Email', required: ['subject', 'body'])]
 class Email extends Model
 {
     use HasFactory;
@@ -28,6 +24,15 @@ class Email extends Model
     const SENT = 'sent';
 
     const ERROR = 'error';
+
+    #[OAT\Property(type: 'int', example: 1)]
+    private ?int $id;
+
+    #[OAT\Property(description:'Subject of the email', type: 'string', example: 'Email subject')]
+    protected string $subject;
+
+    #[OAT\Property(description:'Body of the email', type: 'string', example: 'Email body')]
+    protected string $body;
 
     public function attachments(): HasMany
     {

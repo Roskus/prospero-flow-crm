@@ -8,34 +8,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
-/**
- *  @OA\Schema(
- *    schema="Calendar",
- *    type="object",
- *    required={"user_id", "start_date", "title"},
- *    @OA\Property(
- *        property="user_id",
- *        description="Id of the User",
- *        type="int",
- *        example="1"
- *    ),
- *    @OA\Property(
- *        property="start_date",
- *        description="Start ISO date of the event",
- *        type="string",
- *        format="date",
- *        example="YYYY-MM-DD"
- *    ),
- *    @OA\Property(
- *        property="title",
- *        description="Title of the calendar event",
- *        type="string",
- *        example="My amaizing event!"
- *    ),
- *
- *  )
- */
+#[OAT\Schema(schema: 'Calendar', required: ['user_id', 'start_date', 'title'])]
 class Calendar extends Model
 {
     protected $table = 'calendar';
@@ -65,6 +40,21 @@ class Calendar extends Model
     protected $casts = [
         'guests' => 'array',
     ];
+
+    #[OAT\Property(type: 'int', example: 1)]
+    private ?int $id;
+
+    #[OAT\Property(type: 'int', example: 1)]
+    private ?int $company_id;
+
+    #[OAT\Property(type: 'int', example: 1)]
+    protected ?int $user_id;
+
+    #[OAT\Property(type: 'string', format: 'date', example: '2022-01-27')]
+    protected ?string $start_date;
+
+    #[OAT\Property(type: 'string', example: 'My awesome event')]
+    protected ?string $title;
 
     protected function startDate(): Attribute
     {
