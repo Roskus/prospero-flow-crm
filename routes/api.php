@@ -45,6 +45,7 @@ Route::middleware(['api'])->group(function () {
 
     // Supplier
     Route::get('/supplier', [App\Http\Controllers\Api\Supplier\SupplierListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('supplier', [\App\Http\Controllers\Api\Supplier\SupplierCreateController::class, 'create'])->middleware(['auth:api']);
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
