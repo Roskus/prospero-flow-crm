@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OAT;
 
 //use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- *  @OA\Schema(
- *    schema="Campaign",
- *    type="object",
- *    required={"subject", "body"},
- *  )
- */
+#[OAT\Schema(schema: 'Campaign', required: ['subject', 'body'], type: 'object')]
 class Campaign extends Model
 {
     use HasFactory;
@@ -23,7 +20,6 @@ class Campaign extends Model
 
     protected $fillable =
         [
-            'company_id',
             'subject',
             'body',
             'schedule_send_date',
@@ -31,6 +27,33 @@ class Campaign extends Model
             'send_at',
             'emails_count',
         ];
+
+    protected $hidden = [
+        'company_id',
+    ];
+
+    #[OAT\Property(type: 'int', example: 1)]
+    protected ?int $id;
+
+    private ?int $company_id;
+
+    #[OAT\Property(type: 'string', example: 'My amazing campaign')]
+    protected string $subject;
+
+    #[OAT\Property(type: 'string', example: 'My awesome campaign content')]
+    protected string $body;
+
+    #[OAT\Property(type: 'string', format: 'date', example: '2023-01-10')]
+    protected \DateTime $schedule_send_date;
+
+    #[OAT\Property(type: 'string', format: 'time', example: '16:15:00')]
+    protected \DateTime $schedule_send_time;
+
+    #[OAT\Property(type: 'string', format: 'date', example: '2023-01-10')]
+    protected ?\DateTime $send_at;
+
+    #[OAT\Property(type: 'int', example: 100)]
+    protected ?int $emails_count;
 
     public function getAllByCompany(int $campaign_id)
     {

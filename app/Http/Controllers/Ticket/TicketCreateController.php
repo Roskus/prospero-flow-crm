@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Ticket;
 
 use App\Http\Controllers\MainController;
+use App\Models\Customer;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,8 +17,10 @@ class TicketCreateController extends MainController
     {
         $ticket = new Ticket;
         $user = new User();
+        $customer = new Customer();
         $data['ticket'] = $ticket;
         $data['users'] = $user->getAllActiveByCompany(Auth::user()->id);
+        $data['customers'] = $customer->getAllByCompanyId(Auth::user()->id);
 
         return view('ticket.ticket', $data);
     }

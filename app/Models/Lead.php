@@ -86,11 +86,6 @@ class Lead extends Model
 
     const CLOSED = 'closed';
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'lead';
 
     protected $fillable = [

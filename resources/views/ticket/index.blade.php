@@ -38,18 +38,12 @@
                     </td>
                     <td>{{ (!empty($ticket->customer)) ? $ticket->customer->name : '' }}</td>
                     <td>{{ $ticket->createdBy->first_name.' '.$ticket->createdBy->last_name }}</td>
+                    <td>{{ $ticket->assignedTo->first_name.' '.$ticket->assignedTo->last_name }}</td>
                     <td>
 
                     </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td class="text-center">
-                        {{ $ticket->priority }}
-                    </td>
+                    <td class="text-center">{{ $ticket->type }}</td>
+                    <td class="text-center">{{ $ticket->priority }}</td>
                     <td>
 
                     </td>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Models\Customer;
@@ -23,7 +25,7 @@ class CustomerListController
      * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         $count = Customer::where('company_id', Auth::user()->company_id)->count();
         $customers = Customer::where('company_id', Auth::user()->company_id)->get();

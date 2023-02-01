@@ -24,10 +24,16 @@ class Category extends Model
         'deleted_at',
     ];
 
+    #[OAT\Property(type: 'int', example: 1)]
+    protected ?int $id;
+
     protected int $company_id;
 
     #[OAT\Property(type: 'string', example: 'My category')]
     protected string $name;
+
+    #[OAT\Property(type: 'number', example: 100.75)]
+    protected float $amount;
 
     public function getAll()
     {
