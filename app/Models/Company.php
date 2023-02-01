@@ -66,6 +66,10 @@ class Company extends Model
         'status',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function getAll()
     {
         return Company::orderBy('name', 'asc')->get();
