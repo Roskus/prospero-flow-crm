@@ -18,7 +18,7 @@
         <form class="form" method="post" action="/product/save" enctype="multipart/form-data">
             <div class="row form-group">
                 <div class="col">
-                    <label class="label-control mb-2">
+                    <label for="category_id" class="label-control mb-2">
                         {{ __('Category') }} <span class="text-danger">*</span>
                         <a href="/category" class="btn btn-outline-primary btn-sm"><i class="las la-plus-square"></i> {{ __('Add') }}</a>
                     </label>
@@ -32,7 +32,7 @@
                     </select>
                 </div>
                 <div class="col">
-                    <label class="label-control mb-2">
+                    <label for="brand_id" class="label-control mb-2">
                         {{ __('Brand') }}
                         <a href="/brand" class="btn btn-outline-primary btn-sm"><i class="las la-plus-square"></i> {{ __('Add') }}</a>
                     </label>
@@ -47,35 +47,35 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
+                <label for="name" class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
                 <input type="text" name="name" id="name" value="{{ $product->name }}" class="form-control" required="required">
             </div>
             <div class="row form-group">
                 <div class="col">
-                    <label class="label-control">{{ __('Cost') }} <span class="text-danger">*</span></label>
+                    <label for="cost" class="label-control">{{ __('Cost') }} <span class="text-danger">*</span></label>
                     <input type="number" name="cost" id="cost" value="{{ $product->cost }}" class="form-control" required="required" step="0.1" min="0">
                 </div>
                 <div class="col">
-                    <label class="label-control">{{ __('Price') }} <span class="text-danger">*</span></label>
+                    <label for="price" class="label-control">{{ __('Price') }} <span class="text-danger">*</span></label>
                     <input type="number" name="price" id="price" value="{{ $product->price }}" class="form-control" required="required" step="0.1" min="0">
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col">
-                    <label class="label-control">{{ __('Quantity') }}</label>
+                    <label for="quantity" class="label-control">{{ __('Quantity') }}</label>
                     <input type="number" name="quantity" id="quantity" value="{{ $product->quantity }}" step="1" min="0" class="form-control">
                 </div>
                 <div class="col">
-                    <label>{{ __('Minimum stock quantity') }}</label>
-                    <input type="number" name="min_stock_quantity" value="{{ $product->min_stock_quantity }}" min="0" step="1" class="form-control">
+                    <label for="min_stock_quantity">{{ __('Minimum stock quantity') }}</label>
+                    <input type="number" name="min_stock_quantity" id="min_stock_quantity" value="{{ $product->min_stock_quantity }}" min="0" step="1" class="form-control">
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col">
-                    <label class="control">{{ __('Barcode') }}</label>
+                    <label for="barcode" class="control">{{ __('Barcode') }}</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="las la-barcode"></i></span>
-                        <input type="text" name="barcode" id="barcode" placeholder="EAN-13" value="{{ $product->barcode }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
+                        <input type="text" name="barcode" id="barcode" placeholder="EAN-13" value="{{ $product->barcode }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" onkeyup="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
                     </div>
                     <div id="barcode-preview" class="barcode">{{ $product->barcode }}</div>
                 </div>
@@ -86,17 +86,17 @@
             </div>
             <div class="row form-group">
                 <div class="col">
-                    <label>{{ __('Elaboration date') }}</label>
+                    <label for="elaboration_date">{{ __('Elaboration date') }}</label>
                     <input type="date" name="elaboration_date" id="elaboration_date" value="{{ $product->elaboration_date }}" class="form-control">
                 </div>
                 <div class="col">
-                    <label>{{ __('Expiration date') }}</label>
+                    <label for="expiration_date">{{ __('Expiration date') }}</label>
                     <input type="date" name="expiration_date" id="expiration_date" value="{{ $product->expiration_date }}" class="form-control">
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col">
-                    <label class="label-control">{{ __('Description') }}</label>
+                    <label for="description" class="label-control">{{ __('Description') }}</label>
                     <textarea name="description" id="description" class="form-control">{{ $product->description }}</textarea>
                 </div>
             </div>

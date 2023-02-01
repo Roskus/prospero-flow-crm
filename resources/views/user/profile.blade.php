@@ -15,12 +15,12 @@
 
             <div class="row form-group{{ $errors->has('name') ? ' has-error' : '' }} mb-2">
                 <div class="col">
-                    <label for="name" class="col-md-4 control-label">{{ __('Name') }} <span class="text-danger">*</span></label>
+                    <label for="first_name" class="col-md-4 control-label">{{ __('Name') }} <span class="text-danger">*</span></label>
                     <input type="text" name="first_name" id="first_name" value="{{ @old('first_name', $user->first_name) }}" required autofocus class="form-control form-control-lg">
 
                     @if ($errors->has('name'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('name') }}</strong>
+                            <strong>{{ $errors->first('first_name') }}</strong>
                         </span>
                     @endif
                 </div>
@@ -61,8 +61,8 @@
                 </div>
                 <div class="col">
                     <label for="timezone" class="control-label">{{ __('Timezones') }}</label>
-                    <input class="form-control form-control-lg" list="timezoneOptions" id="timezone" name="timezone" value="{{ $user->timezone }}" placeholder="Type to search..." autocomplete="off">
-                    
+                    <input name="timezone" id="timezone" list="timezoneOptions" value="{{ $user->timezone }}" placeholder="{{ __('Type to search...') }}" autocomplete="off"  class="form-control form-control-lg">
+
                     <datalist id="timezoneOptions">
                         @foreach ($timezones as $name)
                             <option value="{{ $name }}">

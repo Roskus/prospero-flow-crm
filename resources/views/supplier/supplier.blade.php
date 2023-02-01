@@ -10,43 +10,45 @@
             @csrf
             <div class="row">
                 <div class="col">
-                    <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                    <input type="text" name="name" value="{{ $supplier->name }}" required="required" class="form-control">
+                    <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
+                    <input type="text" name="name" id="name" value="{{ $supplier->name }}" required="required" class="form-control">
                 </div>
                 <div class="col">
-                    <label>{{ __('Business name') }}</label>
-                    <input type="text" name="business_name" value="{{ $supplier->business_name }}" class="form-control">
+                    <label for="business_name">{{ __('Business name') }}</label>
+                    <input type="text" name="business_name" id="business_name" value="{{ $supplier->business_name }}" class="form-control">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <label>{{ __('Phone') }}</label>
-                    <input type="tel" name="phone" value="{{ $supplier->phone }}" maxlength="15" class="form-control">
+                    <label for="phone">{{ __('Phone') }}</label>
+                    <input type="tel" name="phone" id="phone" value="{{ $supplier->phone }}" maxlength="15" class="form-control">
                 </div>
                 <div class="col">
                     <label for="vat" class="">{{ __('Identity number') }}</label>
-                    <input type="text" name="vat" value="{{ $supplier->vat }}" maxlength="20" class="form-control form-control-lg">
+                    <input type="text" name="vat" id="vat" value="{{ $supplier->vat }}" maxlength="20" class="form-control form-control-lg">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <label>E-mail</label>
-                    <input type="email" name="email" value="{{ $supplier->email }}" maxlength="254" class="form-control">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email" id="email" value="{{ $supplier->email }}" maxlength="254" class="form-control">
                 </div>
                 <div class="col">
-                    <label>{{ __('Website') }}</label>
-                    <input type="url" name="website" value="{{ $supplier->website }}" maxlength="255" class="form-control">
+                    <label for="website">{{ __('Website') }}</label>
+                    <input type="url" name="website" id="website" value="{{ $supplier->website }}" maxlength="255" class="form-control">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <label for="country_id">{{ __('Country') }}</label>
-                    <select name="country_id" id="country_id" class="form-select">
+                    <input name="country_id" id="country_id" list="countryOptions" value="{{ $supplier->country_id }}" placeholder="{{ __('Type to search...') }}" autocomplete="off"  class="form-control form-control-lg">
+
+                    <datalist id="countryOptions">
                         <option value=""></option>
                         @foreach ($countries as $country)
                             <option value="{{ $country->code_2 }}" @if((!empty($supplier->country_id)) && $supplier->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
                         @endforeach
-                    </select>
+                    </datalist>
                 </div>
             </div>
             <div class="row">

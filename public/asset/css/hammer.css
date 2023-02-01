@@ -34,7 +34,7 @@ main {
 /* EAN-13 */
 .barcode {
   font-family: 'Libre Barcode EAN13 Text', cursive;
-  font-size: 3em;
+  font-size: 5em;
 }
 
 /*
