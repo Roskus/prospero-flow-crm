@@ -19,8 +19,8 @@ class TicketCreateController extends MainController
         $user = new User();
         $customer = new Customer();
         $data['ticket'] = $ticket;
-        $data['users'] = $user->getAllActiveByCompany(Auth::user()->id);
-        $data['customers'] = $customer->getAllByCompanyId(Auth::user()->id);
+        $data['users'] = $user->getAllActiveByCompany(Auth::user()->company_id);
+        $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id);
 
         return view('ticket.ticket', $data);
     }
