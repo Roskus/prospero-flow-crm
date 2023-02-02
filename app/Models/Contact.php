@@ -27,6 +27,7 @@ class Contact extends Model
 
     protected $hidden = [
         'company_id',
+        'deleted_at',
     ];
 
     #[OAT\Property(type: 'int', example: 1)]

@@ -32,7 +32,9 @@ final class Item extends Model
     protected $table = 'order_item';
 
     protected $fillable = [
-
+        'order_id',
+        'product_id',
+        'quantity',
     ];
 
     protected $hidden = [

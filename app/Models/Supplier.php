@@ -31,6 +31,11 @@ class Supplier extends Model
         'zipcode',
     ];
 
+    protected $hidden = [
+        'company_id',
+        'deleted_at',
+    ];
+
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $id;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 class Domain
@@ -20,7 +22,9 @@ class Domain
                 $urlparts['scheme'] = 'http';
             }
             /*Validation*/
-            if (checkdnsrr($urlparts['host'], 'A') && in_array($urlparts['scheme'], ['http', 'https']) && ip2long($urlparts['host']) === false) {
+            if (checkdnsrr($urlparts['host'], 'A')
+                && in_array($urlparts['scheme'], ['http', 'https'])
+                && ip2long($urlparts['host']) === false) {
                 $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
                 $url = $urlparts['scheme'].'://'.$urlparts['host'].'/';
 

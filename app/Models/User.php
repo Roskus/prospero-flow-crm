@@ -60,16 +60,16 @@ class User extends Authenticatable implements JWTSubject
     #[OAT\Property(description: 'Phone of the user', type: 'string', example: '+3464500000')]
     protected ?string $phone = null;
 
-    #[OAT\Property(description: 'Password of the user', type: 'string', format: 'password', example: 'qwerty')]
-//    protected ?string $password = null;
+    //#[OAT\Property(description: 'Password of the user', type: 'string', format: 'password', example: 'qwerty')]
+    //protected ?string $password = null;
 
-    #[OAT\Property(type: 'string', example: 'profile.jpg')]
+    #[OAT\Property(description: 'Profile photo', type: 'string', example: 'profile.jpg')]
     protected ?string $photo = null;
 
-    #[OAT\Property(type: 'string', example: 'es')]
+    #[OAT\Property(description: 'Language ISO code', type: 'string', example: 'es')]
     protected ?string $lang = null;
 
-    #[OAT\Property(type: 'string', example: 'UTC')]
+    #[OAT\Property(description: 'Date time zone', type: 'string', example: 'UTC')]
     protected ?string $timezone = null;
 
     public function setPassword(string $password)
@@ -116,8 +116,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
      */
     public function getJWTCustomClaims(): array
     {

@@ -65,6 +65,10 @@
             @endforeach
             </tbody>
             </table>
+
+            <div>
+                {{ $emails->appends(request()->query())->links() }}
+            </div>
         </div>
     </div>
 @endsection
