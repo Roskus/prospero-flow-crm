@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
@@ -17,11 +19,20 @@ class LeadPromoteCustomerController extends MainController
         foreach ($lead->getFillable() as $attribute) {
             $customer->{$attribute} = $lead->{$attribute};
         }
+
         if ($lead->status == 'in_progress') {
             $customer->status = 'open';
         }
+
         DB::transaction(function () use ($customer, $lead) {
             if ($customer->save()) {
+                if ($lead->contacts) {
+                    foreach ($lead->contacts as $contact) {
+                        $contact->customer_id = $customer->id;
+                        $contact->updated_at = now();
+                        $contact->save();
+                    }
+                }
                 $lead->delete();
             }
         });
