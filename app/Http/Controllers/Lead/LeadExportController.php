@@ -12,6 +12,7 @@ class LeadExportController extends MainController
 {
     public function export(Request $request)
     {
+        $separator = ';';
         $lead = new Lead();
         $fileName = 'leads_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
         $leads = Lead::where('company_id', Auth::user()->company_id)->get();
@@ -24,13 +25,16 @@ class LeadExportController extends MainController
         ];
 
         $columns = array_merge(['id'], $lead->getFillable(), ['created_at', 'updated_at']);
-        $rowHeaders = implode(',', $columns);
+        $rowHeaders = implode($separator, $columns);
 
         $data = $leads->toArray();
 
         $content = $rowHeaders."\n";
-        foreach ($data as $row) {
-            $line = implode(',', $row);
+        foreach ($data as $key => $row) {
+            $row['tags'] = is_array($row['tags']) ? implode(separator: ',', array: $row['tags']) : '';
+            $row['notes'] = str_replace(["\r", "\n"], '-', $row['notes']);
+            $row = str_replace(["\r", "\n"], '', $row);
+            $line = implode($separator, $row);
             $content = $content.$line."\n";
         }
 
