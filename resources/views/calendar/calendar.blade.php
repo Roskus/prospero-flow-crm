@@ -60,7 +60,7 @@
     @include('calendar.modal.event_create')
 
     @push('scripts')
-        <script> var route_calendar_controller = "{{ url('calendar') }}"; </script>
+        <script> var route_calendar_controller = "{{ url(path:'calendar', secure: app()->environment('production')) }}"; </script>
         <script src="{{ asset('/asset/js/Calendar.js') }}"></script>
     @endpush
 @endsection
