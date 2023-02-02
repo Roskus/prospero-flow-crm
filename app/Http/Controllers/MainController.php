@@ -36,6 +36,7 @@ class MainController extends Controller
             ->get();
         $data['startOfCalendar'] = $startOfCalendar;
         $data['endOfCalendar'] = $endOfCalendar;
+
         return view('dashboard', $data);
     }
 }
