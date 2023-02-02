@@ -18,8 +18,8 @@ class EmailIndexControllerTest extends TestCase
         $this->actingAs($user);
 
         EmailTemplate::factory()->create();
-        $email = Email::factory()->create();
-        $email2 = Email::factory()->create();
+        $email = Email::factory()->create(['company_id' => $user->company->id]);
+        $email2 = Email::factory()->create(['company_id' => $user->company->id]);
 
         $response = $this->get('/email');
         $response->assertStatus(200);

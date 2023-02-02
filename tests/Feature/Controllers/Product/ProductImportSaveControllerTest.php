@@ -19,8 +19,8 @@ class ProductImportSaveControllerTest extends TestCase
         $user = $this->signIn();
         $this->actingAs($user);
 
-        Category::create(['name' => 'category test', 'company_id' => 1]);
-        Brand::create(['name' => 'DELL', 'company_id' => 1]);
+        Category::create(['name' => 'category test', 'company_id' => $user->company->id]);
+        Brand::create(['name' => 'DELL', 'company_id' => $user->company->id]);
 
         $response = $this->post('product/import/save', []);
         $response->assertRedirect();
