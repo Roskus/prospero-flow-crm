@@ -55,7 +55,6 @@ class Brand extends Model
             ->toArray();
     }
 
-
     public static function getBrandIdByName(array $brands, string $name): ?int
     {
         foreach ($brands as $brand) {
