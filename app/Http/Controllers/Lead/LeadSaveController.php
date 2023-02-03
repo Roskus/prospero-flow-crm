@@ -52,7 +52,7 @@ class LeadSaveController extends MainController
         $lead->industry_id = $request->industry_id;
         $lead->schedule_contact = $request->schedule_contact;
 
-        $lead->tags = explode(',', $request->tags);
+        $lead->tags = ($request->tags) ? explode(',', $request->tags) : null;
 
         if ($request->status) {
             $lead->status = $request->status;
