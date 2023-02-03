@@ -24,7 +24,7 @@ class LeadPromoteCustomerController extends MainController
             $customer->status = 'open';
         }
 
-        DB::transaction(function () use ($customer, $lead) {
+        DB::transaction(function () use ($customer, $lead): void {
             if ($customer->save()) {
                 if ($lead->contacts) {
                     foreach ($lead->contacts as $contact) {

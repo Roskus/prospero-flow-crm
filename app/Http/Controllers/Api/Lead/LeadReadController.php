@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class LeadReadController extends ApiController
 {
     /**
-     * @OA\Get (
+     * @OA\Get(
      *     path="/lead/{id}",
      *     summary="Get Lead information",
      *     tags={"Lead"},
@@ -24,13 +24,13 @@ class LeadReadController extends ApiController
      *         description="Id of Lead",
      *         required=true,
      *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(
-     *          response="200",
-     *          description="Lead found",
-     *          @OA\JsonContent(ref="#/components/schemas/Lead")
-     *      ),
-     *      @OA\Response(response="404", description="Lead not found")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Lead found",
+     *         @OA\JsonContent(ref="#/components/schemas/Lead")
+     *     ),
+     *     @OA\Response(response="404", description="Lead not found")
      * )
      *
      * @param  Request  $request

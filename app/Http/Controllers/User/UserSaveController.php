@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\MainController;
@@ -11,9 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserSaveController extends MainController
 {
-    /**
-     * @param  Request  $request
-     */
+
     public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [

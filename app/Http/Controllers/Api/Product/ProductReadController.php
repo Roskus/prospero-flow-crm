@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class ProductReadController
 {
     /**
-     * @OA\Get (
+     * @OA\Get(
      *     path="/product/{id}",
      *     summary="Get Product information",
      *     tags={"Product"},
@@ -23,13 +23,13 @@ class ProductReadController
      *         description="Id of Product",
      *         required=true,
      *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(
-     *          response="200",
-     *          description="Product found",
-     *          @OA\JsonContent(ref="#/components/schemas/Product")
-     *      ),
-     *      @OA\Response(response="404", description="Product not found")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Product found",
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(response="404", description="Product not found")
      * )
      * @param  Request  $request
      * @param  int  $id

@@ -12,15 +12,15 @@ class CustomerListController
 {
     /**
      * @OA\Get(
-     *      path="/customer",
-     *      summary="Customer list by company",
-     *      tags={"Customer"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Response(
-     *          response="200",
-     *          description="Customers list retrived successfully",
-     *          @OA\JsonContent(ref="#/components/schemas/Customer")
-     *      )
+     *     path="/customer",
+     *     summary="Customer list by company",
+     *     tags={"Customer"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Customers list retrived successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Customer")
+     *     )
      * )
      * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse

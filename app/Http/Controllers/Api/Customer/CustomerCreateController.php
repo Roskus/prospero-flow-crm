@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Models\Customer;
@@ -10,13 +12,13 @@ use Illuminate\Support\Facades\Auth;
 class CustomerCreateController
 {
     /**
-     * @OA\Post (
-     *      path="/customer",
-     *      summary="Create a Customer",
-     *      tags={"Customer"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Response(response="201", description="Customer created successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
+     * @OA\Post(
+     *     path="/customer",
+     *     summary="Create a Customer",
+     *     tags={"Customer"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Response(response="201", description="Customer created successfully"),
+     *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
      * @param  Request  $request

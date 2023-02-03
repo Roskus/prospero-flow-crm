@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Product;
 
 use App\Models\Product;
@@ -10,15 +12,15 @@ class ProductListController
 {
     /**
      * @OA\Get(
-     *      path="/product",
-     *      summary="Products list by company",
-     *      tags={"Product"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Response(
-     *          response="200",
-     *          description="Products list retrived successfully",
-     *          @OA\JsonContent(ref="#/components/schemas/Product")
-     *      )
+     *     path="/product",
+     *     summary="Products list by company",
+     *     tags={"Product"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Products list retrived successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     )
      * )
      *
      * @param  Request  $request

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class UserReadController
 {
     /**
-     * @OA\Get (
+     * @OA\Get(
      *     path="/user/{id}",
      *     summary="Get User information",
      *     tags={"User"},
@@ -23,13 +23,13 @@ class UserReadController
      *         description="Id of User",
      *         required=true,
      *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(
-     *          response="200",
-     *          description="User found",
-     *          @OA\JsonContent(ref="#/components/schemas/User")
-     *      ),
-     *      @OA\Response(response="404", description="User not found")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="User found",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(response="404", description="User not found")
      * )
      *
      * @param  Request  $request

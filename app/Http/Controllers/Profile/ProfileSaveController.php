@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Profile;
 
 use App\Models\User;
@@ -13,11 +15,7 @@ use Illuminate\Validation\Rule;
 
 class ProfileSaveController
 {
-    /**
-     * Save user profile
-     *
-     * @param  Request  $request HTTP request
-     */
+
     public function save(Request $request)
     {
         $request->validate([

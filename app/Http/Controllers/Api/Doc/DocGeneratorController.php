@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Doc;
 
 use Illuminate\Http\JsonResponse;
@@ -8,22 +10,22 @@ define('API_HOST', env('APP_API_URL'));
 
 /**
  * @OA\Info(
- *    title="Hammer CRM API",
- *    version="1.0.2",
- *    description="",
- *    @OA\Contact(
- *          name="roskus",
- *          email="hello@roskus.com"
- *    ),
+ *     title="Hammer CRM API",
+ *     version="1.0.2",
+ *     description="",
+ *     @OA\Contact(
+ *         name="roskus",
+ *         email="hello@roskus.com"
+ *     ),
  * ),
  * @OA\SecurityScheme(
- *      type="http",
- *      description="Authorisation with JWT generated tokens",
- *      name="Authorization",
- *      in="header",
- *      scheme="bearer",
- *      bearerFormat="JWT",
- *      securityScheme="bearerAuth"
+ *     type="http",
+ *     description="Authorisation with JWT generated tokens",
+ *     name="Authorization",
+ *     in="header",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ *     securityScheme="bearerAuth"
  * ),
  * @OA\Server(
  *     url="/api",

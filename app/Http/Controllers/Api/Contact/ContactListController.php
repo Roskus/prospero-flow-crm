@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Contact;
 
 use App\Models\Contact;
@@ -9,15 +11,15 @@ class ContactListController
 {
     /**
      * @OA\Get(
-     *      path="/contact",
-     *      summary="Contact list by company",
-     *      tags={"Contact"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Response(
-     *          response="200",
-     *          description="Contact list retrived successfully",
-     *          @OA\JsonContent(ref="#/components/schemas/Contact")
-     *      )
+     *     path="/contact",
+     *     summary="Contact list by company",
+     *     tags={"Contact"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Contact list retrived successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Contact")
+     *     )
      * )
      */
     public function index()

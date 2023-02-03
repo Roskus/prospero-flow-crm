@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Calendar;
 
 use App\Http\Controllers\MainController;
@@ -10,12 +12,11 @@ use Illuminate\Support\Facades\Auth;
 class SaveCalendarEventController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function save(Request $request)
     {
-        //TODO validate
+        //TODO add request validate
 
         if (empty($request->id)) {
             $calendar = new Calendar();

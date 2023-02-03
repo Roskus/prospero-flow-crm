@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\MainController;
@@ -11,9 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 class ProductSaveController extends MainController
 {
-    /**
-     * @param  Request  $request
-     */
+
     public function save(Request $request)
     {
         if (empty($request->id)) {
