@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\Lead;
 
+use App\Enums\LeadStatus;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
@@ -26,7 +27,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
     /** @test */
     public function it_can_promote_from_lead_to_customer()
     {
-        $lead = Lead::factory()->create(['status' => 'open']);
+        $lead = Lead::factory()->create(['status' => LeadStatus::Open->value]);
 
         $this->get('lead/promote/'.$lead->id)
             ->assertRedirect('/customer')
@@ -43,7 +44,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
     /** @test */
     public function it_can_promote_from_lead_to_customer_with_contacts()
     {
-        $lead = Lead::factory()->has(Contact::factory()->count(2))->create(['status' => 'open']);
+        $lead = Lead::factory()->has(Contact::factory()->count(2))->create(['status' => LeadStatus::Open->value]);
 
         $this->get('lead/promote/'.$lead->id);
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\Lead;
 
+use App\Enums\LeadStatus;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Lead;
@@ -24,8 +25,8 @@ class LeadIndexControllerTest extends TestCase
 
         $industry = Industry::factory()->create();
         $industry2 = Industry::factory()->create();
-        $lead = Lead::factory()->create(['industry_id' => $industry->id, 'country_id' => 1, 'seller_id' => $user->id, 'status' => 'open', 'company_id' => $company->id]);
-        $lead2 = Lead::factory()->create(['industry_id' => $industry2->id, 'country_id' => 2, 'seller_id' => $user2->id, 'status' => 'recall', 'company_id' => $company->id]);
+        $lead = Lead::factory()->create(['industry_id' => $industry->id, 'country_id' => 1, 'seller_id' => $user->id, 'status' => LeadStatus::Open->value, 'company_id' => $company->id]);
+        $lead2 = Lead::factory()->create(['industry_id' => $industry2->id, 'country_id' => 2, 'seller_id' => $user2->id, 'status' => LeadStatus::Recall->value, 'company_id' => $company->id]);
 
         $response = $this->get('/lead');
         $response->assertOk();
@@ -46,7 +47,7 @@ class LeadIndexControllerTest extends TestCase
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
 
-        $response = $this->get('/lead?status=open');
+        $response = $this->get('/lead?status=' . LeadStatus::Open->value);
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
 

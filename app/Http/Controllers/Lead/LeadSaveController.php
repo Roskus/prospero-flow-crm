@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Lead;
 
+use App\Enums\LeadStatus;
 use App\Http\Controllers\MainController;
 use App\Models\Lead;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class LeadSaveController extends MainController
             $lead = new Lead();
             $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
-            $lead->status = Lead::OPEN;
+            $lead->status = LeadStatus::Open->value;
         } else {
             $lead = Lead::find($request->id);
         }

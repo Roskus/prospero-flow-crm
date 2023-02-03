@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Lead;
+use App\Enums\LeadStatus as LeadStatusEnum;
 
 class LeadStatus
 {
@@ -10,10 +10,10 @@ class LeadStatus
     {
         $badge = '';
         switch ($status) {
-            case Lead::OPEN:
+            case LeadStatusEnum::Open->value:
                 $badge = 'text-bg-success';
                 break;
-            case Lead::IN_PROGRESS:
+            case LeadStatusEnum::InProgress->value:
                 $badge = 'text-bg-warning';
                 break;
             default:

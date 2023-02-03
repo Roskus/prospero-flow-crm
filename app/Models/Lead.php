@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\LeadStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -78,14 +79,6 @@ class Lead extends Model
     use HasFactory;
     use SoftDeletes;
 
-    const OPEN = 'open'; //New
-
-    const IN_PROGRESS = 'in_progress';
-
-    const CONVERTED = 'converted'; // Promoted to customer
-
-    const CLOSED = 'closed';
-
     protected $table = 'lead';
 
     protected $fillable = [
@@ -123,6 +116,7 @@ class Lead extends Model
 
     protected $casts = [
         'tags' => 'array',
+        'status' => LeadStatus::class,
     ];
 
     protected $hidden = [
@@ -210,10 +204,10 @@ class Lead extends Model
     public static function getStatus(): array
     {
         return [
-            self::OPEN => 'Open',
-            self::IN_PROGRESS => 'In progress',
-            self::CONVERTED => 'Converted',
-            self::CLOSED => 'Closed',
+            LeadStatus::Open->value => 'Open',
+            LeadStatus::InProgress->value => 'In progress',
+            LeadStatus::Converted->value => 'Converted',
+            LeadStatus::Closed->value => 'Closed',
         ];
     }
 }

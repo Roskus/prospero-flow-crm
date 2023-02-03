@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Lead;
 
+use App\Enums\LeadStatus;
 use App\Http\Controllers\MainController;
 use App\Models\Customer;
 use App\Models\Lead;
@@ -20,7 +21,7 @@ class LeadPromoteCustomerController extends MainController
             $customer->{$attribute} = $lead->{$attribute};
         }
 
-        if ($lead->status == 'in_progress') {
+        if ($lead->status == LeadStatus::InProgress->value) {
             $customer->status = 'open';
         }
 

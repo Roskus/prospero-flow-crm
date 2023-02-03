@@ -55,7 +55,7 @@
                                 <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
                             </td>
                             <td class="text-center">
-                                <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">{{ $lead->status }}</span>
+                                <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status->value) }}">{{ $lead->status }}</span>
                             </td>
                             <td>{{ $lead->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
