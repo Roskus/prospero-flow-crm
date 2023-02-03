@@ -47,7 +47,7 @@ class LeadIndexControllerTest extends TestCase
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
 
-        $response = $this->get('/lead?status=' . LeadStatus::Open->value);
+        $response = $this->get('/lead?status='.LeadStatus::Open->value);
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
 
