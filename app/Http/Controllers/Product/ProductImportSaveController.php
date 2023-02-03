@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\MainController;
@@ -13,7 +15,6 @@ use Illuminate\Support\Facades\Log;
 class ProductImportSaveController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)
@@ -34,8 +35,6 @@ class ProductImportSaveController extends MainController
             return redirect('/product')->withErrors(__("Can't read uploaded file"));
         }
 
-        //dd($categories);
-        //dd($brands);
         //name;category;brand;model;sku;barcode;cost;price;description;tags
 
         $rowCount = 0;

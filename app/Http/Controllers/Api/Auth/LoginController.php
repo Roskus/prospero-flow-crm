@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
@@ -11,26 +13,26 @@ class LoginController extends Controller
     /**
      * Login and get a JWT given auth credentials.
      * @OA\Post(
-     *      path="/auth/login",
-     *      summary="Login",
-     *      tags={"Auth"},
-     *      @OA\RequestBody(
-     *          required=true,
-     *          description="Pass user credentials",
-     *          @OA\JsonContent(
-     *              required={"email", "password"},
-     *              @OA\Property(property="email", type="string", format="email", example="admin@admin.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="admin")
-     *          ),
-     *      ),
-     *      @OA\Response(
-     *          response="200",
-     *          description="Success"
-     *      ),
-     *      @OA\Response(
-     *          response="401",
-     *          description="Unauthorized or wrong credentials"
-     *      )
+     *     path="/auth/login",
+     *     summary="Login",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Pass user credentials",
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="admin@admin.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="admin")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success"
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="Unauthorized or wrong credentials"
+     *     )
      * )
      *
      * @return \Illuminate\Http\JsonResponse

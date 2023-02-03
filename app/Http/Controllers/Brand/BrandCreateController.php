@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Brand;
 
 use App\Http\Controllers\MainController;

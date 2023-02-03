@@ -14,18 +14,17 @@ class LeadListController extends ApiController
 {
     /**
      * @OA\Get(
-     *      path="/lead",
-     *      summary="Lead list by company",
-     *      tags={"Lead"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Response(
-     *          response="200",
-     *          description="Lead list retrived successfully",
-     *          @OA\JsonContent(ref="#/components/schemas/Lead")
-     *      )
+     *     path="/lead",
+     *     summary="Lead list by company",
+     *     tags={"Lead"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Lead list retrived successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Lead")
+     *     )
      * )
      *
-     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request): JsonResponse

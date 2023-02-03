@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\MainController;
@@ -10,9 +12,6 @@ use Illuminate\Support\Facades\Log;
 
 class OrderSaveController extends MainController
 {
-    /**
-     * @param  Request  $request
-     */
     public function save(Request $request)
     {
         $order = new Order();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Product;
 
 use Illuminate\Http\Request;
@@ -7,20 +9,20 @@ use Illuminate\Http\Request;
 class ProductUpdateController
 {
     /**
-     * @OA\Put (
-     *      path="/product/{id}",
-     *      summary="Update a Product",
-     *      tags={"Product"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Parameter(
+     * @OA\Put(
+     *     path="/product/{id}",
+     *     summary="Update a Product",
+     *     tags={"Product"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="Id of Product",
      *         required=true,
      *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="Product updated successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
+     *     ),
+     *     @OA\Response(response="200", description="Product updated successfully"),
+     *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
      * @param  Request  $request

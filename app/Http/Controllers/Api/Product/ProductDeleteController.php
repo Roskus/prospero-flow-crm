@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Product;
 
 use App\Models\Product;
@@ -10,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 class ProductDeleteController
 {
     /**
-     * @OA\Delete (
-     *      path="/product/{id}",
-     *      summary="Delete a Product",
-     *      tags={"Product"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Parameter(
+     * @OA\Delete(
+     *     path="/product/{id}",
+     *     summary="Delete a Product",
+     *     tags={"Product"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="Id of Product",
      *         required=true,
      *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="Product deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
+     *     ),
+     *     @OA\Response(response="200", description="Product deleted successfully"),
+     *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
      * @param  Request  $request

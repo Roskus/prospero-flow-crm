@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\User;
 
 use App\Models\User;
@@ -10,18 +12,17 @@ class UserListController
 {
     /**
      * @OA\Get(
-     *      path="/user",
-     *      summary="Users list by company",
-     *      tags={"User"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Response(
-     *          response="200",
-     *          description="Users list retrived successfully",
-     *          @OA\JsonContent(ref="#/components/schemas/User")
-     *      )
+     *     path="/user",
+     *     summary="Users list by company",
+     *     tags={"User"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Users list retrived successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     )
      * )
      *
-     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)

@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 class LeadCreateController
 {
     /**
-     * @OA\Post (
-     *      path="/lead",
-     *      summary="Create a Lead",
-     *      tags={"Lead"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\Parameter(
+     * @OA\Post(
+     *     path="/lead",
+     *     summary="Create a Lead",
+     *     tags={"Lead"},
+     *     security={{"bearerAuth": {} }},
+     *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="Id of Product",
      *         required=true,
      *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="201", description="Lead created successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
+     *     ),
+     *     @OA\Response(response="201", description="Lead created successfully"),
+     *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
      * @param  Request  $request
