@@ -63,6 +63,7 @@ Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveContro
 Route::get('/customer/import', [\App\Http\Controllers\Customer\CustomerImportIndexController::class, 'index']);
 Route::post('/customer/import/save', [\App\Http\Controllers\Customer\CustomerImportSaveController::class, 'save']);
 Route::get('/customer/delete/{id}', [\App\Http\Controllers\Customer\CustomerDeleteController::class, 'delete']);
+Route::get('/customer/export', [\App\Http\Controllers\Customer\CustomerExportController::class, 'export']);
 
 //Category
 Route::get('/category', [\App\Http\Controllers\Category\CategoryIndexController::class, 'index']);
