@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LeadSaveController extends MainController
 {
-    /**
-     * @param  Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function save(Request $request)
     {
         $status = 'error';
@@ -36,15 +32,15 @@ class LeadSaveController extends MainController
         $lead->mobile = $request->mobile;
         $lead->email = $request->email;
         $lead->email2 = $request->email2;
-        $lead->website = rtrim($request->website, '/');
+        $lead->website = ($request->website) ? rtrim($request->website, '/') : null;
         $lead->notes = $request->notes;
 
-        $lead->linkedin = rtrim($request->linkedin, '/');
-        $lead->facebook = rtrim($request->facebook, '/');
-        $lead->instagram = rtrim($request->instagram, '/');
-        $lead->twitter = rtrim($request->twitter, '/');
-        $lead->youtube = rtrim($request->youtube, '/');
-        $lead->tiktok = rtrim($request->tiktok, '/');
+        $lead->linkedin = ($request->linkedin) ? rtrim($request->linkedin, '/') : null;
+        $lead->facebook = ($request->facebook) ? rtrim($request->facebook, '/') : null;
+        $lead->instagram = ($request->instagram) ? rtrim($request->instagram, '/') : null;
+        $lead->twitter = ($request->twitter) ? rtrim($request->twitter, '/'): null;
+        $lead->youtube = ($request->youtube) ? rtrim($request->youtube, '/'): null;
+        $lead->tiktok = ($request->tiktok) ? rtrim($request->tiktok, '/'): null;
 
         $lead->country_id = $request->country_id;
         $lead->province = $request->province;
@@ -56,7 +52,7 @@ class LeadSaveController extends MainController
         $lead->industry_id = $request->industry_id;
         $lead->schedule_contact = $request->schedule_contact;
 
-        $lead->tags = explode(',', $request->tags);
+        $lead->tags = ($request->tags) ? explode(',', $request->tags) : null;
 
         if ($request->status) {
             $lead->status = $request->status;

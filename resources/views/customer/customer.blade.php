@@ -336,7 +336,7 @@
                             </td>
                             <td>
                                 @if($contact->linkedin)
-                                <a href="{{ $contact->linkedin }}"><i class="lab la-linkedin"></i></a>
+                                <a href="{{ $contact->linkedin }}"><i class="lab la-linkedin fs-3"></i></a>
                                 @endif
                             </td>
                             <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
@@ -344,6 +344,10 @@
                             <td class="no-wrap">
                                 <a href="#" onclick="Contact.update({{ $contact->id }})" class="btn btn-xs btn-warning text-white">
                                     <i class="las la-pen"></i>
+                                </a>
+
+                                <a href="#" onclick="Contact.delete({{ $contact->id }})" class="btn btn-xs btn-danger text-white">
+                                    <i class="las la-trash"></i>
                                 </a>
                             </td>
                         </tr>

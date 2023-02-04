@@ -2,22 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Lead;
+namespace App\Http\Controllers\Customer;
 
-use App\Http\Controllers\MainController;
-use App\Models\Lead;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class LeadExportController extends MainController
+class CustomerExportController
 {
     public function export(Request $request)
     {
         $separator = ';';
-        $lead = new Lead();
-        $fileName = 'leads_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
-        $leads = Lead::where('company_id', Auth::user()->company_id)->get();
+        $customer = new Customer();
+        $fileName = 'customers_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
+        $customers = Customer::where('company_id', Auth::user()->company_id)->get();
         $headers = [
             'Content-type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=$fileName",
@@ -26,10 +25,10 @@ class LeadExportController extends MainController
             'Expires' => '0',
         ];
 
-        $columns = array_merge(['id'], $lead->getFillable(), ['created_at', 'updated_at']);
+        $columns = array_merge(['id'], $customer->getFillable(), ['created_at', 'updated_at']);
         $rowHeaders = implode($separator, $columns);
 
-        $data = $leads->toArray();
+        $data = $customers->toArray();
 
         $content = $rowHeaders."\n";
         foreach ($data as $key => $row) {
