@@ -42,6 +42,8 @@ Route::middleware(['api'])->group(function () {
     // User
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/user/{id}', [\App\Http\Controllers\Api\User\UserReadController::class, 'read'])->middleware(['auth:api']);
+    Route::put('/user/{id}', [\App\Http\Controllers\Api\User\UserUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/user', [\App\Http\Controllers\Api\User\UserDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
