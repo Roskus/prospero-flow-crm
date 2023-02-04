@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class CustomerSaveController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)
@@ -35,15 +34,15 @@ class CustomerSaveController extends MainController
         $customer->mobile = $request->mobile;
         $customer->email = $request->email;
         $customer->email2 = $request->email2;
-        $customer->website = rtrim($request->website, '/');
+        $customer->website = ($request->website) ? rtrim($request->website, '/') : null;
         $customer->notes = $request->notes;
 
-        $customer->linkedin = rtrim($request->linkedin, '/');
-        $customer->facebook = rtrim($request->facebook, '/');
-        $customer->instagram = rtrim($request->instagram, '/');
-        $customer->twitter = rtrim($request->twitter, '/');
-        $customer->youtube = rtrim($request->youtube, '/');
-        $customer->tiktok = rtrim($request->tiktok, '/');
+        $customer->linkedin = ($request->linkedin) ? rtrim($request->linkedin, '/') : null;
+        $customer->facebook = ($request->facebook) ? rtrim($request->facebook, '/') : null;
+        $customer->instagram = ($request->instagram) ? rtrim($request->instagram, '/') : null;
+        $customer->twitter = ($request->twitter) ? rtrim($request->twitter, '/') : null;
+        $customer->youtube = ($request->youtube) ? rtrim($request->youtube, '/') : null;
+        $customer->tiktok = ($request->tiktok) ? rtrim($request->tiktok, '/') : null;
 
         $customer->country_id = $request->country_id;
         $customer->province = $request->province;
@@ -55,7 +54,7 @@ class CustomerSaveController extends MainController
         $customer->industry_id = $request->industry_id;
         $customer->schedule_contact = $request->schedule_contact;
 
-        $customer->tags = explode(',', $request->tags);
+        $customer->tags = ($request->tags) ? explode(',', $request->tags) : null;
 
         if ($request->status) {
             $customer->status = $request->status;
