@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Ticket\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -69,6 +70,11 @@ class Ticket extends Model
     public function types(): array
     {
         return ['issue', 'product'];
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 
     public function getAllByCompanyId(int $company_id, ?string $search)
