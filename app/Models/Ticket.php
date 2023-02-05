@@ -70,4 +70,18 @@ class Ticket extends Model
     {
         return ['issue', 'product'];
     }
+
+    public function getAllByCompanyId(int $company_id, ?string $search)
+    {
+        $tickets = Ticket::where('company_id', $company_id);
+
+        if (! empty($search)) {
+            $tickets
+                ->where('title', 'LIKE', "%$search%")
+                ->orWhere('description', 'LIKE', "%$search%")
+                ->orWhere('status', 'LIKE', "%$search%");
+        }
+
+        return $tickets->orderBy('created_at', 'desc')->paginate(10);
+    }
 }

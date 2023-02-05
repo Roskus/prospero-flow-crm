@@ -13,8 +13,11 @@ class TicketIndexController extends MainController
 {
     public function index(Request $request)
     {
+        $search = $request->query('search');
         $ticket = new Ticket();
-        $data['tickets'] = $ticket->getLatestByCompany(Auth::user()->company_id);
+
+        $data['tickets'] = $ticket->getAllByCompanyId(Auth::user()->company_id, $search);
+        $data['search'] = $search;
 
         return view('ticket.index', $data);
     }
