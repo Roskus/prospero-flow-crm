@@ -76,6 +76,18 @@
                         </select>
                     </div>
                     <!--./col-->
+                    <div class="col">
+                        <label for="status">{{ __('Status') }}</label>
+                        <select name="status" id="status" class="form-select form-control-lg">
+                            <option value=""></option>
+                            @foreach ($ticket->statuses() as $status)
+                                <option value="{{ $status }}"
+                                    @if (!empty($ticket->status) && $ticket->status == $status) selected="selected" @endif>{{ __($status) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--./col-->
                 </div>
                 <!--./row-->
                 <div class="row">

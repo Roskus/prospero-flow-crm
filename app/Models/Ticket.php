@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Mail\GenericEmail;
 use App\Models\Ticket\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Mail;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(schema: 'Ticket', required: ['title', 'description'], type: 'object')]
@@ -42,9 +44,9 @@ class Ticket extends Model
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $customer_id;
 
-    public function customer(): HasOne
+    public function customer()
     {
-        return $this->hasOne(Customer::class, 'id', 'customer_id');
+        return $this->belongsTo(Customer::class);
     }
 
     public function createdBy(): HasOne
@@ -72,9 +74,19 @@ class Ticket extends Model
         return ['issue', 'product'];
     }
 
+    public function statuses(): array
+    {
+        return ['new', 'assigned', 'duplicated', 'closed'];
+    }
+
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     public function getAllByCompanyId(int $company_id, ?string $search)
@@ -89,5 +101,26 @@ class Ticket extends Model
         }
 
         return $tickets->orderBy('created_at', 'desc')->paginate(10);
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($ticket) {
+            if ($ticket->wasChanged('status')) {
+                if ($ticket->status == 'closed') {
+                    Mail::to($ticket->customer->email)->send(new GenericEmail(
+                        $ticket->company,
+                        'The ticket has been closed.',
+                        ['body' => 'The ticket has been closed.']
+                    ));
+                } else {
+                    Mail::to($ticket->customer->email)->send(new GenericEmail(
+                        $ticket->company,
+                        'The ticket status has changed.',
+                        ['body' => "The ticket status has changed from {$ticket->getOriginal('status')} to {$ticket->status}."]
+                    ));
+                }
+            }
+        });
     }
 }
