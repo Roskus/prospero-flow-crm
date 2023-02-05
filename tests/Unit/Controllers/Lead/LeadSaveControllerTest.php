@@ -18,16 +18,16 @@ class LeadSaveControllerTest extends TestCase
 
         $urls = [
             [
-                'wrong_url' => null, 
-                'correct_url' => null
+                'wrong_url' => null,
+                'correct_url' => null,
             ],
             [
-                'wrong_url' => '     https://roskus.com/es      ', 
-                'correct_url' => 'https://roskus.com/es'
+                'wrong_url' => '     https://roskus.com/es      ',
+                'correct_url' => 'https://roskus.com/es',
             ],
             [
-                'wrong_url' => 'https://www.linkedin.com/company/roskus/?lipi=urn%3Ali%3Apage%3Acompanies_company_about_index%3B249fb58b-77f0-412a-9cc3-27ffd637c002', 
-                'correct_url' => 'https://www.linkedin.com/company/roskus/'
+                'wrong_url' => 'https://www.linkedin.com/company/roskus/?lipi=urn%3Ali%3Apage%3Acompanies_company_about_index%3B249fb58b-77f0-412a-9cc3-27ffd637c002',
+                'correct_url' => 'https://www.linkedin.com/company/roskus/',
             ],
         ];
 
@@ -58,7 +58,6 @@ class LeadSaveControllerTest extends TestCase
             $this->assertEquals($last_lead->twitter, $url['correct_url']);
             $this->assertEquals($last_lead->youtube, $url['correct_url']);
             $this->assertEquals($last_lead->tiktok, $url['correct_url']);
-
 
             $this->assertEquals($response->status(), 302);
         }
