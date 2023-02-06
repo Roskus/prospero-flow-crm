@@ -15,7 +15,6 @@ use Illuminate\Validation\Rule;
 
 class ProfileSaveController
 {
-
     public function save(Request $request)
     {
         $request->validate([
