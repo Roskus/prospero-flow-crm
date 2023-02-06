@@ -352,6 +352,9 @@
                                 <a href="#" onclick="Contact.update({{ $contact->id }})" class="btn btn-xs btn-warning text-white">
                                     <i class="las la-pen"></i>
                                 </a>
+                                <a href="{{ url('/contact/export-vcard/'.$contact->id) }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ __('Download vCard') }}" class="btn btn-xs btn-primary text-white">
+                                    <i class="las la-address-card"></i>
+                                </a>
                                 <a href="#" onclick="Contact.delete({{ $contact->id }})" class="btn btn-xs btn-danger text-white">
                                     <i class="las la-trash"></i>
                                 </a>
