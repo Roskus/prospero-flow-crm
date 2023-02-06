@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Unit\Controllers\Lead;
 
@@ -11,7 +11,7 @@ use Tests\TestCase;
 class LeadSaveControllerTest extends TestCase
 {
     /** @test */
-    public function it_can_save_urls()
+    public function it_can_save_urls(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
