@@ -9,6 +9,7 @@ use App\Models\Ticket\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -18,6 +19,7 @@ use OpenApi\Attributes as OAT;
 class Ticket extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'ticket';
 
