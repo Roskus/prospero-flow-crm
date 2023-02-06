@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Laravel Mail Queue Tutorial</title>
+    <title>ROSKUS</title>
 </head>
 <body>
     {!! $body !!}

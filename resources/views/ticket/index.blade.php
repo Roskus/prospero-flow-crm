@@ -9,6 +9,17 @@
         </div>
     </div>
 
+    <div class="row mt-2">
+        <div class="col">
+            <form action="{{ url("/ticket") }}" class="form-inline mb-2">
+                <div class="input-group">
+                    <input type="search" name="search" placeholder="{{ __('You can search by title, by description and by status.') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
+                    <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -44,9 +55,7 @@
                     </td>
                     <td class="text-center">{{ $ticket->type }}</td>
                     <td class="text-center">{{ $ticket->priority }}</td>
-                    <td>
-
-                    </td>
+                    <td class="text-center">{{ $ticket->status }}</td>
                     <td>{{ $ticket->created_at->format('d/m/Y H:i') }}</td>
                     <td>{{ (!empty($ticket->updated_at)) ? $ticket->updated_at->format('d/m/Y H:i') : '' }}</td>
                     <td class="">
