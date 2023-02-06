@@ -10,6 +10,8 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $table = 'ticket_message';
+
     public function author()
     {
         return $this->belongsTo(User::class);

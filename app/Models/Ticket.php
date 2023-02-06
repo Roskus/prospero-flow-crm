@@ -10,9 +10,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(schema: 'Ticket', required: ['title', 'description'], type: 'object')]
+#[OAT\Property(property: 'id', type: 'int', example: 1)]
+#[OAT\Property(property: 'title', type: 'string', example: 'An issue occur with the order #3')]
+#[OAT\Property(property: 'description', type: 'string', example: 'My order dosen\'t include one of the products we request')]
+#[OAT\Property(property: 'customer_id', type: 'int', example: 1)]
+
 class Ticket extends Model
 {
     use HasFactory;
@@ -31,18 +37,6 @@ class Ticket extends Model
         'company_id',
         'deleted_at',
     ];
-
-    #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $id;
-
-    #[OAT\Property(type: 'string', example: 'An issue occur with the order #3')]
-    protected string $title;
-
-    #[OAT\Property(type: 'string', example: 'My order dosen\'t include one of the products we request')]
-    protected string $description;
-
-    #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $customer_id;
 
     public function customer()
     {
@@ -103,21 +97,27 @@ class Ticket extends Model
         return $tickets->orderBy('created_at', 'desc')->paginate(10);
     }
 
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::updated(function ($ticket) {
+        static::updated(function ($ticket): void {
             if ($ticket->wasChanged('status')) {
                 if ($ticket->status == 'closed') {
                     Mail::to($ticket->customer->email)->send(new GenericEmail(
                         $ticket->company,
-                        'The ticket has been closed.',
-                        ['body' => 'The ticket has been closed.']
+                        __('The ticket #:ticket_number has been closed.', ['ticket_number' => (string) $ticket->id]),
+                        ['body' => __('The ticket #:ticket_number has been closed.', ['ticket_number' => (string) $ticket->id])]
                     ));
                 } else {
                     Mail::to($ticket->customer->email)->send(new GenericEmail(
                         $ticket->company,
-                        'The ticket status has changed.',
-                        ['body' => "The ticket status has changed from {$ticket->getOriginal('status')} to {$ticket->status}."]
+                        __('Ticket #:ticket_number status has changed.', ['ticket_number' => $ticket->id]),
+                        [
+                            'body' => __('Ticket #:ticket_number status has changed from :original_status to :current_status.', [
+                                'ticket_number' => $ticket->id,
+                                'original_status' => Str::upper($ticket->getOriginal('status')),
+                                'current_status' => Str::upper($ticket->status),
+                            ]),
+                        ]
                     ));
                 }
             }
