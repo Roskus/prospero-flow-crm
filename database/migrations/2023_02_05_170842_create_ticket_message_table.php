@@ -15,13 +15,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_message', function (Blueprint $table): void {
-            $table->id();
-            $table->text('body');
-            $table->unsignedBigInteger('author_id');
-            $table->unsignedBigInteger('ticket_id');
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('ticket_message')) {
+            Schema::create('ticket_message', function (Blueprint $table): void {
+                $table->id();
+                $table->text('body');
+                $table->unsignedBigInteger('author_id');
+                $table->unsignedBigInteger('ticket_id');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
