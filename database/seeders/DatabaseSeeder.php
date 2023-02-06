@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(IndustrySeeder::class);
         $this->call(BankSeeder::class);
-        $this->call(TicketSeeder::class);
+        //only for local
+        //$this->call(TicketSeeder::class);
     }
 }
