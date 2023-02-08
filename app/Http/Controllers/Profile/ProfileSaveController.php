@@ -32,8 +32,10 @@ class ProfileSaveController
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->lang = $locale;
-        $user->timezone = $request->timezone;
         $user->phone = $request->phone;
+        $user->timezone = $request->timezone;
+        $user->signature_html = $request->signature_html;
+
         //Update password if change
         if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
             $user->password = Hash::make($request->password);
