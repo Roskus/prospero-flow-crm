@@ -29,9 +29,9 @@ Route::middleware(['api'])->group(function () {
     // Product
     Route::get('/product', [App\Http\Controllers\Api\Product\ProductListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/product/{id}', [App\Http\Controllers\Api\Product\ProductReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('customer', [\App\Http\Controllers\Api\Product\ProductCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('customer', [\App\Http\Controllers\Api\Product\ProductUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('customer', [\App\Http\Controllers\Api\Product\ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::post('product', [\App\Http\Controllers\Api\Product\ProductCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('product', [\App\Http\Controllers\Api\Product\ProductUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('product', [\App\Http\Controllers\Api\Product\ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Contact
     Route::get('/contact', [\App\Http\Controllers\Api\Contact\ContactListController::class, 'index'])->middleware(['auth:api']);
@@ -42,6 +42,11 @@ Route::middleware(['api'])->group(function () {
     // User
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/user/{id}', [\App\Http\Controllers\Api\User\UserReadController::class, 'read'])->middleware(['auth:api']);
+
+    // Supplier
+    Route::get('/supplier', [App\Http\Controllers\Api\Supplier\SupplierListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('supplier', [\App\Http\Controllers\Api\Supplier\SupplierCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::delete('/supplier', [\App\Http\Controllers\Api\Supplier\SupplierDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
