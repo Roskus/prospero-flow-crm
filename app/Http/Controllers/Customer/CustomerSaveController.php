@@ -19,11 +19,11 @@ class CustomerSaveController extends MainController
         $status = 'error';
         if (empty($request->id)) {
             $customer = new Customer();
-            $customer->seller_id = Auth::user()->id;
             $customer->created_at = now();
         } else {
             $customer = Customer::find($request->id);
         }
+        $customer->seller_id = ($request->seller_id) ? $request->seller_id : Auth::user()->id;
         $customer->company_id = Auth::user()->company_id;
         $customer->name = $request->name;
         $customer->business_name = $request->business_name;
