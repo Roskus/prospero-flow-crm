@@ -283,6 +283,15 @@
                     </div>
                     <div class="row">
                         <div class="col">
+                            <label for="contact_job_title">{{ __('Job title') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="las la-briefcase"></i></span>
+                                <input type="text" name="contact_job_title" id="contact_job_title" maxlength="50" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
                             <label for="contact_notes">{{ __('Notes') }}</label>
                             <textarea name="contact_notes" id="contact_notes" class="form-control"></textarea>
                         </div>
@@ -301,6 +310,7 @@
                     <tr>
                         <th>{{ __('First name') }}</th>
                         <th>{{ __('Last name') }}</th>
+                        <th>{{ __('Job title') }}</th>
                         <th>{{ __('Phone') }}</th>
                         <th>{{ __('Mobile') }}</th>
                         <th>E-mail</th>
@@ -319,7 +329,8 @@
                                 <input type="hidden" name="contact_id" value="{{ $contact->id }}">
                                 <input type="text" name="contact_first_name" value="{{ $contact->first_name }}" disabled class="form-control">
                             </td>
-                            <td><input type="text" name="contact_first_name" value="{{ $contact->last_name }}" disabled class="form-control"></td>
+                            <td><input type="text" name="contact_last_name" value="{{ $contact->last_name }}" disabled class="form-control"></td>
+                            <td><input type="text" name="contact_job_title" value="{{ $contact->job_title }}" disabled maxlength="50" class="form-control"></td>
                             <td>
                                 @if($contact->phone)
                                 <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>

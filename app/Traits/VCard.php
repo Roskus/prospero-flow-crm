@@ -13,13 +13,15 @@ trait VCard
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $id = null;
 
-    private ?int $company_id = null;
+    protected ?int $company_id = null;
 
     #[OAT\Property(description: 'Name of the contact', type: 'string', example: 'John')]
     //protected string $first_name = '';
 
     #[OAT\Property(description: 'Lastname of the contact', type: 'string', example: 'Smith')]
     //protected ?string $last_name = null;
+
+    #[OAT\Property(description: 'Job title', type: 'string', example: 'Smith')]
 
     #[OAT\Property(description: 'Phone of the contact', type: 'string', example: '+34645000000')]
     //protected ?string $phone = null;
@@ -43,7 +45,7 @@ trait VCard
      * Return User/Contact vCard
      * @return string VCARD 4.0
      */
-    public function vCard() : string
+    public function vCard(): string
     {
         /*
         BEGIN:VCARD
@@ -66,12 +68,12 @@ trait VCard
         $card .= 'N:'.$this->last_name.';'.$this->first_name.';;;'.self::$EOL;
         $card .= 'FN:'.$this->company->name.self::$EOL;
         $card .= 'ORG:'.$this->company->name.self::$EOL;
-        if(!empty($this->job_title)) {
+        if (! empty($this->job_title)) {
             $card .= 'TITLE:'.$this->job_title.self::$EOL;
         }
         $card .= 'TEL;TYPE=work,voice:'.$this->phone.self::$EOL;
         $card .= 'EMAIL:'.$this->email.self::$EOL;
-        if(!empty($this->company->website)) {
+        if (! empty($this->company->website)) {
             $card .= 'URL:'.$this->company->website.self::$EOL;
         }
         $card .= 'REV:'.date('Y-m-dC').self::$EOL;

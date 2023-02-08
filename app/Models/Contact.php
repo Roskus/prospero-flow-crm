@@ -7,11 +7,13 @@ namespace App\Models;
 use App\Traits\VCard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(schema: 'Contact', required: ['first_name'])]
 class Contact extends Model
 {
+    use SoftDeletes;
     use HasFactory;
     use VCard;
 
