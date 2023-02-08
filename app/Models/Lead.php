@@ -122,7 +122,7 @@ class Lead extends Model
     ];
 
     protected $casts = [
-        'schedule_contact' => 'date',
+        'schedule_contact' => 'datetime',
         'tags' => 'array',
     ];
 

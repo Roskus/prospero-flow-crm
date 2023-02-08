@@ -68,8 +68,8 @@ trait VCard
         $card .= 'N:'.$this->last_name.';'.$this->first_name.';;;'.self::$EOL;
 
         if (! empty($this->company)) {
-            $card .= 'FN:' . $this->company->name . self::$EOL;
-            $card .= 'ORG:' . $this->company->name . self::$EOL;
+            $card .= 'FN:'.$this->company->name.self::$EOL;
+            $card .= 'ORG:'.$this->company->name.self::$EOL;
         }
 
         if (! empty($this->job_title)) {
