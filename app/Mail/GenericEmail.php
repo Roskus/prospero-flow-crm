@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use App\Models\Company;
@@ -9,7 +11,7 @@ class GenericEmail extends Mailable
 {
     protected Company $company;
 
-    protected $data;
+    protected ?array $data;
 
     /**
      * Create a new message instance.

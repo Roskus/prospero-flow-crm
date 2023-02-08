@@ -24,11 +24,11 @@ class ContactSaveController extends MainController
 
         $contact->lead_id = $request->lead_id;
         $contact->customer_id = $request->customer_id;
-
         $contact->first_name = $request->contact_first_name;
         $contact->last_name = $request->contact_last_name;
         $contact->phone = $request->contact_phone;
-        $contact->email = ($contact->email) ? strtolower(trim($request->contact_email)) : null;
+        $contact->email = ($request->contact_email) ? strtolower(trim($request->contact_email)) : null;
+        $contact->job_title = $request->contact_job_title;
         $contact->linkedin = $request->contact_linkedin;
         //$contact->country = $request->contact_country;
         $contact->notes = $request->contact_notes;

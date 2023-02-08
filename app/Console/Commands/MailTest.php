@@ -11,7 +11,7 @@ class MailTest extends Command
      *
      * @var string
      */
-    protected $signature = 'mail:test';
+    protected $signature = 'crm:mail:test';
 
     /**
      * The console command description.
