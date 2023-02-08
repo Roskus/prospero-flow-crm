@@ -14,6 +14,11 @@ We made a free open source CRM. Our Community Edition (CE)
 git clone git@github.com:Roskus/prospect-flow-crm.git
 ```
 
+### Migrate from hammer to prospect-flow-crm repo
+```terminal
+git remote set-url origin git@github.com:Roskus/prospect-flow-crm.git
+```
+
 ### Setup docker
 ```terminal
 docker-compose build
