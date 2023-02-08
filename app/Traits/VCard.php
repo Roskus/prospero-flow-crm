@@ -66,8 +66,12 @@ trait VCard
         $card = 'BEGIN:VCARD'.self::$EOL;
         $card .= 'VERSION:4.0'.self::$EOL;
         $card .= 'N:'.$this->last_name.';'.$this->first_name.';;;'.self::$EOL;
-        $card .= 'FN:'.$this->company->name.self::$EOL;
-        $card .= 'ORG:'.$this->company->name.self::$EOL;
+
+        if (! empty($this->company)) {
+            $card .= 'FN:' . $this->company->name . self::$EOL;
+            $card .= 'ORG:' . $this->company->name . self::$EOL;
+        }
+
         if (! empty($this->job_title)) {
             $card .= 'TITLE:'.$this->job_title.self::$EOL;
         }
