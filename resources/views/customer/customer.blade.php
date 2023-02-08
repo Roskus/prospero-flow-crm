@@ -69,7 +69,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="vat" class="">{{ __('Identity number') }}</label>
-                        <input type="text" name="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
+                        <input type="text" name="vat" id="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
@@ -151,14 +151,14 @@
 		            <label for="linkedin">Linkedin</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
-                        <input type="url" name="linkedin" value="{{ $customer->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="linkedin" id="linkedin" value="{{ $customer->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="twitter">Twitter</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-twitter"></i></span>
-                        <input type="url" name="twitter" value="{{ $customer->twitter }}" placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="twitter" id="twitter" value="{{ $customer->twitter }}" placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
             </div>
@@ -167,14 +167,14 @@
                     <label for="youtube">YouTube</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-youtube"></i></span>
-                        <input type="url" name="youtube" value="{{ $customer->youtube }}" placeholder="https://www.youtube.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="youtube" id="youtube" value="{{ $customer->youtube }}" placeholder="https://www.youtube.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <label>TikTok</label>
                     <div class="input-group">
                         <span class="input-group-text"></span>
-                        <input type="url" name="tiktok" value="{{ $customer->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="tiktok" id="tiktok" value="{{ $customer->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
             </div>
@@ -198,7 +198,7 @@
                         <label for="status">{{ __('Status') }}</label>
                         <select name="status" id="status" class="form-select form-control-lg">
                             <option value="">{{ __('Choose') }}</option>
-                            @foreach(\App\Models\Lead::getStatus() as $key => $status)
+                            @foreach(\App\Models\Customer::getStatus() as $key => $status)
                             <option value="{{ $key }}" @if($customer->status == $key) selected="selected" @endif>{{ __($status) }}</option>
                             @endforeach
                         </select>
@@ -211,7 +211,7 @@
                 <div class="row">
                     <div class="col mt-2">
                         <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
-                        <textarea name="tags" id="tags" class="form-control form-control-lg">{{ (!empty($customer->tags)) ? implode(',', $customer->tags) : '' }}</textarea>
+                        <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2" class="form-control form-control-lg">{{ (!empty($customer->tags)) ? implode(',', $customer->tags) : '' }}</textarea>
                     </div>
                 </div>
             </div><!--./card-body-->
@@ -296,69 +296,7 @@
                 </div><!--./collapse-->
 
                 <div class="mt-2 table-responsive">
-                    <table class="table table-bordered table-hover table-striped table-sm">
-                    <thead>
-                    <tr>
-                        <th>{{ __('First name') }}</th>
-                        <th>{{ __('Last name') }}</th>
-                        <th>{{ __('Phone') }}</th>
-                        <th>{{ __('Mobile') }}</th>
-                        <th>E-mail</th>
-                        <th>Social</th>
-                        <th>{{ __('Created at') }}</th>
-                        <th>{{ __('Updated at') }}</th>
-                        <th>{{ __('Actions') }}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @if($customer->contacts)
-                        @foreach($customer->contacts as $contact)
-                        <tr>
-                            <td>{{ $contact->first_name }}</td>
-                            <td>{{ $contact->last_name }}</td>
-                            <td>
-                                @if($contact->phone)
-                                <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
-                                @endif
-                            </td>
-                            <td>
-                                @if($contact->mobile)
-                                    <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}">{{ $contact->mobile }}</a>
-                                @endif
-                            </td>
-                            <td>
-                                @if($contact->email)
-                                <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
-                                @endif
-                                <div class="d-none">
-                                    <input type="email" name="contact_email" value="{{ $contact->email }}" maxlength="254" class="form-control">
-                                </div>
-                            </td>
-                            <td>
-                                @if($contact->linkedin)
-                                <a href="{{ $contact->linkedin }}"><i class="lab la-linkedin fs-3"></i></a>
-                                @endif
-                            </td>
-                            <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
-                            <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
-                            <td class="no-wrap">
-                                <a href="#" onclick="Contact.update({{ $contact->id }})" class="btn btn-xs btn-warning text-white">
-                                    <i class="las la-pen"></i>
-                                </a>
-
-                                <a href="#" onclick="Contact.delete({{ $contact->id }})" class="btn btn-xs btn-danger text-white">
-                                    <i class="las la-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="8">{{ __('No contacts') }}</td>
-                        </tr>
-                    @endif
-                    </tbody>
-                    </table>
+                    @include('contact.index', ['contacts' => $customer->contacts])
                 </div>
             </div><!--./card-body-->
 
