@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
 class SupplierCreateController
 {
     /**
@@ -35,17 +36,17 @@ class SupplierCreateController
     {
         $status = 400;
         $data = [];
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:50'],
-            'email' => ['email:rfc,dns','max:254'],
+            'email' => ['email:rfc,dns', 'max:254'],
             'phone' => ['max:15'],
             'country' => ['required', 'max:2'],
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors'=>$validator->errors()]);
+            return response()->json(['errors' => $validator->errors()]);
         }
-        
+
         $supplier = new Supplier();
         $supplier->company_id = Auth::user()->company_id;
         $supplier->name = $request->name;
@@ -63,8 +64,7 @@ class SupplierCreateController
         $supplier->save();
         $status = 201;
         $data['supplier'] = ['id' => $supplier->id];
-        
-        
+
         return response()->json($data, $status);
     }
 }
