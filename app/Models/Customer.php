@@ -105,6 +105,7 @@ class Customer extends Model
     ];
 
     protected $casts = [
+        'schedule_contact' => 'date',
         'tags' => 'array',
     ];
 

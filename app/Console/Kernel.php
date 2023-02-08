@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -16,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\CompanyCreate::class,
         Commands\UserCreate::class,
         Commands\CampaignSender::class,
+        Commands\ScheduleNotificationReminder::class,
     ];
 
     /**
@@ -28,7 +31,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('mail:send')->everyMinute();
+        //$schedule->command('mail:send')->everyMinute();
+        $schedule->command('crm:notification-reminder:send')->dailyAt('08:00');
     }
 
     /**
