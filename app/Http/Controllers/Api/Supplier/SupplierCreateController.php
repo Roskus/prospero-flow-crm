@@ -6,7 +6,7 @@ use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Validator;
 class SupplierCreateController
 {
     /**
@@ -35,33 +35,36 @@ class SupplierCreateController
     {
         $status = 400;
         $data = [];
-        $valid = $request->validate([
+        $validator = Validator::make($request->all(),[
             'name' => ['required', 'max:50'],
-            //'email' => ['max:254'],
-            //'phone' => ['max:15'],
+            'email' => ['email:rfc,dns','max:254'],
+            'phone' => ['max:15'],
             'country' => ['required', 'max:2'],
         ]);
 
-        if ($valid) {
-            $supplier = new Supplier();
-            $supplier->company_id = Auth::user()->company_id;
-            $supplier->name = $request->name;
-            $supplier->business_name = $request->business_name;
-            $supplier->vat = $request->vat;
-            $supplier->phone = $request->phone;
-            $supplier->email = $request->email;
-            $supplier->website = $request->website;
-            $supplier->country_id = $request->country;
-            $supplier->province = $request->province;
-            $supplier->city = $request->city;
-            $supplier->street = $request->street;
-            $supplier->zipcode = $request->zipcode;
-            $supplier->created_at = now();
-            $supplier->save();
-            $status = 201;
-            $data['supplier'] = ['id' => $supplier->id];
+        if ($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()]);
         }
-
+        
+        $supplier = new Supplier();
+        $supplier->company_id = Auth::user()->company_id;
+        $supplier->name = $request->name;
+        $supplier->business_name = $request->business_name;
+        $supplier->vat = $request->vat;
+        $supplier->phone = $request->phone;
+        $supplier->email = $request->email;
+        $supplier->website = $request->website;
+        $supplier->country_id = $request->country;
+        $supplier->province = $request->province;
+        $supplier->city = $request->city;
+        $supplier->street = $request->street;
+        $supplier->zipcode = $request->zipcode;
+        $supplier->created_at = now();
+        $supplier->save();
+        $status = 201;
+        $data['supplier'] = ['id' => $supplier->id];
+        
+        
         return response()->json($data, $status);
     }
 }

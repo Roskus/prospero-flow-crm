@@ -14,7 +14,7 @@
             "url": "/api"
         },
         {
-            "url": "http://hammercrm.localhost/api"
+            "url": "api.crm.localhost"
         }
     ],
     "paths": {
@@ -95,13 +95,18 @@
                 "summary": "Create a contact",
                 "operationId": "f8a36e301608516c260c1e6b084fcc14",
                 "responses": {
-                    "201": {
-                        "description": "Contact created successfully"
-                    },
                     "400": {
                         "description": "Bad request: Please review required params"
+                    },
+                    "201": {
+                        "description": "Contact created successfully"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/customer": {
@@ -435,6 +440,110 @@
                 ]
             }
         },
+        "/supplier": {
+            "get": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Suppliers list by company",
+                "operationId": "ced05fe07999b89682493bc33a97d65e",
+                "responses": {
+                    "200": {
+                        "description": "Suppliers list retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Supplier"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Create a Supplier",
+                "operationId": "82f6ec24d6a6fcc1593b4219bc9cf5e5",
+                "requestBody": {
+                    "description": "Supplier attributes",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "country"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Sony"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "UK"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Supplier created successfully"
+                    },
+                    "400": {
+                        "description": "Bad request, please review the parameters"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/supplier/{id}": {
+            "delete": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Delete a Supplier",
+                "operationId": "b80aee68333b9550156505566ee4db34",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Supplier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Supplier deleted successfully"
+                    },
+                    "400": {
+                        "description": "Bad request, please review the parameters"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/user": {
             "get": {
                 "tags": [
@@ -504,6 +613,29 @@
     },
     "components": {
         "schemas": {
+            "Account": {
+                "required": [
+                    "issue_date",
+                    "name",
+                    "amount"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Purchase computer"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 999.75
+                    }
+                },
+                "type": "object"
+            },
             "Bank": {
                 "required": [
                     "name",
@@ -571,21 +703,26 @@
                     "title"
                 ],
                 "properties": {
-                    "user_id": {
-                        "description": "Id of the User",
+                    "id": {
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
+                    },
+                    "company_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
                     },
                     "start_date": {
-                        "description": "Start ISO date of the event",
                         "type": "string",
                         "format": "date",
-                        "example": "YYYY-MM-DD"
+                        "example": "2022-01-27"
                     },
                     "title": {
-                        "description": "Title of the calendar event",
                         "type": "string",
-                        "example": "My amaizing event!"
+                        "example": "My awesome event"
                     }
                 },
                 "type": "object"
@@ -635,9 +772,17 @@
                     "name"
                 ],
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
                     "name": {
                         "type": "string",
                         "example": "My category"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "example": 100.75
                     }
                 },
                 "type": "object"
@@ -680,51 +825,7 @@
             "Contact": {
                 "required": [
                     "first_name"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "first_name": {
-                        "description": "Name of the contact",
-                        "type": "string",
-                        "example": "John"
-                    },
-                    "last_name": {
-                        "description": "Lastname of the contact",
-                        "type": "string",
-                        "example": "Smith"
-                    },
-                    "phone": {
-                        "description": "Phone of the contact",
-                        "type": "string",
-                        "example": "+34645000000"
-                    },
-                    "email": {
-                        "description": "Email of the contact",
-                        "type": "string",
-                        "format": "email",
-                        "example": "john.smith@company.com"
-                    },
-                    "linkedin": {
-                        "description": "Linkedin url of the contact",
-                        "type": "string",
-                        "format": "url",
-                        "example": "https://likedin.com/in/contactname"
-                    },
-                    "country": {
-                        "description": "Country ISO code of the contact",
-                        "type": "string",
-                        "example": "UK"
-                    },
-                    "notes": {
-                        "description": "Notes of the contact",
-                        "type": "string",
-                        "example": "We meet last time at the Coffee Shop inside the hotel."
-                    }
-                },
-                "type": "object"
+                ]
             },
             "Customer": {
                 "required": [
@@ -767,6 +868,26 @@
                 "type": "object"
             },
             "Email": {
+                "required": [
+                    "subject",
+                    "body"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "subject": {
+                        "description": "Subject of the email",
+                        "type": "string",
+                        "example": "Email subject"
+                    },
+                    "body": {
+                        "description": "Body of the email",
+                        "type": "string",
+                        "example": "Email body"
+                    }
+                },
                 "type": "object"
             },
             "Industry": {
@@ -848,23 +969,18 @@
                     "amount"
                 ],
                 "properties": {
-                    "customer_id": {
-                        "description": "Customer ID of the Order",
+                    "id": {
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
+                    },
+                    "customer_id": {
+                        "type": "integer",
+                        "example": 1
                     },
                     "amount": {
-                        "description": "Amount of the Order",
                         "type": "number",
-                        "example": "21.70"
-                    },
-                    "items": {
-                        "description": "Items of the Order",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/OrderItem"
-                        },
-                        "example": ""
+                        "format": "float",
+                        "example": 72.3
                     }
                 },
                 "type": "object"
@@ -1054,6 +1170,22 @@
                     "customer_id": {
                         "type": "integer",
                         "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "issue"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "example": "medium"
+                    },
+                    "order_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "new"
                     }
                 },
                 "type": "object"
@@ -1065,6 +1197,10 @@
                     "password"
                 ],
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
                     "first_name": {
                         "description": "First Name of the user",
                         "type": "string",
@@ -1086,11 +1222,20 @@
                         "type": "string",
                         "example": "+3464500000"
                     },
-                    "password": {
-                        "description": "Password of the user",
+                    "photo": {
+                        "description": "Profile photo",
                         "type": "string",
-                        "format": "password",
-                        "example": ""
+                        "example": "profile.jpg"
+                    },
+                    "lang": {
+                        "description": "Language ISO code",
+                        "type": "string",
+                        "example": "es"
+                    },
+                    "timezone": {
+                        "description": "Date time zone",
+                        "type": "string",
+                        "example": "UTC"
                     }
                 },
                 "type": "object"
