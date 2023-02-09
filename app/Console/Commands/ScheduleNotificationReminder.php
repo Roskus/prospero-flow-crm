@@ -7,11 +7,11 @@ namespace App\Console\Commands;
 use App\Mail\GenericEmail;
 use App\Models\Customer;
 use App\Models\Lead;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use App\Models\Notification;
 
 class ScheduleNotificationReminder extends Command
 {
@@ -50,14 +50,17 @@ class ScheduleNotificationReminder extends Command
                 [
                     'company_id' => $lead->company->id,
                     'user_id' => $lead,
-                    'message' => __('Remember contact: :name', ['name'=> $lead->name]),
+                    'message' => __('Remember contact: :name', ['name' => $lead->name]),
                 ]
             );
+            $notification->save();
             try {
                 Mail::to($lead->seller()->email)->send($emailTemplate);
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
+            $lead->scheduled_contact = null;
+            $lead->save();
         }
 
         $customers = Customer::whereDate('schedule_contact', '=', Carbon::today()->toDateString());
@@ -73,14 +76,17 @@ class ScheduleNotificationReminder extends Command
                 [
                     'company_id' => $customer->company->id,
                     'user_id' => $customer,
-                    'message' => __('Remember contact: :name', ['name'=> $customer->name]),
+                    'message' => __('Remember contact: :name', ['name' => $customer->name]),
                 ]
             );
+            $notification->save();
             try {
                 Mail::to($customer->seller()->email)->send($emailTemplate);
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
+            $customer->scheduled_contact = null;
+            $customer->save();
         }
 
         return 0;
