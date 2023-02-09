@@ -43,18 +43,21 @@ class ScheduleNotificationReminder extends Command
         foreach ($leads as $lead) {
             $time = $lead->scheduled_contact->format('H:i');
             $subject = __($subjectText, ['name' => $lead->name]);
+            $this->info($subject);
             $body = __($bodyText, ['name' => $lead->name, 'time' => $time]);
+
             $emailTemplate = new GenericEmail($lead->company, $subject, $body);
             $notification = new Notification();
             $notification->fill(
                 [
                     'company_id' => $lead->company->id,
                     'user_id' => $lead,
-                    'message' => __('Remember contact: :name', ['name' => $lead->name]),
+                    'message' => $subject,
                 ]
             );
-            $notification->save();
+
             try {
+                $notification->save();
                 Mail::to($lead->seller()->email)->send($emailTemplate);
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
@@ -68,6 +71,7 @@ class ScheduleNotificationReminder extends Command
         foreach ($customers as $customer) {
             $time = $customer->scheduled_contact->format('H:i');
             $subject = __($subjectText, ['name' => $customer->name]);
+            $this->info($subject);
             $body = __($bodyText, ['name' => $customer->name, 'time' => $time]);
             $emailTemplate = new GenericEmail($customer->company, $subject, $body);
 
@@ -76,11 +80,12 @@ class ScheduleNotificationReminder extends Command
                 [
                     'company_id' => $customer->company->id,
                     'user_id' => $customer,
-                    'message' => __('Remember contact: :name', ['name' => $customer->name]),
+                    'message' => $subject,
                 ]
             );
-            $notification->save();
+
             try {
+                $notification->save();
                 Mail::to($customer->seller()->email)->send($emailTemplate);
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
