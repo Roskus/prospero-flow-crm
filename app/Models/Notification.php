@@ -14,6 +14,15 @@ class Notification extends Model
     use SoftDeletes;
 
     protected $table = 'notification';
+    protected $fillable = [
+        'company_id',
+        'user_id',
+        'message',
+    ];
+    protected $hidden = [
+        'company_id',
+        'deleted_at',
+    ];
 
     public function getLatestByUser(int $user_id)
     {
