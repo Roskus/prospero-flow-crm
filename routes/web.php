@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -142,6 +144,8 @@ Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class
 
 // Web-form
 Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);
+
+Route::get('/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])->middleware('auth');
 
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
