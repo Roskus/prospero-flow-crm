@@ -38,7 +38,7 @@ class ScheduleNotificationReminder extends Command
         $leads = Lead::whereDate('schedule_contact', '=', Carbon::today()->toDateString());
         $subject = 'Remember contact to :name';
         $body = 'This is an automatic reminder to contact :name at :time';
-
+        $this->info('Leads: '.$leads->count());
         foreach ($leads as $lead) {
             $time = $lead->scheduled_contact->format('H:i');
             $emailTemplate = new GenericEmail($lead->company, __($subject, ['name' => $lead->name, 'time' => $time]), ['body' => $body]);
@@ -50,6 +50,7 @@ class ScheduleNotificationReminder extends Command
         }
 
         $customers = Customer::whereDate('schedule_contact', '=', Carbon::today()->toDateString());
+        $this->info('Customers: '.$customers->count());
         foreach ($customers as $customer) {
             $time = $customer->scheduled_contact->format('H:i');
             $emailTemplate = new GenericEmail($customer->company, __($subject, ['name' => $customer->name, 'time' => $time]), ['body' => $body]);
