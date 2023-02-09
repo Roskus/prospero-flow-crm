@@ -25,6 +25,7 @@
         "laravel/ui": "^3.0",
         "maatwebsite/excel": "^3.1",
         "nesbot/carbon": "^2.66",
+        "opcodesio/log-viewer": "^1.9",
         "php-open-source-saver/jwt-auth": "^2.0",
         "psr/simple-cache": "^2.0",
         "qoraiche/laravel-mail-editor": "^4.0",
