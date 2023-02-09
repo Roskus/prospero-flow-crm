@@ -109,7 +109,7 @@
                 <td class="text-nowrap">{{ $customer->business_name }}</td>
                 <td class="text-nowrap">
                     @if($customer->phone)
-                        <a href="tel:{{ $customer->phone }}" target="_blank">{{ $customer->phone }}</a>
+                        <a href="tel:{{ $customer->phone }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($customer->phone) }}</a>
                     @endif
                 </td>
                 <td class="text-nowrap">

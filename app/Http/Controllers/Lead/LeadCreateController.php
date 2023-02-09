@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
-use App\Models\Lead;
 use App\Models\Industry;
+use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

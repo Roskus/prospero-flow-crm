@@ -121,7 +121,7 @@
                 </td>
                 <td class="text-nowrap">
                     @if($lead->email)
-                    <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
+                        <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
                     @endif
                 </td>
                 <td class="text-nowrap">
@@ -205,9 +205,8 @@
                 {{ $leads->appends(request()->query())->links() }}
             </div>
         </div>
-    </div>
-</div>
-
+    </div><!--./card-body-->
+</div><!--./card-->
 <script>
     const Lead = {
         delete : function(id, name) {
