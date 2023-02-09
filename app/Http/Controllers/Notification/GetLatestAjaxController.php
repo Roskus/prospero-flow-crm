@@ -14,6 +14,7 @@ class GetLatestAjaxController extends Controller
     public function getLatest(Request $request): \Illuminate\Http\JsonResponse
     {
         $notification = new Notification();
+
         return response()->json(['notifications' => $notification->getLatestByUser(Auth::user()->id)]);
     }
 }
