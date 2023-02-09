@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="noindex">
     <meta name="googlebot" content="noindex">
-    <title>{{ isset($title) ? $title.' | Hammer CRM' : 'Hammer CRM' }}</title>
+    <title>{{ env('APP_NAME') }}</title>
     <link rel="icon" href="/favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ url('/asset/img/hammer.png') }}">
     <link rel="manifest" href="{{ url('/manifest') }}">

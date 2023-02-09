@@ -5,19 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Doc;
 
 use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OAT;
 
 define('API_HOST', env('APP_API_URL'));
 
+#[
+    OAT\Info(
+        version: '1.0.3',
+        description: '',
+        title: 'Prospect Flow CRM API',
+        contact:new OAT\Contact(
+            name: 'roskus',
+            email: 'hello@roskus.com'
+        )
+    )
+]
 /**
- * @OA\Info(
- *     title="Hammer CRM API",
- *     version="1.0.2",
- *     description="",
- *     @OA\Contact(
- *         name="roskus",
- *         email="hello@roskus.com"
- *     ),
- * ),
  * @OA\SecurityScheme(
  *     type="http",
  *     description="Authorisation with JWT generated tokens",
