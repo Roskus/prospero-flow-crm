@@ -46,7 +46,7 @@ class ScheduleNotificationReminder extends Command
             $this->info($subject);
             $body = __($bodyText, ['name' => $lead->name, 'time' => $time]);
 
-            $emailTemplate = new GenericEmail($lead->company, $subject, $body);
+            $emailTemplate = new GenericEmail($lead->company, $subject, ['body' => $body]);
             $notification = new Notification();
             $notification->fill(
                 [
@@ -59,11 +59,11 @@ class ScheduleNotificationReminder extends Command
             try {
                 $notification->save();
                 Mail::to($lead->seller()->email)->send($emailTemplate);
+                $lead->scheduled_contact = null;
+                $lead->save();
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
-            $lead->scheduled_contact = null;
-            $lead->save();
         }
 
         $customers = Customer::whereDate('schedule_contact', '=', Carbon::today()->toDateString());
@@ -73,7 +73,7 @@ class ScheduleNotificationReminder extends Command
             $subject = __($subjectText, ['name' => $customer->name]);
             $this->info($subject);
             $body = __($bodyText, ['name' => $customer->name, 'time' => $time]);
-            $emailTemplate = new GenericEmail($customer->company, $subject, $body);
+            $emailTemplate = new GenericEmail($customer->company, $subject,  ['body' => $body]);
 
             $notification = new Notification();
             $notification->fill(
@@ -87,11 +87,11 @@ class ScheduleNotificationReminder extends Command
             try {
                 $notification->save();
                 Mail::to($customer->seller()->email)->send($emailTemplate);
+                $customer->scheduled_contact = null;
+                $customer->save();
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
-            $customer->scheduled_contact = null;
-            $customer->save();
         }
 
         return 0;
