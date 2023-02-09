@@ -146,3 +146,8 @@ Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::c
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
 Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeSaveController::class, 'save']);
+
+/* SUPER ADMIN ROUTES */
+Route::middleware(['role:SuperAdmin'])->group(function () {
+    //
+});
