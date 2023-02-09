@@ -173,7 +173,7 @@
                 <div class="col-12 col-md-6">
                     <label for="tiktok">TikTok</label>
                     <div class="input-group">
-                        <span class="input-group-text"></span>
+                        <span class="input-group-text"><i class="fa-brands fa-tiktok"></i></span>
                         <input type="url" name="tiktok" id="tiktok" value="{{ $lead->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
@@ -211,7 +211,18 @@
                 <div class="row">
                     <div class="col mt-2">
                         <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
-                        <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2" class="form-control form-control-lg">{{ (!empty($lead->tags)) ? implode(',', $lead->tags) : '' }}</textarea>
+                        <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2" class="form-control form-control-lg">{{ (!empty($customer->tags)) ? implode(',', $customer->tags) : '' }}</textarea>
+                    </div>
+                    <div class="col mt-2">
+                        <label for="seller_id">{{ __('Seller') }}</label>
+                        <select name="seller_id" id="seller_id" required="required" class="form-select form-control-lg">
+                            <option value=""></option>
+                            @foreach ($sellers as $seller)
+                                <option value="{{ $seller->id }}"
+                                        @if ($lead->seller_id == $seller->id) selected="selected" @endif>
+                                    {{ $seller->first_name . ' ' . $seller->last_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div><!--./card-body-->

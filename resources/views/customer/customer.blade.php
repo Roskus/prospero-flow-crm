@@ -173,7 +173,7 @@
                 <div class="col-12 col-md-6">
                     <label for="tiktok">TikTok</label>
                     <div class="input-group">
-                        <span class="input-group-text"></span>
+                        <span class="input-group-text"><i class="fa-brands fa-tiktok"></i></span>
                         <input type="url" name="tiktok" id="tiktok" value="{{ $customer->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>

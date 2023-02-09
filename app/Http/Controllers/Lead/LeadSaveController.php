@@ -16,12 +16,12 @@ class LeadSaveController extends MainController
         $status = 'error';
         if (empty($request->id)) {
             $lead = new Lead();
-            $lead->seller_id = Auth::user()->id;
             $lead->created_at = now();
             $lead->status = Lead::OPEN;
         } else {
             $lead = Lead::find($request->id);
         }
+        $lead->seller_id = ($request->seller_id) ? $request->seller_id : Auth::user()->id;
         $lead->company_id = Auth::user()->company_id;
         $lead->name = $request->name;
         $lead->business_name = $request->business_name;
