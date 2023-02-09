@@ -93,8 +93,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <label for="country_id">{{ __('Country') }} <span class="text-danger">*</span></label>
-                        <select name="country_id" id="country_id" required class="form-select form-control-lg">
+                        <label for="country_id">{{ __('Country') }}</label>
+                        <select name="country_id" id="country_id" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($countries as $country)
                                 <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
