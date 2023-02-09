@@ -149,5 +149,5 @@ Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeS
 
 /* SUPER ADMIN ROUTES */
 Route::middleware(['role:SuperAdmin'])->group(function () {
-    //
+    Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 });
