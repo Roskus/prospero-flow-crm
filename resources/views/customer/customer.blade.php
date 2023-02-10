@@ -69,7 +69,10 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="vat" class="">{{ __('Identity number') }}</label>
-                        <input type="text" name="vat" id="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-id-card"></i></span>
+                            <input type="text" name="vat" id="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
@@ -241,7 +244,7 @@
     <div class="accordion mt-2">
         <div class="accordion-header" id="headingContact">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="true" aria-controls="collapseContact">
-            {{ __('Contacts') }}
+                {{ __('Contacts') }}
             </button>
         </div>
 
@@ -289,6 +292,15 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
                                 <input type="url" name="contact_linkedin" id="contact_linkedin" placeholder="https://linkedin.com/in/" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="contact_job_title">{{ __('Job title') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="las la-briefcase"></i></span>
+                                <input type="text" name="contact_job_title" id="contact_job_title" maxlength="80" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -358,16 +370,7 @@
                 })
             })
         });
-
-        const Contact = {
-            update: function (id) {
-                let form = $('#form_contact_'+id);
-                let inputs = form.filter(':input');
-                inputs.each(function() {
-                    this.removeAttr('disabled');
-                });
-            }
-        }
     </script>
+    <script src="/asset/js/Contact.js"></script>
     @endpush
 @endsection

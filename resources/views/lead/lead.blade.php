@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="website" class="">Website</label>
+                        <label for="website" class="">{{ __('Website') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-globe"></i></span>
                             <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $lead->website }}" maxlength="255" class="form-control form-control-lg">
@@ -69,7 +69,10 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="vat" class="">{{ __('Identity number') }}</label>
-                        <input type="text" name="vat" id="vat" value="{{ $lead->vat }}" maxlength="20" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-id-card"></i></span>
+                            <input type="text" name="vat" id="vat" value="{{ $lead->vat }}" maxlength="20" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
@@ -245,16 +248,15 @@
             </button>
         </div>
 
-            <div class="accordion-body bg-white">
-                <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    @include('contact.contact', ['id' => $lead->id])
-                </div><!--./collapse-->
+        <div class="accordion-body bg-white">
+            <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                @include('contact.contact', ['id' => $lead->id])
+            </div><!--./collapse-->
 
-                <div class="mt-2 table-responsive">
-                    @include('contact.index', ['contacts' => $lead->contacts])
-                </div>
-            </div><!--./card-body-->
-
+            <div class="mt-2 table-responsive">
+                @include('contact.index', ['contacts' => $lead->contacts])
+            </div>
+        </div><!--./card-body-->
     </div>
     @endif
 
@@ -302,16 +304,7 @@
                 })
             })
         });
-
-        const Contact = {
-            update: function (id) {
-                let form = $('#form_contact_'+id);
-                let inputs = form.filter(':input');
-                inputs.each(function() {
-                    this.removeAttr('disabled');
-                });
-            }
-        }
     </script>
+    <script src="/asset/js/Contact.js"></script>
     @endpush
 @endsection
