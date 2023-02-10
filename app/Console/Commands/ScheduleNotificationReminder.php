@@ -36,12 +36,15 @@ class ScheduleNotificationReminder extends Command
      */
     public function handle()
     {
-        $leads = Lead::whereDate('schedule_contact', '=', Carbon::today()->toDateString());
-        $subjectText = 'Remember contact to :name';
+        $timezone = 'Europe/Madrid';
+        $today = Carbon::today($timezone)->toDateString();
+        $this->info("Today: $today");
+        $leads = Lead::whereDate('schedule_contact', '=', $today)->get();
+        $subjectText = 'Remember contact to: :name';
         $bodyText = 'This is an automatic reminder to contact :name at :time';
         $this->info('Leads: '.$leads->count());
         foreach ($leads as $lead) {
-            $time = $lead->scheduled_contact->format('H:i');
+            $time = $lead->schedule_contact->format('H:i');
             $subject = __($subjectText, ['name' => $lead->name]);
             $this->info($subject);
             $body = __($bodyText, ['name' => $lead->name, 'time' => $time]);
@@ -50,8 +53,8 @@ class ScheduleNotificationReminder extends Command
             $notification = new Notification();
             $notification->fill(
                 [
-                    'company_id' => $lead->company->id,
-                    'user_id' => $lead,
+                    'company_id' => $lead->company_id,
+                    'user_id' => $lead->seller_id,
                     'message' => $subject,
                 ]
             );
@@ -59,27 +62,28 @@ class ScheduleNotificationReminder extends Command
             try {
                 $notification->save();
                 Mail::to($lead->seller()->email)->send($emailTemplate);
-                $lead->scheduled_contact = null;
-                $lead->save();
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
+
+            $lead->schedule_contact = null;
+            $lead->save();
         }
 
-        $customers = Customer::whereDate('schedule_contact', '=', Carbon::today()->toDateString());
+        $customers = Customer::whereDate('schedule_contact', '=', $today)->get();
         $this->info('Customers: '.$customers->count());
         foreach ($customers as $customer) {
-            $time = $customer->scheduled_contact->format('H:i');
+            $time = $customer->schedule_contact->format('H:i');
             $subject = __($subjectText, ['name' => $customer->name]);
             $this->info($subject);
             $body = __($bodyText, ['name' => $customer->name, 'time' => $time]);
-            $emailTemplate = new GenericEmail($customer->company, $subject,  ['body' => $body]);
+            $emailTemplate = new GenericEmail($customer->company, $subject, ['body' => $body]);
 
             $notification = new Notification();
             $notification->fill(
                 [
-                    'company_id' => $customer->company->id,
-                    'user_id' => $customer,
+                    'company_id' => $customer->company_id,
+                    'user_id' => $customer->seller_id,
                     'message' => $subject,
                 ]
             );
@@ -87,11 +91,11 @@ class ScheduleNotificationReminder extends Command
             try {
                 $notification->save();
                 Mail::to($customer->seller()->email)->send($emailTemplate);
-                $customer->scheduled_contact = null;
-                $customer->save();
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
+            $customer->schedule_contact = null;
+            $customer->save();
         }
 
         return 0;
