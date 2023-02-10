@@ -2,7 +2,7 @@
 
 @section('content')
     <header>
-        <h1>{{ __('Customer') }}
+        <h1>{{ __('Customer') }} @if($customer->id) #{{ $customer->id }} @endif</h1>
     </header>
     <form method="POST" action="{{ url('/customer/save') }}" class="form">
         {{ csrf_field() }}

@@ -85,6 +85,7 @@
             <table class="table table-striped table-bordered table-hover table-sm">
             <thead>
             <tr>
+                <th>#ID</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
@@ -105,6 +106,7 @@
             <tbody>
             @foreach($leads as $lead)
             <tr>
+                <td class="text-nowrap text-center">{{ $lead->id }}</td>
                 <td class="text-nowrap">
                     <a href="{{ url("/lead/update/$lead->id") }}" title="{{ __('Update') }}">{{ $lead->name }}</a>
                 </td>
