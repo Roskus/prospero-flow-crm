@@ -79,4 +79,29 @@ class Company extends Model
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function leads()
+    {
+        return $this->hasMany(Lead::class);
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
+    public function emails()
+    {
+        return $this->hasMany(Email::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

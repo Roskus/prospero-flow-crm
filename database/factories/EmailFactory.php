@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
@@ -19,8 +19,8 @@ class EmailFactory extends Factory
     public function definition()
     {
         return [
-            'company_id' => Company::all()->random()->id,
-            'template_id' => EmailTemplate::all()->random()->id,
+            'company_id' => Company::factory(),
+            'template_id' => EmailTemplate::factory(),
             'version' => 1,
             'from' => $this->faker->email(),
             'to' => $this->faker->email(),

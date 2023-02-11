@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
@@ -20,7 +20,7 @@ class TicketFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(),
+            'title' => $this->faker->sentence(3),
             'description' => $this->faker->sentence(),
             'company_id' => Company::factory(),
             'customer_id' => Customer::factory(),
@@ -30,7 +30,6 @@ class TicketFactory extends Factory
             'type' => $this->faker->randomElement(['', 'question', 'incident', 'issue']),
             'status' => $this->faker->randomElement(['new', 'assigned', 'duplicated', 'closed']),
             'closed_at' => $this->faker->randomElement([null, $this->faker->dateTime()]),
-            'deleted_at' => $this->faker->randomElement([null, $this->faker->dateTime()]),
         ];
     }
 }
