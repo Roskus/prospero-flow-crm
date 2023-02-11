@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -9,9 +11,7 @@ use App\Models\Lead;
 use App\Models\Ticket;
 use App\Models\Ticket\Message;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DevelopmentDatabaseSeeder extends Seeder
 {
@@ -28,7 +28,7 @@ class DevelopmentDatabaseSeeder extends Seeder
                 'last_name' => 'Test',
                 'email' => 'admin@admin.com',
                 'password' => '$2y$10$Rbren9IPDJs8/nbZQ5.z8.5wW.LmukvaLyL9ndnqZ3NH.AbdrPJLK', //admin
-                'lang' => 'en',]
+                'lang' => 'en', ]
             ))
             ->has(Lead::factory()->count(10)->state(['seller_id' => 1]))
             ->has(Customer::factory()->count(10)->state(['seller_id' => 1]))
