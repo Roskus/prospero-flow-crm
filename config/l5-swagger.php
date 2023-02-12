@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'HammerCRM API',
+                'title' => env('APP_NAME').' API',
             ],
 
             'routes' => [

@@ -2,7 +2,7 @@
 
 @section('content')
     <header>
-        <h1>{{ __('Customer') }}
+        <h1>{{ __('Customer') }} @if($customer->id) #{{ $customer->id }} @endif</h1>
     </header>
     <form method="POST" action="{{ url('/customer/save') }}" class="form">
         {{ csrf_field() }}
@@ -69,7 +69,10 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="vat" class="">{{ __('Identity number') }}</label>
-                        <input type="text" name="vat" id="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-id-card"></i></span>
+                            <input type="text" name="vat" id="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
@@ -93,8 +96,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <label for="country_id">{{ __('Country') }} <span class="text-danger">*</span></label>
-                        <select name="country_id" id="country_id" required class="form-select form-control-lg">
+                        <label for="country_id">{{ __('Country') }}</label>
+                        <select name="country_id" id="country_id" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($countries as $country)
                                 <option value="{{ $country->code_2 }}" @if($customer->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
@@ -171,9 +174,9 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
-                    <label>TikTok</label>
+                    <label for="tiktok">TikTok</label>
                     <div class="input-group">
-                        <span class="input-group-text"></span>
+                        <span class="input-group-text"><i class="fa-brands fa-tiktok"></i></span>
                         <input type="url" name="tiktok" id="tiktok" value="{{ $customer->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
@@ -213,6 +216,17 @@
                         <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
                         <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2" class="form-control form-control-lg">{{ (!empty($customer->tags)) ? implode(',', $customer->tags) : '' }}</textarea>
                     </div>
+                    <div class="col mt-2">
+                        <label for="seller_id">{{ __('Seller') }}</label>
+                        <select name="seller_id" id="seller_id" required="required" class="form-select form-control-lg">
+                            <option value=""></option>
+                            @foreach ($sellers as $seller)
+                                <option value="{{ $seller->id }}"
+                                        @if ($customer->seller_id == $seller->id) selected="selected" @endif>
+                                    {{ $seller->first_name . ' ' . $seller->last_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div><!--./card-body-->
         </div><!--./card-->
@@ -230,7 +244,7 @@
     <div class="accordion mt-2">
         <div class="accordion-header" id="headingContact">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="true" aria-controls="collapseContact">
-            {{ __('Contacts') }}
+                {{ __('Contacts') }}
             </button>
         </div>
 
@@ -278,6 +292,15 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
                                 <input type="url" name="contact_linkedin" id="contact_linkedin" placeholder="https://linkedin.com/in/" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="contact_job_title">{{ __('Job title') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="las la-briefcase"></i></span>
+                                <input type="text" name="contact_job_title" id="contact_job_title" maxlength="80" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -347,16 +370,7 @@
                 })
             })
         });
-
-        const Contact = {
-            update: function (id) {
-                let form = $('#form_contact_'+id);
-                let inputs = form.filter(':input');
-                inputs.each(function() {
-                    this.removeAttr('disabled');
-                });
-            }
-        }
     </script>
+    <script src="/asset/js/Contact.js"></script>
     @endpush
 @endsection

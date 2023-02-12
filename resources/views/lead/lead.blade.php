@@ -2,7 +2,7 @@
 
 @section('content')
     <header>
-        <h1>{{ __('Lead') }}
+        <h1>{{ __('Lead') }} @if($lead->id) #{{ $lead->id }} @endif</h1>
     </header>
     <form method="POST" action="{{ url('/lead/save') }}" class="form">
         {{ csrf_field() }}
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="website" class="">Website</label>
+                        <label for="website" class="">{{ __('Website') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-globe"></i></span>
                             <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $lead->website }}" maxlength="255" class="form-control form-control-lg">
@@ -69,7 +69,10 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="vat" class="">{{ __('Identity number') }}</label>
-                        <input type="text" name="vat" id="vat" value="{{ $lead->vat }}" maxlength="20" class="form-control form-control-lg">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="las la-id-card"></i></span>
+                            <input type="text" name="vat" id="vat" value="{{ $lead->vat }}" maxlength="20" class="form-control form-control-lg">
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
@@ -93,8 +96,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <label for="country_id">{{ __('Country') }} <span class="text-danger">*</span></label>
-                        <select name="country_id" id="country_id" required class="form-select form-control-lg">
+                        <label for="country_id">{{ __('Country') }}</label>
+                        <select name="country_id" id="country_id" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($countries as $country)
                                 <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
@@ -173,7 +176,7 @@
                 <div class="col-12 col-md-6">
                     <label for="tiktok">TikTok</label>
                     <div class="input-group">
-                        <span class="input-group-text"></span>
+                        <span class="input-group-text"><i class="fa-brands fa-tiktok"></i></span>
                         <input type="url" name="tiktok" id="tiktok" value="{{ $lead->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
@@ -213,6 +216,17 @@
                         <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
                         <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2" class="form-control form-control-lg">{{ (!empty($lead->tags)) ? implode(',', $lead->tags) : '' }}</textarea>
                     </div>
+                    <div class="col mt-2">
+                        <label for="seller_id">{{ __('Seller') }}</label>
+                        <select name="seller_id" id="seller_id" required="required" class="form-select form-control-lg">
+                            <option value=""></option>
+                            @foreach ($sellers as $seller)
+                                <option value="{{ $seller->id }}"
+                                        @if ($lead->seller_id == $seller->id) selected="selected" @endif>
+                                    {{ $seller->first_name . ' ' . $seller->last_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div><!--./card-body-->
         </div><!--./card-->
@@ -234,16 +248,15 @@
             </button>
         </div>
 
-            <div class="accordion-body bg-white">
-                <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    @include('contact.contact', ['id' => $lead->id])
-                </div><!--./collapse-->
+        <div class="accordion-body bg-white">
+            <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                @include('contact.contact', ['id' => $lead->id])
+            </div><!--./collapse-->
 
-                <div class="mt-2 table-responsive">
-                    @include('contact.index', ['contacts' => $lead->contacts])
-                </div>
-            </div><!--./card-body-->
-
+            <div class="mt-2 table-responsive">
+                @include('contact.index', ['contacts' => $lead->contacts])
+            </div>
+        </div><!--./card-body-->
     </div>
     @endif
 
@@ -291,16 +304,7 @@
                 })
             })
         });
-
-        const Contact = {
-            update: function (id) {
-                let form = $('#form_contact_'+id);
-                let inputs = form.filter(':input');
-                inputs.each(function() {
-                    this.removeAttr('disabled');
-                });
-            }
-        }
     </script>
+    <script src="/asset/js/Contact.js"></script>
     @endpush
 @endsection

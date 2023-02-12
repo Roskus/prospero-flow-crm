@@ -1,5 +1,5 @@
 /**
- * Hammer CRM
+ * Prospect Flow CRM
  */
 :root {
     --red: #F94144;
@@ -29,6 +29,28 @@ main {
 .nav-pills .nav-item {
     --bs-nav-pills-link-active-bg: #284B63 !important;
     padding: 4px;
+}
+/* animation */
+.animation-blink {
+    -webkit-animation: blink 2s infinite;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.notification-badge {
+    width: 10px;
+    height: 10px;
+    background: #d6293e;
+    border-radius: 50%;
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    z-index: 1;
 }
 
 /* EAN-13 */

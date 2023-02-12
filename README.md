@@ -1,5 +1,6 @@
-# Hammer CRM
-We made a free open source CRM. Our Community Edition (CE) Hammer CRM is based in Laravel 9
+# Prospect Flow CRM (ex Hammer CRM)
+We made a free open source CRM. Our Community Edition (CE) 
+- Prospect Flow CRM is based in Laravel 9
 
 ## Features
 * Multi company (White label)
@@ -10,7 +11,12 @@ We made a free open source CRM. Our Community Edition (CE) Hammer CRM is based i
 
 ### Clone the project:
 ```terminal
-git clone git@github.com:Roskus/hammercrm.git
+git clone git@github.com:Roskus/prospect-flow-crm.git
+```
+
+### Migrate from hammer to prospect-flow-crm repo
+```terminal
+git remote set-url origin git@github.com:Roskus/prospect-flow-crm.git
 ```
 
 ### Setup docker

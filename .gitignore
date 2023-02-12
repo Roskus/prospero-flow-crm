@@ -19,3 +19,4 @@ yarn-error.log
 /.idea
 /.vscode
 /packages/*
+/storage/api-docs/api-docs.json

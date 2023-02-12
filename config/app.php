@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Hammer CRM CE'),
+    'name' => env('APP_NAME', 'Prospect Flow CRM'),
 
     /*
     |--------------------------------------------------------------------------
@@ -235,6 +235,9 @@ return [
     'locales' => [
         'en' => 'English',
         'es' => 'Spanish',
+        'fr' => 'French',
+        'pt' => 'Portuguese',
+        'de' => 'German',
     ],
 
 ];

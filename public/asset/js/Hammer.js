@@ -14,3 +14,5 @@ window.Hammer = {
         if(response) document.getElementById('logout-form').submit();
     }
 }
+
+window.ProspectFlow = window.Hammer;

@@ -23,7 +23,10 @@
                         <input type="text" name="contact_first_name" value="{{ $contact->first_name }}" disabled class="form-control">
                     </td>
                     <td><input type="text" name="contact_last_name" value="{{ $contact->last_name }}" disabled class="form-control"></td>
-                    <td><input type="text" name="contact_job_title" value="{{ $contact->job_title }}" disabled maxlength="80" class="form-control"></td>
+                    <td>
+                        <div class="">{{ $contact->job_title }}</div>
+                        <input type="text" name="contact_job_title" value="{{ $contact->job_title }}" disabled maxlength="80" class="form-control d-none">
+                    </td>
                     <td>
                         @if($contact->phone)
                             <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>

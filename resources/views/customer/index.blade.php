@@ -83,6 +83,7 @@
             <table class="table table-striped table-bordered table-hover table-sm">
             <thead>
             <tr>
+                <th>#ID</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
@@ -103,13 +104,14 @@
             <tbody>
             @foreach($customers as $customer)
             <tr>
+                <td class="text-nowrap text-center">{{ $customer->id }}</td>
                 <td class="text-nowrap">
                     <a href="{{ url("/customer/update/$customer->id") }}" title="{{ __('Update') }}">{{ $customer->name }}</a>
                 </td>
                 <td class="text-nowrap">{{ $customer->business_name }}</td>
                 <td class="text-nowrap">
                     @if($customer->phone)
-                        <a href="tel:{{ $customer->phone }}" target="_blank">{{ $customer->phone }}</a>
+                        <a href="tel:{{ $customer->phone }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($customer->phone) }}</a>
                     @endif
                 </td>
                 <td class="text-nowrap">

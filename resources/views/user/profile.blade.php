@@ -101,11 +101,17 @@
                     <input type="tel" name="phone" id="phone" value="{{ $user->phone }}" maxlength="15" class="form-control form-control-lg">
                 </div>
                 <div class="col">
-                    <label>{{ __('Photo') }}</label>
-                    <input type="file" name="photo" accept="image/png, image/gif, image/jpeg" class="form-control form-control-lg">
+                    <label for="photo">{{ __('Photo') }}</label>
+                    <input type="file" name="photo" id="photo" accept="image/png, image/gif, image/jpeg" class="form-control form-control-lg">
                     @if($user->photo)
-                        <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($user->company->name, '_') }}/{{ $user->photo }}" height="128" alt="">
+                        <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($user->company->name, '_') }}/{{ $user->photo }}" height="128" alt="" class="mt-1">
                     @endif
+                </div>
+            </div>
+            <div class="row form-group mb-2">
+                <div class="col">
+                    <label for="signature_html">{{ __('Signature') }}</label>
+                    <textarea name="signature_html" id="signature_html">{!! (!empty($user->signature_html)) ? $user->signature_html : '' !!}</textarea>
                 </div>
             </div>
             <div class="row form-group mt-2">
@@ -129,5 +135,6 @@
             }
         });
     </script>
+    @include('html_editor', ['id' => 'signature_html', 'placeholder' => 'Email signature'])
     @endpush
 @endsection
