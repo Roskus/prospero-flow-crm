@@ -45,6 +45,7 @@ Route::middleware(['api'])->group(function () {
 
     // Supplier
     Route::get('/supplier', [App\Http\Controllers\Api\Supplier\SupplierListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/supplier/{id}', [App\Http\Controllers\Api\Supplier\SupplierReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('supplier', [\App\Http\Controllers\Api\Supplier\SupplierCreateController::class, 'create'])->middleware(['auth:api']);
     Route::delete('/supplier', [\App\Http\Controllers\Api\Supplier\SupplierDeleteController::class, 'delete'])->middleware(['auth:api']);
 
