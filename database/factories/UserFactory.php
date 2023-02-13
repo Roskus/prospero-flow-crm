@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Company;
@@ -26,7 +28,7 @@ class UserFactory extends Factory
             'phone' => fake()->tollFreePhoneNumber(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'photo' => null,
-            'lang' => fake()->randomElement(array_keys(config('app.locales'))),
+            'lang' => 'en',
             'remember_token' => Str::random(10),
             'last_login_at' => fake()->dateTimeBetween('-1 week', 'now'),
             'last_login_ip' => fake()->ipv4(),
