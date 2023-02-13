@@ -56,6 +56,7 @@ class ScheduleNotificationReminder extends Command
                     'company_id' => $lead->company_id,
                     'user_id' => $lead->seller_id,
                     'message' => $subject,
+                    'link' => url("/lead/update/$lead->id"),
                 ]
             );
 
@@ -85,6 +86,7 @@ class ScheduleNotificationReminder extends Command
                     'company_id' => $customer->company_id,
                     'user_id' => $customer->seller_id,
                     'message' => $subject,
+                    'link' => url("/customer/update/$customer->id"),
                 ]
             );
 
