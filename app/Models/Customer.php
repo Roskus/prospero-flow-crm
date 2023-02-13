@@ -179,4 +179,9 @@ class Customer extends Model
             self::CLOSED => 'Closed',
         ];
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 }

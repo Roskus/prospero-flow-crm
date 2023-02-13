@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Order\Item;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -15,7 +16,7 @@ use OpenApi\Attributes as OAT;
 #[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount'])]
 final class Order extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     // Class Constants
     const CANCELED = 0;
@@ -57,11 +58,11 @@ final class Order extends Model
 
     protected ?int $status;
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
-        static::addGlobalScope('orderCreated', function (Builder $builder) {
+        static::addGlobalScope('orderCreated', function (Builder $builder): void {
             $builder->orderby('created_at', 'DESC');
         });
     }
@@ -104,7 +105,7 @@ final class Order extends Model
         return (int) $this->getAttribute('company_id');
     }
 
-    public function setCompanyId(int $company_id)
+    public function setCompanyId(int $company_id): void
     {
         $this->setAttribute('company_id', $company_id);
     }
