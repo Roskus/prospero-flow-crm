@@ -19,6 +19,7 @@ class Notification extends Model
         'company_id',
         'user_id',
         'message',
+        'read'
     ];
 
     protected $hidden = [
@@ -26,8 +27,8 @@ class Notification extends Model
         'deleted_at',
     ];
 
-    public function getLatestByUser(int $user_id)
+    public function getLatestByUser(int $user_id, $limit = 10)
     {
-        return Notification::where('user_id', $user_id)->orderBy('created_at', 'DESC')->limit(10)->get();
+        return Notification::where('user_id', $user_id)->orderBy('created_at', 'DESC')->where('read', 0)->limit($limit)->get();
     }
 }

@@ -15,17 +15,40 @@ window.ProspectFlow.Notification = {
                   while(ul.firstChild) {ul.removeChild(ul.firstChild);}
                   for (const key in data.notifications) {
                       let li = document.createElement("li");
-                      li.classList.add('p-1')
-                      let link = document.createElement('a');
+                      li.classList.add('p-1', 'rounded', 'mb-1', 'bg-blue', 'p-3', 'm-2');
+
+                      let notificationLink = document.createElement('a');
                       let linkText = document.createTextNode(data.notifications[key].message);
-                      link.appendChild(linkText);
-                      link.href = (data.notifications[key].link) ? data.notifications[key].link : '#';
-                      link.classList.add("list-group-item","list-group-item-action","rounded","mb-1","p-3","bg-blue");
-                      li.appendChild(link);
+                      notificationLink.appendChild(linkText);
+                      notificationLink.href = (data.notifications[key].link) ? data.notifications[key].link : '#';
+                      notificationLink.classList.add("list-group-item","list-group-item-action");
+                      li.appendChild(notificationLink);
+
+                      let notificationReadLink = document.createElement('a');
+                      notificationReadLink.onclick = window.ProspectFlow.Notification.setRead(data.notifications[key].id);
+
+                      let notificationIconReadLink = document.createElement('i');
+                      notificationReadLink.appendChild(notificationIconReadLink);
+                      notificationIconReadLink.classList.add("fa-solid","fa-xmark",'text-white');
+                      li.appendChild(notificationReadLink);
                       ul.appendChild(li);
                   }
               }
           })
           .catch(error => console.log(error));
+    },
+    setRead: async function(id)
+    {
+        let url = window.location.origin + '/notification/read/'+ id;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+
+        // Awaiting response.json()
+        const resData = await response.json();
+        console.log(response);
     }
 }
