@@ -15,6 +15,7 @@ class setNotificationReadAjaxController extends Controller
         $notification = Notification::findOrFail($id);
         $notification->fill(['read' => 1, 'updated_at' => now()]);
         $notification->save();
+
         return response()->json('');
     }
 }

@@ -19,7 +19,7 @@ class Notification extends Model
         'company_id',
         'user_id',
         'message',
-        'read'
+        'read',
     ];
 
     protected $hidden = [
