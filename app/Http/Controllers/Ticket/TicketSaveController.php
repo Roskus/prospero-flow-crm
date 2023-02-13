@@ -27,7 +27,7 @@ class TicketSaveController extends MainController
         $ticket->description = $request->description;
         $ticket->assigned_to = $request->assigned_to;
         $ticket->type = $request->type;
-        $ticket->order_id = (!empty($request->order_id)) ? $request->order_id : null;
+        $ticket->order_id = (! empty($request->order_id)) ? $request->order_id : null;
         $ticket->status = $request->status;
         $ticket->updated_at = now();
         $ticket->save();
