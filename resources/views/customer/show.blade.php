@@ -6,12 +6,30 @@
     <div class="card mb-2">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-2">{{ __('Name') }}: <strong>{{ $customer->name }}</strong></div>
-                <div class="col-md-2">{{ __('Business Name') }}: <strong>{{ $customer->business_name }}</strong></div>
-                <div class="col-md-2">{{ __('Phone') }}: <strong>{{ $customer->phone }}</strong></div>
-                <div class="col-md-2">{{ __('E-mail') }}: <strong>{{ $customer->email }}</strong></div>
-                <div class="col-md-2"><a class="btn btn-primary btn-sm"
-                        href="{{ url("/customer/update/$customer->id") }}">{{ __('Edit') }} {{ __('Customer') }}</a>
+                <div class="col-md-2">
+                    <div>{{ __('Name') }}:</div>
+                    <strong>{{ $customer->name }}</strong>
+                </div>
+                <div class="col-md-2">
+                    <div>{{ __('Business name') }}:</div>
+                    <strong>{{ $customer->business_name }}</strong>
+                </div>
+                <div class="col-md-2">
+                    <div>{{ __('Phone') }}:</div>
+                    <strong>{{ $customer->phone }}</strong>
+                </div>
+                <div class="col-md-2">
+                    <div>{{ __('E-mail') }}:</div>
+                    <strong>{{ $customer->email }}</strong>
+                </div>
+                <div class="col-md-3">
+                    <div>{{ __('Identity number') }}:</div>
+                    <strong>{{ $customer->vat }}</strong>
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-warning" href="{{ url("/customer/update/$customer->id") }}">
+                        <i class="las la-pen"></i> {{ __('Edit') }}
+                    </a>
                 </div>
             </div>
         </div>
