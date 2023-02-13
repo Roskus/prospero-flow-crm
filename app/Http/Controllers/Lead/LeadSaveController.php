@@ -42,7 +42,7 @@ class LeadSaveController extends MainController
         $lead->youtube = ($request->youtube) ? rtrim($request->youtube, '/') : null;
         $lead->tiktok = ($request->tiktok) ? rtrim($request->tiktok, '/') : null;
 
-        $lead->country_id = $request->country_id;
+        $lead->country_id = ($request->country_id) ? $request->country_id : Auth::user()->company->country_id;
         $lead->province = $request->province;
         $lead->city = $request->city;
         $lead->locality = $request->locality;
