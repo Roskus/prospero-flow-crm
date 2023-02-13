@@ -145,7 +145,9 @@ Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class
 // Web-form
 Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);
 
+// Notifications
 Route::get('/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])->middleware('auth');
+Route::get('/notification/read/{id}', [\App\Http\Controllers\Notification\SetNotificationReadAjaxController::class, 'setRead'])->middleware('auth');
 
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
