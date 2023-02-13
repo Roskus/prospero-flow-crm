@@ -29,7 +29,7 @@ class TicketFactory extends Factory
             'created_by' => User::factory(),
             'assigned_to' => User::factory(),
             'priority' => $this->faker->randomElement(['low', 'normal', 'high', 'urgent']),
-            'type' => $this->faker->randomElement(['', 'question', 'incident', 'issue']),
+            'type' => $this->faker->randomElement(['question', 'incident', 'issue']),
             'status' => $this->faker->randomElement(['new', 'assigned', 'duplicated', 'closed']),
             'closed_at' => $this->faker->randomElement([null, $this->faker->dateTime()]),
         ];
