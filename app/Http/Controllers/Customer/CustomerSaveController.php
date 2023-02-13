@@ -44,7 +44,7 @@ class CustomerSaveController extends MainController
         $customer->youtube = ($request->youtube) ? rtrim($request->youtube, '/') : null;
         $customer->tiktok = ($request->tiktok) ? rtrim($request->tiktok, '/') : null;
 
-        $customer->country_id = $request->country_id;
+        $customer->country_id = ($request->country_id) ? $request->country_id : Auth::user()->company->country_id;
         $customer->province = $request->province;
         $customer->city = $request->city;
         $customer->locality = $request->locality;
