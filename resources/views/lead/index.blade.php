@@ -60,7 +60,9 @@
                             <select name="seller_id" id="seller_id" class="form-select">
                                 <option value=""></option>
                                 @foreach($sellers as $seller)
-                                <option value="{{ $seller->id }}">{{ $seller->getFullName() }}</option>
+                                <option value="{{ $seller->id }}">
+                                    {{ $seller->first_name . ' ' . $seller->last_name }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>

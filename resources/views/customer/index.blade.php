@@ -58,7 +58,9 @@
                             <select name="seller_id" id="seller_id" class="form-select">
                                 <option value=""></option>
                                 @foreach($sellers as $seller)
-                                <option value="{{ $seller->id }}">{{ $seller->getFullName() }}</option>
+                                    <option value="{{ $seller->id }}">
+                                        {{ $seller->first_name . ' ' . $seller->last_name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -106,7 +108,7 @@
             <tr>
                 <td class="text-nowrap text-center">{{ $customer->id }}</td>
                 <td class="text-nowrap">
-                    <a href="{{ url("/customer/update/$customer->id") }}" title="{{ __('Update') }}">{{ $customer->name }}</a>
+                    <a href="{{ url("/customer/show/$customer->id") }}" title="{{ __('Show') }}">{{ $customer->name }}</a>
                 </td>
                 <td class="text-nowrap">{{ $customer->business_name }}</td>
                 <td class="text-nowrap">

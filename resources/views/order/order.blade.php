@@ -5,15 +5,20 @@
    <h1>{{ trans('Sales Order') }}</h1>
 </header>
 
-<form method="post" id="order-form" action="/order/save">
+<div class="card">
+    <div class="card-body">
+    <form method="post" id="order-form" action="/order/save">
     @csrf
     <div class="row">
         <div class="col">
-            <label>{{ __('Customer') }}</label>
+            <label for="customer_id">{{ __('Customer') }}</label>
             <select name="customer_id" id="customer_id" required="required" class="form-control form-control-lg">
                 <option value="">{{ __('Choose') }}</option>
                 @foreach($customers as $customer)
-                <option value="{{ $customer->id }}" @if($order->getCustomerId() == $customer->id) selected="selected" @endif>{{ $customer->first_name }} {{ $customer->last_name }}</option>
+                <option value="{{ $customer->id }}"
+                        @if($order->getCustomerId() == $customer->id) selected="selected" @endif>
+                    {{ $customer->name }} ({{ $customer->business_name }})
+                </option>
                 @endforeach
             </select>
         </div>
@@ -21,7 +26,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <label>{{ __('Product') }}</label>
+            <label for="product_id">{{ __('Product') }}</label>
             <select name="product_id" id="product_id" onchange="Order.updatePrice(this)" class="form-control form-control-lg">
                 <option value="" data-price="0">{{ __('Choose') }}</option>
                 @foreach($products as $product)
@@ -30,11 +35,11 @@
             </select>
         </div>
         <div class="col">
-            <label>{{ __('Quantity')}}</label>
-            <input type="number" name="quantity" id="quantity" required="required" placeholder="{{ __('Quantity') }}" class="form-control form-control-lg">
+            <label for="quantity">{{ __('Quantity')}}</label>
+            <input type="number" name="quantity" id="quantity" required="required" placeholder="{{ __('Quantity') }}" min="1" step="1" class="form-control form-control-lg">
         </div>
         <div class="col">
-            <label>{{ __('Price')}}</label>
+            <label for="price">{{ __('Price')}}</label>
             <input type="number" name="price" id="price" required="required" placeholder="{{ __('Price') }}" min="0" step="0.01" class="form-control form-control-lg">
         </div>
         <div class="col">
@@ -89,7 +94,9 @@
         <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
     </div>
     <input type="hidden" name="id" value="{{ ($order->getId()) ?? $order->getId() }}">
-</form>
+    </form>
+    </div>
+</div><!--./card-->
 
 <template id="product-row">
 <tr>

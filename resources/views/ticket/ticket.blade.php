@@ -44,7 +44,7 @@
                     <!--./col-->
                     <div class="col">
                         <label for="order_id">{{ __('Order') }}</label>
-                        <input type="number" name="order_id" id="order_id" step="1" min="1" class="form-control form-control-lg">
+                        <input type="number" name="order_id" id="order_id" step="1" min="1" value="{{ ($ticket->order_id) ? $ticket->order_id : null }}" class="form-control form-control-lg">
                     </div>
                 </div>
                 <!--./row-->
