@@ -15,7 +15,6 @@ use Squire\Models\Country;
 class LeadCreateController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)

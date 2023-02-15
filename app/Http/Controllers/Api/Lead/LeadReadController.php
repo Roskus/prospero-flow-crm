@@ -34,8 +34,6 @@ class LeadReadController extends ApiController
      * )
      *
      * @param  Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
      */
     public function read(int $id): \Illuminate\Http\JsonResponse
     {
