@@ -335,7 +335,8 @@
             dropdown: {
                 maxItems :0,
                 enabled: 0
-            }//,
+            },
+            originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
             //whitelist: ["a", "aa", "aaa", "b", "bb", "ccc"]
         });
     </script>
