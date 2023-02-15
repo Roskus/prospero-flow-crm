@@ -261,7 +261,19 @@
     @endif
 
     @push('scripts')
-    <script>
+        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+        <script>
+            let input = document.getElementById('tags');
+            const tagify = new Tagify(input, {
+                dropdown: {
+                    maxItems :0,
+                    enabled: 0
+                }//,
+                //whitelist: ["a", "aa", "aaa", "b", "bb", "ccc"]
+            });
+        </script>
+        <script>
         $('#phone, #phone2').on('keyup paste', function() {
             let $el = $(this);
             setTimeout(function() {
