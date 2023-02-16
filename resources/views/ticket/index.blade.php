@@ -56,8 +56,14 @@
                         @endif
                     </td>
                     <td class="text-center">{{ __(ucfirst($ticket->type)) }}</td>
-                    <td class="text-center">{{ __(ucfirst($ticket->priority)) }}</td>
-                    <td class="text-center">{{ __(ucfirst($ticket->status)) }}</td>
+                    <td class="text-center">
+                        <div class="badge rounded-pill text-bg-{{ \App\Helpers\TicketPriorityHelper::priorityCssClass($ticket->priority) }}">
+                            {{ __(ucfirst($ticket->priority)) }}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="badge">{{ __(ucfirst($ticket->status)) }}</div>
+                    </td>
                     <td>{{ $ticket->created_at->format('d/m/Y H:i') }}</td>
                     <td>{{ (!empty($ticket->updated_at)) ? $ticket->updated_at->format('d/m/Y H:i') : '' }}</td>
                     <td class="no-wrap">
