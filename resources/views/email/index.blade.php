@@ -41,7 +41,7 @@
                 <td>{{ $email->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $email->updated_at->format('d/m/Y H:i') }}</td>
                 <td class="text-center">
-                    {{ __(ucfirst($email->status)) }}
+                    <div class="badge rounded-pill text-bg-{{ \App\Helpers\EmailStatusHelper::statusCssClass($email->status) }}">{{ __(ucfirst($email->status)) }}</div>
                 </td>
                 <td colspan="no-wrap">
                     <a href="{{ url("/email/view/$email->id") }}" title="{{ __('Preview') }}" target="_blank" class="btn btn-secondary">
