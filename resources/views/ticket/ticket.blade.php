@@ -23,16 +23,18 @@
                         <select name="customer_id" id="customer_id" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($customers as $customer)
-                                <option value="{{ $customer->id }}"
-                                    @if ($ticket->customer_id == $customer->id) selected="selected" @endif>{{ $customer->name }}
-                                </option>
+                            <option value="{{ $customer->id }}"
+                                @if ($ticket->customer_id == $customer->id) selected="selected" @endif>
+                            {{ $customer->name }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
                     <!--./col-->
                     <div class="col">
                         <label for="assigned_to">{{ __('Assigned to') }}</label>
-                        <select name="assigned_to" id="assigned_to" required="required" class="form-select form-control-lg">
+                        <select name="assigned_to" id="assigned_to" required="required"
+                                class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}"
@@ -44,14 +46,18 @@
                     <!--./col-->
                     <div class="col">
                         <label for="order_id">{{ __('Order') }}</label>
-                        <input type="number" name="order_id" id="order_id" step="1" min="1" value="{{ ($ticket->order_id) ? $ticket->order_id : null }}" class="form-control form-control-lg">
+                        <input type="number" name="order_id" id="order_id" step="1" min="1"
+                               value="{{ ($ticket->order_id) ? $ticket->order_id : null }}"
+                               class="form-control form-control-lg">
                     </div>
                 </div>
                 <!--./row-->
                 <div class="row">
                     <div class="col">
                         <label for="description">{{ __('Description') }}</label>
-                        <textarea name="description" id="description" required="required" class="form-control">{{ $ticket->description }}</textarea>
+                        <textarea name="description" id="description" required="required" class="form-control">
+                            {{ $ticket->description }}
+                        </textarea>
                     </div>
                 </div>
                 <!--./row-->
@@ -62,7 +68,8 @@
                             <option value=""></option>
                             @foreach ($ticket->types() as $type)
                                 <option value="{{ $type }}"
-                                    @if (!empty($ticket->type) && $ticket->type == $type) selected="selected" @endif>{{ __($type) }}
+                                    @if (!empty($ticket->type) && $ticket->type == $type) selected="selected" @endif>
+                                    {{ __($type) }}
                                 </option>
                             @endforeach
                         </select>
@@ -73,9 +80,11 @@
                         <select name="priority" id="priority" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($ticket->priorities() as $priority)
-                                <option value="{{ $priority }}"
-                                    @if (!empty($ticket->priority) && $ticket->priority == $priority) selected="selected" @endif>{{ __($priority) }}
-                                </option>
+                            <option value="{{ $priority }}"
+                                @if (!empty($ticket->priority) && $ticket->priority == $priority)
+                                selected="selected"
+                                @endif
+                            >{{ __(ucfirst($priority)) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -86,8 +95,10 @@
                             <option value=""></option>
                             @foreach ($ticket->statuses() as $status)
                                 <option value="{{ $status }}"
-                                    @if (!empty($ticket->status) && $ticket->status == $status) selected="selected" @endif>{{ __($status) }}
-                                </option>
+                                    @if (!empty($ticket->status) && $ticket->status == $status)
+                                        selected="selected"
+                                    @endif
+                                >{{ __(ucfirst($status)) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -111,6 +122,38 @@
             </form>
         </div>
     </div>
+
+    @if($ticket->id)
+    <div class="row mt-2">
+        <div class="col">
+            <a href="#" onclick="$('#new-message').removeClass('d-none');" class="btn btn-primary">{{ __('New message') }}</a>
+        </div>
+    </div>
+
+    <div id="new-message" class="card mt-3 d-none">
+        <div class="card">
+
+            <div class="card-body">
+                <form method="post" action="{{ url('/ticket/message/save') }}">
+                    @csrf
+                    <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+                    <div class="row">
+                        <div class="col">
+                            <label for="message">{{ __('Message') }}</label>
+                            <textarea name="message" id="message" required class="form-control form-control-lg"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col pt-2">
+                            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <div class="card mt-3">
         <div class="card-header">

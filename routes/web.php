@@ -139,6 +139,7 @@ Route::get('/ticket/create', [\App\Http\Controllers\Ticket\TicketCreateControlle
 Route::get('/ticket/update/{id}', [\App\Http\Controllers\Ticket\TicketUpdateController::class, 'update']);
 Route::post('/ticket/save', [\App\Http\Controllers\Ticket\TicketSaveController::class, 'save']);
 Route::get('/ticket/delete/{id}', [\App\Http\Controllers\Ticket\TicketDeleteController::class, 'delete']);
+Route::post('/ticket/message/save', [\App\Http\Controllers\Ticket\TicketCreateMessageController::class, 'save']);
 
 //Report
 Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);

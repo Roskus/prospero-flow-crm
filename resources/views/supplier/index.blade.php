@@ -31,7 +31,11 @@
                 <td>{{ $supplier->business_name }}</td>
                 <td>{{ $supplier->vat }}</td>
                 <td>{{ $supplier->phone }}</td>
-                <td>{{ $supplier->email }}</td>
+                <td>
+                    @if($supplier->email)
+                    <a href="mailto:{{ $supplier->email }}">{{ $supplier->email }}</a>
+                    @endif
+                </td>
                 <td>
                     @if($supplier->website)
                     <a href="{{ $supplier->website }}" target="_blank">{{ $supplier->website }}</a>
