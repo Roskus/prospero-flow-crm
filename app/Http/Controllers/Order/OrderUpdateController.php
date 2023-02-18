@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderUpdateController extends MainController
 {
-    /**
-     * @param  Request  $request
-     * @param  int  $id
-     */
     public function update(Request $request, int $id)
     {
         $order = Order::find($id);
