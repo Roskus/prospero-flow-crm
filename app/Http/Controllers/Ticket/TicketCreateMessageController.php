@@ -20,6 +20,7 @@ class TicketCreateMessageController extends Controller
             'body' => $request->message,
         ]);
         $message->save();
+
         return redirect("ticket/update/$request->ticket_id");
     }
 }
