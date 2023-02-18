@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 class ProfileUpdateController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return Application|Factory|View
      */
     public function update(Request $request)

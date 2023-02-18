@@ -11,9 +11,6 @@ class Country extends Model
 {
     protected $table = 'country';
 
-    /**
-     * @return
-     */
     public function getAll()
     {
         return Country::all();

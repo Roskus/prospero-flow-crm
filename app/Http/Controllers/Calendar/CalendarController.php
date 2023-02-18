@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 class CalendarController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)

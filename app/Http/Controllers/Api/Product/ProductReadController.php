@@ -31,8 +31,6 @@ class ProductReadController
      *     ),
      *     @OA\Response(response="404", description="Product not found")
      * )
-     * @param  Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function read(Request $request, int $id)
