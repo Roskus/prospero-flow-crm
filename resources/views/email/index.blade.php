@@ -24,6 +24,7 @@
             <thead>
             <tr>
                 <td>{{ __('Subject') }}</td>
+                <td>{{ __('From') }}</td>
                 <td>{{ __('To') }}</td>
                 <td>{{ __('Created at') }}</td>
                 <td>{{ __('Updated at') }}</td>
@@ -37,6 +38,7 @@
                 <td>
                     <a href="{{ url("/email/update/$email->id") }}">{{ $email->subject }}</a>
                 </td>
+                <td>{{ $email->from }}</td>
                 <td>{{ $email->to }}</td>
                 <td>{{ $email->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $email->updated_at->format('d/m/Y H:i') }}</td>
