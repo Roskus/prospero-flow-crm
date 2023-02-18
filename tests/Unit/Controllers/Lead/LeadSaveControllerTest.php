@@ -7,18 +7,56 @@ namespace Tests\Unit\Controllers\Lead;
 use App\Http\Controllers\Lead\LeadSaveController;
 use App\Models\Lead;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 
 class LeadSaveControllerTest extends TestCase
 {
-    /** @test */
-    public function it_can_save_urls(): void
+    use RefreshDatabase;
+
+    /**
+     * @test
+     * @dataProvider urlProvider
+     */
+    public function it_can_save_urls($wrong_url, $correct_url): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $urls = [
+        $data = [
+            'name' => 'Lead name',
+            'website' => $wrong_url,
+            'linkedin' => $wrong_url,
+            'facebook' => $wrong_url,
+            'instagram' => $wrong_url,
+            'twitter' => $wrong_url,
+            'youtube' => $wrong_url,
+            'tiktok' => $wrong_url,
+        ];
+        $request = Request::create('lead/save', 'POST', $data);
+
+        $contoller = new LeadSaveController($request);
+        $response = $contoller->save($request);
+
+        $last_lead = Lead::all()->last();
+        $this->assertEquals($last_lead->name, $data['name']);
+
+        $this->assertEquals($last_lead->website, $correct_url);
+
+        $this->assertEquals($last_lead->linkedin, $correct_url);
+        $this->assertEquals($last_lead->facebook, $correct_url);
+        $this->assertEquals($last_lead->instagram, $correct_url);
+        $this->assertEquals($last_lead->twitter, $correct_url);
+        $this->assertEquals($last_lead->youtube, $correct_url);
+        $this->assertEquals($last_lead->tiktok, $correct_url);
+
+        $this->assertEquals($response->status(), 302);
+    }
+
+    public static function urlProvider(): array
+    {
+        return [
             [
                 'wrong_url' => null,
                 'correct_url' => null,
@@ -32,36 +70,5 @@ class LeadSaveControllerTest extends TestCase
                 'correct_url' => 'https://www.linkedin.com/company/roskus/',
             ],
         ];
-
-        foreach ($urls as $url) {
-            $data = [
-                'name' => 'Lead name',
-                'website' => $url['wrong_url'],
-                'linkedin' => $url['wrong_url'],
-                'facebook' => $url['wrong_url'],
-                'instagram' => $url['wrong_url'],
-                'twitter' => $url['wrong_url'],
-                'youtube' => $url['wrong_url'],
-                'tiktok' => $url['wrong_url'],
-            ];
-            $request = Request::create('lead/save', 'POST', $data);
-
-            $contoller = new LeadSaveController($request);
-            $response = $contoller->save($request);
-
-            $last_lead = Lead::all()->last();
-            $this->assertEquals($last_lead->name, $data['name']);
-
-            $this->assertEquals($last_lead->website, $url['correct_url']);
-
-            $this->assertEquals($last_lead->linkedin, $url['correct_url']);
-            $this->assertEquals($last_lead->facebook, $url['correct_url']);
-            $this->assertEquals($last_lead->instagram, $url['correct_url']);
-            $this->assertEquals($last_lead->twitter, $url['correct_url']);
-            $this->assertEquals($last_lead->youtube, $url['correct_url']);
-            $this->assertEquals($last_lead->tiktok, $url['correct_url']);
-
-            $this->assertEquals($response->status(), 302);
-        }
     }
 }
