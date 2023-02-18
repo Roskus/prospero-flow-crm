@@ -13,8 +13,6 @@ use Squire\Models\Country;
 class CustomerUpdateController extends MainController
 {
     /**
-     * @param  Request  $request
-     * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function update(Request $request, int $id)

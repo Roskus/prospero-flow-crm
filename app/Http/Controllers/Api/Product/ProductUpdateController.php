@@ -25,7 +25,6 @@ class ProductUpdateController
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
-     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function update(Request $request, int $id)

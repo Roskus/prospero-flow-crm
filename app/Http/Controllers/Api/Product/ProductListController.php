@@ -23,7 +23,6 @@ class ProductListController
      *     )
      * )
      *
-     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
