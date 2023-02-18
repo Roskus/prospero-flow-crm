@@ -104,4 +104,9 @@ class Company extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
 }
