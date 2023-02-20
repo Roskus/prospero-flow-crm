@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Mail\GenericEmail;
+use App\Mail\TicketStateChanged;
 use App\Models\Ticket\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -122,13 +122,7 @@ class Ticket extends Model
 
                 try {
                     Mail::to($ticket->customer->email)
-                        ->send(new GenericEmail($ticket->company, $subject,
-                            [
-                                'body' => $body,
-                                'customer' => $ticket->customer,
-                                'ticket_number' => $ticket->id,
-                            ]
-                        ));
+                        ->send(new TicketStateChanged($ticket, $subject, $body));
                 } catch (\Throwable $throwable) {
                     Log::error($throwable->getMessage());
                 }
