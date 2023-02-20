@@ -1,3 +1,4 @@
+
 # Prospect Flow CRM (ex Hammer CRM)
 We made a free open source CRM. Our Community Edition (CE) 
 - Prospect Flow CRM is based in Laravel 9
@@ -10,46 +11,46 @@ We made a free open source CRM. Our Community Edition (CE)
 ## Setup
 
 ### Clone the project:
-```terminal
+```bash
 git clone git@github.com:Roskus/prospect-flow-crm.git
 ```
 
 ### Migrate from hammer to prospect-flow-crm repo
-```terminal
+```bash
 git remote set-url origin git@github.com:Roskus/prospect-flow-crm.git
 ```
 
 ### Setup docker
-```terminal
+```bash
 docker-compose build
 docker-compose up -d
 ```
 
 ### Inside the container
 
-```
+```bash
 docker exec -it hammercrm_php_1 /bin/bash
 ```
 
 Install dependencies:
-```
+```bash
 composer install
 ```
 Copy template config
-```
+```bash
 cp .env.example .env
 ```
 Edit your .env config file and set language, database
-```
+```bash
 php artisan key:generate
 ```
 Run migrations and seeders
-```
+```bash
 php artisan migrate
 php artisan db:seed
 ```
 Generate JWT Secret
-```
+```bash
 php artisan jwt:secret
 ```
 

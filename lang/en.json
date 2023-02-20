@@ -33,6 +33,8 @@
     "Country" : "Country",
     "Created at" : "Created at",
     "Customer" : "Customer",
+    "Customer deleted successfully" : "Customer deleted successfully",
+    "Customer :name successfully saved": "Customer :name successfully saved",
     "Customers" : "Customers",
     "Day" : "Day",
     "Date of birth" : "Date of birth / Foundation date",

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Lead;
 
-use App\Repositories\Lead\LeadSaveRepository;
+use App\Repositories\LeadRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
 class LeadCreateController
 {
-    private LeadSaveRepository $leadSaveRepository;
+    private LeadRepository $leadSaveRepository;
 
-    public function __construct(LeadSaveRepository $leadRepository)
+    public function __construct(LeadRepository $leadRepository)
     {
         $this->leadSaveRepository = $leadRepository;
     }

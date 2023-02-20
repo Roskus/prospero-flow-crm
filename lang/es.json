@@ -33,6 +33,8 @@
     "Country" : "País",
     "Created at" : "Fecha alta",
     "Customer" : "Cliente",
+    "Customer deleted successfully" : "Cliente eliminado exitosamente",
+    "Customer :name successfully saved": "Cliente :name guardado con éxito",
     "Customers" : "Clientes",
     "Day" : "Día",
     "Date of birth" : "Fecha nacimiento / Fundación",

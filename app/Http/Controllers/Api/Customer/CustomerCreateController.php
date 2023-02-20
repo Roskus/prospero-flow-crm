@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Customer;
 
-use App\Models\Customer;
+use App\Repositories\CustomerRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
 class CustomerCreateController
 {
+    private CustomerRepository $customerSaveRepository;
+
+    public function __construct(CustomerRepository $customerSaveRepository)
+    {
+        $this->customerSaveRepository = $customerSaveRepository;
+    }
+
     /**
      * @OA\Post(
      *     path="/customer",
@@ -35,20 +42,11 @@ class CustomerCreateController
         ]);
 
         if ($valid) {
-            $customer = new Customer();
-            $customer->company_id = Auth::user()->company_id;
-            $customer->name = $request->name;
-            $customer->business_name = $request->business_name;
-            $customer->phone = $request->phone;
-            $customer->mobile = $request->mobile;
-            $customer->email = $request->email;
-            $customer->website = $request->website;
-            $customer->linkedin = $request->linkedin;
-            $customer->tags = \trim($request->tags);
-            $customer->created_at = now();
-            $customer->save();
-            $status = 201;
-            $data['customer'] = ['id' => $customer->id];
+            $customer = $this->customerSaveRepository->save($request->all());
+            if ($customer) {
+                $status = 201;
+                $data['customer'] = ['id' => $customer->id];
+            }
         }
 
         return response()->json($data, $status);

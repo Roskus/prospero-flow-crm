@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Contact;
 
 use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
 class ContactListController
 {

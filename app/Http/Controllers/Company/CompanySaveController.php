@@ -5,27 +5,23 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\MainController;
-use App\Models\Company;
+use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CompanySaveController extends MainController
 {
+    private CompanyRepository $companyRepository;
+
+    public function __construct(CompanyRepository $companyRepository)
+    {
+        $this->companyRepository = $companyRepository;
+    }
+
     public function save(Request $request)
     {
-        if (empty($request->id)) {
-            $company = new Company();
-            $company->created_at = now();
-        } else {
-            $company = Company::find($request->id);
-        }
-        $company->name = $request->name;
-        $company->phone = $request->phone;
-        $company->email = $request->email;
-        $company->website = $request->website;
-        $company->country_id = $request->country_id;
-        $company->status = Company::ACTIVE;
+        $company = $this->companyRepository->save($request->all());
 
         //Save image
         if (isset($request->logo)) {
@@ -51,8 +47,6 @@ class CompanySaveController extends MainController
             }
             $company->save();
         }
-        $company->updated_at = now();
-        $company->save();
 
         return redirect('/company');
     }

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Product;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
 class ProductListController
 {

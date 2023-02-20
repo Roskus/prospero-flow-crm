@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Lead;
+namespace App\Repositories;
 
 use App\Models\Lead;
 use Illuminate\Support\Facades\Auth;
 
-class LeadSaveRepository
+class LeadRepository
 {
-    public function save(array $data): Lead
+    public function save(array $data): ?Lead
     {
         if (empty($data['id'])) {
             $lead = new Lead();

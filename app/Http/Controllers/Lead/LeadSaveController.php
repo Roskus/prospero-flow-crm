@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
-use App\Repositories\Lead\LeadSaveRepository;
+use App\Repositories\LeadRepository;
 use Illuminate\Http\Request;
 
 class LeadSaveController extends MainController
 {
-    private LeadSaveRepository $leadSaveRepository;
+    private LeadRepository $leadSaveRepository;
 
-    public function __construct(LeadSaveRepository $leadRepository)
+    public function __construct(LeadRepository $leadRepository)
     {
         $this->leadSaveRepository = $leadRepository;
     }
