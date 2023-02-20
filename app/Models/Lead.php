@@ -162,9 +162,6 @@ class Lead extends Model
     }
 
     /**
-     * @param  int  $company_id
-     * @param  string|null  $search
-     * @param  array|null  $filters
      * @return mixed
      */
     public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters)
@@ -191,10 +188,6 @@ class Lead extends Model
         return $leads->with('seller', 'industry')->orderBy('created_at', 'desc')->paginate(10);
     }
 
-    /**
-     * @param  int  $company_id
-     * @return int
-     */
     public function getCountByCompany(int $company_id): int
     {
         return Lead::where('company_id', $company_id)->count();

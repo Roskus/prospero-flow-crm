@@ -10,10 +10,6 @@ use Illuminate\Http\Request;
 
 class OrderDeleteController extends MainController
 {
-    /**
-     * @param  Request  $request
-     * @param  int  $id
-     */
     public function delete(Request $request, int $id)
     {
         $order = Order::find($id);

@@ -54,7 +54,7 @@ class ScheduleNotificationReminder extends Command
         return 0;
     }
 
-    private function sendNotifications(string $type, string $subjectText, string $bodyText, Collection $recipients):void
+    private function sendNotifications(string $type, string $subjectText, string $bodyText, Collection $recipients): void
     {
         foreach ($recipients as $recipient) {
             $time = $recipient->schedule_contact->format('H:i');
