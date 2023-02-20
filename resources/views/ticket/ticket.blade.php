@@ -69,7 +69,7 @@
                             @foreach ($ticket->types() as $type)
                                 <option value="{{ $type }}"
                                     @if (!empty($ticket->type) && $ticket->type == $type) selected="selected" @endif>
-                                    {{ __($type) }}
+                                    {{ __(ucfirst($type)) }}
                                 </option>
                             @endforeach
                         </select>

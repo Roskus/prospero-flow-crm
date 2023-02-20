@@ -49,7 +49,7 @@
                             <select name="status" id="status"  class="form-select">
                                 <option value=""></option>
                                 @foreach($statuses as $key => $status)
-                                <option value="{{ $key }}">{{ $status }}</option>
+                                <option value="{{ $key }}">{{ __($status) }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -181,7 +181,7 @@
                     @endif
                 </td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
-                    <span class="badge {{ App\Helpers\LeadStatus::renderBadge($customer->status) }}">{{ $customer->status }}</span>
+                    <span class="badge {{ App\Helpers\LeadStatus::renderBadge($customer->status) }}">{{ __(ucfirst($customer->status)) }}</span>
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">{{ $customer->created_at->format('d/m/Y H:i') }}</td>
                 <td class="text-nowrap d-none d-sm-table-cell">{{ $customer->updated_at->format('d/m/Y H:i') }}</td>

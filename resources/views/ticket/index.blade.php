@@ -50,7 +50,7 @@
                     <td>{{ (!empty($ticket->customer)) ? $ticket->customer->name : '' }}</td>
                     <td>{{ $ticket->createdBy->first_name.' '.$ticket->createdBy->last_name }}</td>
                     <td>{{ $ticket->assignedTo->first_name.' '.$ticket->assignedTo->last_name }}</td>
-                    <td>
+                    <td class="text-center">
                         @if($ticket->order_id)
                             <a href="{{ url("/order/update/$ticket->order_id") }}">{{ $ticket->order_id }}</a>
                         @endif
