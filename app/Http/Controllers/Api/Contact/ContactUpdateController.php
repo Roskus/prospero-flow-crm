@@ -40,8 +40,6 @@ class ContactUpdateController
      *     @OA\Response(response="404", description="Contact not found")
      * )
      *
-     * @param  Request  $request
-     * @param  int  $id
      * @return JsonResponse
      */
     public function update(Request $request, int $id)

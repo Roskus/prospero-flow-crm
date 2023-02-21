@@ -35,7 +35,6 @@ trait ICalendar
      *  SEQUENCE:3
      *  END:VEVENT
      *  END:VCALENDAR
-     * @return string
      */
     public function iCalendar(): string
     {

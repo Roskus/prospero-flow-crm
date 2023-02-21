@@ -40,10 +40,6 @@ class LeadUpdateController
      *     @OA\Response(response="400", description="Bad request, please review the parameters"),
      *     @OA\Response(response="404", description="Lead not found")
      * )
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function update(Request $request, int $id): JsonResponse
     {
