@@ -15,6 +15,8 @@
             <thead>
             <tr>
                 <th>{{ __('Name') }}</th>
+                <th>{{ __('Business name') }}</th>
+                <th>{{ __('Tax identification') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>E-mail</th>
                 <th>{{ __('Website') }}</th>
@@ -32,14 +34,16 @@
                     {{ $company->name }}
                     </a>
                 </td>
+                <td>{{ $company->business_name }}</td>
+                <td>{{ $company->vat }}</td>
                 <td>{{ $company->phone }}</td>
                 <td>{{ $company->email }}</td>
                 <td>
                     <a href="{{ $company->website }}" target="_blank">{{ $company->website }}</a>
                 </td>
                 <td class="text-center"><span title="{{ (!empty($company->country)) ? $company->country->name : '' }}">{{ (!empty($company->country)) ? $company->country->flag : '' }}</span></td>
-                <td>{{ $company->created_at }}</td>
-                <td>{{ $company->updated_at }}</td>
+                <td>{{ ($company->created_at) ? $company->created_at->format('d/m/Y H:i') : '' }}</td>
+                <td>{{ ($company->updated_at) ? $company->updated_at->format('d/m/Y H:i') : '' }}</td>
                 <td>
                     <a href="{{ url("/company/delete/$company->id") }}" class="btn btn-danger" title="{{ __('Delete') }}"><i class="las la-trash-alt"></i></a>
                 </td>

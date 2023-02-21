@@ -24,7 +24,9 @@
             <thead>
             <tr>
                 <td>{{ __('Subject') }}</td>
+                <td>{{ __('From') }}</td>
                 <td>{{ __('To') }}</td>
+                <td>{{ __('Created at') }}</td>
                 <td>{{ __('Updated at') }}</td>
                 <td>{{ __('Status') }}</td>
                 <td>{{ __('Actions') }}</td>
@@ -36,17 +38,22 @@
                 <td>
                     <a href="{{ url("/email/update/$email->id") }}">{{ $email->subject }}</a>
                 </td>
+                <td>{{ $email->from }}</td>
                 <td>{{ $email->to }}</td>
+                <td>{{ $email->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $email->updated_at->format('d/m/Y H:i') }}</td>
                 <td class="text-center">
-                    {{ $email->status }}
+                    <div class="badge rounded-pill text-bg-{{ \App\Helpers\EmailStatusHelper::statusCssClass($email->status) }}">{{ __(ucfirst($email->status)) }}</div>
                 </td>
-                <td>
+                <td colspan="no-wrap">
                     <a href="{{ url("/email/view/$email->id") }}" title="{{ __('Preview') }}" target="_blank" class="btn btn-secondary">
                         <i class="las la-glasses"></i>
                     </a>
-                    <a href="{{ url("/email/update/$email->id") }}" title="{{ __('Edit') }}" class="btn btn-warning">
+                    <a href="{{ url("/email/update/$email->id") }}" title="{{ __('Edit') }}" class="btn btn-warning text-white">
                         <i class="las la-edit"></i>
+                    </a>
+                    <a href="{{ url("/email/duplicate/$email->id") }}" title="{{ __('Duplicate') }}" class="btn btn-info text-white">
+                        <i class="las la-copy"></i>
                     </a>
                     @if($email->status != \App\Models\Email::SENT)
                     <a href="{{ url("/email/send/$email->id") }}" title="{{ __('Send') }}" class="btn btn-primary">

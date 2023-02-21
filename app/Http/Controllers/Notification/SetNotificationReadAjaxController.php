@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 
-class setNotificationReadAjaxController extends Controller
+class SetNotificationReadAjaxController extends Controller
 {
     public function setRead(Request $request, int $id)
     {

@@ -10,17 +10,12 @@ class PhoneHelper
     {
         $length = strlen($phone);
         $country_code = substr($phone, 0, 3);
-        switch ($length) {
-            case 11:
-                $format = $country_code.'-'.substr($phone, 3, 4).'-'.substr($phone, 7, 4);
-                break;
-            case 12:
-                $format = $country_code.'-'.substr($phone, 3, 3).'-'.substr($phone, 6, 3).'-'.substr($phone, 9, 3);
-                break;
-            default:
-                $format = $phone;
-        }
 
-        return $format;
+        return match ($length) {
+            11 => $country_code.'-'.substr($phone, 3, 4).'-'.substr($phone, 7, 4),
+            12 => $country_code.'-'.substr($phone, 3, 3).'-'.substr($phone, 6, 3)
+                .'-'.substr($phone, 9, 3),
+            default => $phone,
+        };
     }
 }

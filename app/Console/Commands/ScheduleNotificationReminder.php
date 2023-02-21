@@ -10,6 +10,7 @@ use App\Models\Lead;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -39,67 +40,49 @@ class ScheduleNotificationReminder extends Command
         $timezone = 'Europe/Madrid';
         $today = Carbon::today($timezone)->toDateString();
         $this->info("Today: $today");
+
         $leads = Lead::whereDate('schedule_contact', '=', $today)->get();
         $subjectText = 'Remember contact to: :name';
         $bodyText = 'This is an automatic reminder to contact :name at :time';
         $this->info('Leads: '.$leads->count());
-        foreach ($leads as $lead) {
-            $time = $lead->schedule_contact->format('H:i');
-            $subject = __($subjectText, ['name' => $lead->name]);
-            $this->info($subject);
-            $body = __($bodyText, ['name' => $lead->name, 'time' => $time]);
-
-            $emailTemplate = new GenericEmail($lead->company, $subject, ['body' => $body]);
-            $notification = new Notification();
-            $notification->fill(
-                [
-                    'company_id' => $lead->company_id,
-                    'user_id' => $lead->seller_id,
-                    'message' => $subject,
-                    'link' => url("/lead/update/$lead->id"),
-                ]
-            );
-
-            try {
-                $notification->save();
-                Mail::to($lead->seller()->email)->send($emailTemplate);
-            } catch (\Throwable $t) {
-                Log::error($t->getMessage());
-            }
-
-            $lead->schedule_contact = null;
-            $lead->save();
-        }
+        $this->sendNotifications('lead', $subjectText, $bodyText, $leads);
 
         $customers = Customer::whereDate('schedule_contact', '=', $today)->get();
         $this->info('Customers: '.$customers->count());
-        foreach ($customers as $customer) {
-            $time = $customer->schedule_contact->format('H:i');
-            $subject = __($subjectText, ['name' => $customer->name]);
-            $this->info($subject);
-            $body = __($bodyText, ['name' => $customer->name, 'time' => $time]);
-            $emailTemplate = new GenericEmail($customer->company, $subject, ['body' => $body]);
+        $this->sendNotifications('customer', $subjectText, $bodyText, $customers);
 
+        return 0;
+    }
+
+    private function sendNotifications(string $type, string $subjectText, string $bodyText, Collection $recipients): void
+    {
+        foreach ($recipients as $recipient) {
+            $time = $recipient->schedule_contact->format('H:i');
+            $subject = __($subjectText, ['name' => $recipient->name]);
+            $this->info($subject);
+
+            $body = __($bodyText, ['name' => $recipient->name, 'time' => $time]);
+
+            $emailTemplate = new GenericEmail($recipient->company, $subject, ['body' => $body]);
             $notification = new Notification();
             $notification->fill(
                 [
-                    'company_id' => $customer->company_id,
-                    'user_id' => $customer->seller_id,
+                    'company_id' => $recipient->company_id,
+                    'user_id' => $recipient->seller_id,
                     'message' => $subject,
-                    'link' => url("/customer/update/$customer->id"),
+                    'link' => url("/$type/update/$recipient->id"),
                 ]
             );
 
             try {
                 $notification->save();
-                Mail::to($customer->seller()->email)->send($emailTemplate);
+                Mail::to($recipient->seller()->email)->send($emailTemplate);
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
-            $customer->schedule_contact = null;
-            $customer->save();
-        }
 
-        return 0;
+            $recipient->schedule_contact = null;
+            $recipient->save();
+        }
     }
 }

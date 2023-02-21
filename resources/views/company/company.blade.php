@@ -14,22 +14,23 @@
                 <input type="text" name="name" id="name" value="{{ $company->name }}" maxlength="80" required="required" class="form-control">
             </div>
             <div class="col">
+                <label for="business_name" class="label-control">{{ __('Business name') }}</label>
+                <input type="text" name="business_name" id="business_name" value="{{ $company->business_name }}" maxlength="80" required="required" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <label for="country_id" class="label-control">{{ __('Country') }} <span class="text-danger">*</span></label>
                 <select name="country_id" id="country_id" required class="form-control">
                     <option value=""></option>
                     @foreach ($countries as $country)
-                    <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
+                        <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
                     @endforeach
                 </select>
             </div>
-        </div>
-        <div>
             <div class="col">
-                <label for="tax_identification" class="label-control">{{ __('Tax identification') }}</label>
+                <label for="vat" class="label-control">{{ __('Tax identification') }}</label>
                 <input type="text" name="vat" id="vat" value="{{ $company->vat }}" maxlength="20" class="form-control">
-            </div>
-            <div class="col">
-
             </div>
         </div>
         <div class="row">

@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
 class ProductDeleteController
 {
@@ -28,8 +29,6 @@ class ProductDeleteController
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
-     * @param  Request  $request
-     * @param  int  $id
      * @return JsonResponse
      */
     public function delete(Request $request, int $id)

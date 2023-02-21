@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Mail\GenericEmail;
+use App\Mail\TicketStateChanged;
 use App\Models\Ticket\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -109,20 +109,20 @@ class Ticket extends Model
         static::updated(function ($ticket): void {
             if ($ticket->wasChanged('status')) {
                 if ($ticket->status == 'closed') {
-                    $subject = __('The ticket #:ticket_number has been closed.', ['ticket_number' => (string) $ticket->id]);
-                    $body = __('The ticket #:ticket_number has been closed.', ['ticket_number' => (string) $ticket->id]);
+                    $subject = __('The ticket #:ticket_number has been closed.', ['ticket_number' => $ticket->id]);
+                    $body = __('The ticket #:ticket_number has been closed.', ['ticket_number' => $ticket->id]);
                 } else {
                     $subject = __('Ticket #:ticket_number status has changed.', ['ticket_number' => $ticket->id]);
-                    $data = [
+                    $body = __('Ticket #:ticket_number status has changed from :original_status to :current_status.', [
                         'ticket_number' => $ticket->id,
                         'original_status' => Str::upper($ticket->getOriginal('status')),
                         'current_status' => Str::upper($ticket->status),
-                    ];
-                    $body = __('Ticket #:ticket_number status has changed from :original_status to :current_status.', $data);
+                    ]);
                 }
 
                 try {
-                    Mail::to($ticket->customer->email)->send(new GenericEmail($ticket->company, $subject, ['body' => $body]));
+                    Mail::to($ticket->customer->email)
+                        ->send(new TicketStateChanged($ticket, $subject, $body));
                 } catch (\Throwable $throwable) {
                     Log::error($throwable->getMessage());
                 }

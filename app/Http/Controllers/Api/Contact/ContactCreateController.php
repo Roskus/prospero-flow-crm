@@ -1,14 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Contact;
 
 use App\Models\Contact;
+use App\Repositories\ContactRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
 class ContactCreateController
 {
+    private ContactRepository $contactRepository;
+
+    public function __construct(ContactRepository $contactRepository)
+    {
+        $this->contactRepository = $contactRepository;
+    }
+
     /**
      * @OA\Post(
      *     path="/contact",
@@ -18,35 +28,24 @@ class ContactCreateController
      *     @OA\Response(response="400", description="Bad request: Please review required params"),
      *     @OA\Response(response="201", description="Contact created successfully")
      * )
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {
         $status = 400;
         $data = [];
         $valid = $request->validate([
-            'first_name' => ['required', 'max:50'],
+            'contact_first_name' => ['required', 'max:50'],
             'lead_id' => ['required'],
-            'email' => ['required', 'max:254'],
-            'phone' => ['required', 'max:15'],
+            'contact_email' => ['required', 'max:254'],
+            'contact_phone' => ['required', 'max:15'],
         ]);
 
         if ($valid) {
-            $contact = new Contact();
-            $contact->company_id = Auth::user()->company_id;
-            $contact->lead_id = $request->lead_id;
-            $contact->customer_id = $request->customer_id;
-            $contact->first_name = $request->first_name;
-            $contact->last_name = $request->last_name;
-            $contact->email = $request->email;
-            $contact->phone = $request->phone;
-            $contact->linkedin = $request->linkedin;
-            $contact->created_at = now();
-            $contact->save();
-            $status = 201;
-            $data['contact'] = ['id' => $contact->id];
+            $contact = $this->contactRepository->save($request->all());
+            if ($contact) {
+                $status = 201;
+                $data['contact'] = ['id' => $contact->id];
+            }
         }
 
         return response()->json($data, $status);

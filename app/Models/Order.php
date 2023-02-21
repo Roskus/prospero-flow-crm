@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount'])]
+#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'items'])]
 final class Order extends Model
 {
     use SoftDeletes, HasFactory;
@@ -89,6 +89,7 @@ final class Order extends Model
         return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
+    //#[OAT\Property()]
     public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'order_id', 'id');

@@ -50,17 +50,23 @@
                     <td>{{ (!empty($ticket->customer)) ? $ticket->customer->name : '' }}</td>
                     <td>{{ $ticket->createdBy->first_name.' '.$ticket->createdBy->last_name }}</td>
                     <td>{{ $ticket->assignedTo->first_name.' '.$ticket->assignedTo->last_name }}</td>
-                    <td>
+                    <td class="text-center">
                         @if($ticket->order_id)
                             <a href="{{ url("/order/update/$ticket->order_id") }}">{{ $ticket->order_id }}</a>
                         @endif
                     </td>
-                    <td class="text-center">{{ $ticket->type }}</td>
-                    <td class="text-center">{{ $ticket->priority }}</td>
-                    <td class="text-center">{{ $ticket->status }}</td>
+                    <td class="text-center">{{ __(ucfirst($ticket->type)) }}</td>
+                    <td class="text-center">
+                        <div class="badge rounded-pill text-bg-{{ \App\Helpers\TicketPriorityHelper::priorityCssClass($ticket->priority) }}">
+                            {{ __(ucfirst($ticket->priority)) }}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="badge">{{ __(ucfirst($ticket->status)) }}</div>
+                    </td>
                     <td>{{ $ticket->created_at->format('d/m/Y H:i') }}</td>
                     <td>{{ (!empty($ticket->updated_at)) ? $ticket->updated_at->format('d/m/Y H:i') : '' }}</td>
-                    <td class="">
+                    <td class="no-wrap">
                         <a href="{{ url("ticket/update/$ticket->id") }}" class="btn btn-xs btn-warning text-white">
                             <i class="las la-pen"></i>
                         </a>

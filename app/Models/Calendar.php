@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\ICalendar;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,8 @@ use OpenApi\Attributes as OAT;
 #[OAT\Schema(schema: 'Calendar', required: ['user_id', 'start_date', 'title'])]
 class Calendar extends Model
 {
+    use ICalendar;
+
     protected $table = 'calendar';
 
     protected $fillable = [

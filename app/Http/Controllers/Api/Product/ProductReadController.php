@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
 class ProductReadController
 {
@@ -31,8 +32,6 @@ class ProductReadController
      *     ),
      *     @OA\Response(response="404", description="Product not found")
      * )
-     * @param  Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function read(Request $request, int $id)
