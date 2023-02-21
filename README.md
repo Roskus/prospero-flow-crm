@@ -63,7 +63,7 @@ php artisan jwt:secret
 We will provide a REST API for exchange information with the CRM
 
 API Docs
-http://hammercrm.localhost/api/documentation
+http://prospectflow.localhost/api/documentation
 
 Regenerate documentation
 ```bash
