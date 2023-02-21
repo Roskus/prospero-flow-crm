@@ -29,7 +29,7 @@ docker-compose up -d
 ### Inside the container
 
 ```bash
-docker exec -it hammercrm_php_1 /bin/bash
+docker exec -it crm-php /bin/bash
 ```
 
 Install dependencies:
@@ -55,7 +55,7 @@ php artisan jwt:secret
 ```
 
 ## Demo
-![](doc/screenshoot.jpg)
+![](doc/screenshoot.png)
 * User: admin@admin.com
 * Pass: admin
 

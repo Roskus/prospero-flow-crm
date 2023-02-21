@@ -4,6 +4,7 @@ services:
   php:
     #image: php:8.1-fpm
     build: './etc/infrastructure/php'
+    container_name: crm-php
     volumes:
     - ./etc/.bashrc:/root/.bashrc
     - .:/var/www/crm/
@@ -15,6 +16,7 @@ services:
   web:
     #image: nginx:stable
     build: './etc/infrastructure/nginx'
+    container_name: crm-nginx
     ports:
       - "80:80"
       - "443:443"
@@ -33,12 +35,14 @@ services:
     - php
   cache:
     image: redis
+    container_name: crm-cache
     ports:
       - "6379:6379"
     volumes:
       - ./etc/infrastructure/redis/redis.conf:/etc/redis/redis.conf
   db:
-    image: mariadb:10.7
+    image: mariadb:latest
+    container_name: crm-db
     ports:
     - "3306:3306"
     environment:
@@ -48,6 +52,7 @@ services:
       - MYSQL_PASSWORD={$DB_PASSWORD}
   phpmyadmin:
     image: phpmyadmin
+    container_name: crm-pma
     restart: always
     ports:
       - "8080:80"
