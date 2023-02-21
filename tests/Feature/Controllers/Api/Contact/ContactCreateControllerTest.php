@@ -30,9 +30,9 @@ class ContactCreateControllerTest extends TestCase
 
         $data = [
             'lead_id' => $lead->id,
-            'email' => 'email@example.com',
-            'first_name' => 'Test First Name',
-            'phone' => 666666666,
+            'contact_first_name' => 'Test First Name',
+            'contact_email' => 'email@example.com',
+            'contact_phone' => 666666666,
         ];
 
         $response = $this->json('POST', '/api/contact/', $data);
@@ -59,9 +59,9 @@ class ContactCreateControllerTest extends TestCase
         ]);
 
         $this->get('/lead/update/'.$lead->id)
-            ->assertSee($data['email'])
-            ->assertSee($data['first_name'])
-            ->assertSee($data['phone']);
+            ->assertSee($data['contact_email'])
+            ->assertSee($data['contact_first_name'])
+            ->assertSee($data['contact_phone']);
     }
 
     /**
@@ -73,22 +73,22 @@ class ContactCreateControllerTest extends TestCase
         $this->actingAs($user, 'api');
 
         $response = $this->json('POST', '/api/contact/', [
-            'email' => 'email@example.com',
+            'contact_email' => 'email@example.com',
         ]);
 
         $response->assertStatus(422);
 
         $response->assertJson([
-            'message' => 'The first name field is required. (and 2 more errors)',
+            'message' => 'The contact first name field is required. (and 2 more errors)',
             'errors' => [
-                'first_name' => [
-                    'The first name field is required.',
+                'contact_first_name' => [
+                    'The contact first name field is required.',
                 ],
                 'lead_id' => [
                     'The lead id field is required.',
                 ],
-                'phone' => [
-                    'The phone field is required.',
+                'contact_phone' => [
+                    'The contact phone field is required.',
                 ],
             ],
         ]);
