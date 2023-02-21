@@ -19,6 +19,7 @@
                 <th>E-mail</th>
                 <th>{{ __('Website') }}</th>
                 <th>{{ __('Country') }}</th>
+                <th>{{ __('Updated at') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -43,6 +44,9 @@
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ !empty($supplier->country) ? $supplier->country->name : '' }}">
                     {{ !empty($supplier->country) ? $supplier->country->flag : '' }}
+                </td>
+                <td>
+                    {{ !empty($supplier->updated_at) ? $supplier->updated_at->format('d/m/Y H:i') : '' }}
                 </td>
                 <td class="text-nowrap">
                     <a href="{{ url("/supplier/update/$supplier->id") }}" class="btn btn-xs btn-warning text-white">

@@ -53,6 +53,7 @@
             </div>
             <div class="row">
                 <div class="col mt-2">
+                    <a href="{{ url('supplier') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                     <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
