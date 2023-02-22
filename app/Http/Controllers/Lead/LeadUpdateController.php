@@ -26,6 +26,7 @@ class LeadUpdateController extends MainController
         $data['countries'] = Country::orderBy('name')->get();
         $data['industries'] = $industry->getAll();
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
+        $data['editorType'] = 'advanced';
 
         return view('lead.lead', $data);
     }

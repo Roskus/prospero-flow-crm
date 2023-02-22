@@ -13,7 +13,7 @@
         // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
         toolbar: {
             items: [
-                'exportPDF','exportWord', '|',
+                @if(!empty($editorType) && $editorType == 'advanced') 'exportPDF','exportWord', '|', @endif
                 'findAndReplace', 'selectAll', '|',
                 'heading', '|',
                 'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
@@ -23,8 +23,16 @@
                 '-',
                 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
                 'alignment', '|',
-                'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
-                'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                'link', 'insertImage', 'blockQuote', 'insertTable',
+                @if(!empty($editorType) && $editorType == 'advanced')
+                    'mediaEmbed',
+                @endif
+                'codeBlock', 'htmlEmbed', '|',
+                'specialCharacters', 'horizontalLine',
+                @if(!empty($editorType) && $editorType == 'advanced')
+                'pageBreak',
+                @endif
+                '|',
                 'textPartLanguage', '|',
                 'sourceEditing'
             ],
