@@ -30,6 +30,7 @@ class CustomerIndexController extends MainController
 
         if ($request->seller_id) {
             $filters['seller_id'] = $request->seller_id;
+            $data['seller_id'] = $request->seller_id;
         }
 
         if ($request->status) {
