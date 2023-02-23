@@ -15,6 +15,8 @@ class Email extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     protected $table = 'email';
 
     const DRAFT = 'draft';
