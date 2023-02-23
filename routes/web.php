@@ -118,6 +118,7 @@ Route::get('/email/update/{id}', [\App\Http\Controllers\Email\EmailUpdateControl
 Route::post('/email/save', [\App\Http\Controllers\Email\EmailSaveController::class, 'save']);
 Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController::class, 'send']);
 Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete']);
+Route::post('/email/duplicate', [\App\Http\Controllers\Email\EmailDuplicateController::class, 'duplicate'])->name('email.duplicate');
 
 // Email template
 Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
