@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Ticket;
 
-use App\Mail\GenericEmail;
+use App\Mail\TicketStateChanged;
 use App\Models\Customer;
 use App\Models\Ticket;
 use App\Models\User;
@@ -63,7 +63,7 @@ class TicketSaveControllerTest extends TestCase
         $response->assertRedirect('/ticket');
         $this->assertDatabaseHas('ticket', $data);
 
-        Mail::assertSent(GenericEmail::class);
+        Mail::assertSent(TicketStateChanged::class);
     }
 
     /** @test */
@@ -76,6 +76,6 @@ class TicketSaveControllerTest extends TestCase
         $ticket->status = 'closed';
         $ticket->save();
 
-        Mail::assertSent(GenericEmail::class);
+        Mail::assertSent(TicketStateChanged::class);
     }
 }
