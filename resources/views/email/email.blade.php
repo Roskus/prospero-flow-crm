@@ -20,7 +20,7 @@
                             <option value=""></option>
                             @foreach ($froms as $from)
                                 <option value="{{ $from }}"
-                                    @if ($from == $email->from) selected="selected" @endif>{{ $from }}
+                                    @if ($email->from == $from ) selected="selected" @endif>{{ $from }}
                                 </option>
                             @endforeach
                         </select>
@@ -59,7 +59,12 @@
                     <div class="col mt-2">
                         @isset($email->id)
                             <button data-bs-toggle="modal" data-bs-target="#duplicate-email-modal" type="button"
-                                    class="btn btn-outline-dark ms-2"><i class="las la-copy"></i> {{ __('Duplicate') }}</button>
+                                    class="btn btn-outline-dark ms-2"><i class="las la-copy"></i> {{ __('Duplicate') }}
+                            </button>
+
+                            <a href="{{ url('/email/send/'.$email->id) }}" class="btn btn-primary">
+                                <i class="las la-envelope"></i> {{ __('Send') }}
+                            </a>
                         @endisset
                     </div>
                 </div>

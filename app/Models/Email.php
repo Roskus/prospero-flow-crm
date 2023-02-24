@@ -61,6 +61,6 @@ class Email extends Model
             }
         }
 
-        return $email->paginate(10);
+        return $email->orderByDesc('id')->paginate(10);
     }
 }
