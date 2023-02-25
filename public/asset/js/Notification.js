@@ -39,16 +39,11 @@ window.ProspectFlow.Notification = {
                           li.appendChild(notificationReadLink);
                           ul.appendChild(li);
 
-                          //Make a sound
-                          let audioUrl = window.location.origin + '/asset/sound/button_tiny.mp3';
-                          const audio = new Audio(audioUrl);
-                          audio.play();
+                          //Play sound
+                          this.playSound();
 
                           // Show toast
-                          const toastLiveExample = document.getElementById('liveToast');
-                          const toast = new window.bootstrap.Toast(toastLiveExample);
-                          $(toast +' .toast-body').html(data.notifications[key].message);
-                          toast.show();
+                          this.showToast(data.notifications[key].message);
                       }
 
                   }
@@ -69,5 +64,17 @@ window.ProspectFlow.Notification = {
         // Awaiting response.json()
         const resData = await response.json();
         console.log(response);
+    },
+    playSound: function() {
+        const audioUrl = `${window.location.origin}/asset/sound/button_tiny.mp3`;
+        const audio = new Audio(audioUrl);
+        audio.play();
+    },
+    showToast: function(message)
+    {
+        const toastLiveExample = document.getElementById('liveToast');
+        const toast = new window.bootstrap.Toast(toastLiveExample);
+        $(toast +' .toast-body').html(message);
+        toast.show();
     }
 }
