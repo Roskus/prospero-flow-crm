@@ -87,6 +87,9 @@
                         <label for="notes">{{ __('Notes') }}</label>
                         <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ $lead->notes }}</textarea>
                     </div>
+                    <div class="col mt-3">
+                        <x-geolocalization.map :latitude="$lead->latitude" :longitude="$lead->longitude" />
+                    </div>
                 </div><!--./row-->
             </div><!--./card-body-->
         </div><!--./card-->
