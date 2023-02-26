@@ -48,6 +48,8 @@ class LeadFactory extends Factory
             'zipcode' => fake()->numerify('#####'),
             'schedule_contact' => fake()->dateTimeBetween('-2 weeks', 'now')->format('Y-m-d h:m:s'),
             'industry_id' => Industry::factory(),
+            'latitude' => null, //fake()->latitude(-90, 90),
+            'longitude' => null, //fake()->longitude(-180, 180),
             'opt_in' => 1,
             'tags' => [fake()->word(), fake()->word()],
             'status' => fake()->randomElement(['open', 'first_contact', 'recall', 'quote', 'quoted', 'waiting_for_answer', 'standby', 'closed']),

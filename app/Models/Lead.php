@@ -116,6 +116,8 @@ class Lead extends Model
         'zipcode',
         'schedule_contact',
         'industry_id',
+        'latitude',
+        'longitude',
         'opt_in',
         'tags',
         'status',
