@@ -27,12 +27,13 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|max:80',
             'business_name' => 'max:80',
             'dob' => 'nullable|date',
             'vat' => 'nullable|max:20',
-            'phone' => 'nullable|numeric|max:15',
-            'phone2' => 'nullable|numeric|max:15',
-            'mobile' => 'nullable|numeric|max:15',
+            'phone' => 'nullable|numeric|max_digits:15',
+            'phone2' => 'nullable|numeric|max_digits:15',
+            'mobile' => 'nullable|numeric|max_digits:15',
             'email' => 'nullable|email|max:254',
             'email2' => 'nullable|email|max:254',
             'website' => 'nullable|url|max:255',
