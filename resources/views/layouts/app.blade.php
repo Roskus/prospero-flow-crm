@@ -40,7 +40,7 @@
 <body>
 @auth
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark d-print-none" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
                 @if(empty(Auth::user()->company->logo))
@@ -130,7 +130,7 @@
     </div>
 </main>
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
+<div class="toast-container position-fixed bottom-0 end-0 p-3 d-print-none">
     <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <img src="#" class="rounded me-2" alt="...">

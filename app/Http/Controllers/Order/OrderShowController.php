@@ -14,6 +14,7 @@ class OrderShowController extends MainController
     {
         $order = Order::findOrFail($id);
         $data['order'] = $order;
+
         return view('order.show', $data);
     }
 }

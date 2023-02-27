@@ -47,5 +47,9 @@
         </tr>
         </tfoot>
     </table>
+    <div class="text-center d-print-none">
+        <a href="{{ route('order-download', ['id' => $order->id]) }}" class="btn btn-success"><i class="las la-file-pdf"></i> {{ __('Download') }}</a>
+    </div>
+
     </div><!--./content-->
 @endsection
