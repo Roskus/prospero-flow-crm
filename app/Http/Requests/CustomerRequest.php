@@ -53,7 +53,7 @@ class CustomerRequest extends FormRequest
             'schedule_contact' => 'nullable|datetime',
             'industry_id' => 'nullable|numeric',
             'latitude' => 'nullable|numeric|gte:-90|lte:90',
-            'longitude' => 'nullable|numeric|gte:-180|lte:180|required_if:latitude',
+            'longitude' => 'nullable|numeric|gte:-180|lte:180|required_with:latitude',
             'opt_in' => 'nullable',
             'tags' => 'nullable',
             'status' => 'nullable', //@todo validate status options

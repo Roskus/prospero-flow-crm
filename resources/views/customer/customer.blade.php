@@ -11,11 +11,14 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" value="{{ $customer->name }}" required="required" maxlength="80" class="form-control form-control-lg">
+                        <input type="text" name="name" id="name" value="{{ old('name', $customer->name) }}"
+                               required="required" maxlength="80" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="business_name">{{ __('Business name') }}</label>
-                        <input type="text" name="business_name" id="business_name" value="{{ $customer->business_name }}" maxlength="80" class="form-control form-control-lg">
+                        <input type="text" name="business_name" id="business_name"
+                               value="{{ old('business_name', $customer->business_name) }}" maxlength="80"
+                               class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
                 <div class="row">
@@ -23,14 +26,16 @@
                         <label for="phone">{{ __('Phone') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-phone"></i></span>
-                            <input type="tel" name="phone" id="phone" value="{{ $customer->phone }}" maxlength="15" class="form-control form-control-lg">
+                            <input type="tel" name="phone" id="phone" value="{{ old('phone', $customer->phone) }}"
+                                   maxlength="15" class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="phone2">{{ __('Phone') }} 2</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-phone"></i></span>
-                            <input type="tel" name="phone2" id="phone2" value="{{ $customer->phone2 }}" maxlength="15" class="form-control form-control-lg">
+                            <input type="tel" name="phone2" id="phone2" value="{{ old('phone2', $customer->phone2) }}"
+                                   maxlength="15" class="form-control form-control-lg">
                         </div>
                     </div>
                 </div><!--./row-->
@@ -39,14 +44,16 @@
                         <label for="email" class="">E-mail</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-envelope"></i></span>
-                            <input type="email" name="email" id="email" value="{{ $customer->email }}" maxlength="254" class="form-control form-control-lg">
+                            <input type="email" name="email" id="email" value="{{ old('email', $customer->email) }}"
+                                   maxlength="254" class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="email2" class="">E-mail 2</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-envelope"></i></span>
-                            <input type="email" name="email2" id="email2" value="{{ $customer->email2 }}" maxlength="254" class="form-control form-control-lg">
+                            <input type="email" name="email2" id="email2" value="{{ old('email2', $customer->email2) }}"
+                                   maxlength="254" class="form-control form-control-lg">
                         </div>
                     </div>
                 </div><!--./row-->
@@ -55,14 +62,17 @@
                         <label for="mobile" class="">{{ __('Mobile') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="lab la-whatsapp"></i></span>
-                            <input type="tel" name="mobile" id="mobile" value="{{ $customer->mobile }}" maxlength="15" class="form-control form-control-lg">
+                            <input type="tel" name="mobile" id="mobile" value="{{ old('mobile', $customer->mobile) }}"
+                                   maxlength="15" class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="website" class="">Website</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-globe"></i></span>
-                            <input type="url" name="website" id="website" placeholder="https://www.website.com" value="{{ $customer->website }}" maxlength="255" class="form-control form-control-lg">
+                            <input type="url" name="website" id="website" placeholder="https://www.website.com"
+                                   value="{{ old('website', $customer->website) }}" maxlength="255"
+                                   class="form-control form-control-lg">
                         </div>
                     </div>
                 </div>
@@ -71,21 +81,25 @@
                         <label for="vat" class="">{{ __('Identity number') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-id-card"></i></span>
-                            <input type="text" name="vat" id="vat" value="{{ $customer->vat }}" maxlength="20" class="form-control form-control-lg">
+                            <input type="text" name="vat" id="vat" value="{{ old('vat', $customer->vat) }}"
+                                   maxlength="20" class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="dob">{{ __('Date of birth') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-calendar-day"></i></span>
-                            <input type="date" name="dob" id="dob" value="{{ $customer->dob }}" class="form-control form-control-lg">
+                            <input type="date" name="dob" id="dob" value="{{ old('dob', $customer->dob) }}"
+                                   class="form-control form-control-lg">
                         </div>
                     </div>
                 </div><!--./row-->
                 <div class="row">
                     <div class="col">
                         <label for="notes">{{ __('Notes') }}</label>
-                        <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ $customer->notes }}</textarea>
+                        <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">
+                            {{ old('notes', $customer->notes) }}
+                        </textarea>
                     </div>
                     <div class="col mt-3">
                         <x-geolocalization.map :latitude="$customer->latitude" :longitude="$customer->longitude" />
@@ -103,31 +117,39 @@
                         <select name="country_id" id="country_id" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($countries as $country)
-                                <option value="{{ $country->code_2 }}" @if($customer->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
+                                <option value="{{ $country->code_2 }}" @if($customer->country_id == $country->code_2) selected="selected" @endif>
+                                    {{ $country->name }} {{ $country->flag }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="province" class="">{{ __('Province') }}</label>
-                        <input type="text" name="province" id="province" value="{{ $customer->province }}" class="form-control form-control-lg">
+                        <input type="text" name="province" id="province"
+                               value="{{ old('province', $customer->province) }}" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="city" class="">{{ __('City') }}</label>
-                        <input type="text" name="city" id="city" value="{{ $customer->city }}" class="form-control form-control-lg">
+                        <input type="text" name="city" id="city"
+                               value="{{ old('city', $customer->city) }}" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="locality" class="">{{ __('Locality') }}</label>
-                        <input type="text" name="locality" id="locality" value="{{ $customer->locality }}" class="form-control form-control-lg">
+                        <input type="text" name="locality" id="locality"
+                               value="{{ old('locality', $customer->locality) }}"
+                               class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="street" class="">{{ __('Street') }}</label>
-                        <input type="text" name="street" id="street" value="{{ $customer->street }}" class="form-control form-control-lg" maxlength="80">
+                        <input type="text" name="street" id="street" value="{{ old('street', $customer->street) }}"
+                               class="form-control form-control-lg" maxlength="80">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="zipcode" class="">{{ __('Zipcode') }}</label>
-                        <input type="text" name="zipcode" id="zipcode" value="{{ $customer->zipcode }}" class="form-control form-control-lg" maxlength="10">
+                        <input type="text" name="zipcode" id="zipcode" value="{{ old('zipcode', $customer->zipcode) }}"
+                               class="form-control form-control-lg" maxlength="10">
                     </div>
                 </div><!--./row-->
             </div><!--./card-body-->
@@ -141,14 +163,20 @@
                     <label for="facebook">Facebook</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-facebook-f"></i></span>
-                        <input type="url" name="facebook" id="facebook" value="{{ $customer->facebook }}" placeholder="https://www.facebook.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="facebook" id="facebook"
+                               value="{{ old('facebook', $customer->facebook) }}"
+                               placeholder="https://www.facebook.com/" maxlength="255"
+                               class="form-control form-control-lg">
                     </div><!--./input-group-->
                 </div><!--./col-->
                 <div class="col-12 col-md-6">
                     <label for="instagram">Instagram</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-instagram"></i></span>
-                        <input type="url" name="instagram" id="instagram" value="{{ $customer->instagram }}" placeholder="https://www.instagram.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="instagram" id="instagram"
+                               value="{{ old('instagram', $customer->instagram) }}"
+                               placeholder="https://www.instagram.com/"
+                               maxlength="255" class="form-control form-control-lg">
                     </div><!--./input-group-->
                 </div><!--./col-->
             </div>
@@ -157,14 +185,18 @@
 		            <label for="linkedin">Linkedin</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
-                        <input type="url" name="linkedin" id="linkedin" value="{{ $customer->linkedin }}" placeholder="https://www.linkedin.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="linkedin" id="linkedin"
+                               value="{{ old('linkedin', $customer->linkedin) }}"
+                               placeholder="https://www.linkedin.com/" maxlength="255"
+                               class="form-control form-control-lg">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="twitter">Twitter</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-twitter"></i></span>
-                        <input type="url" name="twitter" id="twitter" value="{{ $customer->twitter }}" placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="twitter" id="twitter" value="{{ old('twitter', $customer->twitter) }}"
+                               placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
                 </div>
             </div>
@@ -173,14 +205,18 @@
                     <label for="youtube">YouTube</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="lab la-youtube"></i></span>
-                        <input type="url" name="youtube" id="youtube" value="{{ $customer->youtube }}" placeholder="https://www.youtube.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="youtube" id="youtube" value="{{ old('youtube', $customer->youtube) }}"
+                               placeholder="https://www.youtube.com/" maxlength="255"
+                               class="form-control form-control-lg">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="tiktok">TikTok</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-brands fa-tiktok"></i></span>
-                        <input type="url" name="tiktok" id="tiktok" value="{{ $customer->tiktok }}" placeholder="https://www.tiktok.com/" maxlength="255" class="form-control form-control-lg">
+                        <input type="url" name="tiktok" id="tiktok" value="{{ old('tiktok', $customer->tiktok) }}"
+                               placeholder="https://www.tiktok.com/" maxlength="255"
+                               class="form-control form-control-lg">
                     </div>
                 </div>
             </div>
@@ -196,7 +232,9 @@
                         <select name="industry_id" id="industry_id" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach($industries as $industry)
-                            <option value="{{ $industry->id }}" @if($customer->industry_id == $industry->id) selected="selected" @endif>{{ __($industry->name) }}</option>
+                            <option value="{{ $industry->id }}" @if($customer->industry_id == $industry->id) selected="selected" @endif>
+                                {{ __($industry->name) }}
+                            </option>
                             @endforeach
                         </select>
                     </div><!--./col-->
@@ -205,13 +243,17 @@
                         <select name="status" id="status" class="form-select form-control-lg">
                             <option value="">{{ __('Choose') }}</option>
                             @foreach(\App\Models\Customer::getStatus() as $key => $status)
-                            <option value="{{ $key }}" @if($customer->status == $key) selected="selected" @endif>{{ __($status) }}</option>
+                            <option value="{{ $key }}" @if($customer->status == $key) selected="selected" @endif>
+                                {{ __($status) }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col">
                         <label for="schedule_contact">{{ __('Remember contact') }}</label>
-                        <input type="datetime-local" name="schedule_contact" id="schedule_contact" value="{{ $customer->schedule_contact }}" min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
+                        <input type="datetime-local" name="schedule_contact" id="schedule_contact"
+                               value="{{ old('schedule_contact', $customer->schedule_contact) }}"
+                               min="{{ date('Y-m-d H:i') }}" class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->
                 <div class="row">

@@ -51,11 +51,17 @@
             </div><!--./row-->
             <div class="row">
                 <div class="col">
+                    <label>{{ __('Province') }}:</label> {{ $order->customer->province }}
+                </div>
+                <div class="col">
                     <label>{{ __('City') }}:</label> {{ $order->customer->city }}
                 </div>
-                <div class="row">
-                    <label>{{ __('Street') }};</label>
+                <div class="col">
+                    <label>{{ __('Zipcode') }}:</label> {{ $order->customer->zipcode }}
                 </div>
+            </div>
+            <div class="row">
+                <label>{{ __('Street') }}:</label> {{ $order->customer->street }}
             </div>
         </div>
     </div>
