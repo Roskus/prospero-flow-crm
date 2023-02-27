@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Dompdf\Dompdf;
+use Illuminate\Http\Request;
 
 class OrderPdfController extends Controller
 {

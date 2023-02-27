@@ -31,7 +31,6 @@ Route::get('/order/delete/{id}', [\App\Http\Controllers\Order\OrderDeleteControl
 Route::post('/order/save', [\App\Http\Controllers\Order\OrderSaveController::class, 'save']);
 Route::get('/order/download/{id}', [\App\Http\Controllers\Order\OrderPdfController::class, 'download'])->name('order-download');
 
-
 //Product
 Route::match(['get', 'post'], '/product', [\App\Http\Controllers\Product\ProductIndexController::class, 'index']);
 Route::get('/product/create', [\App\Http\Controllers\Product\ProductCreateController::class, 'create']);
