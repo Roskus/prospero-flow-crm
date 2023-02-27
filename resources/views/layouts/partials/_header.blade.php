@@ -1,12 +1,12 @@
 <header class="mb-3 mt-2 rounded bg-light text-dark">
-    <div class="m-0 py-1 d-flex">
+    <div class="m-0 py-1">
         <div class="row">
-            <div class="col">
+            <div class="col-8">
                 <h1 class="px-2 m-0 display-5">{{ Str::upper($title) }}</h1>
             </div>
             @isset($print)
             <div class="col">
-            <a href="#" onclick="window.print()" class="btn btn-outline-secondary d-print-none">
+            <a href="#" onclick="window.print()" class="btn btn-lg btn-outline-secondary d-print-none">
                 <i class="las la-print"></i> {{ __('Print') }}
             </a>
             </div>

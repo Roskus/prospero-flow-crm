@@ -10,6 +10,7 @@ class ContactUpdateController extends Controller
     public function update(int $id)
     {
         $contact = Contact::find($id);
+
         return view('contact.contact', compact('contact'));
     }
 }
