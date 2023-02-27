@@ -130,8 +130,8 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="city" class="">{{ __('City') }}</label>
-                        <input type="text" name="city" id="city"
-                               value="{{ old('city', $customer->city) }}" class="form-control form-control-lg">
+                        <input type="text" name="city" id="city" value="{{ old('city', $customer->city) }}"
+                               class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="locality" class="">{{ __('Locality') }}</label>
@@ -259,7 +259,10 @@
                 <div class="row">
                     <div class="col mt-2">
                         <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
-                        <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2" class="form-control form-control-lg">{{ (!empty($customer->tags)) ? implode(',', $customer->tags) : '' }}</textarea>
+                        <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2"
+                                  class="form-control form-control-lg">
+                            {{ (!empty($customer->tags)) ? implode(',', $customer->tags) : '' }}
+                        </textarea>
                     </div>
                     <div class="col mt-2">
                         <label for="seller_id">{{ __('Seller') }}</label>
@@ -288,13 +291,15 @@
     @if($customer->id)
     <div class="accordion mt-2">
         <div class="accordion-header" id="headingContact">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="true" aria-controls="collapseContact">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact"
+                    aria-expanded="true" aria-controls="collapseContact">
                 {{ __('Contacts') }}
             </button>
         </div>
 
         <div class="accordion-body bg-white">
-            <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
+                 data-bs-parent="#accordionExample">
                 @include('contact.contact', ['customer_id' => $customer->id])
             </div><!--./collapse-->
 
@@ -302,7 +307,6 @@
                 @include('contact.index', ['contacts' => $customer->contacts])
             </div>
         </div><!--./card-body-->
-
     </div>
     @endif
 
