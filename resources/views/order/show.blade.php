@@ -35,7 +35,8 @@
                         <label>{{ __('Address') }}:</label> {{ Auth::user()->company->street }}
                     </div>
                     <div>
-                        <label>{{ __('Seller') }}:</label> {{ !empty($order->seller) ? $order->seller->first_name.' '.$order->seller->last_name : '' }}
+                        <label>{{ __('Seller') }}:</label>
+                        {{ !empty($order->seller) ? $order->seller->first_name.' '.$order->seller->last_name : '' }}
                     </div>
                 </div>
             </div>

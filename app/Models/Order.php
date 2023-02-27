@@ -33,6 +33,7 @@ final class Order extends Model
 
     protected $fillable = [
         'customer_id',
+        'seller_id',
         'amount',
     ];
 
