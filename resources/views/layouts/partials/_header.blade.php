@@ -2,8 +2,14 @@
     <div class="m-0 py-1">
         <div class="row">
             <div class="col-8">
-                <h1 class="px-2 m-0 display-5">{{ Str::upper($title) }}</h1>
+                <h1 class="px-2 m-0">
+                    <span class="display-5">{{ Str::upper($title) }}</span>
+                    @isset($count)
+                        <span class="badge rounded-pill text-bg-success">{{ $count }}</span>
+                    @endisset
+                </h1>
             </div>
+
             @isset($print)
             <div class="col">
             <a href="#" onclick="window.print()" class="btn btn-lg btn-outline-secondary d-print-none">
@@ -12,9 +18,6 @@
             </div>
             @endisset
         </div>
-        @isset($count)
-            <h2 class="my-2"><span class="badge rounded-pill text-bg-success">{{ $count }}</span></h2>
-        @endisset
 
     </div>
 </header>

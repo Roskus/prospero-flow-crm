@@ -14,13 +14,16 @@
                     @else
                         <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ env('APP_NAME') }}" class="logo">
                     @endif
-                </div>
-                <div class="col">
                     <div>
                         <label>{{ __('Business name') }}:</label> {{ Auth::user()->company->business_name }}
                     </div>
                     <div>
                         <label>{{ __('Vat') }}:</label> {{ Auth::user()->company->vat }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <label>{{ __('Date') }}:</label> {{ $order->created_at->format('d/m/Y') }}
                     </div>
                     <div>
                         <label>{{ __('Phone') }}:</label> {{ Auth::user()->company->phone }}
@@ -30,6 +33,9 @@
                     </div>
                     <div>
                         <label>{{ __('Address') }}:</label> {{ Auth::user()->company->street }}
+                    </div>
+                    <div>
+                        <label>{{ __('Seller') }}:</label> {{ !empty($order->seller) ? $order->seller->first_name.' '.$order->seller->last_name : '' }}
                     </div>
                 </div>
             </div>
@@ -43,7 +49,18 @@
                     <label>{{ __('Customer') }}:</label> {{ $order->customer->name }}
                 </div>
                 <div class="col">
+                    <label>{{ __('Business name') }}:</label> {{ $order->customer->business_name }}
+                </div>
+                <div class="col">
+                    <label>{{ __('Vat') }}:</label> {{ $order->customer->vat }}
+                </div>
+            </div><!--./row-->
+            <div class="row">
+                <div class="col">
                     <label>{{ __('Phone') }}:</label> {{ $order->customer->phone }}
+                </div>
+                <div class="col">
+                    <label>{{ __('Mobile') }}:</label> {{ $order->customer->mobile }}
                 </div>
                 <div class="col">
                     <label>E-mail:</label> {{ $order->customer->email }}
@@ -61,7 +78,9 @@
                 </div>
             </div>
             <div class="row">
-                <label>{{ __('Street') }}:</label> {{ $order->customer->street }}
+                <div class="col">
+                    <label>{{ __('Street') }}:</label> {{ $order->customer->street }}
+                </div>
             </div>
         </div>
     </div>

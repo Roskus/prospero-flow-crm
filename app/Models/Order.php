@@ -89,6 +89,11 @@ final class Order extends Model
         return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
+    public function seller(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'seller_id');
+    }
+
     //#[OAT\Property()]
     public function items(): HasMany
     {
