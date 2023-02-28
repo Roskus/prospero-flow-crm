@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
+use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**
  *  @OA\Schema(
@@ -60,6 +61,7 @@ use Squire\Models\Country;
 class Customer extends Model
 {
     use SoftDeletes, HasFactory;
+    use AuditableWithDeletesTrait;
 
     const OPEN = 'open'; //New
 
@@ -104,6 +106,9 @@ class Customer extends Model
         'opt_in',
         'tags',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -114,6 +119,9 @@ class Customer extends Model
     protected $hidden = [
         'company_id',
         'deleted_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function company(): HasOne
