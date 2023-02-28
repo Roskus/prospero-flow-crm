@@ -11,11 +11,50 @@
         <div class="row">
             <div class="col">
                 <label for="name" class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="name" id="name" value="{{ $company->name }}" maxlength="80" required="required" class="form-control">
+                <input type="text" name="name" id="name" value="{{ old('name', $company->name) }}" maxlength="80" required="required" class="form-control">
             </div>
             <div class="col">
                 <label for="business_name" class="label-control">{{ __('Business name') }}</label>
-                <input type="text" name="business_name" id="business_name" value="{{ $company->business_name }}" maxlength="80" required="required" class="form-control">
+                <input type="text" name="business_name" id="business_name" value="{{ old('business_name', $company->business_name) }}" maxlength="80" required="required" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-group">
+                <label for="phone" class="label-control">{{ __('Phone') }}</label>
+                <input type="tel" name="phone" id="phone" value="{{ old('phone', $company->phone) }}" maxlength="15"
+                       class="form-control">
+            </div>
+
+            <div class="col form-group">
+                <label for="email" class="label-control">E-mail <span class="text-danger">*</span></label>
+                <input type="email" name="email" id="email" value="{{ old('email', $company->email) }}" maxlength="254"
+                       required="required" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="vat" class="label-control">{{ __('Tax identification') }}</label>
+                <input type="text" name="vat" id="vat" value="{{ old('vat', $company->vat) }}" maxlength="20"
+                       class="form-control">
+            </div>
+            <div class="col form-group">
+                <label for="currency" class="label-control">{{ __('Currency') }}</label>
+                <input type="text" name="currency" id="currency" list="currency-list" value="{{ old('currency', $company->currency) }}"
+                       class="form-control" maxlength="3">
+                <datalist id="currency-list">
+                    @if(!empty($currencies))
+                        @foreach($currencies as $currency)
+                            <option value="{{ $currency->id }}">{{ $currency->id }} ({{ $currency->symbol }})</option>
+                        @endforeach
+                    @endif
+                </datalist>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-group">
+                <label for="website" class="label-control">{{ __('Website') }}</label>
+                <input type="url" name="website" id="website" value="{{ old('website', $company->website) }}"
+                       class="form-control">
             </div>
         </div>
         <div class="row">
@@ -29,25 +68,28 @@
                 </select>
             </div>
             <div class="col">
-                <label for="vat" class="label-control">{{ __('Tax identification') }}</label>
-                <input type="text" name="vat" id="vat" value="{{ $company->vat }}" maxlength="20" class="form-control">
+                <label for="province" class="label-control">{{ __('Province') }}</label>
+                <input type="text" name="province" id="province" value="{{ old('province', $company->province) }}"
+                       class="form form-control">
             </div>
         </div>
         <div class="row">
             <div class="col form-group">
-                <label for="phone" class="label-control">{{ __('Phone') }}</label>
-                <input type="tel" name="phone" id="phone" value="{{ $company->phone }}" maxlength="15" class="form-control">
+                <label for="city" class="label-control">{{ __('City') }}</label>
+                <input type="text" name="city" id="city" value="{{ old('city', $company->city) }}"
+                       class="form form-control">
             </div>
-
             <div class="col form-group">
-                <label class="label-control">E-mail <span class="text-danger">*</span></label>
-                <input type="email" name="email" id="email" value="{{ $company->email }}" maxlength="254" required="required" class="form-control">
+                <label for="street" class="label-control">{{ __('Street') }}</label>
+                <input type="text" name="street" id="street" value="{{ old('street', $company->street) }}"
+                       class="form form-control">
             </div>
         </div>
         <div class="row">
             <div class="col form-group">
-                <label for="website" class="label-control">{{ __('Website') }}</label>
-                <input type="url" name="website" id="website" value="{{ $company->website }}" class="form-control">
+                <label for="zipcode" class="label-control">{{ __('Zipcode') }}</label>
+                <input type="text" name="zipcode" id="zipcode" value="{{ old('zipcode', $company->zipcode) }}"
+                       class="form form-control" maxlength="10">
             </div>
         </div>
         <div class="row">
