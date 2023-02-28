@@ -70,6 +70,12 @@ use OpenApi\Annotations as OA;
  *        example="21.70"
  *    ),
  *    @OA\Property(
+ *        property="currency",
+ *        description="Currency of the product",
+ *        type="string",
+ *        example="USD"
+ *    ),
+ *    @OA\Property(
  *        property="min_stock_quantity",
  *        description="Min Stock Quantity of the product",
  *        type="int",
