@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'items'])]
+#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'currency', 'items'])]
 final class Order extends Model
 {
     use SoftDeletes, HasFactory;
@@ -35,6 +35,9 @@ final class Order extends Model
         'customer_id',
         'seller_id',
         'amount',
+        'currency',
+        'status',
+        'updated_at',
     ];
 
     protected $casts = [
@@ -56,6 +59,9 @@ final class Order extends Model
 
     #[OAT\Property(type: 'float', example: 72.30)]
     protected float $amount = 0.0;
+
+    #[OAT\Property(type: 'string', example: 'EUR')]
+    protected string $currency = 'EUR';
 
     protected ?int $status;
 
