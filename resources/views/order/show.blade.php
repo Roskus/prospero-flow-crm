@@ -115,9 +115,11 @@
                 @foreach($order->items as $item)
                     <tr>
                         <td>{{ (!empty($item->product)) ? $item->product->name : '' }}</td>
-                        <td>{{ $item->unit_price }}</td>
+                        <td>
+                            {{ number_format($item->unit_price, 2, ',', '.') }}
+                        </td>
                         <td>{{ $item->quantity }}</td>
-                        <td>{{ ($item->unit_price * $item->quantity) }}</td>
+                        <td>{{ number_format(($item->unit_price * $item->quantity), 2, ',', '.') }}</td>
                     </tr>
                 @endforeach
             @endif
@@ -127,7 +129,7 @@
                 <th colspan="2">&nbsp;</th>
                 <th class="text-right">{{ __('Total') }}</th>
                 <th>
-                    {{ $order->getTotal() }}
+                    {{ number_format($order->getTotal(), 2, ',', '.') }}
                 </th>
             </tr>
             </tfoot>
