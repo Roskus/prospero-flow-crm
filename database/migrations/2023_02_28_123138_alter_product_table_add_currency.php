@@ -11,7 +11,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up():void
+    public function up(): void
     {
         Schema::table('product', function (Blueprint $table) {
             $table->string('currency', 3)->default('EUR')->after('price');
@@ -21,7 +21,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down():void
+    public function down(): void
     {
         Schema::table('product', function (Blueprint $table) {
             $table->dropColumn('currency');
