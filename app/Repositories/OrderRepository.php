@@ -21,6 +21,7 @@ class OrderRepository
 
         $order->setCompanyId((int) Auth::user()->company_id);
         $order->setCustomerId((int) $data['customer_id']);
+        $order->seller_id = !empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $order->setAmount((float) $data['total']);
         try {
             $status = $order->save();
@@ -28,7 +29,7 @@ class OrderRepository
             Log::error($t->getMessage());
         }
 
-        if ($data['items']) {
+        if (!empty($data['items'])) {
             foreach ($data['items'] as $requestItem) {
                 try {
                     $item = new Order\Item();

@@ -33,6 +33,7 @@ final class Order extends Model
 
     protected $fillable = [
         'customer_id',
+        'seller_id',
         'amount',
     ];
 
@@ -87,6 +88,11 @@ final class Order extends Model
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');
+    }
+
+    public function seller(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'seller_id');
     }
 
     //#[OAT\Property()]

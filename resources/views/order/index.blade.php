@@ -26,13 +26,18 @@
             <tbody>
             @foreach($orders as $order)
             <tr>
-                <td>{{ $order->id }}</td>
+                <td>
+                    <a href="{{ url('order/show/'.$order->id) }}">{{ $order->id }}</a>
+                </td>
                 <td>{{ (!empty($order->customer)) ? $order->customer->name : '' }}</td>
                 <td>{{ $order->getAmount() }}</td>
                 <td>{{ $order->created_at->format('d/m/Y H:i:s') }}</td>
                 <td>{{ $order->updated_at->format('d/m/Y H:i:s') }}</td>
                 <td>{{ $order->status }}</td>
                 <td>
+                    <a href="{{ url('order/show/'.$order->id) }}" class="btn btn-xs btn-primary text-white" title="{{ __('View') }}">
+                        <i class="las la-eye"></i>
+                    </a>
                     <a href="{{ url('/order/update/'.$order->id) }}" class="btn bt-xs btn-warning text-white" title="{{ __('Edit') }}">
                         <i class="las la-pen"></i>
                     </a>

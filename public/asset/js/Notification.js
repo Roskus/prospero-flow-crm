@@ -13,25 +13,39 @@ window.ProspectFlow.Notification = {
                   let ul = document.getElementById("notification-message-list");
                   //Remove previous messages
                   while(ul.firstChild) {ul.removeChild(ul.firstChild);}
-                  for (const key in data.notifications) {
-                      let li = document.createElement("li");
-                      li.classList.add('p-1', 'rounded', 'mb-1', 'bg-blue', 'p-3', 'm-2');
 
-                      let notificationLink = document.createElement('a');
-                      let linkText = document.createTextNode(data.notifications[key].message);
-                      notificationLink.appendChild(linkText);
-                      notificationLink.href = (data.notifications[key].link) ? data.notifications[key].link : '#';
-                      notificationLink.classList.add("list-group-item","list-group-item-action");
-                      li.appendChild(notificationLink);
+                  if(data.notifications.length > 0)
+                  {
+                      //Add blinking notification badge
+                      document.getElementById("notification-badge").classList.add('notification-badge', 'animation-blink');
 
-                      let notificationReadLink = document.createElement('a');
-                      notificationReadLink.onclick = window.ProspectFlow.Notification.setRead(data.notifications[key].id);
+                      for (const key in data.notifications) {
+                          let li = document.createElement("li");
+                          li.classList.add('p-1', 'rounded', 'mb-1', 'bg-blue', 'p-3', 'm-2');
 
-                      let notificationIconReadLink = document.createElement('i');
-                      notificationReadLink.appendChild(notificationIconReadLink);
-                      notificationIconReadLink.classList.add("fa-solid","fa-xmark",'text-white');
-                      li.appendChild(notificationReadLink);
-                      ul.appendChild(li);
+                          let notificationLink = document.createElement('a');
+                          let linkText = document.createTextNode(data.notifications[key].message);
+                          notificationLink.appendChild(linkText);
+                          notificationLink.href = (data.notifications[key].link) ? data.notifications[key].link : '#';
+                          notificationLink.classList.add("list-group-item","list-group-item-action");
+                          li.appendChild(notificationLink);
+
+                          let notificationReadLink = document.createElement('a');
+                          notificationReadLink.onclick = window.ProspectFlow.Notification.setRead(data.notifications[key].id);
+
+                          let notificationIconReadLink = document.createElement('i');
+                          notificationReadLink.appendChild(notificationIconReadLink);
+                          notificationIconReadLink.classList.add("fa-solid","fa-xmark",'text-white');
+                          li.appendChild(notificationReadLink);
+                          ul.appendChild(li);
+
+                          //Play sound
+                          this.playSound();
+
+                          // Show toast
+                          this.showToast(data.notifications[key].message);
+                      }
+
                   }
               }
           })
@@ -50,5 +64,17 @@ window.ProspectFlow.Notification = {
         // Awaiting response.json()
         const resData = await response.json();
         console.log(response);
+    },
+    playSound: function() {
+        const audioUrl = `${window.location.origin}/asset/sound/button_tiny.mp3`;
+        const audio = new Audio(audioUrl);
+        audio.play();
+    },
+    showToast: function(message)
+    {
+        const toastLiveExample = document.getElementById('liveToast');
+        const toast = new window.bootstrap.Toast(toastLiveExample);
+        $(toast +' .toast-body').html(message);
+        toast.show();
     }
 }

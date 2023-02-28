@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\LeadRequest;
 use App\Repositories\LeadRepository;
-use Illuminate\Http\Request;
 
 class LeadSaveController extends MainController
 {
@@ -17,7 +17,7 @@ class LeadSaveController extends MainController
         $this->leadSaveRepository = $leadRepository;
     }
 
-    public function save(Request $request)
+    public function save(LeadRequest $request)
     {
         $lead = $this->leadSaveRepository->save($request->all());
 

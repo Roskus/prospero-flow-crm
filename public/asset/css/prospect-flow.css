@@ -26,6 +26,10 @@ main {
   overflow-y: hidden;
 }
 
+.navbar-brand .logo {
+    max-height: 30px;
+}
+
 .nav-pills .nav-item {
     --bs-nav-pills-link-active-bg: #284B63 !important;
     padding: 4px;
