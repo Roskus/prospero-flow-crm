@@ -27,7 +27,7 @@ class SupplierFactory extends Factory
             'vat' => fake()->bothify('??#########'),
             'phone' => fake()->tollFreePhoneNumber(),
             'email' => fake()->email(),
-            'website' => fake()->domainName(),
+            'website' => 'https://'.fake()->domainName(),
             'country_id' => Country::all()->random(),
             'province' => fake()->word(),
             'city' => fake()->city(),
