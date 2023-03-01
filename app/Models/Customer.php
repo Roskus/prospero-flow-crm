@@ -180,6 +180,14 @@ class Customer extends Model
         return Customer::where('company_id', $company_id)->count();
     }
 
+    public function getLatestByCompany(int $company_id, int $limit = 10)
+    {
+        $customers = Customer::where('company_id', $company_id);
+        $customers->orderBy('created_at', 'DESC');
+
+        return $customers->limit($limit)->get();
+    }
+
     public static function getStatus(): array
     {
         return [
