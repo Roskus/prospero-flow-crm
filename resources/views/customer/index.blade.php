@@ -9,8 +9,15 @@
     </div>
     <div class="col">
         <div class="btn-group d-flex" role="group" aria-label="Basic mixed styles example">
-            <a href="{{ url('/customer/import') }}" class="btn btn-success d-block">{{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
-            <a href="{{ url('/customer/export') }}" class="btn btn-info d-block">{{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i></a>
+            <a href="{{ url('/customer/import') }}" class="btn btn-success d-block">
+                {{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i>
+            </a>
+
+            @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['SuperAdmin', 'CompanyAdmin']))
+            <a href="{{ url('/customer/export') }}" class="btn btn-info d-block">
+                {{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i>
+            </a>
+            @endif
         </div><!--./btn-group-->
     </div>
 </div>

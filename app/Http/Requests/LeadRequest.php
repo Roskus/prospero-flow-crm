@@ -27,9 +27,9 @@ class LeadRequest extends FormRequest
     public function rules()
     {
         $this->merge([
-            'phone' => str_replace(['+', '-', '', '(', ')'], '', $this->phone),
-            'phone2' => str_replace(['+', '-', '', '(', ')'], '', $this->phone2),
-            'mobile' => str_replace(['+', '-', '', '(', ')'], '', $this->mobile),
+            'phone' => str_replace(['+', '-', '', '(', ')', '.'], '', $this->phone),
+            'phone2' => str_replace(['+', '-', '', '(', ')', '.'], '', $this->phone2),
+            'mobile' => str_replace(['+', '-', '', '(', ')', '.'], '', $this->mobile),
         ]);
 
         return [
