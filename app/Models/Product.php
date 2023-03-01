@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations as OA;
 
 /**
  *  @OA\Schema(
@@ -69,6 +70,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *        example="21.70"
  *    ),
  *    @OA\Property(
+ *        property="currency",
+ *        description="Currency of the product",
+ *        type="string",
+ *        example="USD"
+ *    ),
+ *    @OA\Property(
  *        property="min_stock_quantity",
  *        description="Min Stock Quantity of the product",
  *        type="int",
@@ -127,14 +134,17 @@ class Product extends Model
         'photo',
         'cost',
         'price',
+        'currency',
         'min_stock_quantity',
         'quantity',
-        //'capacity',
-        //'capacity_measure',
+        'capacity',
+        'capacity_measure',
         'description',
         'elaboration_date',
         'expiration_date',
         'tags',
+        'updated_at',
+        'status',
     ];
 
     protected $hidden = [

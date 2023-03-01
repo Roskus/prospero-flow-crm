@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Calendar;
+use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\Order;
 use Carbon\Carbon;
@@ -25,9 +26,14 @@ class MainController extends Controller
     {
         $order = new Order();
         $lead = new Lead();
+        $customer = new Customer();
         $data['order_count'] = $order->getPendingCount(Auth::user()->company_id);
-        $data['lead_count'] = $lead->getCountByCompany(Auth::user()->company_id);
         $data['leads'] = $lead->getLatestByCompany(Auth::user()->company_id, 4);
+        $data['customers'] = $customer
+            ->whereCompanyId(Auth::user()->company_id)
+            ->whereStatus(Customer::IN_PROGRESS)
+            ->limit(4)
+            ->get();
 
         $date = Carbon::now();
         $startOfCalendar = $date->copy()->firstOfMonth()->startOfWeek(Carbon::MONDAY);

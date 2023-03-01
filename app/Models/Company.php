@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations as OA;
 use Squire\Models\Country;
 
 /**
@@ -40,6 +41,36 @@ use Squire\Models\Country;
  *        example="ES"
  *    ),
  *    @OA\Property(
+ *        property="province",
+ *        description="Province of the company",
+ *        type="string",
+ *        example="Barcelona"
+ *    ),
+ *    @OA\Property(
+ *        property="city",
+ *        description="City of the company",
+ *        type="string",
+ *        example="Barcelona"
+ *    ),
+ *    @OA\Property(
+ *        property="street",
+ *        description="Street of the company",
+ *        type="string",
+ *        example="Av. Constitución 123"
+ *    ),
+ *    @OA\Property(
+ *        property="zipcode",
+ *        description="Zipcode of the company",
+ *        type="string",
+ *        example="08860"
+ *    ),
+ *    @OA\Property(
+ *        property="currency",
+ *        description="Default currency of the company",
+ *        type="string",
+ *        example="USD"
+ *    ),
+ *    @OA\Property(
  *        property="website",
  *        description="Website of the company",
  *        type="string",
@@ -58,11 +89,20 @@ class Company extends Model
 
     protected $fillable = [
         'name',
+        'business_name',
+        'vat',
         'logo',
+        'signature_html',
         'phone',
         'email',
         'country_id',
+        'province',
+        'city',
+        'street',
+        'zipcode',
+        'currency',
         'website',
+        'updated_at',
         'status',
     ];
 

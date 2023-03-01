@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('ticket', function (Blueprint $table): void {
-            $table->unsignedBigInteger('order_id')->nullable()->after('type');
-            $table->foreign('order_id')->references('id')->on('order');
+        Schema::table('product', function (Blueprint $table) {
+            $table->string('currency', 3)->default('EUR')->after('price');
         });
     }
 
@@ -24,9 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('ticket', function (Blueprint $table): void {
-            $table->dropForeign('ticket_order_id_foreign');
-            $table->dropColumn('order_id');
+        Schema::table('product', function (Blueprint $table) {
+            $table->dropColumn('currency');
         });
     }
 };
