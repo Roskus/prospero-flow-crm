@@ -33,7 +33,7 @@ class LeadFactory extends Factory
             'mobile' => fake()->tollFreePhoneNumber(),
             'email' => fake()->email(),
             'email2' => fake()->email(),
-            'website' => fake()->domainName(),
+            'website' => 'https://'.fake()->domainName(),
             'linkedin' => fake()->url(),
             'facebook' => fake()->url(),
             'instagram' => fake()->url(),

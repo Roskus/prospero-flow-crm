@@ -114,7 +114,13 @@
             @else
                 @foreach($order->items as $item)
                     <tr>
-                        <td>{{ (!empty($item->product)) ? $item->product->name : '' }}</td>
+                        <td>
+                        {{ (!empty($item->product)) ? $item->product->name : '' }}
+                        @if(!empty($item->product->photo))
+                        <img src="{{ asset('/asset/upload/product/'.$item->product->id.'/'.$item->product->photo) }}"
+                             alt="" width="100" class="img-fluid img-thumbnail">
+                        @endif
+                        </td>
                         <td>
                             {{ number_format($item->unit_price, 2, ',', '.') }}
                         </td>

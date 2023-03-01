@@ -26,14 +26,20 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
+        $this->merge([
+            'phone' => str_replace(['+', '-', '', '(', ')'], '', $this->phone),
+            'phone2' => str_replace(['+', '-', '', '(', ')'], '', $this->phone2),
+            'mobile' => str_replace(['+', '-', '', '(', ')'], '', $this->mobile),
+        ]);
+
         return [
             'name' => 'required|max:80',
             'business_name' => 'max:80',
             'dob' => 'nullable|date',
             'vat' => 'nullable|max:20',
-            'phone' => 'nullable|numeric|max_digits:15',
-            'phone2' => 'nullable|numeric|max_digits:15',
-            'mobile' => 'nullable|numeric|max_digits:15',
+            'phone' => 'nullable|string|max_digits:15',
+            'phone2' => 'nullable|string|max_digits:15',
+            'mobile' => 'nullable|string|max_digits:15',
             'email' => 'nullable|email|max:254',
             'email2' => 'nullable|email|max:254',
             'website' => 'nullable|url|max:255',
