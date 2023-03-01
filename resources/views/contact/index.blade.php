@@ -16,26 +16,14 @@
 <tbody>
 @if($contacts)
     @foreach($contacts as $contact)
-    <form method="post" id="form_contact_{{ $contact->id }}" action="{{ url('/contact/save') }}">
     <tr>
-        <td>
-            <input type="hidden" name="contact_id" value="{{ $contact->id }}">
-            <input type="text" name="contact_first_name" value="{{ $contact->first_name }}" disabled class="form-control">
-        </td>
-        <td>
-            <input type="text" name="contact_last_name" value="{{ $contact->last_name }}" disabled class="form-control">
-        </td>
-        <td>
-            <div class="">{{ $contact->job_title }}</div>
-            <input type="text" name="contact_job_title" value="{{ $contact->job_title }}" disabled maxlength="80" class="form-control d-none">
-        </td>
+        <td>{{ $contact->first_name }}</td>
+        <td>{{ $contact->last_name }}</td>
+        <td>{{ $contact->job_title }}</td>
         <td>
             @if($contact->phone)
                 <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
             @endif
-            <div class="d-none">
-            <input type="tel" name="contact_phone" value="{{ $contact->phone }}" maxlength="15" class="form-control">
-            </div>
         </td>
         <td>
             @if($contact->mobile)
@@ -48,9 +36,6 @@
             @if($contact->email)
                 <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
             @endif
-            <div class="d-none">
-            <input type="email" name="contact_email" value="{{ $contact->email }}" maxlength="254" class="form-control">
-            </div>
         </td>
         <td>
             @if($contact->linkedin)
@@ -75,7 +60,6 @@
             </a>
         </td>
     </tr>
-    </form>
     @endforeach
 @else
     <tr>

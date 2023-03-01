@@ -22,34 +22,33 @@ class LeadRepository
         $lead->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $lead->company_id = Auth::user()->company_id;
         $lead->name = $data['name'];
-        $lead->business_name = $data['business_name'];
-        $lead->dob = $data['dob'];
-        $lead->vat = $data['vat'];
+        $lead->business_name = ! empty($data['business_name']) ? $data['business_name'] : null;
+        $lead->dob = ! empty($data['dob']) ? $data['dob'] : null;
+        $lead->vat = ! empty($data['vat']) ? $data['vat'] : null;
         $lead->phone = $data['phone'];
         $lead->phone2 = $data['phone2'];
         $lead->mobile = $data['mobile'];
-        $lead->email = $data['email'];
-        $lead->email2 = $data['email2'];
-        $lead->website = ($data['website']) ? rtrim($data['website'], '/') : null;
-        $lead->notes = $data['notes'];
-
-        $lead->linkedin = ($data['linkedin']) ? rtrim($data['linkedin'], '/') : null;
-        $lead->facebook = ($data['facebook']) ? rtrim($data['facebook'], '/') : null;
-        $lead->instagram = ($data['instagram']) ? rtrim($data['instagram'], '/') : null;
-        $lead->twitter = ($data['twitter']) ? rtrim($data['twitter'], '/') : null;
-        $lead->youtube = ($data['youtube']) ? rtrim($data['youtube'], '/') : null;
-        $lead->tiktok = ($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
-
-        $lead->country_id = ($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
-        $lead->province = $data['province'];
-        $lead->city = $data['city'];
+        $lead->email = ! empty($data['email']) ? $data['email'] : null;
+        $lead->email2 = ! empty($data['email2']) ? $data['email2'] : null;
+        $lead->website = ! empty($data['website']) ? rtrim($data['website'], '/') : null;
+        $lead->linkedin = ! empty($data['linkedin']) ? rtrim($data['linkedin'], '/') : null;
+        $lead->facebook = ! empty($data['facebook']) ? rtrim($data['facebook'], '/') : null;
+        $lead->instagram = ! empty($data['instagram']) ? rtrim($data['instagram'], '/') : null;
+        $lead->twitter = ! empty($data['twitter']) ? rtrim($data['twitter'], '/') : null;
+        $lead->youtube = ! empty($data['youtube']) ? rtrim($data['youtube'], '/') : null;
+        $lead->tiktok = ! empty($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
+        $lead->notes = ! empty($data['notes']) ? $data['notes'] : null;
+        $lead->country_id = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
+        $lead->province = ! empty($data['province']) ? $data['province'] : null;
+        $lead->city = ! empty($data['city']) ? $data['city'] : null;
         $lead->locality = $data['locality'];
         $lead->street = $data['street'];
         $lead->zipcode = $data['zipcode'];
-
-        $lead->industry_id = $data['industry_id'];
-        $lead->schedule_contact = $data['schedule_contact'];
-
+        $lead->schedule_contact = ! empty($data['schedule_contact']) ? $data['schedule_contact'] : null;
+        $lead->industry_id = ! empty($data['industry_id']) ? $data['industry_id'] : null;
+        $lead->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
+        $lead->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
+        $lead->opt_in = ! empty($data['opt_in']) ? $data['opt_in'] : null;
         $lead->tags = ($data['tags']) ? explode(',', $data['tags']) : null;
 
         if ($data['status']) {
@@ -57,7 +56,6 @@ class LeadRepository
         }
 
         $lead->updated_at = now();
-
         $lead->save();
 
         return $lead;

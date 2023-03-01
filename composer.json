@@ -13,6 +13,7 @@
         "aws/aws-sdk-php": "^3.234",
         "darkaonline/l5-swagger": "^8.3",
         "doctrine/dbal": "^3.4",
+        "dompdf/dompdf": "^2.0",
         "egulias/email-validator": "^4.0",
         "fakerphp/faker": "^1.9.1",
         "fideloper/proxy": "^4.4",
@@ -34,7 +35,8 @@
         "squirephp/continents-en": "^3.0",
         "squirephp/countries-en": "^3.0",
         "squirephp/countries-es": "^3.0",
-        "squirephp/currencies-en": "^3.3"
+        "squirephp/currencies-en": "^3.3",
+        "yajra/laravel-auditable": "^4.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

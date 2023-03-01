@@ -12,11 +12,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
+use Yajra\Auditable\AuditableWithDeletesTrait;
 
-#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'items'])]
+#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'currency', 'items'])]
 final class Order extends Model
 {
     use SoftDeletes, HasFactory;
+    use AuditableWithDeletesTrait;
 
     // Class Constants
     const CANCELED = 0;
@@ -33,7 +35,14 @@ final class Order extends Model
 
     protected $fillable = [
         'customer_id',
+        'seller_id',
         'amount',
+        'currency',
+        'status',
+        'updated_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -43,6 +52,9 @@ final class Order extends Model
     protected $hidden = [
         'company_id',
         'deleted_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
@@ -55,6 +67,9 @@ final class Order extends Model
 
     #[OAT\Property(type: 'float', example: 72.30)]
     protected float $amount = 0.0;
+
+    #[OAT\Property(type: 'string', example: 'EUR')]
+    protected string $currency = 'EUR';
 
     protected ?int $status;
 
@@ -87,6 +102,11 @@ final class Order extends Model
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');
+    }
+
+    public function seller(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'seller_id');
     }
 
     //#[OAT\Property()]

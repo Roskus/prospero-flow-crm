@@ -35,11 +35,12 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    @stack('styles')
 </head>
 <body>
 @auth
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark d-print-none" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
                 @if(empty(Auth::user()->company->logo))
@@ -76,7 +77,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" id="notification-list" data-bs-toggle="dropdown" aria-expanded="false" onclick="ProspectFlow.Notification.getLatest()">
                                 <i class="fa-regular fa-bell"></i>
-                                <span class="notification-badge animation-blink">
+                                <span id="notification-badge">
                                     <span class="visually-hidden">{{ __('New notifications') }}</span>
                                 </span>
                             </a>
@@ -128,11 +129,36 @@
         @yield('content')
     </div>
 </main>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3 d-print-none">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="#" class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="ProspectFlow.Notification.setRead()"></button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+</div>
+
 <!--JavaScript-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="/asset/js/Hammer.js"></script>
 <script src="/asset/js/Notification.js"></script>
 @stack('scripts')
+<script>
+    const timeID = setInterval(
+        (arg) => {
+            console.log(`${arg}: ${new Date()}`);
+            ProspectFlow.Notification.getLatest();
+        },
+        15000, //15 seconds
+        "Date"
+    );
+</script>
 </body>
 </html>

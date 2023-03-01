@@ -8,6 +8,7 @@ use App\Http\Controllers\MainController;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Squire\Models\Country;
+use Squire\Models\Currency;
 
 class CompanyUpdateController extends MainController
 {
@@ -16,6 +17,7 @@ class CompanyUpdateController extends MainController
         $company = Company::find($id);
         $data['company'] = $company;
         $data['countries'] = Country::all();
+        $data['currencies'] = Currency::all();
 
         return view('company/company', $data);
     }

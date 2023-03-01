@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
+use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**
  *  @OA\Schema(
@@ -60,6 +61,7 @@ use Squire\Models\Country;
 class Customer extends Model
 {
     use SoftDeletes, HasFactory;
+    use AuditableWithDeletesTrait;
 
     const OPEN = 'open'; //New
 
@@ -99,9 +101,14 @@ class Customer extends Model
         'zipcode',
         'schedule_contact',
         'industry_id',
+        'latitude',
+        'longitude',
         'opt_in',
         'tags',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -112,6 +119,9 @@ class Customer extends Model
     protected $hidden = [
         'company_id',
         'deleted_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function company(): HasOne
@@ -168,6 +178,14 @@ class Customer extends Model
     public function getCountByCompany(int $company_id): int
     {
         return Customer::where('company_id', $company_id)->count();
+    }
+
+    public function getLatestByCompany(int $company_id, int $limit = 10)
+    {
+        $customers = Customer::where('company_id', $company_id);
+        $customers->orderBy('created_at', 'DESC');
+
+        return $customers->limit($limit)->get();
     }
 
     public static function getStatus(): array

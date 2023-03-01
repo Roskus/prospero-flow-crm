@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Company;
@@ -48,6 +50,8 @@ class LeadFactory extends Factory
             'zipcode' => fake()->numerify('#####'),
             'schedule_contact' => fake()->dateTimeBetween('-2 weeks', 'now')->format('Y-m-d h:m:s'),
             'industry_id' => Industry::factory(),
+            'latitude' => fake()->randomFloat(6, 40.3, 40.5),
+            'longitude' => fake()->randomFloat(6, -3.5, -3.9),
             'opt_in' => 1,
             'tags' => [fake()->word(), fake()->word()],
             'status' => fake()->randomElement(['open', 'first_contact', 'recall', 'quote', 'quoted', 'waiting_for_answer', 'standby', 'closed']),

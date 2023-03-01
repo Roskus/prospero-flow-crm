@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\CustomerRequest;
 use App\Repositories\CustomerRepository;
-use Illuminate\Http\Request;
 
 class CustomerSaveController extends MainController
 {
@@ -20,7 +20,7 @@ class CustomerSaveController extends MainController
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function save(Request $request)
+    public function save(CustomerRequest $request)
     {
         $status = 'error';
         $customer = $this->customerSaveRepository->save($request->all());
