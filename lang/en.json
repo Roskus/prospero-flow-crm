@@ -32,6 +32,7 @@
     "Cost" : "Cost",
     "Country" : "Country",
     "Created at" : "Created at",
+    "Currency" : "Currency",
     "Customer" : "Customer",
     "Customer deleted successfully" : "Customer deleted successfully",
     "Customer :name successfully saved": "Customer :name successfully saved",

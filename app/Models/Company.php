@@ -69,7 +69,7 @@ use Squire\Models\Country;
  *        description="Default currency of the company",
  *        type="string",
  *        example="USD"
- *    )
+ *    ),
  *    @OA\Property(
  *        property="website",
  *        description="Website of the company",

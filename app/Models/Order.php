@@ -12,11 +12,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
+use Yajra\Auditable\AuditableWithDeletesTrait;
 
 #[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'currency', 'items'])]
 final class Order extends Model
 {
     use SoftDeletes, HasFactory;
+    use AuditableWithDeletesTrait;
 
     // Class Constants
     const CANCELED = 0;
@@ -38,6 +40,9 @@ final class Order extends Model
         'currency',
         'status',
         'updated_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -47,6 +52,9 @@ final class Order extends Model
     protected $hidden = [
         'company_id',
         'deleted_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     #[OAT\Property(type: 'int', example: 1)]

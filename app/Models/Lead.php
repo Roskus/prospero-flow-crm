@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
+use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**
  *  @OA\Schema(
@@ -77,6 +78,7 @@ class Lead extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use AuditableWithDeletesTrait;
 
     const OPEN = 'open'; //New
 
@@ -121,6 +123,9 @@ class Lead extends Model
         'opt_in',
         'tags',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -131,6 +136,9 @@ class Lead extends Model
     protected $hidden = [
         'company_id',
         'deleted_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function company()
