@@ -51,16 +51,16 @@ class CustomerRequest extends FormRequest
             'locality' => 'nullable|max:80',
             'street' => 'nullable|max:80',
             'zipcode' => 'nullable|max:10',
-            'schedule_contact' => 'nullable|datetime',
+            'schedule_contact' => 'nullable|date',
             'industry_id' => 'nullable|numeric',
-            'latitude' => 'nullable|numeric|gte:-90|lte:90',
+            'latitude' => 'nullable|numeric|gte:-90|lte:90|required_with:longitude',
             'longitude' => 'nullable|numeric|gte:-180|lte:180|required_with:latitude',
             'opt_in' => 'nullable',
             'tags' => 'nullable',
             'status' => 'nullable', //@todo validate status options
-            'created_at' => 'nullable|datetime',
-            'updated_at' => 'nullable|datetime',
-            'deleted_at' => 'nullable|datetime',
+            'created_at' => 'nullable|date',
+            'updated_at' => 'nullable|date',
+            'deleted_at' => 'nullable|date',
         ];
     }
 }
