@@ -33,13 +33,15 @@ class TicketIndexControllerTest extends TestCase
         $response->assertSee($ticket2->title);
     }
 
+    /** @test */
     public function it_can_search_tickets(): void
     {
         $ticket = Ticket::factory()->create(['company_id' => $this->user->company_id]);
         $ticket2 = Ticket::factory()->create(['company_id' => $this->user->company_id]);
 
-        $response = $this->get('/ticket?search='.$ticket->name);
-        $response->assertSee($ticket->name);
-        $response->assertDontSee($ticket2->name);
+        $response = $this->get('/ticket?search='.$ticket->title);
+        $response->assertOk();
+        $response->assertSee($ticket->title);
+        $response->assertDontSee($ticket2->title);
     }
 }
