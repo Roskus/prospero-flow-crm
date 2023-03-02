@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class SaveCalendarEventController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function save(Request $request)

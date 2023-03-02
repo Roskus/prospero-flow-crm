@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 class ProductListController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)

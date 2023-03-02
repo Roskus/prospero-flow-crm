@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 class CustomerDeleteController extends MainController
 {
     /**
-     * @param  Request  $request
-     * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function delete(Request $request, int $id)

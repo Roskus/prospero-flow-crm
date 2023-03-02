@@ -145,9 +145,6 @@ class Customer extends Model
     }
 
     /**
-     * @param  int  $company_id
-     * @param  string|null  $search
-     * @param  array|null  $filters
      * @return mixed
      */
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)

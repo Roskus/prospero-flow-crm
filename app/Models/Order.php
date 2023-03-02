@@ -106,33 +106,21 @@ final class Order extends Model
         $this->setAttribute('company_id', $company_id);
     }
 
-    /**
-     * @return int
-     */
     public function getCustomerId(): int
     {
         return (int) $this->getAttribute('customer_id');
     }
 
-    /**
-     * @param  int  $customer_id
-     */
     public function setCustomerId(int $customer_id): void
     {
         $this->setAttribute('customer_id', $customer_id);
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return (float) $this->getAttribute('amount');
     }
 
-    /**
-     * @param  float  $amount
-     */
     public function setAmount(float $amount): void
     {
         $this->setAttribute('amount', $amount);
@@ -140,8 +128,6 @@ final class Order extends Model
 
     /**
      * Return amount - discounts + taxes
-     *
-     * @return float
      */
     public function getTotal(): float
     {
@@ -166,7 +152,6 @@ final class Order extends Model
     }
 
     /**
-     * @param  int  $company_id
      * @return mixed
      */
     public function getAllActiveByCompany(int $company_id)

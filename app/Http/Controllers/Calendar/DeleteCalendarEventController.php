@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 class DeleteCalendarEventController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(Request $request, int $id)

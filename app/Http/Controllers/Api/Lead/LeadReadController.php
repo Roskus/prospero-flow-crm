@@ -23,10 +23,6 @@ class LeadReadController
      *      @OA\Response(response="200", description="Lead found"),
      *      @OA\Response(response="404", description="Lead not found")
      * )
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
      */
     public function read(Request $request, int $id): \Illuminate\Http\JsonResponse
     {

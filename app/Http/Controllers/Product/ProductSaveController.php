@@ -11,9 +11,6 @@ use Ramsey\Uuid\Uuid;
 
 class ProductSaveController extends MainController
 {
-    /**
-     * @param  Request  $request
-     */
     public function save(Request $request)
     {
         if (empty($request->id)) {

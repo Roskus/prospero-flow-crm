@@ -4,10 +4,6 @@ namespace App\Helpers;
 
 class PhoneHelper
 {
-    /**
-     * @param  string  $phone
-     * @return string
-     */
     public static function format(string $phone): string
     {
         $length = strlen($phone);

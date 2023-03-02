@@ -16,9 +16,6 @@ class ContactCreateController
      *     @OA\Response(response="400", description="Bad request: Please review required params"),
      *     @OA\Response(response="201", description="Contact created successfully")
      * )
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {

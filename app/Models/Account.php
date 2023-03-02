@@ -28,7 +28,6 @@ class Account extends Model
     }
 
     /**
-     * @param  int  $company_id
      * @return mixed
      */
     public function getAllActiveByCompany(int $company_id)

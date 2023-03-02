@@ -26,7 +26,6 @@ class Category extends Model
     }
 
     /**
-     * @param  int  $company_id
      * @return mixed
      */
     public function getAllActiveByCompany(int $company_id)
@@ -36,10 +35,6 @@ class Category extends Model
                         ->get();
     }
 
-    /**
-     * @param  int  $company_id
-     * @return array
-     */
     public static function getAllActiveAsArrayByCompany(int $company_id): array
     {
         return Category::where('company_id', $company_id)
@@ -48,10 +43,6 @@ class Category extends Model
             ->toArray();
     }
 
-    /**
-     * @param  string  $category_name
-     * @return int|null
-     */
     public static function getCategoryIdByName(array $categories, string $category_name): ?int
     {
         foreach ($categories as $category) {

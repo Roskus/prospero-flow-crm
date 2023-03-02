@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class LeadSaveController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)

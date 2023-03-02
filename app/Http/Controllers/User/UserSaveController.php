@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UserSaveController extends MainController
 {
-    /**
-     * @param  Request  $request
-     */
     public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [

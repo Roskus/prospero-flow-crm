@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 class CustomerListController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)

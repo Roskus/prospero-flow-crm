@@ -16,7 +16,6 @@ class LeadCreateController
      *      @OA\Response(response="201", description="Lead created successfully")
      * )
      *
-     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function create(Request $request): JsonResponse

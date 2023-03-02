@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 class LeadImportSaveController extends MainController
 {
     /**
-     * @param  Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request)
