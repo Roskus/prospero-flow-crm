@@ -36,7 +36,7 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         $this->merge([
-            'phone' => !empty($this->input('phone')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone')) : null,
+            'phone' => ! empty($this->input('phone')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone')) : null,
             'phone2' => ! empty($this->input('phone2')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone2')) : null,
             'mobile' => ! empty($this->input('mobile')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('mobile')) : null,
         ]);
