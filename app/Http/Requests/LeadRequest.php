@@ -19,6 +19,15 @@ class LeadRequest extends FormRequest
         return Auth::check();
     }
 
+    public function messages(): array
+    {
+        return [
+            'phone.max_digits' => 'Phone field should have :max_digits max digits.',
+            'phone2.max_digits' => 'Phone2 field should have :max_digits max digits.',
+            'mobile.max_digits' => 'Mobile field should have :max_digits max digits.',
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,9 +36,9 @@ class LeadRequest extends FormRequest
     public function rules()
     {
         $this->merge([
-            'phone' => str_replace(['+', '-', '', '(', ')', '.'], '', $this->phone),
-            'phone2' => str_replace(['+', '-', '', '(', ')', '.'], '', $this->phone2),
-            'mobile' => str_replace(['+', '-', '', '(', ')', '.'], '', $this->mobile),
+            'phone' => !empty($this->input('phone')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone')) : null,
+            'phone2' => ! empty($this->input('phone2')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone2')) : null,
+            'mobile' => ! empty($this->input('mobile')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('mobile')) : null,
         ]);
 
         return [
