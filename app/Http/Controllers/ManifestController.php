@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -14,16 +15,14 @@ class ManifestController extends Controller
     /**
      * https://developer.mozilla.org/es/docs/Web/Manifest
      * Render
-     *
-     * @return json|\Illuminate\Http\JsonResponse
      */
-    public function renderWebManifest(Request $request, string $locale = 'en')
+    public function renderWebManifest(Request $request, string $locale = 'en'): JsonResponse
     {
         $manifest = [
             'lang' => $locale,
             'name' => env('APP_NAME'),
             'short_name' => env('APP_NAME'),
-            'description' => 'Hammer CRM',
+            'description' => env('APP_DESCRIPTION', ''),
             'display' => 'fullscreen',
             'orientation' => 'portrait',
             'background_color' => 'white',

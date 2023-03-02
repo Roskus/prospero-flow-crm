@@ -10,7 +10,7 @@
     <meta name="googlebot" content="noindex">
     <title>{{ env('APP_NAME') }}</title>
     <link rel="icon" href="/favicon.png" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{{ url('/asset/img/hammer.png') }}">
+    <link rel="apple-touch-icon" href="{{ url('/asset/img/funnel.png') }}">
     <link rel="manifest" href="{{ url('/manifest') }}">
 
     <!-- Bootstrap -->
