@@ -1,3 +1,13 @@
+@php
+$lead_id = (empty($lead_id) && !empty($contact)) ? $contact->lead_id : $lead_id;
+$customer_id = (empty($customer_id) && !empty($contact)) ? $contact->customer_id : $customer_id;
+@endphp
+
+@if(empty($popup))
+    @extends('layouts.app')
+@endif
+
+@section('content')
 <form method="post" action="{{ url('/contact/save') }}">
     @csrf
     <input type="hidden" name="id" value="{{ !empty($contact) ? $contact->id : '' }}">
@@ -64,9 +74,10 @@
     <div class="row">
         <div class="col">
             <label for="contact_notes">{{ __('Notes') }}</label>
-            <textarea name="contact_notes" id="contact_notes" class="form-control">
-                {{ !empty($contact) ? $contact->notes : '' }}
-            </textarea>
+            @php
+            $notes = !empty($contact) ? $contact->notes : '';
+            @endphp
+            <textarea name="contact_notes" id="contact_notes" class="form-control">{{ $notes }}</textarea>
         </div>
     </div>
     <div class="row">
@@ -75,3 +86,4 @@
         </div>
     </div>
 </form>
+@endsection

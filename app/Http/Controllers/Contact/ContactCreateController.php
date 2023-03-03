@@ -6,12 +6,13 @@ namespace App\Http\Controllers\Contact;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 
-class ContactUpdateController extends Controller
+class ContactCreateController extends Controller
 {
-    public function update(int $id)
+    public function create(Request $request)
     {
-        $contact = Contact::find($id);
+        $contact = new Contact();
 
         return view('contact.contact', compact('contact'));
     }
