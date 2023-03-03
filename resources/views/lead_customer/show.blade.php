@@ -78,8 +78,10 @@ $url = isset($lead) ? 'lead' : 'customer';
     <div class="card-header">
         <div class="row">
             <div class="col">{{ __('Contacts') }}</div>
-            <div class="col"><a class="btn btn-primary btn-sm" href="/contacts/create">{{ __('New') }}</a></div>
-        </div>        
+            <div class="col">
+                <a class="btn btn-primary btn-sm" href="{{ url('/contact/create') }}">{{ __('New') }}</a>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         @if(isset($item->contacts) && count($item->contacts) > 0)
@@ -88,6 +90,8 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">{{ __('First name') }}</th>
+                    <th scope="col">{{ __('Phone') }}</th>
+                    <th scope="col">E-mail</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -96,7 +100,13 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <tr>
                     <th scope="row">{{ $contact->id }}</th>
                     <td>{{ $contact->first_name }}</td>
-                    <td><a class="btn btn-primary btn-sm" href="{{ url("/contact/update/$contact->id") }}">{{ __('Edit') }}</a></td>
+                    <td>{{ $contact->phone }}</td>
+                    <td>{{ $contact->email }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="{{ url('/contact/update/'.$contact->id) }}">
+                            {{ __('Edit') }}
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
