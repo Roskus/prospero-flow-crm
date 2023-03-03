@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Facade;
 
-require_once 'version.php';
+require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'version.php';
 
 return [
 
