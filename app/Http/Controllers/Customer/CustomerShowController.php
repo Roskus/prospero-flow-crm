@@ -11,6 +11,6 @@ class CustomerShowController extends Controller
 {
     public function show(Customer $customer)
     {
-        return view('customer.show', compact('customer'));
+        return view('lead_customer.show', compact('customer'));
     }
 }
