@@ -1,4 +1,3 @@
-
 # Prospect Flow CRM (ex Hammer CRM)
 We made a free open source CRM. Our Community Edition (CE) 
 - Prospect Flow CRM is based in Laravel 9
@@ -52,6 +51,12 @@ php artisan db:seed
 Generate JWT Secret
 ```bash
 php artisan jwt:secret
+```
+
+Set Crontab
+```bash
+crotab -e
+* * * * * cd /home/ubuntu/www/crm && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 ## Demo

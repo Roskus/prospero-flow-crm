@@ -72,9 +72,9 @@ window.ProspectFlow.Notification = {
     },
     showToast: function(message)
     {
-        const toastLiveExample = document.getElementById('liveToast');
-        const toast = new window.bootstrap.Toast(toastLiveExample);
-        $(toast +' .toast-body').html(message);
-        toast.show();
+        const liveToast = $("#liveToast");
+        let toastBody = document.querySelector('#liveToast .toast-body');
+        toastBody.innerHTML = message;
+        liveToast.toast('show');
     }
 }
