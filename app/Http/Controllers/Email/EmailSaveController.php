@@ -23,6 +23,7 @@ class EmailSaveController extends MainController
         $email->company_id = Auth::user()->company_id;
         $email->subject = $request->subject;
         $email->to = $request->to;
+        $email->cc = $request->cc;
         $email->body = $request->body;
         $email->updated_at = now();
         $email->status = Email::DRAFT;
