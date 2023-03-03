@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Facade;
+
+require_once 'version.php';
 
 return [
 
@@ -42,6 +46,14 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    */
+
+    'version' => APP_VERSION,
 
     /*
     |--------------------------------------------------------------------------
