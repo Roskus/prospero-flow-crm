@@ -105,7 +105,7 @@
             <tr>
                 <td class="text-nowrap text-center">{{ $lead->id }}</td>
                 <td class="text-nowrap">
-                    <a href="{{ url("/lead/update/$lead->id") }}" title="{{ __('Update') }}">{{ $lead->name }}</a>
+                    <a href="{{ url("/lead/show/$lead->id") }}" title="{{ __('Show') }}">{{ $lead->name }}</a>
                 </td>
                 <td class="text-nowrap">{{ $lead->business_name }}</td>
                 <td class="text-nowrap">
