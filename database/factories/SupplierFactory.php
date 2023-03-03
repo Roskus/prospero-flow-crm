@@ -25,7 +25,7 @@ class SupplierFactory extends Factory
             'name' => fake()->word(),
             'business_name' => fake()->word(),
             'vat' => fake()->bothify('??#########'),
-            'phone' => fake()->tollFreePhoneNumber(),
+            'phone' => fake()->numerify('6########'),
             'email' => fake()->email(),
             'website' => 'https://'.fake()->domainName(),
             'country_id' => Country::all()->random(),
