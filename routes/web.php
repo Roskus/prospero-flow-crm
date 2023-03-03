@@ -58,6 +58,7 @@ Route::get('/lead/import', [\App\Http\Controllers\Lead\LeadImportIndexController
 Route::post('/lead/import/save', [\App\Http\Controllers\Lead\LeadImportSaveController::class, 'save']);
 Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete']);
 Route::get('/lead/export', [\App\Http\Controllers\Lead\LeadExportController::class, 'export']);
+Route::get('/lead/show/{lead}', [\App\Http\Controllers\Lead\LeadShowController::class, 'show']);
 
 //Customer
 Route::match(['get', 'post'], '/customer', [\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
