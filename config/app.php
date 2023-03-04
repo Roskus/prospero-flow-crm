@@ -247,6 +247,7 @@ return [
     'locales' => [
         'en' => 'English',
         'es' => 'Spanish',
+        'es-MX' => 'Spanish (Mexico)',
         'fr' => 'French',
         'pt' => 'Portuguese',
         'de' => 'German',
