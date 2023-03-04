@@ -1,13 +1,7 @@
 @php
-$lead_id = (empty($lead_id) && !empty($contact->lead_id)) ? $contact->lead_id : $lead_id;
-$customer_id = (empty($customer_id) && !empty($contact->customer_id)) ? $contact->customer_id : $customer_id;
+$lead_id = (empty($lead_id) && !empty($contact->lead_id)) ? $contact->lead_id : null;
+$customer_id = (empty($customer_id) && !empty($contact->customer_id)) ? $contact->customer_id : null;
 @endphp
-
-@if(empty($popup))
-    @extends('layouts.app')
-@endif
-
-@section('content')
 <form method="post" action="{{ url('/contact/save') }}">
     @csrf
     <input type="hidden" name="id" value="{{ !empty($contact) ? $contact->id : '' }}">
@@ -86,4 +80,4 @@ $customer_id = (empty($customer_id) && !empty($contact->customer_id)) ? $contact
         </div>
     </div>
 </form>
-@endsection
+
