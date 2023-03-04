@@ -125,8 +125,16 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="province" class="">{{ __('Province') }}</label>
-                        <input type="text" name="province" id="province"
-                               value="{{ old('province', $lead->province) }}" class="form-control form-control-lg">
+                        <select name="province" id="province" class="form-select form-control-lg">
+                            @if(!empty($provinces))
+                                @foreach ($provinces as $province)
+                                <option value="{{ $province->code_2 }}" @if($lead->province == $province->code_2) selected="selected" @endif>
+                                    {{ $province->name }}
+                                </option>
+                                @endforeach
+                            @endif
+                        </select>
+
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="city" class="">{{ __('City') }}</label>
@@ -368,5 +376,6 @@
         });
     </script>
     <script src="/asset/js/Contact.js"></script>
+    <script src="/asset/js/Region.js"></script>
     @endpush
 @endsection

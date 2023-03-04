@@ -1,6 +1,6 @@
 @php
-$lead_id = (empty($lead_id) && !empty($contact->lead_id)) ? $contact->lead_id : $lead_id;
-$customer_id = (empty($customer_id) && !empty($contact->customer_id)) ? $contact->customer_id : $customer_id;
+$lead_id = (empty($lead_id) && !empty($contact->lead_id)) ? $contact->lead_id : null;
+$customer_id = (empty($customer_id) && !empty($contact->customer_id)) ? $contact->customer_id : null;
 @endphp
 
 @empty($popup)
@@ -19,4 +19,4 @@ $customer_id = (empty($customer_id) && !empty($contact->customer_id)) ? $contact
     </div>
 
 </form>
-@endsection
+
