@@ -35,6 +35,7 @@ Route::middleware(['api'])->group(function () {
 
     // Contact
     Route::get('/contact', [\App\Http\Controllers\Api\Contact\ContactListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/contact/{id}', [\App\Http\Controllers\Api\Contact\ContactReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
 
     //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');

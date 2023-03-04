@@ -1,6 +1,10 @@
 @php
 $item = $lead ?? $customer;
 $url = isset($lead) ? 'lead' : 'customer';
+
+// TODO improve this
+$lead_id =  isset($lead) ?? $lead->id;
+$customer_id =  isset($customer) ?? $customer->id;
 @endphp
 
 @extends('layouts.app')
@@ -79,7 +83,7 @@ $url = isset($lead) ? 'lead' : 'customer';
         <div class="row">
             <div class="col">{{ __('Contacts') }}</div>
             <div class="col">
-                <a class="btn btn-primary btn-sm" href="{{ url('/contact/create') }}">{{ __('New') }}</a>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#formContactModal">{{ __('New') }}</button>
             </div>
         </div>
     </div>
@@ -103,9 +107,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <td>{{ $contact->phone }}</td>
                     <td>{{ $contact->email }}</td>
                     <td>
-                        <a class="btn btn-primary btn-sm" href="{{ url('/contact/update/'.$contact->id) }}">
-                            {{ __('Edit') }}
-                        </a>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#formContactModal" data-bs-id="{{ $contact->id }}">{{ __('Edit') }}</button>
                     </td>
                 </tr>
                 @endforeach
@@ -115,4 +117,31 @@ $url = isset($lead) ? 'lead' : 'customer';
     </div>
 </div>
 
+<div class="modal fade" id="formContactModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('Contact') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formContact" method="POST" action="{{ url('/api/contact') }}">
+                    @include('contact.partials._form_fields')
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                <button id="btnSaveForm" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
+
+@push('scripts')
+    <script>
+        var api_token = "{{ $_COOKIE['API-TOKEN'] }}";
+    </script>
+    <script src="{{ asset('asset/js/ContactModalForm.js') }}"></script>
+@endpush

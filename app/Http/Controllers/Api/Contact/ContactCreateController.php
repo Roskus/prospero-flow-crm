@@ -44,7 +44,7 @@ class ContactCreateController
             $contact = $this->contactRepository->save($request->all());
             if ($contact) {
                 $status = 201;
-                $data['contact'] = ['id' => $contact->id];
+                $data['contact'] = $contact;
             }
         }
 

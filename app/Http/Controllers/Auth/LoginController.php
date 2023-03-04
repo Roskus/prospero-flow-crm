@@ -44,9 +44,22 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user): void
     {
+        // Start sessión in the API
+        $token = Auth('api')->login($user);
+        setcookie(
+            'API-TOKEN',
+            $token,
+            Carbon::now()->addRealMinutes(config('session.lifetime', 120))->getTimestamp()
+        );
+
         $user->update([
             'last_login_at' => Carbon::now()->toDateTimeString(),
             'last_login_ip' => $request->getClientIp(),
         ]);
+    }
+
+    protected function loggedOut(Request $request): void
+    {
+        setcookie('API-TOKEN', '', time() - 3600);
     }
 }
