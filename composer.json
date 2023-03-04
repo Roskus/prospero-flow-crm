@@ -1,6 +1,6 @@
 {
     "name": "roskus/hammercrm",
-    "description": "Hammer CRM based in The Laravel Framework.",
+    "description": "ProspectFlow CRM based in The Laravel Framework.",
     "keywords": [
         "crm",
         "framework",
@@ -37,6 +37,7 @@
         "squirephp/countries-en": "^3.0",
         "squirephp/countries-es": "^3.0",
         "squirephp/currencies-en": "^3.3",
+        "squirephp/regions-en": "^3.4",
         "yajra/laravel-auditable": "^4.5"
     },
     "require-dev": {

@@ -148,6 +148,9 @@ Route::post('/ticket/save', [\App\Http\Controllers\Ticket\TicketSaveController::
 Route::get('/ticket/delete/{id}', [\App\Http\Controllers\Ticket\TicketDeleteController::class, 'delete']);
 Route::post('/ticket/message/save', [\App\Http\Controllers\Ticket\TicketCreateMessageController::class, 'save']);
 
+// Regions
+Route::get('ajax/region/{country}', [\App\Http\Controllers\Region\RegionGetAjaxController::class, 'index']);
+
 //Report
 Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);
 

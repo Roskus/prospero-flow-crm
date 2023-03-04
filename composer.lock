@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d33dc0d053ae845f012e81b98d96bd8",
+    "content-hash": "876e45bf7b701ac40d7da21f7917bb73",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7064,6 +7064,114 @@
                 "source": "https://github.com/squirephp/squire"
             },
             "time": "2023-02-18T12:44:15+00:00"
+        },
+        {
+            "name": "squirephp/regions",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/regions.git",
+                "reference": "c28f9e9d124453020130df27df6933000c8c2b42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/regions/zipball/c28f9e9d124453020130df27df6933000c8c2b42",
+                "reference": "c28f9e9d124453020130df27df6933000c8c2b42",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^8.0",
+                "squirephp/model": "self.version",
+                "squirephp/rule": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\RegionsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing Squire's Region model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2023-02-18T12:44:18+00:00"
+        },
+        {
+            "name": "squirephp/regions-en",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/regions-en.git",
+                "reference": "c3dd19c5791c976d141111d065c5e857d34e31ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/regions-en/zipball/c3dd19c5791c976d141111d065c5e857d34e31ff",
+                "reference": "c3dd19c5791c976d141111d065c5e857d34e31ff",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^8.0",
+                "squirephp/regions": "self.version",
+                "squirephp/repository": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\RegionsEnServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing the English translation of Squire's Region model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2023-02-18T12:44:35+00:00"
         },
         {
             "name": "squirephp/repository",
