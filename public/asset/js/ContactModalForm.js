@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let formContactModal = document.getElementById('formContactModal')
+    let formContactModal = document.getElementById('formContactModal');
     formContactModal.addEventListener('show.bs.modal', showFormContactModal);
 
     let btnSaveForm = document.getElementById('btnSaveForm');
