@@ -38,7 +38,7 @@ function saveForm() {
             alert('The contact has been saved successfully.');
             location.reload();
         });
-};
+}
 
 
 function showFormContactModal(event) {
