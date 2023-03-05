@@ -22,6 +22,7 @@ class ContactReadController
     public function read($id)
     {
         $contact = Contact::find($id);
+
         return response()->json(['contact' => $contact], ($contact) ? 200 : 404);
     }
 }
