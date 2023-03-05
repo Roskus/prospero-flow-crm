@@ -8,6 +8,7 @@ $customer_id = (empty($customer_id) && !empty($contact->customer_id)) ? $contact
 @endempty
 
 @section('content')
+
 <form method="post" action="{{ url('/contact/save') }}">
     
     @include('contact.partials._form_fields')
