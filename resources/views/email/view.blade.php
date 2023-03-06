@@ -6,6 +6,9 @@
         </header>
         <div>
             {!! $email->body !!}
+            @isset($email->signature)
+            {!! \Illuminate\Support\Facades\Auth::user()->signature_html !!}
+            @endisset
         </div>
     </div>
 @endsection
