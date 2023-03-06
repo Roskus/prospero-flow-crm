@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Contact;
 
 use App\Models\Contact;
-use OpenApi\Annotations as OA;
 use Illuminate\Http\JsonResponse;
+use OpenApi\Annotations as OA;
 
 class ContactReadController
 {
@@ -27,11 +27,12 @@ class ContactReadController
      *     @OA\Response(response="200", description="Contact retrived successfully")
      * )
      *
-     * @return JsonResponse     
+     * @return JsonResponse
      */
     public function read(int $id)
     {
         $contact = Contact::find($id);
+
         return response()->json(['contact' => $contact], ($contact) ? 200 : 404);
     }
 }
