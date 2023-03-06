@@ -39,7 +39,7 @@
             <div class="row form-group mb-2">
                 <div class="col {{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email" class="col-md-4 control-label">E-Mail <span class="text-danger">*</span></label>
-                    <input id="email" type="email" name="email" value="{{ $user->email }}" required class="form-control form-control-lg">
+                    <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" required class="form-control form-control-lg">
 
                     @if ($errors->has('email'))
                         <span class="help-block">
@@ -111,7 +111,7 @@
             <div class="row form-group mb-2">
                 <div class="col">
                     <label for="signature_html">{{ __('Signature') }}</label>
-                    <textarea name="signature_html" id="signature_html">{!! (!empty($user->signature_html)) ? $user->signature_html : '' !!}</textarea>
+                    <textarea name="signature_html" id="signature_html">{!! (!empty($user->signature_html)) ? $user->signature_html : old('signature_html','') !!}</textarea>
                 </div>
             </div>
             <div class="row form-group mt-2">

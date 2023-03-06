@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use OpenApi\Attributes as OAT;
 use Yajra\Auditable\AuditableTrait;
 
-#[OAT\Schema(schema: 'Email', required: ['from', 'to', 'subject', 'body',])]
+#[OAT\Schema(schema: 'Email', required: ['from', 'to', 'subject', 'body'])]
 class Email extends Model
 {
     use HasFactory;

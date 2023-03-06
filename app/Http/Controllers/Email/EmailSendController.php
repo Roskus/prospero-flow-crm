@@ -23,7 +23,13 @@ class EmailSendController extends MainController
         $email = Email::findOrFail($id);
         $email->status = Email::QUEUE;
         $email->save();
-        $emailTemplate = new GenericEmail(Auth::user()->company, $email->subject, ['body' => $email->body]);
+        $params['body'] = $email->body;
+
+        if(isset($email->signature)) {
+            $params['signature'] = Auth::user()->signature_html;
+        }
+
+        $emailTemplate = new GenericEmail(Auth::user()->company, $email->subject, $params);
         try {
             Mail::to($email->to)->send($emailTemplate);
             $email->status = Email::SENT;
