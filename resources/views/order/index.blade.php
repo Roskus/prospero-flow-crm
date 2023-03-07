@@ -49,6 +49,9 @@
                        title="{{ __('Edit') }}">
                         <i class="las la-pen"></i>
                     </a>
+                    <a href="{{ url('/order/download/'.$order->id) }}" class="btn btn-lg btn-success">
+                        <i class="las la-file-pdf"></i>
+                    </a>    
                     <a href="{{ url('/order/delete/'.$order->id) }}" class="btn bt-xs btn-danger"
                        title="{{ __('Delete') }}">
                         <i class="las la-trash-alt"></i>
