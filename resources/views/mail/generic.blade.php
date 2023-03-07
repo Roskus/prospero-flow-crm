@@ -1,5 +1,10 @@
 @extends('mail.templates.default')
 
 @section('content')
-    <p style="color: #6799cc">{!! $body !!}</p>
+    <div style="color: #6799cc">
+        {!! $body !!}
+        @isset($siganture)
+        {!! $siganture !!}
+        @endisset
+    </div>
 @endsection

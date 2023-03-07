@@ -45,6 +45,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col">
+                        <label for="signature">{{ __('Include signature') }}</label>
+                        <input type="checkbox" name="signature" id="signature" value="true" @isset($email->signature)checked="checked"@endisset>
+                    </div>
+                </div><!--./row-->
+                <div class="row">
                     <div class="col mt-2">
                         <label for="attachments" class="">{{ __('Attachments') }}</label>
                         <input type="file" name="attachments[]" class="form-control"> <!-- accept="application/"-->

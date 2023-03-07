@@ -25,6 +25,7 @@ class EmailSaveController extends MainController
         $email->to = $request->to;
         $email->cc = $request->cc;
         $email->body = $request->body;
+        $email->signature = (isset($request->signature)) ? isset($request->signature) : false;
         $email->updated_at = now();
         $email->status = Email::DRAFT;
         $email->save();
