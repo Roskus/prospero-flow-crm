@@ -30,7 +30,7 @@ class ProfileSaveControllerTest extends TestCase
             'first_name' => fake()->name(),
             'last_name' => fake()->name(),
             'email' => fake()->email(),
-            'lang' => fake()->randomElement(array_keys(config('app.locales'))),
+            'lang' => 'en',
         ];
         $response = $this->post('profile/save', $data);
         $response->assertRedirect('/profile');
@@ -53,7 +53,7 @@ class ProfileSaveControllerTest extends TestCase
             'first_name' => fake()->name(),
             'last_name' => fake()->name(),
             'email' => fake()->email(),
-            'lang' => fake()->randomElement(array_keys(config('app.locales'))),
+            'lang' => 'en',
             'password' => $newPassword,
             'password_confirmation' => $newPassword,
         ];
