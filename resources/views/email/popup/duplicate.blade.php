@@ -3,7 +3,7 @@
         <div class="modal-content">
             <form action="{{ route('email.duplicate') }}" method="POST">
                 @csrf
-                <input type="hidden" name="email_id" value="{{ $email->id }}">
+                <input type="hidden" name="email_id" id="email_id" value="{{ (isset($email->id)) ? $email->id : '' }}">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ __('Duplicate') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"

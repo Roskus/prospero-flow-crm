@@ -36,7 +36,11 @@
             @foreach($emails as $email)
             <tr>
                 <td>
-                    <a href="{{ url("/email/update/$email->id") }}">{{ $email->subject }}</a>
+                    @if($email->status != \App\Models\Email::SENT)
+                        <a href="{{ url("/email/update/$email->id") }}">{{ $email->subject }}</a>
+                    @else
+                        {{ $email->subject }}
+                    @endif
                 </td>
                 <td>{{ $email->from }}</td>
                 <td>{{ $email->to }}</td>
@@ -49,10 +53,14 @@
                     <a href="{{ url("/email/view/$email->id") }}" title="{{ __('Preview') }}" target="_blank" class="btn btn-secondary">
                         <i class="las la-glasses"></i>
                     </a>
+
+                    @if($email->status != \App\Models\Email::SENT)
                     <a href="{{ url("/email/update/$email->id") }}" title="{{ __('Edit') }}" class="btn btn-warning text-white">
                         <i class="las la-edit"></i>
                     </a>
-                    <a href="{{ url("/email/duplicate/$email->id") }}" title="{{ __('Duplicate') }}" class="btn btn-info text-white">
+                    @endif
+
+                    <a onclick="window.ProspectFlow.Email.duplicate({{ $email->id, __('New recipient') }})" title="{{ __('Duplicate') }}" class="btn btn-info text-white">
                         <i class="las la-copy"></i>
                     </a>
                     @if($email->status != \App\Models\Email::SENT)
@@ -78,4 +86,8 @@
             </div>
         </div>
     </div>
+    @include('email.popup.duplicate')
+    @push('scripts')
+        <script src="/asset/js/Email.js"></script>
+    @endpush
 @endsection

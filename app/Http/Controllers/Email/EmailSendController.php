@@ -25,7 +25,7 @@ class EmailSendController extends MainController
         $email->save();
         $params['body'] = $email->body;
 
-        if(isset($email->signature)) {
+        if (isset($email->signature)) {
             $params['signature'] = Auth::user()->signature_html;
         }
 
