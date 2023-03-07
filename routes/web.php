@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\MainController::class, 'index']);
 // PWA - Progressive Web App
-Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'renderWebManifest'])->name('manifest');
+Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'renderWebManifest'])
+    ->name('manifest');
 
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
@@ -29,7 +30,8 @@ Route::get('/order/show/{id}', [\App\Http\Controllers\Order\OrderShowController:
 Route::get('/order/update/{id}', [\App\Http\Controllers\Order\OrderUpdateController::class, 'update']);
 Route::get('/order/delete/{id}', [\App\Http\Controllers\Order\OrderDeleteController::class, 'delete']);
 Route::post('/order/save', [\App\Http\Controllers\Order\OrderSaveController::class, 'save']);
-Route::get('/order/download/{id}', [\App\Http\Controllers\Order\OrderPdfController::class, 'download'])->name('order-download');
+Route::get('/order/download/{id}', [\App\Http\Controllers\Order\OrderPdfController::class, 'download'])
+    ->name('order-download');
 
 //Product
 Route::match(['get', 'post'], '/product', [\App\Http\Controllers\Product\ProductIndexController::class, 'index']);
@@ -111,7 +113,8 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
 
 // Calendar
 Route::match(['get', 'post'], '/calendar/{date?}', [\App\Http\Controllers\Calendar\CalendarController::class, 'index'])->name('calendar.index');
-Route::post('/calendar/event/save', [\App\Http\Controllers\Calendar\SaveCalendarEventController::class, 'save'])->name('calendar.save');
+Route::post('/calendar/event/save', [\App\Http\Controllers\Calendar\SaveCalendarEventController::class, 'save'])
+    ->name('calendar.save');
 Route::get('/calendar/event/update/{id}', [\App\Http\Controllers\Calendar\UpdateCalendarEventController::class, 'update'])->name('calendar.update');
 Route::delete('/calendar/event/delete/{id}', [\App\Http\Controllers\Calendar\DeleteCalendarEventController::class, 'delete'])->name('calendar.delete');
 
@@ -123,7 +126,8 @@ Route::get('/email/update/{id}', [\App\Http\Controllers\Email\EmailUpdateControl
 Route::post('/email/save', [\App\Http\Controllers\Email\EmailSaveController::class, 'save']);
 Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController::class, 'send']);
 Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete']);
-Route::post('/email/duplicate', [\App\Http\Controllers\Email\EmailDuplicateController::class, 'duplicate'])->name('email.duplicate');
+Route::match(['get', 'post'], '/email/duplicate', [\App\Http\Controllers\Email\EmailDuplicateController::class, 'duplicate'])
+    ->name('email.duplicate');
 
 // Email template
 Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
@@ -158,8 +162,10 @@ Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class
 Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);
 
 // Notifications
-Route::get('/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])->middleware('auth');
-Route::get('/notification/read/{id}', [\App\Http\Controllers\Notification\SetNotificationReadAjaxController::class, 'setRead'])->middleware('auth');
+Route::get('/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])
+    ->middleware('auth');
+Route::get('/notification/read/{id}', [\App\Http\Controllers\Notification\SetNotificationReadAjaxController::class, 'setRead'])
+    ->middleware('auth');
 
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
