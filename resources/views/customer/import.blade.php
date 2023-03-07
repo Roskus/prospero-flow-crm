@@ -12,8 +12,14 @@
     <form method="POST" action="{{ url('/customer/import/save') }}" enctype="multipart/form-data" class="form">
         @csrf
         <div class="row">
-            <label for="upload">{{ __('File') }}</label>
-            <input type="file" name="upload" id="upload" accept="text/csv" required>
+            <div class="col">
+                <label for="upload">{{ __('File') }}</label>
+                <input type="file" name="upload" id="upload" accept="text/csv" required>
+            </div>
+            <div class="col">
+                <label for="separator">{{ __('Separator') }}</label>
+                <input type="text" name="separator" id="separator" maxlength="1" value="" placeholder=";">
+            </div>
         </div>
         <div class="row mt-2">
             <div class="col">
