@@ -103,6 +103,7 @@ Route::get('/user', [\App\Http\Controllers\User\UserListController::class, 'inde
 Route::get('/user/create', [\App\Http\Controllers\User\UserCreateController::class, 'create']);
 Route::get('/user/update/{id}', [\App\Http\Controllers\User\UserUpdateController::class, 'update']);
 Route::post('/user/save', [\App\Http\Controllers\User\UserSaveController::class, 'save']);
+Route::get('/user/delete/{id}', [\App\Http\Controllers\User\UserDeleteController::class, 'delete']);
 
 // Profile
 Route::get('/profile', [\App\Http\Controllers\Profile\ProfileUpdateController::class, 'update']);
@@ -162,7 +163,8 @@ Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class
 Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);
 
 // Notifications
-Route::get('/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])
+Route::get('/notification', [\App\Http\Controllers\Notification\NotificationIndexController::class, 'index']);
+Route::get('/ajax/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])
     ->middleware('auth');
 Route::get('/notification/read/{id}', [\App\Http\Controllers\Notification\SetNotificationReadAjaxController::class, 'setRead'])
     ->middleware('auth');
