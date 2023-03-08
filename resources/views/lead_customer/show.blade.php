@@ -141,7 +141,7 @@ $customer_id =  isset($customer) ?? $customer->id;
 
 @push('scripts')
     <script>
-        var api_token = "{{ $_COOKIE['API-TOKEN'] }}";
+        var api_token = "";
     </script>
     <script src="{{ asset('asset/js/ContactModalForm.js') }}"></script>
 @endpush

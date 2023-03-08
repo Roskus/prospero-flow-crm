@@ -26,17 +26,15 @@ function saveForm() {
     fetch(formContact.action, fetchOptions)
         .then((response) => response.json())
         .then((data) => {
-
-            console.log(data);
-
+            
             if (data.errors) {
-                // TODO
-                alert(Object.values(data.errors));
+                ProspectFlow.Notification.showToast(Object.values(data.errors));
+                return;
             }
 
-            // TODO
-            alert('The contact has been saved successfully.');
+            ProspectFlow.Notification.showToast('The contact has been saved successfully.');
             location.reload();
+            
         });
 }
 
