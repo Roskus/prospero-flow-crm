@@ -5,7 +5,7 @@
                 @if(empty(Auth::user()->company->logo))
                     {{ Auth::user()->company->name }}
                 @else
-                    <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ env('APP_NAME') }}" class="logo">
+                    <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/company/'.\Illuminate\Support\Str::slug(Auth::user()->company->name, '_').'/'.Auth::user()->company->logo)) }}" alt="{{ env('APP_NAME') }}" class="logo">
                 @endif
                 <div>
                     <h1>{{ __('Order') }}</h1>
@@ -120,7 +120,7 @@
                         <td>
                             {{ (!empty($item->product)) ? $item->product->name : '' }}
                             @if(!empty($item->product->photo))
-                                <img src="{{ asset('/asset/upload/product/'.$item->product->id.'/'.$item->product->photo) }}"
+                                <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/product/'.$item->product->id.'/'.$item->product->photo)) }}"
                                      alt="" width="100" class="img-fluid img-thumbnail">
                             @endif
                         </td>
