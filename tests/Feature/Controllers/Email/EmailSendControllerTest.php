@@ -7,7 +7,6 @@ namespace Tests\Feature\Controllers\Email;
 use App\Mail\GenericEmail;
 use App\Models\Email;
 use App\Models\User;
-use Exception;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
