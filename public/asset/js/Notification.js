@@ -1,6 +1,6 @@
 window.ProspectFlow.Notification = {
     getLatest: function() {
-        fetch( window.location.origin + "/notification", {
+        fetch( window.location.origin + "/ajax/notification", {
             method: 'get',
             headers: {
                 'Accept': 'application/json',

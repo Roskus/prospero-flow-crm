@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-8">
                 <h1 class="px-2 m-0">
-                    <span class="display-5">{{ Str::upper($title) }}</span>
+                    <span class="display-5 text-uppercase">{{ $title }}</span>
                     @isset($count)
                         <span class="badge rounded-pill text-bg-success">{{ $count }}</span>
                     @endisset

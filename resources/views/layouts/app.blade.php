@@ -81,7 +81,11 @@
                                     <span class="visually-hidden">{{ __('New notifications') }}</span>
                                 </span>
                             </a>
-                            <ul id="notification-message-list" class="dropdown-menu" aria-labelledby="notification-list"></ul>
+                            <div class="dropdown-menu">
+                                <ul id="notification-message-list" aria-labelledby="notification-list"></ul>
+                                <hr class="dropdown-divider">
+                                <a href="{{ url('/notification') }}" class="dropdown-item">{{ __('View notifications') }}</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">

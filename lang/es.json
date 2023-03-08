@@ -76,10 +76,13 @@
     "Minimum stock quantity" : "Cantidad mínima stock",
     "Mobile" : "Móvil",
     "Month" : "Mes",
+    "More" : "Más",
     "Name" : "Nombre",
     "New" : "Nuevo",
     "Next" : "Siguiente",
     "Notes" : "Notas",
+    "Notification" : "Notificación",
+    "Notifications" : "Notificaciones",
     "Open" : "Abierto",
     "Order" : "Pedido",
     "Orders" : "Pedidos",
@@ -124,6 +127,7 @@
     "Updated at" : "Fecha modificación",
     "User" : "Usuario",
     "Users" : "Usuarios",
+    "View notifications" : "Ver notificaciones",
     "Week" : "Semana",
     "Zipcode" : "Código postal"
 }
