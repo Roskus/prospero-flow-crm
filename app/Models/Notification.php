@@ -27,8 +27,13 @@ class Notification extends Model
         'deleted_at',
     ];
 
-    public function getLatestByUser(int $user_id, $limit = 10)
+    public function getLatestByUser(int $user_id, $limit = 10, bool $include_read = false)
     {
-        return Notification::where('user_id', $user_id)->orderBy('created_at', 'DESC')->where('read', 0)->limit($limit)->get();
+        $notification = Notification::where('user_id', $user_id)->orderBy('created_at', 'DESC');
+        if ($include_read === false) {
+            $notification->where('read', 0);
+        }
+
+        return $notification->limit($limit)->get();
     }
 }

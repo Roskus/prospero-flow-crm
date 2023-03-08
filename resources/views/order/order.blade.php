@@ -2,7 +2,7 @@
 
 @section('content')
 <header>
-   <h1>{{ trans('Sales Order') }}</h1>
+   <h1>{{ __('Order') }}</h1>
 </header>
 
 <div class="card">
