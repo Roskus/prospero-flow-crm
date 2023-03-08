@@ -41,16 +41,20 @@
                 <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $order->status }}</td>
                 <td>
-                    <a href="{{ url('order/show/'.$order->id) }}" class="btn btn-xs btn-primary text-white"
-                       title="{{ __('View') }}">
+                    <a href="{{ url('order/show/'.$order->id) }}" title="{{ __('View') }}"
+                       class="btn btn-xs btn-primary text-white">
                         <i class="las la-eye"></i>
                     </a>
-                    <a href="{{ url('/order/update/'.$order->id) }}" class="btn bt-xs btn-warning text-white"
-                       title="{{ __('Edit') }}">
+                    <a href="{{ url('/order/update/'.$order->id) }}" title="{{ __('Edit') }}"
+                       class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
-                    <a href="{{ url('/order/delete/'.$order->id) }}" class="btn bt-xs btn-danger"
-                       title="{{ __('Delete') }}">
+                    <a href="{{ url('/order/download/'.$order->id) }}" title="{{ __('Download') }}"
+                       class="btn btn-xs btn-success">
+                        <i class="las la-file-pdf"></i>
+                    </a>
+                    <a href="{{ url('/order/delete/'.$order->id) }}" title="{{ __('Delete') }}"
+                       class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                 </td>

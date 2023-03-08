@@ -19,7 +19,7 @@ class UserSaveControllerTest extends TestCase
             'first_name' => fake()->name(),
             'last_name' => fake()->name(),
             'email' => fake()->email(),
-            'lang' => fake()->randomElement(array_keys(config('app.locales'))),
+            'lang' => 'en',
             'password' => 123,
             'password_confirmation' => 123,
         ];

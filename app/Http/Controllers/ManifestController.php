@@ -21,7 +21,7 @@ class ManifestController extends Controller
         $manifest = [
             'lang' => $locale,
             'name' => env('APP_NAME'),
-            'short_name' => env('APP_NAME'),
+            'short_name' => env('APP_SHORT_NAME'),
             'description' => env('APP_DESCRIPTION', ''),
             'display' => 'fullscreen',
             'orientation' => 'portrait',
