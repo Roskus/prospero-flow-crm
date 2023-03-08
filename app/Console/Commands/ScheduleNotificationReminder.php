@@ -76,7 +76,7 @@ class ScheduleNotificationReminder extends Command
 
             try {
                 $notification->save();
-                Mail::to($recipient->seller()->email)->send($emailTemplate);
+                Mail::to($recipient->seller->email)->send($emailTemplate);
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
             }
