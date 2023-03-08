@@ -41,7 +41,7 @@ class EmailSaveController extends MainController
                 $originalName = $file->getClientOriginalName();
                 $newName = Uuid::uuid4()->toString().'.'.$extension;
                 try {
-                    $storagePath = storage_path($path.DIRECTORY_SEPARATOR.$newName);
+                    $storagePath = $path.DIRECTORY_SEPARATOR.$newName;
                     $file->store($storagePath);
 
                     $attach = new Email\Attach();
