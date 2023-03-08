@@ -2,21 +2,12 @@
 
 @section('content')
     @include('layouts.partials._header', ['title' =>  __('E-mail')])
-
-    <div class="row">
-        <div class="col">
-            <a href="{{ url('/email/create') }}" class="btn btn-primary">{{ __('New') }}</a>
-        </div>
-
-        <div class="col">
-            <form method="GET" action="{{ url('/email') }}">
-                <div class="input-group">
-                    <input name="search" type="search" class="form-control" placeholder="{{ __('Search') }}" value="{{ request()->get('search') }}">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-search"><i class="las la-search"></i></button>
-                </div>
-            </form>
-        </div>
-    </div>
+    @include('layouts.partials._search_buttons_bar', [
+        'action_search' => url("/email"), 
+        'buttons' => [
+            ['url' => url('/email/create'), 'class' => 'btn btn-primary', 'text' => __('New')]
+        ]
+    ])
 
     <div class="card mt-2">
         <div class="card-body">
