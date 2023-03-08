@@ -48,6 +48,11 @@
                 @else
                    <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ env('APP_NAME') }}" class="logo">
                 @endif
+                @if(!App::environment('production'))
+                    <span class="float-right">
+                        <small class="">{{ env('APP_ENV') }}</small>
+                    </span>
+                @endif
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
