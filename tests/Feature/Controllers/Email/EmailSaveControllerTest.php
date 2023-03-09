@@ -42,8 +42,6 @@ class EmailSaveControllerTest extends TestCase
     /** @test */
     public function it_can_save_email_with_attachment(): void
     {
-        $this->withoutExceptionHandling();
-
         Storage::fake();
 
         $file = UploadedFile::fake()->image('attachment.jpg');
@@ -55,12 +53,11 @@ class EmailSaveControllerTest extends TestCase
             'attachment' => [$file],
         ];
 
-        $response = $this->post('/email/save', $data);
+        $this->post('/email/save', $data);
 
-        $hashName = Attach::all()->last()->file;
-        $path = 'company'.DIRECTORY_SEPARATOR.'email'.DIRECTORY_SEPARATOR.$this->user->id;
+        $path = Attach::all()->last()->file;
 
-        Storage::disk()->assertExists($path.DIRECTORY_SEPARATOR.$hashName);
+        Storage::assertExists($path);
         Storage::deleteDirectory('company');
     }
 
