@@ -52,8 +52,15 @@
                 </div><!--./row-->
                 <div class="row">
                     <div class="col mt-2">
-                        <label for="attachments" class="">{{ __('Attachments') }}</label>
-                        <input type="file" name="attachments[]" class="form-control"> <!-- accept="application/"-->
+                        <label for="attachment" class="">{{ __('Attachments') }}</label>
+                        <input type="file" id="attachment" name="attachment[]" class="form-control"> <!-- accept="application/"-->
+                        @if($email->attachments()->count())
+                            @foreach($email->attachments()->get() as $attach)
+                                <div>
+                                    <a href="{{ route('downloadAttachment', $attach->id) }}" target="_blank">{{ $attach->original_name }}</a>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="row">

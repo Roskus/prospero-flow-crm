@@ -26,6 +26,9 @@
                 <td>{{ __('Subject') }}</td>
                 <td>{{ __('From') }}</td>
                 <td>{{ __('To') }}</td>
+                <td class="text-center">
+                    <i class="las la-paperclip"></i>
+                </td>
                 <td>{{ __('Created at') }}</td>
                 <td>{{ __('Updated at') }}</td>
                 <td>{{ __('Status') }}</td>
@@ -44,6 +47,11 @@
                 </td>
                 <td>{{ $email->from }}</td>
                 <td>{{ $email->to }}</td>
+                <td class="text-center">
+                    @if($email->attachments()->count())
+                    <i class="las la-paperclip"></i>
+                    @endif
+                </td>
                 <td>{{ $email->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $email->updated_at->format('d/m/Y H:i') }}</td>
                 <td class="text-center">
