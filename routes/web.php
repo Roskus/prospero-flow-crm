@@ -113,11 +113,14 @@ Route::get('/setting', [\App\Http\Controllers\SettingController::class, 'index']
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
 
 // Calendar
-Route::match(['get', 'post'], '/calendar/{date?}', [\App\Http\Controllers\Calendar\CalendarController::class, 'index'])->name('calendar.index');
+Route::match(['get', 'post'], '/calendar/{date?}',
+    [\App\Http\Controllers\Calendar\CalendarController::class, 'index'])->name('calendar.index');
 Route::post('/calendar/event/save', [\App\Http\Controllers\Calendar\SaveCalendarEventController::class, 'save'])
     ->name('calendar.save');
-Route::get('/calendar/event/update/{id}', [\App\Http\Controllers\Calendar\UpdateCalendarEventController::class, 'update'])->name('calendar.update');
-Route::delete('/calendar/event/delete/{id}', [\App\Http\Controllers\Calendar\DeleteCalendarEventController::class, 'delete'])->name('calendar.delete');
+Route::get('/calendar/event/update/{id}',
+    [\App\Http\Controllers\Calendar\UpdateCalendarEventController::class, 'update'])->name('calendar.update');
+Route::delete('/calendar/event/delete/{id}',
+    [\App\Http\Controllers\Calendar\DeleteCalendarEventController::class, 'delete'])->name('calendar.delete');
 
 // Email
 Route::match(['get', 'post'], '/email', [\App\Http\Controllers\Email\EmailIndexController::class, 'index']);
@@ -127,14 +130,16 @@ Route::get('/email/update/{id}', [\App\Http\Controllers\Email\EmailUpdateControl
 Route::post('/email/save', [\App\Http\Controllers\Email\EmailSaveController::class, 'save']);
 Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController::class, 'send']);
 Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete']);
-Route::match(['get', 'post'], '/email/duplicate', [\App\Http\Controllers\Email\EmailDuplicateController::class, 'duplicate'])
+Route::match(['get', 'post'], '/email/duplicate',
+    [\App\Http\Controllers\Email\EmailDuplicateController::class, 'duplicate'])
     ->name('email.duplicate');
 Route::get('/email/download-attachment/{attachmentId}',
     [\App\Http\Controllers\Email\EmailDownloadAttachmentController::class, 'downloadAttachment'])
     ->name('downloadAttachment');
 
 // Email template
-Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
+Route::match(['get', 'post'], '/email-template',
+    [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
 
 // Campaign
 Route::match(['get', 'post'], '/campaign', [\App\Http\Controllers\Campaign\CampaignIndexController::class, 'index']);
@@ -169,8 +174,11 @@ Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::c
 Route::get('/notification', [\App\Http\Controllers\Notification\NotificationIndexController::class, 'index']);
 Route::get('/ajax/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])
     ->middleware('auth');
-Route::get('/notification/read/{id}', [\App\Http\Controllers\Notification\SetNotificationReadAjaxController::class, 'setRead'])
+Route::get('/notification/read/{id}',
+    [\App\Http\Controllers\Notification\SetNotificationReadAjaxController::class, 'setRead'])
     ->middleware('auth');
+Route::get('/notification/delete/{id}',
+    [\App\Http\Controllers\Notification\DeleteNotificationController::class, 'delete']);
 
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
