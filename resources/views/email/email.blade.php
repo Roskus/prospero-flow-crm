@@ -57,7 +57,7 @@
                         @if($email->attachments()->count())
                             @foreach($email->attachments()->get() as $attach)
                                 <div>
-                                    <a href="{{ $attach->file }}" target="_blank">{{ $attach->original_name }}</a>
+                                    <a href="{{ route('downloadAttachment', $attach->id) }}" target="_blank">{{ $attach->original_name }}</a>
                                 </div>
                             @endforeach
                         @endif

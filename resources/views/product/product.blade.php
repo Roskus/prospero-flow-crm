@@ -48,22 +48,22 @@
             </div>
             <div class="form-group">
                 <label for="name" class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="name" id="name" value="{{ $product->name }}" class="form-control" required="required">
+                <input type="text" name="name" id="name" value="{{ old('name', $product->name) }}" class="form-control" required="required">
             </div>
             <div class="row form-group">
                 <div class="col">
                     <label for="cost" class="label-control">{{ __('Cost') }} <span class="text-danger">*</span></label>
-                    <input type="number" name="cost" id="cost" value="{{ $product->cost }}" class="form-control" required="required" step="0.1" min="0">
+                    <input type="number" name="cost" id="cost" value="{{ old('cost', $product->cost) }}" class="form-control" required="required" step="0.1" min="0">
                 </div>
                 <div class="col">
                     <label for="price" class="label-control">{{ __('Price') }} <span class="text-danger">*</span></label>
-                    <input type="number" name="price" id="price" value="{{ $product->price }}" class="form-control" required="required" step="0.1" min="0">
+                    <input type="number" name="price" id="price" value="{{ old('price', $product->price) }}" class="form-control" required="required" step="0.1" min="0">
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col">
                     <label for="quantity" class="label-control">{{ __('Quantity') }}</label>
-                    <input type="number" name="quantity" id="quantity" value="{{ $product->quantity }}" step="1" min="0" class="form-control">
+                    <input type="number" name="quantity" id="quantity" value="{{ old('quantity', $product->quantity) }}" step="1" min="0" class="form-control">
                 </div>
                 <div class="col">
                     <label for="min_stock_quantity">{{ __('Minimum stock quantity') }}</label>
@@ -75,19 +75,19 @@
                     <label for="barcode" class="control">{{ __('Barcode') }}</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="las la-barcode"></i></span>
-                        <input type="text" name="barcode" id="barcode" placeholder="EAN-13" value="{{ $product->barcode }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" onkeyup="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
+                        <input type="text" name="barcode" id="barcode" placeholder="EAN-13" value="{{ old('barcode', $product->barcode) }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" onkeyup="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
                     </div>
-                    <div id="barcode-preview" class="barcode">{{ $product->barcode }}</div>
+                    <div id="barcode-preview" class="barcode">{{ old('barcode', $product->barcode) }}</div>
                 </div>
                 <div class="col">
                     <label class="control">{{ __('SKU') }}</label>
-                    <input type="text" name="sku" id="sku" value="{{ $product->sku }}" class="form-control" placeholder="">
+                    <input type="text" name="sku" id="sku" value="{{ old('sku', $product->sku) }}" class="form-control" placeholder="">
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col">
                     <label for="elaboration_date">{{ __('Elaboration date') }}</label>
-                    <input type="date" name="elaboration_date" id="elaboration_date" value="{{ $product->elaboration_date }}" class="form-control">
+                    <input type="date" name="elaboration_date" id="elaboration_date" value="{{ ($product->elaboration_date) ? $product->elaboration_date : '' }}" class="form-control">
                 </div>
                 <div class="col">
                     <label for="expiration_date">{{ __('Expiration date') }}</label>
@@ -97,7 +97,7 @@
             <div class="row form-group">
                 <div class="col">
                     <label for="description" class="label-control">{{ __('Description') }}</label>
-                    <textarea name="description" id="description" class="form-control">{{ $product->description }}</textarea>
+                    <textarea name="description" id="description" class="form-control">{{ old('description', $product->description) }}</textarea>
                 </div>
             </div>
             <div class="row form-group">

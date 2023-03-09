@@ -129,6 +129,9 @@ Route::get('/email/send/{id}', [\App\Http\Controllers\Email\EmailSendController:
 Route::get('/email/delete/{id}', [\App\Http\Controllers\Email\EmailDeleteController::class, 'delete']);
 Route::match(['get', 'post'], '/email/duplicate', [\App\Http\Controllers\Email\EmailDuplicateController::class, 'duplicate'])
     ->name('email.duplicate');
+Route::get('/email/download-attachment/{attachmentId}',
+    [\App\Http\Controllers\Email\EmailDownloadAttachmentController::class, 'downloadAttachment'])
+    ->name('downloadAttachment');
 
 // Email template
 Route::match(['get', 'post'], '/email-template', [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
