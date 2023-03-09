@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\ProductRequest;
 use App\Repositories\ProductRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Ramsey\Uuid\Uuid;
 use Throwable;
@@ -20,12 +20,12 @@ class ProductSaveController extends MainController
         $this->productRepository = $productRepository;
     }
 
-    public function save(Request $request)
+    public function save(ProductRequest $request)
     {
-        $product = $this->productRepository->save($request->all());
+        $product = $this->productRepository->save($request->validated());
 
-        $photoFile = $request->file('photo');
-        if (! empty($photoFile)) {
+        if ($request->hasFile('photo')) {
+            $photoFile = $request->file('photo');
             // Generate a new random file name
             $uuid = Uuid::uuid4();
             $newFileName = $uuid->toString().'.'.$photoFile->getClientOriginalExtension();
@@ -52,7 +52,8 @@ class ProductSaveController extends MainController
                 Log::error($t->getMessage());
             }
         }
+        $message = ($product) ? 'Product saved successfully' : 'An error occurs saving the product';
 
-        return redirect('/product')->with('message', '');
+        return redirect('/product')->with('message', $message);
     }
 }
