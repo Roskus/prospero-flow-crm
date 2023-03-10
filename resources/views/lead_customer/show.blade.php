@@ -42,10 +42,39 @@ $url = isset($lead) ? 'lead' : 'customer';
 
 {{-- ORDERS --}}
 @if($url === 'customer')
+@php
+    $orders = $item->orders
+@endphp
+<div class="card mb-2">
+    <div class="card-header">{{ __('Products') }}</div>
+    <div class="card-body">
+        @if(isset($orders) && count($orders) > 0)
+            <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ __('Product') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($orders as $order)
+                @foreach($order->items as $item_detail)
+                <tr>
+                    <td>{{ (isset($item_detail->product)) ? $item_detail->product->id : '' }}</td>
+                    <td>{{ (isset($item_detail->product)) ? $item_detail->product->name : '' }}</td>
+                </tr>
+                @endforeach
+            @endforeach
+            </tbody>
+            </table>
+        @endif
+    </div>
+</div>
+
 <div class="card mb-2">
     <div class="card-header">{{ __('Orders') }}</div>
     <div class="card-body">
-        @if(isset($item->orders) && count($item->orders) > 0)
+        @if(isset($orders) && count($orders) > 0)
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -57,13 +86,22 @@ $url = isset($lead) ? 'lead' : 'customer';
                 </tr>
             </thead>
             <tbody>
-                @foreach ($item->orders as $order)
+                @foreach ($orders as $order)
                 <tr>
                     <th scope="row">{{ $order->id }}</th>
                     <td>{{ $order->amount }}</td>
                     <td>{{ $order->status }}</td>
                     <td>{{ $order->created_at->format('d/m/Y') }}</td>
-                    <td><a class="btn btn-primary btn-sm" href="{{ url("/order/update/$order->id") }}">{{ __('Edit') }}</a></td>
+                    <td>
+                        <a href="{{ url('/order/show/'.$order->id) }}" title="{{ __('View') }}"
+                           class="btn btn-sm btn-primary text-white">
+                            {{ __('View') }}
+                        </a>
+
+                        <a href="{{ url("/order/update/$order->id") }}" class="btn btn-primary btn-sm">
+                            {{ __('Edit') }}
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -103,7 +141,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <td>{{ $contact->phone }}</td>
                     <td>{{ $contact->email }}</td>
                     <td>
-                        <a class="btn btn-primary btn-sm" href="{{ url('/contact/update/'.$contact->id) }}">
+                        <a href="{{ url('/contact/update/'.$contact->id) }}" class="btn btn-primary btn-sm">
                             {{ __('Edit') }}
                         </a>
                     </td>
