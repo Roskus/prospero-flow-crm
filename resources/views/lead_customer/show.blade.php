@@ -59,10 +59,19 @@ $url = isset($lead) ? 'lead' : 'customer';
             <tbody>
             @foreach ($orders as $order)
                 @foreach($order->items as $item_detail)
-                <tr>
-                    <td>{{ (isset($item_detail->product)) ? $item_detail->product->id : '' }}</td>
-                    <td>{{ (isset($item_detail->product)) ? $item_detail->product->name : '' }}</td>
-                </tr>
+                    @isset($item_detail->product)
+                    <tr>
+                    <td>{{ $item_detail->product->id }}</td>
+                    <td>
+                        @isset($item_detail->product->photo)
+                        <div>
+                        <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/product/'.$item_detail->product->id.'/'.$item_detail->product->photo)) }}" alt="" width="100" class="img-fluid img-thumbnail">
+                        </div>
+                        @endif
+                        {{ $item_detail->product->name }}
+                    </td>
+                    </tr>
+                    @endisset
                 @endforeach
             @endforeach
             </tbody>
