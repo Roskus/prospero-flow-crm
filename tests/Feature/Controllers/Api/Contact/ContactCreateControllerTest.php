@@ -6,13 +6,10 @@ namespace Tests\Feature\Controllers\Api\Contact;
 
 use App\Models\Industry;
 use App\Models\Lead;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ContactCreateControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected $jsonStructureContact = [
         'id',
     ];
@@ -22,8 +19,7 @@ class ContactCreateControllerTest extends TestCase
      */
     public function can_create_contact(): void
     {
-        $user = $this->signIn();
-        $this->actingAs($user, 'api');
+        $this->actingAs($this->user, 'api');
 
         Industry::factory()->create();
         $lead = Lead::factory()->create();
@@ -69,8 +65,7 @@ class ContactCreateControllerTest extends TestCase
      */
     public function create_contact_have_missing_parameters(): void
     {
-        $user = $this->signIn();
-        $this->actingAs($user, 'api');
+        $this->actingAs($this->user, 'api');
 
         $response = $this->json('POST', '/api/contact/', [
             'contact_email' => 'email@example.com',

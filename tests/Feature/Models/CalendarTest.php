@@ -3,26 +3,20 @@
 namespace Tests\Feature\Models;
 
 use App\Models\Calendar;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class CalendarTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_can_use_timezones()
     {
-        $user = $this->signIn();
-
-        $this->assertEquals(config('app.timezone'), $user->timezone);
+        $this->assertEquals(config('app.timezone'), $this->user->timezone);
 
         // ### UTC
-        $user->timezone = 'UTC';
-        $user->save();
+        $this->user->timezone = 'UTC';
+        $this->user->save();
 
-        $this->actingAs($user);
         $this->post('calendar/event/save', [
             'title' => fake()->title(),
             'date' => '2022-12-15',
@@ -38,9 +32,9 @@ class CalendarTest extends TestCase
         $this->assertEquals('2022-12-15 21:00:00', $event->end_date);
 
         // ### Europe/Madrid
-        $user->timezone = 'Europe/Madrid';
-        $user->save();
-        $this->actingAs($user);
+        $this->user->timezone = 'Europe/Madrid';
+        $this->user->save();
+
         $this->post('calendar/event/save', [
             'title' => fake()->title(),
             'date' => '2022-12-15',
