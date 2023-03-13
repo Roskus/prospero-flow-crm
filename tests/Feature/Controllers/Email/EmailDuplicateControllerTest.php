@@ -12,7 +12,7 @@ class EmailDuplicateControllerTest extends TestCase
     /** @test */
     public function it_can_duplicate_email(): void
     {
-        $email = Email::factory()->create(['status' => Email::SENT]);
+        $email = Email::factory()->create(['status' => Email::DRAFT]);
         $data = [
             'email_id' => $email->id,
             'email_to' => fake()->email(),
