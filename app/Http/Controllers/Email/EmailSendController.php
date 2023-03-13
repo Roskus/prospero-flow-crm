@@ -39,7 +39,7 @@ class EmailSendController extends MainController
             if ($email->attachments()->count() > 0) {
                 foreach ($email->attachments() as $attachment) {
                     $file = Attachment::fromPath(storage_path('app/'.$attachment->file))
-                        ->as($attachment->original_name);
+                        ->as($attachment->original_name)->withMime($attachment->mime);
                     $message->attach($file);
                 }
             }
