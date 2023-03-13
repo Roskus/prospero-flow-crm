@@ -1,18 +1,20 @@
 <?php
 
-namespace Tests\Unit\Console\Commands;
+declare(strict_types=1);
+
+namespace Tests\Feature\Console\Commands;
 
 use App\Mail\GenericEmail;
 use App\Models\Customer;
 use App\Models\Lead;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ScheduleNotificationReminderTest extends TestCase
 {
     /** @test */
-    public function it_can_send_notifications()
+    public function it_can_send_notifications(): void
     {
         Mail::fake();
 

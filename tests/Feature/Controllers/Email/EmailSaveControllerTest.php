@@ -6,23 +6,12 @@ namespace Tests\Feature\Controllers\Email;
 
 use App\Models\Email;
 use App\Models\Email\Attach;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EmailSaveControllerTest extends TestCase
 {
-    protected $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create();
-        $this->actingAs($this->user);
-    }
-
     /** @test */
     public function it_can_save_email(): void
     {
