@@ -29,9 +29,18 @@ class EmailSendController extends MainController
             $params['signature'] = Auth::user()->signature_html;
         }
 
+        /**
+         * @TODO Refactor this as a Service
+         */
         $emailTemplate = new GenericEmail(Auth::user()->company, $email->subject, $params);
         try {
-            Mail::to($email->to)->send($emailTemplate);
+            $mail = Mail::to($email->to);
+            if ($email->attachments()->count() > 0) {
+                foreach ($email->attachments() as $attachment) {
+                    $email->attach(storage_path('app/'.$attachment->file))->as($attachment->original_name);
+                }
+            }
+            $mail->send($emailTemplate);
             $email->status = Email::SENT;
         } catch (\Throwable $t) {
             Log::error($t->getMessage());

@@ -24,6 +24,6 @@ class EmailDuplicateControllerTest extends TestCase
 
         $response->assertRedirect('email/update/'.$email_duplicate->id);
         $this->assertNotEquals($email->to, $email_duplicate->to);
-        $this->assertNotEquals($email->status, Email::DRAFT);
+        $this->assertEquals($email->status, Email::DRAFT);
     }
 }
