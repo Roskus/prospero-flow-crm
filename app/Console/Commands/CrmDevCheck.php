@@ -7,21 +7,23 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class CrmCheck extends Command
+class CrmDevCheck extends Command
 {
+    private $errors = [];
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'crm:check';
+    protected $signature = 'crm:dev-check';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Check code consistency, find missing statement. For development purposes only.';
 
     /**
      * Execute the console command.
@@ -30,24 +32,17 @@ class CrmCheck extends Command
      */
     public function handle()
     {
-        $errors = [];
         $DS = DIRECTORY_SEPARATOR;
         $path_models = 'Models'.$DS;
         $path_controllers = 'Http'.$DS.'Controllers'.$DS;
 
-        $models = array_map(function ($file) {
-            $pattern = '/.*app/';
-            $string = $file->getPathname();
-            $model = 'App'.substr(preg_replace($pattern, '', $string), 0, -4);
-
-            return $model;
-        }, File::allFiles(app_path('Models')));
+        $models = $this->getModels();
 
         /** FILES EXISTS */
-        foreach ($models as $model) {
-            $model = str_replace('App\\Models\\', '', $model);
+        foreach ($models as $model_FQDN) {
+            $model = str_replace('App\\Models\\', '', $model_FQDN);
 
-            $archivos = [
+            $files = [
                 /** MODELS */
                 app_path($path_models.$model.'.php'),
                 /** CONTROLLERS */
@@ -59,28 +54,41 @@ class CrmCheck extends Command
                 app_path($path_controllers.$model.$DS.$model.'UpdateController.php'),
             ];
 
-            foreach ($archivos as $archivo) {
-                if (! File::exists($archivo)) {
-                    array_push($errors, 'The file '.preg_replace('/.*app/', '', $archivo).' does not exist.');
+            foreach ($files as $file) {
+                if (! File::exists($file)) {
+                    $this->errors[$model_FQDN][] = 'The file '.preg_replace('/.*app/', '', $file).' does not exist.';
                 }
             }
-            array_push($errors, ' ');
         }
 
         /** METHODS EXISTS */
-        foreach ($models as $model) {
+        foreach ($models as $model_FQDN) {
             $methods = ['getAll', 'getAllByCompanyId'];
+
             foreach ($methods as $method) {
-                if (! in_array($method, get_class_methods(new $model))) {
-                    array_push($errors, 'The method '.$method.' does not exist in the mode '.$model.'.');
+                if (! in_array($method, get_class_methods(new $model_FQDN))) {
+                    $this->errors[$model_FQDN][] = 'The method '.$method.' does not exist in the model '.$model_FQDN.'.';
                 }
             }
-
-            array_push($errors, ' ');
         }
 
-        dump($errors);
+        foreach ($this->errors as $modelName => $modelErrors) {
+            $this->line("##### $modelName #####");
+            echo implode(PHP_EOL, $modelErrors).PHP_EOL;
+            $this->newLine();
+        }
 
         return Command::SUCCESS;
+    }
+
+    private function getModels()
+    {
+        return array_map(function ($file) {
+            $pattern = '/.*app/';
+            $string = $file->getPathname();
+            $model_FQDN = 'App'.substr(preg_replace($pattern, '', $string), 0, -4);
+
+            return $model_FQDN;
+        }, File::allFiles(app_path('Models')));
     }
 }

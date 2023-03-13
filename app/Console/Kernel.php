@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\UserCreate::class,
         Commands\CampaignSender::class,
         Commands\ScheduleNotificationReminder::class,
-        Commands\CrmCheck::class,
+        Commands\CrmDevCheck::class,
     ];
 
     /**
