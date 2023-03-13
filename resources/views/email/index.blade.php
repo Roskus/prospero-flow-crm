@@ -68,7 +68,7 @@
                     </a>
                     @endif
 
-                    <a onclick="window.ProspectFlow.Email.duplicate({{ $email->id, __('New recipient') }})" title="{{ __('Duplicate') }}" class="btn btn-info text-white">
+                    <a onclick="window.ProspectFlow.Email.duplicate({{ $email->id }}, '{{ __('New recipient') }}')" title="{{ __('Duplicate') }}" class="btn btn-info text-white">
                         <i class="las la-copy"></i>
                     </a>
                     @if($email->status != \App\Models\Email::SENT)
