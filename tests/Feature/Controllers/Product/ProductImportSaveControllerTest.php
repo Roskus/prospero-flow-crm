@@ -5,22 +5,16 @@ namespace Tests\Feature\Controllers\Product;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class ProductImportSaveControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_can_import_products_from_csv()
     {
-        $user = $this->signIn();
-        $this->actingAs($user);
-
-        Category::create(['name' => 'category test', 'company_id' => $user->company->id]);
-        Brand::create(['name' => 'DELL', 'company_id' => $user->company->id]);
+        Category::create(['name' => 'category test', 'company_id' => $this->user->company_id]);
+        Brand::create(['name' => 'DELL', 'company_id' => $this->user->company_id]);
 
         $response = $this->post('product/import/save', []);
         $response->assertRedirect();

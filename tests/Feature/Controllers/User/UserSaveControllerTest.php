@@ -9,9 +9,6 @@ class UserSaveControllerTest extends TestCase
     /** @test */
     public function it_can_save_a_user()
     {
-        $user = $this->signIn();
-        $this->actingAs($user);
-
         $response = $this->post('user/save', []);
         $response->assertSessionHasErrors(['first_name', 'email', 'lang']);
 

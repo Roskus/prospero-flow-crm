@@ -5,21 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Ticket;
 
 use App\Models\Ticket;
-use App\Models\User;
 use Tests\TestCase;
 
 class TicketIndexControllerTest extends TestCase
 {
-    private $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create();
-        $this->actingAs($this->user);
-    }
-
     /** @test */
     public function it_can_view_index_tickets(): void
     {
