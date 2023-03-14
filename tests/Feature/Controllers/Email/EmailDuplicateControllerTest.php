@@ -15,7 +15,7 @@ class EmailDuplicateControllerTest extends TestCase
         $email = Email::factory()->create(['status' => Email::DRAFT]);
         $data = [
             'email_id' => $email->id,
-            'email_to' => fake()->email(),
+            'to' => fake()->email(),
         ];
 
         $response = $this->post('/email/duplicate', $data);
