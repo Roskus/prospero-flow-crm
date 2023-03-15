@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Company;
@@ -16,14 +18,22 @@ class CompanyFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => fake()->name(),
+            'business_name' => fake()->name(),
+            'vat' => fake()->bothify('??#########'),
             'logo' => null,
-            'phone' => fake()->phoneNumber(),
+            'signature_html' => fake()->randomHtml(),
+            'phone' => fake()->numerify('6########'),
             'email' => fake()->email(),
             'country_id' => Country::all()->random(),
+            'province' => fake()->word(),
+            'city' => fake()->city(),
+            'street' => fake()->streetAddress(),
+            'zipcode' => fake()->numerify('#####'),
+            'currency' => fake()->bothify('???'),
             'website' => 'https://'.fake()->domainName(),
             'status' => Company::ACTIVE,
         ];
