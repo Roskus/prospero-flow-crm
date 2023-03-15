@@ -2,25 +2,10 @@
 
 namespace Tests\Feature\Controllers\Api\Auth;
 
-use App\Models\Company;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $company = Company::factory()->create();
-        $this->user = User::factory()->create(['company_id' => $company->id]);
-    }
-
     /** @test */
     public function it_can_login()
     {

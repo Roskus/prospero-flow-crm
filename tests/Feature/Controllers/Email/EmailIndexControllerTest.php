@@ -4,22 +4,16 @@ namespace Tests\Feature\Controllers\Email;
 
 use App\Models\Email;
 use App\Models\EmailTemplate;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EmailIndexControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_can_show_emails_index()
     {
-        $user = $this->signIn();
-        $this->actingAs($user);
-
         EmailTemplate::factory()->create();
-        $email = Email::factory()->create(['company_id' => $user->company->id]);
-        $email2 = Email::factory()->create(['company_id' => $user->company->id]);
+        $email = Email::factory()->create(['company_id' => $this->user->company_id]);
+        $email2 = Email::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->get('/email');
         $response->assertStatus(200);
@@ -32,9 +26,6 @@ class EmailIndexControllerTest extends TestCase
     /** @test */
     public function it_can_search_emails_index()
     {
-        $user = $this->signIn();
-        $this->actingAs($user);
-
         EmailTemplate::factory()->create();
         $email = Email::factory()->create();
         $email2 = Email::factory()->create();

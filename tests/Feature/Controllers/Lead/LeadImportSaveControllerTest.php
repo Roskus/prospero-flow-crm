@@ -3,20 +3,14 @@
 namespace Tests\Feature\Controllers\Lead;
 
 use App\Models\Lead;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class LeadImportSaveControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_can_import_leads_from_csv()
     {
-        $user = $this->signIn();
-        $this->actingAs($user);
-
         $response = $this->post('lead/import/save', []);
         $response->assertRedirect();
         $response->assertSessionHasErrors();

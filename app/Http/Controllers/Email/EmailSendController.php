@@ -8,6 +8,7 @@ use App\Http\Controllers\MainController;
 use App\Mail\GenericEmail;
 use App\Models\Email;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Attachment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -29,9 +30,20 @@ class EmailSendController extends MainController
             $params['signature'] = Auth::user()->signature_html;
         }
 
-        $emailTemplate = new GenericEmail(Auth::user()->company, $email->subject, $params);
+        /**
+         * @TODO Refactor this as a Service
+         */
+        $message = new GenericEmail(Auth::user()->company, $email->subject, $params);
         try {
-            Mail::to($email->to)->send($emailTemplate);
+            $mail = Mail::to($email->to);
+            if ($email->attachments()->count() > 0) {
+                foreach ($email->attachments() as $attachment) {
+                    $file = Attachment::fromPath(storage_path('app/'.$attachment->file))
+                        ->as($attachment->original_name)->withMime($attachment->mime);
+                    $message->attach($file);
+                }
+            }
+            $mail->send($message);
             $email->status = Email::SENT;
         } catch (\Throwable $t) {
             Log::error($t->getMessage());

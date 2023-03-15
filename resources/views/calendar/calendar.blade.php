@@ -61,6 +61,6 @@
 
     @push('scripts')
         <script> const route_calendar_controller = "{{ url(path:'calendar', secure: app()->environment('production')) }}"; </script>
-        <script src="{{ asset('/asset/js/Calendar.js') }}"></script>
+        <script src="{{ url('/asset/js/Calendar.js') }}"></script>
     @endpush
 @endsection

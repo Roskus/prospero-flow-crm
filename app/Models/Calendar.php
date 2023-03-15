@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\SendCalendarEventService;
 use App\Traits\ICalendar;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
@@ -15,6 +17,7 @@ use OpenApi\Attributes as OAT;
 class Calendar extends Model
 {
     use ICalendar;
+    use HasFactory;
 
     protected $table = 'calendar';
 
@@ -53,12 +56,6 @@ class Calendar extends Model
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $user_id;
 
-    #[OAT\Property(type: 'string', format: 'date', example: '2022-01-27')]
-    protected ?string $start_date;
-
-    #[OAT\Property(type: 'string', example: 'My awesome event')]
-    protected ?string $title;
-
     protected function startDate(): Attribute
     {
         return Attribute::make(
@@ -73,5 +70,16 @@ class Calendar extends Model
             get: fn ($value) => Carbon::parse($value, config('app.timezone'))->setTimezone(Auth::user()->timezone)->toDateTimeString(),
             set: fn ($value) => Carbon::parse($value, Auth::user()->timezone)->setTimezone(config('app.timezone'))->toDateTimeString(),
         );
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function (Calendar $calendar) {
+            (new SendCalendarEventService())->send($calendar);
+        });
+
+        static::updated(function (Calendar $calendar) {
+            (new SendCalendarEventService())->send($calendar);
+        });
     }
 }
