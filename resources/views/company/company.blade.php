@@ -122,9 +122,7 @@
             <div class="row">
                 <div class="col form-group">
                     <label for="signature_html">{{ __('Signature') }}</label>
-                    <textarea name="signature_html">
-
-                    </textarea>
+                    <textarea name="signature_html" id="signature_html">{!! (!empty($company->signature_html)) ? $company->signature_html : old('signature_html','') !!}</textarea>
                 </div>
             </div>
         </div>
@@ -141,4 +139,7 @@
     <input type="hidden" name="id" id="id" value="{{ $company->id }}">
     {{ csrf_field() }}
     </form>
+    @push('scripts')
+        @include('html_editor', ['id' => 'signature_html', 'placeholder' => 'Email signature'])
+    @endpush
 @endsection
