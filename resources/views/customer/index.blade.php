@@ -2,25 +2,23 @@
 
 @section('content')
 @include('layouts.partials._header', ['title' =>  __('Customers'), 'count' => $customer_count])
+@include('layouts.partials._search_buttons_bar', [
+    'action_search' => url("/customer"), 
+    'buttons' => [
+        ['url' => url('/customer/create'), 'class' => 'btn btn-primary', 'text' => __('New')],
+        ['url' => url('/customer/import'), 'class' => 'btn btn-success', 'text' => __('Import'), 'icon_class' => 'las la-file-csv']
+    ]
+])
 
+@if(\Illuminate\Support\Facades\Auth::user()->hasRole(['SuperAdmin', 'CompanyAdmin']))
 <div class="row">
-    <div class="col d-flex">
-        <a href="{{ url('/customer/create') }}" class="btn btn-primary d-flex flex-fill align-items-center justify-content-center">{{ __('New') }}</a>
-    </div>
-    <div class="col">
-        <div class="btn-group d-flex" role="group" aria-label="Basic mixed styles example">
-            <a href="{{ url('/customer/import') }}" class="btn btn-success d-block">
-                {{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i>
-            </a>
-
-            @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['SuperAdmin', 'CompanyAdmin']))
-            <a href="{{ url('/customer/export') }}" class="btn btn-info d-block">
-                {{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i>
-            </a>
-            @endif
-        </div><!--./btn-group-->
+    <div class="col">    
+        <a href="{{ url('/customer/export') }}" class="btn btn-info d-block">
+            {{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i>
+        </a>        
     </div>
 </div>
+@endif
 
 @if(session('status'))
     <div class="alert alert-{{ session('status') }} mt-2">
@@ -31,13 +29,6 @@
 <div class="row mt-2">
     <div class="col">
         <form method="get" action="{{ url("/customer") }}" class="form-inline mb-2">
-            @csrf
-            <div class="input-group">
-                <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>
-                </div>
-            </div>
             <div class="card mt-2">
                 <div class="card-header">{{ __('Advanced search') }}</div>
                 <div class="card-body">
@@ -65,6 +56,9 @@
                                     <option value="{{ $industry->id }}">{{ $industry->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="p-3">
+                            <button class="btn btn-secundary btn-outline-dark" type="submit"><i class="fas fa-filter"></i></button>
                         </div>
                     </div><!--./row-->
                 </div>

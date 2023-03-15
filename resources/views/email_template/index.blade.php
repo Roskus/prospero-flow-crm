@@ -1,17 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <header>
-        <h1>E-mail templates</h1>
-    </header>
+@section('content')
+@include('layouts.partials._header', ['title' => __('E-mail templates')])
+@include('layouts.partials._search_buttons_bar', [
+    'action_search' => url("/email-template"),
+    'buttons' => [
+        ['url' => url('/email-template/create'), 'class' => 'btn btn-primary', 'text' => __('New')]
+    ]
+])
 
-    <div>
-        <a href="{{ url('/email-template/create') }}" class="btn btn-primary">{{ __('New') }}</a>
+<div class="card">
+    <div class="card-body">
+        @foreach($templates as $template)
+        <div>
+            <img src="{{ $template->screenshot }}" alt="">
+        </div>
+        @endforeach
     </div>
-
-    @foreach($templates as $template)
-    <div>
-        <img src="{{ $template->screenshot }}" alt="">
-    </div>
-    @endforeach
+</div>
+    
 @endsection

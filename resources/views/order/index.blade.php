@@ -2,10 +2,12 @@
 
 @section('content')
 @include('layouts.partials._header', ['title' =>  __('Orders')])
-
-<div class="mb-2">
-    <a href="{{ url('order/create') }}" class="btn btn-primary">{{ __('New') }}</a>
-</div>
+@include('layouts.partials._search_buttons_bar', [
+    'action_search' => url("/order"),
+    'buttons' => [
+        ['url' => url('/order/create'), 'class' => 'btn btn-primary', 'text' => __('New')]
+    ]
+])
 
 <div class="card">
     <div class="card-body">

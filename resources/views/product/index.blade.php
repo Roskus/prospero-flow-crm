@@ -2,26 +2,14 @@
 
 @section('content')
 @include('layouts.partials._header', ['title' =>  __('Products'), 'count' => $product_count])
+@include('layouts.partials._search_buttons_bar', [
+    'action_search' => url("/product"), 
+    'buttons' => [
+        ['url' => url('/product/create'), 'class' => 'btn btn-primary', 'text' => __('New')],
+        ['url' => url('/product/import'), 'class' => 'btn btn-success', 'text' => __('Import'), 'icon_class' => 'las la-file-csv']
+    ]
+])
 
-<div class="mb-2">
-  <a href="{{ url('/product/create') }}" class="btn btn-primary">{{ __('New') }}</a>
-
-  <a href="{{ url('/product/import') }}" class="btn btn-success">{{ __('Import') }}</a>
-</div>
-
-<div class="row mt-2">
-    <div class="col">
-    <form method="post" action="{{ url('/product') }}" class="form-inline mb-2">
-        @csrf
-        <div class="input-group">
-            <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
-            <div class="input-group-append">
-                <button class="btn btn-outline-primary" type="submit" id="btn-search"><i class="las la-search"></i></button>
-            </div>
-        </div>
-    </form>
-    </div><!--./col-->
-</div><!--./row-->
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">

@@ -2,12 +2,12 @@
 
 @section('content')
     @include('layouts.partials._header', ['title' =>  __('Campaigns')])
-
-    <div class="row">
-        <div class="col">
-            <a href="{{ url('/campaign/create') }}" class="btn btn-primary">{{ __('New') }}</a>
-        </div>
-    </div>
+    @include('layouts.partials._search_buttons_bar', [
+        'action_search' => url("/campaign"), 
+        'buttons' => [
+            ['url' => url('/campaign/create'), 'class' => 'btn btn-primary', 'text' => __('New')],
+        ]
+    ])
 
     <div class="card mt-2">
         <div class="card-body">

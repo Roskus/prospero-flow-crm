@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<header>
-   <h1>{{ __('Settings') }}</h1>
-</header>
+@include('layouts.partials._header', ['title' => __('Settings')])
+
 
 <div class="row">
     @can('read company')
@@ -20,6 +19,9 @@
         </div>
     </div>
     @endcan
+
+
+
 
     <div class="col text-center">
         <div class="card">
@@ -88,4 +90,5 @@
         </div>
     </div>
 </div>
+
 @endsection

@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <header>
-        <h1>{{ __('Reports') }}</h1>
-    </header>
-
+@include('layouts.partials._header', ['title' =>  __('Reports')])
     <div class="row">
         <div class="col">
             <div class="card">
