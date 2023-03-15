@@ -56,12 +56,6 @@ class Calendar extends Model
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $user_id;
 
-    #[OAT\Property(type: 'string', format: 'date', example: '2022-01-27')]
-    protected ?string $start_date;
-
-    #[OAT\Property(type: 'string', example: 'My awesome event')]
-    protected ?string $title;
-
     protected function startDate(): Attribute
     {
         return Attribute::make(

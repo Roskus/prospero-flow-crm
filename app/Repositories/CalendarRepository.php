@@ -13,6 +13,7 @@ class CalendarRepository
     {
         if (empty($data['id'])) {
             $calendar = new Calendar();
+            $calendar->created_at = now();
         } else {
             $calendar = Calendar::find($data['id']);
         }
@@ -23,13 +24,14 @@ class CalendarRepository
         $calendar->end_date = $data['date'].' '.$data['end_time'];
         $calendar->is_all_day = $data['is_all_day'] ?? false;
         $calendar->title = $data['title'];
-        $calendar->description = $data['description'];
-        $calendar->guests = $data['guest_list'];
-        $calendar->meeting = $data['meeting'];
-        $calendar->address = $data['address'];
-        $calendar->latitude = $data['latitude'];
-        $calendar->longitude = $data['longitude'];
-        $calendar->created_at = now();
+        $calendar->description = (! empty($data['description'])) ? $data['description'] : null;
+        $calendar->guests = (! empty($data['guest_list'])) ? $data['guest_list'] : null;
+        $calendar->meeting = (! empty($data['meeting'])) ? $data['meeting'] : null;
+        $calendar->address = (! empty($data['address'])) ? $data['address'] : null;
+        $calendar->latitude = (! empty($data['latitude'])) ? $data['latitude'] : null;
+        $calendar->longitude = (! empty($data['longitude'])) ? $data['longitude'] : null;
+
+        $calendar->updated_at = now();
         $calendar->save();
 
         return $calendar;
