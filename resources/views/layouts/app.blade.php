@@ -136,14 +136,13 @@
     <div class="container-fluid @auth mt-5 pt-3 @endauth" style="overflow-y: scroll;">
         @include('layouts.partials._errors')
         @yield('content')
+        <footer>
+            <div class="text-center">
+                <small class="">{{ env('APP_NAME') }} | Ver. {{ config('app.version') }}</small>
+            </div>
+        </footer>
     </div>
 </main>
-
-<footer>
-    <div class="text-center">
-        <small class="">{{ env('APP_NAME') }} | Ver. {{ config('app.version') }}</small>
-    </div>
-</footer>
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3 d-print-none">
     <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

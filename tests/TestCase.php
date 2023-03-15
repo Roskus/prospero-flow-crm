@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-use App\Models\Company;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use RefreshDatabase;
 
-    public function signIn()
+    protected $user;
+
+    public function setUp(): void
     {
-        Company::find(1) ?? Company::factory()->create(['id' => 1]);
-        $user = User::find(1) ?? User::factory()->create(['id' => 1]);
+        parent::setUp();
 
-        $this->actingAs($user);
+        $this->freezeTime();
 
-        return $user;
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
     }
 }

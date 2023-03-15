@@ -15,15 +15,15 @@ class EmailDuplicateController extends Controller
     {
         $validated = $request->validate([
             'email_id' => 'required|integer',
-            'email_to' => 'required|email',
+            'to' => 'required|email',
         ]);
 
         $email = Email::find($validated['email_id']);
-        $email_to = $validated['email_to'];
+        $to = $validated['to'];
 
         $email_duplicate = collect($email->replicate())->except(['cc', 'schedule_send']);
-        $email_duplicate['from'] = '';
-        $email_duplicate['to'] = $email_to;
+        $email_duplicate['from'] = $email->from;
+        $email_duplicate['to'] = $to;
         $email_duplicate['status'] = Email::DRAFT;
 
         $email_duplicate = Email::create($email_duplicate->toArray());

@@ -9,6 +9,7 @@
             <tr>
                 <th>{{ __('Message') }}</th>
                 <th>{{ __('Date') }}</th>
+                <th>{{ __('Action') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +23,12 @@
                     @endisset
                 </td>
                 <td>{{ $notification->created_at->format('d/m/Y H:i') }}</td>
+                <td>
+                    <a href="{{ url('/notification/delete/'.$notification->id) }}" title="{{ __('Delete') }}"
+                       class="btn btn-danger btn-xs">
+                        <i class="las la-trash-alt"></i>
+                    </a>
+                </td>
             </tr>
             @endforeach
             </tbody>

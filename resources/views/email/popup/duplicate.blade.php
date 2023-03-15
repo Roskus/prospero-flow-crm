@@ -10,10 +10,10 @@
                             aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="email_to" class="form-label">
+                    <label for="to" class="form-label">
                         {{ __('Email') }} <span class="text-danger">*</span>
                     </label>
-                    <input type="email" name="email_to" id="email_to" required class="form-control">
+                    <input type="email" name="to" id="to" required class="form-control">
                     <div class="form-text">
                         {{ __('Please enter the recipient\'s email.') }}
                     </div>

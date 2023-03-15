@@ -5,10 +5,10 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <card-body>
-                    <a class="btn btn-primary m-3" href="/report/sale">{{ __('Sales report') }}</a>
-                </card-body>
-            </div>            
+                <div class="card-body">
+                    <a href="{{ url('/report/sale') }}">{{ __('Sales report') }}</a>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

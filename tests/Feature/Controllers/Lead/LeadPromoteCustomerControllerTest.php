@@ -5,24 +5,10 @@ namespace Tests\Feature\Controllers\Lead;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class LeadPromoteCustomerControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create();
-        $this->actingAs($this->user);
-    }
-
     /** @test */
     public function it_can_promote_from_lead_to_customer()
     {

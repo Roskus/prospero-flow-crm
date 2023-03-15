@@ -9,7 +9,7 @@
     <div class="col text-center">
         <div class="card">
             <div class="card-body">
-                <a class="btn" href="{{ url('/company') }}">
+                <a href="{{ url('/company') }}">
                     <div class="h1">
                         <i class="las la-industry"></i>
                     </div>
@@ -26,7 +26,7 @@
     <div class="col text-center">
         <div class="card">
             <div class="card-body">
-                <a class="btn" href="{{ url('/category') }}">
+                <a href="{{ url('/category') }}">
                     <div class="h1">
                         <i class="las la-archive"></i>
                     </div>
@@ -39,7 +39,7 @@
     <div class="col text-center">
         <div class="card">
             <div class="card-body">
-                <a class="btn" href="{{ url('/brand') }}">
+                <a href="{{ url('/brand') }}">
                     <div class="h1">
                         <i class="las la-apple-alt"></i>
                     </div>
@@ -53,7 +53,7 @@
     <div class="col text-center">
         <div class="card">
             <div class="card-body">
-                <a class="btn" href="{{ url('/user') }}">
+                <a href="{{ url('/user') }}">
                     <div class="h1">
                         <i class="las la-users"></i>
                     </div>
@@ -64,11 +64,10 @@
     </div>
     @endcan
 
-
     <div class="col text-center">
         <div class="card">
             <div class="card-body">
-                <a class="btn" href="{{ url('/currency') }}">
+                <a href="{{ url('/currency') }}">
                     <div class="h1">
                         <i class="las la-euro-sign"></i>
                     </div>
@@ -81,7 +80,7 @@
     <div class="col text-center">
         <div class="card">
             <div class="card-body">
-                <a class="btn" href="{{ url('/email-template') }}">
+                <a href="{{ url('/email-template') }}">
                     <div class="h1">
                         <i class="las la-envelope-open-text"></i>
                     </div>

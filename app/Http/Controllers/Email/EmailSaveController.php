@@ -59,6 +59,7 @@ class EmailSaveController extends MainController
                 $attach->email_id = $email->id;
                 $attach->original_name = $originalName;
                 $attach->file = $path.$DS.$newName;
+                $attach->mime = $file->getClientMimeType();
                 $attach->save();
             } catch (\Throwable $t) {
                 Log::error($t->getMessage());
