@@ -7,7 +7,11 @@
 
     <div class="row">
         <div class="col">
-            <a href="/report/sale">{{ __('Sales report') }}</a>
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ url('/report/sale') }}">{{ __('Sales report') }}</a>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
