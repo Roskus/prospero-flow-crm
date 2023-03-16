@@ -89,3 +89,24 @@ https://coolors.co/palette/f94144-f3722c-f8961e-f9c74f-90be6d-43aa8b-577590
 .bg-dark-blue {
     background-color: var(--dark-blue);
 }
+
+.sidebar{
+    width: 4.5rem; 
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-in-out, ease-in-out;
+    transition-delay: 0s, 0s;
+    transition-property: width;
+    margin-top: 4.5rem;
+}
+
+.sidebar:hover{
+    width: 15rem !important;
+}
+
+.sidebar span{
+    display: none;
+}
+
+.sidebar:hover span{
+    display: block;
+}
