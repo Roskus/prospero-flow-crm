@@ -18,13 +18,19 @@
             <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
-                <th>{{ __('Last name') }}</th>
-                <th>{{ __('First name') }}</th>
+                <th>
+                    <a href="{{ url()->current() }}?sort=last_name">{{ __('Last name') }}</a>
+                </th>
+                <th>
+                    <a href="{{ url()->current() }}?sort=first_name">{{ __('First name') }}</a>
+                </th>
                 <th>E-mail</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Language') }}</th>
                 @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
-                <th>{{ __('Company') }}</th>
+                <th>
+                    <a href="{{ url()->current() }}?sort=company">{{ __('Company') }}</a>
+                </th>
                 @endif
                 <th>{{ __('Roles') }}</th>
                 <th>{{ __('Updated at') }}</th>
@@ -62,7 +68,7 @@
                     @endcan
 
                     @can('delete user')
-                    <a href="{{ url("/user/delete/$user->id") }}" class="btn bt-xs btn-danger">
+                    <a href="#" onclick="User.delete({{ $user->id }},'{{ __('Are you sure you want to delete the user: :name?', ['name' => $user->first_name.' '.$user->last_name ]) }}')" class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                     @endcan
@@ -74,8 +80,11 @@
         </div>
     </div>
 </div><!--./card-->
-<div>
+<div class="mt-1">
     {{ $users->appends(request()->query())->links() }}
 </div>
+@push('scripts')
+    <script src="{{ asset('/asset/js/User.js') }}"></script>
+@endpush
 @endsection
 
