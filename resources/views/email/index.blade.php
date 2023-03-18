@@ -20,6 +20,7 @@
 
     <div class="card mt-2">
         <div class="card-body">
+            <div class="table-responsive">
             <table class="table table-bordered table-striped">
             <thead>
             <tr>
@@ -88,6 +89,7 @@
             @endforeach
             </tbody>
             </table>
+            </div><!--./table-responsive-->
 
             <div>
                 {{ $emails->appends(request()->query())->links() }}

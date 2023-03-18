@@ -40,7 +40,7 @@
                 <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $order->status }}</td>
-                <td>
+                <td class="text-nowrap">
                     <a href="{{ url('order/show/'.$order->id) }}" title="{{ __('View') }}"
                        class="btn btn-xs btn-primary text-white">
                         <i class="las la-eye"></i>
@@ -53,7 +53,7 @@
                        class="btn btn-xs btn-success">
                         <i class="las la-file-pdf"></i>
                     </a>
-                    <a href="{{ url('/order/delete/'.$order->id) }}" title="{{ __('Delete') }}"
+                    <a href="#" onclick="Order.delete({{ $order->id }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->id ]) }}')" title="{{ __('Delete') }}"
                        class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
@@ -69,5 +69,8 @@
         </div>
     </div><!--./card-body-->
 </div><!--./card-->
+@push('scripts')
+    <script src="{{ asset('/asset/js/Order.js') }}"></script>
+@endpush
 @endsection
 

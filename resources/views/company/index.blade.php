@@ -52,7 +52,7 @@
                 <td class="text-center">{{ $company->currency }}</td>
                 <td>{{ ($company->created_at) ? $company->created_at->format('d/m/Y H:i') : '' }}</td>
                 <td>{{ ($company->updated_at) ? $company->updated_at->format('d/m/Y H:i') : '' }}</td>
-                <td>
+                <td class="no-wrap">
                 <a href="{{ url("/company/update/$company->id") }}" class="btn btn-warning" title="{{ __('Update') }}">
                     <i class="las la-edit"></i>
                 </a>
