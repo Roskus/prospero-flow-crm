@@ -4,9 +4,11 @@
     <header>
         <h1>{{ __('User') }}</h1>
     </header>
-    <form method="POST" action="{{ url('/user/save') }}">
-        @csrf
 
+    <div class="card">
+        <div class="card-body">
+        <form method="POST" action="{{ url('/user/save') }}">
+        @csrf
         <div class="row form-group mb-3">
             <div class="col">
                 <label for="name" class="control-label">{{ __('First name') }}</label>
@@ -44,7 +46,7 @@
                 <label for="roles">{{ __('Roles') }}</label>
                 <select name="roles[]" multiple class="form-select form-control-lg">
                     @foreach($roles as $role)
-                        <option value="{{ $role->name }}" @if($user->hasRole($role->name)) selected="selected" @endif>{{ $role->name }}</option>
+                        <option value="{{ $role->name }}" @if($user->hasRole($role->name)) selected="selected" @endif>{{ __($role->name) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -89,4 +91,6 @@
             </div>
             <input type="hidden" name="id" value="{{ ($user->id) ?? $user->id }}">
         </form>
+        </div>
+    </div><!--./card-->
     @endsection

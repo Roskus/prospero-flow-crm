@@ -16,9 +16,11 @@ class UserUpdateController extends MainController
     public function update(Request $request, int $id)
     {
         $user = User::find($id);
+        $roles = Role::all();
+        $rolesWithoutSuperAdmin = Role::where('name', '!=', 'SuperAdmin')->get();
         $data['user'] = $user;
         $data['languages'] = config('app.locales');
-        $data['roles'] = Role::all();
+        $data['roles'] = Auth::user()->hasRole('SuperAdmin') ? $roles : $rolesWithoutSuperAdmin;
         $data['companies'] = Auth::user()->hasRole('SuperAdmin') ? Company::all() : [];
 
         return view('user.user', $data);
