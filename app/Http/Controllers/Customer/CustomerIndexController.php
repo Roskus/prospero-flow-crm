@@ -19,6 +19,17 @@ class CustomerIndexController extends MainController
      */
     public function index(Request $request)
     {
+        if($request->ajax()){
+            
+            $term = $request->term;
+
+            $customers = Customer::where('company_id', Auth::user()->company_id)
+                ->where('name', 'LIKE', "%$term%")
+                ->get(['id', 'name as label']);
+
+            return response()->json($customers);
+        }
+
         $filters = [];
         $search = $request->search;
         $user = new User();

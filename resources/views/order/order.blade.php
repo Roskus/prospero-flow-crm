@@ -11,30 +11,17 @@
     @csrf
     <div class="row">
         <div class="col">
-            <label for="customer_id">{{ __('Customer') }}</label>
-            <input name="customer_id" id="customer_id" list="customer-list" required="required" class="form-control form-control-lg">
-
-            <datalist id="customer-list">
-                <option value="">{{ __('Choose') }}</option>
-                @foreach($customers as $customer)
-                    <option value="{{ $customer->id }}"
-                            @if($order->getCustomerId() == $customer->id) selected="selected" @endif>
-                        {{ $customer->name }} ({{ $customer->business_name }})
-                    </option>
-                @endforeach
-            </datalist>
+            <label for="customer_name">{{ __('Customer') }}</label>
+            <input id="customer_name" required="required" class="form-control form-control-lg">
+            <input type="hidden" name="customer_id" id="customer_id">
         </div>
 
     </div>
     <div class="row">
         <div class="col">
-            <label for="product_id">{{ __('Product') }}</label>
-            <select name="product_id" id="product_id" onchange="Order.updatePrice(this)" class="form-control form-control-lg">
-                <option value="" data-price="0">{{ __('Choose') }}</option>
-                @foreach($products as $product)
-                    <option value="{{ $product->id }}" data-price="{{ $product->price}}">{{ $product->name }}</option>
-                @endforeach
-            </select>
+            <label for="product_name">{{ __('Product') }}</label>
+            <input id="product_name" required="required" class="form-control form-control-lg">
+            <input type="hidden" name="product_id" id="product_id">            
         </div>
         <div class="col">
             <label for="quantity">{{ __('Quantity')}}</label>
@@ -108,7 +95,37 @@
     <td></td>
 </tr>
 </template>
+
 @push('scripts')
-<script src="{{ asset('/asset/js/Order.js') }}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.13.2/jquery-ui.min.css" integrity="sha256-Els0hoF6/l1WxcZEDh4lQsp7EqyeeYXMHCWyv6SdmX0=" crossorigin="anonymous">
 @endpush
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+    <script>
+        $('#customer_name').autocomplete({
+            source: "{{ url('customer') }}",
+            minLength: 2,
+            select: function( event, ui ) {
+                document.getElementById('customer_id').value = ui.item.id;
+            },
+            search: function(){
+                document.getElementById('product_id').removeAttribute('value');
+            }
+        });
+
+        $('#product_name').autocomplete({
+            source: "{{ url('product') }}",
+            minLength: 2,
+            select: function( event, ui ) {
+                document.getElementById('product_id').value = ui.item.id;
+            },
+            search: function(){
+                console.log('change');
+                document.getElementById('product_id').removeAttribute('value');
+            }
+        });
+    </script>
+    <script src="{{ asset('/asset/js/Order.js') }}"></script>
+@endpush
+
 @endsection
