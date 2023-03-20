@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Controllers\Customer;
 
 use App\Models\Customer;
@@ -8,7 +10,7 @@ use Tests\TestCase;
 class CustomerShowControllerTest extends TestCase
 {
     /** @test */
-    public function it_can_show_customer()
+    public function it_can_show_customer(): void
     {
         $customer = Customer::factory()->create();
 
@@ -19,6 +21,6 @@ class CustomerShowControllerTest extends TestCase
         $response->assertSee($customer->name);
         $response->assertSee($customer->business_name);
         $response->assertSee($customer->phone);
-        $response->assertSee('Contacts');
+        $response->assertSee(__('Contacts'));
     }
 }
