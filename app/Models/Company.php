@@ -110,6 +110,11 @@ class Company extends Model
         'deleted_at',
     ];
 
+    public function getAllPaginated(int $limit = 50)
+    {
+        return Company::orderBy('name', 'asc')->paginate($limit);
+    }
+
     public function getAll()
     {
         return Company::orderBy('name', 'asc')->get();

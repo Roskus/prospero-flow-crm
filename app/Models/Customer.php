@@ -157,7 +157,7 @@ class Customer extends Model
     /**
      * @return mixed
      */
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, int $limit = 50)
     {
         $customers = Customer::where('company_id', $company_id);
         if (! empty($search)) {
@@ -172,7 +172,7 @@ class Customer extends Model
             }
         }
 
-        return $customers->with('seller', 'industry')->paginate(10);
+        return $customers->with('seller', 'industry')->paginate($limit);
     }
 
     public function getCountByCompany(int $company_id): int

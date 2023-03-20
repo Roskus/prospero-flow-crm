@@ -12,15 +12,17 @@
     <div class="row">
         <div class="col">
             <label for="customer_id">{{ __('Customer') }}</label>
-            <select name="customer_id" id="customer_id" required="required" class="form-control form-control-lg">
+            <input name="customer_id" id="customer_id" list="customer-list" required="required" class="form-control form-control-lg">
+
+            <datalist id="customer-list">
                 <option value="">{{ __('Choose') }}</option>
                 @foreach($customers as $customer)
-                <option value="{{ $customer->id }}"
-                        @if($order->getCustomerId() == $customer->id) selected="selected" @endif>
-                    {{ $customer->name }} ({{ $customer->business_name }})
-                </option>
+                    <option value="{{ $customer->id }}"
+                            @if($order->getCustomerId() == $customer->id) selected="selected" @endif>
+                        {{ $customer->name }} ({{ $customer->business_name }})
+                    </option>
                 @endforeach
-            </select>
+            </datalist>
         </div>
 
     </div>

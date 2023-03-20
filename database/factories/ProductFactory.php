@@ -39,7 +39,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence(2),
             'elaboration_date' => $this->faker->date(),
             'expiration_date' => $this->faker->date(),
-            'tags' => 'one, two',
+            'tags' => [fake()->word(), fake()->word()],
             'status' => 1,
         ];
     }

@@ -43,6 +43,11 @@ class Category extends Model
         return Category::orderBy('name', 'asc')->get();
     }
 
+    public function getAllActiveByCompanyPaginated(int $company_id, int $limit = 10)
+    {
+        return Category::where('company_id', $company_id)->orderBy('name', 'asc')->paginate($limit);
+    }
+
     public function getAllActiveByCompany(int $company_id)
     {
         return Category::where('company_id', $company_id)

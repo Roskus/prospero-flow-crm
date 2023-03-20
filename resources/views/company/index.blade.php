@@ -14,6 +14,7 @@
             <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
+                <th>#ID</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Tax identification') }}</th>
@@ -30,6 +31,7 @@
             <tbody>
             @foreach($companies as $company)
             <tr>
+                <td>{{ $company->id }}</td>
                 <td>
                     <a href="{{ url("/company/update/$company->id") }}">
                     {{ $company->name }}
@@ -64,6 +66,10 @@
             @endforeach
             </tbody>
             </table>
+
+            <div>
+                {{ $companies->appends(request()->query())->links() }}
+            </div>
         </div>
     </div><!--./card-body-->
 </div><!--./card-->

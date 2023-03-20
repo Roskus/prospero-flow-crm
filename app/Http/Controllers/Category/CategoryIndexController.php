@@ -14,7 +14,7 @@ class CategoryIndexController extends MainController
     public function index(Request $request)
     {
         $category = new Category();
-        $data['categories'] = $category->getAllActiveByCompany(Auth::user()->company_id);
+        $data['categories'] = $category->getAllActiveByCompanyPaginated(Auth::user()->company_id);
 
         return view('category.index', $data);
     }
