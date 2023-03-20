@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-0 col-md-9 h-100 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg'); background-repeat: no-repeat; background-size: cover; min-height: 1024px">
+        <div class="col-0 col-md-9 h-100 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg'); background-repeat: no-repeat; background-size: cover; min-height: 720px">
             <div style="color: #e5e5e5; margin-bottom: 30px; position: absolute; bottom: 0;">Power by roskus and OpenSource</div>
         </div>
     </div>
@@ -103,7 +103,7 @@
     <script>
         $(".toggle-password").click(function() {
             $(this).toggleClass("la-eye la-eye-slash");
-            var input = $($(this).attr("toggle"));
+            let input = $($(this).attr("toggle"));
             if (input.attr("type") == "password") {
                 input.attr("type", "text");
             } else {

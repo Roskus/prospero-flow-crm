@@ -10,7 +10,7 @@
                     <div class="col">
                         <label for="subject" class="">{{ __('Subject') }}</label>
                         <input type="text" name="subject" id="subject" maxlength="80" required
-                            value="{{ $email->subject }}" class="form-control">
+                            value="{{ old('subject', $email->subject) }}" class="form-control">
                     </div>
                 </div>
                 <div class="row">
@@ -41,6 +41,11 @@
                 <div class="row">
                     <div class="col">
                         <label for="body" class="">{{ __('Message') }}</label>
+                        <div class="mb-1">
+                            <a onclick="addVariable2Editor('body', '$prospect->first_name')">
+                                <span class="btn btn-outline-secondary">&#123;&#123; $prospect->first_name &#125;&#125;</span>
+                            </a>
+                        </div>
                         <textarea name="body" id="body">{{ $email->body }}</textarea>
                     </div>
                 </div>
