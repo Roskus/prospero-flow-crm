@@ -64,7 +64,7 @@ jobs:
       - name: Setup mysql
         run: |
           sudo systemctl start mysql.service
-          mysql -e 'CREATE DATABASE hammer_crm_test;' -uroot -proot
+          mysql -e 'CREATE DATABASE pflow_crm_test;' -uroot -proot
 
       - name: Execute tests
         run: vendor/bin/phpunit
