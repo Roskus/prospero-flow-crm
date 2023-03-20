@@ -96,7 +96,7 @@
 </tr>
 </template>
 
-@push('scripts')
+@push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.13.2/jquery-ui.min.css" integrity="sha256-Els0hoF6/l1WxcZEDh4lQsp7EqyeeYXMHCWyv6SdmX0=" crossorigin="anonymous">
 @endpush
 @push('scripts')
