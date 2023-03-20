@@ -19,8 +19,7 @@ class CustomerIndexController extends MainController
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
-            
+        if ($request->ajax()) {
             $term = $request->term;
 
             $customers = Customer::where('company_id', Auth::user()->company_id)
