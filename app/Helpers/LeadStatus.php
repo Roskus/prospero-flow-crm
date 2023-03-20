@@ -13,6 +13,7 @@ class LeadStatus
         return match ($status) {
             Lead::OPEN => 'text-bg-success',
             Lead::IN_PROGRESS => 'text-bg-warning',
+            Lead::CLOSED =>  'text-bg-danger',
             default => 'text-bg-dark',
         };
     }

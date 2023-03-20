@@ -2,7 +2,7 @@
 
 <div class="d-flex flex-column flex-shrink-0 bg-light d-none d-sm-block d-print-none sidebar rounded">
     <ul class="nav nav-pills nav-flush flex-column mb-auto ">
-        
+
         @foreach ($menu as $item)
             @if(isset($item['is_drop_down']))
                 {{-- DROPDOWN --}}
@@ -29,14 +29,14 @@
             @else
                 {{-- LINK --}}
                 <li class="nav-item">
-                    <a href="{{ $item['url'] }}" class="nav-link px-3 py-1  @if(Request::url() == $item['url']) active @endif" title="{{ $item['title'] }}" data-bs-toggle="tooltip" data-bs-placement="right">
+                    <a href="{{ $item['url'] }}" class="nav-link px-3 py-1  @if(Request::url() == $item['url']) active @endif" title="{{ $item['title'] }}">
                         <div class="d-flex align-items-center">
                             <i class="{{ $item['icon_class'] }} fs-2"></i>
                             <span class="ps-2">{{ $item['title'] }}</span>
                         </div>
                     </a>
                 </li>
-            @endif        
+            @endif
         @endforeach
 
     </ul>
