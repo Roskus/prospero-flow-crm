@@ -53,10 +53,13 @@
                        class="btn btn-xs btn-success">
                         <i class="las la-file-pdf"></i>
                     </a>
+
+                    @can('delete order')
                     <a href="#" onclick="Order.delete({{ $order->id }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->id ]) }}')" title="{{ __('Delete') }}"
                        class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
+                    @endcan
                 </td>
             </tr>
             @endforeach
