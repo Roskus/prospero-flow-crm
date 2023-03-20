@@ -20,7 +20,7 @@ class ProductFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'company_id' => Company::factory(),
@@ -39,7 +39,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence(2),
             'elaboration_date' => $this->faker->date(),
             'expiration_date' => $this->faker->date(),
-            'tags' => [fake()->word(), fake()->word()],
+            'tags' => json_encode([fake()->word(), fake()->word()]),
             'status' => 1,
         ];
     }

@@ -14,8 +14,8 @@ class CompanyCreateControllerTest extends TestCase
         $response = $this->get('/company/create');
         $response->assertOk();
         $response->assertViewIs('company.company');
-        $response->assertSee('Name');
-        $response->assertSee('E-mail');
-        $response->assertSee('Country');
+        $response->assertSee(__('Name'));
+        $response->assertSee(__('E-mail'));
+        $response->assertSee(__('Country'));
     }
 }

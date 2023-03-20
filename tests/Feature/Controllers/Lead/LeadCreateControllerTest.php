@@ -13,12 +13,12 @@ class LeadCreateControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertViewIs('lead.lead');
-        $response->assertSee('Name');
-        $response->assertSee('Phone');
-        $response->assertSee('Country');
-        $response->assertSee('Street');
-        $response->assertSee('Facebook');
-        $response->assertSee('Status');
-        $response->assertSee('Seller');
+        $response->assertSee(__('Name'));
+        $response->assertSee(__('Phone'));
+        $response->assertSee(__('Country'));
+        $response->assertSee(__('Street'));
+        $response->assertSee(__('Facebook'));
+        $response->assertSee(__('Status'));
+        $response->assertSee(__('Seller'));
     }
 }

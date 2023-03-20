@@ -18,9 +18,9 @@ class EmailUpdateControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertViewIs('email.email');
-        $response->assertSee('Subject');
-        $response->assertSee('From');
-        $response->assertSee('Attachments');
+        $response->assertSee(__('Subject'));
+        $response->assertSee(__('From'));
+        $response->assertSee(__('Attachments'));
         $response->assertSee($email->to);
         $response->assertSee($email->subject);
         $response->assertSee($email->body);
