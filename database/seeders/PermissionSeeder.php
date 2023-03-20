@@ -292,6 +292,48 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete user',
                 'guard_name' => 'web',
             ],
+            //Supplier
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'create supplier',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'read supplier',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'update supplier',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete supplier',
+                'guard_name' => 'web',
+            ],
+            // Accounting
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'create accounting',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'read accounting',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'update accounting',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete accounting',
+                'guard_name' => 'web',
+            ],
         ];
     }
 }
