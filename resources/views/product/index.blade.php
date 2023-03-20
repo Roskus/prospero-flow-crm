@@ -6,7 +6,9 @@
 <div class="mb-2">
   <a href="{{ url('/product/create') }}" class="btn btn-primary">{{ __('New') }}</a>
 
-  <a href="{{ url('/product/import') }}" class="btn btn-success">{{ __('Import') }}</a>
+  <a href="{{ url('/product/import') }}" class="btn btn-success">
+      {{ __('Import') }} <i class="las la-file-csv"></i>
+  </a>
 </div>
 
 <div class="row mt-2">
