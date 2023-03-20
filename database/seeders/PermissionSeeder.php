@@ -190,7 +190,7 @@ class PermissionSeeder extends Seeder
             try {
                 $permissionObject = Permission::create([
                     'name' => $name,
-                    'guard_name' => $guard_name
+                    'guard_name' => $guard_name,
                 ]);
             } catch (Throwable $throwable) {
                 $permissionObject = Permission::findByName($name, $guard_name);
@@ -198,7 +198,7 @@ class PermissionSeeder extends Seeder
 
             foreach ($roles as $roleName) {
                 $role = Role::findByName($roleName);
-                if (!$role->hasPermissionTo($permissionObject)) {
+                if (! $role->hasPermissionTo($permissionObject)) {
                     $role->givePermissionTo($permissionObject);
                 }
             }
@@ -209,89 +209,89 @@ class PermissionSeeder extends Seeder
      * @TODO move this to a config file
      * @return array[]
      */
-    public function permissions() :array
+    public function permissions(): array
     {
         return [
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'delete prospect',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'export prospect',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'delete customer',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'export customer',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'create order',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'read order',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'update order',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'delete order',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin'], //Only SuperAdmin can create company
                 'name' => 'create company',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'read company',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'update company',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin'], //Only SuperAdmin can delete company
                 'name' => 'delete company',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin'], //Only SuperAdmin can create user
                 'name' => 'create user',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'read user',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'update user',
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'delete user',
-                'guard_name' => 'web'
-            ]
+                'guard_name' => 'web',
+            ],
         ];
     }
 }
