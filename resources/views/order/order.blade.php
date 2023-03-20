@@ -109,7 +109,7 @@
                 document.getElementById('customer_id').value = ui.item.id;
             },
             search: function(){
-                document.getElementById('product_id').removeAttribute('value');
+                document.getElementById('customer_id').removeAttribute('value');
             }
         });
 
