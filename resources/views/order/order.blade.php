@@ -118,10 +118,11 @@
             minLength: 2,
             select: function( event, ui ) {
                 document.getElementById('product_id').value = ui.item.id;
+                document.getElementById('price').value = ui.item.price;
             },
             search: function(){
-                console.log('change');
                 document.getElementById('product_id').removeAttribute('value');
+                document.getElementById('price').value = '';
             }
         });
     </script>
