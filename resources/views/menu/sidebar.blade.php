@@ -7,8 +7,8 @@
             @if(isset($item['is_drop_down']))
                 {{-- DROPDOWN --}}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="d-flex align-items-center">
+                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="d-flex align-items-center dropdown-toggle">
                             <i class="{{ $item['icon_class'] }} fs-2"></i>
                             <span class="ps-2">{{ $item['title'] }}</span>
                         </div>

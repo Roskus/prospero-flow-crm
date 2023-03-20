@@ -60,7 +60,7 @@
                 </td>
                 <td>{{ $user->updated_at->format('d/m/Y H:i') }}</td>
                 <td>{{ (!empty($user->last_login_at)) ? $user->last_login_at->diffForHumans() : '' }}</td>
-                <td>
+                <td class="text-nowrap">
                     @can('update user')
                     <a href="{{ url("/user/update/$user->id") }}" class="btn bt-xs btn-warning text-white">
                         <i class="las la-pen"></i>

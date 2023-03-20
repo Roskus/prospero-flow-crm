@@ -27,11 +27,11 @@
                 <p class="text-sm text-gray-700 leading-5">
                     {!! __('Showing') !!}
                     <span class="font-medium">{{ $paginator->firstItem() }}</span>
-                    {!! __('to') !!}
+                    {{ __('to') }}
                     <span class="font-medium">{{ $paginator->lastItem() }}</span>
-                    {!! __('of') !!}
+                    {{ __('of') }}
                     <span class="font-medium">{{ $paginator->total() }}</span>
-                    {!! __('results') !!}
+                    {{ __('results') }}
                 </p>
             </div>
 
