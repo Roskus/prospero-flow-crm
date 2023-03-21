@@ -12,6 +12,7 @@
     </div>
 </div>
 @endcan
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
@@ -41,7 +42,13 @@
             <tbody>
             @foreach($users as $user)
             <tr>
-                <td><a href="{{ url("/user/update/$user->id") }}">{{ $user->last_name }}</a></td>
+                <td>
+                    @can('update user')
+                        <a href="{{ url("/user/update/$user->id") }}">{{ $user->last_name }}</a>
+                    @else
+                        {{ $user->last_name }}
+                    @endcan
+                </td>
                 <td>{{ $user->first_name }}</td>
                 <td>
                     <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>

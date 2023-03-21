@@ -5,9 +5,12 @@
    <h1>{{ __('Companies') }}</h1>
 </header>
 
+@can('create company')
 <div class="mb-2">
     <a href="{{ url("/company/create") }}" class="btn btn-primary">{{ __('New') }}</a>
 </div>
+@endcan
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
@@ -33,9 +36,13 @@
             <tr>
                 <td>{{ $company->id }}</td>
                 <td>
-                    <a href="{{ url("/company/update/$company->id") }}">
-                    {{ $company->name }}
-                    </a>
+                    @can('update company')
+                        <a href="{{ url("/company/update/$company->id") }}">
+                        {{ $company->name }}
+                        </a>
+                    @else
+                        {{ $company->name }}
+                    @endcan
                 </td>
                 <td>{{ $company->business_name }}</td>
                 <td>{{ $company->vat }}</td>
@@ -54,13 +61,18 @@
                 <td class="text-center">{{ $company->currency }}</td>
                 <td>{{ ($company->created_at) ? $company->created_at->format('d/m/Y H:i') : '' }}</td>
                 <td>{{ ($company->updated_at) ? $company->updated_at->format('d/m/Y H:i') : '' }}</td>
-                <td class="no-wrap">
+                <td class="text-nowrap">
+                @can('update company')
                 <a href="{{ url("/company/update/$company->id") }}" class="btn btn-warning" title="{{ __('Update') }}">
                     <i class="las la-edit"></i>
                 </a>
+                @endcan
+
+                @can('delete company')
                 <a href="{{ url("/company/delete/$company->id") }}" class="btn btn-danger" title="{{ __('Delete') }}">
                     <i class="las la-trash-alt"></i>
                 </a>
+                @endcan
                 </td>
             </tr>
             @endforeach

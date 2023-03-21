@@ -96,7 +96,7 @@
                                             <i class="las la-plus-circle"></i>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.jit.si/')">Jitsi Meet</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.jit.si/{{ str_slug(\Illuminate\Support\Facades\Auth::user()->company->name, '-') }}/{{ base64_encode((string) time()) }}')">Jitsi Meet</a></li>
                                         <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://zoom.us/j/')">Zoom</a></li>
                                         <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.google.com/')">Google Meet</a></li>
                                         <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://teams.microsoft.com/')">Microsoft Teams</a></li>

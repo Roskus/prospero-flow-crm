@@ -46,21 +46,25 @@
             <i class="las la-plus"></i> {{ __('More') }}
         </a>
         <ul class="dropdown-menu">
+            @can('read supplier')
             <li>
                 <a href="{{ url('/supplier') }}" class="dropdown-item fs-6 @if(Request::path() == 'supplier') active @endif" title="{{ __('Suppliers') }}">
                     <i class="las la-dolly"></i> {{ __('Suppliers') }}
                 </a>
             </li>
+            @endcan
             <li>
                 <a href="{{ url('/calendar') }}" class="dropdown-item fs-6 @if(Request::path() == 'calendar') active @endif">
                     <i class="las la-calendar"></i> {{ __('Calendar') }}
                 </a>
             </li>
+            @can('read accounting')
             <li class="nav-item fs-6">
                 <a href="{{ url('/accounting') }}" class="dropdown-item @if(Request::path() == 'accounting') active @endif">
                     <i class="las la-coins"></i> {{ __('Accounting') }}
                 </a>
             </li>
+            @endcan
             <li>
                 <a href="{{ url('/ticket') }}" class="dropdown-item fs-6 @if(Request::path() == 'ticket') active @endif" title="{{ __('Tickets') }}">
                     <i class="las la-tools"></i> {{ __('Tickets') }}

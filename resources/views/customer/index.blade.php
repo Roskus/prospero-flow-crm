@@ -114,13 +114,15 @@
                         <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}" target="_blank">{{ $customer->mobile }}</a>
                     @endif
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($customer->email)
-                        <a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a>
+                        <a href="mailto:{{ $customer->email }}" title="{{ $customer->email }}">
+                            <i class="las la-envelope fs-4"></i>
+                        </a>
                     @endif
                 </td>
-                <td class="text-nowrap">
-                    <a href="{{ $customer->website }}" target="_blank">{{ $customer->website }}</a>
+                <td class="text-nowrap text-center">
+                    <a href="{{ $customer->website }}" title="{{ $customer->website }}" target="_blank"><i class="las la-globe fs-4"></i></a>
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ (!empty($customer->country)) ? $customer->country->name : '' }}">
                     @if(!empty($customer->country))

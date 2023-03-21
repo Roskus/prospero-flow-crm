@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-0 col-md-9 h-100 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg'); background-repeat: no-repeat; background-size: cover; min-height: 720px">
+        <div class="col-0 col-md-9 h-100 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg'); background-repeat: no-repeat; background-size: cover; min-height: 100vh;">
             <div style="color: #e5e5e5; margin-bottom: 30px; position: absolute; bottom: 0;">Power by roskus and OpenSource</div>
         </div>
     </div>
