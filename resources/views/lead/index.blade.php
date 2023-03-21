@@ -112,7 +112,7 @@
                     @if($lead->phone)
                         <a href="tel:{{ $lead->phone }}" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
                            target="_blank">
-                            <i class="las la-phone"></i>
+                            <i class="las la-phone fs-4"></i>
                         </a>
                     @endif
                 </td>
@@ -120,7 +120,7 @@
                     @if($lead->mobile)
                         <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
                            title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank">
-                            <i class="las la-mobile"></i>
+                            <i class="las la-mobile fs-4"></i>
                         </a>
                     @endif
                 </td>

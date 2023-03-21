@@ -104,14 +104,20 @@
                     <a href="{{ url("/customer/show/$customer->id") }}" title="{{ __('Show') }}">{{ $customer->name }}</a>
                 </td>
                 <td class="text-nowrap">{{ $customer->business_name }}</td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($customer->phone)
-                        <a href="tel:{{ $customer->phone }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($customer->phone) }}</a>
+                        <a href="tel:{{ $customer->phone }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}" target="_blank">
+                            <i class="las la-phone fs-4"></i>
+                        </a>
                     @endif
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($customer->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}" target="_blank">{{ $customer->mobile }}</a>
+                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
+                         title="{{ $customer->mobile }}"  target="_blank">
+                            <i class="las la-mobile fs-4"></i>
+                        </a>
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
