@@ -108,25 +108,33 @@
                     <a href="{{ url("/lead/show/$lead->id") }}" title="{{ __('Show') }}">{{ $lead->name }}</a>
                 </td>
                 <td class="text-nowrap">{{ $lead->business_name }}</td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($lead->phone)
-                        <a href="tel:{{ $lead->phone }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($lead->phone) }}</a>
+                        <a href="tel:{{ $lead->phone }}" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
+                           target="_blank">
+                            <i class="las la-phone"></i>
+                        </a>
                     @endif
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($lead->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}</a>
+                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank">
+                            <i class="las la-mobile"></i>
+                        </a>
                     @endif
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($lead->email)
                         <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}">
                             <i class="las la-envelope fs-4"></i>
                         </a>
                     @endif
                 </td>
-                <td class="text-nowrap">
-                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank"><i class="las la-globe fs-4"></a>
+                <td class="text-nowrap text-center">
+                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank">
+                        <i class="las la-globe fs-4"></i>
+                    </a>
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
                     @if(!empty($lead->country))
