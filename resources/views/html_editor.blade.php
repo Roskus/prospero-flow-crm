@@ -165,6 +165,7 @@
     function addVariable2Editor(id, str)
     {
         let variable = "\{\{" + str + "\}\}";
-        window.editor.setData(variable);
+        let content = window.editor.getData();
+        window.editor.setData(content+' '+variable);
     }
 </script>
