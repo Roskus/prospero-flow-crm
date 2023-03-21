@@ -120,11 +120,13 @@
                 </td>
                 <td class="text-nowrap">
                     @if($lead->email)
-                        <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
+                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}">
+                            <i class="las la-envelope fs-4"></i>
+                        </a>
                     @endif
                 </td>
                 <td class="text-nowrap">
-                    <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
+                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank"><i class="las la-globe fs-4"></a>
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
                     @if(!empty($lead->country))
