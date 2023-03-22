@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Contact;
 
 use App\Http\Controllers\MainController;
 use App\Repositories\ContactRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ContactSaveController extends MainController
@@ -17,10 +18,12 @@ class ContactSaveController extends MainController
         $this->contactRepository = $contactRepository;
     }
 
-    public function save(Request $request)
+    public function save(Request $request): RedirectResponse
     {
         $contact = $this->contactRepository->save($request->all());
 
-        return back();
+        $url = $contact->lead_id ? 'lead/show/'.$contact->lead_id : 'customer/show/'.$contact->customer_id;
+
+        return redirect($url);
     }
 }
