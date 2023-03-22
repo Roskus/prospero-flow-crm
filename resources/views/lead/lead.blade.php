@@ -307,7 +307,7 @@
         <div class="accordion-body bg-white">
             <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
                  data-bs-parent="#accordionExample">
-                @include('contact.contact', ['lead_id' => $lead->id])
+                @include('contact.contact_form', ['lead_id' => $lead->id])
             </div><!--./collapse-->
 
             <div class="mt-2 table-responsive">
