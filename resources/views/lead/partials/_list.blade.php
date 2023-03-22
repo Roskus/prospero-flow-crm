@@ -5,7 +5,8 @@
             <span class="badge rounded-pill text-bg-success">{{ $leads->count() }}</span>
         </h4>
     </div>
-    <div class="card-body table-responsive">
+    <div class="card-body">
+        <div class="table-responsive">
         @if(!empty($leads))
         <table class="table table-bordered table-striped table-hover">
             <tbody>
@@ -59,6 +60,7 @@
             </tbody>
         </table>
         @endif
+        </div>
     </div>
     <!--./card-body-->
 </div>

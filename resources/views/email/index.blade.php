@@ -33,7 +33,7 @@
                 <td>{{ __('Created at') }}</td>
                 <td>{{ __('Updated at') }}</td>
                 <td>{{ __('Status') }}</td>
-                <td>{{ __('Actions') }}</td>
+                <td class="text-nowrap">{{ __('Actions') }}</td>
             </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@
                 <td class="text-center">
                     <div class="badge rounded-pill text-bg-{{ \App\Helpers\EmailStatusHelper::statusCssClass($email->status) }}">{{ __(ucfirst($email->status)) }}</div>
                 </td>
-                <td colspan="no-wrap">
+                <td colspan="text-nowrap">
                     <a href="{{ url("/email/view/$email->id") }}" title="{{ __('Preview') }}" target="_blank" class="btn btn-secondary">
                         <i class="las la-glasses"></i>
                     </a>

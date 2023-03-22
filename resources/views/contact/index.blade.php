@@ -11,7 +11,7 @@
     <th>Social</th>
     <th>{{ __('Created at') }}</th>
     <th>{{ __('Updated at') }}</th>
-    <th>{{ __('Actions') }}</th>
+    <th colspan="text-nowrap">{{ __('Actions') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -48,7 +48,7 @@
         </td>
         <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
         <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
-        <td class="no-wrap">
+        <td colspan="text-nowrap">
             <a href="{{ url('contact/update/'.$contact->id) }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
