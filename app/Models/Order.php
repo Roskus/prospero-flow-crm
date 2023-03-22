@@ -77,7 +77,7 @@ final class Order extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('orderCreated', function (Builder $builder): void {
+        self::addGlobalScope('orderCreated', function (Builder $builder): void {
             $builder->orderby('created_at', 'DESC');
         });
     }
