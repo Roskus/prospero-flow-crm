@@ -15,8 +15,6 @@ class OrderCreateController extends MainController
 {
     /**
      * Add new order
-     *
-     * @param  Request  $request HTTP request
      */
     public function create(Request $request)
     {

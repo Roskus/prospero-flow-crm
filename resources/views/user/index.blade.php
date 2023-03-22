@@ -12,19 +12,26 @@
     </div>
 </div>
 @endcan
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
-                <th>{{ __('Last name') }}</th>
-                <th>{{ __('First name') }}</th>
+                <th>
+                    <a href="{{ url()->current() }}?sort=last_name">{{ __('Last name') }}</a>
+                </th>
+                <th>
+                    <a href="{{ url()->current() }}?sort=first_name">{{ __('First name') }}</a>
+                </th>
                 <th>E-mail</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Language') }}</th>
                 @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
-                <th>{{ __('Company') }}</th>
+                <th>
+                    <a href="{{ url()->current() }}?sort=company">{{ __('Company') }}</a>
+                </th>
                 @endif
                 <th>{{ __('Roles') }}</th>
                 <th>{{ __('Updated at') }}</th>
@@ -35,7 +42,13 @@
             <tbody>
             @foreach($users as $user)
             <tr>
-                <td><a href="{{ url("/user/update/$user->id") }}">{{ $user->last_name }}</a></td>
+                <td>
+                    @can('update user')
+                        <a href="{{ url("/user/update/$user->id") }}">{{ $user->last_name }}</a>
+                    @else
+                        {{ $user->last_name }}
+                    @endcan
+                </td>
                 <td>{{ $user->first_name }}</td>
                 <td>
                     <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
@@ -54,7 +67,7 @@
                 </td>
                 <td>{{ $user->updated_at->format('d/m/Y H:i') }}</td>
                 <td>{{ (!empty($user->last_login_at)) ? $user->last_login_at->diffForHumans() : '' }}</td>
-                <td>
+                <td class="text-nowrap">
                     @can('update user')
                     <a href="{{ url("/user/update/$user->id") }}" class="btn bt-xs btn-warning text-white">
                         <i class="las la-pen"></i>
@@ -62,7 +75,7 @@
                     @endcan
 
                     @can('delete user')
-                    <a href="{{ url("/user/delete/$user->id") }}" class="btn bt-xs btn-danger">
+                    <a href="#" onclick="User.delete({{ $user->id }},'{{ __('Are you sure you want to delete the user: :name?', ['name' => $user->first_name.' '.$user->last_name ]) }}')" class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                     @endcan
@@ -74,8 +87,11 @@
         </div>
     </div>
 </div><!--./card-->
-<div>
+<div class="mt-1">
     {{ $users->appends(request()->query())->links() }}
 </div>
+@push('scripts')
+    <script src="{{ asset('/asset/js/User.js') }}"></script>
+@endpush
 @endsection
 

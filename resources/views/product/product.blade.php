@@ -9,9 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap" rel="stylesheet">
 -->
 
-<header>
-   <h1>{{ __('Product') }}</h1>
-</header>
+@include('layouts.partials._header', ['title' =>  __('Product')])
 
 <div class="card">
     <div class="card-body">

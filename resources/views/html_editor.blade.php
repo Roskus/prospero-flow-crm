@@ -9,6 +9,8 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/super-build/translations/es.js"></script>
 
 <script>
+    window.editor;
+
     CKEDITOR.ClassicEditor.create(document.getElementById("{{ $id }}"), {
         // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
         toolbar: {
@@ -156,5 +158,14 @@
             // from a local file system (file://) - load this site via HTTP server if you enable MathType
             'MathType'
         ]
-    });
+    }).then( newEditor => {
+        window.editor = newEditor;
+    } );
+
+    function addVariable2Editor(id, str)
+    {
+        let variable = "\{\{" + str + "\}\}";
+        let content = window.editor.getData();
+        window.editor.setData(content+' '+variable);
+    }
 </script>

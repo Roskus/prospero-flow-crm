@@ -11,7 +11,7 @@
                 @csrf
                 <div class="row">
                     <div class="col">
-                        <label for="title">{{ __('Title') }}</label>
+                        <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                         <input type="text" name="title" id="title" value="{{ $ticket->title }}" maxlength="80"
                             required="required" class="form-control">
                     </div>

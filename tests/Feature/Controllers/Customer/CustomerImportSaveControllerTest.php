@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Controllers\Customer;
 
 use App\Models\Customer;
@@ -15,8 +17,8 @@ class CustomerImportSaveControllerTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHasErrors();
 
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, base_path('tests\Feature\Controllers\Customer\hammer_customer_example_20221212.csv'));
-        $file = new UploadedFile($path, 'hammer_customer_example_20221212.csv');
+        $path = str_replace('\\', DIRECTORY_SEPARATOR, public_path('asset\upload\example\pflow_customer_example_20221212.csv'));
+        $file = new UploadedFile($path, 'pflow_customer_example_20221212.csv');
         $response = $this->post('customer/import/save', ['upload' => $file]);
         $response->assertRedirect('/customer');
 

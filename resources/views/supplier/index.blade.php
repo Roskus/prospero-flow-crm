@@ -9,6 +9,7 @@
 
     <div class="card">
         <div class="card-body">
+            <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
@@ -53,7 +54,7 @@
                         <i class="las la-pen"></i>
                     </a>
 
-                    <a onclick="Supplier.delete({{ $supplier->id }}, '{{ $supplier->name }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
+                    <a onclick="Supplier.delete({{ $supplier->id }}, '{{ __('Are you sure you want to delete the provider: :name?', ['name' => $supplier->name]) }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                 </td>
@@ -61,6 +62,10 @@
             @endforeach
             </tbody>
             </table>
+            </div>
         </div>
     </div>
+    @push('scripts')
+        <script src="{{ asset('/asset/js/Supplier.js') }}"></script>
+    @endpush
 @endsection

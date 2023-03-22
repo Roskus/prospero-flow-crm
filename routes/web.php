@@ -166,6 +166,8 @@ Route::get('ajax/region/{country}', [\App\Http\Controllers\Region\RegionGetAjaxC
 
 //Report
 Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);
+Route::get('/report/sale', [\App\Http\Controllers\Report\ReportSaleController::class, 'index']);
+Route::get('/report/email', [\App\Http\Controllers\Report\ReportEmailController::class, 'index']);
 
 // Web-form
 Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);

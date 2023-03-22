@@ -6,7 +6,9 @@
 <div class="mb-2">
   <a href="{{ url('/product/create') }}" class="btn btn-primary">{{ __('New') }}</a>
 
-  <a href="{{ url('/product/import') }}" class="btn btn-success">{{ __('Import') }}</a>
+  <a href="{{ url('/product/import') }}" class="btn btn-success">
+      {{ __('Import') }} <i class="las la-file-csv"></i>
+  </a>
 </div>
 
 <div class="row mt-2">
@@ -67,9 +69,12 @@
                     <a href="{{ url("/product/update/$product->id") }}" class="btn bt-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
+
+                    @can('delete product')
                     <a href="{{ url("/product/delete/$product->id") }}" class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
+                    @endcan
                 </td>
             </tr>
             @endforeach

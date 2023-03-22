@@ -82,5 +82,12 @@ var Order =
         let price_field = document.getElementById('price');
         let selected_option = product_id.options[product_id.selectedIndex];
         price_field.value = selected_option.getAttribute('data-price');
+    },
+    delete: function (id, message)
+    {
+        let response = confirm(message);
+        if(response) {
+            window.location.href = window.location.protocol+'//'+window.location.host + '/order/delete/'+id;
+        }
     }
 };
