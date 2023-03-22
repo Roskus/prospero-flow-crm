@@ -45,7 +45,7 @@
         <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
         <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
         <td class="no-wrap">
-            <a href="{{ url('contact/update'.$contact->id) }}" class="btn btn-xs btn-warning text-white">
+            <a href="{{ url('contact/update/'.$contact->id) }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
             <a href="{{ url('/contact/export-vcard/'.$contact->id) }}" target="_blank" data-bs-toggle="tooltip"
