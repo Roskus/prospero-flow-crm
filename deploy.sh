@@ -9,8 +9,6 @@ php artisan migrate --force
 php artisan l5-swagger:generate
 # Fix storage permision also for logs
 sudo chmod 775 storage/ -R
-# Get git revision commit
-GIT_HASH=git rev-parse HEAD
 # Get APP_VERSION
 VERSION=$(sed -n "s/.*APP_VERSION = '\(.*\)';/\1/p" version.php)
 export SENTRY_ORG=roskus-fo
