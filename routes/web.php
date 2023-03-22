@@ -90,7 +90,7 @@ Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteC
 // Contact
 Route::post('/contact/save', [\App\Http\Controllers\Contact\ContactSaveController::class, 'save']);
 Route::get('/contact/export-vcard/{id}', [\App\Http\Controllers\Contact\ContactExportVCard::class, 'export']);
-Route::get('/contact/create', [\App\Http\Controllers\Contact\ContactCreateController::class, 'create']);
+Route::get('/contact/create/{model}/{id_model}', [\App\Http\Controllers\Contact\ContactCreateController::class, 'create']);
 Route::get('/contact/update/{id}', [\App\Http\Controllers\Contact\ContactUpdateController::class, 'update']);
 Route::get('/contact/delete/{id}', [\App\Http\Controllers\Contact\ContactDeleteController::class, 'delete']);
 

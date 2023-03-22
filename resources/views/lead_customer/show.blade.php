@@ -126,7 +126,7 @@ $url = isset($lead) ? 'lead' : 'customer';
         <div class="row">
             <div class="col">{{ __('Contacts') }}</div>
             <div class="col">
-                <a class="btn btn-primary btn-sm" href="{{ url('/contact/create') }}">{{ __('New') }}</a>
+                <a class="btn btn-primary btn-sm" href="{{ url('/contact/create', [$url, $item->id]) }}">{{ __('New') }}</a>
             </div>
         </div>
     </div>
