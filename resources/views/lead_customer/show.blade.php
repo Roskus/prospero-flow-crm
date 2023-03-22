@@ -1,4 +1,5 @@
 @php
+if(empty($customer)) $customer = null;
 $item = $lead ?? $customer;
 $url = isset($lead) ? 'lead' : 'customer';
 @endphp
@@ -124,9 +125,12 @@ $url = isset($lead) ? 'lead' : 'customer';
 <div class="card mb-2">
     <div class="card-header">
         <div class="row">
-            <div class="col">{{ __('Contacts') }}</div>
             <div class="col">
-                <a class="btn btn-primary btn-sm" href="{{ url('/contact/create', [$url, $item->id]) }}">{{ __('New') }}</a>
+                {{ __('Contacts') }}
+
+                <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', [$url, $item->id]) }}">
+                    <i class="las la-plus fw-bold"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -138,6 +142,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <th scope="col">#</th>
                     <th scope="col">{{ __('First name') }}</th>
                     <th scope="col">{{ __('Phone') }}</th>
+                    <th scope="col">{{ __('Mobile') }}</th>
                     <th scope="col">E-mail</th>
                     <th scope="col"></th>
                 </tr>
@@ -147,10 +152,13 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <tr>
                     <th scope="row">{{ $contact->id }}</th>
                     <td>{{ $contact->first_name }}</td>
-                    <td>{{ $contact->phone }}</td>
+                    <td>
+                        <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
+                    </td>
+                    <td>{{ $contact->mobile }}</td>
                     <td>{{ $contact->email }}</td>
                     <td>
-                        <a href="{{ url('/contact/update/'.$contact->id) }}" class="btn btn-primary btn-sm">
+                        <a href="{{ url('/contact/update/'.$contact->id) }}" class="btn btn-warning btn-sm">
                             {{ __('Edit') }}
                         </a>
                     </td>

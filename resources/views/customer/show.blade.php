@@ -56,7 +56,7 @@
                             <td>{{ $order->amount }}</td>
                             <td>{{ $order->status }}</td>
                             <td>{{ $order->created_at->format('d/m/Y') }}</td>
-                            <td><a class="btn btn-primary btn-sm"
+                            <td><a class="btn btn-warning btn-sm"
                                     href="{{ url("/order/update/$order->id") }}">{{ __('Edit') }}</a></td>
                         </tr>
                     @endforeach

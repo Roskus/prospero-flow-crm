@@ -43,8 +43,10 @@
                         <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
+                    <td class="text-center">
+                        <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank">
+                            <i class="las la-globe fs-4"></i>
+                        </a>
                     </td>
                     <td class="text-center">
                         <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">

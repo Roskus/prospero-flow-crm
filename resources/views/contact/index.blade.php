@@ -7,6 +7,7 @@
     <th>{{ __('Phone') }}</th>
     <th>{{ __('Mobile') }}</th>
     <th>E-mail</th>
+    <th>{{ __('Notes') }}</th>
     <th>Social</th>
     <th>{{ __('Created at') }}</th>
     <th>{{ __('Updated at') }}</th>
@@ -32,11 +33,14 @@
                 </a>
             @endif
         </td>
-        <td>
+        <td class="text-center">
             @if($contact->email)
-                <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
+                <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}">
+                    <i class="las la-envelope fs-3"></i>
+                </a>
             @endif
         </td>
+        <td>{{ $contact->notes }}</td>
         <td>
             @if($contact->linkedin)
                 <a href="{{ $contact->linkedin }}"><i class="lab la-linkedin fs-3"></i></a>
