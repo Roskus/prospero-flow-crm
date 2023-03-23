@@ -13,23 +13,28 @@
             </div>
             <div class="col">
                 <div class="mt-4">
-                    <label>{{ __('Date') }}:</label> {{ ($order->created_at) ? $order->created_at->format('d/m/Y') : '' }}
+                    <label>{{ __('Date') }}:</label>
+                    {{ ($order->created_at) ? $order->created_at->format('d/m/Y') : '' }}
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <div>
-                    <label>{{ 'Number' }}:</label> {{ str_pad($order->id, 10, '0', STR_PAD_LEFT) }}
+                    <label>{{ 'Number' }}:</label>
+                    {{ str_pad($order->id, 10, '0', STR_PAD_LEFT) }}
                 </div>
                 <div>
-                    <label>{{ __('Business name') }}:</label> {{ Auth::user()->company->business_name }}
+                    <label>{{ __('Business name') }}:</label>
+                    {{ Auth::user()->company->business_name }}
                 </div>
                 <div>
-                    <label>{{ __('Vat') }}:</label> {{ Auth::user()->company->vat }}
+                    <label>{{ __('Vat') }}:</label>
+                    {{ Auth::user()->company->vat }}
                 </div>
                 <div>
-                    <label>{{ __('Phone') }}:</label> {{ \App\Helpers\PhoneHelper::format(Auth::user()->company->phone) }}
+                    <label>{{ __('Phone') }}:</label>
+                    {{ \App\Helpers\PhoneHelper::format((string) Auth::user()->company->phone) }}
                 </div>
                 <div class="">
                     <label>E-mail:</label> {{ Auth::user()->company->email }}
@@ -106,6 +111,7 @@
                 <th width="60%">{{ __('Product') }}</th>
                 <th>{{ __('Price') }}</th>
                 <th>{{ __('Quantity') }}</th>
+                <th>{{ __('Discount') }}</th>
                 <th>{{ __('Subtotal') }}</th>
             </tr>
             </thead>
@@ -128,6 +134,7 @@
                             {{ number_format($item->unit_price, 2, ',', '.') }}
                         </td>
                         <td>{{ $item->quantity }}</td>
+                        <td></td>
                         <td>{{ number_format(($item->unit_price * $item->quantity), 2, ',', '.') }}</td>
                     </tr>
                 @endforeach

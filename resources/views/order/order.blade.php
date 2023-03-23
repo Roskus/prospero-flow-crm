@@ -7,7 +7,7 @@
 
 <div class="card">
     <div class="card-body">
-    <form method="post" id="order-form" action="/order/save">
+    <form method="post" id="order-form" action="{{ url('/order/save') }}">
     @csrf
     <div class="row">
         <div class="col">
@@ -43,6 +43,10 @@
         <div class="col">
             <label for="price">{{ __('Price')}}</label>
             <input type="number" name="price" id="price" required="required" placeholder="{{ __('Price') }}" min="0" step="0.01" class="form-control form-control-lg">
+        </div>
+        <div class="col">
+            <label for="discount">{{ __('Discount') }}</label>
+            <input type="number" name="discount" id="discount" placeholder="" min="0" step="0.01" class="form-control form-control-lg">
         </div>
         <div class="col">
             <button type="button" name="btn-add-product" id="btn-add-product" onclick="Order.addItem()" class="btn btn-primary btn-lg btn-primary-outlined mt-4">
