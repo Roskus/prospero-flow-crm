@@ -42,10 +42,10 @@
                 <div class="card-header">{{ __('Advanced search') }}</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             @include('components.seller', ['seller_id' => !empty($seller_id) ? $seller_id : null])
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             <label for="status">{{ __('Status') }}</label>
                             <select name="status" id="status"  class="form-select">
                                 <option value=""></option>
@@ -54,10 +54,10 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             @include('components.country', ['country_id' => !empty($country_id) ? $country_id : null])
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             <label for="industry_id">{{ __('Industry') }}</label>
                             <select name="industry_id" id="industry_id" class="form-select">
                                 <option value=""></option>
@@ -128,7 +128,11 @@
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
-                    <a href="{{ $customer->website }}" title="{{ $customer->website }}" target="_blank"><i class="las la-globe fs-4"></i></a>
+                    @if($customer->website)
+                    <a href="{{ $customer->website }}" title="{{ $customer->website }}" target="_blank">
+                        <i class="las la-globe fs-4"></i>
+                    </a>
+                    @endif
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ (!empty($customer->country)) ? $customer->country->name : '' }}">
                     @if(!empty($customer->country))

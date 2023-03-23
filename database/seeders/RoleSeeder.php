@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -15,10 +17,11 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('role')->insert(['name' => 'SuperAdmin', 'guard_name' => 'web', 'created_at' => now()]);
-        DB::table('role')->insert(['name' => 'CompanyAdmin', 'guard_name' => 'web', 'created_at' => now()]);
-        DB::table('role')->insert(['name' => 'Seller', 'guard_name' => 'web', 'created_at' => now()]);
-        DB::table('role')->insert(['name' => 'Buyer', 'guard_name' => 'web', 'created_at' => now()]);
-        DB::table('role')->insert(['name' => 'User', 'guard_name' => 'web', 'created_at' => now()]);
+        DB::table('role')->upsert(['name' => 'SuperAdmin', 'guard_name' => 'web', 'created_at' => now()], "name");
+        DB::table('role')->upsert(['name' => 'CompanyAdmin', 'guard_name' => 'web', 'created_at' => now()], "name");
+        DB::table('role')->upsert(['name' => 'Seller', 'guard_name' => 'web', 'created_at' => now()], "name");
+        DB::table('role')->upsert(['name' => 'Buyer', 'guard_name' => 'web', 'created_at' => now()], "name");
+        DB::table('role')->upsert(['name' => 'User', 'guard_name' => 'web', 'created_at' => now()], "name");
+        DB::table('role')->upsert(['name' => 'Support', 'guard_name' => 'web', 'created_at' => now()],"name");
     }
 }

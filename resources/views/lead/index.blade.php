@@ -46,10 +46,10 @@
                 <div class="card-header">{{ __('Advanced search') }}</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             @include('components.seller', ['seller_id' => !empty($seller_id) ? $seller_id : null])
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             <label for="status">{{ __('Status') }}</label>
                             <select name="status" id="status"  class="form-select">
                                 <option value=""></option>
@@ -58,10 +58,10 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             @include('components.country')
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             <label for="industry_id">{{ __('Industry') }}</label>
                             <select name="industry_id" id="industry_id" class="form-select">
                                 <option value=""></option>
@@ -132,9 +132,11 @@
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
+                    @if($lead->website)
                     <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank">
                         <i class="las la-globe fs-4"></i>
                     </a>
+                    @endif
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
                     @if(!empty($lead->country))
@@ -221,7 +223,7 @@
         delete : function(id, name) {
             let res = confirm("{{ __('Are you sure you want to delete the lead?') }}");
             if(res)
-                window.location = '{{ url('/lead/delete/') }}/'+id;
+                window.location = '{{ url('/lead/delete') }}/'+id;
         }
     };
 </script>

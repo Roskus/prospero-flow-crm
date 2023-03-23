@@ -87,7 +87,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'read order',
                 'guard_name' => 'web',
             ],
@@ -107,7 +107,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'read company',
                 'guard_name' => 'web',
             ],
@@ -127,17 +127,17 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'read user',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'update user',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'delete user',
                 'guard_name' => 'web',
             ],
@@ -148,7 +148,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'read supplier',
                 'guard_name' => 'web',
             ],
