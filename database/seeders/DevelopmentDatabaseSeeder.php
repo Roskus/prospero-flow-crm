@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Email;
+use App\Models\Industry;
 use App\Models\Lead;
 use App\Models\Order;
 use App\Models\Order\Item;
@@ -23,23 +26,51 @@ class DevelopmentDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Company::factory()
-            ->has(User::factory()->state([
-                'first_name' => 'Admin',
-                'last_name' => 'Test',
-                'email' => 'admin@admin.com',
-                'password' => '$2y$10$Rbren9IPDJs8/nbZQ5.z8.5wW.LmukvaLyL9ndnqZ3NH.AbdrPJLK', //admin
-                'lang' => 'en', ]
-            ))
-            ->has(Lead::factory()->count(10)->state(['seller_id' => 1]))
-            ->has(
-                Customer::factory()
-                    ->has(
-                        Order::factory()
-                            ->has(
-                                Item::factory()->count(5)->state(['product_id' => Product::factory()->state(['company_id' => 1])]))->count(5)->state(['company_id' => 1]))->count(10)->state(['seller_id' => 1]))
-            ->has(Email::factory()->count(10))
-            ->has(Ticket::factory()->has(Message::factory()->count(5)->state(['author_id' => 1]))->count(10)->state(['customer_id' => 1, 'created_by' => 1, 'assigned_to' => 1]))
-            ->create();
+        $this->call(RoleSeeder::class);
+        $this->call(PermissionSeeder::class);
+
+        $company = Company::factory()->create();
+
+        $user = User::factory()->create([
+            'first_name' => 'Admin',
+            'last_name' => 'Test',
+            'email' => 'admin@admin.com',
+            'password' => '$2y$10$Rbren9IPDJs8/nbZQ5.z8.5wW.LmukvaLyL9ndnqZ3NH.AbdrPJLK', //admin
+            'lang' => 'en',
+            'company_id' => $company->id,
+        ]);
+        $user->assignRole('SuperAdmin');
+
+        $industries = Industry::factory()->count(10)->create();
+        $categories = Category::factory()->count(10)->create(['company_id' => $company->id]);
+        $brands = Brand::factory()->count(10)->create(['company_id' => $company->id]);
+
+        Lead::factory()->count(10)->recycle($industries)->create([
+            'company_id' => $company->id,
+            'seller_id' => $user->id,
+        ]);
+
+        $customers = Customer::factory()->count(10)->recycle($industries)->create([
+            'company_id' => $company->id,
+            'seller_id' => $user->id,
+        ]);
+
+        $orders = Order::factory()->count(10)->recycle($customers)->create([
+            'company_id' => $company->id,
+            'seller_id' => $user->id,
+        ]);
+
+        $products = Product::factory()->count(10)->recycle($categories)->recycle($brands)->create([
+            'company_id' => $company->id,
+            'photo' => null,
+        ]);
+
+        Item::factory()->count(30)->recycle($products)->recycle($orders)->create();
+
+        Email::factory()->count(10)->create();
+
+        $tickets = Ticket::factory()->count(10)->create();
+
+        Message::factory()->count(10)->recycle($tickets)->create();
     }
 }
