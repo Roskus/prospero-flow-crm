@@ -57,6 +57,13 @@
                     <label for="price" class="label-control">{{ __('Price') }} <span class="text-danger">*</span></label>
                     <input type="number" name="price" id="price" value="{{ old('price', $product->price) }}" class="form-control" required="required" step="0.1" min="0">
                 </div>
+                <div class="col">
+                    <label for="tax" class="label-control">{{ __('Tax') }}</label>
+                    <div class="input-group">
+                        <input type="number" name="tax" id="tax" value="{{ old('tax', $product->tax) }}" class="form-control" step="0.1" min="0" max="80">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
             </div>
             <div class="row form-group">
                 <div class="col">

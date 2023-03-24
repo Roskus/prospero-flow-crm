@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('email_attach', function (Blueprint $table) {
-            $table->string('mime', 255)->nullable()->after('original_name');
+        Schema::table('product', function (Blueprint $table) {
+            $table->decimal('tax', 4,2)->nullable(0.0)->after('price')->comment('%');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('email_attach', function (Blueprint $table) {
-            $table->dropColumn('mime');
+        Schema::table('product', function (Blueprint $table) {
+            $table->dropColumn('tax');
         });
     }
 };

@@ -108,8 +108,10 @@
         <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
+                <th>SKU</th>
                 <th width="60%">{{ __('Product') }}</th>
                 <th>{{ __('Price') }}</th>
+                <th>{{ __('Tax') }}</th>
                 <th>{{ __('Quantity') }}</th>
                 <th>{{ __('Discount') }}</th>
                 <th>{{ __('Subtotal') }}</th>
@@ -123,6 +125,7 @@
             @else
                 @foreach($order->items as $item)
                     <tr>
+                        <td>{{ (!empty($item->product)) ? $item->product->sku : '' }}</td>
                         <td>
                             {{ (!empty($item->product)) ? $item->product->name : '' }}
                             @if(!empty($item->product->photo))
@@ -133,6 +136,7 @@
                         <td>
                             {{ number_format($item->unit_price, 2, ',', '.') }}
                         </td>
+                        <td>{{ (!empty($item->product)) ? $item->product->tax : '' }}%</td>
                         <td>{{ $item->quantity }}</td>
                         <td></td>
                         <td>{{ number_format(($item->unit_price * $item->quantity), 2, ',', '.') }}</td>
@@ -142,7 +146,14 @@
             </tbody>
             <tfoot>
             <tr>
-                <th colspan="2">&nbsp;</th>
+                <th colspan="5">&nbsp;</th>
+                <th class="text-right">{{ __('Taxes') }}</th>
+                <th>
+
+                </th>
+            </tr>
+            <tr>
+                <th colspan="5">&nbsp;</th>
                 <th class="text-right">{{ __('Total') }}</th>
                 <th>
                     {{ number_format($order->getTotal(), 2, ',', '.') }}

@@ -25,6 +25,7 @@ class ProductRepository
         $product->min_stock_quantity = ! empty($data['min_stock_quantity']) ? $data['min_stock_quantity'] : 0;
         $product->cost = $data['cost'];
         $product->price = $data['price'];
+        $product->tax = ! empty($data['tax']) ? $data['tax'] : 0.0;
         $product->barcode = ! empty($data['barcode']) ? $data['barcode'] : null;
         $product->sku = ! empty($data['sku']) ? $data['sku'] : null;
         $product->elaboration_date = ! empty($data['elaboration_date']) ? $data['elaboration_date'] : null;
