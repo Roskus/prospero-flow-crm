@@ -13,12 +13,17 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="name" class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $company->name) }}" maxlength="80" required="required" class="form-control">
+                    <label for="name" class="label-control">{{ __('Name') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" name="name" id="name" value="{{ old('name', $company->name) }}" maxlength="80"
+                           required="required" class="form-control">
                 </div>
                 <div class="col">
                     <label for="business_name" class="label-control">{{ __('Business name') }}</label>
-                    <input type="text" name="business_name" id="business_name" value="{{ old('business_name', $company->business_name) }}" maxlength="80" required="required" class="form-control">
+                    <input type="text" name="business_name" id="business_name"
+                           value="{{ old('business_name', $company->business_name) }}" maxlength="80"
+                           required="required" class="form-control">
                 </div>
             </div>
             <div class="row">
@@ -30,8 +35,8 @@
 
                 <div class="col form-group">
                     <label for="email" class="label-control">E-mail <span class="text-danger">*</span></label>
-                    <input type="email" name="email" id="email" value="{{ old('email', $company->email) }}" maxlength="254"
-                           required="required" class="form-control">
+                    <input type="email" name="email" id="email" value="{{ old('email', $company->email) }}"
+                           maxlength="254" required="required" class="form-control">
                 </div>
             </div>
             <div class="row">
@@ -41,13 +46,16 @@
                            class="form-control">
                 </div>
                 <div class="col form-group">
-                    <label for="currency" class="label-control">{{ __('Currency') }}</label>
-                    <input type="text" name="currency" id="currency" list="currency-list" value="{{ old('currency', $company->currency) }}"
-                           class="form-control" maxlength="3">
+                    <label for="currency" class="label-control">
+                        {{ __('Currency') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" name="currency" id="currency" list="currency-list" required="required"
+                           value="{{ old('currency', $company->currency) }}" class="form-control" maxlength="3">
                     <datalist id="currency-list">
                         @if(!empty($currencies))
                             @foreach($currencies as $currency)
-                                <option value="{{ $currency->id }}">{{ $currency->id }} ({{ $currency->symbol }})</option>
+                            <option value="{{ $currency->id }}">{{ $currency->id }} ({{ $currency->symbol }})</option>
                             @endforeach
                         @endif
                     </datalist>
@@ -70,11 +78,15 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="country_id" class="label-control">{{ __('Country') }} <span class="text-danger">*</span></label>
+                    <label for="country_id" class="label-control">{{ __('Country') }}
+                        <span class="text-danger">*</span>
+                    </label>
                     <select name="country_id" id="country_id" required class="form-control">
                         <option value=""></option>
                         @foreach ($countries as $country)
-                            <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>{{ $country->name }} {{ $country->flag }}</option>
+                        <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>
+                            {{ $country->name }} {{ $country->flag }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -115,7 +127,8 @@
                     <label for="logo" class="label-control">Logo</label>
                     <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/svg" class="form-control">
                     @if($company->logo)
-                        <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}" alt="{{ env('APP_NAME') }}" class="logo">
+                        <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}"
+                             alt="{{ env('APP_NAME') }}" class="logo">
                     @endif
                 </div>
             </div>

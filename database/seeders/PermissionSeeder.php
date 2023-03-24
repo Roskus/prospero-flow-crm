@@ -61,14 +61,46 @@ class PermissionSeeder extends Seeder
     public function permissions(): array
     {
         return [
+            //Lead
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
-                'name' => 'delete prospect',
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'create lead',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'read lead',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'update lead',
                 'guard_name' => 'web',
             ],
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
-                'name' => 'export prospect',
+                'name' => 'delete lead',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'export lead',
+                'guard_name' => 'web',
+            ],
+            //Customer
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'create customer',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read customer',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'update customer',
                 'guard_name' => 'web',
             ],
             [
@@ -82,17 +114,17 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
                 'name' => 'create order',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'read order',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
                 'name' => 'update order',
                 'guard_name' => 'web',
             ],
@@ -101,13 +133,14 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete order',
                 'guard_name' => 'web',
             ],
+            //Company
             [
                 'roles' => ['SuperAdmin'], //Only SuperAdmin can create company
                 'name' => 'create company',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'read company',
                 'guard_name' => 'web',
             ],
@@ -121,23 +154,24 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete company',
                 'guard_name' => 'web',
             ],
+            //User
             [
                 'roles' => ['SuperAdmin'], //Only SuperAdmin can create user
                 'name' => 'create user',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'read user',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'update user',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'delete user',
                 'guard_name' => 'web',
             ],
@@ -148,7 +182,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
                 'name' => 'read supplier',
                 'guard_name' => 'web',
             ],
@@ -185,8 +219,24 @@ class PermissionSeeder extends Seeder
             ],
             // Product
             [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'create product',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read product',
+                'guard_name' => 'web',
+            ],
+            [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'delete product',
+                'guard_name' => 'web',
+            ],
+            // Report
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read report',
                 'guard_name' => 'web',
             ],
         ];

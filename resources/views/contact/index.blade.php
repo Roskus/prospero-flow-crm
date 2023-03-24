@@ -7,10 +7,11 @@
     <th>{{ __('Phone') }}</th>
     <th>{{ __('Mobile') }}</th>
     <th>E-mail</th>
+    <th>{{ __('Notes') }}</th>
     <th>Social</th>
     <th>{{ __('Created at') }}</th>
     <th>{{ __('Updated at') }}</th>
-    <th>{{ __('Actions') }}</th>
+    <th colspan="text-nowrap">{{ __('Actions') }}</th>
 </tr>
 </thead>
 <tbody>
@@ -32,11 +33,14 @@
                 </a>
             @endif
         </td>
-        <td>
+        <td class="text-center">
             @if($contact->email)
-                <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
+                <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}">
+                    <i class="las la-envelope fs-3"></i>
+                </a>
             @endif
         </td>
+        <td>{{ $contact->notes }}</td>
         <td>
             @if($contact->linkedin)
                 <a href="{{ $contact->linkedin }}"><i class="lab la-linkedin fs-3"></i></a>
@@ -44,8 +48,8 @@
         </td>
         <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
         <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
-        <td class="no-wrap">
-            <a href="#" onclick="Contact.update({{ $contact->id }})" class="btn btn-xs btn-warning text-white">
+        <td colspan="text-nowrap">
+            <a href="{{ url('contact/update/'.$contact->id) }}" class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
             <a href="{{ url('/contact/export-vcard/'.$contact->id) }}" target="_blank" data-bs-toggle="tooltip"

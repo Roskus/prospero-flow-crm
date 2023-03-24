@@ -94,6 +94,7 @@
                         </div>
                     </div>
                 </div><!--./row-->
+                @if(!auth()->hasRole('Support'))
                 <div class="row">
                     <div class="col">
                         <label for="notes">{{ __('Notes') }}</label>
@@ -101,10 +102,8 @@
                             {{ old('notes', $customer->notes) }}
                         </textarea>
                     </div>
-                    <div class="col mt-3">
-                        <x-geolocalization.map :latitude="$customer->latitude" :longitude="$customer->longitude" />
-                    </div>
                 </div><!--./row-->
+                @endif
             </div><!--./card-body-->
         </div><!--./card-->
 
@@ -152,6 +151,11 @@
                                class="form-control form-control-lg" maxlength="10">
                     </div>
                 </div><!--./row-->
+                <div class="row">
+                    <div class="col mt-3">
+                        <x-geolocalization.map :latitude="$customer->latitude" :longitude="$customer->longitude" />
+                    </div><!--./row-->
+                </div>
             </div><!--./card-body-->
         </div><!--./card-->
 
@@ -300,7 +304,7 @@
         <div class="accordion-body bg-white">
             <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
                  data-bs-parent="#accordionExample">
-                @include('contact.contact', ['customer_id' => $customer->id])
+                @include('contact.contact_form', ['customer_id' => $customer->id])
             </div><!--./collapse-->
 
             <div class="mt-2 table-responsive">
@@ -369,5 +373,6 @@
         });
     </script>
     <script src="/asset/js/Contact.js"></script>
+    <script src="/asset/js/Region.js"></script>
     @endpush
 @endsection

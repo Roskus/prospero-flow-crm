@@ -45,7 +45,7 @@ class LeadIndexController extends MainController
             $filters['seller_id'] = Auth::user()->id;
         }
 
-        $customer = new Customer();
+        $lead = new Lead();
         $data['colors'] = config('color');
         $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info'];
         $data['countries'] = Country::orderBy('name')->get();

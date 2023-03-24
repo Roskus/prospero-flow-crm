@@ -5,7 +5,8 @@
             <span class="badge rounded-pill text-bg-success">{{ $leads->count() }}</span>
         </h4>
     </div>
-    <div class="card-body table-responsive">
+    <div class="card-body">
+        <div class="table-responsive">
         @if(!empty($leads))
         <table class="table table-bordered table-striped table-hover">
             <tbody>
@@ -43,8 +44,10 @@
                         <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ $lead->website }}" target="_blank">{{ $lead->website }}</a>
+                    <td class="text-center">
+                        <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank">
+                            <i class="las la-globe fs-4"></i>
+                        </a>
                     </td>
                     <td class="text-center">
                         <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">
@@ -57,6 +60,7 @@
             </tbody>
         </table>
         @endif
+        </div>
     </div>
     <!--./card-body-->
 </div>

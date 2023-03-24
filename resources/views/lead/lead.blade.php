@@ -94,6 +94,7 @@
                         </div>
                     </div>
                 </div><!--./row-->
+                @if(!auth()->hasRole('Support'))
                 <div class="row">
                     <div class="col">
                         <label for="notes">{{ __('Notes') }}</label>
@@ -101,10 +102,8 @@
                             {{ old('notes', $lead->notes) }}
                         </textarea>
                     </div>
-                    <div class="col mt-3">
-                        <x-geolocalization.map :latitude="$lead->latitude" :longitude="$lead->longitude" />
-                    </div>
                 </div><!--./row-->
+                @endif
             </div><!--./card-body-->
         </div><!--./card-->
 
@@ -160,6 +159,11 @@
                                class="form-control form-control-lg" maxlength="10">
                     </div>
                 </div><!--./row-->
+                <div class="row">
+                    <div class="col mt-3">
+                        <x-geolocalization.map :latitude="$lead->latitude" :longitude="$lead->longitude" />
+                    </div><!--./row-->
+                </div>
             </div><!--./card-body-->
         </div><!--./card-->
 
@@ -252,7 +256,8 @@
                             <option value="">{{ __('Choose') }}</option>
                             @foreach(\App\Models\Lead::getStatus() as $key => $status)
                             <option value="{{ $key }}" @if($lead->status == $key) selected="selected" @endif>
-                                {{ __($status) }}</option>
+                                {{ __($status) }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -307,7 +312,7 @@
         <div class="accordion-body bg-white">
             <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
                  data-bs-parent="#accordionExample">
-                @include('contact.contact', ['lead_id' => $lead->id])
+                @include('contact.contact_form', ['lead_id' => $lead->id])
             </div><!--./collapse-->
 
             <div class="mt-2 table-responsive">
@@ -318,20 +323,20 @@
     @endif
 
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
-        <script>
-            let input = document.getElementById('tags');
-            const tagify = new Tagify(input, {
-                dropdown: {
-                    maxItems :0,
-                    enabled: 0
-                },
-                originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
-                //whitelist: ["a", "aa", "aaa", "b", "bb", "ccc"]
-            });
-        </script>
-        <script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+    <script>
+        let input = document.getElementById('tags');
+        const tagify = new Tagify(input, {
+            dropdown: {
+                maxItems :0,
+                enabled: 0
+            },
+            originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+            //whitelist: ["a", "aa", "aaa", "b", "bb", "ccc"]
+        });
+    </script>
+    <script>
         $('#phone, #phone2').on('keyup paste', function() {
             let $el = $(this);
             setTimeout(function() {

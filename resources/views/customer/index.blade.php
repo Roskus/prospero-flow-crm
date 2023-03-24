@@ -13,11 +13,11 @@
                 {{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i>
             </a>
 
-            @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['SuperAdmin', 'CompanyAdmin']))
+            @can('export customer')
             <a href="{{ url('/customer/export') }}" class="btn btn-info d-block">
                 {{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i>
             </a>
-            @endif
+            @endcan
         </div><!--./btn-group-->
     </div>
 </div>
@@ -42,10 +42,10 @@
                 <div class="card-header">{{ __('Advanced search') }}</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             @include('components.seller', ['seller_id' => !empty($seller_id) ? $seller_id : null])
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             <label for="status">{{ __('Status') }}</label>
                             <select name="status" id="status"  class="form-select">
                                 <option value=""></option>
@@ -54,10 +54,10 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             @include('components.country', ['country_id' => !empty($country_id) ? $country_id : null])
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-md-3">
                             <label for="industry_id">{{ __('Industry') }}</label>
                             <select name="industry_id" id="industry_id" class="form-select">
                                 <option value=""></option>
@@ -104,14 +104,20 @@
                     <a href="{{ url("/customer/show/$customer->id") }}" title="{{ __('Show') }}">{{ $customer->name }}</a>
                 </td>
                 <td class="text-nowrap">{{ $customer->business_name }}</td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($customer->phone)
-                        <a href="tel:{{ $customer->phone }}" target="_blank">{{ \App\Helpers\PhoneHelper::format($customer->phone) }}</a>
+                        <a href="tel:{{ $customer->phone }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}" target="_blank">
+                            <i class="las la-phone fs-4"></i>
+                        </a>
                     @endif
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                     @if($customer->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}" target="_blank">{{ $customer->mobile }}</a>
+                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
+                         title="{{ $customer->mobile }}"  target="_blank">
+                            <i class="las la-mobile fs-4"></i>
+                        </a>
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
@@ -122,7 +128,11 @@
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
-                    <a href="{{ $customer->website }}" title="{{ $customer->website }}" target="_blank"><i class="las la-globe fs-4"></i></a>
+                    @if($customer->website)
+                    <a href="{{ $customer->website }}" title="{{ $customer->website }}" target="_blank">
+                        <i class="las la-globe fs-4"></i>
+                    </a>
+                    @endif
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ (!empty($customer->country)) ? $customer->country->name : '' }}">
                     @if(!empty($customer->country))

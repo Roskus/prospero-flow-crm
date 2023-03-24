@@ -7,7 +7,14 @@ composer install --no-dev --optimize-autoloader
 php artisan migrate --force
 # Generate updated api doc
 php artisan l5-swagger:generate
+# Fix storage permision also for logs
+sudo chmod 775 storage/ -R
 # Get APP_VERSION
-version=$(sed -n "s/.*APP_VERSION = '\(.*\)';/\1/p" version.php)
+VERSION=$(sed -n "s/.*APP_VERSION = '\(.*\)';/\1/p" version.php)
+export SENTRY_ORG=roskus-fo
+#debug|info
+export SENTRY_LOG_LEVEL=debug
 # Notify sentry new release version
-sentry-cli releases -o roskus-fo new -p prospectflow $version
+sentry-cli releases new -p prospectflow $VERSION
+# Associate commits with the release
+sentry-cli releases set-commits --auto $VERSION
