@@ -17,11 +17,11 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('role')->upsert(['name' => 'SuperAdmin', 'guard_name' => 'web', 'created_at' => now()], "name");
-        DB::table('role')->upsert(['name' => 'CompanyAdmin', 'guard_name' => 'web', 'created_at' => now()], "name");
-        DB::table('role')->upsert(['name' => 'Seller', 'guard_name' => 'web', 'created_at' => now()], "name");
-        DB::table('role')->upsert(['name' => 'Buyer', 'guard_name' => 'web', 'created_at' => now()], "name");
-        DB::table('role')->upsert(['name' => 'User', 'guard_name' => 'web', 'created_at' => now()], "name");
-        DB::table('role')->upsert(['name' => 'Support', 'guard_name' => 'web', 'created_at' => now()],"name");
+        DB::table('role')->upsert(['name' => 'SuperAdmin', 'guard_name' => 'web', 'created_at' => now()], 'name');
+        DB::table('role')->upsert(['name' => 'CompanyAdmin', 'guard_name' => 'web', 'created_at' => now()], 'name');
+        DB::table('role')->upsert(['name' => 'Seller', 'guard_name' => 'web', 'created_at' => now()], 'name');
+        DB::table('role')->upsert(['name' => 'Buyer', 'guard_name' => 'web', 'created_at' => now()], 'name');
+        DB::table('role')->upsert(['name' => 'User', 'guard_name' => 'web', 'created_at' => now()], 'name');
+        DB::table('role')->upsert(['name' => 'Support', 'guard_name' => 'web', 'created_at' => now()], 'name');
     }
 }

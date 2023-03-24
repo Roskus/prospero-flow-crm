@@ -51,16 +51,7 @@ Route::get('/brand/delete/{id}', [\App\Http\Controllers\Brand\BrandDeleteControl
 Route::post('/brand/save', [\App\Http\Controllers\Brand\BrandSaveController::class, 'save']);
 
 // Lead
-Route::match(['get', 'post'], '/lead', [\App\Http\Controllers\Lead\LeadIndexController::class, 'index']);
-Route::get('/lead/create', [\App\Http\Controllers\Lead\LeadCreateController::class, 'create']);
-Route::get('/lead/update/{id}', [\App\Http\Controllers\Lead\LeadUpdateController::class, 'update']);
-Route::get('/lead/promote/{id}', [\App\Http\Controllers\Lead\LeadPromoteCustomerController::class, 'promote']);
-Route::post('/lead/save', [\App\Http\Controllers\Lead\LeadSaveController::class, 'save']);
-Route::get('/lead/import', [\App\Http\Controllers\Lead\LeadImportIndexController::class, 'index']);
-Route::post('/lead/import/save', [\App\Http\Controllers\Lead\LeadImportSaveController::class, 'save']);
-Route::get('/lead/delete/{id}', [\App\Http\Controllers\Lead\LeadDeleteController::class, 'delete']);
-Route::get('/lead/export', [\App\Http\Controllers\Lead\LeadExportController::class, 'export']);
-Route::get('/lead/show/{lead}', [\App\Http\Controllers\Lead\LeadShowController::class, 'show']);
+require __DIR__.'/partials/lead.php';
 
 //Customer
 Route::match(['get', 'post'], '/customer', [\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
