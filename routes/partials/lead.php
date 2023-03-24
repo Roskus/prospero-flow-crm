@@ -9,10 +9,10 @@ use App\Http\Controllers\Lead\LeadImportIndexController;
 use App\Http\Controllers\Lead\LeadImportSaveController;
 use App\Http\Controllers\Lead\LeadIndexController;
 use App\Http\Controllers\Lead\LeadPromoteCustomerController;
+use App\Http\Controllers\Lead\LeadSaveController;
 use App\Http\Controllers\Lead\LeadShowController;
 use App\Http\Controllers\Lead\LeadUpdateController;
 use Illuminate\Support\Facades\Route;
-use Tests\Feature\Controllers\Lead\LeadSaveControllerTest;
 
 Route::match(['get', 'post'], '/lead',
     [LeadIndexController::class, 'index'])
@@ -30,7 +30,7 @@ Route::get('/lead/promote/{id}',
     [LeadPromoteCustomerController::class, 'promote']);
 
 Route::post('/lead/save',
-    [LeadSaveControllerTest::class, 'save'])
+    [LeadSaveController::class, 'save'])
     ->can('create lead')->can('update lead');
 
 Route::get('/lead/import',
