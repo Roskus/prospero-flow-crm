@@ -27,7 +27,7 @@
                     </ul>
                 </li>
             @else
-                @if(empty($item['permission']) || \Illuminate\Support\Facades\Auth::user()->can($item['permission']))
+                @canany($item['permissions'])
                 {{-- LINK --}}
                 <li class="nav-item">
                     <a href="{{ $item['url'] }}" class="nav-link px-3 py-1  @if(Request::url() == $item['url']) active @endif" title="{{ $item['title'] }}">
@@ -37,7 +37,7 @@
                         </div>
                     </a>
                 </li>
-                @endif
+                @endcanany
             @endif
         @endforeach
 
