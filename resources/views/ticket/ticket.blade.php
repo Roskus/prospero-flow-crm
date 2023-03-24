@@ -32,7 +32,7 @@
                     </div>
                     <!--./col-->
                     <div class="col">
-                        <label for="assigned_to">{{ __('Assigned to') }}</label>
+                        <label for="assigned_to">{{ __('Assigned to') }} <span class="text-danger">*</span></label>
                         <select name="assigned_to" id="assigned_to" required="required"
                                 class="form-select form-control-lg">
                             <option value=""></option>
@@ -54,7 +54,7 @@
                 <!--./row-->
                 <div class="row">
                     <div class="col">
-                        <label for="description">{{ __('Description') }}</label>
+                        <label for="description">{{ __('Description') }} <span class="text-danger">*</span></label>
                         <textarea name="description" id="description" required="required" class="form-control">
                             {{ $ticket->description }}
                         </textarea>
@@ -63,8 +63,8 @@
                 <!--./row-->
                 <div class="row">
                     <div class="col">
-                        <label for="type">{{ __('Type') }}</label>
-                        <select name="type" id="type" class="form-select form-control-lg">
+                        <label for="type">{{ __('Type') }} <span class="text-danger">*</span></label>
+                        <select name="type" id="type" required="required" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($ticket->types() as $type)
                                 <option value="{{ $type }}"
@@ -76,8 +76,8 @@
                     </div>
                     <!--./col-->
                     <div class="col">
-                        <label for="priority">{{ __('Priority') }}</label>
-                        <select name="priority" id="priority" class="form-select form-control-lg">
+                        <label for="priority">{{ __('Priority') }} <span class="text-danger">*</span></label>
+                        <select name="priority" id="priority" required="required" class="form-select form-control-lg">
                             <option value=""></option>
                             @foreach ($ticket->priorities() as $priority)
                             <option value="{{ $priority }}"
