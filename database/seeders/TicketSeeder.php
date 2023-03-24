@@ -13,10 +13,8 @@ class TicketSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         foreach (User::all() as $user) {
             Ticket::factory()->has(Message::factory()->count(5))->count(15)->create([

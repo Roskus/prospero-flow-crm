@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div><!--./row-->
-                @if(!auth()->hasRole('Support'))
+                @can('create note')
                 <div class="row">
                     <div class="col">
                         <label for="notes">{{ __('Notes') }}</label>
@@ -103,7 +103,7 @@
                         </textarea>
                     </div>
                 </div><!--./row-->
-                @endif
+                @endcan
             </div><!--./card-body-->
         </div><!--./card-->
 

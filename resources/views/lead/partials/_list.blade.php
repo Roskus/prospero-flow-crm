@@ -41,13 +41,17 @@
                     </td>
                     <td>
                         @if($lead->email)
-                        <a href="mailto:{{ $lead->email }}">{{ $lead->email }}</a>
+                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}">
+                            <i class="las la-envelope fs-4"></i>
+                        </a>
                         @endif
                     </td>
                     <td class="text-center">
+                        @isset($lead->website)
                         <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank">
                             <i class="las la-globe fs-4"></i>
                         </a>
+                        @endisset
                     </td>
                     <td class="text-center">
                         <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">

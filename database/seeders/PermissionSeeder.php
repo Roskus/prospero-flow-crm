@@ -61,6 +61,23 @@ class PermissionSeeder extends Seeder
     public function permissions(): array
     {
         return [
+            //Dashboard
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read dashboard',
+                'guard_name' => 'web',
+            ],
+            // Lead / Customer -> Support can't read user notes
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'create note',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'read note',
+                'guard_name' => 'web',
+            ],
             //Lead
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
