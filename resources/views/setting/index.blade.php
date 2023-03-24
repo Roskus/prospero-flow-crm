@@ -102,5 +102,20 @@
         </div>
     </div>
     @endrole
+
+    @role('SuperAdmin')
+    <div class="col text-center">
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ url('/bank') }}">
+                    <div class="h1">
+                        <i class="las la-university"></i>
+                    </div>
+                    {{ __('Banks') }}
+                </a>
+            </div>
+        </div>
+    </div>
+    @endrole
 </div>
 @endsection

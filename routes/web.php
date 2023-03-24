@@ -180,3 +180,6 @@ Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeS
 // Permission
 Route::get('/permission', [\App\Http\Controllers\Permission\PermissionIndexController::class, 'index']);
 Route::post('/permission', [\App\Http\Controllers\Permission\PermissionSaveController::class, 'save']);
+
+//Bank
+require __DIR__.'/partials/bank.php';
