@@ -12,21 +12,25 @@ return [
         'url' => url('/lead'),
         'title' => __('Leads'),
         'icon_class' => 'las la-filter',
+        'permission' => 'read lead'
     ],
     [
         'url' => url('/customer'),
         'title' => __('Customers'),
         'icon_class' => 'las la-user-alt',
+        'permission' => 'read customer'
     ],
     [
         'url' => url('/order'),
         'title' => __('Orders'),
         'icon_class' => 'las la-receipt',
+        'permission' => 'read order'
     ],
     [
         'url' => url('/product'),
         'title' => __('Products'),
         'icon_class' => 'las la-box',
+        'permission' => 'read product'
     ],
     [
         'url' => url('/calendar'),
@@ -54,11 +58,13 @@ return [
         'url' => url('/accounting'),
         'title' => __('Accounting'),
         'icon_class' => 'las la-coins',
+        'permission' => 'read accounting'
     ],
     [
         'url' => url('/supplier'),
         'title' => __('Suppliers'),
         'icon_class' => 'las la-dolly',
+        'permission' => 'read supplier'
     ],
     [
         'url' => url('/ticket'),
@@ -69,5 +75,6 @@ return [
         'url' => url('/report'),
         'title' => __('Reports'),
         'icon_class' => 'las la-chart-pie',
+        'permission' => 'read report'
     ],
 ];

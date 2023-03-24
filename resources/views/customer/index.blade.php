@@ -13,7 +13,7 @@
                 {{ __('Import') }} <i class="las la-file-csv d-none d-sm-block"></i>
             </a>
 
-            @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['SuperAdmin', 'CompanyAdmin']))
+            @if(\Illuminate\Support\Facades\Auth::user()->can('export customer'))
             <a href="{{ url('/customer/export') }}" class="btn btn-info d-block">
                 {{ __('Export') }} <i class="las la-file-csv d-none d-sm-block"></i>
             </a>
