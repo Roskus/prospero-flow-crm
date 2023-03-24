@@ -176,3 +176,7 @@ Route::get('/notification/delete/{id}',
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
 Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeSaveController::class, 'save']);
+
+// Permission
+Route::get('/permission', [\App\Http\Controllers\Permission\PermissionIndexController::class, 'index']);
+Route::post('/permission', [\App\Http\Controllers\Permission\PermissionSaveController::class, 'save']);

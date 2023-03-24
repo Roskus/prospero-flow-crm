@@ -87,5 +87,20 @@
             </div>
         </div>
     </div>
+
+    @role('SuperAdmin')
+    <div class="col text-center">
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ url('/permission') }}">
+                    <div class="h1">
+                        <i class="las la-lock-open"></i>
+                    </div>
+                    {{ __('Permissions') }}
+                </a>
+            </div>
+        </div>
+    </div>
+    @endrole
 </div>
 @endsection
