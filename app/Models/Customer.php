@@ -124,6 +124,8 @@ class Customer extends Model
         'deleted_by',
     ];
 
+    protected $with = ['country', 'seller', 'industry'];
+
     public function company(): HasOne
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
@@ -172,7 +174,7 @@ class Customer extends Model
             }
         }
 
-        return $customers->with('seller', 'industry')->paginate($limit);
+        return $customers->paginate($limit);
     }
 
     public function getCountByCompany(int $company_id): int

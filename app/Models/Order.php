@@ -57,6 +57,8 @@ final class Order extends Model
         'deleted_by',
     ];
 
+    protected $with = ['customer', 'items'];
+
     #[OAT\Property(type: 'int', example: 1)]
     private ?int $id;
 
@@ -172,6 +174,6 @@ final class Order extends Model
 
     public function getAllActiveByCompany(int $company_id)
     {
-        return Order::with('customer')->where('company_id', $company_id)->paginate(10);
+        return Order::where('company_id', $company_id)->paginate(10);
     }
 }

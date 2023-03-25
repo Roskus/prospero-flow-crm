@@ -43,6 +43,8 @@ class User extends Authenticatable implements JWTSubject
         'last_login_at' => 'datetime',
     ];
 
+    protected $with = ['company'];
+
     #[OAT\Property(type: 'int', example: 1)]
     private ?int $id = null;
 
