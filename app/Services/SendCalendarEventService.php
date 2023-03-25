@@ -12,7 +12,7 @@ class SendCalendarEventService
 {
     public function send(Calendar $calendar)
     {
-        if(isset($calendar['guests'])){
+        if (isset($calendar['guests'])) {
             if (count($calendar['guests']) > 0) {
                 foreach ($calendar['guests'] as $guest) {
                     if (filter_var($guest, FILTER_VALIDATE_EMAIL)) {
@@ -20,6 +20,6 @@ class SendCalendarEventService
                     }
                 }
             }
-        }        
+        }
     }
 }
