@@ -12,6 +12,7 @@ class BankIndexController
     {
         $bank = new Bank();
         $data['banks'] = $bank->getAll();
+
         return view('bank.index', $data);
     }
 }

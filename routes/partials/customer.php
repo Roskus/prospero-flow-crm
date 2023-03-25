@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use App\Http\Controllers\Customer\CustomerCreateController;
 use App\Http\Controllers\Customer\CustomerDeleteController;
@@ -11,36 +13,36 @@ use App\Http\Controllers\Customer\CustomerShowController;
 use App\Http\Controllers\Customer\CustomerUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], '/customer', 
+Route::match(['get', 'post'], '/customer',
     [CustomerIndexController::class, 'index'])
     ->can('read customer');
 
-Route::get('/customer/create', 
+Route::get('/customer/create',
     [CustomerCreateController::class, 'create'])
     ->can('create customer');
 
-Route::get('/customer/update/{id}', 
+Route::get('/customer/update/{id}',
     [CustomerUpdateController::class, 'update'])
     ->can('update customer');
 
-Route::post('/customer/save', 
+Route::post('/customer/save',
     [CustomerSaveController::class, 'save'])
     ->can('create customer')->can('update customer');
 
-Route::get('/customer/import', 
+Route::get('/customer/import',
     [CustomerImportIndexController::class, 'index']);
 
-Route::post('/customer/import/save', 
+Route::post('/customer/import/save',
     [CustomerImportSaveController::class, 'save']);
 
-Route::get('/customer/delete/{id}', 
+Route::get('/customer/delete/{id}',
     [CustomerDeleteController::class, 'delete'])
     ->can('delete customer');
 
-Route::get('/customer/export', 
+Route::get('/customer/export',
     [CustomerExportController::class, 'export'])
     ->can('export customer');
 
-Route::get('/customer/show/{customer}', 
+Route::get('/customer/show/{customer}',
     [CustomerShowController::class, 'show'])
     ->can('read customer');
