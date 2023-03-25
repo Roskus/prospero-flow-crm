@@ -155,7 +155,6 @@ class Customer extends Model
         return Customer::all();
     }
 
-    
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, int $limit = 50): mixed
     {
         $customers = Customer::where('company_id', $company_id);
