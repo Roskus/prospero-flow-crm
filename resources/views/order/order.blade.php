@@ -9,6 +9,7 @@
     <div class="card-body">
     <form method="post" id="order-form" action="{{ url('/order/save') }}">
     @csrf
+    <input type="hidden" name="id" value="{{ ($order->getId()) ?? $order->getId() }}">
     <div class="row">
         <div class="col">
             <label for="customer_id">{{ __('Customer') }}</label>
@@ -26,6 +27,7 @@
         </div>
 
     </div>
+    </form>
     <div class="row">
         <div class="col">
             <label for="product_id">{{ __('Product') }}</label>
@@ -87,7 +89,7 @@
                         <th colspan="2">&nbsp;</th>
                         <th class="text-right">{{ __('Total') }}</th>
                         <th>
-                            <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" step="0.01" class="form-control form-control-lg" style="max-width: 200px">
+                            {{ $order->amount }}
                         </th>
                     </tr>
                 </tfoot>
@@ -97,10 +99,8 @@
     </div>
     <div>
         <a href="{{ url('/order')}}" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
-        <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
-    </div>
-    <input type="hidden" name="id" value="{{ ($order->getId()) ?? $order->getId() }}">
-    </form>
+        <button type="submit" form="order-form" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
+    </div>    
     </div>
 </div><!--./card-->
 
