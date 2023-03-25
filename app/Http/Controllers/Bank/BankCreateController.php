@@ -12,6 +12,7 @@ class BankCreateController
     {
         $bank = new Bank();
         $data['bank'] = $bank;
+
         return view('bank.bank', $data);
     }
 }

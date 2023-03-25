@@ -9,8 +9,7 @@ class BankSaveController
 {
     public function save(Request $request)
     {
-        if(empty($request->id))
-        {
+        if (empty($request->id)) {
             $bank = new Bank();
             $bank->created_at = now();
         } else {
@@ -22,6 +21,7 @@ class BankSaveController
         $bank->email = $request->email;
         $bank->website = $request->website;
         $bank->save();
+
         return redirect('bank');
     }
 }
