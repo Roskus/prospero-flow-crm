@@ -24,10 +24,10 @@ class OrderRepository
         $order->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
 
         $items = $order->items;
-        $total = $items->sum(function($item){
-            return ($item['quantity'] * $item['unit_price']);
+        $total = $items->sum(function ($item) {
+            return $item['quantity'] * $item['unit_price'];
         });
-        
+
         $order->setAmount((float) $total);
         try {
             $status = $order->save();
