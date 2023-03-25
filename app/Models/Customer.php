@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -154,10 +155,8 @@ class Customer extends Model
         return Customer::all();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, int $limit = 50)
+    
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, int $limit = 50): mixed
     {
         $customers = Customer::where('company_id', $company_id);
         if (! empty($search)) {
@@ -201,5 +200,10 @@ class Customer extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new AssignedSellerScope);
     }
 }

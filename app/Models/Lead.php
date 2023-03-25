@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -171,10 +172,7 @@ class Lead extends Model
         return Lead::all();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters)
+    public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters): mixed
     {
         $leads = Lead::where('company_id', $company_id);
         if (! empty($search)) {
@@ -219,5 +217,10 @@ class Lead extends Model
             self::CONVERTED => 'Converted',
             self::CLOSED => 'Closed',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new AssignedSellerScope);
     }
 }
