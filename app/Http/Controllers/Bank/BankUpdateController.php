@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Bank;
 
-use Illuminate\Http\Request;
 use App\Models\Bank;
+use Illuminate\Http\Request;
 
 class BankUpdateController
 {
@@ -13,6 +13,7 @@ class BankUpdateController
     {
         $bank = Bank::find($id);
         $data['bank'] = $bank;
+
         return view('bank.bank', $data);
     }
 }
