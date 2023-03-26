@@ -142,6 +142,8 @@ class Lead extends Model
         'deleted_by',
     ];
 
+    protected $with = ['country', 'seller', 'industry'];
+
     public function company()
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
@@ -193,7 +195,7 @@ class Lead extends Model
             }
         }
 
-        return $leads->with('seller', 'industry')->orderBy('created_at', 'desc')->paginate(10);
+        return $leads->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getCountByCompany(int $company_id): int

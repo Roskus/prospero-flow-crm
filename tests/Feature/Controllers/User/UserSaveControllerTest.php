@@ -19,6 +19,7 @@ class UserSaveControllerTest extends TestCase
             'lang' => 'en',
             'password' => 123,
             'password_confirmation' => 123,
+            'company_id' => $this->user->company_id,
         ];
         $response = $this->post('user/save', $data);
         $response->assertRedirect('/user');

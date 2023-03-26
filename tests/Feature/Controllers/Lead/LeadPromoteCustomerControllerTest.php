@@ -35,6 +35,6 @@ class LeadPromoteCustomerControllerTest extends TestCase
 
         $customer = Customer::latest()->first();
 
-        $this->assertEquals(array_except($lead->load('contacts')->toArray(), 'id'), array_except($customer->load('contacts')->toArray(), 'id'));
+        $this->assertEquals(array_except($lead->load('contacts', 'country', 'seller', 'industry')->toArray(), 'id'), array_except($customer->load('contacts', 'country', 'seller', 'industry')->toArray(), 'id'));
     }
 }

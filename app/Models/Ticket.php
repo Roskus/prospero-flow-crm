@@ -37,6 +37,8 @@ class Ticket extends Model
         'deleted_at',
     ];
 
+    protected $with = ['customer', 'createdBy', 'assignedTo'];
+
     #[OAT\Property(property: 'id', type: 'int', example: 1)]
     #[OAT\Property(property: 'title', type: 'string', example: 'An issue occur with the order #3')]
     #[OAT\Property(property: 'description', type: 'string', example: 'My order dosen\'t include one of the products we request')]
@@ -62,7 +64,7 @@ class Ticket extends Model
 
     public function getLatestByCompany(int $company_id)
     {
-        return Ticket::with('customer', 'createdBy')->where('company_id', $company_id)->orderBy('created_at', 'DESC')->get();
+        return Ticket::where('company_id', $company_id)->orderBy('created_at', 'DESC')->get();
     }
 
     public function priorities(): array
