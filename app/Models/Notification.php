@@ -20,6 +20,7 @@ class Notification extends Model
         'user_id',
         'message',
         'read',
+        'link',
     ];
 
     protected $hidden = [

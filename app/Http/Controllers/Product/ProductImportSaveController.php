@@ -64,6 +64,8 @@ class ProductImportSaveController extends MainController
             $product->description = $data[8];
             $product->tags = null; //$data[9];
             $product->created_at = now();
+            $product->tax = 0;
+
             try {
                 $product->save();
                 $rowCount++;
