@@ -54,15 +54,7 @@ Route::post('/brand/save', [\App\Http\Controllers\Brand\BrandSaveController::cla
 require __DIR__.'/partials/lead.php';
 
 //Customer
-Route::match(['get', 'post'], '/customer', [\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
-Route::get('/customer/create', [\App\Http\Controllers\Customer\CustomerCreateController::class, 'create']);
-Route::get('/customer/update/{id}', [\App\Http\Controllers\Customer\CustomerUpdateController::class, 'update']);
-Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveController::class, 'save']);
-Route::get('/customer/import', [\App\Http\Controllers\Customer\CustomerImportIndexController::class, 'index']);
-Route::post('/customer/import/save', [\App\Http\Controllers\Customer\CustomerImportSaveController::class, 'save']);
-Route::get('/customer/delete/{id}', [\App\Http\Controllers\Customer\CustomerDeleteController::class, 'delete']);
-Route::get('/customer/export', [\App\Http\Controllers\Customer\CustomerExportController::class, 'export']);
-Route::get('/customer/show/{customer}', [\App\Http\Controllers\Customer\CustomerShowController::class, 'show']);
+require __DIR__.'/partials/customer.php';
 
 //Category
 Route::get('/category', [\App\Http\Controllers\Category\CategoryIndexController::class, 'index']);
