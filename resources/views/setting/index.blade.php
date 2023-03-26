@@ -7,7 +7,7 @@
 
 <div class="row">
     @can('read company')
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/company') }}">
@@ -21,7 +21,7 @@
     </div>
     @endcan
 
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/category') }}">
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/brand') }}">
@@ -48,7 +48,7 @@
     </div>
 
     @can('read user')
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/user') }}">
@@ -62,7 +62,7 @@
     </div>
     @endcan
 
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/currency') }}">
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/email-template') }}">
@@ -89,7 +89,7 @@
     </div>
 
     @role('SuperAdmin')
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/permission') }}">
@@ -104,7 +104,7 @@
     @endrole
 
     @role('SuperAdmin')
-    <div class="col text-center">
+    <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
                 <a href="{{ url('/bank') }}">

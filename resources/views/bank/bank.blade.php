@@ -29,6 +29,11 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col">
+                    @include('components.country')
+                </div>
+            </div>
+            <div class="row">
                 <div class="col mt-2">
                     <a href="{{ url('/bank') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                     <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>

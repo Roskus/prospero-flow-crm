@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Bank;
 
 use App\Models\Bank;
 use Illuminate\Http\Request;
+use Squire\Models\Country;
 
 class BankUpdateController
 {
@@ -13,6 +14,7 @@ class BankUpdateController
     {
         $bank = Bank::find($id);
         $data['bank'] = $bank;
+        $data['countries'] = Country::all();
 
         return view('bank.bank', $data);
     }
