@@ -79,6 +79,7 @@
             <thead>
             <tr>
                 <th>#ID</th>
+                <th>{{ __('External ID') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
@@ -100,6 +101,7 @@
             @foreach($customers as $customer)
             <tr>
                 <td class="text-nowrap text-center">{{ $customer->id }}</td>
+                <td class="text-nowrap text-center">{{ $customer->external_id }}</td>
                 <td class="text-nowrap">
                     <a href="{{ url("/customer/show/$customer->id") }}" title="{{ __('Show') }}">{{ $customer->name }}</a>
                 </td>
