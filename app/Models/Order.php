@@ -165,11 +165,12 @@ final class Order extends Model
             if (isset($item['tax'])) {
                 $tax = ($item['tax'] * 100) / $price;
             }
+
             return $tax;
         });
+
         return $total;
     }
-
 
     /**
      * Return amount - discounts + taxes
@@ -180,6 +181,7 @@ final class Order extends Model
         $total = $items->sum(function ($item) {
             return $item['quantity'] * $item['unit_price'];
         });
+
         return $total;
     }
 
