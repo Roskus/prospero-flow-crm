@@ -23,6 +23,13 @@
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
+                        <label for="external_id">{{ __('External ID') }}</label>
+                        <input type="text" name="external_id" id="external_id" value="{{ old('external_id', $customer->external_id) }}"
+                               maxlength="50" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
                         <label for="phone">{{ __('Phone') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-phone"></i></span>
@@ -98,9 +105,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="notes">{{ __('Notes') }}</label>
-                        <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">
-                            {{ old('notes', $customer->notes) }}
-                        </textarea>
+                        <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ old('notes', $customer->notes) }}</textarea>
                     </div>
                 </div><!--./row-->
                 @endcan
