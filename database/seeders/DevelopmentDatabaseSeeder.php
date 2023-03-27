@@ -67,10 +67,14 @@ class DevelopmentDatabaseSeeder extends Seeder
 
         Item::factory()->count(30)->recycle($products)->recycle($orders)->create();
 
-        Email::factory()->count(10)->create();
+        Email::factory()->count(10)->create(['company_id' => $company->id]);
 
-        $tickets = Ticket::factory()->count(10)->create();
+        $tickets = Ticket::factory()->count(10)->recycle($customers)->create([
+            'company_id' => $company->id,
+            'created_by' => $user->id,
+            'assigned_to' => $user->id,
+        ]);
 
-        Message::factory()->count(10)->recycle($tickets)->create();
+        Message::factory()->count(10)->recycle($tickets)->create(['author_id' => $user->id]);
     }
 }
