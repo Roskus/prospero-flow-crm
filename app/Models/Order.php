@@ -154,11 +154,33 @@ final class Order extends Model
     }
 
     /**
+     * Return taxes
+     */
+    public function getTax(): float
+    {
+        $items = $this->items;
+        $total = $items->sum(function ($item) {
+            $tax = 0.0;
+            $price = ($item['quantity'] * $item['unit_price']);
+            if (isset($item['tax'])) {
+                $tax = ($item['tax'] * 100) / $price;
+            }
+            return $tax;
+        });
+        return $total;
+    }
+
+
+    /**
      * Return amount - discounts + taxes
      */
     public function getTotal(): float
     {
-        return $this->getAmount();
+        $items = $this->items;
+        $total = $items->sum(function ($item) {
+            return $item['quantity'] * $item['unit_price'];
+        });
+        return $total;
     }
 
     public function getAll(): \Illuminate\Database\Eloquent\Collection

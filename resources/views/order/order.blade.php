@@ -86,10 +86,12 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="2">&nbsp;</th>
+                        <th colspan="2">&nbsp;
+                            {{ $order->getTax() }}
+                        </th>
                         <th class="text-right">{{ __('Total') }}</th>
                         <th>
-                            {{ $order->amount }}
+                            {{ $order->getTotal() }}
                         </th>
                     </tr>
                 </tfoot>
@@ -100,7 +102,7 @@
     <div>
         <a href="{{ url('/order')}}" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
         <button type="submit" form="order-form" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
-    </div>    
+    </div>
     </div>
 </div><!--./card-->
 

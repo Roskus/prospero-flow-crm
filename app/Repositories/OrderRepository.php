@@ -23,10 +23,7 @@ class OrderRepository
         $order->setCustomerId((int) $data['customer_id']);
         $order->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
 
-        $items = $order->items;
-        $total = $items->sum(function ($item) {
-            return $item['quantity'] * $item['unit_price'];
-        });
+        $total = $order->getTotal();
 
         $order->setAmount((float) $total);
         try {
