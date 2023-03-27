@@ -12,6 +12,8 @@ class CompanyIndexControllerTest extends TestCase
     /** @test */
     public function it_can_get_index_company(): void
     {
+        $this->withoutExceptionHandling();
+
         $company = Company::factory()->create();
 
         $response = $this->get('/company');

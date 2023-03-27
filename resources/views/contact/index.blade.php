@@ -21,15 +21,18 @@
         <td>{{ $contact->first_name }}</td>
         <td>{{ $contact->last_name }}</td>
         <td>{{ $contact->job_title }}</td>
-        <td>
+        <td class="text-center">
             @if($contact->phone)
-                <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
+                <a href="tel:{{ $contact->phone }}" title="{{ $contact->phone }}">
+                    <i class="las la-phone fs-4"></i>
+                </a>
             @endif
         </td>
-        <td>
+        <td class="text-center">
             @if($contact->mobile)
-                <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}">
-                    {{ $contact->mobile }}
+                <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}"
+                   title="{{ $contact->mobile }}">
+                    <i class="las la-mobile fs-4"></i>
                 </a>
             @endif
         </td>

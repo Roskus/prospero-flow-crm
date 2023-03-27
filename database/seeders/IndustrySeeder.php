@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,11 +11,11 @@ class IndustrySeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
+        DB::table('industry')->truncate();
+
         DB::table('industry')->insert(['name' => 'Aerospace']);
         DB::table('industry')->insert(['name' => 'Advertising']);
         DB::table('industry')->insert(['name' => 'Agricultural']);

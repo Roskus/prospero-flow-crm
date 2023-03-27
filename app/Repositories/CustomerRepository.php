@@ -19,6 +19,7 @@ class CustomerRepository
         }
         $customer->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $customer->company_id = Auth::user()->company_id;
+        $customer->external_id = $data['external_id'] ?? null;
         $customer->name = $data['name'];
         $customer->business_name = $data['business_name'];
         $customer->dob = $data['dob'];
@@ -29,7 +30,7 @@ class CustomerRepository
         $customer->email = $data['email'];
         $customer->email2 = $data['email2'];
         $customer->website = ($data['website']) ? rtrim($data['website'], '/') : null;
-        $customer->notes = $data['notes'];
+        $customer->notes = $data['notes'] ?? null;
 
         $customer->linkedin = ($data['linkedin']) ? rtrim($data['linkedin'], '/') : null;
         $customer->facebook = ($data['facebook']) ? rtrim($data['facebook'], '/') : null;

@@ -22,11 +22,19 @@ $url = isset($lead) ? 'lead' : 'customer';
             </div>
             <div class="col-md-2">
                 <div>{{ __('Phone') }}:</div>
-                <strong>{{ $item->phone }}</strong>
+                @isset($item->phone)
+                    <strong>
+                        <a href="tel:{{ $item->phone }}">{{ \App\Helpers\PhoneHelper::format($item->phone) }}</a>
+                    </strong>
+                @endisset
             </div>
             <div class="col-md-2">
                 <div>{{ __('E-mail') }}:</div>
-                <strong>{{ $item->email }}</strong>
+                @isset($item->email)
+                    <strong>
+                        <a href="mailto:{{ $item->email }}">{{ $item->email }}</a>
+                    </strong>
+                @endisset
             </div>
             <div class="col-md-3">
                 <div>{{ __('Identity number') }}:</div>

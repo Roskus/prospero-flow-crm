@@ -42,6 +42,7 @@ class CustomerRequest extends FormRequest
         ]);
 
         return [
+            'external_id' => 'nullable|numeric',
             'name' => 'required|max:80',
             'business_name' => 'max:80',
             'dob' => 'nullable|date',

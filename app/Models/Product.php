@@ -70,6 +70,12 @@ use OpenApi\Annotations as OA;
  *        example="21.70"
  *    ),
  *    @OA\Property(
+ *        property="tax",
+ *        description="Tax of the product",
+ *        type="number",
+ *        example="21.00"
+ *    ),
+ *    @OA\Property(
  *        property="currency",
  *        description="Currency of the product",
  *        type="string",
@@ -134,6 +140,7 @@ class Product extends Model
         'photo',
         'cost',
         'price',
+        'tax',
         'currency',
         'min_stock_quantity',
         'quantity',

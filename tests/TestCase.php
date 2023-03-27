@@ -7,6 +7,7 @@ namespace Tests;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Spatie\Permission\Models\Role;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -21,7 +22,11 @@ abstract class TestCase extends BaseTestCase
 
         $this->freezeTime();
 
+        $role = Role::create(['name' => 'SuperAdmin', 'guard_name' => 'web']);
+
         $this->user = User::factory()->create();
+        $this->user->assignRole($role);
+
         $this->actingAs($this->user);
     }
 }

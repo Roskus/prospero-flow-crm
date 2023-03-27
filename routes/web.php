@@ -24,14 +24,7 @@ Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'rende
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
 //Order
-Route::get('/order', [\App\Http\Controllers\Order\OrderIndexController::class, 'index']);
-Route::get('/order/create', [\App\Http\Controllers\Order\OrderCreateController::class, 'create']);
-Route::get('/order/show/{id}', [\App\Http\Controllers\Order\OrderShowController::class, 'show']);
-Route::get('/order/update/{id}', [\App\Http\Controllers\Order\OrderUpdateController::class, 'update']);
-Route::get('/order/delete/{id}', [\App\Http\Controllers\Order\OrderDeleteController::class, 'delete']);
-Route::post('/order/save', [\App\Http\Controllers\Order\OrderSaveController::class, 'save']);
-Route::get('/order/download/{id}', [\App\Http\Controllers\Order\OrderPdfController::class, 'download'])
-    ->name('order-download');
+require __DIR__.'/partials/order.php';
 
 //Product
 Route::match(['get', 'post'], '/product', [\App\Http\Controllers\Product\ProductIndexController::class, 'index']);
@@ -54,15 +47,7 @@ Route::post('/brand/save', [\App\Http\Controllers\Brand\BrandSaveController::cla
 require __DIR__.'/partials/lead.php';
 
 //Customer
-Route::match(['get', 'post'], '/customer', [\App\Http\Controllers\Customer\CustomerIndexController::class, 'index']);
-Route::get('/customer/create', [\App\Http\Controllers\Customer\CustomerCreateController::class, 'create']);
-Route::get('/customer/update/{id}', [\App\Http\Controllers\Customer\CustomerUpdateController::class, 'update']);
-Route::post('/customer/save', [\App\Http\Controllers\Customer\CustomerSaveController::class, 'save']);
-Route::get('/customer/import', [\App\Http\Controllers\Customer\CustomerImportIndexController::class, 'index']);
-Route::post('/customer/import/save', [\App\Http\Controllers\Customer\CustomerImportSaveController::class, 'save']);
-Route::get('/customer/delete/{id}', [\App\Http\Controllers\Customer\CustomerDeleteController::class, 'delete']);
-Route::get('/customer/export', [\App\Http\Controllers\Customer\CustomerExportController::class, 'export']);
-Route::get('/customer/show/{customer}', [\App\Http\Controllers\Customer\CustomerShowController::class, 'show']);
+require __DIR__.'/partials/customer.php';
 
 //Category
 Route::get('/category', [\App\Http\Controllers\Category\CategoryIndexController::class, 'index']);
@@ -176,3 +161,10 @@ Route::get('/notification/delete/{id}',
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
 Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeSaveController::class, 'save']);
+
+// Permission
+Route::get('/permission', [\App\Http\Controllers\Permission\PermissionIndexController::class, 'index']);
+Route::post('/permission', [\App\Http\Controllers\Permission\PermissionSaveController::class, 'save']);
+
+//Bank
+require __DIR__.'/partials/bank.php';

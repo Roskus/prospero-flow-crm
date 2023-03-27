@@ -7,7 +7,7 @@ return [
         'url' => url('/'),
         'title' => __('Dashboard'),
         'icon_class' => 'las la-compass',
-        'permissions' => [],
+        'permissions' => ['read dashboard'],
     ],
     [
         'url' => url('/lead'),
@@ -37,7 +37,7 @@ return [
         'url' => url('/calendar'),
         'title' => __('Calendar'),
         'icon_class' => 'las la-calendar',
-        'permissions' => [],
+        'permissions' => ['read calendar'],
     ],
     [
         'is_drop_down' => true,
@@ -49,13 +49,13 @@ return [
                 'url' => url('/email'),
                 'title' => 'E-mail',
                 'icon_class' => 'las la-envelope-open-text',
-                'permissions' => [],
+                'permissions' => ['read email'],
             ],
             [
                 'url' => url('/campaign'),
                 'title' => __('Campaign'),
                 'icon_class' => 'las la-mail-bulk',
-                'permissions' => [],
+                'permissions' => ['create campaign'],
             ],
         ],
     ],
@@ -75,7 +75,7 @@ return [
         'url' => url('/ticket'),
         'title' => __('Tickets'),
         'icon_class' => 'las la-tools',
-        'permissions' => [],
+        'permissions' => ['read ticket'],
     ],
     [
         'url' => url('/report'),

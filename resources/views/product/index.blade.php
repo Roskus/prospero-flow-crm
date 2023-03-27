@@ -38,6 +38,7 @@
                 <th class="d-none d-sm-table-cell">{{ __('Brand') }}</th>
                 <th class="text-center">{{ __('Quantity') }}</th>
                 <th>{{ __('Price') }}</th>
+                <th>{{ __('Tax') }}</th>
                 <th>{{ __('Created at') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
@@ -64,6 +65,7 @@
                     {{ number_format($product->price, 2, ',', '.') }}
                     {{ Auth::user()->company->country->currency?->symbol }}
                 </td><!--Money::format(-->
+                <td>{{ $product->tax }}%</td>
                 <td class="text-nowrap">{{ $product->created_at->format('d/m/Y H:i') }}</td>
                 <td class="text-nowrap">
                     <a href="{{ url("/product/update/$product->id") }}" class="btn bt-xs btn-warning text-white">

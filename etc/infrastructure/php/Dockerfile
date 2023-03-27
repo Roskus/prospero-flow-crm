@@ -11,9 +11,16 @@ RUN pecl install redis && docker-php-ext-enable redis
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 ADD ./conf.d/  /usr/local/etc/php/conf.d/
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Chage permissions
 RUN chown -R www-data:www-data /var/www
-#WORKDIR .
+
+#WORKDIR /var/www/crm/
+#ENV COMPOSER_ALLOW_SUPERUSER=1
 #RUN composer install
+

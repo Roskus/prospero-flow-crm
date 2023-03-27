@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -74,6 +75,7 @@ class Customer extends Model
     protected $table = 'customer';
 
     protected $fillable = [
+        'external_id',
         'company_id',
         'name',
         'business_name',
@@ -124,6 +126,8 @@ class Customer extends Model
         'deleted_by',
     ];
 
+    protected $with = ['country', 'seller', 'industry'];
+
     public function company(): HasOne
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
@@ -154,15 +158,14 @@ class Customer extends Model
         return Customer::all();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, int $limit = 50)
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, int $limit = 50): mixed
     {
         $customers = Customer::where('company_id', $company_id);
         if (! empty($search)) {
             $customers->where('name', 'LIKE', "%$search%")
                       ->orWhere('business_name', 'LIKE', "%$search%")
+                      ->orWhere('external_id', '=', "$search")
+                      ->orWhere('phone', 'LIKE', "%$search%")
                       ->orWhere('tags', 'LIKE', "%$search%");
         }
 
@@ -172,7 +175,7 @@ class Customer extends Model
             }
         }
 
-        return $customers->with('seller', 'industry')->paginate($limit);
+        return $customers->paginate($limit);
     }
 
     public function getCountByCompany(int $company_id): int
@@ -201,5 +204,10 @@ class Customer extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new AssignedSellerScope);
     }
 }

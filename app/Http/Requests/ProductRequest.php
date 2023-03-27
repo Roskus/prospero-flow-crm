@@ -11,20 +11,16 @@ class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::check();
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'id' => 'nullable',
@@ -34,6 +30,7 @@ class ProductRequest extends FormRequest
             'description' => 'nullable|string',
             'cost' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
+            'tax' => 'nullable|numeric|min:0',
             'quantity' => 'required|numeric|min:0',
             'sku' => 'nullable',
             'min_stock_quantity' => 'required|numeric|min:0',
