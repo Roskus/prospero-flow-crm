@@ -26,7 +26,9 @@
             <td>
                 <a href="/bank/update/{{ $bank->id }}">{{ $bank->name }}</a>
             </td>
-            <td>{{ $bank->country }}</td>
+            <td class="text-center">
+                {{ $bank->country }}
+            </td>
             <td>
                 @isset($bank->phone)
                 <a href="tel:{{ $bank->phone }}" target="_blank">{{ $bank->phone }}</a>
@@ -55,6 +57,7 @@
         </tbody>
         </table>
         </div>
-    </div>
+
+    </div><!--./card-body-->
 </div>
 @endsection
