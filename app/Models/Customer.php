@@ -164,6 +164,8 @@ class Customer extends Model
         if (! empty($search)) {
             $customers->where('name', 'LIKE', "%$search%")
                       ->orWhere('business_name', 'LIKE', "%$search%")
+                      ->orWhere('external_id', '=', "$search")
+                      ->orWhere('phone', 'LIKE', "%$search%")
                       ->orWhere('tags', 'LIKE', "%$search%");
         }
 
