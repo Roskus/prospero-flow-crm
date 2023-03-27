@@ -44,7 +44,7 @@ class OrderPDFService
             ];
         })->toArray();
 
-        $pdf->ezTable($items, $cols);
+        $pdf->ezTable($items, $cols, '', ['fontSize' => 14]);
 
         $pdf->ezStream(['compress' => 0]);
     }
