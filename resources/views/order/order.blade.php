@@ -91,7 +91,7 @@
                         </th>
                         <th class="text-right">{{ __('Total') }}</th>
                         <th>
-                            {{ $order->getTotal() }}
+                            <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" step="0.01" class="form-control form-control-lg" style="max-width: 200px">
                         </th>
                     </tr>
                 </tfoot>
