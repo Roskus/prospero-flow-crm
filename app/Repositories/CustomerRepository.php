@@ -30,7 +30,7 @@ class CustomerRepository
         $customer->email = $data['email'];
         $customer->email2 = $data['email2'];
         $customer->website = ($data['website']) ? rtrim($data['website'], '/') : null;
-        $customer->notes = $data['notes'];
+        $customer->notes = $data['notes'] ?? null;
 
         $customer->linkedin = ($data['linkedin']) ? rtrim($data['linkedin'], '/') : null;
         $customer->facebook = ($data['facebook']) ? rtrim($data['facebook'], '/') : null;

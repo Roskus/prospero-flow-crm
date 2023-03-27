@@ -15,6 +15,7 @@ class OrderConfirmController extends MainController
         $order = Order::find($id);
         $order->status = Order::CONFIRMED;
         $order->save();
+
         return redirect('order');
     }
 }

@@ -75,6 +75,7 @@ class Customer extends Model
     protected $table = 'customer';
 
     protected $fillable = [
+        'external_id',
         'company_id',
         'name',
         'business_name',
