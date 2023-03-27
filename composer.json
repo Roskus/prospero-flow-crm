@@ -29,6 +29,7 @@
         "psr/simple-cache": "^2.0",
         "qoraiche/laravel-mail-editor": "^4.0",
         "ramsey/uuid": "^4.2",
+        "rospdf/pdf-php": "^0.12.65",
         "sentry/sentry-laravel": "^3.2",
         "shopify/shopify-api": "^4.2",
         "spatie/icalendar-generator": "^2.4",
