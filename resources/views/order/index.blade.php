@@ -45,12 +45,21 @@
                        class="btn btn-xs btn-primary text-white">
                         <i class="las la-eye"></i>
                     </a>
+
+                    @if($order->status == App\Models\Order::PENDING)
                     <a href="{{ url('/order/update/'.$order->id) }}" title="{{ __('Edit') }}"
                        class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
+
+                    <a href="{{ url('/order/confirm/'.$order->id) }}" title="{{ __('Confirm') }}"
+                       class="btn btn-xs btn-success text-white">
+                        <i class="las la-check-circle"></i>
+                    </a>
+                    @endif
+
                     <a href="{{ url('/order/download/'.$order->id) }}" title="{{ __('Download') }}"
-                       class="btn btn-xs btn-success">
+                       class="btn btn-xs btn-secondary">
                         <i class="las la-file-pdf"></i>
                     </a>
 

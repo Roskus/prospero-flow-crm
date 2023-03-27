@@ -24,14 +24,7 @@ Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'rende
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
 //Order
-Route::get('/order', [\App\Http\Controllers\Order\OrderIndexController::class, 'index']);
-Route::get('/order/create', [\App\Http\Controllers\Order\OrderCreateController::class, 'create']);
-Route::get('/order/show/{id}', [\App\Http\Controllers\Order\OrderShowController::class, 'show']);
-Route::get('/order/update/{id}', [\App\Http\Controllers\Order\OrderUpdateController::class, 'update']);
-Route::get('/order/delete/{id}', [\App\Http\Controllers\Order\OrderDeleteController::class, 'delete']);
-Route::post('/order/save', [\App\Http\Controllers\Order\OrderSaveController::class, 'save']);
-Route::get('/order/download/{id}', [\App\Http\Controllers\Order\OrderPdfController::class, 'download'])
-    ->name('order-download');
+require __DIR__.'/partials/order.php';
 
 //Product
 Route::match(['get', 'post'], '/product', [\App\Http\Controllers\Product\ProductIndexController::class, 'index']);

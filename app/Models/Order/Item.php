@@ -53,6 +53,8 @@ final class Item extends Model
 
     private ?int $order_id;
 
+    protected $with = ['product'];
+
     /**
      * Get the order that owns the item.
      */
