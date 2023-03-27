@@ -136,7 +136,9 @@
                                         @break
 
                                         @default
-                                        <a href="{{ $attachment['url'] }}"><i class="las la-file-alt fs-1"></i></a>
+                                        <a href="{{ $attachment['url'] }}" target="_blank">
+                                            <i class="las la-file-alt fs-1"></i>
+                                        </a>
 
                                         @endswitch
                                     </div>
