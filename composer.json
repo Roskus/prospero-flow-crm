@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.0.2",
         "aws/aws-sdk-php": "^3.234",
+        "barryvdh/laravel-dompdf": "^2.0",
         "darkaonline/l5-swagger": "^8.3",
         "doctrine/dbal": "^3.4",
         "dompdf/dompdf": "^2.0",
@@ -38,7 +39,8 @@
         "squirephp/countries-es": "^3.0",
         "squirephp/currencies-en": "^3.3",
         "squirephp/regions-en": "^3.4",
-        "yajra/laravel-auditable": "^4.5"
+        "yajra/laravel-auditable": "^4.5",
+      "ext-gd": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
