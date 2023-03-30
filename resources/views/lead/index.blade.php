@@ -42,37 +42,7 @@
                     <i class="las la-search"></i>
                 </button>
             </div>
-            <div class="card mt-2">
-                <div class="card-header">{{ __('Advanced search') }}</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            @include('components.seller', ['seller_id' => !empty($seller_id) ? $seller_id : null])
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <label for="status">{{ __('Status') }}</label>
-                            <select name="status" id="status"  class="form-select">
-                                <option value=""></option>
-                                @foreach($statuses as $key => $status)
-                                <option value="{{ $key }}">{{ __($status) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            @include('components.country')
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <label for="industry_id">{{ __('Industry') }}</label>
-                            <select name="industry_id" id="industry_id" class="form-select">
-                                <option value=""></option>
-                                @foreach($industries as $industry)
-                                    <option value="{{ $industry->id }}">{{ $industry->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div><!--./row-->
-                </div>
-            </div>
+            @include('lead_customer.partials.filters')
         </form>
     </div>
 </div>
