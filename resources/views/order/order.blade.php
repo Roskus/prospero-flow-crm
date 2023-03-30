@@ -65,6 +65,7 @@
                         <th width="60%">{{ __('Product') }}</th>
                         <th>{{ __('Price') }}</th>
                         <th>{{ __('Quantity') }}</th>
+                        <th>{{ __('Discount') }}</th>
                         <th>{{ __('Subtotal') }}</th>
                     </tr>
                 </thead>
@@ -79,14 +80,15 @@
                         <td>{{ (!empty($item->product)) ? $item->product->name : '' }}</td>
                         <td>{{ $item->unit_price }}</td>
                         <td>{{ $item->quantity }}</td>
-                        <td>{{ ($item->unit_price * $item->quantity) }}</td>
+                        <td>{{ $item->discount }}%</td>
+                        <td>{{ $item->getSubtotal() }}</td>
                     </tr>
                     @endforeach
                 @endif
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="2">&nbsp;
+                        <th colspan="3">&nbsp;
                             {{ $order->getTax() }}
                         </th>
                         <th class="text-right">{{ __('Total') }}</th>
