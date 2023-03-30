@@ -25,6 +25,7 @@ class ItemFactory extends Factory
             'product_id' => Product::factory(),
             'quantity' => $this->faker->numberBetween(1, 100),
             'unit_price' => $this->faker->randomFloat(2, 0, 10000),
+            'discount' => $this->faker->randomFloat(2, 0, 99),
         ];
     }
 }

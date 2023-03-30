@@ -42,37 +42,7 @@
                     <i class="las la-search"></i>
                 </button>
             </div>
-            <div class="card mt-2">
-                <div class="card-header">{{ __('Advanced search') }}</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            @include('components.seller', ['seller_id' => !empty($seller_id) ? $seller_id : null])
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <label for="status">{{ __('Status') }}</label>
-                            <select name="status" id="status"  class="form-select">
-                                <option value=""></option>
-                                @foreach($statuses as $key => $status)
-                                <option value="{{ $key }}">{{ __($status) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            @include('components.country')
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <label for="industry_id">{{ __('Industry') }}</label>
-                            <select name="industry_id" id="industry_id" class="form-select">
-                                <option value=""></option>
-                                @foreach($industries as $industry)
-                                    <option value="{{ $industry->id }}">{{ $industry->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div><!--./row-->
-                </div>
-            </div>
+            @include('lead_customer.partials.filters')
         </form>
     </div>
 </div>
@@ -111,7 +81,7 @@
                 <td class="text-nowrap text-center">
                     @if($lead->phone)
                         <a href="tel:{{ $lead->phone }}" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
-                           target="_blank">
+                           target="_blank" class="link-secondary">
                             <i class="las la-phone fs-4"></i>
                         </a>
                     @endif
@@ -119,57 +89,59 @@
                 <td class="text-nowrap text-center">
                     @if($lead->mobile)
                         <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
-                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank">
+                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
+                           class="link-secondary">
                             <i class="las la-mobile fs-4"></i>
                         </a>
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->email)
-                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}">
+                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary">
                             <i class="las la-envelope fs-4"></i>
                         </a>
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->website)
-                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank">
+                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank" class="link-secondary">
                         <i class="las la-globe fs-4"></i>
                     </a>
                     @endif
                 </td>
-                <td class="text-center d-sm-table-cell" title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
+                <td class="text-center d-sm-table-cell link-secondary"
+                    title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
                     @if(!empty($lead->country))
                     {{ $lead->country->flag }}
                     @endif
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
                     @if($lead->facebook)
-                        <a href="{{ $lead->facebook }}" target="_blank" class="text-decoration-none">
+                        <a href="{{ $lead->facebook }}" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-facebook-square fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->instagram)
-                        <a href="{{ $lead->instagram }}" target="_blank" class="text-decoration-none">
+                        <a href="{{ $lead->instagram }}" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-instagram fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->linkedin)
-                        <a href="{{ $lead->linkedin }}" target="_blank" class="text-decoration-none">
+                        <a href="{{ $lead->linkedin }}" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-linkedin fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->youtube)
-                        <a href="{{ $lead->youtube }}" target="_blank" class="text-decoration-none">
+                        <a href="{{ $lead->youtube }}" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-youtube-square fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->twitter)
-                        <a href="{{ $lead->twitter }}" target="_blank" class="text-decoration-none">
+                        <a href="{{ $lead->twitter }}" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-twitter-square fs-3"></i>
                         </a>
                     @endif
@@ -192,8 +164,12 @@
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
                     <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">{{ __(ucfirst($lead->status)) }}</span>
                 </td>
-                <td class="text-nowrap d-none d-sm-table-cell">{{ $lead->created_at->format('d/m/Y H:i') }}</td>
-                <td class="text-nowrap d-none d-sm-table-cell">{{ $lead->updated_at->format('d/m/Y H:i') }}</td>
+                <td class="text-nowrap d-none d-sm-table-cell">
+                    <small class="text-muted">{{ $lead->created_at->format('d/m/y H:i') }}</small>
+                </td>
+                <td class="text-nowrap d-none d-sm-table-cell">
+                    <small class="text-muted">{{ $lead->updated_at->format('d/m/y H:i') }}</small>
+                </td>
                 <td class="text-nowrap">
                     <a href="{{ url("/lead/update/$lead->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
@@ -203,9 +179,11 @@
                         <i class="las la-user-tie"></i>
                     </a>
 
+                    @can('delete lead')
                     <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
+                    @endcan
                 </td>
             </tr>
             @endforeach
