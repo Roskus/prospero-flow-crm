@@ -179,7 +179,7 @@ final class Order extends Model
     {
         $items = $this->items;
         $total = $items->sum(function ($item) {
-            return $item['quantity'] * $item['unit_price'];
+            return $item->getSubTotal();
         });
 
         return $total;

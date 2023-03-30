@@ -67,4 +67,11 @@ final class Item extends Model
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
+
+    public function getSubTotal()
+    {
+        $amount = $this->unit_price * $this->quantity;
+
+        return $amount - (($this->discount / 100) * $amount);
+    }
 }
