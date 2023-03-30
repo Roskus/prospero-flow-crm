@@ -15,6 +15,10 @@
                 </select>
             </div>
             <div class="col-sm-6 col-md-2">
+                <label for="province">{{ __('Province') }}</label>
+                <input type="text" class="form-control" id="province" name="province" value="{{ request()->query('province') }}">
+            </div>
+            <div class="col-sm-6 col-md-2">
                 @include('components.country')
             </div>
             <div class="col-sm-6 col-md-2">
