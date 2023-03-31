@@ -127,19 +127,19 @@
                     <tr>
                         <td>{{ (!empty($item->product)) ? $item->product->sku : '' }}</td>
                         <td>
-                            {{ (!empty($item->product)) ? $item->product->name : '' }}
                             @if(!empty($item->product->photo))
                                 <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/product/'.$item->product->id.'/'.$item->product->photo)) }}"
                                      alt="" width="100" class="img-fluid img-thumbnail">
                             @endif
+                            {{ (!empty($item->product)) ? $item->product->name : '' }}
                         </td>
                         <td>
                             {{ number_format($item->unit_price, 2, ',', '.') }}
                         </td>
                         <td>{{ (!empty($item->product)) ? $item->product->tax : '' }}%</td>
                         <td>{{ $item->quantity }}</td>
-                        <td></td>
-                        <td>{{ number_format(($item->unit_price * $item->quantity), 2, ',', '.') }}</td>
+                        <td>{{ $item->discount }}%</td>
+                        <td>{{ number_format($item->getSubtotal(), 2, ',', '.') }}</td>
                     </tr>
                 @endforeach
             @endif
