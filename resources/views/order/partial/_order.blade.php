@@ -136,7 +136,7 @@
                         <td>
                             {{ number_format($item->unit_price, 2, ',', '.') }}
                         </td>
-                        <td>{{ (!empty($item->product)) ? $item->product->tax : '' }}%</td>
+                        <td>{{ (!empty($item->tax)) ? $item->tax : '' }}%</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ $item->discount }}%</td>
                         <td>{{ number_format($item->getSubtotal(), 2, ',', '.') }}</td>
@@ -149,7 +149,7 @@
                 <th colspan="5">&nbsp;</th>
                 <th class="text-right">{{ __('Taxes') }}</th>
                 <th>
-
+                    {{ number_format($order->getTax(), 2, ',', '.') }}
                 </th>
             </tr>
             <tr>

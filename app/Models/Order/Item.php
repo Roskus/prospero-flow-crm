@@ -32,6 +32,18 @@ use OpenApi\Annotations as OA;
  *        description="Unit Price of the Item",
  *        type="double",
  *        example="3.5"
+ *    ),
+ *    @OA\Property(
+ *        property="discount",
+ *        description="Discount % of the Item",
+ *        type="double",
+ *        example="10.0"
+ *    ),
+ *    @OA\Property(
+ *        property="tax",
+ *        description="Tax % of the Item",
+ *        type="double",
+ *        example="21.0"
  *    )
  *  )
  */
@@ -45,6 +57,9 @@ final class Item extends Model
         'order_id',
         'product_id',
         'quantity',
+        'unit_price',
+        'discount',
+        'tax',
     ];
 
     protected $hidden = [
