@@ -161,9 +161,9 @@ final class Order extends Model
         $items = $this->items;
         $total = $items->sum(function ($item) {
             $tax = 0.0;
-            $price = ($item['quantity'] * $item['unit_price']);
+            $price = $item->getSubTotal();
             if (isset($item['tax'])) {
-                $tax = ($item['tax'] * 100) / $price;
+                $tax = $price * ($item['tax'] / 100);
             }
 
             return $tax;
@@ -179,7 +179,7 @@ final class Order extends Model
     {
         $items = $this->items;
         $total = $items->sum(function ($item) {
-            return $item['quantity'] * $item['unit_price'];
+            return $item->getSubTotal();
         });
 
         return $total;

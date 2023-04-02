@@ -49,6 +49,7 @@ class CustomerIndexController extends MainController
             $filters['phone'] = $request->phone;
         }
 
+
         if ($request->filled('province')) {
             $filters['province'] = $request->province;
         }
