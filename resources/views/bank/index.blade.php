@@ -16,6 +16,7 @@
             <th>{{ __('Phone') }}</th>
             <th>Email</th>
             <th>Website</th>
+            <th>BIC/SWIFT</th>
             <th>{{ __('Updated at') }}</th>
             <th>{{ __('Actions') }}</th>
         </tr>
@@ -44,6 +45,7 @@
                     <a href="{{ $bank->website }}" target="_blank">{{ $bank->website }}</a>
                 @endisset
             </td>
+            <td>{{ $bank->bic }}</td>
             <td>
                 {{ $bank->updated_at }}
             </td>
