@@ -48,6 +48,5 @@ class BankSeeder extends Seeder
         DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Santander', 'phone' => '+34915123123', 'email' => '', 'website' => 'https://www.bancosantander.es', 'bic' => 'BSCHESMMXXX']);
         DB::table('bank')->insert(['country' => 'es', 'name' => 'CaixaBank', 'phone' => '+34938872525', 'email' => '', 'website' => 'https://www.caixabank.es', 'bic' => 'CAIXESBBXXX']);
         DB::table('bank')->insert(['country' => 'es', 'name' => 'Bankinter', 'phone' => '+34900816833', 'email' => 'redessociales@bankinter.com', 'website' => 'https://www.bankinter.com', 'bic' => 'BKBKESMMXXX']);
-
     }
 }
