@@ -59,6 +59,10 @@ class CustomerIndexController extends MainController
             $filters['phone'] = $request->phone;
         }
 
+        if ($request->filled('province')) {
+            $filters['province'] = $request->province;
+        }
+
         $customer = new Customer();
         $data['colors'] = config('color');
         $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info'];

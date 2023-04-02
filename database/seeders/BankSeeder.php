@@ -39,12 +39,15 @@ class BankSeeder extends Seeder
 
         //Mexico
         DB::table('bank')->insert(['country' => 'mx', 'name' => 'ABC Capital', 'phone' => '+528002888222', 'email' => 'atencionaclientes@abccapital.com.mx', 'website' => 'https://www.abccapital.com.mx', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'mx', 'name' => 'Banca Mifel', 'phone' => '+528002264335', 'email' => 'banca.mifel@mifel.com.mx', 'website' => 'https://www.mifel.com.mx', 'bic' => '']);
+        DB::table('bank')->insert(['country' => 'mx', 'name' => 'Banca Mifel', 'phone' => '+528002264335', 'email' => 'banca.mifel@mifel.com.mx', 'website' => 'https://www.mifel.com.mx', 'bic' => 'BSCHESMMXXX']);
+        DB::table('bank')->insert(['country' => 'mx', 'name' => 'BBVA Mexico', 'phone' => '', 'email' => 'infobbvaresponde@bbva.com', 'website' => 'https://www.bbva.mx', 'bic' => 'BCMRMXMMXXX']);
 
         //Spain
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco BBVA', 'phone' => '', 'email' => 'infobbvaresponde@bbva.com', 'website' => 'https://www.bbva.es', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Sabadell', 'phone' => '+34963085000', 'email' => '', 'website' => 'https://www.bancsabadell.com', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Santander', 'phone' => '+34915123123', 'email' => '', 'website' => 'https://www.bancosantander.es', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'CaixaBank', 'phone' => '+34938872525', 'email' => '', 'website' => 'https://www.caixabank.es', 'bic' => '']);
+        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco BBVA', 'phone' => '', 'email' => 'infobbvaresponde@bbva.com', 'website' => 'https://www.bbva.es', 'bic' => 'BBVAESMM']);
+        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Sabadell', 'phone' => '+34963085000', 'email' => '', 'website' => 'https://www.bancsabadell.com', 'bic' => 'BSABESBBXXX']);
+        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Santander', 'phone' => '+34915123123', 'email' => '', 'website' => 'https://www.bancosantander.es', 'bic' => 'BSCHESMMXXX']);
+        DB::table('bank')->insert(['country' => 'es', 'name' => 'CaixaBank', 'phone' => '+34938872525', 'email' => '', 'website' => 'https://www.caixabank.es', 'bic' => 'CAIXESBBXXX']);
+        DB::table('bank')->insert(['country' => 'es', 'name' => 'Bankinter', 'phone' => '+34900816833', 'email' => 'redessociales@bankinter.com', 'website' => 'https://www.bankinter.com', 'bic' => 'BKBKESMMXXX']);
+
     }
 }
