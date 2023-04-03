@@ -39,7 +39,7 @@ class BankSeeder extends Seeder
 
         //Mexico
         DB::table('bank')->insert(['country' => 'mx', 'name' => 'ABC Capital', 'phone' => '+528002888222', 'email' => 'atencionaclientes@abccapital.com.mx', 'website' => 'https://www.abccapital.com.mx', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'mx', 'name' => 'Banca Mifel', 'phone' => '+528002264335', 'email' => 'banca.mifel@mifel.com.mx', 'website' => 'https://www.mifel.com.mx', 'bic' => 'BSCHESMMXXX']);
+        DB::table('bank')->insert(['country' => 'mx', 'name' => 'BANCA MIFEL SA', 'phone' => '+528002264335', 'email' => 'banca.mifel@mifel.com.mx', 'website' => 'https://www.mifel.com.mx', 'bic' => 'MIFEMXMMXXX']);
         DB::table('bank')->insert(['country' => 'mx', 'name' => 'BBVA Mexico', 'phone' => '', 'email' => 'infobbvaresponde@bbva.com', 'website' => 'https://www.bbva.mx', 'bic' => 'BCMRMXMMXXX']);
 
         //Spain

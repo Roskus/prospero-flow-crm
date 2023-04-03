@@ -101,14 +101,13 @@
                         </div>
                     </div>
                 </div><!--./row-->
-                @can('create note')
                 <div class="row">
                     <div class="col">
                         <label for="notes">{{ __('Notes') }}</label>
-                        <textarea name="notes" id="notes" rows="8" class="form-control form-control-lg">{{ old('notes', $customer->notes) }}</textarea>
+                        <textarea name="notes" id="notes" rows="8"
+                                  class="form-control form-control-lg">{{ old('notes', $customer->notes) }}</textarea>
                     </div>
                 </div><!--./row-->
-                @endcan
             </div><!--./card-body-->
         </div><!--./card-->
 
