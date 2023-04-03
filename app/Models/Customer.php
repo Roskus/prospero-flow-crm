@@ -23,7 +23,7 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *    required={"name", "country"},
  *    @OA\Property(
  *        property="name",
- *        description="Name of the company",
+ *        description="Name of the customer",
  *        type="string",
  *        example="My Company"
  *    ),
@@ -35,33 +35,54 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *    ),
  *    @OA\Property(
  *        property="dob",
- *        description="Date of fundation of the company",
+ *        description="Date of fundation of the customer",
  *        type="date",
  *        example="1990-02-20"
  *    ),
  *    @OA\Property(
  *        property="vat",
- *        description="VAT/NIF of the company",
+ *        description="VAT/NIF of the customer",
  *        type="string",
  *        example="ESX1234567X"
  *    ),
  *    @OA\Property(
  *        property="phone",
- *        description="Phone of the company",
+ *        description="Phone of the customer",
  *        type="string",
  *        example="+3464500000"
  *    ),
  *    @OA\Property(
  *        property="phone2",
- *        description="Phone2 of the company",
+ *        description="Phone2 of the customer",
  *        type="string",
  *        example="+3464500000"
+ *    ),
+ *    @OA\Property(
+ *        property="mobile",
+ *        description="Mobile of the customer",
+ *        type="string",
+ *        example="+3464500000"
+ *    ),
+ *    @OA\Property(
+ *        property="email",
+ *        description="Email of the customer",
+ *        type="string",
+ *        format="email",
+ *        example="jhon.doe@email.com"
+ *    ),
+ *    @OA\Property(
+ *        property="email2",
+ *        description="Email2 of the customer",
+ *        type="string",
+ *        format="email",
+ *        example="jhon.doe@email.com"
  *    )
  * )
  */
 class Customer extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
+    use SoftDeletes;
     use AuditableWithDeletesTrait;
 
     const OPEN = 'open'; //New
