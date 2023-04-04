@@ -71,7 +71,7 @@
                 <label>{{ __('Business name') }}:</label> {{ $order->customer->business_name }}
             </div>
             <div class="col">
-                <label>{{ __('Vat') }}:</label> {{ $order->customer->vat }}
+                <label>{{ __('Identity number') }}:</label> {{ $order->customer->vat }}
             </div>
         </div><!--./row-->
         <div class="row">
