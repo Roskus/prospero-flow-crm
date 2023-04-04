@@ -29,7 +29,7 @@ class TicketSaveController extends MainController
                 'application/pdf',
                 'application/msword',
                 'application/vnd.ms-excel',
-                'application/vnd.ms-powerpoint'
+                'application/vnd.ms-powerpoint',
             ];
             $attachments = $request->file('attachment');
             foreach ($attachments as $attachment) {
