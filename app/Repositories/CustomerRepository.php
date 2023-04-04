@@ -23,7 +23,7 @@ class CustomerRepository
         $customer->name = $data['name'];
         $customer->business_name = $data['business_name'];
         $customer->dob = $data['dob'];
-        $customer->vat = $data['vat'];
+        $customer->vat = (isset($data['vat'])) ? strtoupper($data['vat']) : null; //Identity Number
         $customer->phone = $data['phone'];
         $customer->phone2 = $data['phone2'];
         $customer->mobile = $data['mobile'];

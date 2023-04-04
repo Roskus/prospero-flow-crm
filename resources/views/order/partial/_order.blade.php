@@ -29,7 +29,7 @@
                     {{ Auth::user()->company->business_name }}
                 </div>
                 <div>
-                    <label>{{ __('Vat') }}:</label>
+                    <label>{{ __('Identity number') }}:</label>
                     {{ Auth::user()->company->vat }}
                 </div>
                 <div>
