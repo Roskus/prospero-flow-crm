@@ -15,7 +15,7 @@ class CompanyTableSeeder extends Seeder
     public function run(): void
     {
         if (DB::table('company')->count() === 0) {
-            DB::table('company')->insert(['country' => 'ee', 'name' => 'Test company', 'email' => 'info@test.com', 'website' => 'https://test.com']);
+            DB::table('company')->insert(['country_id' => 'ee', 'name' => 'Test company', 'email' => 'info@test.com', 'website' => 'https://test.com', 'status' => 1]);
         }
     }
 }

@@ -24,12 +24,19 @@ class TicketSaveController extends MainController
         $ticket = $this->ticketRepository->save($request->all());
 
         if ($request->hasFile('attachment')) {
+            $mimes = [
+                'image/*',
+                'application/pdf',
+                'application/msword',
+                'application/vnd.ms-excel',
+                'application/vnd.ms-powerpoint'
+            ];
             $attachments = $request->file('attachment');
             foreach ($attachments as $attachment) {
                 if ($attachment->isValid()) {
                     Validator::validate(['attachment' => $attachment], [
-                        'attachment' => File::types(['image/*', 'application/pdf'])
-                            ->max(2 * 1024),
+                        'attachment' => File::types($mimes)
+                            ->max(4 * 1024),
                     ]);
 
                     $attachment->storeAs(

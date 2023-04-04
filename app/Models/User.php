@@ -86,7 +86,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getAll()
     {
-        return User::paginate(10);
+        return User::orderBy('company_id')->paginate(10);
     }
 
     public function getFullName(): string
