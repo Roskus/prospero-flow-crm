@@ -27,21 +27,10 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 require __DIR__.'/partials/order.php';
 
 //Product
-Route::match(['get', 'post'], '/product', [\App\Http\Controllers\Product\ProductIndexController::class, 'index']);
-Route::get('/product/create', [\App\Http\Controllers\Product\ProductCreateController::class, 'create']);
-Route::get('/product/update/{id}', [\App\Http\Controllers\Product\ProductUpdateController::class, 'update']);
-Route::post('/product/save', [\App\Http\Controllers\Product\ProductSaveController::class, 'save']);
-Route::get('/product/import', [\App\Http\Controllers\Product\ProductImportIndexController::class, 'index']);
-Route::post('/product/import/save', [\App\Http\Controllers\Product\ProductImportSaveController::class, 'save']);
-
-Route::get('/product/delete/{id}', [\App\Http\Controllers\Product\ProductDeleteController::class, 'delete']);
+require __DIR__.'/partials/product.php';
 
 //Brand
-Route::get('/brand', [\App\Http\Controllers\Brand\BrandIndexController::class, 'index']);
-Route::get('/brand/create', [\App\Http\Controllers\Brand\BrandCreateController::class, 'create']);
-Route::get('/brand/update/{id}', [\App\Http\Controllers\Brand\BrandUpdateController::class, 'update']);
-Route::get('/brand/delete/{id}', [\App\Http\Controllers\Brand\BrandDeleteController::class, 'delete']);
-Route::post('/brand/save', [\App\Http\Controllers\Brand\BrandSaveController::class, 'save']);
+require __DIR__.'/partials/brand.php';
 
 // Lead
 require __DIR__.'/partials/lead.php';
@@ -50,25 +39,13 @@ require __DIR__.'/partials/lead.php';
 require __DIR__.'/partials/customer.php';
 
 //Category
-Route::get('/category', [\App\Http\Controllers\Category\CategoryIndexController::class, 'index']);
-Route::get('/category/create', [\App\Http\Controllers\Category\CategoryCreateController::class, 'create']);
-Route::get('/category/update/{id}', [\App\Http\Controllers\Category\CategoryUpdateController::class, 'update']);
-Route::get('/category/delete/{id}', [\App\Http\Controllers\Category\CategoryDeleteController::class, 'delete']);
-Route::post('/category/save', [\App\Http\Controllers\Category\CategorySaveController::class, 'save']);
+require __DIR__.'/partials/category.php';
 
 // Company
-Route::get('/company', [\App\Http\Controllers\Company\CompanyIndexController::class, 'index']);
-Route::get('/company/create', [\App\Http\Controllers\Company\CompanyCreateController::class, 'create']);
-Route::get('/company/update/{id}', [\App\Http\Controllers\Company\CompanyUpdateController::class, 'update']);
-Route::post('/company/save', [\App\Http\Controllers\Company\CompanySaveController::class, 'save']);
-Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteController::class, 'delete']);
+require __DIR__.'/partials/company.php';
 
 // Contact
-Route::post('/contact/save', [\App\Http\Controllers\Contact\ContactSaveController::class, 'save']);
-Route::get('/contact/export-vcard/{id}', [\App\Http\Controllers\Contact\ContactExportVCard::class, 'export']);
-Route::get('/contact/create/{model}/{id_model}', [\App\Http\Controllers\Contact\ContactCreateController::class, 'create']);
-Route::get('/contact/update/{id}', [\App\Http\Controllers\Contact\ContactUpdateController::class, 'update']);
-Route::get('/contact/delete/{id}', [\App\Http\Controllers\Contact\ContactDeleteController::class, 'delete']);
+require __DIR__.'/partials/contact.php';
 
 // Account
 Route::get('/accounting', [\App\Http\Controllers\Account\AccountIndexController::class, 'index']);
@@ -112,6 +89,7 @@ Route::match(['get', 'post'], '/email/duplicate',
 Route::get('/email/download-attachment/{attachmentId}',
     [\App\Http\Controllers\Email\EmailDownloadAttachmentController::class, 'downloadAttachment'])
     ->name('downloadAttachment');
+Route::get('/email/tracking/{uuid}', [\App\Http\Controllers\Email\EmailTrackingController::class, 'track_email']);
 
 // Email template
 Route::match(['get', 'post'], '/email-template',
@@ -124,18 +102,10 @@ Route::get('/campaign/update/{id}', [\App\Http\Controllers\Campaign\CampaignUpda
 Route::post('/campaign/save', [\App\Http\Controllers\Campaign\CampaignSaveController::class, 'save']);
 
 // Supplier
-Route::match(['get', 'post'], '/supplier', [\App\Http\Controllers\Supplier\SupplierIndexController::class, 'index']);
-Route::get('/supplier/create', [\App\Http\Controllers\Supplier\SupplierCreateController::class, 'create']);
-Route::get('/supplier/update/{id}', [\App\Http\Controllers\Supplier\SupplierUpdateController::class, 'update']);
-Route::post('/supplier/save', [\App\Http\Controllers\Supplier\SupplierSaveController::class, 'save']);
+require __DIR__.'/partials/supplier.php';
 
 // Ticket
-Route::match(['get', 'post'], '/ticket', [\App\Http\Controllers\Ticket\TicketIndexController::class, 'index']);
-Route::get('/ticket/create', [\App\Http\Controllers\Ticket\TicketCreateController::class, 'create']);
-Route::get('/ticket/update/{id}', [\App\Http\Controllers\Ticket\TicketUpdateController::class, 'update']);
-Route::post('/ticket/save', [\App\Http\Controllers\Ticket\TicketSaveController::class, 'save']);
-Route::get('/ticket/delete/{id}', [\App\Http\Controllers\Ticket\TicketDeleteController::class, 'delete']);
-Route::post('/ticket/message/save', [\App\Http\Controllers\Ticket\TicketCreateMessageController::class, 'save']);
+require __DIR__.'/partials/ticket.php';
 
 // Regions
 Route::get('ajax/region/{country}', [\App\Http\Controllers\Region\RegionGetAjaxController::class, 'index']);
