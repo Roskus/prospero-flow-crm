@@ -8,7 +8,7 @@
                     <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/company/'.\Illuminate\Support\Str::slug(Auth::user()->company->name, '_').'/'.Auth::user()->company->logo)) }}" alt="{{ env('APP_NAME') }}" class="logo">
                 @endif
                 <div>
-                    <h1>{{ __('Order') }}</h1>
+                    <h1 class="fs-3">{{ __('Order') }}</h1>
                 </div>
             </div>
             <div class="col">
@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col">
                 <div>
-                    <label>{{ 'Number' }}:</label>
+                    <label>{{ __('Number') }}:</label>
                     {{ str_pad($order->id, 10, '0', STR_PAD_LEFT) }}
                 </div>
                 <div>
