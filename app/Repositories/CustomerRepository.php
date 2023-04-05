@@ -56,6 +56,6 @@ class CustomerRepository
         $customer->updated_at = now();
         $customer->save();
 
-        return  $customer;
+        return $customer;
     }
 }

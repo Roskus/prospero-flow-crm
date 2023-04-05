@@ -15,7 +15,7 @@ define('API_HOST', env('APP_API_URL'));
         version: '1.0.3',
         description: '',
         title: 'Prospect Flow CRM API',
-        contact:new OAT\Contact(
+        contact: new OAT\Contact(
             name: 'roskus',
             email: 'hello@roskus.com'
         )
