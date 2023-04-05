@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('bank_account', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('bank_id');
             $table->string('country_id', 2);
             $table->string('currency', 3);
             $table->string('iban', 34);
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('company_id')->references('id')->on('company');
+            $table->foreign('bank_id')->references('id')->on('bank');
         });
     }
 

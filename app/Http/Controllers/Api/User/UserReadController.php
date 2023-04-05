@@ -40,7 +40,7 @@ class UserReadController
         try {
             $user = User::where('company_id', Auth::user()->company_id)->where('id', $id)->first();
             $status = 200;
-        } catch(ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             $status = 404;
         }
 

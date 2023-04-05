@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
     protected $table = 'bank_account';
+
     protected $fillable = [
         'country_id',
+        'bank_id',
         'currency',
         'iban',
         'amount',
-        'notes'
+        'notes',
     ];
 }

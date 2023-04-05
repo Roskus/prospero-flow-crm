@@ -50,10 +50,10 @@ class User extends Authenticatable implements JWTSubject
 
     private ?int $company_id = null;
 
-    #[OAT\Property(description:'First Name of the user', type: 'string', example: 'John')]
+    #[OAT\Property(description: 'First Name of the user', type: 'string', example: 'John')]
     protected ?string $first_name = null;
 
-    #[OAT\Property(description:'Last Name of the user', type: 'string', example: 'Smith')]
+    #[OAT\Property(description: 'Last Name of the user', type: 'string', example: 'Smith')]
     protected ?string $last_name = null;
 
     #[OAT\Property(description: 'Email of the user', type: 'string', format: 'email', example: 'john.smith@company.com')]

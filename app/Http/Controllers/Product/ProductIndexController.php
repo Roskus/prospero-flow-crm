@@ -15,6 +15,17 @@ class ProductIndexController extends MainController
 {
     public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $term = $request->term;
+
+            $products = Product::where('company_id', Auth::user()->company_id)
+                ->where('name', 'LIKE', "%$term%")
+                ->orWhere('sku', 'LIKE', "%$term%")
+                ->get(['id', 'name as label', 'price']);
+
+            return response()->json($products);
+        }
+
         $filters = [];
         $search = $request->search;
         $product = new Product();

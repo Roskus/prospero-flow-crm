@@ -38,6 +38,6 @@ class ContactRepository
             Log::error($t->getMessage());
         }
 
-        return  $contact;
+        return $contact;
     }
 }
