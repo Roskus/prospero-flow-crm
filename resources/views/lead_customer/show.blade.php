@@ -151,7 +151,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <th scope="col">{{ __('First name') }}</th>
                     <th scope="col">{{ __('Phone') }}</th>
                     <th scope="col">{{ __('Mobile') }}</th>
-                    <th scope="col">E-mail</th>
+                    <th scope="col">Email</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -163,8 +163,14 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <td>
                         <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
                     </td>
-                    <td>{{ $contact->mobile }}</td>
-                    <td>{{ $contact->email }}</td>
+                    <td>
+                        {{ $contact->mobile }}
+                    </td>
+                    <td>
+                        @isset($contact->email)
+                        <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
+                        @endisset
+                    </td>
                     <td>
                         <a href="{{ url('/contact/update/'.$contact->id) }}" class="btn btn-warning btn-sm">
                             {{ __('Edit') }}

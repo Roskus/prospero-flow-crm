@@ -297,20 +297,20 @@
     </form>
 
     @if($customer->id)
-    <div class="accordion mt-2">
-        <div class="accordion-header" id="headingContact">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact"
-                    aria-expanded="true" aria-controls="collapseContact">
-                {{ __('Contacts') }}
-            </button>
+    <div class="card mt-2">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    {{ __('Contacts') }}
+
+                    <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', ['customer', $customer->id]) }}">
+                        <i class="las la-plus fw-bold"></i>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="accordion-body bg-white">
-            <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
-                 data-bs-parent="#accordionExample">
-                @include('contact.contact_form', ['customer_id' => $customer->id])
-            </div><!--./collapse-->
-
+        <div class="card-body bg-white">
             <div class="mt-2 table-responsive">
                 @include('contact.index', ['contacts' => $customer->contacts])
             </div>
