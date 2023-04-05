@@ -14,7 +14,7 @@
         <div class="col">
             <label for="customer_name">{{ __('Customer') }}</label>
             <input id="customer_name" required="required" class="form-control form-control-lg">
-            <input type="hidden" name="customer_id" id="customer_id">
+            <input type="hidden" name="customer_id" id="customer_id" value="{{ isset($order->customer_id) ?? $order->customer_id }}">
         </div>
 
     </div>
@@ -23,7 +23,7 @@
         <div class="col">
             <label for="product_name">{{ __('Product') }}</label>
             <input id="product_name" required="required" class="form-control form-control-lg">
-            <input type="hidden" name="product_id" id="product_id">            
+            <input type="hidden" name="product_id" id="product_id">
         </div>
         <div class="col">
             <label for="quantity">{{ __('Quantity')}}</label>
