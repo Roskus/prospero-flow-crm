@@ -24,7 +24,7 @@ class LeadRepository
         $lead->name = $data['name'];
         $lead->business_name = ! empty($data['business_name']) ? $data['business_name'] : null;
         $lead->dob = ! empty($data['dob']) ? $data['dob'] : null;
-        $lead->vat = ! empty($data['vat']) ? $data['vat'] : null;
+        $lead->vat = ! empty($data['vat']) ? strtoupper($data['vat']) : null;
         $lead->phone = $data['phone'];
         $lead->phone2 = $data['phone2'];
         $lead->mobile = $data['mobile'];

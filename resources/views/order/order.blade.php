@@ -59,7 +59,7 @@
                 <tbody id="order-items">
                 @if($order->items()->count() == 0)
                 <tr id="row-no-data">
-                    <td colspan="4">{{ __('No items') }}</td>
+                    <td colspan="5">{{ __('No items') }}</td>
                 </tr>
                 @else
                     @foreach($order->items as $item)
@@ -75,9 +75,12 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="3">&nbsp;
-                            {{ $order->getTax() }}
-                        </th>
+                        <th colspan="3">&nbsp;</th>
+                        <th class="text-right">{{ __('Taxes') }}</th>
+                        <th>{{ $order->getTax() }}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3">&nbsp;</th>
                         <th class="text-right">{{ __('Total') }}</th>
                         <th>
                             <input type="number" name="total" id="total" value="{{ $order->getTotal() }}" readonly="readonly" step="0.01" class="form-control form-control-lg" style="max-width: 200px">
