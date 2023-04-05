@@ -48,5 +48,12 @@ class BankSeeder extends Seeder
         DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Santander', 'phone' => '+34915123123', 'email' => '', 'website' => 'https://www.bancosantander.es', 'bic' => 'BSCHESMMXXX']);
         DB::table('bank')->insert(['country' => 'es', 'name' => 'CaixaBank', 'phone' => '+34938872525', 'email' => '', 'website' => 'https://www.caixabank.es', 'bic' => 'CAIXESBBXXX']);
         DB::table('bank')->insert(['country' => 'es', 'name' => 'Bankinter', 'phone' => '+34900816833', 'email' => 'redessociales@bankinter.com', 'website' => 'https://www.bankinter.com', 'bic' => 'BKBKESMMXXX']);
+        DB::table('bank')->insert(['country' => 'es', 'name' => 'N26', 'phone' => '', 'email' => '', 'website' => 'https://www.n26.com', 'bic' => 'NTSBESM1XXX']);
+
+        //Lithuania
+        DB::table('bank')->insert(['country' => 'lt', 'name' => 'Revolut Bank UAB', 'phone' => '+37052143608', 'email' => 'support@revolut.com', 'website' => 'https://www.revolut.com/en-LT', 'bic' => 'REVOLT21XXX']);
+
+        //UK
+        DB::table('bank')->insert(['country' => 'gb', 'name' => 'REVOLUT LTD', 'phone' => '+442033228352', 'email' => 'support@revolut.com', 'website' => 'https://www.revolut.com/', 'bic' => 'REVOGB2LXXX']);
     }
 }

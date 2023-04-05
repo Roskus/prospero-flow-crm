@@ -29,6 +29,14 @@ $url = isset($lead) ? 'lead' : 'customer';
                 @endisset
             </div>
             <div class="col-md-2">
+                <div>{{ __('Mobile') }}:</div>
+                @isset($item->mobile)
+                <strong>
+                    <a href="https://api.whatsapp.com/send/?phone={{ $item->mobile }}">{{ $item->mobile }}</a>
+                </strong>
+                @endisset
+            </div>
+            <div class="col-md-2">
                 <div>{{ __('E-mail') }}:</div>
                 @isset($item->email)
                     <strong>
@@ -116,7 +124,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                             {{ __('View') }}
                         </a>
 
-                        <a href="{{ url("/order/update/$order->id") }}" class="btn btn-primary btn-sm">
+                        <a href="{{ url("/order/update/$order->id") }}" class="btn btn-warning btn-sm">
                             {{ __('Edit') }}
                         </a>
                     </td>
