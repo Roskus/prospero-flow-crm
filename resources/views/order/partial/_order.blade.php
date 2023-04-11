@@ -1,3 +1,10 @@
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap" rel="stylesheet">
+<style>
+    .barcode-128 {
+        font-size: 48px;
+        font-family: 'Libre Barcode 128 Text', cursive;
+    }
+</style>
 <div class="card">
     <div class="card-body">
         <div class="row">
@@ -7,9 +14,6 @@
                 @else
                     <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/company/'.\Illuminate\Support\Str::slug(Auth::user()->company->name, '_').'/'.Auth::user()->company->logo)) }}" alt="{{ env('APP_NAME') }}" class="logo">
                 @endif
-                <div>
-                    <h1 class="fs-3">{{ __('Order') }}</h1>
-                </div>
             </div>
             <div class="col">
                 <div class="mt-4">
@@ -20,10 +24,19 @@
         </div>
         <div class="row">
             <div class="col">
+                <h1 class="fs-3">{{ __('Order') }}</h1>
+            </div>
+            <div class="col">
                 <div>
                     <label>{{ __('Number') }}:</label>
-                    {{ str_pad($order->id, 10, '0', STR_PAD_LEFT) }}
                 </div>
+                <span class="barcode-128">
+                    {{ str_pad($order->id, 10, '0', STR_PAD_LEFT) }}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <div>
                     <label>{{ __('Business name') }}:</label>
                     {{ Auth::user()->company->business_name }}
@@ -38,6 +51,9 @@
                 </div>
                 <div class="">
                     <label>E-mail:</label> {{ Auth::user()->company->email }}
+                </div>
+                <div class="">
+                    <label>Web:</label> {{ Auth::user()->company->website }}
                 </div>
             </div>
             <div class="col">

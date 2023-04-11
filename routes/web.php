@@ -138,3 +138,6 @@ Route::post('/permission', [\App\Http\Controllers\Permission\PermissionSaveContr
 
 //Bank
 require __DIR__.'/partials/bank.php';
+
+//Bank account
+require __DIR__.'/partials/bank_account.php';

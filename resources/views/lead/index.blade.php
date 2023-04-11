@@ -60,6 +60,7 @@
                 <th>E-mail</th>
                 <th>Website</th>
                 <th>{{ __('Country') }}</th>
+                <th>{{ __('Province') }}</th>
                 <th class="d-none d-sm-table-cell">Social</th>
                 <th class="text-center">{{ __('Seller') }}</th>
                 <th class="text-center d-none d-sm-table-cell">{{ __('Industry') }}</th>
@@ -114,6 +115,9 @@
                     @if(!empty($lead->country))
                     {{ $lead->country->flag }}
                     @endif
+                </td>
+                <td class="text-nowrap d-none d-sm-table-cell">
+                    {{ $lead->province }}
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
                     @if($lead->facebook)

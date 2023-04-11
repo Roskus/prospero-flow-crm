@@ -1,3 +1,7 @@
+/**
+ * Order.js
+ * @type {{addItem: Order.addItem, total: number, items: *[], updatePrice(): void, delete: Order.delete}}
+ */
 var Order =
 {
     total : 0,
@@ -13,20 +17,23 @@ var Order =
             subtotal: 0
         }
         let product_id = document.getElementById('product_id');
+        let product_name = document.getElementById('product_name');
         let quantity = document.getElementById('quantity');
         let price = document.getElementById('price');
-        if (product_id.options[product_id.selectedIndex].value && quantity.value > 0 && price.value > 0.0)
+        let discount = document.getElementById('discount');
+        if (product_id.value && quantity.value > 0 && price.value > 0.0)
         {
             if (rowNoData) rowNoData.remove();
             product_id.classList.remove('is-invalid');
             quantity.classList.remove("is-invalid");
             price.classList.remove("is-invalid");
 
-            item.id = product_id.options[product_id.selectedIndex].value;
-            item.name = product_id.options[product_id.selectedIndex].text;
+            item.id = product_id.value;
+            item.name = product_name.value;
             item.quantity = quantity.value;
             item.price = price.value;
             item.subtotal = quantity.value * price.value;
+            item.discount = discount.value;
             this.total += item.subtotal;
             let total_field = document.getElementById('total')
             total_field.value = this.total;
