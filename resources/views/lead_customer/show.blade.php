@@ -20,6 +20,13 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <div>{{ __('Business name') }}:</div>
                 <strong>{{ $item->business_name }}</strong>
             </div>
+            <div class="col-md-1">
+                <a class="btn btn-warning" href="{{ url("/$url/update/$item->id") }}">
+                    <i class="las la-pen"></i> {{ __('Edit') }}
+                </a>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-2">
                 <div>{{ __('Phone') }}:</div>
                 @isset($item->phone)
@@ -48,12 +55,25 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <div>{{ __('Identity number') }}:</div>
                 <strong>{{ $item->vat }}</strong>
             </div>
-            <div class="col-md-1">
-                <a class="btn btn-warning" href="{{ url("/$url/update/$item->id") }}">
-                    <i class="las la-pen"></i> {{ __('Edit') }}
-                </a>
+        </div><!--./row-->
+        <div class="row">
+            <div class="col-md-2">
+                <div>{{ __('Province') }}:</div>
+                <strong>{{ $item->province }}</strong>
             </div>
-        </div>
+            <div class="col-md-2">
+                <div>{{ __('City') }}:</div>
+                <strong>{{ $item->city }}</strong>
+            </div>
+            <div class="col-md-2">
+                <div>{{ __('Street') }}:</div>
+                <strong>{{ $item->street }}</strong>
+            </div>
+            <div class="col-md-2">
+                <div>{{ __('Zipcode') }}:</div>
+                <strong>{{ $item->zipcode }}</strong>
+            </div>
+        </div><!--./row-->
     </div>
 </div>
 
@@ -71,6 +91,7 @@ $url = isset($lead) ? 'lead' : 'customer';
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">{{ __('Product') }}</th>
+                <th scope="col">SKU</th>
             </tr>
             </thead>
             <tbody>
@@ -87,6 +108,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                         @endif
                         {{ $item_detail->product->name }}
                     </td>
+                    <td>{{ $item_detail->product->sku }}</td>
                     </tr>
                     @endisset
                 @endforeach
@@ -157,6 +179,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">{{ __('First name') }}</th>
+                    <th scope="col">{{ __('Last name') }}</th>
                     <th scope="col">{{ __('Phone') }}</th>
                     <th scope="col">{{ __('Mobile') }}</th>
                     <th scope="col">Email</th>
@@ -168,6 +191,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <tr>
                     <th scope="row">{{ $contact->id }}</th>
                     <td>{{ $contact->first_name }}</td>
+                    <td>{{ $contact->last_name }}</td>
                     <td>
                         <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
                     </td>

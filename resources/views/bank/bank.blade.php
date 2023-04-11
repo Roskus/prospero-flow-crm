@@ -14,7 +14,7 @@
                     <input type="text" name="name" id="name" value="{{ $bank->name }}" required="required" class="form-control">
                 </div>
                 <div class="col">
-                    <label for="name">{{ __('Phone') }}</label>
+                    <label for="phone">{{ __('Phone') }}</label>
                     <input type="text" name="phone" id="phone" value="{{ $bank->phone }}" maxlength="15" class="form-control">
                 </div>
             </div>
@@ -30,7 +30,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    @include('components.country')
+                    @include('components.country', ['country_id' => $bank->country_id])
                 </div>
             </div>
             <div class="row">
