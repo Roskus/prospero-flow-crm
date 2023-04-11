@@ -20,6 +20,9 @@ class SupplierRepository
         $supplier->email = (! empty($data['email'])) ? $data['email'] : null;
         $supplier->website = (! empty($data['website'])) ? $data['website'] : null;
         $supplier->country_id = $data['country_id'];
+        $supplier->province = (! empty($data['province'])) ? $data['province'] : null;
+        $supplier->street = (! empty($data['street'])) ? $data['street'] : null;
+        $supplier->zipcode = (! empty($data['zipcode'])) ? $data['zipcode'] : null;
         $supplier->updated_at = now();
         $supplier->save();
 
