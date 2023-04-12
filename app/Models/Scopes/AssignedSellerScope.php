@@ -16,8 +16,10 @@ class AssignedSellerScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (! Auth::user()->hasRole(['SuperAdmin', 'CompanyAdmin', 'Support'])) {
-            $builder->where('seller_id', Auth::id());
+        if (Auth::check()) {
+            if (!Auth::user()->hasRole(['SuperAdmin', 'CompanyAdmin', 'Support'])) {
+                $builder->where('seller_id', Auth::id());
+            }
         }
     }
 }
