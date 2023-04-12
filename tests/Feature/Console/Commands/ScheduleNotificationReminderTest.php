@@ -29,12 +29,39 @@ class ScheduleNotificationReminderTest extends TestCase
 
         Mail::assertSent(GenericEmail::class, function (GenericEmail $mail) use ($lead) {
             return $mail->hasTo($lead->seller->email) &&
-                   $mail->hasSubject('Remember contact to: '.$lead->name);
+                $mail->hasSubject('Remember contact to: '.$lead->name);
         });
 
         Mail::assertSent(GenericEmail::class, function (GenericEmail $mail) use ($customer) {
             return $mail->hasTo($customer->seller->email) &&
-                   $mail->hasSubject('Remember contact to: '.$customer->name);
+                $mail->hasSubject('Remember contact to: '.$customer->name);
         });
+    }
+
+    /** @test */
+    public function it_can_store_notifications(): void
+    {
+        $lead = Lead::factory()->create(['schedule_contact' => Carbon::today(), 'seller_id' => auth()->id()]);
+        $customer = Customer::factory()->create(['schedule_contact' => Carbon::today(), 'seller_id' => auth()->id()]);
+
+        $this->artisan('crm:notification-reminder:send')
+            ->expectsOutputToContain('Remember contact')
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas('notification', [
+            'company_id' => $lead->company_id,
+            'user_id' => $lead->seller_id,
+            'message' => 'Remember contact to: '.$lead->name,
+            'link' => url('/lead/update/'.$lead->id),
+            'read' => 0,
+        ]);
+
+        $this->assertDatabaseHas('notification', [
+            'company_id' => $customer->company_id,
+            'user_id' => $customer->seller_id,
+            'message' => 'Remember contact to: '.$customer->name,
+            'link' => url('/customer/update/'.$customer->id),
+            'read' => 0,
+        ]);
     }
 }
