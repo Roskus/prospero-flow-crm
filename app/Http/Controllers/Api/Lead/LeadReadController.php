@@ -39,7 +39,7 @@ class LeadReadController extends ApiController
     {
         $lead = null;
         try {
-            $lead = Lead::where('company_id', Auth::user()->company_id)->where('id', $id)->first();
+            $lead = Lead::where('company_id', Auth::user()->company_id)->where('id', $id)->firstOrFail();
             $status = 200;
         } catch (ModelNotFoundException $e) {
             $status = 404;

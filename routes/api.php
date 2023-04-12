@@ -23,7 +23,7 @@ Route::middleware(['api'])->group(function () {
 
     // Customer
     Route::get('customer', [\App\Http\Controllers\Api\Customer\CustomerListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('lead/{id}', [\App\Http\Controllers\Api\Customer\CustomerReadController::class, 'read'])->middleware(['auth:api']);
+    Route::get('customer/{id}', [\App\Http\Controllers\Api\Customer\CustomerReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('customer', [\App\Http\Controllers\Api\Customer\CustomerCreateController::class, 'create'])->middleware(['auth:api']);
 
     // Product

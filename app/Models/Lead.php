@@ -133,6 +133,8 @@ class Lead extends Model
     protected $casts = [
         'schedule_contact' => 'datetime',
         'tags' => 'array',
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
     ];
 
     protected $hidden = [

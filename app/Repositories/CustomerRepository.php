@@ -46,6 +46,8 @@ class CustomerRepository
         $customer->street = $data['street'];
         $customer->zipcode = $data['zipcode'];
         $customer->industry_id = $data['industry_id'];
+        $customer->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
+        $customer->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
         $customer->schedule_contact = $data['schedule_contact'];
 
         $customer->tags = ($data['tags']) ? explode(',', $data['tags']) : null;

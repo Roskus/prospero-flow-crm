@@ -42,7 +42,7 @@ class LeadCreateController
         $status = 400;
         $data = [];
         $valid = $request->validate([
-            'first_name' => ['required', 'max:50'],
+            'name' => ['required', 'max:50'],
             'email' => ['required', 'max:254'],
             'phone' => ['required', 'max:15'],
             'country_id' => ['required', 'max:2'],
