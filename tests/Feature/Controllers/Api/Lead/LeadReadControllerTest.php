@@ -23,7 +23,7 @@ class LeadReadControllerTest extends TestCase
     public function it_not_found_a_lead(): void
     {
         $this->actingAs(User::factory()->create(), 'api');
-        
+
         $response = $this->get('/api/lead/9999');
 
         $response->assertNotFound();

@@ -23,7 +23,7 @@ class CustomerReadControllerTest extends TestCase
     public function it_not_found_a_customer(): void
     {
         $this->actingAs(User::factory()->create(), 'api');
-        
+
         $response = $this->get('/api/customer/9999');
 
         $response->assertNotFound();
