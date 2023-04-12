@@ -37,7 +37,7 @@ class CustomerReadController
     {
         $customer = null;
         try {
-            $customer = Customer::where('company_id', Auth::user()->company_id)->where('id', $id)->first();
+            $customer = Customer::where('company_id', Auth::user()->company_id)->where('id', $id)->firstOrFail();
             $status = 200;
         } catch (ModelNotFoundException $e) {
             $status = 404;
