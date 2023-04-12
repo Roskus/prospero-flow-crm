@@ -21,7 +21,7 @@ class LeadRepository
 
         $lead->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $lead->company_id = Auth::user()->company_id;
-        $lead->external_id = $data['external_id'];
+        $lead->external_id = ! empty($data['external_id']) ? $data['external_id'] : null;
         $lead->name = $data['name'];
         $lead->business_name = ! empty($data['business_name']) ? $data['business_name'] : null;
         $lead->dob = ! empty($data['dob']) ? $data['dob'] : null;
