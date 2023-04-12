@@ -45,7 +45,7 @@ class TicketSaveControllerTest extends TestCase
         $data = [
             'title' => fake()->sentence(3),
             'description' => fake()->sentence(3),
-            'customer_id' => Customer::factory()->create()->id,
+            'customer_id' => Customer::factory()->create(['seller_id' => auth()->id()])->id,
             'priority' => fake()->randomElement(['low', 'normal', 'high', 'urgent']),
             'type' => fake()->randomElement(['question', 'incident', 'issue']),
             'status' => 'new',
@@ -68,7 +68,8 @@ class TicketSaveControllerTest extends TestCase
     {
         Mail::fake();
 
-        $ticket = Ticket::factory()->create(['status' => 'new']);
+        $customer = Customer::factory()->create(['seller_id' => auth()->id()]);
+        $ticket = Ticket::factory()->create(['status' => 'new', 'customer_id' => $customer]);
 
         $ticket->status = 'closed';
         $ticket->save();

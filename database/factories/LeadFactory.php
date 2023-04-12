@@ -24,6 +24,7 @@ class LeadFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
+            'external_id' => fake()->randomNumber(5),
             'name' => fake()->name(),
             'business_name' => fake()->name(),
             'dob' => fake()->date(),
@@ -50,8 +51,8 @@ class LeadFactory extends Factory
             'zipcode' => fake()->numerify('#####'),
             'schedule_contact' => fake()->dateTimeBetween('-2 weeks', 'now')->format('Y-m-d h:m:s'),
             'industry_id' => Industry::factory(),
-            'latitude' => (string) fake()->randomFloat(8, 40.3, 40.5),
-            'longitude' => (string) fake()->randomFloat(8, -3.5, -3.9),
+            'latitude' => str_pad((string) fake()->randomFloat(8, 40.3, 40.5), 11, '0'),
+            'longitude' => str_pad((string) fake()->randomFloat(8, -3.5, -3.9), 11, '0'),
             'opt_in' => 1,
             'tags' => [fake()->word(), fake()->word()],
             'status' => fake()->randomElement(['open', 'first_contact', 'recall', 'quote', 'quoted', 'waiting_for_answer', 'standby', 'closed']),
