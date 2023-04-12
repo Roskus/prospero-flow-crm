@@ -69,7 +69,7 @@ class PermissionSeeder extends Seeder
             ],
             //Lead
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'create lead',
                 'guard_name' => 'web',
             ],
@@ -79,7 +79,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'update lead',
                 'guard_name' => 'web',
             ],
@@ -120,7 +120,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'create order',
                 'guard_name' => 'web',
             ],
@@ -130,7 +130,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'update order',
                 'guard_name' => 'web',
             ],
