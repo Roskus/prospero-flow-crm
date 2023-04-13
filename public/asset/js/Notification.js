@@ -20,30 +20,19 @@ window.ProspectFlow.Notification = {
                       document.getElementById("notification-badge").classList.add('notification-badge', 'animation-blink');
 
                       for (const key in data.notifications) {
-                          let li = document.createElement("li");
-                          li.classList.add('p-2');
+                        
+                          const template = `
+                            <li class="p-2">
+                              <div class="m-0 alert alert-warning alert-dismissible fade show" role="alert">
+                                <a href="${(data.notifications[key].link) ? data.notifications[key].link : '#'}" class="btn m-0 p-0">
+                                    ${data.notifications[key].message}
+                                </a>
+                                <button onclick="window.ProspectFlow.Notification.setRead(${data.notifications[key].id})" class="btn-close" type="button" aria-label="Close" data-bs-dismiss="alert"></button>
+                              </div>
+                            </li>
+                          `;
 
-                          let notificationContainer = document.createElement('div');
-                          notificationContainer.classList.add('m-0', 'alert', 'alert-warning', 'alert-dismissible', 'fade', 'show');
-                          notificationContainer.setAttribute('role', 'alert');                          
-                          
-                          let notificationLink = document.createElement('a');
-                          let linkText = document.createTextNode(data.notifications[key].message);
-                          notificationLink.appendChild(linkText);
-                          notificationLink.href = (data.notifications[key].link) ? data.notifications[key].link : '#';
-                          notificationLink.classList.add("btn", "m-0", "p-0");
-                          
-                          let notificationReadButton = document.createElement('button');
-                          notificationReadButton.classList.add('btn-close');
-                          notificationReadButton.type = 'button';
-                          notificationReadButton.ariaLabel = 'Close';
-                          notificationReadButton.setAttribute('data-bs-dismiss', 'alert');
-                          notificationReadButton.onclick = async () => { await this.setRead(data.notifications[key].id) }
-
-                          notificationContainer.appendChild(notificationLink);
-                          notificationContainer.appendChild(notificationReadButton);
-                          li.appendChild(notificationContainer);
-                          ul.appendChild(li);
+                          ul.insertAdjacentHTML('beforeend', template);
 
                           //Play sound
                           this.playSound();
@@ -89,15 +78,15 @@ window.ProspectFlow.Notification = {
         const toastId = `toast-${id}`;
 
         const template = `
-        <div id="${toastId}" class="toast bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">New notification</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                ${message}
-            </div>
-        </div>
+          <div id="${toastId}" class="toast bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                  <strong class="me-auto">New notification</strong>
+                  <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body">
+                  ${message}
+              </div>
+          </div>
         `;
 
         const toast = $(`#${toastId}`);
