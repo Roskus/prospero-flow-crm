@@ -72,6 +72,20 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        type="string",
  *        format="email",
  *        example="jhon.doe@email.com"
+ *    ),
+ *    @OA\Property(
+ *        property="website",
+ *        description="Website of the lead",
+ *        type="string",
+ *        format="url",
+ *        example="https://www.company.com"
+ *    ),
+ *    @OA\Property(
+ *        property="linkedin",
+ *        description="Linkedin of the lead",
+ *        type="string",
+ *        format="url",
+ *        example="https://www.likedin.com/in/profile"
  *    )
  * )
  */
