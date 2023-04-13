@@ -21,6 +21,7 @@ class Notification extends Model
         'message',
         'read',
         'link',
+        'updated_at',
     ];
 
     protected $hidden = [

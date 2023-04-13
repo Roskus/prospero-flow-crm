@@ -43,7 +43,19 @@ window.ProspectFlow.Notification = {
                           this.playSound();
 
                           // Show toast
-                          this.showToast(data.notifications[key].message);
+                          let permission = Notification.permission;
+                          if (permission === "granted") {
+                              // Permiso concedido, se puede enviar la notificación
+                              let notification = new Notification("Reminder", {
+                                  body: data.notifications[key].message,
+                                  icon: "ruta-a-icono.png"
+                              });
+                          } else {
+                              this.showToast(data.notifications[key].message);
+                              // Request permission
+                              Notification.requestPermission().then(function(permission) {
+                              });
+                          }
                       }
 
                   }
