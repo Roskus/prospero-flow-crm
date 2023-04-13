@@ -21,29 +21,47 @@ window.ProspectFlow.Notification = {
 
                       for (const key in data.notifications) {
                           let li = document.createElement("li");
-                          li.classList.add('p-1', 'rounded', 'mb-1', 'bg-blue', 'p-3', 'm-2');
+                          li.classList.add('p-2');
 
+                          let notificationContainer = document.createElement('div');
+                          notificationContainer.classList.add('m-0', 'alert', 'alert-warning', 'alert-dismissible', 'fade', 'show');
+                          notificationContainer.setAttribute('role', 'alert');                          
+                          
                           let notificationLink = document.createElement('a');
                           let linkText = document.createTextNode(data.notifications[key].message);
                           notificationLink.appendChild(linkText);
                           notificationLink.href = (data.notifications[key].link) ? data.notifications[key].link : '#';
-                          notificationLink.classList.add("list-group-item","list-group-item-action");
-                          li.appendChild(notificationLink);
+                          notificationLink.classList.add("btn", "m-0", "p-0");
+                          
+                          let notificationReadButton = document.createElement('button');
+                          notificationReadButton.classList.add('btn-close');
+                          notificationReadButton.type = 'button';
+                          notificationReadButton.ariaLabel = 'Close';
+                          notificationReadButton.setAttribute('data-bs-dismiss', 'alert');
+                          notificationReadButton.onclick = async () => { await this.setRead(data.notifications[key].id) };
 
-                          let notificationReadLink = document.createElement('a');
-                          notificationReadLink.onclick = window.ProspectFlow.Notification.setRead(data.notifications[key].id);
-
-                          let notificationIconReadLink = document.createElement('i');
-                          notificationReadLink.appendChild(notificationIconReadLink);
-                          notificationIconReadLink.classList.add("fa-solid","fa-xmark",'text-white');
-                          li.appendChild(notificationReadLink);
+                          notificationContainer.appendChild(notificationLink);
+                          notificationContainer.appendChild(notificationReadButton);
+                          li.appendChild(notificationContainer);
                           ul.appendChild(li);
 
                           //Play sound
                           this.playSound();
 
                           // Show toast
-                          this.showToast(data.notifications[key].message);
+                          let permission = Notification.permission;
+                          if (permission === "granted") {
+                            // Permiso concedido, se puede enviar la notificación
+                            let notification = new Notification("Reminder", {
+                              body: data.notifications[key].message,
+                              icon: "ruta-a-icono.png"
+                            });
+                          } else {
+                            this.showToast(data.notifications[key].message);
+                            // Request permission
+                            Notification.requestPermission().then(function (permission) {
+                            });
+                          }
                       }
 
                   }
@@ -54,16 +72,12 @@ window.ProspectFlow.Notification = {
     setRead: async function(id)
     {
         let url = window.location.origin + '/notification/read/'+ id;
-        const response = await fetch(url, {
+        await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json'
             }
         });
-
-        // Awaiting response.json()
-        const resData = await response.json();
-        console.log(response);
     },
     playSound: function() {
         const audioUrl = `${window.location.origin}/asset/sound/button_tiny.mp3`;

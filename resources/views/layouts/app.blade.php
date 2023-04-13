@@ -87,7 +87,13 @@
                                 </span>
                             </a>
                             <div class="dropdown-menu" style="width: 50vw">
-                                <ul class="list-group" id="notification-message-list" aria-labelledby="notification-list"></ul>
+                                <ul class="list-group" id="notification-message-list" aria-labelledby="notification-list">
+                                    <li class="p-2">
+                                        <div class="m-0 alert alert-warning fade show" role="alert">
+                                            {{ __('You have no unread notifications') }}                                            
+                                        </div>
+                                    </li>
+                                </ul>
                                 <hr class="dropdown-divider">
                                 <a href="{{ url('/notification') }}" class="dropdown-item">{{ __('View notifications') }}</a>
                             </div>
