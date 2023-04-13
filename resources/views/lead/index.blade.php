@@ -57,7 +57,7 @@
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Mobile') }}</th>
-                <th>E-mail</th>
+                <th>Email</th>
                 <th>Website</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Province') }}</th>
@@ -151,7 +151,8 @@
                     @endif
 
                     @if($lead->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}" target="_blank" class="text-decoration-none">
+                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
+                           target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-whatsapp fs-3"></i>
                         </a>
                     @endif
@@ -203,7 +204,7 @@
 <script>
     const Lead = {
         delete : function(id, name) {
-            let res = confirm("{{ __('Are you sure you want to delete the lead?') }}");
+            let res = confirm("{{ __('Are you sure you want to delete the lead: :name?') }}");
             if(res)
                 window.location = '{{ url('/lead/delete') }}/'+id;
         }

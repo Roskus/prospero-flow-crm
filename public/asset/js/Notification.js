@@ -40,16 +40,17 @@ window.ProspectFlow.Notification = {
                           // Show toast
                           let permission = Notification.permission;
                           if (permission === "granted") {
-                            // Permiso concedido, se puede enviar la notificación
-                            let notification = new Notification("Reminder", {
-                              body: data.notifications[key].message,
-                              icon: "ruta-a-icono.png"
-                            });
+
+                              // Permiso concedido, se puede enviar la notificación
+                              let notification = new Notification("Reminder", {
+                                  body: data.notifications[key].message,
+                                  icon: "ruta-a-icono.png"
+                              });
                           } else {
-                            this.showToast(data.notifications[key].id, data.notifications[key].message);
-                            // Request permission
-                            Notification.requestPermission().then(function (permission) {
-                            });
+                              this.showToast(data.notifications[key].message);
+                              // Request permission
+                              Notification.requestPermission().then(function(permission) {
+                              });
                           }
                       }
 
