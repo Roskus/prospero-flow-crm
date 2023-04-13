@@ -150,20 +150,7 @@
     </div>
 </main>
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3 d-print-none">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-body">
-            <strong class="me-auto">{{ __('You have unread notifications') }}</strong>
-            <a href="{{ url('/notification') }}" class="btn btn-secondary">{{ __('View notifications') }}</a>
-        </div>
-    </div>
-    <div id="liveToast2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-body">
-            <strong class="me-auto">{{ __('You have unread notifications') }}</strong>
-            <a href="{{ url('/notification') }}" class="btn btn-secondary">{{ __('View notifications') }}</a>
-        </div>
-    </div>
-</div>
+<div id="notifications-toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
 <!--JavaScript-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

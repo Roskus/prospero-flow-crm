@@ -38,7 +38,7 @@ window.ProspectFlow.Notification = {
                           notificationReadButton.type = 'button';
                           notificationReadButton.ariaLabel = 'Close';
                           notificationReadButton.setAttribute('data-bs-dismiss', 'alert');
-                          notificationReadButton.onclick = async () => { await this.setRead(data.notifications[key].id) };
+                          notificationReadButton.onclick = async () => { await this.setRead(data.notifications[key].id) }
 
                           notificationContainer.appendChild(notificationLink);
                           notificationContainer.appendChild(notificationReadButton);
@@ -57,7 +57,7 @@ window.ProspectFlow.Notification = {
                               icon: "ruta-a-icono.png"
                             });
                           } else {
-                            this.showToast(data.notifications[key].message);
+                            this.showToast(data.notifications[key].id, data.notifications[key].message);
                             // Request permission
                             Notification.requestPermission().then(function (permission) {
                             });
@@ -84,11 +84,26 @@ window.ProspectFlow.Notification = {
         const audio = new Audio(audioUrl);
         audio.play();
     },
-    showToast: function(message)
+    showToast: function(id, message)
     {
-        const liveToast = $("#liveToast");
-        let toastBody = document.querySelector('#liveToast .toast-body');
-        toastBody.innerHTML = message;
-        liveToast.toast('show');
+        const toastId = `toast-${id}`;
+
+        const template = `
+        <div id="${toastId}" class="toast bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">New notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        </div>
+        `;
+
+        const toast = $(`#${toastId}`);
+        const notificationsToastContainer = document.getElementById('notifications-toast-container');
+        
+        notificationsToastContainer.insertAdjacentHTML('beforeend', template);        
+        toast.toast('show');
     }
 }
