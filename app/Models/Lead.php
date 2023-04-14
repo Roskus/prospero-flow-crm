@@ -145,7 +145,7 @@ class Lead extends Model
     ];
 
     protected $casts = [
-        'schedule_contact' => 'datetime',
+        'schedule_contact' => 'datetime:Y-m-d H:i',
         'tags' => 'array',
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
@@ -159,7 +159,7 @@ class Lead extends Model
         'deleted_by',
     ];
 
-    protected $with = ['country', 'seller', 'industry'];
+    protected $with = ['country', 'seller', 'industry', 'company'];
 
     public function company()
     {

@@ -79,15 +79,21 @@
                     @endguest
 
                     @auth
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown dropstart">
                             <a class="nav-link" href="#" id="notification-list" data-bs-toggle="dropdown" aria-expanded="false" onclick="ProspectFlow.Notification.getLatest()">
                                 <i class="fa-regular fa-bell"></i>
                                 <span id="notification-badge">
                                     <span class="visually-hidden">{{ __('New notifications') }}</span>
                                 </span>
                             </a>
-                            <div class="dropdown-menu">
-                                <ul id="notification-message-list" aria-labelledby="notification-list"></ul>
+                            <div class="dropdown-menu" style="width: 50vw">
+                                <ul class="list-group" id="notification-message-list" aria-labelledby="notification-list">
+                                    <li class="p-2">
+                                        <div class="m-0 alert alert-warning fade show" role="alert">
+                                            {{ __('You have no unread notifications') }}                                            
+                                        </div>
+                                    </li>
+                                </ul>
                                 <hr class="dropdown-divider">
                                 <a href="{{ url('/notification') }}" class="dropdown-item">{{ __('View notifications') }}</a>
                             </div>
@@ -144,19 +150,7 @@
     </div>
 </main>
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3 d-print-none">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <img src="#" class="rounded me-2" alt="...">
-            <strong class="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="ProspectFlow.Notification.setRead()"></button>
-        </div>
-        <div class="toast-body">
-            Hello, world! This is a toast message.
-        </div>
-    </div>
-</div>
+<div id="notifications-toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
 <!--JavaScript-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
