@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Ramsey\Uuid\Uuid;
 
 class BankSeeder extends Seeder
 {
@@ -28,6 +29,7 @@ class BankSeeder extends Seeder
                 $data = require base_path($filePath);
 
                 foreach ($data as $bank) {
+                    $bank['uuid'] = Uuid::uuid5(Uuid::NAMESPACE_URL, $bank['bic'])->toString();
                     if (isset($bank['phone'])) {
                         $bank['phone'] = str_replace([' ', '-'], '', $bank['phone']);
                     }

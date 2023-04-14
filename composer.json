@@ -10,6 +10,7 @@
     "type": "project",
     "require": {
         "php": "^8.0.2",
+        "ext-gd": "*",
         "aws/aws-sdk-php": "^3.234",
         "barryvdh/laravel-dompdf": "^2.0",
         "darkaonline/l5-swagger": "^8.3",
@@ -29,7 +30,7 @@
         "php-open-source-saver/jwt-auth": "^2.0",
         "psr/simple-cache": "^2.0",
         "qoraiche/laravel-mail-editor": "^4.0",
-        "ramsey/uuid": "^4.2",
+        "ramsey/uuid": "^4.7",
         "sentry/sentry-laravel": "^3.2",
         "shopify/shopify-api": "^4.2",
         "spatie/icalendar-generator": "^2.4",
@@ -39,8 +40,7 @@
         "squirephp/countries-es": "^3.0",
         "squirephp/currencies-en": "^3.3",
         "squirephp/regions-en": "^3.4",
-        "yajra/laravel-auditable": "^4.5",
-      "ext-gd": "*"
+        "yajra/laravel-auditable": "^4.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

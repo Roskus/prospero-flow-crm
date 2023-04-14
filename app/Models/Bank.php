@@ -16,6 +16,12 @@ class Bank extends Model
 
     protected $table = 'bank';
 
+    protected $primaryKey = 'uuid';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
     protected $fillable = [
         'name',
         'country_id',
@@ -31,6 +37,9 @@ class Bank extends Model
 
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $id;
+
+    #[OAT\Property(type: 'string', example: 'UUID')]
+    protected string $uuid;
 
     #[OAT\Property(type: 'string', example: 'Bank of America')]
     protected string $name;
@@ -57,7 +66,7 @@ class Bank extends Model
 
     public function getAll()
     {
-        return Bank::orderBy(['country', 'name'], 'asc')->get();
+        return Bank::orderBy(['country_id', 'name'], 'asc')->get();
     }
 
     public function getAllPaginated($limit = 10)
