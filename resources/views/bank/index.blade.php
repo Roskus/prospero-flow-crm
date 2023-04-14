@@ -28,7 +28,9 @@
                 <a href="/bank/update/{{ $bank->id }}">{{ $bank->name }}</a>
             </td>
             <td class="text-center">
-                {{ $bank->country }}
+                @if(!empty($bank->country))
+                    {{ $bank->country->flag }}
+                @endif
             </td>
             <td>
                 @isset($bank->phone)
@@ -60,6 +62,9 @@
         </table>
         </div>
 
+        <div>
+            {{ $banks->appends(request()->query())->links() }}
+        </div>
     </div><!--./card-body-->
 </div>
 @endsection

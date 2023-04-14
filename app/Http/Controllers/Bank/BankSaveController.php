@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Bank;
 
 use App\Models\Bank;
@@ -16,7 +18,7 @@ class BankSaveController
             $bank = Bank::find($request->id);
         }
         $bank->name = $request->name;
-        $bank->country = $request->country_id;
+        $bank->country_id = $request->country_id;
         $bank->phone = $request->phone;
         $bank->email = $request->email;
         $bank->website = $request->website;

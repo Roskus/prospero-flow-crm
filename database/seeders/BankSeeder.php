@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class BankSeeder extends Seeder
 {
@@ -15,45 +16,24 @@ class BankSeeder extends Seeder
      */
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
         DB::table('bank')->truncate();
+        Schema::enableForeignKeyConstraints();
 
-        //DB::table('bank')->insert(['country' => 'mx', 'name' => '', 'phone' => '', 'email' => '', 'website' => '', 'bic' => '']);
+        $countries = ['al', 'ad', 'ee', 'mx', 'es', 'lt', 'gb', 'fr', 'de', 'pt', 'nl', 'ie'];
 
-        //Albania
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'American Bank of Investments (ABI)', 'bic' => 'EMPOALTR', 'website' => 'https://abi.al']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'BKT', 'website' => 'https://bkt.com.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'Credins Bank (CB)', 'website' => 'https://bankacredins.com', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'Fibank', 'website' => 'https://fibank.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'Intesa Sanpaolo Bank (Albania)', 'website' => 'https://intesasanpaolobank.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'ProCredit Bank', 'website' => 'https://procreditbank.com.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'Raiffeisen (Albania)', 'website' => 'https://raiffeisen.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'OTP Bank', 'website' => 'https://otpbank.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'Tirana Bank', 'website' => 'https://tiranabank.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'Union Bank (Albania)', 'website' => 'https://unionbank.al', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'al', 'name' => 'United Bank of Albania', 'website' => 'https://uba.com.al', 'bic' => '']);
+        foreach ($countries as $countryId) {
+            $filePath = 'database/seeders/Bank/bank_'.$countryId.'.php';
+            if (file_exists(base_path($filePath))) {
+                $data = require base_path($filePath);
 
-        //Andorra
-        DB::table('bank')->insert(['country' => 'ad', 'name' => 'Andbank', 'phone' => '+376739011', 'email' => 'info@andbank.com', 'website' => 'https://www.andbank.com', 'bic' => 'BACAADAD']);
-        DB::table('bank')->insert(['country' => 'ad', 'name' => 'Crèdit Andorrà, SA', 'phone' => '+376888888', 'email' => 'info@creditandorra.ad', 'website' => 'https://comercial.creditandorragroup.ad/en', 'bic' => 'CRDAADAD']);
-        DB::table('bank')->insert(['country' => 'ad', 'name' => 'Mora Banc Grup, SA', 'phone' => '+376884884', 'email' => 'morabanc@morabanc.ad', 'website' => 'https://www.morabanc.ad', 'bic' => 'BINAADAD']);
-
-        //Mexico
-        DB::table('bank')->insert(['country' => 'mx', 'name' => 'ABC Capital', 'phone' => '+528002888222', 'email' => 'atencionaclientes@abccapital.com.mx', 'website' => 'https://www.abccapital.com.mx', 'bic' => '']);
-        DB::table('bank')->insert(['country' => 'mx', 'name' => 'BANCA MIFEL SA', 'phone' => '+528002264335', 'email' => 'banca.mifel@mifel.com.mx', 'website' => 'https://www.mifel.com.mx', 'bic' => 'MIFEMXMMXXX']);
-        DB::table('bank')->insert(['country' => 'mx', 'name' => 'BBVA Mexico', 'phone' => '', 'email' => 'infobbvaresponde@bbva.com', 'website' => 'https://www.bbva.mx', 'bic' => 'BCMRMXMMXXX']);
-
-        //Spain
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco BBVA', 'phone' => '', 'email' => 'infobbvaresponde@bbva.com', 'website' => 'https://www.bbva.es', 'bic' => 'BBVAESMM']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Sabadell', 'phone' => '+34963085000', 'email' => '', 'website' => 'https://www.bancsabadell.com', 'bic' => 'BSABESBBXXX']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'Banco Santander', 'phone' => '+34915123123', 'email' => '', 'website' => 'https://www.bancosantander.es', 'bic' => 'BSCHESMMXXX']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'CaixaBank', 'phone' => '+34938872525', 'email' => '', 'website' => 'https://www.caixabank.es', 'bic' => 'CAIXESBBXXX']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'Bankinter', 'phone' => '+34900816833', 'email' => 'redessociales@bankinter.com', 'website' => 'https://www.bankinter.com', 'bic' => 'BKBKESMMXXX']);
-        DB::table('bank')->insert(['country' => 'es', 'name' => 'N26', 'phone' => '', 'email' => '', 'website' => 'https://www.n26.com', 'bic' => 'NTSBESM1XXX']);
-
-        //Lithuania
-        DB::table('bank')->insert(['country' => 'lt', 'name' => 'Revolut Bank UAB', 'phone' => '+37052143608', 'email' => 'support@revolut.com', 'website' => 'https://www.revolut.com/en-LT', 'bic' => 'REVOLT21XXX']);
-
-        //UK
-        DB::table('bank')->insert(['country' => 'gb', 'name' => 'REVOLUT LTD', 'phone' => '+442033228352', 'email' => 'support@revolut.com', 'website' => 'https://www.revolut.com/', 'bic' => 'REVOGB2LXXX']);
+                foreach ($data as $bank) {
+                    if (isset($bank['phone'])) {
+                        $bank['phone'] = str_replace([' ', '-'], '', $bank['phone']);
+                    }
+                    DB::table('bank')->insert($bank);
+                }
+            }
+        }
     }
 }

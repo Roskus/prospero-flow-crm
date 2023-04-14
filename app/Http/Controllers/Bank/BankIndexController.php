@@ -11,7 +11,7 @@ class BankIndexController
     public function index()
     {
         $bank = new Bank();
-        $data['banks'] = $bank->getAll();
+        $data['banks'] = $bank->getAllPaginated(10);
 
         return view('bank.index', $data);
     }
