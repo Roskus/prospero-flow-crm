@@ -110,7 +110,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="country_id">{{ __('Country') }}</label>
-                        <input name="country_id" id="country_id" list="timezoneOptions" value="{{ $lead->country_id }}" class="form-control form-control-lg">
+                        <input name="country_id" id="country_id" list="countryList" value="{{ $lead->country_id }}" class="form-control form-control-lg">
 
                         <datalist id="countryList">
                             @foreach ($countries as $country)
