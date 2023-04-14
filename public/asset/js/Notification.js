@@ -20,7 +20,7 @@ window.ProspectFlow.Notification = {
                       document.getElementById("notification-badge").classList.add('notification-badge', 'animation-blink');
 
                       for (const key in data.notifications) {
-                        
+
                           const template = `
                             <li class="p-2">
                               <div class="m-0 alert alert-warning alert-dismissible fade show" role="alert">
@@ -40,17 +40,19 @@ window.ProspectFlow.Notification = {
                           // Show toast
                           let permission = Notification.permission;
                           if (permission === "granted") {
-
-                              // Permiso concedido, se puede enviar la notificación
                               let notification = new Notification("Reminder", {
                                   body: data.notifications[key].message,
                                   icon: "ruta-a-icono.png"
                               });
-                          } else {
-                              this.showToast(data.notifications[key].message);
+                          }
+
+                          if (permission === "default") {
                               // Request permission
-                              Notification.requestPermission().then(function(permission) {
-                              });
+                              Notification.requestPermission().then(function(permission) {});
+                          }
+
+                          if (permission !== "granted" ) {
+                            this.showToast(data.notifications[key].message);
                           }
                       }
 
@@ -92,8 +94,8 @@ window.ProspectFlow.Notification = {
 
         const toast = $(`#${toastId}`);
         const notificationsToastContainer = document.getElementById('notifications-toast-container');
-        
-        notificationsToastContainer.insertAdjacentHTML('beforeend', template);        
+
+        notificationsToastContainer.insertAdjacentHTML('beforeend', template);
         toast.toast('show');
     }
 }
