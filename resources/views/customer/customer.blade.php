@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="website" class="">Website</label>
+                        <label for="website" class="">{{ __('Website') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-globe"></i></span>
                             <input type="url" name="website" id="website" placeholder="https://www.website.com"
@@ -117,14 +117,15 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="country_id">{{ __('Country') }}</label>
-                        <select name="country_id" id="country_id" class="form-select form-control-lg">
-                            <option value=""></option>
+                        <input name="country_id" id="country_id" list="countryList" value="{{ $customer->country_id }}" class="form-control form-control-lg">
+
+                        <datalist id="countryList">
                             @foreach ($countries as $country)
                                 <option value="{{ $country->code_2 }}" @if($customer->country_id == $country->code_2) selected="selected" @endif>
                                     {{ $country->name }} {{ $country->flag }}
                                 </option>
                             @endforeach
-                        </select>
+                        </datalist>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="province" class="">{{ __('Province') }}</label>
@@ -237,7 +238,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="industry_id">{{ __('Industry') }}</label>
-                        <select name="industry_id" id="industry_id" class="form-select form-control-lg">
+                        <select name="industry_id" id="industry_id" class="form-select form-select-lg">
                             <option value=""></option>
                             @foreach($industries as $industry)
                             <option value="{{ $industry->id }}" @if($customer->industry_id == $industry->id) selected="selected" @endif>
@@ -248,7 +249,7 @@
                     </div><!--./col-->
                     <div class="col">
                         <label for="status">{{ __('Status') }}</label>
-                        <select name="status" id="status" class="form-select form-control-lg">
+                        <select name="status" id="status" class="form-select form-select-lg">
                             <option value="">{{ __('Choose') }}</option>
                             @foreach(\App\Models\Customer::getStatus() as $key => $status)
                             <option value="{{ $key }}" @if($customer->status == $key) selected="selected" @endif>
@@ -273,8 +274,8 @@
                         </textarea>
                     </div>
                     <div class="col mt-2">
-                        <label for="seller_id">{{ __('Seller') }}</label>
-                        <select name="seller_id" id="seller_id" required="required" class="form-select form-control-lg">
+                        <label for="seller_id">{{ __('Seller') }} <span class="text-danger">*</span></label>
+                        <select name="seller_id" id="seller_id" required="required" class="form-select form-select-lg">
                             <option value=""></option>
                             @foreach ($sellers as $seller)
                                 <option value="{{ $seller->id }}"

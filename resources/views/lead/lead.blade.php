@@ -23,6 +23,13 @@
                 </div><!--./row-->
                 <div class="row">
                     <div class="col-12 col-md-6">
+                        <label for="external_id">{{ __('External ID') }}</label>
+                        <input type="text" name="external_id" id="external_id" value="{{ old('external_id', $lead->external_id) }}"
+                               maxlength="50" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
                         <label for="phone">{{ __('Phone') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-phone"></i></span>
@@ -299,20 +306,20 @@
     </form>
 
     @if($lead->id)
-    <div class="card accordion mt-2 mb-5">
-        <div class="accordion-header" id="headingContact">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContact"
-                    aria-expanded="true" aria-controls="collapseContact">
-            {{ __('Contacts') }}
-            </button>
+    <div class="card mt-2 mb-5">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    {{ __('Contacts') }}
+
+                    <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', ['lead', $lead->id]) }}">
+                        <i class="las la-plus fw-bold"></i>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="accordion-body bg-white">
-            <div id="collapseContact" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
-                 data-bs-parent="#accordionExample">
-                @include('contact.contact_form', ['lead_id' => $lead->id])
-            </div><!--./collapse-->
-
+        <div class="card-body bg-white">
             <div class="mt-2 table-responsive">
                 @include('contact.index', ['contacts' => $lead->contacts])
             </div>
