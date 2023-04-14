@@ -57,7 +57,7 @@ class Bank extends Model
 
     public function getAll()
     {
-        return Bank::orderBy('name', 'asc')->get();
+        return Bank::orderBy(['country', 'name'], 'asc')->get();
     }
 
     public function getAllPaginated($limit = 10)
