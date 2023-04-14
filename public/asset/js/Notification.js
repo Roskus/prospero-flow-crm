@@ -52,7 +52,7 @@ window.ProspectFlow.Notification = {
                           }
 
                           if (permission !== "granted" ) {
-                            this.showToast(data.notifications[key].message);
+                            this.showToast(data.notifications[key].id, data.notifications[key].message);
                           }
                       }
 
