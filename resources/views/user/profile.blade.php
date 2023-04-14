@@ -102,7 +102,7 @@
                 </div>
                 <div class="col">
                     <label for="photo">{{ __('Photo') }}</label>
-                    <input type="file" name="photo" id="photo" accept="image/png, image/gif, image/jpeg" class="form-control form-control-lg">
+                    <input type="file" name="photo" id="photo" accept="image/png, image/gif, image/jpeg" class="form-control-file form-control-lg">
                     @if($user->photo)
                         <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($user->company->name, '_') }}/{{ $user->photo }}" height="128" alt="" class="mt-1">
                     @endif
@@ -112,6 +112,12 @@
                 <div class="col">
                     <label for="signature_html">{{ __('Signature') }}</label>
                     <textarea name="signature_html" id="signature_html">{!! (!empty($user->signature_html)) ? $user->signature_html : old('signature_html','') !!}</textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="enable_notification">{{ __('Push notifications') }}</label>
+                    <button type="button"  class="btn btn-warning">{{ __('Enable push notifications') }}</button>
                 </div>
             </div>
             <div class="row form-group mt-2">

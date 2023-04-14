@@ -110,14 +110,15 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="country_id">{{ __('Country') }}</label>
-                        <select name="country_id" id="country_id" class="form-select form-select-lg">
-                            <option value=""></option>
+                        <input name="country_id" id="country_id" list="timezoneOptions" value="{{ $lead->country_id }}" class="form-control form-control-lg">
+
+                        <datalist id="countryList">
                             @foreach ($countries as $country)
                                 <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>
                                     {{ $country->name }} {{ $country->flag }}
                                 </option>
                             @endforeach
-                        </select>
+                        </datalist>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="province" class="">{{ __('Province') }}</label>
