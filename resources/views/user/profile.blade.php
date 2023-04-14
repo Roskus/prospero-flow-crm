@@ -116,8 +116,8 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="enable_notification">{{ __('Push notifications') }}</label>
-                    <button type="button"  class="btn btn-warning">{{ __('Enable push notifications') }}</button>
+                    <label for="enable_notification">{{ __('Push notifications') }}:</label>
+                    <button type="button" onclick="Notification.requestPermission()" class="btn btn-warning text-white"><i class="las la-bell"></i> {{ __('Enable push notifications') }}</button>
                 </div>
             </div>
             <div class="row form-group mt-2">
