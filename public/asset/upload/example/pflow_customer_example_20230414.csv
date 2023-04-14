@@ -1,0 +1,2 @@
+external_id;name;business_name;vat;dob;phone;phone2;mobile;email;email2;website;country_id;province;city;locality;street;zipcode;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
+11111122233;John Doe;John Doe Corp.;ABC123456XX;1990-01-01;1111111111;22222222222;333333333;john.doe@jhondoecorp.com;john.doe2@jhondoecorp.com;https://www.jhondoecorp.com;us;Nueva York;New York;New Jersey;First AV, 5;CNB123;Joe Doe Corportaion LTD other notes;https://facebook.com/joedoe;;;;;john,example

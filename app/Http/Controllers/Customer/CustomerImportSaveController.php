@@ -35,8 +35,8 @@ class CustomerImportSaveController extends MainController
             return redirect('/customer')->withErrors(__("Can't read uploaded file"));
         }
 
-        // HEADER (17)
-        //name;business_name;phone;phone2;email;email2;website;country_id;city;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
+        // HEADER (25)
+        //external_id;name;business_name;vat;dob;phone;phone2;mobile;email;email2;website;country_id;province;city;locality;street;zipcode;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
         $rowCount = 0;
         $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
@@ -50,30 +50,37 @@ class CustomerImportSaveController extends MainController
                 continue;
             }
 
-            $country = trim($data[8]);
+            $country = trim($data[11]);
             $customer = new Customer();
 
             $customer->company_id = Auth::user()->company_id;
 
-            $customer->name = $data[0];
-            $customer->business_name = $data[1];
-            $customer->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[2]);
-            $customer->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[3]);
-            $customer->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[4]);
-            $customer->email = $data[5];
-            $customer->email2 = $data[6];
-            $customer->website = rtrim($data[7], '/');
+            $customer->external_id = $data[0];
+            $customer->name = $data[1];
+            $customer->business_name = $data[2];
+            $customer->vat = $data[3];
+            $customer->dob = $data[4];
+            $customer->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[5]);
+            $customer->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[6]);
+            $customer->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[7]);
+            $customer->email = $data[8];
+            $customer->email2 = $data[9];
+            $customer->website = rtrim($data[10], '/');
             $customer->country_id = strlen($country) == 2 ? strtolower($country) : '';
-            $customer->city = $data[9];
-            $customer->notes = $data[10];
-            $customer->facebook = (isset($data[11])) ? $data[11] : null;
-            $customer->instagram = (isset($data[12])) ? $data[12] : null;
-            $customer->linkedin = (isset($data[13])) ? $data[13] : null;
-            $customer->twitter = (isset($data[14])) ? $data[14] : null;
-            $customer->youtube = (isset($data[15])) ? $data[15] : null;
-            $customer->tiktok = (isset($data[16])) ? $data[16] : null;
+            $customer->province = $data[12];
+            $customer->city = $data[13];
+            $customer->locality = $data[14];
+            $customer->street = $data[15];
+            $customer->zipcode = $data[16];
+            $customer->notes = $data[17];
+            $customer->facebook = (isset($data[18])) ? $data[18] : null;
+            $customer->instagram = (isset($data[19])) ? $data[19] : null;
+            $customer->linkedin = (isset($data[20])) ? $data[20] : null;
+            $customer->twitter = (isset($data[21])) ? $data[21] : null;
+            $customer->youtube = (isset($data[22])) ? $data[22] : null;
+            $customer->tiktok = (isset($data[23])) ? $data[23] : null;
 
-            $customer->tags = (isset($data[17])) ? $data[17] : null;
+            $customer->tags = (isset($data[24])) ? $data[24] : null;
 
             $customer->seller_id = Auth::user()->id;
             $customer->created_at = now();
