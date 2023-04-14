@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('bank', function (Blueprint $table) {
-            if (!Schema::hasColumn('bank', 'uuid')) {
+            if (! Schema::hasColumn('bank', 'uuid')) {
                 $table->uuid('uuid')->unique()->after('id');
             }
         });
