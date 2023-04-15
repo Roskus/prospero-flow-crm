@@ -135,7 +135,7 @@ class Customer extends Model
     ];
 
     protected $casts = [
-        'schedule_contact' => 'datetime',
+        'schedule_contact' => 'datetime:Y-m-d H:i',
         'tags' => 'array',
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',

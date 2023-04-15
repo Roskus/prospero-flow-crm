@@ -17,13 +17,14 @@ class CustomerImportSaveControllerTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHasErrors();
 
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, public_path('asset\upload\example\pflow_customer_example_20221212.csv'));
-        $file = new UploadedFile($path, 'pflow_customer_example_20221212.csv');
+        $path = str_replace('\\', DIRECTORY_SEPARATOR, public_path('asset\upload\example\pflow_customer_example_20230414.csv'));
+        $file = new UploadedFile($path, 'pflow_customer_example_20230414.csv');
         $response = $this->post('customer/import/save', ['upload' => $file]);
         $response->assertRedirect('/customer');
 
         $customer = Customer::first();
-        $this->assertEquals('John Doe Corp.', $customer->name);
+        $this->assertEquals('11111122233', $customer->external_id);
+        $this->assertEquals('John Doe', $customer->name);
         $this->assertEquals('John Doe Corp.', $customer->business_name);
         $this->assertEquals('1111111111', $customer->phone);
     }

@@ -16,7 +16,7 @@ class LeadReadControllerTest extends TestCase
 
         $response = $this->get('/api/lead/'.$lead->id);
 
-        $this->assertEquals(array_except($response->json()['lead'], ['seller', 'industry', 'country']), $lead->toArray());
+        $this->assertEquals(array_except($response->json()['lead'], ['seller', 'industry', 'country', 'company']), $lead->toArray());
     }
 
     /** @test */
