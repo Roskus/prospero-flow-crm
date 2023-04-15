@@ -49,7 +49,7 @@ class CustomerFactory extends Factory
             'locality' => fake()->word(),
             'street' => fake()->streetAddress(),
             'zipcode' => fake()->numerify('#####'),
-            'schedule_contact' => fake()->dateTimeBetween('-2 weeks', 'now')->format('Y-m-d h:m:s'),
+            'schedule_contact' => fake()->dateTimeBetween('-2 weeks', 'now')->format('Y-m-d H:i'),
             'industry_id' => Industry::factory(),
             'latitude' => str_pad((string) fake()->randomFloat(8, 40.3, 40.5), 11, '0'),
             'longitude' => str_pad((string) fake()->randomFloat(8, -3.5, -3.9), 11, '0'),

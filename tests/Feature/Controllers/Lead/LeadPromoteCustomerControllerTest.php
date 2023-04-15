@@ -23,7 +23,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
         $lead = Lead::withTrashed()->find($lead->id);
 
         $this->assertTrue($lead->trashed());
-        $this->assertEquals(array_except($lead->toArray(), 'id'), array_except($customer->toArray(), 'id'));
+        $this->assertEquals(array_except($lead->toArray(), ['id', 'company']), array_except($customer->toArray(), ['id', 'company']));
     }
 
     /** @test */

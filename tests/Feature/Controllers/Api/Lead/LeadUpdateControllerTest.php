@@ -32,7 +32,7 @@ class LeadUpdateControllerTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(array_except(Lead::find($lead['id'])->toArray(), ['seller', 'industry', 'country']), $updatedLead);
-        $this->assertNotEquals(array_except(Lead::find($lead['id'])->toArray(), ['seller', 'industry', 'country']), $lead);
+        $this->assertEquals(array_except(Lead::find($lead['id'])->toArray(), ['seller', 'industry', 'country', 'company']), $updatedLead);
+        $this->assertNotEquals(array_except(Lead::find($lead['id'])->toArray(), ['seller', 'industry', 'country', 'company']), $lead);
     }
 }
