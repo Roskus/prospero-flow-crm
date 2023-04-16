@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -41,6 +42,7 @@ class CustomerImportSaveController extends MainController
         $rowCount = 0;
         $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
+
             //Skip header starting in 1
             if ($data[0] == 'name') {
                 continue;
@@ -60,7 +62,12 @@ class CustomerImportSaveController extends MainController
             $customer->name = $data[1];
             $customer->business_name = $data[2];
             $customer->vat = $data[3];
-            $customer->dob = isset($data[4]) ? Carbon\Carbon::parse($data[4])->format('Y-m-d') : null;
+            try {
+                $dob = isset($data[4]) ? Carbon::createFromFormat('d/m/Y', $data[4])->format('Y-m-d') : null;
+            } catch (\Throwable $t) {
+                $dob = null;
+            }
+            $customer->dob = $dob;
             $customer->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[5]);
             $customer->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[6]);
             $customer->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[7]);
@@ -95,7 +102,7 @@ class CustomerImportSaveController extends MainController
         }
         fclose($handle);
 
-        $status = ($rowCount > 0) ? true : false;
+        $status = ($rowCount > 0) ? 'success' : 'error';
 
         $response = [
             'status' => $status,
