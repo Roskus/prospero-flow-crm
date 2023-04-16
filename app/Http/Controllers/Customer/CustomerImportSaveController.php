@@ -17,6 +17,7 @@ class CustomerImportSaveController extends MainController
      */
     public function save(Request $request)
     {
+        $errors = [];
         if (! $request->hasFile('upload')) {
             return redirect('/customer')->withErrors(__("Upload file can't be in blank"));
         }
@@ -55,11 +56,11 @@ class CustomerImportSaveController extends MainController
 
             $customer->company_id = Auth::user()->company_id;
 
-            $customer->external_id = $data[0];
+            $customer->external_id = isset($data[0]) ? (int) $data[0] : null;
             $customer->name = $data[1];
             $customer->business_name = $data[2];
             $customer->vat = $data[3];
-            $customer->dob = $data[4];
+            $customer->dob = isset($data[4]) ? Carbon\Carbon::parse($data[4])->format('Y-m-d') : null;
             $customer->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[5]);
             $customer->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[6]);
             $customer->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[7]);
@@ -89,6 +90,7 @@ class CustomerImportSaveController extends MainController
                 $rowCount++;
             } catch (\Throwable $t) {
                 Log::error($t->getMessage().' | row number:'.($rowCount + 1));
+                $errors[] = $rowCount;
             }
         }
         fclose($handle);
@@ -97,7 +99,7 @@ class CustomerImportSaveController extends MainController
 
         $response = [
             'status' => $status,
-            'message' => ($status) ? 'Customers imported :count successfully' : 'An error occurred while importing customers',
+            'message' => ($status) ? 'Customers imported :count successfully' : 'An error occurred while importing customers '.$errors,
             'count' => $rowCount,
         ];
 
