@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Order;
+use App\Models\OrderNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -14,6 +15,16 @@ class OrderRepository
     {
         if (empty($data['id'])) {
             $order = new Order();
+            $company_id = Auth::user()->company_id;
+            $last_order_number = OrderNumber::where('company_id', $company_id)
+                ->lockForUpdate()
+                ->value('last_order_number');
+
+            $new_order_number = $last_order_number + 1;
+
+            OrderNumber::where('company_id', $company_id)
+                ->update(['last_order_number' => $new_order_number]);
+            $order->order_number = $new_order_number;
             $order->created_at = now();
         } else {
             $order = Order::find($data['id']);
