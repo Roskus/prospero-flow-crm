@@ -7,12 +7,15 @@ namespace App\Repositories;
 use App\Models\Order;
 use App\Models\OrderNumber;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class OrderRepository
 {
     public function save(array $data): ?Order
     {
+        DB::beginTransaction();
+
         if (empty($data['id'])) {
             $order = new Order();
             $company_id = Auth::user()->company_id;
@@ -39,7 +42,9 @@ class OrderRepository
         $order->setAmount((float) $total);
         try {
             $status = $order->save();
+            DB::commit();
         } catch (\Throwable $t) {
+            DB::rollBack();
             Log::error($t->getMessage());
         }
 
