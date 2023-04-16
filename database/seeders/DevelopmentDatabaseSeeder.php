@@ -19,6 +19,9 @@ use App\Models\Ticket\Message;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
+/**
+ * php artisan db:seed --class=DevelopmentDatabaseSeeder
+ */
 class DevelopmentDatabaseSeeder extends Seeder
 {
     /**

@@ -56,7 +56,7 @@
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Mobile') }}</th>
-                <th>E-mail</th>
+                <th>Email</th>
                 <th>Website</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Province') }}</th>
