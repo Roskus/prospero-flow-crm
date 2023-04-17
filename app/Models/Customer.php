@@ -186,8 +186,7 @@ class Customer extends Model
     {
         $customers = Customer::where('company_id', $company_id);
         if (! empty($search)) {
-            if(is_numeric($search))
-            {
+            if (is_numeric($search)) {
                 $customers->orWhere('external_id', '=', "$search")
                     ->orWhere('phone', 'LIKE', "%$search%");
             } else {
