@@ -86,7 +86,7 @@ class CustomerImportSaveController extends MainController
             $customer->twitter = (isset($data[21])) ? $data[21] : null;
             $customer->youtube = (isset($data[22])) ? $data[22] : null;
             $customer->tiktok = (isset($data[23])) ? $data[23] : null;
-
+            //@todo improve tags import should have a json format beetween braces[]?
             $customer->tags = (isset($data[24])) ? $data[24] : null;
 
             $customer->seller_id = Auth::user()->id;
