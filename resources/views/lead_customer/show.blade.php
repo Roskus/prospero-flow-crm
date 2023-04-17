@@ -120,7 +120,16 @@ $url = isset($lead) ? 'lead' : 'customer';
 </div>
 
 <div class="card mb-2">
-    <div class="card-header">{{ __('Orders') }}</div>
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                {{ __('Orders') }}
+                <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/order/create') }}">
+                    <i class="las la-plus fw-bold"></i>
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="card-body">
         @if(isset($orders) && count($orders) > 0)
         <table class="table table-striped table-hover">

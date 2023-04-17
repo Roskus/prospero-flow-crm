@@ -43,7 +43,7 @@ class CustomerImportSaveController extends MainController
         $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
             //Skip header starting in 1
-            if ($data[0] == 'name') {
+            if ($data[0] == 'external_id') {
                 continue;
             }
 
