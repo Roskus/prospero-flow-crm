@@ -31,7 +31,7 @@
                     <label>{{ __('Number') }}:</label>
                 </div>
                 <span class="barcode-128">
-                    {{ str_pad($order->id, 10, '0', STR_PAD_LEFT) }}
+                    {{ str_pad($order->order_number, 10, '0', STR_PAD_LEFT) }}
                 </span>
             </div>
         </div>
