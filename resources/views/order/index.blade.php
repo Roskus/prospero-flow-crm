@@ -15,6 +15,7 @@
             <thead>
             <tr>
                 <th>#ID</th>
+                <th>{{ __('Number') }}</th>
                 <th>{{ __('Customer') }}</th>
                 <th>{{ __('Item count') }}</th>
                 <th>{{ __('Amount') }}</th>
@@ -29,6 +30,9 @@
             <tr>
                 <td>
                     <a href="{{ url('order/show/'.$order->id) }}">{{ $order->id }}</a>
+                </td>
+                <td>
+                    {{ str_pad($order->order_number, 10, '0') }}
                 </td>
                 <td>{{ (!empty($order->customer)) ? $order->customer->name : '' }}</td>
                 <td class="text-center">

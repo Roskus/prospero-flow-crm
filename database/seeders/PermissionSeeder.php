@@ -74,7 +74,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'read lead',
                 'guard_name' => 'web',
             ],
@@ -95,7 +95,7 @@ class PermissionSeeder extends Seeder
             ],
             //Customer
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'create customer',
                 'guard_name' => 'web',
             ],

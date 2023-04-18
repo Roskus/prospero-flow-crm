@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +18,7 @@ class CustomerImportSaveController extends MainController
      */
     public function save(Request $request)
     {
+        $errors = [];
         if (! $request->hasFile('upload')) {
             return redirect('/customer')->withErrors(__("Upload file can't be in blank"));
         }
@@ -41,7 +43,7 @@ class CustomerImportSaveController extends MainController
         $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
             //Skip header starting in 1
-            if ($data[0] == 'name') {
+            if ($data[0] == 'external_id') {
                 continue;
             }
 
@@ -55,11 +57,16 @@ class CustomerImportSaveController extends MainController
 
             $customer->company_id = Auth::user()->company_id;
 
-            $customer->external_id = $data[0];
+            $customer->external_id = isset($data[0]) ? (int) $data[0] : null;
             $customer->name = $data[1];
             $customer->business_name = $data[2];
             $customer->vat = $data[3];
-            $customer->dob = $data[4];
+            try {
+                $dob = isset($data[4]) ? Carbon::createFromFormat('d/m/Y', $data[4])->format('Y-m-d') : null;
+            } catch (\Throwable $t) {
+                $dob = null;
+            }
+            $customer->dob = $dob;
             $customer->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[5]);
             $customer->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[6]);
             $customer->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[7]);
@@ -79,7 +86,7 @@ class CustomerImportSaveController extends MainController
             $customer->twitter = (isset($data[21])) ? $data[21] : null;
             $customer->youtube = (isset($data[22])) ? $data[22] : null;
             $customer->tiktok = (isset($data[23])) ? $data[23] : null;
-
+            //@todo improve tags import should have a json format beetween braces[]?
             $customer->tags = (isset($data[24])) ? $data[24] : null;
 
             $customer->seller_id = Auth::user()->id;
@@ -89,15 +96,16 @@ class CustomerImportSaveController extends MainController
                 $rowCount++;
             } catch (\Throwable $t) {
                 Log::error($t->getMessage().' | row number:'.($rowCount + 1));
+                $errors[] = $rowCount;
             }
         }
         fclose($handle);
 
-        $status = ($rowCount > 0) ? true : false;
+        $status = ($rowCount > 0) ? 'success' : 'error';
 
         $response = [
             'status' => $status,
-            'message' => ($status) ? 'Customers imported :count successfully' : 'An error occurred while importing customers',
+            'message' => ($status) ? 'Customers imported :count successfully' : 'An error occurred while importing customers '.$errors,
             'count' => $rowCount,
         ];
 

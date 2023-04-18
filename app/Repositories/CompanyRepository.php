@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Company;
+use App\Models\OrderNumber;
 
 class CompanyRepository
 {
@@ -32,6 +33,14 @@ class CompanyRepository
         $company->status = ! empty($data['status']) ? $data['status'] : Company::ACTIVE;
         $company->updated_at = now();
         $company->save();
+
+        if (empty($data['id'])) {
+            $orderNumber = new OrderNumber();
+            $orderNumber->company_id = $company->id;
+            $orderNumber->last_order_number = 0;
+            $orderNumber->created_at = now();
+            $orderNumber->save();
+        }
 
         return $company;
     }

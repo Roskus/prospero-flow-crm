@@ -56,7 +56,7 @@
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Mobile') }}</th>
-                <th>E-mail</th>
+                <th>Email</th>
                 <th>Website</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Province') }}</th>
@@ -162,7 +162,7 @@
                 <td class="text-center text-nowrap">{{ (!empty($customer->seller)) ? $customer->seller->first_name : '' }}</td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($customer->industry) ? __($customer->industry->name) : '' }}</td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
-                    @if($customer->tags)
+                    @if(is_array($customer->tags) || is_object($customer->tags))
                         @foreach($customer->tags as $tag)
                             <a href="{{ url("/customer?search=$tag") }}" class="badge {{ $bootstrap_colors[array_rand($bootstrap_colors)] }} text-decoration-none">{{ $tag }}</a>
                         @endforeach
