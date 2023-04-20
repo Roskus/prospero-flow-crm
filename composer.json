@@ -28,6 +28,7 @@
         "maatwebsite/excel": "^3.1",
         "nesbot/carbon": "^2.66",
         "php-open-source-saver/jwt-auth": "^2.0",
+        "pragmarx/google2fa-laravel": "^2.1",
         "psr/simple-cache": "^2.0",
         "qoraiche/laravel-mail-editor": "^4.0",
         "ramsey/uuid": "^4.7",
