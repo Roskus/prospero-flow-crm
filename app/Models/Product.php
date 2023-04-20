@@ -189,7 +189,7 @@ class Product extends Model
         $products = Product::with('category', 'brand')->where('company_id', '=', $company_id);
         if (! empty($search)) {
             $products->where('name', 'LIKE', "%$search%")
-                    ->orWhere('sku', 'LIKE', "%$search%");
+                ->orWhere('sku', 'LIKE', "%$search%");
         }
 
         return $products->orderBy('name', 'asc')->paginate(10);
