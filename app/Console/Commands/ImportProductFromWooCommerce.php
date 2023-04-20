@@ -93,7 +93,7 @@ class ImportProductFromWooCommerce extends Command
             $page++;
 
             $response_next_page = Http::accept('application/json')
-            ->withoutVerifying()
+                ->withoutVerifying()
                 ->get($url, ['page' => $page]);
         } while ($response_next_page->collect()->count() > 0);
 
