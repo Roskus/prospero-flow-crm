@@ -45,7 +45,7 @@ class Account extends Model
     public function getAllActiveByCompany(int $company_id)
     {
         return Account::where('status', self::ACTIVE)
-                        ->where('company_id', $company_id)
-                        ->orderBy('created_at', 'desc')->get();
+            ->where('company_id', $company_id)
+            ->orderBy('created_at', 'desc')->get();
     }
 }
