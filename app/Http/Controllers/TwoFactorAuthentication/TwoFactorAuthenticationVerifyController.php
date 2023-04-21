@@ -20,12 +20,11 @@ class TwoFactorAuthenticationVerifyController extends Controller
 
         $google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 
-        if($google2fa->verifyKey($key, $secret)){
+        if ($google2fa->verifyKey($key, $secret)) {
             Facade::login();
         }
 
-        
         return redirect('/lead');
-        
+
     }
 }
