@@ -202,7 +202,7 @@ class Lead extends Model
                     ->orWhere('tags', 'LIKE', "%$search%");
             } else {
                 $leads->whereFullText(['name', 'business_name'], $search)
-                      ->orWhere('tags', 'LIKE', "%$search%");
+                    ->orWhere('tags', 'LIKE', "%$search%");
             }
         }
 

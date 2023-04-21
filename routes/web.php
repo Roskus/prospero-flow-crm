@@ -141,3 +141,6 @@ require __DIR__.'/partials/bank.php';
 
 //Bank account
 require __DIR__.'/partials/bank_account.php';
+
+// Two Factor Authentication
+require __DIR__.'/partials/two_factor_authentication.php';

@@ -17,7 +17,7 @@ class MainController extends Controller
 {
     public function __construct(Request $request)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', '2fa']);
         //$locale = 'es';//App::getLocale();
         //App::setLocale($locale);
     }

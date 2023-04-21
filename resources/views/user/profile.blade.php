@@ -8,7 +8,7 @@
             {!! __(session('message'))  !!}
         </div>
     @endif
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
         <form method="POST" action="{{ url('/profile/save') }}" enctype="multipart/form-data" class="form">
             @csrf
@@ -114,12 +114,6 @@
                     <textarea name="signature_html" id="signature_html">{!! (!empty($user->signature_html)) ? $user->signature_html : old('signature_html','') !!}</textarea>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <label for="enable_notification">{{ __('Push notifications') }}:</label>
-                    <button type="button" onclick="Notification.requestPermission()" class="btn btn-warning text-white"><i class="las la-bell"></i> {{ __('Enable push notifications') }}</button>
-                </div>
-            </div>
             <div class="row form-group mt-2">
                 <div class="col-md-6 col-md-offset-4">
                     <a href="{{ url('/') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
@@ -129,6 +123,44 @@
         </form>
         </div><!--./card-body-->
     </div><!--./card-->
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="enable_notification">{{ __('Push notifications') }}:</label>
+                    <button type="button" onclick="Notification.requestPermission()" class="btn btn-warning text-white"><i class="las la-bell"></i> {{ __('Enable push notifications') }}</button>
+                </div>
+                <div class="col">
+                    @if(!Auth::user()->two_factor_secret)
+                        <label for="enable_two_factor_authentication">{{ __('Enable Two Factor Authentication') }}:</label>
+                        <a class="btn btn-secondary">{{ __('Enable Two Factor Authentication') }}</a>
+                    @else
+                        <div>
+                            <p>{{ __("You have enabled two factor authentication.") }}</p>
+                            <p>{{ __("When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.") }}</p>
+
+                            <p>{{ __("Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application or enter the setup key.") }}</p>
+
+                            <p>
+                                {!! Auth::user()->getQRCodeGoogleUrl() !!}
+                            </p>
+
+                            <p>{{ __("Setup Key") }}: <strong>{{ decrypt(Auth::user()->two_factor_secret) }}</strong></p>
+
+                            <p>{{ __("Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.") }}</p>
+
+                            <p class="bg-light p-2 rounded">
+                                {!! Auth::user()->getTwoFactorRecoveryCodes() !!}
+                            </p>                            
+
+                            <a class="btn btn-primary" href="/two-factor-authentication/regenerate-recovery">{{ __('REGENERATE RECOVERY CODES') }}</a>
+                            <a class="btn btn-danger" href="/two-factor-authentication/disable">{{ __('DISABLE') }}</a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
     @push('scripts')
     <script>
         $(".toggle-password").click(function() {
