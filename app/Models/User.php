@@ -126,7 +126,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getQRCodeGoogleUrl()
     {
-        return Google2FA::getQRCodeInline(       
+        return Google2FA::getQRCodeInline(
             config('app.name', $this->first_name),
             $this->email,
             decrypt($this->two_factor_secret)
