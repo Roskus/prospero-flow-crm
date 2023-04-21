@@ -4,8 +4,7 @@ namespace App\Http\Controllers\TwoFactorAuthentication;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use PragmaRX\Google2FA\Google2FA;
-use PragmaRX\Google2FALaravel\Facade;
+use PragmaRX\Google2FALaravel\Facade as Google2FA;
 
 class TwoFactorAuthenticationVerifyController extends Controller
 {
@@ -13,18 +12,15 @@ class TwoFactorAuthenticationVerifyController extends Controller
     {
         $key = decrypt(auth()->user()->two_factor_secret);
 
-        $secret = $request->one_time_password;
+        $secret = $request->integer('one_time_password');
         $secret = preg_replace('/\s+/', '', $secret);
 
-        $google2fa = new Google2FA();
-
-        $google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
-
-        if ($google2fa->verifyKey($key, $secret)) {
-            Facade::login();
+        if (! Google2FA::verifyKey($key, $secret)) {
+            return redirect('/')->withErrors([__('The provided two factor authentication code was invalid.')]);
         }
 
-        return redirect('/lead');
+        Google2FA::login();
 
+        return redirect('/');
     }
 }

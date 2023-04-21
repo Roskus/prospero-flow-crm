@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use OpenApi\Attributes as OAT;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use PragmaRX\Google2FALaravel\Facade as Google2FA;
 use Spatie\Permission\Traits\HasRoles;
 
 #[OAT\Schema(schema: 'User', required: ['first_name', 'email', 'password'])]
@@ -57,7 +58,6 @@ class User extends Authenticatable implements JWTSubject
     protected ?string $last_name = null;
 
     #[OAT\Property(description: 'Email of the user', type: 'string', format: 'email', example: 'john.smith@company.com')]
-    protected ?string $email = null;
 
     #[OAT\Property(description: 'Phone of the user', type: 'string', example: '+3464500000')]
     protected ?string $phone = null;
@@ -122,5 +122,20 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    public function getQRCodeGoogleUrl()
+    {
+        return Google2FA::getQRCodeInline(       
+            config('app.name', $this->first_name),
+            $this->email,
+            decrypt($this->two_factor_secret)
+        );
+    }
+
+    public function getTwoFactorRecoveryCodes()
+    {
+        // TODO improve this. IMPROVE SAVE BBDD
+        return implode('</br>', json_decode(json_decode(decrypt($this->two_factor_recovery_codes))));
     }
 }
