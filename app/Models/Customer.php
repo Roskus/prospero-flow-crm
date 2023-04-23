@@ -186,10 +186,10 @@ class Customer extends Model
         $customers = Customer::where('company_id', $company_id);
         if (! empty($search)) {
             $customers->where('name', 'LIKE', "%$search%")
-                      ->orWhere('business_name', 'LIKE', "%$search%")
-                      ->orWhere('external_id', '=', "$search")
-                      ->orWhere('phone', 'LIKE', "%$search%")
-                      ->orWhere('tags', 'LIKE', "%$search%");
+                ->orWhere('business_name', 'LIKE', "%$search%")
+                ->orWhere('external_id', '=', "$search")
+                ->orWhere('phone', 'LIKE', "%$search%")
+                ->orWhere('tags', 'LIKE', "%$search%");
         }
 
         if (is_array($filters)) {
