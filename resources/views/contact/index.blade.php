@@ -46,7 +46,7 @@
         <td>{{ $contact->notes }}</td>
         <td>
             @if($contact->linkedin)
-                <a href="{{ $contact->linkedin }}"><i class="lab la-linkedin fs-3"></i></a>
+                <a href="{{ $contact->linkedin }}" target="_blank"><i class="lab la-linkedin fs-3"></i></a>
             @endif
         </td>
         <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
