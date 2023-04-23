@@ -51,8 +51,8 @@ class Category extends Model
     public function getAllActiveByCompany(int $company_id)
     {
         return Category::where('company_id', $company_id)
-                        ->orderBy('name', 'asc')
-                        ->get();
+            ->orderBy('name', 'asc')
+            ->get();
     }
 
     public static function getAllActiveAsArrayByCompany(int $company_id): array
