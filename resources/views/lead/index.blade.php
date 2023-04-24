@@ -53,7 +53,12 @@
             <thead>
             <tr>
                 <th>#ID</th>
-                <th>{{ __('Name') }}</th>
+                <th>
+                    <a href="{{ request()->fullUrlWithQuery(['order_by' => 'name']) }}"
+                       class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
+                        {{ __('Name') }}
+                    </a>
+                </th>
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Mobile') }}</th>
@@ -66,8 +71,18 @@
                 <th class="text-center d-none d-sm-table-cell">{{ __('Industry') }}</th>
                 <th class="text-center d-none d-sm-table-cell">{{ __('Tags') }}</th>
                 <th class="d-none d-sm-table-cell">{{ __('Status') }}</th>
-                <th class="d-none d-sm-table-cell">{{ __('Created at') }}</th>
-                <th class="d-none d-sm-table-cell">{{ __('Updated at') }}</th>
+                <th class="d-none d-sm-table-cell">
+                    <a href="{{ request()->fullUrlWithQuery(['order_by' => 'created_at']) }}"
+                       class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
+                        {{ __('Created at') }}
+                    </a>
+                </th>
+                <th class="d-none d-sm-table-cell">
+                    <a href="{{ request()->fullUrlWithQuery(['order_by' => 'updated_at']) }}"
+                       class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
+                        {{ __('Updated at') }}
+                    </a>
+                </th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>

@@ -20,6 +20,7 @@ class LeadIndexController extends MainController
     public function index(Request $request)
     {
         $filters = [];
+        $order_by = null;
         $search = $request->search;
         $user = new User();
 
@@ -53,12 +54,16 @@ class LeadIndexController extends MainController
             $filters['province'] = $request->province;
         }
 
+        if ($request->filled('order_by')) {
+            $order_by = $request->order_by;
+        }
+
         $lead = new Lead();
         $data['colors'] = config('color');
         $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info'];
         $data['countries'] = Country::orderBy('name')->get();
         $data['lead_count'] = Lead::where('company_id', Auth::user()->company_id)->count();
-        $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters);
+        $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters, $order_by);
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['statuses'] = $lead->getStatus();
