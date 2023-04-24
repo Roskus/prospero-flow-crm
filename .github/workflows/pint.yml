@@ -3,6 +3,8 @@ on: pull_request
 jobs:
   phplint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
         - uses: actions/checkout@v1
         - name: "laravel-pint"
@@ -12,4 +14,4 @@ jobs:
             verboseMode: true
             testMode: true
             configPath: "pint.json"
-          
+

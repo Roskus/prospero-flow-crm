@@ -51,5 +51,4 @@ class CompanyUpdateController
 
         return response()->json(['company' => $company, $status]);
     }
-
 }
