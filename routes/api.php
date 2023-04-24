@@ -21,6 +21,12 @@ Route::middleware(['api'])->group(function () {
     Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
 
+    // Company
+    Route::get('company', [\App\Http\Controllers\Api\Company\CompanyListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('company/{id}', [\App\Http\Controllers\Api\Company\CompanyReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('company', [\App\Http\Controllers\Api\Company\CompanyCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('company/{id}', [\App\Http\Controllers\Api\Company\CompanyUpdateController::class, 'update'])->middleware(['auth:api']);
+
     // Customer
     Route::get('customer', [\App\Http\Controllers\Api\Customer\CustomerListController::class, 'index'])->middleware(['auth:api']);
     Route::get('customer/{id}', [\App\Http\Controllers\Api\Customer\CustomerReadController::class, 'read'])->middleware(['auth:api']);
