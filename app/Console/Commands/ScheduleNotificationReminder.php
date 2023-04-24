@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Mail\GenericEmail;
+use App\Mail\InternalCRMEmail;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\Notification;
@@ -63,7 +63,7 @@ class ScheduleNotificationReminder extends Command
 
             $body = __($bodyText, ['name' => $recipient->name, 'time' => $time]);
 
-            $emailTemplate = new GenericEmail($recipient->company, $subject, ['body' => $body]);
+            $emailTemplate = new InternalCRMEmail($recipient->company, $subject, ['body' => $body]);
             $notification = new Notification();
             $notification->fill(
                 [
