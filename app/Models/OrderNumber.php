@@ -11,7 +11,7 @@ class OrderNumber extends Model
 {
     use HasFactory;
 
-    protected $table = 'oder_number';
+    protected $table = 'order_number';
 
     protected $fillable = [
         'company_id',
