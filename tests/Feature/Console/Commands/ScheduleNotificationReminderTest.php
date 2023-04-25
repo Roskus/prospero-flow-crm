@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands;
 
-use App\Mail\GenericEmail;
 use App\Mail\InternalCRMEmail;
 use App\Models\Customer;
 use App\Models\Lead;
