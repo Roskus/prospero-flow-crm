@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands;
 
-use App\Mail\GenericEmail;
+use App\Mail\InternalCRMEmail;
 use App\Models\Customer;
 use App\Models\Lead;
 use Illuminate\Support\Carbon;
@@ -25,14 +25,14 @@ class ScheduleNotificationReminderTest extends TestCase
             ->expectsOutputToContain('Remember contact')
             ->assertSuccessful();
 
-        Mail::assertSent(GenericEmail::class, 2);
+        Mail::assertSent(InternalCRMEmail::class, 2);
 
-        Mail::assertSent(GenericEmail::class, function (GenericEmail $mail) use ($lead) {
+        Mail::assertSent(InternalCRMEmail::class, function (InternalCRMEmail $mail) use ($lead) {
             return $mail->hasTo($lead->seller->email) &&
                 $mail->hasSubject('Remember contact to: '.$lead->name);
         });
 
-        Mail::assertSent(GenericEmail::class, function (GenericEmail $mail) use ($customer) {
+        Mail::assertSent(InternalCRMEmail::class, function (InternalCRMEmail $mail) use ($customer) {
             return $mail->hasTo($customer->seller->email) &&
                 $mail->hasSubject('Remember contact to: '.$customer->name);
         });

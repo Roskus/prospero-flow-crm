@@ -193,7 +193,9 @@ class Lead extends Model
 
     public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters, ?string $order_by = 'created_at'): mixed
     {
-        if (is_null($order_by)) $order_by = 'created_at';
+        if (is_null($order_by)) {
+        $order_by = 'created_at';
+        }
         $leads = Lead::where('company_id', $company_id);
         if (! empty($search)) {
             $words = explode(' ', $search);
