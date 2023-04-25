@@ -35,7 +35,7 @@
             <div class="input-group">
                 <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit" id="btn-search">+
+                    <button class="btn btn-outline-primary" type="submit" id="btn-search">
                         <i class="las la-search"></i>
                     </button>
                 </div>
@@ -52,7 +52,12 @@
             <tr>
                 <th>#ID</th>
                 <th>{{ __('External ID') }}</th>
-                <th>{{ __('Name') }}</th>
+                <th>
+                    <a href="{{ request()->fullUrlWithQuery(['order_by' => 'name']) }}"
+                       class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
+                    {{ __('Name') }}
+                    </a>
+                </th>
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Mobile') }}</th>
@@ -65,8 +70,18 @@
                 <th class="text-center d-none d-sm-table-cell">{{ __('Industry') }}</th>
                 <th class="text-center d-none d-sm-table-cell">{{ __('Tags') }}</th>
                 <th class="d-none d-sm-table-cell">{{ __('Status') }}</th>
-                <th class="d-none d-sm-table-cell">{{ __('Created at') }}</th>
-                <th class="d-none d-sm-table-cell">{{ __('Updated at') }}</th>
+                <th class="d-none d-sm-table-cell">
+                    <a href="{{ request()->fullUrlWithQuery(['order_by' => 'created_at']) }}"
+                       class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
+                    {{ __('Created at') }}
+                    </a>
+                </th>
+                <th class="d-none d-sm-table-cell">
+                    <a href="{{ request()->fullUrlWithQuery(['order_by' => 'updated_at']) }}"
+                       class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
+                    {{ __('Updated at') }}
+                    </a>
+                </th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -91,7 +106,7 @@
                 <td class="text-nowrap text-center">
                     @if($customer->mobile)
                         <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
-                         title="{{ $customer->mobile }}"  target="_blank"
+                         title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" target="_blank"
                            class="link-secondary">
                             <i class="las la-mobile fs-4"></i>
                         </a>

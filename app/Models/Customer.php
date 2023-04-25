@@ -76,6 +76,20 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        type="string",
  *        format="email",
  *        example="jhon.doe@email.com"
+ *    ),
+ *    @OA\Property(
+ *        property="website",
+ *        description="Website of the customer",
+ *        type="string",
+ *        format="url",
+ *        example="https://www.company.com"
+ *    ),
+ *    @OA\Property(
+ *        property="linkedin",
+ *        description="Linkedin of the customer",
+ *        type="string",
+ *        format="url",
+ *        example="https://www.likedin.com/in/profile"
  *    )
  * )
  */
@@ -182,17 +196,28 @@ class Customer extends Model
         return Customer::all();
     }
 
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, int $limit = 50): mixed
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
     {
+        if (is_null($order_by)) {
+            $order_by = 'created_at';
+        }
         $customers = Customer::where('company_id', $company_id);
         if (! empty($search)) {
             if (is_numeric($search)) {
                 $customers->orWhere('external_id', '=', "$search")
                     ->orWhere('phone', 'LIKE', "%$search%");
-            } else {
-                $customers->where('name', 'LIKE', "%$search%")
-                    ->orWhere('business_name', 'LIKE', "%$search%")
-                    ->orWhere('tags', 'LIKE', "%$search%");
+            }
+
+            if (is_string($search)) {
+                $words = explode(' ', $search);
+                if (count($words) == 1) {
+                    $customers->where('name', 'LIKE', "%$search%")
+                        ->orWhere('business_name', 'LIKE', "%$search%")
+                        ->orWhere('tags', 'LIKE', "%$search%");
+                } else {
+                    $customers->whereFullText(['name', 'business_name'], $search)
+                        ->orWhere('tags', 'LIKE', "%$search%");
+                }
             }
         }
 
@@ -202,7 +227,7 @@ class Customer extends Model
             }
         }
 
-        return $customers->paginate($limit);
+        return $customers->orderBy($order_by, 'desc')->paginate($limit);
     }
 
     public function getCountByCompany(int $company_id): int

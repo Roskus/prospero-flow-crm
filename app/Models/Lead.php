@@ -149,6 +149,7 @@ class Lead extends Model
         'tags' => 'array',
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
+        'dob' => 'date:Y-m-d',
     ];
 
     protected $hidden = [
@@ -194,7 +195,7 @@ class Lead extends Model
     public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters, ?string $order_by = 'created_at'): mixed
     {
         if (is_null($order_by)) {
-        $order_by = 'created_at';
+            $order_by = 'created_at';
         }
         $leads = Lead::where('company_id', $company_id);
         if (! empty($search)) {
