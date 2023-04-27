@@ -116,6 +116,7 @@ class Lead extends Model
         'phone2',
         'mobile',
         'email',
+        'email_verified',
         'email2',
         'website',
         'linkedin',

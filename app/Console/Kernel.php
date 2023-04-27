@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\CampaignSender::class,
         Commands\ScheduleNotificationReminder::class,
         Commands\CrmDevCheck::class,
+        Commands\EmailValidatorCommand::class,
     ];
 
     /**

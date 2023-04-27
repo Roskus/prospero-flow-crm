@@ -114,7 +114,11 @@
                 <td class="text-nowrap text-center">
                     @if($lead->email)
                         <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary"><i class="las la-envelope fs-4"></i></a>
-                        <i class="las la-check-circle {{ ($lead->email_verified) ? 'text-success' : 'text-muted' }}"></i>
+                        @if($lead->email_verified == 1)
+                            <i class="las la-check-circle text-success"></i>
+                        @elseif($lead->email_verified == 3)
+                            <i class="las la-times-circle text-danger"></i>
+                        @endif
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
