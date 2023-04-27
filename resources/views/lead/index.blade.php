@@ -175,7 +175,11 @@
                         </a>
                     @endif
                 </td>
-                <td class="text-center text-nowrap">{{ $lead->seller->first_name }}</td>
+                <td class="text-center text-nowrap">
+                    @isset($lead->seller)
+                    {{ $lead->seller->first_name }}
+                    @endisset
+                </td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
                     @if($lead->tags)
