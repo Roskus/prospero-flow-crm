@@ -21,14 +21,14 @@ class CustomerRepository
         $customer->company_id = Auth::user()->company_id;
         $customer->external_id = $data['external_id'] ?? null;
         $customer->name = $data['name'];
-        $customer->business_name = $data['business_name'];
-        $customer->dob = $data['dob'];
+        $customer->business_name = $data['business_name'] ?? null;
+        $customer->dob = $data['dob'] ?? null;
         $customer->vat = (isset($data['vat'])) ? strtoupper($data['vat']) : null; //Identity Number
-        $customer->phone = $data['phone'];
-        $customer->phone2 = $data['phone2'];
-        $customer->mobile = $data['mobile'];
-        $customer->email = $data['email'];
-        $customer->email2 = $data['email2'];
+        $customer->phone = $data['phone'] ?? null;
+        $customer->phone2 = $data['phone2'] ?? null;
+        $customer->mobile = $data['mobile'] ?? null;
+        $customer->email = $data['email'] ?? null;
+        $customer->email2 = $data['email2'] ?? null;
         $customer->website = ($data['website']) ? rtrim($data['website'], '/') : null;
         $customer->notes = $data['notes'] ?? null;
 
@@ -40,15 +40,15 @@ class CustomerRepository
         $customer->tiktok = ($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
 
         $customer->country_id = ($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
-        $customer->province = $data['province'];
-        $customer->city = $data['city'];
-        $customer->locality = $data['locality'];
-        $customer->street = $data['street'];
-        $customer->zipcode = $data['zipcode'];
-        $customer->industry_id = $data['industry_id'];
+        $customer->province = $data['province'] ?? null;
+        $customer->city = $data['city'] ?? null;
+        $customer->locality = $data['locality'] ?? null;
+        $customer->street = $data['street'] ?? null;
+        $customer->zipcode = $data['zipcode'] ?? null;
+        $customer->industry_id = $data['industry_id'] ?? null;
         $customer->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
         $customer->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
-        $customer->schedule_contact = $data['schedule_contact'];
+        $customer->schedule_contact = $data['schedule_contact'] ?? null;
 
         $customer->tags = ($data['tags']) ? explode(',', $data['tags']) : null;
 

@@ -42,9 +42,9 @@ class LeadRepository
         $lead->country_id = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
         $lead->province = ! empty($data['province']) ? $data['province'] : null;
         $lead->city = ! empty($data['city']) ? $data['city'] : null;
-        $lead->locality = $data['locality'];
-        $lead->street = $data['street'];
-        $lead->zipcode = $data['zipcode'];
+        $lead->locality = $data['locality'] ?? null;
+        $lead->street = $data['street'] ?? null;
+        $lead->zipcode = $data['zipcode'] ?? null;
         $lead->schedule_contact = ! empty($data['schedule_contact']) ? $data['schedule_contact'] : null;
         $lead->industry_id = ! empty($data['industry_id']) ? $data['industry_id'] : null;
         $lead->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
