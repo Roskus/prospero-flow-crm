@@ -55,6 +55,14 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <div>{{ __('Identity number') }}:</div>
                 <strong>{{ $item->vat }}</strong>
             </div>
+            <div class="col-md-3">
+                <div>{{ __('Website') }}:</div>
+                @isset($item->website)
+                <strong>
+                    <a href="{{ $item->website }}" target="_blank">{{ $item->website }}</a>
+                </strong>
+                @endisset
+            </div>
         </div><!--./row-->
         <div class="row">
             <div class="col-md-2">
