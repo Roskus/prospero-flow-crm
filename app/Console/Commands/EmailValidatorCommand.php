@@ -34,7 +34,8 @@ class EmailValidatorCommand extends Command
     {
         $rules = ['email' => 'email:rfc,dns'];
 
-        $verifiedLeads = $leadModel->whereNotNull('email')->where('email_verified', 0)->get();
+        $verifiedLeads = $leadModel->whereNotNull('email')
+            ->where('email_verified', 0)->orWhere('email_verified', 3)->get();
         foreach ($verifiedLeads as $lead) {
             $validator = Validator::make(['email' => $lead->email], $rules);
             $lead->email_verified = $validator->passes() ? true : 3;
@@ -43,7 +44,8 @@ class EmailValidatorCommand extends Command
         }
         $this->info('Leads Email validation complete.');
 
-        $verifiedCustomers = $customerModel->whereNotNull('email')->where('email_verified', 0)->get();
+        $verifiedCustomers = $customerModel->whereNotNull('email')
+            ->where('email_verified', 0)->orWhere('email_verified', 3)->get();
         foreach ($verifiedCustomers as $customer) {
             $validator = Validator::make(['email' => $customer->email], $rules);
             $customer->email_verified = $validator->passes() ? true : 3;
