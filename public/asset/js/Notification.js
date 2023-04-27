@@ -42,7 +42,7 @@ window.ProspectFlow.Notification = {
                           if (permission === "granted") {
                               let notification = new Notification("Reminder", {
                                   body: data.notifications[key].message,
-                                  icon: "ruta-a-icono.png"
+                                  icon: "/asset/img/notification.png"
                               });
                           }
 
