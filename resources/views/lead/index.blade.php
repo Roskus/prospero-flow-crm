@@ -113,9 +113,8 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->email)
-                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary">
-                            <i class="las la-envelope fs-4"></i>
-                        </a>
+                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary"><i class="las la-envelope fs-4"></i></a>
+                        <i class="las la-check-circle {{ ($lead->email_verified) ? 'text-success' : 'text-muted' }}"></i>
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
