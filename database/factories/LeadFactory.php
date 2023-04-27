@@ -33,6 +33,7 @@ class LeadFactory extends Factory
             'phone2' => fake()->numerify('6########'),
             'mobile' => fake()->numerify('6########'),
             'email' => fake()->email(),
+            'email_verified' => 0,
             'email2' => fake()->email(),
             'website' => 'https://'.fake()->domainName(),
             'linkedin' => 'https://'.fake()->domainName(),
