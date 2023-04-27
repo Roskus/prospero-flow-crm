@@ -20,6 +20,12 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <div>{{ __('Business name') }}:</div>
                 <strong>{{ $item->business_name }}</strong>
             </div>
+            <div class="col-md-2">
+                <div>{{ __('Seller') }}:</div>
+                @isset($item->seller)
+                    <strong>{{ $item->seller->first_name }}</strong>
+                @endisset
+            </div>
             <div class="col-md-1">
                 <a class="btn btn-warning" href="{{ url("/$url/update/$item->id") }}">
                     <i class="las la-pen"></i> {{ __('Edit') }}
