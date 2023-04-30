@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Bank;
 
 class BankDeleteController
 {
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, string $uuid)
     {
     }
 }

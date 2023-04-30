@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Bank;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Company;
@@ -79,5 +80,7 @@ class DevelopmentDatabaseSeeder extends Seeder
         ]);
 
         Message::factory()->count(10)->recycle($tickets)->create(['author_id' => $user->id]);
+
+        Bank::factory()->count(10)->create();
     }
 }

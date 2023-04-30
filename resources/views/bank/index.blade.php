@@ -25,7 +25,7 @@
         @foreach($banks as $bank)
         <tr>
             <td>
-                <a href="/bank/update/{{ $bank->id }}">{{ $bank->name }}</a>
+                <a href="/bank/update/{{ $bank->uuid }}">{{ $bank->name }}</a>
             </td>
             <td class="text-center">
                 @if(!empty($bank->country))
@@ -52,7 +52,7 @@
                 {{ $bank->updated_at }}
             </td>
             <td>
-                <a href="{{ url('bank/delete'.$bank->id) }}" class="btn btn-danger btn-sm">
+                <a href="{{ url('bank/delete'.$bank->uuid) }}" class="btn btn-danger btn-sm">
                     <i class="las la-trash-alt"></i>
                 </a>
             </td>

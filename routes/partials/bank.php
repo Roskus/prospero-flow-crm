@@ -17,7 +17,7 @@ Route::get('/bank',
     [BankIndexController::class, 'index'])
     ->can('read bank');
 
-Route::get('/bank/update/{id}',
+Route::get('/bank/update/{uuid}',
     [BankUpdateController::class, 'update'])
     ->can('update bank');
 
@@ -25,6 +25,6 @@ Route::post('/bank/save',
     [BankSaveController::class, 'save'])
     ->can('update bank');
 
-Route::get('/bank/delete/{id}',
+Route::get('/bank/delete/{uuid}',
     [BankDeleteController::class, 'delete'])
     ->can('delete bank');

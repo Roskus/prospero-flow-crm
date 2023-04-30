@@ -10,9 +10,9 @@ use Squire\Models\Country;
 
 class BankUpdateController
 {
-    public function update(Request $request, int $id)
+    public function update(Request $request, string $uuid)
     {
-        $bank = Bank::find($id);
+        $bank = Bank::find($uuid);
         $data['bank'] = $bank;
         $data['countries'] = Country::all();
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OpenApi\Attributes as OAT;
@@ -12,6 +14,8 @@ use Squire\Models\Country;
 #[OAT\Schema(schema: 'Bank', required: ['name', 'country'])]
 class Bank extends Model
 {
+    use HasFactory, HasUuids;
+
     const ACTIVE = 1;
 
     protected $table = 'bank';
@@ -39,7 +43,6 @@ class Bank extends Model
     protected ?int $id;
 
     #[OAT\Property(type: 'string', example: 'UUID')]
-    protected string $uuid;
 
     #[OAT\Property(type: 'string', example: 'Bank of America')]
     protected string $name;
