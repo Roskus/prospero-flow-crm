@@ -206,6 +206,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <th scope="col">{{ __('Phone') }}</th>
                     <th scope="col">{{ __('Mobile') }}</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Social</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -224,6 +225,13 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <td>
                         @isset($contact->email)
                         <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
+                        @endisset
+                    </td>
+                    <td>
+                        @isset($contact->linkedin)
+                            <a href="{{ $contact->linkedin }}" target="_blank" class="text-decoration-none link-secondary">
+                                <i class="lab la-linkedin fs-3"></i>
+                            </a>
                         @endisset
                     </td>
                     <td>
