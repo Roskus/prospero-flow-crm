@@ -30,6 +30,7 @@ class CustomerFactory extends Factory
             'dob' => fake()->date(),
             'vat' => fake()->bothify('??#########'),
             'phone' => fake()->numerify('6########'),
+            'extension' => null,
             'phone2' => fake()->numerify('6########'),
             'mobile' => fake()->numerify('6########'),
             'email' => fake()->email(),

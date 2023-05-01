@@ -27,6 +27,7 @@ class LeadRepository
         $lead->dob = ! empty($data['dob']) ? $data['dob'] : null;
         $lead->vat = ! empty($data['vat']) ? strtoupper($data['vat']) : null;
         $lead->phone = $data['phone'];
+        $lead->extension = $data['extension'] ?? null;
         $lead->phone2 = $data['phone2'];
         $lead->mobile = $data['mobile'];
         $lead->email = ! empty($data['email']) ? $data['email'] : null;

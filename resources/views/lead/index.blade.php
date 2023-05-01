@@ -96,12 +96,12 @@
                 <td class="text-nowrap">{{ $lead->business_name }}</td>
                 <td class="text-nowrap text-center">
                     @if($lead->phone)
-                        <a href="tel:{{ $lead->phone }}" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
+                        <a href="tel:{{ $lead->phone }}@isset($lead->extension),{{$lead->extension}}@endisset" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
                            target="_blank" class="link-secondary">
                             <i class="las la-phone fs-4"></i>
                         </a>
 
-                        <a href="sip:{{ $lead->phone }}" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
+                        <a href="sip:{{ $lead->phone }}@isset($lead->extension),{{$lead->extension}}@endisset" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
                            target="_blank" class="link-secondary">
                             <i class="las la-headset fs-4"></i>
                         </a>

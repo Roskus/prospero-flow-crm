@@ -23,6 +23,7 @@ class Contact extends Model
         'first_name',
         'last_name',
         'phone',
+        'extension',
         'email',
         'likedin',
         'country',

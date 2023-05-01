@@ -23,7 +23,7 @@
         <td>{{ $contact->job_title }}</td>
         <td class="text-center">
             @if($contact->phone)
-                <a href="tel:{{ $contact->phone }}" title="{{ $contact->phone }}">
+                <a href="tel:{{ $contact->phone }}@isset($contact->extension),{{$lead->extension}}@endisset" title="{{ $contact->phone }}">
                     <i class="las la-phone fs-4"></i>
                 </a>
             @endif

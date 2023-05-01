@@ -25,6 +25,7 @@ class ContactRepository
         $contact->first_name = ! empty($data['contact_first_name']) ? $data['contact_first_name'] : null;
         $contact->last_name = ! empty($data['contact_last_name']) ? $data['contact_last_name'] : null;
         $contact->phone = ! empty($data['contact_phone']) ? $data['contact_phone'] : null;
+        $contact->extension = $data['contact_extension'] ?? null;
         $contact->mobile = ! empty($data['contact_mobile']) ? $data['contact_mobile'] : null;
         $contact->email = ($data['contact_email']) ? strtolower(trim($data['contact_email'])) : null;
         $contact->job_title = ! empty($data['contact_job_title']) ? $data['contact_job_title'] : null;

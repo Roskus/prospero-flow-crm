@@ -217,7 +217,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <td>{{ $contact->first_name }}</td>
                     <td>{{ $contact->last_name }}</td>
                     <td>
-                        <a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a>
+                        <a href="tel:{{ $contact->phone }}@isset($contact->extension),{{$contact->extension}}@endisset">{{ $contact->phone }}</a>
                     </td>
                     <td>
                         {{ $contact->mobile }}

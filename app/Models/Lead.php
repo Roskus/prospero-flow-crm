@@ -48,6 +48,12 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        example="+3464500000"
  *    ),
  *    @OA\Property(
+ *        property="extension",
+ *        description="Phone extension of the customer",
+ *        type="string",
+ *        example="4004"
+ *    ),
+ *    @OA\Property(
  *        property="phone2",
  *        description="Phone2 of the lead",
  *        type="string",
@@ -113,6 +119,7 @@ class Lead extends Model
         'dob',
         'vat',
         'phone',
+        'extension',
         'phone2',
         'mobile',
         'email',

@@ -20,7 +20,7 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *  @OA\Schema(
  *    schema="Customer",
  *    type="object",
- *    required={"name", "country"},
+ *    required={"name", "country", "seller_id"},
  *    @OA\Property(
  *        property="name",
  *        description="Name of the customer",
@@ -50,6 +50,12 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        description="Phone of the customer",
  *        type="string",
  *        example="+3464500000"
+ *    ),
+ *    @OA\Property(
+ *        property="extension",
+ *        description="Phone extension of the customer",
+ *        type="string",
+ *        example="4004"
  *    ),
  *    @OA\Property(
  *        property="phone2",
@@ -90,6 +96,11 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        type="string",
  *        format="url",
  *        example="https://www.likedin.com/in/profile"
+ *    ),
+ *    @OA\Property(
+ *        property="seller_id",
+ *        description="SellerID of the customer",
+ *        type="string"
  *    )
  * )
  */
@@ -117,6 +128,7 @@ class Customer extends Model
         'dob',
         'vat',
         'phone',
+        'extension',
         'phone2',
         'mobile',
         'email',
