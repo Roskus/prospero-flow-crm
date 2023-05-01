@@ -100,6 +100,11 @@
                            target="_blank" class="link-secondary">
                             <i class="las la-phone fs-4"></i>
                         </a>
+
+                        <a href="sip:{{ $lead->phone }}" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
+                           target="_blank" class="link-secondary">
+                            <i class="las la-headset fs-4"></i>
+                        </a>
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
@@ -108,6 +113,11 @@
                            title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
                            class="link-secondary">
                             <i class="las la-mobile fs-4"></i>
+                        </a>
+
+                        <a href="sip:{{ $lead->mobile }}" title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}"
+                           target="_blank" class="link-secondary">
+                            <i class="las la-headset fs-4"></i>
                         </a>
                     @endif
                 </td>
