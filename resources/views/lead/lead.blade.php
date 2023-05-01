@@ -29,12 +29,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-10 col-md-4">
                         <label for="phone">{{ __('Phone') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-phone"></i></span>
                             <input type="tel" name="phone" id="phone" value="{{ old('phone', $lead->phone) }}"
                                    maxlength="15" class="form-control form-control-lg">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <label for="extension">{{ __('Extension') }}</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="lab la-buromobelexperte"></i></span>
+                            <input type="text" name="extension" id="extension" value="{{ old('extension', $lead->extension) }}"
+                                   maxlength="6" class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="col-12 col-md-6">

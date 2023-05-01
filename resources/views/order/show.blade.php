@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.partials._header', ['title' =>  __('Order').' #'.$order->id, 'print' => true])
+    @include('layouts.partials._header', ['title' =>  __('Order').' #'.str_pad($order->order_number, 10, '0'), 'print' => true])
     @include('order.partial._order', ['order' =>  $order])
 
     <div class="mt-2 text-center d-print-none">

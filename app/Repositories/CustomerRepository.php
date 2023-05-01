@@ -25,6 +25,7 @@ class CustomerRepository
         $customer->dob = $data['dob'] ?? null;
         $customer->vat = (isset($data['vat'])) ? strtoupper($data['vat']) : null; //Identity Number
         $customer->phone = $data['phone'] ?? null;
+        $customer->extension = $data['extension'] ?? null;
         $customer->phone2 = $data['phone2'] ?? null;
         $customer->mobile = $data['mobile'] ?? null;
         $customer->email = $data['email'] ?? null;

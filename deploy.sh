@@ -7,7 +7,7 @@ composer install --no-dev --optimize-autoloader
 php artisan migrate --force
 # Generate updated api doc
 php artisan l5-swagger:generate
-# Fix storage permision also for logs
+# Fix storage permission also for logs
 sudo chmod 775 storage/ -R
 # Get APP_VERSION
 VERSION=$(sed -n "s/.*APP_VERSION = '\(.*\)';/\1/p" version.php)
