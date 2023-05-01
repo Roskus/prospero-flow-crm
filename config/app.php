@@ -248,7 +248,7 @@ return [
         'en' => 'English',
         'es' => 'Spanish',
         'es-MX' => 'Spanish (Mexico)',
-        'es-Es' => 'Spanish (España)',
+        'es-ES' => 'Spanish (España)',
         'fr' => 'French',
         'pt' => 'Portuguese',
         'de' => 'German',
