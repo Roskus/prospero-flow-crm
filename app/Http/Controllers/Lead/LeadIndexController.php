@@ -23,6 +23,7 @@ class LeadIndexController extends MainController
         $order_by = null;
         $search = $request->search;
         $user = new User();
+        $industry = new Industry();
 
         if ($request->country_id) {
             $filters['country_id'] = $request->country_id;
@@ -67,7 +68,8 @@ class LeadIndexController extends MainController
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['statuses'] = $lead->getStatus();
-        $data['industries'] = Industry::all();
+        // Temporary fix get this from configuration
+        $data['industries'] = (Auth::user()->company_id == 3) ? $industry->getAllByCompany(Auth::user()->company_id) : $industry->getAll();
 
         return view('lead.index', $data);
     }
