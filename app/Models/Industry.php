@@ -36,6 +36,6 @@ class Industry extends Model
 
     public function getAllByCompany(int $company_id)
     {
-        return Industry::where('company_id', $company_id)->get();
+        return Industry::where('company_id', $company_id)->orderBy('name')->get();
     }
 }
