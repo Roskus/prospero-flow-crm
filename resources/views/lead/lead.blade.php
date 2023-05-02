@@ -138,7 +138,7 @@
                     <div class="col-12 col-md-6">
                         <label for="province" class="">{{ __('Province') }}</label>
                         <input type="text" name="province" id="province"
-                               value="{{ old('province', $province->province) }}" class="form-control form-control-lg">
+                               value="{{ old('province', $lead->province) }}" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="city" class="">{{ __('City') }}</label>
