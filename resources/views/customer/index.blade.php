@@ -67,7 +67,12 @@
                 <th>{{ __('Province') }}</th>
                 <th class="d-none d-sm-table-cell">Social</th>
                 <th class="text-center">{{ __('Seller') }}</th>
-                <th class="text-center d-none d-sm-table-cell">{{ __('Industry') }}</th>
+                <th class="text-center d-none d-sm-table-cell">
+                    <a href="{{ request()->fullUrlWithQuery(['order_by' => 'industry_id']) }}"
+                       class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
+                        {{ __('Industry') }}
+                    </a>
+                </th>
                 <th class="text-center d-none d-sm-table-cell">{{ __('Tags') }}</th>
                 <th class="d-none d-sm-table-cell">{{ __('Status') }}</th>
                 <th class="d-none d-sm-table-cell">
