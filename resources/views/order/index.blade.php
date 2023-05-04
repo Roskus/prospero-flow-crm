@@ -32,7 +32,7 @@
                     <a href="{{ url('order/show/'.$order->id) }}">{{ $order->id }}</a>
                 </td>
                 <td>
-                    {{ str_pad($order->order_number, 10, '0') }}
+                    {{ $order->orderNumber() }}
                 </td>
                 <td>{{ (!empty($order->customer)) ? $order->customer->name : '' }}</td>
                 <td class="text-center">
