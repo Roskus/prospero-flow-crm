@@ -65,6 +65,14 @@ class CustomerIndexController extends MainController
             $filters['province'] = $request->province;
         }
 
+        if ($request->filled('external_id')) {
+            $filters['external_id'] = $request->external_id;
+        }
+
+        if ($request->filled('vat')) {
+            $filters['vat'] = $request->vat;
+        }
+
         if ($request->filled('order_by')) {
             $order_by = $request->order_by;
         }
