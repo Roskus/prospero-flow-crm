@@ -2,14 +2,15 @@
 version: "3.9"
 services:
   php:
-    #image: php:8.1-fpm
+    #image: php:8.2-fpm
     build: './etc/infrastructure/php'
     container_name: crm-php
+    user: www-data
     volumes:
     - ./etc/.bashrc:/root/.bashrc
     - .:/var/www/crm/
     - ./etc/infrastructure/nginx/conf.d:/etc/nginx/conf.d/
-    - ./etc/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    #- ./etc/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     working_dir: /var/www/crm/
     links:
     - db
@@ -58,6 +59,6 @@ services:
     container_name: crm-pma
     restart: always
     ports:
-      - "8080:80"
+      - "8081:80"
     environment:
       - PMA_ARBITRARY=1
