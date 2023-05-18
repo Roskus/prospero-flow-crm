@@ -36,6 +36,10 @@ class EmailSendController extends MainController
         $message = new GenericEmail(Auth::user()->company, $email->subject, $params);
         try {
             $mail = Mail::to($email->to);
+            if($email->cc) {
+                $mail->cc($email->cc);
+            }
+
             if ($email->attachments()->count() > 0) {
                 foreach ($email->attachments() as $attachment) {
                     $file = Attachment::fromPath(storage_path('app/'.$attachment->file))
