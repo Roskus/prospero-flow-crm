@@ -36,7 +36,7 @@ class EmailSendController extends MainController
         $message = new GenericEmail(Auth::user()->company, $email->subject, $params);
         try {
             $mail = Mail::to($email->to);
-            if($email->cc) {
+            if ($email->cc) {
                 $mail->cc($email->cc);
             }
 
