@@ -153,7 +153,7 @@ final class Order extends Model
         $this->setAttribute('amount', $amount);
     }
 
-    public function orderNumber() : string
+    public function orderNumber(): string
     {
         return isset($this->order_number) ? str_pad((string) $this->order_number, 10, '0', STR_PAD_LEFT) : '';
     }
