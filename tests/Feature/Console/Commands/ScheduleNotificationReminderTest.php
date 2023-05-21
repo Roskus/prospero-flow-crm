@@ -18,8 +18,11 @@ class ScheduleNotificationReminderTest extends TestCase
     {
         Mail::fake();
 
-        $lead = Lead::factory()->create(['schedule_contact' => Carbon::today()]);
-        $customer = Customer::factory()->create(['schedule_contact' => Carbon::today()]);
+        $timezone = 'Europe/Madrid';
+        $today = Carbon::today($timezone)->toDateString();
+
+        $lead = Lead::factory()->create(['schedule_contact' => $today]);
+        $customer = Customer::factory()->create(['schedule_contact' => $today]);
 
         $this->artisan('crm:notification-reminder:send')
             ->expectsOutputToContain('Remember contact')
@@ -41,8 +44,11 @@ class ScheduleNotificationReminderTest extends TestCase
     /** @test */
     public function it_can_store_notifications(): void
     {
-        $lead = Lead::factory()->create(['schedule_contact' => Carbon::today(), 'seller_id' => auth()->id()]);
-        $customer = Customer::factory()->create(['schedule_contact' => Carbon::today(), 'seller_id' => auth()->id()]);
+        $timezone = 'Europe/Madrid';
+        $today = Carbon::today($timezone)->toDateString();
+
+        $lead = Lead::factory()->create(['schedule_contact' => $today, 'seller_id' => auth()->id()]);
+        $customer = Customer::factory()->create(['schedule_contact' => $today, 'seller_id' => auth()->id()]);
 
         $this->artisan('crm:notification-reminder:send')
             ->expectsOutputToContain('Remember contact')
