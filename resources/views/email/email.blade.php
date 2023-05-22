@@ -30,11 +30,11 @@
                     <div class="col">
                         <label for="to" class="">{{ __('To') }}</label>
                         <input type="email" name="to" id="to" maxlength="255" required
-                            value="{{ $email->to }}" class="form-control">
+                            value="{{ old('to', $email->to) }}" class="form-control">
                     </div>
                     <div class="col">
                         <label for="cc" class="">CC</label>
-                        <input type="text" name="cc" id="cc" value="{{ $email->cc }}" maxlength="255"
+                        <input type="text" name="cc" id="cc" value="{{ old('cc', $email->cc) }}" maxlength="255"
                             class="form-control">
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                                 <span class="btn btn-outline-secondary">&#123;&#123; $prospect->first_name &#125;&#125;</span>
                             </a>
                         </div>
-                        <textarea name="body" id="body">{{ $email->body }}</textarea>
+                        <textarea name="body" id="body">{{ old('body', $email->body) }}</textarea>
                     </div>
                 </div>
                 <div class="row">

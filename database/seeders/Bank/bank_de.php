@@ -12,5 +12,5 @@ return [
     ['country_id' => 'de', 'name' => 'BayernLB', 'phone' => '+498921710', 'email' => 'info@bayernlb.de', 'website' => 'https://www.bayernlb.de', 'bic' => 'BYLADEMMXXX', 'created_at' => now()],
     ['country_id' => 'de', 'name' => 'HypoVereinsbank', 'phone' => '+49 89 378-0', 'email' => 'info@unicredit.de', 'website' => 'https://www.hypovereinsbank.de', 'bic' => 'HYVEDEMMXXX', 'created_at' => now()],
     ['country_id' => 'de', 'name' => 'Deutsche Bundesbank', 'phone' => '+49 69 9566-0', 'email' => 'info@bundesbank.de', 'website' => 'https://www.bundesbank.de', 'bic' => 'MARKDEF1100', 'created_at' => now()],
-    ['country_id' => 'de', 'name' => 'KfW Bankengruppe', 'phone' => '+49 69 7431-0', 'email' => 'info@kfw.de', 'website' => 'https://www.kfw.de', 'bic' => 'COBADEFFXXX', 'created_at' => now()],
+    ['country_id' => 'de', 'name' => 'KfW Bankengruppe', 'phone' => '+49 69 7431-0', 'email' => 'info@kfw.de', 'website' => 'https://www.kfw.de', 'bic' => 'IPEXDEFFXXX', 'created_at' => now()],
 ];
