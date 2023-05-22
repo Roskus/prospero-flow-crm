@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\ServiceProvider;
 
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'version.php';
 
@@ -183,7 +184,7 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => ServiceProvider::defaultProviders()->merge([
 
         /*
          * Laravel Framework Service Providers...
@@ -226,7 +227,7 @@ return [
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
-    ],
+    ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------
