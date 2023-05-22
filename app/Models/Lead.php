@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
+use App\Models\Lead\Message;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**
@@ -173,6 +174,11 @@ class Lead extends Model
     public function company()
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 
     public function seller()

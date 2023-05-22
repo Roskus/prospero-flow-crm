@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
+use App\Models\Customer\Message;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**
@@ -182,6 +183,11 @@ class Customer extends Model
     public function company(): HasOne
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 
     public function seller(): HasOne

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Ticket;
+namespace App\Models\Lead;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,10 +12,10 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $table = 'ticket_message';
+    protected $table = 'lead_message';
 
     protected $fillable = [
-        'ticket_id',
+        'lead_id',
         'body',
         'author_id',
     ];

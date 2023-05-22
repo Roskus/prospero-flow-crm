@@ -306,6 +306,64 @@
     </form>
 
     @if($customer->id)
+        <div class="row mt-2">
+            <div class="col">
+                <a href="#" onclick="$('#new-message').removeClass('d-none');" class="btn btn-primary">{{ __('New message') }}</a>
+            </div>
+        </div>
+
+        <div id="new-message" class="card mt-3 d-none">
+            <div class="card">
+
+                <div class="card-body">
+                    <form method="post" action="{{ url("/customer/message/save") }}">
+                        @csrf
+                        <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+                        <div class="row">
+                            <div class="col">
+                                <label for="message">{{ __('Message') }}</label>
+                                <textarea name="message" id="message" required class="form-control form-control-lg"></textarea>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col pt-2">
+                                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                {{ __('Messages') }}
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">{{ __('Author') }}</th>
+                        <th scope="col">{{ __('Message') }}</th>
+                        <th scope="col">{{ __('Created at') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($customer->messages as $message)
+                        <tr>
+                            <td>{{ $message->author->first_name }}</td>
+                            <td>{{ $message->body }}</td>
+                            <td>{{ $message->created_at->format('Y-m-d h:m') }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    @if($customer->id)
     <div class="card mt-2">
         <div class="card-header">
             <div class="row">
