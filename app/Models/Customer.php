@@ -226,7 +226,9 @@ class Customer extends Model
                 if (count($words) == 1) {
                     $customers->where('name', 'LIKE', "%$search%")
                         ->orWhere('business_name', 'LIKE', "%$search%")
-                        ->orWhere('tags', 'LIKE', "%$search%");
+                        ->orWhere('tags', 'LIKE', "%$search%")
+                        ->orWhere('external_id', 'LIKE', "%$search%")
+                        ->orWhere('vat', 'LIKE', "%$search%");
                 } else {
                     $customers->whereFullText(['name', 'business_name'], $search)
                         ->orWhere('tags', 'LIKE', "%$search%");

@@ -112,8 +112,8 @@ class Lead extends Model
     protected $table = 'lead';
 
     protected $fillable = [
-        'external_id',
         'company_id',
+        'external_id',
         'name',
         'business_name',
         'dob',

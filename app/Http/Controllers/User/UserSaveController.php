@@ -47,7 +47,11 @@ class UserSaveController extends MainController
         $user->phone = $request->phone;
         $user->lang = $request->lang;
 
-        if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
+        if (
+            ! empty($request->password) &&
+            ! empty($request->password_confirmation) &&
+            ($request->password == $request->password_confirmation)
+        ) {
             $user->password = Hash::make($request->password);
         }
 
