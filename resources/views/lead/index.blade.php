@@ -67,13 +67,13 @@
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Province') }}</th>
                 <th class="d-none d-sm-table-cell">Social</th>
-                <th class="text-center">{{ __('Seller') }}</th>
                 <th class="text-center d-none d-sm-table-cell">
                     <a href="{{ request()->fullUrlWithQuery(['order_by' => 'industry_id']) }}"
                        class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
                     {{ __('Industry') }}
                     </a>
                 </th>
+                <th class="text-center">{{ __('Seller') }}</th>
                 <th class="text-center d-none d-sm-table-cell">{{ __('Tags') }}</th>
                 <th class="d-none d-sm-table-cell">{{ __('Status') }}</th>
                 <th class="d-none d-sm-table-cell">
@@ -114,7 +114,7 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
+                        <a href="tel:{{ $lead->mobile }}"
                            title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
                            class="link-secondary">
                             <i class="las la-mobile fs-4"></i>
@@ -123,6 +123,18 @@
                         <a href="sip:{{ $lead->mobile }}" title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}"
                            target="_blank" class="link-secondary">
                             <i class="las la-headset fs-4"></i>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
+                           class="link-secondary">
+                            <i class="lab la-whatsapp fs-4"></i>
+                        </a>
+
+                        <a href="https://telegram.me/{{ $lead->mobile }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
+                           class="link-secondary">
+                            <i class="lab la-telegram-plane fs-4"></i>
                         </a>
                     @endif
                 </td>
@@ -149,7 +161,7 @@
                     {{ $lead->country->flag }}
                     @endif
                 </td>
-                <td class="text-nowrap d-none d-sm-table-cell">
+                <td class="text-nowrap d-sm-table-cell">
                     {{ $lead->province }}
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
@@ -190,12 +202,12 @@
                         </a>
                     @endif
                 </td>
+                <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
                 <td class="text-center text-nowrap">
                     @isset($lead->seller)
                     {{ $lead->seller->first_name }}
                     @endisset
                 </td>
-                <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
                     @if($lead->tags)
                         @foreach($lead->tags as $tag)
