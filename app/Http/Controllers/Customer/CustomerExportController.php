@@ -31,11 +31,24 @@ class CustomerExportController
         $data = $customers->toArray();
 
         $content = $rowHeaders."\n";
-        foreach ($data as $key => $row) {
+        foreach ($data as $row) {
+
+            $line = [];
+
             $row['tags'] = is_array($row['tags']) ? implode(separator: ',', array: $row['tags']) : '';
             $row['notes'] = is_null($row['notes']) ? null : str_replace(["\r", "\n"], '-', $row['notes']);
-            $row = str_replace(["\r", "\n"], '', $row);
-            $line = implode($separator, $row);
+            $row['country_id'] = $row['country']['id'];
+            $row['seller_id'] = $row['seller']['id'];
+            $row['industry_id'] = $row['industry']['id'];
+
+            // This ensures that each value is in the same order as the fields in the header.
+            foreach ($columns as $column) {
+                if (isset($row[$column])) {
+                    $line[] = $row[$column];
+                }
+            }
+
+            $line = implode($separator, $line);
             $content = $content.$line."\n";
         }
 
