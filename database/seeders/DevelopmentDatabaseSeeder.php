@@ -80,7 +80,5 @@ class DevelopmentDatabaseSeeder extends Seeder
         ]);
 
         Message::factory()->count(10)->recycle($tickets)->create(['author_id' => $user->id]);
-
-        Bank::factory()->count(10)->create();
     }
 }
