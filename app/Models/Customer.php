@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
+use App\Models\Customer\Message;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**
@@ -184,6 +185,11 @@ class Customer extends Model
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function seller(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'seller_id');
@@ -226,7 +232,9 @@ class Customer extends Model
                 if (count($words) == 1) {
                     $customers->where('name', 'LIKE', "%$search%")
                         ->orWhere('business_name', 'LIKE', "%$search%")
-                        ->orWhere('tags', 'LIKE', "%$search%");
+                        ->orWhere('tags', 'LIKE', "%$search%")
+                        ->orWhere('external_id', 'LIKE', "%$search%")
+                        ->orWhere('vat', 'LIKE', "%$search%");
                 } else {
                     $customers->whereFullText(['name', 'business_name'], $search)
                         ->orWhere('tags', 'LIKE', "%$search%");

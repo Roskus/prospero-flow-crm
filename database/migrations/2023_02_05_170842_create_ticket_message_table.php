@@ -16,9 +16,9 @@ return new class extends Migration
         if (! Schema::hasTable('ticket_message')) {
             Schema::create('ticket_message', function (Blueprint $table): void {
                 $table->id();
+                $table->unsignedBigInteger('ticket_id');
                 $table->text('body');
                 $table->unsignedBigInteger('author_id');
-                $table->unsignedBigInteger('ticket_id');
                 $table->timestamps();
             });
         }

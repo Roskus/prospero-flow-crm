@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\CustomerCreateController;
 use App\Http\Controllers\Customer\CustomerDeleteController;
 use App\Http\Controllers\Customer\CustomerExportController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\Customer\CustomerIndexController;
 use App\Http\Controllers\Customer\CustomerSaveController;
 use App\Http\Controllers\Customer\CustomerShowController;
 use App\Http\Controllers\Customer\CustomerUpdateController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Customer\CustomerCreateMessageController;
 
 Route::match(['get', 'post'], '/customer',
     [CustomerIndexController::class, 'index'])
@@ -46,3 +47,5 @@ Route::get('/customer/export',
 Route::get('/customer/show/{customer}',
     [CustomerShowController::class, 'show'])
     ->can('read customer');
+
+Route::post('/customer/message/save', [CustomerCreateMessageController::class, 'save']);

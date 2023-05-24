@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Lead\LeadCreateController;
 use App\Http\Controllers\Lead\LeadDeleteController;
 use App\Http\Controllers\Lead\LeadExportController;
@@ -12,7 +12,8 @@ use App\Http\Controllers\Lead\LeadPromoteCustomerController;
 use App\Http\Controllers\Lead\LeadSaveController;
 use App\Http\Controllers\Lead\LeadShowController;
 use App\Http\Controllers\Lead\LeadUpdateController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Lead\LeadCreateMessageController;
+
 
 Route::match(['get', 'post'], '/lead',
     [LeadIndexController::class, 'index'])
@@ -52,3 +53,5 @@ Route::get('/lead/export',
 Route::get('/lead/show/{lead}',
     [LeadShowController::class, 'show'])
     ->can('read lead');
+
+Route::post('/lead/message/save', [LeadCreateMessageController::class, 'save']);
