@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Customer\Message;
 use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
-use App\Models\Customer\Message;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**
