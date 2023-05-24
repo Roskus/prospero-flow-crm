@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Lead\Message;
 use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
-use App\Models\Lead\Message;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
 /**

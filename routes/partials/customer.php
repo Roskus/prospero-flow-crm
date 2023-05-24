@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\CustomerCreateController;
+use App\Http\Controllers\Customer\CustomerCreateMessageController;
 use App\Http\Controllers\Customer\CustomerDeleteController;
 use App\Http\Controllers\Customer\CustomerExportController;
 use App\Http\Controllers\Customer\CustomerImportIndexController;
@@ -12,7 +12,7 @@ use App\Http\Controllers\Customer\CustomerIndexController;
 use App\Http\Controllers\Customer\CustomerSaveController;
 use App\Http\Controllers\Customer\CustomerShowController;
 use App\Http\Controllers\Customer\CustomerUpdateController;
-use App\Http\Controllers\Customer\CustomerCreateMessageController;
+use Illuminate\Support\Facades\Route;
 
 Route::match(['get', 'post'], '/customer',
     [CustomerIndexController::class, 'index'])

@@ -11,11 +11,11 @@ class BankSaveController
 {
     public function save(Request $request)
     {
-        if (empty($request->id)) {
+        if (empty($request->uuid)) {
             $bank = new Bank();
             $bank->created_at = now();
         } else {
-            $bank = Bank::find($request->id);
+            $bank = Bank::find($request->uuid);
         }
         $bank->name = $request->name;
         $bank->country_id = $request->country_id;

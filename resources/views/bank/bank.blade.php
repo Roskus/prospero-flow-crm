@@ -7,7 +7,7 @@
         <div class="card-body">
             <form action="{{ url('bank/save') }}" method="post">
             @csrf
-            <input type="hidden" name="id" value="{{ (!empty($bank->id)) ? $bank->id : '' }}">
+            <input type="hidden" name="uuid" value="{{ (!empty($bank->uuid)) ? $bank->uuid : '' }}">
             <div class="row">
                 <div class="col">
                     <label for="name">{{ __('Name') }}</label>
