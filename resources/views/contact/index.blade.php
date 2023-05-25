@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover table-striped table-sm">
+<table class="table table-hover table-striped table-sm">
 <thead>
 <tr>
     <th>{{ __('First name') }}</th>
@@ -23,7 +23,8 @@
         <td>{{ $contact->job_title }}</td>
         <td class="text-center">
             @if($contact->phone)
-                <a href="tel:{{ $contact->phone }}@isset($contact->extension),{{$lead->extension}}@endisset" title="{{ $contact->phone }}">
+                <a href="tel:{{ $contact->phone }}@isset($contact->extension),{{$contact->extension}}@endisset"
+                   title="{{ $contact->phone }}">
                     <i class="las la-phone fs-4"></i>
                 </a>
             @endif
@@ -52,16 +53,19 @@
         <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
         <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>
         <td colspan="text-nowrap">
-            <a href="{{ url('contact/update/'.$contact->id) }}" class="btn btn-xs btn-warning text-white">
+            <a href="{{ url('contact/update/'.$contact->id) }}"
+               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ __('Update') }}"
+               class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
-            <a href="{{ url('/contact/export-vcard/'.$contact->id) }}" target="_blank" data-bs-toggle="tooltip"
-               data-bs-placement="top" data-bs-original-title="{{ __('Download vCard') }}"
+            <a href="{{ url('/contact/export-vcard/'.$contact->id) }}" target="_blank"
+               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ __('Download').' vCard' }}"
                class="btn btn-xs btn-primary text-white">
                 <i class="las la-address-card"></i>
             </a>
             <a href="#"
                onclick="Contact.delete({{ $contact->id }}, '{{ __('Do you want to delete the contact: :name', ['name' => $contact->first_name]) }}')"
+               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ __('Delete') }}"
                class="btn btn-xs btn-danger text-white">
                 <i class="las la-trash"></i>
             </a>

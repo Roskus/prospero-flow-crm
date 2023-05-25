@@ -183,68 +183,28 @@ $url = isset($lead) ? 'lead' : 'customer';
 @endif
 
 {{-- CONTACTS --}}
-<div class="card mb-2">
-    <div class="card-header">
-        <div class="row">
-            <div class="col">
-                {{ __('Contacts') }}
+<div class="card mb-2 p-2">
+    @if($item->id)
+    <div class="card mt-2 mb-5">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    {{ __('Contacts') }}
 
-                <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', [$url, $item->id]) }}">
-                    <i class="las la-plus fw-bold"></i>
-                </a>
+                    <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', [$url, $item->id]) }}">
+                        <i class="las la-plus fw-bold"></i>
+                    </a>
+                </div>
             </div>
         </div>
+
+        <div class="card-body bg-white">
+            <div class="mt-2 table-responsive">
+                @include('contact.index', ['contacts' => $item->contacts])
+            </div>
+        </div><!--./card-body-->
     </div>
-    <div class="card-body">
-        @if(isset($item->contacts) && count($item->contacts) > 0)
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">{{ __('First name') }}</th>
-                    <th scope="col">{{ __('Last name') }}</th>
-                    <th scope="col">{{ __('Phone') }}</th>
-                    <th scope="col">{{ __('Mobile') }}</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Social</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($item->contacts as $contact)
-                <tr>
-                    <th scope="row">{{ $contact->id }}</th>
-                    <td>{{ $contact->first_name }}</td>
-                    <td>{{ $contact->last_name }}</td>
-                    <td>
-                        <a href="tel:{{ $contact->phone }}@isset($contact->extension),{{$contact->extension}}@endisset">{{ $contact->phone }}</a>
-                    </td>
-                    <td>
-                        {{ $contact->mobile }}
-                    </td>
-                    <td>
-                        @isset($contact->email)
-                        <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
-                        @endisset
-                    </td>
-                    <td>
-                        @isset($contact->linkedin)
-                            <a href="{{ $contact->linkedin }}" target="_blank" class="text-decoration-none link-secondary">
-                                <i class="lab la-linkedin fs-3"></i>
-                            </a>
-                        @endisset
-                    </td>
-                    <td>
-                        <a href="{{ url('/contact/update/'.$contact->id) }}" class="btn btn-warning btn-sm">
-                            {{ __('Edit') }}
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        @endif
-    </div>
-</div>
+   @endif
+</div><!--./card-->
 
 @endsection
