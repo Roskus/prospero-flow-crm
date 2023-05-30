@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Email;
 use App\Http\Controllers\MainController;
 use App\Mail\GenericEmail;
 use App\Models\Email;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Attachment;
 use Illuminate\Support\Facades\Auth;
@@ -30,10 +31,14 @@ class EmailSendController extends MainController
             $params['signature'] = Auth::user()->signature_html;
         }
 
+        $user = new User();
+        $user->first_name = $email->from_name;
+        $user->email = $email->from;
+
         /**
          * @TODO Refactor this as a Service
          */
-        $message = new GenericEmail(Auth::user()->company, $email->subject, $params);
+        $message = new GenericEmail(Auth::user()->company, $user, $email->subject, $params);
         try {
             $mail = Mail::to($email->to);
             if ($email->cc) {
