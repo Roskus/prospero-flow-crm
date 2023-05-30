@@ -15,6 +15,7 @@ class GenericEmail extends Mailable
     protected Company $company;
 
     protected ?array $data;
+
     protected ?User $user;
 
     /**
@@ -24,6 +25,7 @@ class GenericEmail extends Mailable
     {
         $from = isset($this->user) ? $this->user->email : $this->company->email;
         $name = isset($this->user) ? $this->user->getFullName() : $this->company->name;
+
         return new Envelope(
             from: new Address($from, $name),
             subject: $this->subject,
@@ -35,7 +37,7 @@ class GenericEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(?Company $company = null, ?User $user = null,  ?string $subject = '', ?array $data = [])
+    public function __construct(?Company $company = null, ?User $user = null, ?string $subject = '', ?array $data = [])
     {
         $this->company = $company;
         $this->subject = $subject;
