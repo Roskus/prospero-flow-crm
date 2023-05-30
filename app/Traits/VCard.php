@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @version 1.0.1
+ */
 declare(strict_types=1);
 
 namespace App\Traits;
@@ -29,7 +31,7 @@ trait VCard
     //#[OAT\Property(description: 'Email of the contact', type: 'string', format: 'email', example: 'john.smith@company.com')]
     //protected ?string $email = null;
 
-    //#[OAT\Property(description: 'Linkedin url of the contact', type: 'string', format: 'url', example: 'https://likedin.com/in/contactname')]
+    //#[OAT\Property(description: 'LinkedIn url of the contact', type: 'string', format: 'url', example: 'https://likedin.com/in/contactname')]
     //protected ?string $linkedin = null;
 
     //#[OAT\Property(description: 'Country ISO code of the contact', type: 'string', example: 'UK')]
@@ -51,7 +53,7 @@ trait VCard
         BEGIN:VCARD
         VERSION:4.0
         N:Gump;Forrest;;Mr.;
-        FN:Sheri Nom
+        FN:Forrest Gump
         ORG:Sheri Nom Co.
         TITLE:Ultimate Warrior
         PHOTO;MEDIATYPE#image/gif:http://www.sherinnom.com/dir_photos/my_photo.gif
@@ -66,9 +68,9 @@ trait VCard
         $card = 'BEGIN:VCARD'.self::$EOL;
         $card .= 'VERSION:4.0'.self::$EOL;
         $card .= 'N:'.$this->last_name.';'.$this->first_name.';;;'.self::$EOL;
+        $card .= 'FN:'.$this->first_name.' '.$this->last_name.self::$EOL;
 
         if (! empty($this->company)) {
-            $card .= 'FN:'.$this->company->name.self::$EOL;
             $card .= 'ORG:'.$this->company->name.self::$EOL;
         }
 
@@ -80,7 +82,7 @@ trait VCard
         if (! empty($this->company->website)) {
             $card .= 'URL:'.$this->company->website.self::$EOL;
         }
-        $card .= 'REV:'.date('Y-m-dC').self::$EOL;
+        $card .= 'REV:'.$this->updated_at->format('Y-m-dC').self::$EOL;
         $card .= 'END:VCARD'.self::$EOL;
 
         return $card;

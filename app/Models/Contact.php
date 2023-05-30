@@ -35,6 +35,10 @@ class Contact extends Model
         'deleted_at',
     ];
 
+    protected $casts = [
+        'updated_at' => 'date',
+    ];
+
     #[OAT\Property(description: 'First name of the contact', type: 'string', example: 'John')]
     protected ?string $first_name = null;
 
