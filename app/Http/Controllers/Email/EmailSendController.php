@@ -45,6 +45,10 @@ class EmailSendController extends MainController
                 $mail->cc($email->cc);
             }
 
+            if ($email->bcc) {
+                $mail->bcc($email->bcc);
+            }
+
             if ($email->attachments()->count() > 0) {
                 foreach ($email->attachments()->get() as $attachment) {
                     $path = storage_path('app/'.$attachment->file);

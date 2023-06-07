@@ -40,6 +40,13 @@
                 </div>
                 <div class="row">
                     <div class="col">
+                        <label for="bcc" class="">BCC</label>
+                        <input type="text" name="bcc" id="bcc" value="{{ old('bcc', $email->bcc) }}" maxlength="254"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <label for="body" class="">{{ __('Message') }}</label>
                         <div class="mb-1">
                             <a onclick="addVariable2Editor('body', '$prospect->first_name')">
