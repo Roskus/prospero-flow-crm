@@ -136,7 +136,7 @@
             <tbody id="order-items">
             @if($order->items()->count() == 0)
                 <tr id="row-no-data">
-                    <td colspan="4">{{ __('No items') }}</td>
+                    <td colspan="7">{{ __('No items') }}</td>
                 </tr>
             @else
                 @foreach($order->items as $item)
