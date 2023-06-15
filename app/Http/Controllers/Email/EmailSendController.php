@@ -40,7 +40,7 @@ class EmailSendController extends MainController
          */
         $message = new GenericEmail(Auth::user()->company, $user, $email->subject, $params);
         try {
-            $mail = Mail::to($email->to);
+            $mail = Mail::to($email->to, $email->from_name);
             if ($email->cc) {
                 $mail->cc($email->cc);
             }

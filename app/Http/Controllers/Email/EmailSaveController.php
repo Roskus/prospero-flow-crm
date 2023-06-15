@@ -24,13 +24,14 @@ class EmailSaveController extends MainController
             $email = Email::find($request->id);
         }
         $email->from = $request->from;
+        $email->from_name = ($request->from == Auth::user()->email) ? Auth::user()->first_name.' '.Auth::user()->last_name : Auth::user()->company->name;
         $email->company_id = Auth::user()->company_id;
         $email->subject = $request->subject;
         $email->to = $request->to;
         $email->cc = $request->cc;
         $email->bcc = !empty($request->bcc) ? $request->bcc : null;
         $email->body = $request->body;
-        $email->signature = (isset($request->signature)) ? isset($request->signature) : false;
+        $email->signature = (!empty($request->signature)) ? true : false;
         $email->updated_at = now();
         $email->status = Email::DRAFT;
         $email->save();
