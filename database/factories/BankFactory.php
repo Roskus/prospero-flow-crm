@@ -22,7 +22,7 @@ class BankFactory extends Factory
             'uuid' => fake()->uuid(),
             'name' => fake()->words(3, true),
             'country_id' => Country::all()->random(),
-            'bic' => Str::upper(fake()->lexify('???????????')),// Max 11
+            'bic' => Str::upper(fake()->lexify('???????????')), // Max 11
             'phone' => fake()->numerify('6########'),
             'email' => fake()->email(),
             'website' => 'https://'.fake()->domainName(),
