@@ -52,6 +52,7 @@ class GenericEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.generic', $this->data);
+        return $this->from($this->user->email, $this->user->getFullName())
+                    ->view('mail.generic', $this->data);
     }
 }
