@@ -10,12 +10,23 @@
             <input type="hidden" name="uuid" value="{{ (!empty($bank->uuid)) ? $bank->uuid : '' }}">
             <div class="row">
                 <div class="col">
-                    <label for="name">{{ __('Name') }}</label>
+                    <label for="name">
+                        {{ __('Name') }}
+                        <span class="text-danger">*</span>
+                    </label>
                     <input type="text" name="name" id="name" value="{{ $bank->name }}" required="required" class="form-control">
                 </div>
                 <div class="col">
                     <label for="phone">{{ __('Phone') }}</label>
                     <input type="text" name="phone" id="phone" value="{{ $bank->phone }}" maxlength="15" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="bic">
+                        {{ __('BIC') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" name="bic" id="bic" value="{{ $bank->bic }}" maxlength="11" required="required"
+                           class="form-control">
                 </div>
             </div>
             <div class="row">

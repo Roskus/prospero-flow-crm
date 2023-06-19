@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Bank;
 
 use App\Models\Bank;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
 
 class BankSaveController
 {
@@ -17,9 +18,11 @@ class BankSaveController
         } else {
             $bank = Bank::find($request->uuid);
         }
+        $bank->uuid = Uuid::uuid5(Uuid::NAMESPACE_URL, $request->bic)->toString();
         $bank->name = $request->name;
-        $bank->country_id = $request->country_id;
         $bank->phone = $request->phone;
+        $bank->bic = $request->bic;
+        $bank->country_id = $request->country_id;
         $bank->email = $request->email;
         $bank->website = $request->website;
         $bank->updated_at = now();
