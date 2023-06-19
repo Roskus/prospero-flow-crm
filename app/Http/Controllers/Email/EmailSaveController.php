@@ -29,9 +29,9 @@ class EmailSaveController extends MainController
         $email->subject = $request->subject;
         $email->to = $request->to;
         $email->cc = $request->cc;
-        $email->bcc = !empty($request->bcc) ? $request->bcc : null;
+        $email->bcc = ! empty($request->bcc) ? $request->bcc : null;
         $email->body = $request->body;
-        $email->signature = (!empty($request->signature)) ? true : false;
+        $email->signature = (! empty($request->signature)) ? true : false;
         $email->updated_at = now();
         $email->status = Email::DRAFT;
         $email->save();
