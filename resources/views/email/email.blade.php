@@ -19,8 +19,10 @@
                         <select name="from" id="from" required class="form-select">
                             <option value=""></option>
                             @foreach ($froms as $from)
-                                <option value="{{ $from }}"
-                                    @if ($email->from == $from ) selected="selected" @endif>{{ $from }}
+                                <option value="{{ $from['email'] }}"
+                                    @if ($email->from == $from['email'] ) selected="selected" @endif>
+                                    {{ $from['email'] }}
+                                    &lt;{{ $from['name'] }}&gt;
                                 </option>
                             @endforeach
                         </select>
