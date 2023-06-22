@@ -25,6 +25,7 @@ class EmailSendController extends MainController
         $email = Email::findOrFail($id);
         $email->status = Email::QUEUE;
         $email->save();
+        $params['from_email'] = $email->from_email;
         $params['body'] = $email->body;
 
         if (isset($email->signature)) {

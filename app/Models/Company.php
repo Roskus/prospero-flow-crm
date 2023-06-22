@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations as OA;
 use Squire\Models\Country;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  *  @OA\Schema(
@@ -111,6 +112,14 @@ class Company extends Model
     ];
 
     protected $with = ['country'];
+
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['name'],
+        );
+    }
 
     public function getAllPaginated(int $limit = 50)
     {
