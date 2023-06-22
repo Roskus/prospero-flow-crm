@@ -31,10 +31,7 @@ class EmailSendController extends MainController
             $params['signature'] = Auth::user()->signature_html;
         }
 
-        $user = new User();
-        $user->first_name = $email->from_name;
-        $user->email = $email->from;
-
+        $user = User::find(Auth::user()->id);
         /**
          * @TODO Refactor this as a Service
          */
