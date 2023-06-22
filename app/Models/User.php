@@ -95,6 +95,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->first_name.' '.$this->last_name;
     }
 
+    /**
+     * A "name" property must exist in the model in order for the Mail class
+     * to correctly display the name in addresses.
+     */
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name'],
+        );
+    }
+
     public function getAllActiveByCompany(int $company_id)
     {
         return User::where('company_id', $company_id)->paginate(10);
