@@ -24,7 +24,7 @@ class GenericEmail extends Mailable
     public function envelope(): Envelope
     {
         $from = isset($this->user) ? $this->user->email : $this->company->email;
-        $name = isset($this->user) ? $this->user->getFullName() : $this->company->name;
+        $name = isset($this->user) ? $this->user->name : $this->company->name;
 
         return new Envelope(
             from: new Address($from, $name),
