@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations as OA;
 use Squire\Models\Country;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  *  @OA\Schema(
@@ -112,7 +112,6 @@ class Company extends Model
     ];
 
     protected $with = ['country'];
-
 
     protected function name(): Attribute
     {
