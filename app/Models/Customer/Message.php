@@ -7,6 +7,7 @@ namespace App\Models\Customer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Message extends Model
 {
@@ -23,6 +24,18 @@ class Message extends Model
     protected $hidden = [
         'deleted_at',
     ];
+
+    protected $with = ['user',];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Order by name ASC
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('created_at', 'desc');
+        });
+    }
 
     public function author()
     {
