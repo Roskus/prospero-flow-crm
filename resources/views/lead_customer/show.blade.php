@@ -207,4 +207,6 @@ $url = isset($lead) ? 'lead' : 'customer';
    @endif
 </div><!--./card-->
 
+@include('lead_customer.partials.messages', ['messages' => $item->messages])
+
 @endsection

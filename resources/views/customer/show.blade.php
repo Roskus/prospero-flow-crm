@@ -64,4 +64,6 @@
             </table>
         </div>
     </div>
+
+    @include('lead_customer.partials.messages', ['messages' => $item->messages])
 @endsection
