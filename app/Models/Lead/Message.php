@@ -25,7 +25,7 @@ class Message extends Model
         'deleted_at',
     ];
 
-    protected $with = ['author',];
+    protected $with = ['author'];
 
     protected static function boot()
     {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Customer;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 class Message extends Model
 {
@@ -25,7 +25,7 @@ class Message extends Model
         'deleted_at',
     ];
 
-    protected $with = ['author',];
+    protected $with = ['author'];
 
     protected static function boot()
     {
