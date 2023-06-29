@@ -116,7 +116,7 @@ class Company extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => $attributes['name'],
+            get: fn (mixed $value, array $attributes) => $attributes['name'] ?? null,
         );
     }
 
