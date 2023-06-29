@@ -32,14 +32,14 @@
         <td class="text-center">
             @if($contact->mobile)
                 <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}"
-                   title="{{ $contact->mobile }}" class="link-secondary">
+                   title="{{ $contact->mobile }}" class="link-secondary text-decoration-none">
                     <i class="las la-mobile fs-4"></i>
                 </a>
             @endif
         </td>
         <td class="text-center">
             @if($contact->email)
-                <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}" class="link-secondary">
+                <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}" class="link-secondary text-decoration-none">
                     <i class="las la-envelope fs-4"></i>
                 </a>
                 @if($contact->email_verified == 1)
