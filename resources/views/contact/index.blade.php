@@ -42,6 +42,11 @@
                 <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}">
                     <i class="las la-envelope fs-3"></i>
                 </a>
+                @if($contact->email_verified == 1)
+                    <i class="las la-check-circle text-success"></i>
+                @elseif($contact->email_verified == 3)
+                    <i class="las la-times-circle text-danger"></i>
+                @endif
             @endif
         </td>
         <td>{{ $contact->notes }}</td>
