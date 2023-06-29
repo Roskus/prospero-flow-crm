@@ -4,9 +4,9 @@
     <th>{{ __('First name') }}</th>
     <th>{{ __('Last name') }}</th>
     <th>{{ __('Job title') }}</th>
-    <th>{{ __('Phone') }}</th>
-    <th>{{ __('Mobile') }}</th>
-    <th>E-mail</th>
+    <th class="text-center">{{ __('Phone') }}</th>
+    <th class="text-center">{{ __('Mobile') }}</th>
+    <th class="text-center">E-mail</th>
     <th>{{ __('Notes') }}</th>
     <th>Social</th>
     <th>{{ __('Created at') }}</th>
