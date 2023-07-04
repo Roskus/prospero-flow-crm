@@ -13,8 +13,7 @@ class UserListController extends MainController
 {
     public function index(Request $request)
     {
-        $user = new User();
-        $users = (Auth::user()->can('create company')) ? $user->getAll() : $user->getAllActiveByCompany(Auth::user()->company_id);
+        $users = (Auth::user()->can('create company')) ? User::orderBy('company_id')->paginate(10) : User::orderBy('company_id')->where('company_id', Auth::user()->company_id)->paginate(10);
         $data['users'] = $users;
 
         return view('user.index', $data);
