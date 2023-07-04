@@ -122,6 +122,15 @@
         <div class="card mt-2">
             <div class="card-header">{{ __('Address') }}</div>
             <div class="card-body">
+                <div class="row mb-1">
+                    <div class="col">
+                        <label for="search-address">{{ __('Search for an address') }}</label>
+                        <div class="input-group">
+                            <input type="text" id="search-address" placeholder="{{ __('Search for an address') }}" class="form-control form-control-lg">
+                            <button type="button" onclick="getCoordinates()" class="btn btn-secondary"><i class="las la-search"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="country_id">{{ __('Country') }}</label>
@@ -165,6 +174,8 @@
                     </div>
                 </div><!--./row-->
                 <div class="row">
+                    <input type="hidden" name="latitude" id="latitude" value="{{ $lead->latitude }}">
+                    <input type="hidden" name="longitude" id="longitude" value="{{ $lead->longitude }}">
                     <div class="col mt-3">
                         <x-geolocalization.map :latitude="$lead->latitude" :longitude="$lead->longitude" />
                     </div><!--./row-->

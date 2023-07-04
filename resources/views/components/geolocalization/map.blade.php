@@ -9,16 +9,49 @@
     var longitude = "{{ $attributes['longitude'] }}";
 
     if (latitude && longitude) {
-        var map = L.map("map").setView([latitude, longitude], 16);
+        var map = L.map("map").setView([latitude, longitude], 18);
 
         var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19
+            maxZoom: 20
             , attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
         var marker = L.marker([latitude, longitude]).addTo(map);
     } else {
         document.getElementById('map').innerHTML = "<p class='p-3'>{{ __('It is not possible to show the map of the location because the geolocation is not established.') }}</p>";
+    }
+
+    function getCoordinates() {
+        const addressInput = document.getElementById('search-address');
+        const address = addressInput.value;
+
+        if (address.trim() === '') {
+            return;
+        }
+
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    const latitude = parseFloat(data[0].lat);
+                    const longitude = parseFloat(data[0].lon);
+                    document.getElementById('latitude').value = latitude;
+                    document.getElementById('longitude').value = longitude;
+
+                    // Actualizar el mapa con las nuevas coordenadas
+                    map.setView([latitude, longitude], 18);
+                    marker.setLatLng([latitude, longitude]);
+
+                    console.log(`Coordenadas de la dirección '${address}': Latitud ${latitude}, Longitud ${longitude}`);
+                } else {
+                    console.log('No se pudieron obtener las coordenadas para la dirección especificada.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener las coordenadas:', error);
+            });
     }
 </script>
 @endpush
