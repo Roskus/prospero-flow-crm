@@ -17,6 +17,7 @@ class CustomerRepository
         } else {
             $customer = Customer::find($data['id']);
         }
+
         $customer->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $customer->company_id = Auth::user()->company_id;
         $customer->external_id = $data['external_id'] ?? null;
@@ -40,7 +41,7 @@ class CustomerRepository
         $customer->youtube = ($data['youtube']) ? rtrim($data['youtube'], '/') : null;
         $customer->tiktok = ($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
 
-        $customer->country_id = ($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
+        $customer->country_id = ($data['country_id']) ? strtolower($data['country_id']) : Auth::user()->company->country_id;
         $customer->province = $data['province'] ?? null;
         $customer->city = $data['city'] ?? null;
         $customer->locality = $data['locality'] ?? null;

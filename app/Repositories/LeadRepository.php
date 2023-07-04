@@ -33,14 +33,16 @@ class LeadRepository
         $lead->email = ! empty($data['email']) ? $data['email'] : null;
         $lead->email2 = ! empty($data['email2']) ? $data['email2'] : null;
         $lead->website = ! empty($data['website']) ? rtrim($data['website'], '/') : null;
+        $lead->notes = ! empty($data['notes']) ? $data['notes'] : null;
+
         $lead->linkedin = ! empty($data['linkedin']) ? rtrim($data['linkedin'], '/') : null;
         $lead->facebook = ! empty($data['facebook']) ? rtrim($data['facebook'], '/') : null;
         $lead->instagram = ! empty($data['instagram']) ? rtrim($data['instagram'], '/') : null;
         $lead->twitter = ! empty($data['twitter']) ? rtrim($data['twitter'], '/') : null;
         $lead->youtube = ! empty($data['youtube']) ? rtrim($data['youtube'], '/') : null;
         $lead->tiktok = ! empty($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
-        $lead->notes = ! empty($data['notes']) ? $data['notes'] : null;
-        $lead->country_id = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
+
+        $lead->country_id = ! empty($data['country_id']) ? strtolower($data['country_id']) : Auth::user()->company->country_id;
         $lead->province = ! empty($data['province']) ? $data['province'] : null;
         $lead->city = ! empty($data['city']) ? $data['city'] : null;
         $lead->locality = $data['locality'] ?? null;
