@@ -97,7 +97,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getAllActiveByCompany(int $company_id)
     {
-        return User::where('company_id', $company_id)->paginate(10);
+        return User::where('company_id', $company_id)->get();
     }
 
     protected function timezone(): Attribute
