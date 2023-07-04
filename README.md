@@ -98,6 +98,12 @@ Some API Endpoint for the full list check the doc:
 
 [GET] /api/customer
 
+## Translation (i18n)
+Check missing translation keys
+```bash
+php artisan translations:check --excludedDirectories=lang/vendor
+```
+
 ## Resources
 Icon font Line Awesome
 https://icons8.com/line-awesome
