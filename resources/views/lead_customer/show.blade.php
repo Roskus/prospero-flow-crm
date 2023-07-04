@@ -88,6 +88,13 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <strong>{{ $item->zipcode }}</strong>
             </div>
         </div><!--./row-->
+        @if(isset($item->latitude) && isset($item->longitude))
+        <div class="row">
+            <div class="col mt-3">
+                <x-geolocalization.map :latitude="$item->latitude" :longitude="$item->longitude" />
+            </div><!--./row-->
+        </div>
+        @endif
     </div>
 </div>
 
