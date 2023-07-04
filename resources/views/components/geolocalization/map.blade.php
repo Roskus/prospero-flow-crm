@@ -7,18 +7,33 @@
 
     var latitude = "{{ $attributes['latitude'] }}";
     var longitude = "{{ $attributes['longitude'] }}";
+    var map = L.map("map");
 
-    if (latitude && longitude) {
-        var map = L.map("map").setView([latitude, longitude], 18);
+    function setMarker(latitude, longitude) {
+        if (!latitude || !longitude) {
+            document.getElementById('map').innerHTML = "<p class='p-3'>{{ __('It is not possible to show the map of the location because the geolocation is not established.') }}</p>";
+            return; // No hagas nada si no hay coordenadas válidas
+        }
 
-        var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 20
-            , attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+        if (latitude && longitude) {
 
-        var marker = L.marker([latitude, longitude]).addTo(map);
-    } else {
-        document.getElementById('map').innerHTML = "<p class='p-3'>{{ __('It is not possible to show the map of the location because the geolocation is not established.') }}</p>";
+            if (!map.hasLayer(marker)) {
+                // Si el marcador aún no está agregado al mapa, agrégalo
+                marker = L.marker([latitude, longitude]).addTo(map);
+            } else {
+                // Si el marcador ya está en el mapa, actualiza su posición
+                marker.setLatLng([latitude, longitude]);
+            }
+
+            // Centrar el mapa en la nueva posición del marcador
+            map.setView([latitude, longitude], 18);
+
+            /*
+            var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 20
+                , attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);*/
+        }
     }
 
     function getCoordinates() {
@@ -41,8 +56,7 @@
                     document.getElementById('longitude').value = longitude;
 
                     // Actualizar el mapa con las nuevas coordenadas
-                    map.setView([latitude, longitude], 18);
-                    marker.setLatLng([latitude, longitude]);
+                    setMarker(latitude, longitude);
 
                     console.log(`Coordenadas de la dirección '${address}': Latitud ${latitude}, Longitud ${longitude}`);
                 } else {
@@ -52,6 +66,17 @@
             .catch(error => {
                 console.error('Error al obtener las coordenadas:', error);
             });
+    }
+
+    if (latitude && longitude) {
+        map.setView([latitude, longitude], 18);
+
+        var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 20,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var marker = L.marker([latitude, longitude]).addTo(map);
     }
 </script>
 @endpush
