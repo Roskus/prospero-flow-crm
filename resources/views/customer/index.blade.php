@@ -103,12 +103,12 @@
                     @if($customer->phone)
                         <a href="tel:{{ $customer->phone }}@isset($customer->extension),{{$customer->extension}}@endisset"
                            title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}"
-                           target="_blank"  class="link-secondary">
+                           target="_blank"  class="link-secondary text-decoration-none">
                             <i class="las la-phone fs-4"></i>
                         </a>
 
                         <a href="sip:{{ $customer->phone }}@isset($customer->extension),{{$customer->extension}}@endisset" title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}"
-                           target="_blank" class="link-secondary">
+                           target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-headset fs-4"></i>
                         </a>
                     @endif
@@ -117,7 +117,7 @@
                     @if($customer->mobile)
                         <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
                          title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" target="_blank"
-                           class="link-secondary">
+                           class="link-secondary text-decoration-none">
                             <i class="las la-mobile fs-4"></i>
                         </a>
                     @endif
@@ -135,7 +135,7 @@
                 <td class="text-nowrap text-center">
                     @if($customer->website)
                     <a href="{{ $customer->website }}" title="{{ $customer->website }}" target="_blank"
-                       class="link-secondary">
+                       class="link-secondary text-decoration-none">
                         <i class="las la-globe fs-4"></i>
                     </a>
                     @endif

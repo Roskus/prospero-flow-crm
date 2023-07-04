@@ -102,12 +102,12 @@
                 <td class="text-nowrap text-center">
                     @if($lead->phone)
                         <a href="tel:{{ $lead->phone }}@isset($lead->extension),{{$lead->extension}}@endisset" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
-                           target="_blank" class="link-secondary">
+                           target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-phone fs-4"></i>
                         </a>
 
                         <a href="sip:{{ $lead->phone }}@isset($lead->extension),{{$lead->extension}}@endisset" title="{{ \App\Helpers\PhoneHelper::format($lead->phone) }}"
-                           target="_blank" class="link-secondary">
+                           target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-headset fs-4"></i>
                         </a>
                     @endif
@@ -116,31 +116,31 @@
                     @if($lead->mobile)
                         <a href="tel:{{ $lead->mobile }}"
                            title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
-                           class="link-secondary">
+                           class="link-secondary text-decoration-none">
                             <i class="las la-mobile fs-4"></i>
                         </a>
 
                         <a href="sip:{{ $lead->mobile }}" title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}"
-                           target="_blank" class="link-secondary">
+                           target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-headset fs-4"></i>
                         </a>
 
                         <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
                            title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
-                           class="link-secondary">
+                           class="link-secondary text-decoration-none">
                             <i class="lab la-whatsapp fs-4"></i>
                         </a>
 
                         <a href="https://telegram.me/{{ $lead->mobile }}"
                            title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
-                           class="link-secondary">
+                           class="link-secondary text-decoration-none">
                             <i class="lab la-telegram-plane fs-4"></i>
                         </a>
                     @endif
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->email)
-                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary"><i class="las la-envelope fs-4"></i></a>
+                        <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary text-decoration-none"><i class="las la-envelope fs-4"></i></a>
                         @if($lead->email_verified == 1)
                             <i class="las la-check-circle text-success"></i>
                         @elseif($lead->email_verified == 3)
@@ -150,12 +150,12 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->website)
-                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank" class="link-secondary">
+                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank" class="link-secondary text-decoration-none">
                         <i class="las la-globe fs-4"></i>
                     </a>
                     @endif
                 </td>
-                <td class="text-center d-sm-table-cell link-secondary"
+                <td class="text-center d-sm-table-cell link-secondary text-decoration-none"
                     title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
                     @if(!empty($lead->country))
                     {{ $lead->country->flag }}

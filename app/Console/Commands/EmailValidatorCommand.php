@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
 use Illuminate\Console\Command;
@@ -30,7 +31,7 @@ class EmailValidatorCommand extends Command
      *
      * @return int
      */
-    public function handle(Lead $leadModel, Customer $customerModel)
+    public function handle(Lead $leadModel, Customer $customerModel, Contact $contactModel)
     {
         $rules = ['email' => 'email:rfc,dns'];
 
@@ -42,7 +43,8 @@ class EmailValidatorCommand extends Command
             $lead->updated_at = now();
             $lead->save();
         }
-        $this->info('Leads Email validation complete.');
+        $leadsCount = $verifiedLeads->count();
+        $this->info("Leads Email validation: $leadsCount complete.");
 
         $verifiedCustomers = $customerModel->whereNotNull('email')
             ->where('email_verified', 0)->orWhere('email_verified', 3)->get();
@@ -52,9 +54,20 @@ class EmailValidatorCommand extends Command
             $customer->updated_at = now();
             $customer->save();
         }
+        $customerCount = $verifiedCustomers->count();
+        $this->info("Customers Email validation: $customerCount complete.");
 
-        $this->info('Customers Email validation complete.');
-        $this->info(sprintf('%d leads and %d customers verified.', $verifiedLeads->count(), $verifiedCustomers->count()));
+        $verifiedContacts = $contactModel->whereNotNull('email')
+            ->where('email_verified', 0)->orWhere('email_verified', 3)->get();
+        foreach ($verifiedContacts as $contact) {
+            $validator = Validator::make(['email' => $contact->email], $rules);
+            $contact->email_verified = $validator->passes() ? true : 3;
+            $contact->updated_at = now();
+            $contact->save();
+        }
+        $contactCount = $verifiedContacts->count();
+        $this->info("Contacts Email validation: $contactCount complete.");
+        $this->info(sprintf('%d leads, %d customers and %d contacts verified.', $leadsCount, $customerCount, $contactCount));
 
         return Command::SUCCESS;
     }

@@ -25,16 +25,14 @@ class EmailSendController extends MainController
         $email = Email::findOrFail($id);
         $email->status = Email::QUEUE;
         $email->save();
+        $params['from_email'] = $email->from_email;
         $params['body'] = $email->body;
 
         if (isset($email->signature)) {
             $params['signature'] = Auth::user()->signature_html;
         }
 
-        $user = new User();
-        $user->first_name = $email->from_name;
-        $user->email = $email->from;
-
+        $user = User::find(Auth::user()->id);
         /**
          * @TODO Refactor this as a Service
          */

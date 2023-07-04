@@ -4,9 +4,9 @@
     <th>{{ __('First name') }}</th>
     <th>{{ __('Last name') }}</th>
     <th>{{ __('Job title') }}</th>
-    <th>{{ __('Phone') }}</th>
-    <th>{{ __('Mobile') }}</th>
-    <th>E-mail</th>
+    <th class="text-center">{{ __('Phone') }}</th>
+    <th class="text-center">{{ __('Mobile') }}</th>
+    <th class="text-center">E-mail</th>
     <th>{{ __('Notes') }}</th>
     <th>Social</th>
     <th>{{ __('Created at') }}</th>
@@ -32,16 +32,21 @@
         <td class="text-center">
             @if($contact->mobile)
                 <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}"
-                   title="{{ $contact->mobile }}">
+                   title="{{ $contact->mobile }}" class="link-secondary text-decoration-none">
                     <i class="las la-mobile fs-4"></i>
                 </a>
             @endif
         </td>
         <td class="text-center">
             @if($contact->email)
-                <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}">
-                    <i class="las la-envelope fs-3"></i>
+                <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}" class="link-secondary text-decoration-none">
+                    <i class="las la-envelope fs-4"></i>
                 </a>
+                @if($contact->email_verified == 1)
+                <i class="las la-check-circle text-success"></i>
+                @elseif($contact->email_verified == 3)
+                <i class="las la-times-circle text-danger"></i>
+                @endif
             @endif
         </td>
         <td>{{ $contact->notes }}</td>
