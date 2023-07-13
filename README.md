@@ -15,12 +15,12 @@ We made a free open source CRM. Our Community Edition (CE)
 
 ### Clone the project:
 ```bash
-git clone git@github.com:Roskus/prospect-flow-crm.git
+git clone git@github.com:Roskus/prospero-flow-crm.git
 ```
 
 ### Migrate from hammer to prospect-flow-crm repo
 ```bash
-git remote set-url origin git@github.com:Roskus/prospect-flow-crm.git
+git remote set-url origin git@github.com:Roskus/prospero-flow-crm.git
 ```
 
 ### Setup docker
