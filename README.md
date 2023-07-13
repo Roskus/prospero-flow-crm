@@ -1,4 +1,4 @@
-# Prospect Flow CRM (ex Hammer CRM)
+# Prospero Flow CRM
 We made a free open source CRM. Our Community Edition (CE) 
 - Prospect Flow CRM is based in Laravel 10
 
