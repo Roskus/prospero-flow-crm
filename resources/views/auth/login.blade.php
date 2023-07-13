@@ -30,7 +30,7 @@
                     <div class="text-center">
                         <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ env('APP_NAME') }}">
                     </div>
-                    <h1 class="h6">{{ __('Login') }}</h1>
+                    <h1 class="h5">{{ __('Login') }}</h1>
                 </div>
                 <div class="panel-body">
                     <form role="form" method="POST" action="{{ route('login') }}" class="form-horizontal w-100">
