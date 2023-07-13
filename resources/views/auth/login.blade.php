@@ -27,8 +27,10 @@
         <div class="form-signin m-auto col-12 col-md-3 h-100">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1>{{ __('Login') }}</h1>
-                    <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ env('APP_NAME') }}">
+                    <div class="text-center">
+                        <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ env('APP_NAME') }}">
+                    </div>
+                    <h1 class="h6">{{ __('Login') }}</h1>
                 </div>
                 <div class="panel-body">
                     <form role="form" method="POST" action="{{ route('login') }}" class="form-horizontal w-100">
