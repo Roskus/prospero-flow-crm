@@ -23,9 +23,9 @@
                 'outdent', 'indent', '|',
                 'undo', 'redo',
                 '-',
-                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
                 'alignment', '|',
-                'link', 'insertImage', 'blockQuote', 'insertTable',
+                'link', 'insertImage', 'insertTable',
                 @if(!empty($editorType) && $editorType == 'advanced')
                     'mediaEmbed',
                 @endif
