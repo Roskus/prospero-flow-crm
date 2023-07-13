@@ -28,6 +28,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h1>{{ __('Login') }}</h1>
+                    <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ env('APP_NAME') }}">
                 </div>
                 <div class="panel-body">
                     <form role="form" method="POST" action="{{ route('login') }}" class="form-horizontal w-100">
