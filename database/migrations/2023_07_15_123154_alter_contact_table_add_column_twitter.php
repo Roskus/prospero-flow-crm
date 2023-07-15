@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contact', function (Blueprint $table) {
-            $table->string('twitter',255)->nullable()->after('linkedin');
+            $table->string('twitter', 255)->nullable()->after('linkedin');
         });
     }
 
