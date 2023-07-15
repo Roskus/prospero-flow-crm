@@ -53,22 +53,33 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label for="contact_linkedin">Linkedin</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
-                        <input type="url" name="contact_linkedin" id="contact_linkedin"
-                               placeholder="https://linkedin.com/in/"
-                               value="{{ !empty($contact) ? $contact->linkedin : '' }}" class="form-control form-control-lg">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
                     <label for="contact_job_title">{{ __('Job title') }}</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="las la-briefcase"></i></span>
                         <input type="text" name="contact_job_title" id="contact_job_title"
                                value="{{ !empty($contact) ? $contact->job_title : '' }}" maxlength="80"
+                               class="form-control form-control-lg">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="contact_linkedin">Linkedin</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-linkedin"></i></span>
+                        <input type="url" name="contact_linkedin" id="contact_linkedin"
+                               placeholder="https://linkedin.com/in/"
+                               value="{{ !empty($contact->linkedin) ? $contact->linkedin : '' }}"
+                               class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="contact_twitter">Twitter</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-twitter"></i></span>
+                        <input type="url" name="contact_twitter" id="contact_twitter"
+                               placeholder="https://twitter.com/"
+                               value="{{ !empty($contact->twitter) ? $contact->twitter : '' }}"
                                class="form-control form-control-lg">
                     </div>
                 </div>

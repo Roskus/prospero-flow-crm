@@ -30,6 +30,7 @@ class ContactRepository
         $contact->email = ($data['contact_email']) ? strtolower(trim($data['contact_email'])) : null;
         $contact->job_title = ! empty($data['contact_job_title']) ? $data['contact_job_title'] : null;
         $contact->linkedin = ! empty($data['contact_linkedin']) ? $data['contact_linkedin'] : null;
+        $contact->twitter = ! empty($data['contact_twitter']) ? $data['contact_twitter'] : null;
         //$contact->country = $data['contact_country'];
         $contact->notes = ! empty($data['contact_notes']) ? $data['contact_notes'] : null;
         $contact->updated_at = now();
