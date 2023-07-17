@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Brand\BrandDeleteController;
+use App\Http\Controllers\Api\Brand\BrandListController;
+use App\Http\Controllers\Api\Brand\BrandReadController;
 use App\Http\Controllers\Api\Company\CompanyDeleteController;
 use App\Http\Controllers\Api\Contact\ContactDeleteController;
 use App\Http\Controllers\Api\Customer\CustomerDeleteController;
@@ -26,6 +28,8 @@ use Illuminate\Support\Facades\Route;
 /** PROTECTED ROUTES */
 Route::middleware(['api'])->group(function () {
     // Brand
+    Route::get('/brand', [BrandListController::class, 'index']);
+    Route::get('/brand/{id}', [BrandReadController::class, 'read']);
     Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete']);
 
     // Lead

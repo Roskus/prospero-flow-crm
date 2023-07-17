@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
-    protected User|null $user = null;
+    protected ?User $user = null;
 
     public function __construct()
     {

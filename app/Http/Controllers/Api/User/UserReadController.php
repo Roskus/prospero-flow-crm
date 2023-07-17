@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api\User;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserReadController
@@ -32,11 +31,8 @@ class UserReadController
      *     ),
      *     @OA\Response(response="404", description="User not found")
      * )
-     *
-     * @param int $id
-     * @return JsonResponse
      */
-    public function read(int $id): \Illuminate\Http\JsonResponse
+    public function read(int $id): JsonResponse
     {
         $user = null;
         try {
