@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
 use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Api\User\UserDeleteController;
+use App\Http\Controllers\Api\Email\EmailDeleteController;
+use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +25,9 @@ use Illuminate\Support\Facades\Route;
 
 /** PROTECTED ROUTES */
 Route::middleware(['api'])->group(function () {
+    // Brand
+    Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete']);
+
     // Lead
     Route::get('lead', [\App\Http\Controllers\Api\Lead\LeadListController::class, 'index'])->middleware(['auth:api']);
     Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
@@ -69,6 +74,9 @@ Route::middleware(['api'])->group(function () {
     // Order
     Route::get('/order', [App\Http\Controllers\Api\Order\OrderListController::class, 'index'])->middleware(['auth:api']);
     Route::delete('/order/{id}', [OrderDeleteController::class, 'delete']);
+
+    // Email
+    Route::delete('/email/{id}', [EmailDeleteController::class, 'delete']);
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
