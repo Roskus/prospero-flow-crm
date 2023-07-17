@@ -28,28 +28,28 @@ use Illuminate\Support\Facades\Route;
 /** PROTECTED ROUTES */
 Route::middleware(['api'])->group(function () {
     // Brand
-    Route::get('/brand', [BrandListController::class, 'index']);
-    Route::get('/brand/{id}', [BrandReadController::class, 'read']);
-    Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete']);
+    Route::get('/brand', [BrandListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/brand/{id}', [BrandReadController::class, 'read'])->middleware(['auth:api']);
+    Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Lead
     Route::get('lead', [\App\Http\Controllers\Api\Lead\LeadListController::class, 'index'])->middleware(['auth:api']);
     Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete']);
+    Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Company
     Route::get('company', [\App\Http\Controllers\Api\Company\CompanyListController::class, 'index'])->middleware(['auth:api']);
     Route::get('company/{id}', [\App\Http\Controllers\Api\Company\CompanyReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('company', [\App\Http\Controllers\Api\Company\CompanyCreateController::class, 'create'])->middleware(['auth:api']);
     Route::put('company/{id}', [\App\Http\Controllers\Api\Company\CompanyUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/company/{id}', [CompanyDeleteController::class, 'delete']);
+    Route::delete('/company/{id}', [CompanyDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Customer
     Route::get('customer', [\App\Http\Controllers\Api\Customer\CustomerListController::class, 'index'])->middleware(['auth:api']);
     Route::get('customer/{id}', [\App\Http\Controllers\Api\Customer\CustomerReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('customer', [\App\Http\Controllers\Api\Customer\CustomerCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::delete('/customer/{id}', [CustomerDeleteController::class, 'delete']);
+    Route::delete('/customer/{id}', [CustomerDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Product
     Route::get('/product', [App\Http\Controllers\Api\Product\ProductListController::class, 'index'])->middleware(['auth:api']);
@@ -62,12 +62,12 @@ Route::middleware(['api'])->group(function () {
     Route::get('/contact', [\App\Http\Controllers\Api\Contact\ContactListController::class, 'index'])->middleware(['auth:api']);
     Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
     //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');
-    Route::delete('/contact/{id}', [ContactDeleteController::class, 'delete']);
+    Route::delete('/contact/{id}', [ContactDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // User
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/user/{id}', [\App\Http\Controllers\Api\User\UserReadController::class, 'read'])->middleware(['auth:api']);
-    Route::delete('/user/{id}', [UserDeleteController::class, 'delete']);
+    Route::delete('/user/{id}', [UserDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Supplier
     Route::get('/supplier', [App\Http\Controllers\Api\Supplier\SupplierListController::class, 'index'])->middleware(['auth:api']);
@@ -77,10 +77,10 @@ Route::middleware(['api'])->group(function () {
 
     // Order
     Route::get('/order', [App\Http\Controllers\Api\Order\OrderListController::class, 'index'])->middleware(['auth:api']);
-    Route::delete('/order/{id}', [OrderDeleteController::class, 'delete']);
+    Route::delete('/order/{id}', [OrderDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Email
-    Route::delete('/email/{id}', [EmailDeleteController::class, 'delete']);
+    Route::delete('/email/{id}', [EmailDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
