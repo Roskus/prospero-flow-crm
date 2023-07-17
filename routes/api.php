@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
 use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Api\User\UserDeleteController;
+use App\Http\Controllers\Api\Ticket\TicketListController;
+use App\Http\Controllers\Api\Ticket\TicketReadController;
+use App\Http\Controllers\Api\Ticket\TicketDeleteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,6 +81,11 @@ Route::middleware(['api'])->group(function () {
     // Order
     Route::get('/order', [App\Http\Controllers\Api\Order\OrderListController::class, 'index'])->middleware(['auth:api']);
     Route::delete('/order/{id}', [OrderDeleteController::class, 'delete'])->middleware(['auth:api']);
+
+    // Ticket
+    Route::get('/ticket', [TicketListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/ticket/{id}', [TicketReadController::class, 'read'])->middleware(['auth:api']);
+    Route::delete('/ticket/{id}', [TicketDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Email
     Route::delete('/email/{id}', [EmailDeleteController::class, 'delete'])->middleware(['auth:api']);
