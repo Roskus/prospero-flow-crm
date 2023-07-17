@@ -1,15 +1,15 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use App\Http\Controllers\Api\Company\CompanyDeleteController;
 use App\Http\Controllers\Api\Contact\ContactDeleteController;
 use App\Http\Controllers\Api\Customer\CustomerDeleteController;
+use App\Http\Controllers\Api\Email\EmailDeleteController;
 use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
 use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Api\User\UserDeleteController;
-use App\Http\Controllers\Api\Email\EmailDeleteController;
-use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -36,13 +36,12 @@ class EmailDeleteController
      *
      * @authenticated
      *
-     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(Request $request, int $id)
     {
         $email = Email::find($id);
-        if (!$email) {
+        if (! $email) {
             return response()->json(['message' => 'Email not found'], 404);
         }
 

@@ -41,7 +41,7 @@ class TicketDeleteController
     public function delete(Request $request, int $id)
     {
         $ticket = Ticket::find($id);
-        if (!$ticket) {
+        if (! $ticket) {
             return response()->json(['message' => 'Ticket not found'], 404);
         }
 

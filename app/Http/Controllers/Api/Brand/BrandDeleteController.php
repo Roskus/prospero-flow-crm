@@ -40,7 +40,7 @@ class BrandDeleteController
     public function delete(Request $request, int $id)
     {
         $brand = Brand::find($id);
-        if (!$brand) {
+        if (! $brand) {
             return response()->json(['message' => 'Brand not found'], 404);
         }
 
