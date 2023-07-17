@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Brand;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Models\Brand;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BrandListController extends ApiController
+class BrandListController
 {
     /**
      * @OA\Get(

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Lead;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Models\Lead;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-class LeadReadController extends ApiController
+class LeadReadController
 {
     /**
      * @OA\Get(
@@ -33,9 +32,10 @@ class LeadReadController extends ApiController
      *     @OA\Response(response="404", description="Lead not found")
      * )
      *
-     * @param  Request  $request
+     * @param int $id
+     * @return JsonResponse
      */
-    public function read(int $id): \Illuminate\Http\JsonResponse
+    public function read(int $id): JsonResponse
     {
         $lead = null;
         try {
