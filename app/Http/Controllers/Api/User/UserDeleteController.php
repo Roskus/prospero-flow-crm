@@ -37,14 +37,12 @@ class UserDeleteController
      *
      * @authenticated
      *
-     * @param Request $request
-     * @param int $id
      * @return JsonResponse
      */
     public function delete(Request $request, int $id)
     {
         $user = User::find($id);
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'User not found'], 404);
         }
 

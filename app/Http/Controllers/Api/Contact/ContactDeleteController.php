@@ -2,38 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\Lead;
+namespace App\Http\Controllers\Api\Contact;
 
-use App\Models\Lead;
+use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Controller for lead deletion.
+ * Controller for contact deletion.
  *
- * @group Leads
+ * @group Contacts
  */
-class LeadDeleteController
+class ContactDeleteController
 {
     /**
      * @OA\Delete (
-     *      path="/lead/{id}",
-     *      summary="Delete a Lead",
-     *      tags={"Lead"},
+     *      path="/contact/{id}",
+     *      summary="Delete a Contact",
+     *      tags={"Contact"},
      *      security={{"bearerAuth": {}}},
      *      @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID of the Lead",
+     *         description="ID of the Contact",
      *         required=true,
      *         @OA\Schema(type="integer")
      *      ),
-     *      @OA\Response(response="200", description="Lead deleted successfully"),
+     *      @OA\Response(response="200", description="Contact deleted successfully"),
      *      @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
-     * Delete a lead by ID.
+     * Delete a contact by ID.
      *
      * @authenticated
      *
@@ -41,9 +41,9 @@ class LeadDeleteController
      */
     public function delete(Request $request, int $id)
     {
-        $lead = Lead::find($id)->where('user_id', Auth::id())->get();
-        $lead->delete();
+        $contact = Contact::find($id)->where('user_id', Auth::id())->get();
+        $contact->delete();
 
-        return response()->json(['message' => 'Lead deleted successfully']);
+        return response()->json(['message' => 'Contact deleted successfully']);
     }
 }

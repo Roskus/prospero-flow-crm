@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
-use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\Company\CompanyDeleteController;
+use App\Http\Controllers\Api\Contact\ContactDeleteController;
 use App\Http\Controllers\Api\Customer\CustomerDeleteController;
-use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
+use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Api\User\UserDeleteController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::middleware(['api'])->group(function () {
     Route::get('company/{id}', [\App\Http\Controllers\Api\Company\CompanyReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('company', [\App\Http\Controllers\Api\Company\CompanyCreateController::class, 'create'])->middleware(['auth:api']);
     Route::put('company/{id}', [\App\Http\Controllers\Api\Company\CompanyUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/company/{id}', [CompanyDeleteController::class, 'delete']);
 
     // Customer
     Route::get('customer', [\App\Http\Controllers\Api\Customer\CustomerListController::class, 'index'])->middleware(['auth:api']);
@@ -50,8 +52,8 @@ Route::middleware(['api'])->group(function () {
     // Contact
     Route::get('/contact', [\App\Http\Controllers\Api\Contact\ContactListController::class, 'index'])->middleware(['auth:api']);
     Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
-
     //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');
+    Route::delete('/contact/{id}', [ContactDeleteController::class, 'delete']);
 
     // User
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
