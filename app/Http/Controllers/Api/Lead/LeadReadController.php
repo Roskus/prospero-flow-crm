@@ -31,9 +31,6 @@ class LeadReadController
      *     ),
      *     @OA\Response(response="404", description="Lead not found")
      * )
-     *
-     * @param int $id
-     * @return JsonResponse
      */
     public function read(int $id): JsonResponse
     {
