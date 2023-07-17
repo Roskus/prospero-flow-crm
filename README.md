@@ -1,9 +1,9 @@
 # Prospero Flow CRM
 We made a free open source CRM. Our Community Edition (CE) 
-- Prospect Flow CRM is based in Laravel 10
+- Prospero Flow CRM is based in Laravel 10
 
 ## Requirements
-* PHP >= 8.1
+* PHP >= 8.2
 * composer
 
 ## Features
@@ -18,7 +18,7 @@ We made a free open source CRM. Our Community Edition (CE)
 git clone git@github.com:Roskus/prospero-flow-crm.git
 ```
 
-### Migrate from hammer to prospect-flow-crm repo
+### Migrate from hammer to prospero-flow-crm repo
 ```bash
 git remote set-url origin git@github.com:Roskus/prospero-flow-crm.git
 ```

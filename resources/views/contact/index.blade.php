@@ -54,6 +54,10 @@
             @if($contact->linkedin)
                 <a href="{{ $contact->linkedin }}" target="_blank"><i class="lab la-linkedin fs-3"></i></a>
             @endif
+
+            @if($contact->twitter)
+                <a href="{{ $contact->twitter }}" target="_blank"><i class="lab la-twitter fs-3"></i></a>
+            @endif
         </td>
         <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
         <td>{{ ($contact->updated_at) ? $contact->updated_at->format('d/m/Y H:i') : '' }}</td>

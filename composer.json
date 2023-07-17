@@ -9,7 +9,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-gd": "*",
         "aws/aws-sdk-php": "^3.234",
         "barryvdh/laravel-dompdf": "^2.0",
