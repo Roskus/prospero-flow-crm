@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api\Ticket;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -41,9 +40,6 @@ class TicketReadController
      * Get the information of a ticket by ID.
      *
      * @authenticated
-     *
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function read(int $id): JsonResponse
     {

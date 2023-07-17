@@ -11,10 +11,10 @@ use App\Http\Controllers\Api\Email\EmailDeleteController;
 use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
 use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
-use App\Http\Controllers\Api\User\UserDeleteController;
+use App\Http\Controllers\Api\Ticket\TicketDeleteController;
 use App\Http\Controllers\Api\Ticket\TicketListController;
 use App\Http\Controllers\Api\Ticket\TicketReadController;
-use App\Http\Controllers\Api\Ticket\TicketDeleteController;
+use App\Http\Controllers\Api\User\UserDeleteController;
 use Illuminate\Support\Facades\Route;
 
 /*

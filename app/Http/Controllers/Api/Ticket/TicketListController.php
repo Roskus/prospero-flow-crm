@@ -32,9 +32,6 @@ class TicketListController
      * Get the list of tickets by company.
      *
      * @authenticated
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
