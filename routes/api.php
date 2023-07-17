@@ -3,6 +3,12 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\Customer\CustomerDeleteController;
+use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
+use App\Http\Controllers\Api\Lead\LeadDeleteController;
+use App\Http\Controllers\Api\Order\OrderDeleteController;
+use App\Http\Controllers\Api\User\UserDeleteController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,6 +26,7 @@ Route::middleware(['api'])->group(function () {
     Route::get('lead', [\App\Http\Controllers\Api\Lead\LeadListController::class, 'index'])->middleware(['auth:api']);
     Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete']);
 
     // Company
     Route::get('company', [\App\Http\Controllers\Api\Company\CompanyListController::class, 'index'])->middleware(['auth:api']);
@@ -31,6 +38,7 @@ Route::middleware(['api'])->group(function () {
     Route::get('customer', [\App\Http\Controllers\Api\Customer\CustomerListController::class, 'index'])->middleware(['auth:api']);
     Route::get('customer/{id}', [\App\Http\Controllers\Api\Customer\CustomerReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('customer', [\App\Http\Controllers\Api\Customer\CustomerCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::delete('/customer/{id}', [CustomerDeleteController::class, 'delete']);
 
     // Product
     Route::get('/product', [App\Http\Controllers\Api\Product\ProductListController::class, 'index'])->middleware(['auth:api']);
@@ -48,15 +56,17 @@ Route::middleware(['api'])->group(function () {
     // User
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/user/{id}', [\App\Http\Controllers\Api\User\UserReadController::class, 'read'])->middleware(['auth:api']);
+    Route::delete('/user/{id}', [UserDeleteController::class, 'delete']);
 
     // Supplier
     Route::get('/supplier', [App\Http\Controllers\Api\Supplier\SupplierListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/supplier/{id}', [App\Http\Controllers\Api\Supplier\SupplierReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('supplier', [\App\Http\Controllers\Api\Supplier\SupplierCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::delete('/supplier', [\App\Http\Controllers\Api\Supplier\SupplierDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::delete('/supplier/{id}', [SupplierDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Order
     Route::get('/order', [App\Http\Controllers\Api\Order\OrderListController::class, 'index'])->middleware(['auth:api']);
+    Route::delete('/order/{id}', [OrderDeleteController::class, 'delete']);
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
