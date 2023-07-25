@@ -23,6 +23,11 @@ git clone git@github.com:Roskus/prospero-flow-crm.git
 git remote set-url origin git@github.com:Roskus/prospero-flow-crm.git
 ```
 
+### Docker Setup in 1 command
+```bash
+make install
+```
+
 ### Setup docker
 ```bash
 docker-compose build
@@ -72,7 +77,7 @@ crotab -e
 We will provide a REST API for exchange information with the CRM
 
 API Docs
-http://prospectflow.localhost/api/documentation
+http://prosperoflow.localhost/api/documentation
 
 Regenerate documentation
 ```bash
