@@ -27,6 +27,16 @@
                         <input type="text" name="external_id" id="external_id" value="{{ old('external_id', $lead->external_id) }}"
                                maxlength="50" class="form-control form-control-lg">
                     </div>
+                    <div class="col-12 col-md-6">
+                        <label for="source_id">{{ __('Source') }}</label>
+                        <select name="source_id" id="source_id" class="form-select form-select-lg">
+                            @foreach ($sources as $source)
+                            <option value="{{ $source->id }}" @if($source->id == $lead->source_id) selected="selected" @endif>
+                                {{ __($source->name) }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-10 col-md-4">

@@ -8,6 +8,7 @@ use App\Models\Lead\Message;
 use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
@@ -88,6 +89,12 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        example="https://www.company.com"
  *    ),
  *    @OA\Property(
+ *        property="source_id",
+ *        description="Source ID of the lead",
+ *        type="int",
+ *        example="1"
+ *    ),
+ *    @OA\Property(
  *        property="linkedin",
  *        description="Linkedin of the lead",
  *        type="string",
@@ -127,6 +134,7 @@ class Lead extends Model
         'email_verified',
         'email2',
         'website',
+        'source_id',
         'linkedin',
         'facebook',
         'instagram',
@@ -189,6 +197,11 @@ class Lead extends Model
     public function country()
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public function source(): HasOne
+    {
+        return $this->hasOne(\App\Models\Source::class, 'id', 'source_id');
     }
 
     public function industry()
