@@ -227,7 +227,7 @@ class Customer extends Model
         return Customer::all();
     }
 
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
+    public function getAllByCompanyId(int $company_id, string $search = null, array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
     {
         if (is_null($order_by)) {
             $order_by = 'created_at';

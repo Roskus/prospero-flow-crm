@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 class Source extends Model
 {
     use HasFactory;
+
     protected $table = 'source';
+
     protected $fillable = [
         'name',
     ];

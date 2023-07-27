@@ -20,7 +20,7 @@ class GenericEmailForQueuing extends Mailable
      *
      * @return void
      */
-    public function __construct(?Company $company = null, ?string $subject = '', ?array $data = [])
+    public function __construct(Company $company = null, ?string $subject = '', ?array $data = [])
     {
         $this->company = $company;
         $this->subject = $subject;
