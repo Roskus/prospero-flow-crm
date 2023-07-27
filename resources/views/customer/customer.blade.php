@@ -30,6 +30,7 @@
                     <div class="col-12 col-md-6">
                         <label for="source_id">{{ __('Source') }}</label>
                         <select name="source_id" id="source_id" class="form-select form-select-lg">
+                            <option value=""></option>
                             @foreach ($sources as $source)
                                 <option value="{{ $source->id }}" @if($source->id == $customer->source_id) selected="selected" @endif>
                                     {{ __($source->name) }}
