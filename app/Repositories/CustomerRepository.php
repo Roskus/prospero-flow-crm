@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerRepository
@@ -31,6 +32,7 @@ class CustomerRepository
         $customer->mobile = $data['mobile'] ?? null;
         $customer->email = $data['email'] ?? null;
         $customer->email2 = $data['email2'] ?? null;
+        $customer->source_id = ! empty($data['source_id']) ? $data['source_id'] : null;
         $customer->website = ($data['website']) ? rtrim($data['website'], '/') : null;
         $customer->notes = $data['notes'] ?? null;
 
@@ -50,7 +52,7 @@ class CustomerRepository
         $customer->industry_id = $data['industry_id'] ?? null;
         $customer->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
         $customer->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
-        $customer->schedule_contact = $data['schedule_contact'] ?? null;
+        $customer->schedule_contact = ! empty($data['schedule_contact']) ? Carbon::parse($data['schedule_contact'])->setTimezone(Auth::user()->company->timezone) : null;
 
         $customer->tags = ($data['tags']) ? explode(',', $data['tags']) : null;
 

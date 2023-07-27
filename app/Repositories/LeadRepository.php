@@ -32,6 +32,7 @@ class LeadRepository
         $lead->mobile = $data['mobile'];
         $lead->email = ! empty($data['email']) ? $data['email'] : null;
         $lead->email2 = ! empty($data['email2']) ? $data['email2'] : null;
+        $lead->source_id = ! empty($data['source_id']) ? $data['source_id'] : null;
         $lead->website = ! empty($data['website']) ? rtrim($data['website'], '/') : null;
         $lead->notes = ! empty($data['notes']) ? $data['notes'] : null;
 

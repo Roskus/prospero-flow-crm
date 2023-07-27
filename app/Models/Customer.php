@@ -92,6 +92,12 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        example="https://www.company.com"
  *    ),
  *    @OA\Property(
+ *        property="source_id",
+ *        description="Source ID of the lead",
+ *        type="int",
+ *        example="1"
+ *    ),
+ *    @OA\Property(
  *        property="linkedin",
  *        description="Linkedin of the customer",
  *        type="string",
@@ -136,6 +142,7 @@ class Customer extends Model
         'email_verified',
         'email2',
         'website',
+        'source_id',
         'linkedin',
         'facebook',
         'instagram',
@@ -200,6 +207,11 @@ class Customer extends Model
         return $this->belongsTo(Country::class);
     }
 
+    public function source(): HasOne
+    {
+        return $this->hasOne(\App\Models\Source::class, 'id', 'source_id');
+    }
+
     public function industry(): HasOne
     {
         return $this->hasOne(Industry::class, 'id', 'industry_id');
@@ -215,7 +227,7 @@ class Customer extends Model
         return Customer::all();
     }
 
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
+    public function getAllByCompanyId(int $company_id, string $search = null, array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
     {
         if (is_null($order_by)) {
             $order_by = 'created_at';
