@@ -37,6 +37,7 @@ class LeadFactory extends Factory
             'email_verified' => 0,
             'email2' => fake()->email(),
             'website' => 'https://'.fake()->domainName(),
+            'source_id' => null,
             'linkedin' => 'https://'.fake()->domainName(),
             'facebook' => 'https://'.fake()->domainName(),
             'instagram' => 'https://'.fake()->domainName(),
