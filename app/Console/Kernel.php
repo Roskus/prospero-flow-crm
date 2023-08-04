@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         Commands\ScheduleNotificationReminder::class,
         Commands\CrmDevCheck::class,
         Commands\EmailValidatorCommand::class,
+        Commands\ContactEmailPredictCommand::class,
     ];
 
     /**
