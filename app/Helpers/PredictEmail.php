@@ -8,13 +8,12 @@ use Illuminate\Support\Facades\Validator;
 
 class PredictEmail
 {
-
-    public function predict(string $name, string $last_name, string $company_url): string | false
+    public function predict(string $name, string $last_name, string $company_url): string|false
     {
         $name = str_replace(' ', '', trim(strtolower($name)));
         $last_name = str_replace(' ', '', trim(strtolower($last_name)));
         $email = false;
-        $host = str_replace(['https://', 'http://','www.'],'', $company_url);
+        $host = str_replace(['https://', 'http://', 'www.'], '', $company_url);
 
         // online
         if ($socket = @fsockopen($host, 80, $errno, $errstr, 30)) {
@@ -32,20 +31,21 @@ class PredictEmail
                 }
             }
         }
+
         return $email;
     }
 
-    public function fullNameWithDots(string $name, string $last_name, string $host) : string
+    public function fullNameWithDots(string $name, string $last_name, string $host): string
     {
         return $name.'.'.$last_name.'@'.$host;
     }
 
-    public function firstLetterNameLastName(string $name, string $last_name, string $host) : string
+    public function firstLetterNameLastName(string $name, string $last_name, string $host): string
     {
         return substr($name, 0, 1).$last_name.'@'.$host;
     }
 
-    public function nameOnly(string $name, string $host) : string
+    public function nameOnly(string $name, string $host): string
     {
         return substr($name, 0, 1).'@'.$host;
     }
@@ -57,13 +57,15 @@ class PredictEmail
         foreach ($names as $n) {
             $firstLetters .= substr($n, 0, 1);
         }
-        return $firstLetters . $last_name . '@' . $host;
+
+        return $firstLetters.$last_name.'@'.$host;
     }
 
-    public function isValid(string $email) : bool
+    public function isValid(string $email): bool
     {
         $rules = ['email' => 'email:rfc,dns'];
         $validator = Validator::make(['email' => $email], $rules);
+
         return $validator->passes();
     }
 }

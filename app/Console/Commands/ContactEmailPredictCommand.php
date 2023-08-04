@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Helpers\PredictEmail;
 use App\Models\Contact;
 use Illuminate\Console\Command;
-use App\Helpers\PredictEmail;
 
 class ContactEmailPredictCommand extends Command
 {
@@ -62,5 +62,4 @@ class ContactEmailPredictCommand extends Command
 
         return Command::SUCCESS;
     }
-
 }
