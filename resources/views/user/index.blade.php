@@ -13,6 +13,20 @@
 </div>
 @endcan
 
+<div class="row mt-2">
+    <div class="col">
+        <form method="get" action="{{ url("/user") }}" class="form-inline mb-2">
+            @csrf
+            <div class="input-group">
+                <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
+                <button class="btn btn-outline-primary" type="submit" id="btn-search">
+                    <i class="las la-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
