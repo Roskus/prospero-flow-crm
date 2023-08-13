@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         //$schedule->command('mail:send')->everyMinute();
         $schedule->command('crm:notification-reminder:send')->everyFiveMinutes();
+        $schedule->command('crm:contact:email-predict')->dailyAt('23:00');
         $schedule->command('crm:email:validate')->dailyAt('00:00');
     }
 
