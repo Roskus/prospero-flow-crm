@@ -1,6 +1,9 @@
 <div class="card mt-3">
     <div class="card-header">
         {{ __('Messages') }}
+        <a href="#" onclick="$('#new-message').removeClass('d-none');" class="btn btn-primary btn-sm">
+            <i class="las la-plus fw-bold"></i> {{ __('New message') }}
+        </a>
     </div>
     <div class="card-body">
         <table class="table table-striped table-hover">

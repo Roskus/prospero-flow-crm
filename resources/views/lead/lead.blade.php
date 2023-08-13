@@ -328,12 +328,6 @@
     </form>
 
     @if($lead->id)
-        <div class="row mt-2">
-            <div class="col">
-                <a href="#" onclick="$('#new-message').removeClass('d-none');" class="btn btn-primary">{{ __('New message') }}</a>
-            </div>
-        </div>
-
         <div id="new-message" class="card mt-3 d-none">
             <div class="card">
 
