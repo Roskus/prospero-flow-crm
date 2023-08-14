@@ -28,23 +28,23 @@ class LeadCreateController
      *          @OA\JsonContent(
      *              required={"name"},
      *              @OA\Property(
-     *                  name="name",
+     *                  property="name",
      *                  type="string",
      *                  example="John Smith"
      *              ),
      *              @OA\Property(
-     *                  name="phone",
+     *                  property="phone",
      *                  type="int",
      *                  example="34123456789",
      *              ),
      *              @OA\Property(
-     *                  name="email",
+     *                  property="email",
      *                  type="string",
      *                  format="email",
      *                  example="john@smith.com",
      *              ),
      *              @OA\Property(
-     *                  name="notes",
+     *                  property="notes",
      *                  type="string",
      *                  example="Notes of the lead",
      *              )
