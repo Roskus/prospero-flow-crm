@@ -24,34 +24,32 @@ class LeadCreateController
      *     summary="Create a Lead",
      *     tags={"Lead"},
      *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="name",
-     *         in="body",
-     *         description="Name of the lead",
-     *         required=true,
-     *         @OA\Schema(type="string")
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"name"},
+     *              @OA\Property(
+     *                  name="name",
+     *                  type="string"
+     *                  example="John Smith"
+     *              ),
+     *              @OA\Property(
+     *                  name="phone",
+     *                  type="int"
+     *                  example="34123456789",
+     *              ),
+     *              @OA\Property(
+     *                  name="email",
+     *                  type="string",
+     *                  format="email",
+     *                  example="john@smith.com",
+     *              ),
+     *              @OA\Property(
+     *                  name="notes",
+     *                  type="string"
+     *                  example="Notes of the lead",
+     *              )
+     *          )
      *     ),
-     *     @OA\Parameter(
-     *          name="phone",
-     *          in="body",
-     *          description="Phone of the lead",
-     *          required=true,
-     *          @OA\Schema(type="int")
-     *     ),
-     *     @OA\Parameter(
-     *          name="email",
-     *          in="body",
-     *          description="Email of the lead",
-     *          required=true,
-     *          @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *           name="notes",
-     *           in="body",
-     *           description="Notes of the lead",
-     *           required=false,
-     *           @OA\Schema(type="string")
-     *      ),
      *     @OA\Response(response="201", description="Lead created successfully"),
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
