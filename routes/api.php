@@ -38,7 +38,7 @@ Route::middleware(['api'])->group(function () {
     // Lead
     Route::get('lead', [\App\Http\Controllers\Api\Lead\LeadListController::class, 'index'])->middleware(['auth:api']);
     Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::post('/lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
     Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Company
