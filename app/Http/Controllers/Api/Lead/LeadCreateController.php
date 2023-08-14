@@ -29,12 +29,12 @@ class LeadCreateController
      *              required={"name"},
      *              @OA\Property(
      *                  name="name",
-     *                  type="string"
+     *                  type="string",
      *                  example="John Smith"
      *              ),
      *              @OA\Property(
      *                  name="phone",
-     *                  type="int"
+     *                  type="int",
      *                  example="34123456789",
      *              ),
      *              @OA\Property(
@@ -45,7 +45,7 @@ class LeadCreateController
      *              ),
      *              @OA\Property(
      *                  name="notes",
-     *                  type="string"
+     *                  type="string",
      *                  example="Notes of the lead",
      *              )
      *          )
