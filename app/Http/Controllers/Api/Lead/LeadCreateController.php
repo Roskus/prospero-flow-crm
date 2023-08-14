@@ -25,12 +25,33 @@ class LeadCreateController
      *     tags={"Lead"},
      *     security={{"bearerAuth": {} }},
      *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Product",
+     *         name="name",
+     *         in="body",
+     *         description="Name of the lead",
      *         required=true,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(type="string")
      *     ),
+     *     @OA\Parameter(
+     *          name="phone",
+     *          in="body",
+     *          description="Phone of the lead",
+     *          required=true,
+     *          @OA\Schema(type="int")
+     *     ),
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="body",
+     *          description="Email of the lead",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *           name="notes",
+     *           in="body",
+     *           description="Notes of the lead",
+     *           required=false,
+     *           @OA\Schema(type="string")
+     *      ),
      *     @OA\Response(response="201", description="Lead created successfully"),
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
