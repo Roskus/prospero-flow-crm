@@ -101,7 +101,7 @@
 
                     <div class="card-body bg-white">
                         <div class="mt-2 table-responsive">
-                            @include('contact.index', ['contacts' => $supplier->contacts])
+                            @include('supplier.contact.index', ['contacts' => $supplier->contacts])
                         </div>
                     </div><!--./card-body-->
                 </div>
