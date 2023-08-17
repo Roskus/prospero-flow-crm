@@ -82,8 +82,13 @@ class Supplier extends Model
         return $this->belongsTo(Country::class);
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(\App\Models\Supplier\SupplierContact::class, 'supplier_id', 'id');
+    }
+
     public function getAllByCompany(int $company_id)
     {
-        return Supplier::where('company_id', $company_id)->get();
+        return Supplier::with('country')->where('company_id', $company_id)->get();
     }
 }

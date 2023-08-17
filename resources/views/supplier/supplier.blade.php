@@ -84,6 +84,28 @@
             </div>
             <input type="hidden" name="id" value="{{ $supplier->id }}">
             </form>
+
+            @if($supplier->id)
+                <div class="card mt-2 mb-5">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                {{ __('Contacts') }}
+
+                                <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/supplier/contact/create', ['supplier', $supplier->id]) }}">
+                                    <i class="las la-plus fw-bold"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body bg-white">
+                        <div class="mt-2 table-responsive">
+                            @include('contact.index', ['contacts' => $supplier->contacts])
+                        </div>
+                    </div><!--./card-body-->
+                </div>
+            @endif
         </div>
     </div>
 @endsection

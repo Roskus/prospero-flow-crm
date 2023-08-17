@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Supplier;
 
 use App\Traits\VCard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Contact', required: ['first_name'])]
-class Contact extends Model
+#[OAT\Schema(schema: 'SupplierContact', required: ['first_name'])]
+class SupplierContact extends Model
 {
     use SoftDeletes;
     use HasFactory;
     use VCard;
 
-    protected $table = 'contact';
+    protected $table = 'supplier_contact';
 
     protected $fillable = [
         'first_name',
@@ -55,7 +55,7 @@ class Contact extends Model
     #[OAT\Property(description: 'LinkedIn of the contact', type: 'string', example: 'https://linkedin.com/john.smith')]
     protected ?string $linkedin = null;
 
-    #[OAT\Property(description: 'Twitter / X of the contact', type: 'string', example: 'https://x.com/john.smith')]
+    #[OAT\Property(description: 'Twitter/X of the contact', type: 'string', example: 'https://x.com/john.smith')]
     protected ?string $twitter = null;
 
     #[OAT\Property(description: 'Country of the contact', type: 'string', example: 'uk')]
@@ -64,14 +64,9 @@ class Contact extends Model
     #[OAT\Property(description: 'Notes of the contact', type: 'string', example: 'Test comment')]
     protected ?string $notes = null;
 
-    public function lead()
+    public function supplier()
     {
-        return $this->belongsTo(\App\Models\Lead::class);
-    }
-
-    public function customer()
-    {
-        return $this->belongsTo(\App\Models\Customer::class);
+        return $this->belongsTo(\App\Models\Supplier::class);
     }
 
     public function company()
