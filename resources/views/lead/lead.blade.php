@@ -352,7 +352,7 @@
             </div>
         </div>
 
-        @include('lead_customer.partials.messages', ['messages' => $lead->messages])
+        @include('lead_customer.partials.messages', ['messages' => $lead->messages, 'url' => 'lead'])
     @endif
 
     @if($lead->id)
