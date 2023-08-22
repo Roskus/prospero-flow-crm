@@ -12,6 +12,7 @@
                 <th scope="col">{{ __('Author') }}</th>
                 <th scope="col">{{ __('Message') }}</th>
                 <th scope="col">{{ __('Created at') }}</th>
+                <th scope="col">{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -20,6 +21,11 @@
                     <td>{{ $message->author->first_name }}</td>
                     <td>{{ $message->body }}</td>
                     <td>{{ $message->created_at->format('d/m/y h:m') }}</td>
+                    <td>
+                        @can('delete message')
+                        <a href="/{{$url}}/message/delete/{{ $message->id }}"><i class="las la-trash-alt"></i></a>
+                        @endcan
+                    </td>
                 </tr>
             @endforeach
             </tbody>

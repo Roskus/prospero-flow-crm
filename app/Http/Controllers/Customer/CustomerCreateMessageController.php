@@ -21,6 +21,6 @@ class CustomerCreateMessageController extends Controller
         ]);
         $message->save();
 
-        return redirect("customer/update/$request->customer_id");
+        return back();
     }
 }

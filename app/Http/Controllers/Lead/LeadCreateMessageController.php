@@ -21,6 +21,6 @@ class LeadCreateMessageController extends Controller
         ]);
         $message->save();
 
-        return redirect("lead/update/$request->lead_id");
+        return back();
     }
 }

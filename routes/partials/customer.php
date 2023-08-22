@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Customer\CustomerCreateController;
 use App\Http\Controllers\Customer\CustomerCreateMessageController;
 use App\Http\Controllers\Customer\CustomerDeleteController;
+use App\Http\Controllers\Customer\CustomerDeleteMessageController;
 use App\Http\Controllers\Customer\CustomerExportController;
 use App\Http\Controllers\Customer\CustomerImportIndexController;
 use App\Http\Controllers\Customer\CustomerImportSaveController;
@@ -49,3 +50,4 @@ Route::get('/customer/show/{customer}',
     ->can('read customer');
 
 Route::post('/customer/message/save', [CustomerCreateMessageController::class, 'save']);
+Route::post('/customer/message/delete/{id}', [CustomerDeleteMessageController::class, 'delete']);

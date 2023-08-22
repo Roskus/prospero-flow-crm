@@ -72,6 +72,10 @@ $url = isset($lead) ? 'lead' : 'customer';
         </div><!--./row-->
         <div class="row">
             <div class="col-md-2">
+                <div>{{ __('Country') }}:</div>
+                <strong>{{ ($item->country) ? $item->country->name : '' }}</strong>
+            </div>
+            <div class="col-md-2">
                 <div>{{ __('Province') }}:</div>
                 <strong>{{ $item->province }}</strong>
             </div>
@@ -235,6 +239,6 @@ $url = isset($lead) ? 'lead' : 'customer';
         </div>
     </div>
 </div>
-@include('lead_customer.partials.messages', ['messages' => $item->messages])
+@include('lead_customer.partials.messages', ['messages' => $item->messages, 'url' => $url])
 
 @endsection

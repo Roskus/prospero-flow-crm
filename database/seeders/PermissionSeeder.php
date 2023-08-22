@@ -61,25 +61,25 @@ class PermissionSeeder extends Seeder
     public function permissions(): array
     {
         return [
-            //Dashboard
+            // Dashboard
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'read dashboard',
                 'guard_name' => 'web',
             ],
-            //Lead
+            // Lead
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
                 'name' => 'create lead',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
                 'name' => 'read lead',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
                 'name' => 'update lead',
                 'guard_name' => 'web',
             ],
@@ -93,7 +93,7 @@ class PermissionSeeder extends Seeder
                 'name' => 'export lead',
                 'guard_name' => 'web',
             ],
-            //Customer
+            // Customer
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'create customer',
@@ -139,7 +139,7 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete order',
                 'guard_name' => 'web',
             ],
-            //Company
+            // Company
             [
                 'roles' => ['SuperAdmin'], //Only SuperAdmin can create company
                 'name' => 'create company',
@@ -160,7 +160,7 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete company',
                 'guard_name' => 'web',
             ],
-            //User
+            // User
             [
                 'roles' => ['SuperAdmin'], //Only SuperAdmin can create user
                 'name' => 'create user',
@@ -181,7 +181,7 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete user',
                 'guard_name' => 'web',
             ],
-            //Supplier
+            // Supplier
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'create supplier',
@@ -243,6 +243,12 @@ class PermissionSeeder extends Seeder
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
                 'name' => 'read report',
+                'guard_name' => 'web',
+            ],
+            // Message
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete message',
                 'guard_name' => 'web',
             ],
         ];

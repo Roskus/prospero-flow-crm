@@ -3,6 +3,7 @@
 declare(strict_types=1);
 use App\Http\Controllers\Lead\LeadCreateController;
 use App\Http\Controllers\Lead\LeadCreateMessageController;
+use App\Http\Controllers\Lead\LeadDeleteMessageController;
 use App\Http\Controllers\Lead\LeadDeleteController;
 use App\Http\Controllers\Lead\LeadExportController;
 use App\Http\Controllers\Lead\LeadImportIndexController;
@@ -54,3 +55,4 @@ Route::get('/lead/show/{lead}',
     ->can('read lead');
 
 Route::post('/lead/message/save', [LeadCreateMessageController::class, 'save']);
+Route::post('/lead/message/delete/{id}', [LeadDeleteMessageController::class, 'delete']);
