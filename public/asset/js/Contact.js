@@ -9,4 +9,4 @@ const Contact = {
             window.location.href = window.location.protocol+'//'+window.location.host + '/contact/delete/'+id;
         }
     }
-}
+};

@@ -214,6 +214,27 @@ $url = isset($lead) ? 'lead' : 'customer';
    @endif
 </div><!--./card-->
 
+<div id="new-message" class="card mt-3 d-none">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="{{ url("/$url/message/save") }}">
+                @csrf
+                <input type="hidden" name="{{ $url }}_id" value="{{ $item->id }}">
+                <div class="row">
+                    <div class="col">
+                        <label for="message">{{ __('Message') }}</label>
+                        <textarea name="message" id="message" required class="form-control form-control-lg"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col pt-2">
+                        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @include('lead_customer.partials.messages', ['messages' => $item->messages])
 
 @endsection
