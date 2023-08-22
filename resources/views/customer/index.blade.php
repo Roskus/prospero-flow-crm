@@ -180,6 +180,12 @@
                     </a>
                     @endif
 
+                    @if($customer->tiktok)
+                        <a href="{{ $customer->tiktok }}" target="_blank" class="text-decoration-none link-secondary">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    @endif
+
                     @if($customer->mobile)
                     <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
                        target="_blank" class="text-decoration-none link-secondary">

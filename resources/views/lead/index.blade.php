@@ -197,7 +197,7 @@
 
                     @if($lead->tiktok)
                         <a href="{{ $lead->tiktok }}" target="_blank" class="text-decoration-none link-secondary">
-                            <i class="fa-brands fa-tiktok fs-3"></i>
+                            <i class="fa-brands fa-tiktok"></i>
                         </a>
                     @endif
 
