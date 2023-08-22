@@ -50,4 +50,4 @@ Route::get('/customer/show/{customer}',
     ->can('read customer');
 
 Route::post('/customer/message/save', [CustomerCreateMessageController::class, 'save']);
-Route::post('/customer/message/delete/{id}', [CustomerDeleteMessageController::class, 'delete']);
+Route::get('/customer/message/delete/{id}', [CustomerDeleteMessageController::class, 'delete']);

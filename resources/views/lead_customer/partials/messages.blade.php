@@ -23,7 +23,7 @@
                     <td>{{ $message->created_at->format('d/m/y h:m') }}</td>
                     <td>
                         @can('delete message')
-                        <a href="/{{$url}}/message/delete/{{ $message->id }}" class="btn btn-primary btn-sm">
+                        <a href="/{{$url}}/message/delete/{{ $message->id }}" class="btn btn-danger btn-sm">
                             <i class="las la-trash-alt"></i>
                         </a>
                         @endcan

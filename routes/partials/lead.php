@@ -55,4 +55,4 @@ Route::get('/lead/show/{lead}',
     ->can('read lead');
 
 Route::post('/lead/message/save', [LeadCreateMessageController::class, 'save']);
-Route::post('/lead/message/delete/{id}', [LeadDeleteMessageController::class, 'delete']);
+Route::get('/lead/message/delete/{id}', [LeadDeleteMessageController::class, 'delete']);
