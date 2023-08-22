@@ -182,7 +182,7 @@
 
                     @if($customer->tiktok)
                         <a href="{{ $customer->tiktok }}" target="_blank" class="text-decoration-none link-secondary">
-                            <i class="fa-brands fa-tiktok"></i>
+                            <span class="tiktok"><i class="fa-brands fa-tiktok"></i></span>
                         </a>
                     @endif
 
