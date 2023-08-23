@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Helpers\PredictEmail;
 use App\Models\Contact;
+use App\Models\Supplier\SupplierContact;
 use Illuminate\Console\Command;
 
 class ContactEmailPredictCommand extends Command
@@ -33,20 +34,35 @@ class ContactEmailPredictCommand extends Command
         $contactsModified = 0;
 
         // Get all contacts where the company has a URL and the contact's email is empty
-        $contacts = Contact::with('lead')->whereHas('lead', function ($query) {
+        $leadContacts = Contact::with('lead')->whereHas('lead', function ($query) {
             $query->whereNotNull('website'); // Assuming the company's URL is stored in the 'url' column
         })
             ->whereNull('email')
             ->get();
 
+        $customerContacts = Contact::with('customer')->whereHas('customer', function ($query) {
+            $query->whereNotNull('website'); // Assuming the company's URL is stored in the 'url' column
+        })
+            ->whereNull('email')
+            ->get();
+
+        $supplierContacts = SupplierContact::with('supplier')->whereHas('supplier', function ($query) {
+            $query->whereNotNull('website'); // Assuming the company's URL is stored in the 'url' column
+        })
+            ->whereNull('email')
+            ->get();
+
+        $contacts = $leadContacts->merge($customerContacts)->merge($supplierContacts);
+
         $predictEmail = new PredictEmail();
 
         foreach ($contacts as $contact) {
+            $website = $contact->lead->website ?? $contact->customer->website ?? $contact->supplier->website;
 
             $predictedEmail = $predictEmail->predict(
                 $contact->first_name,
                 (string) $contact->last_name,
-                $contact->lead->website // Assuming the company's URL is stored in the 'url' column
+                $website // Assuming the company's URL is stored in the 'url' column
             );
 
             if ($predictedEmail) {
