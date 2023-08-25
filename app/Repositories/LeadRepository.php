@@ -54,7 +54,7 @@ class LeadRepository
         $lead->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
         $lead->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
         $lead->opt_in = ! empty($data['opt_in']) ? $data['opt_in'] : null;
-        $lead->tags = ($data['tags']) ? explode(',', $data['tags']) : null;
+        $lead->tags = ! empty($data['tags']) ? explode(',', $data['tags']) : null;
 
         if ($data['status']) {
             $lead->status = $data['status'];
