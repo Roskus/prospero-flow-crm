@@ -19,7 +19,7 @@ class LeadRepository
             $lead = Lead::find($data['id']);
         }
 
-        $lead->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
+        $lead->seller_id = (isset($data['seller_id'])) ? $data['seller_id'] : Auth::user()->id;
         $lead->company_id = Auth::user()->company_id;
         $lead->external_id = ! empty($data['external_id']) ? $data['external_id'] : null;
         $lead->name = $data['name'];
@@ -28,8 +28,8 @@ class LeadRepository
         $lead->vat = ! empty($data['vat']) ? strtoupper($data['vat']) : null;
         $lead->phone = $data['phone'];
         $lead->extension = $data['extension'] ?? null;
-        $lead->phone2 = $data['phone2'];
-        $lead->mobile = $data['mobile'];
+        $lead->phone2 = $data['phone2'] ?? null;
+        $lead->mobile = $data['mobile'] ?? null;
         $lead->email = ! empty($data['email']) ? $data['email'] : null;
         $lead->email2 = ! empty($data['email2']) ? $data['email2'] : null;
         $lead->source_id = ! empty($data['source_id']) ? $data['source_id'] : null;

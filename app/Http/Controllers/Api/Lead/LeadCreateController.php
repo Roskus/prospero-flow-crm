@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Lead;
 use App\Repositories\LeadRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Annotations as OA;
 
 class LeadCreateController
@@ -61,14 +62,15 @@ class LeadCreateController
         $status = 400;
         $data = [];
         $valid = $request->validate([
-            'name' => ['required', 'max:50'],
+            'name' => ['required', 'max:80'],
             'email' => ['required', 'max:254'],
             'phone' => ['required', 'max:15'],
-            'country_id' => ['required', 'max:2'],
         ]);
+        $data = $request->all();
+        $data['country_id'] = Auth::user()->company->country_id;
 
         if ($valid) {
-            $lead = $this->leadSaveRepository->save($request->all());
+            $lead = $this->leadSaveRepository->save($data);
             if (! empty($lead)) {
                 $status = 201;
                 $data['lead'] = ['id' => $lead->id];
