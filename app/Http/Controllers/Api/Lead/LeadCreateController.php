@@ -34,6 +34,11 @@ class LeadCreateController
      *                  example="John Smith"
      *              ),
      *              @OA\Property(
+     *                   property="business_name",
+     *                   type="string",
+     *                   example="John Smith LTD"
+     *              ),
+     *              @OA\Property(
      *                  property="phone",
      *                  type="int",
      *                  example="34123456789",
@@ -48,7 +53,12 @@ class LeadCreateController
      *                  property="notes",
      *                  type="string",
      *                  example="Notes of the lead",
-     *              )
+     *              ),
+     *              @OA\Property(
+     *                   property="country_id",
+     *                   type="string",
+     *                   example="ISO Country code 2 digits",
+     *               )
      *          )
      *     ),
      *     @OA\Response(response="201", description="Lead created successfully"),
@@ -67,16 +77,19 @@ class LeadCreateController
             'phone' => ['required', 'max:15'],
         ]);
         $data = $request->all();
-        $data['country_id'] = Auth::user()->company->country_id;
+        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
 
+        $response = [];
         if ($valid) {
             $lead = $this->leadSaveRepository->save($data);
             if (! empty($lead)) {
                 $status = 201;
-                $data['lead'] = ['id' => $lead->id];
+                $response = $lead;
             }
+        } else {
+            $response = $valid->errors();
         }
 
-        return response()->json($data, $status);
+        return response()->json($response, $status);
     }
 }
