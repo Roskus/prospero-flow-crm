@@ -39,14 +39,14 @@
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} mb-3">
                             <label for="email" class="control-label mb-2">E-Mail</label>
                             <div>
-                                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="form-control form-control-lg">
+                                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="form-control form-control-lg @if ($errors->has('email')) is-invalid @endif">
                                 <div class="form-control-icon">
                                     <i class="bi bi-person"></i>
                                 </div>
                                 @if ($errors->has('email'))
-                                    <span class="help-block">
+                                    <div class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -55,12 +55,12 @@
                             <label for="password" class="control-label mb-2">{{ __('Password') }}</label>
 
                             <div>
-                                <input id="password" type="password" name="password" required class="form-control form-control-lg">
+                                <input id="password" type="password" name="password" required class="form-control form-control-lg @if ($errors->has('password')) is-invalid @endif">
                                 <span toggle="#password" class="las la-eye field-icon toggle-password"></span>
                                 @if ($errors->has('password'))
-                                    <span class="help-block">
+                                    <div class="invalid-feedback">
                                         <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -103,16 +103,6 @@
         </div>
     </div>
     @push('scripts')
-    <script>
-        $(".toggle-password").click(function() {
-            $(this).toggleClass("la-eye la-eye-slash");
-            let input = $($(this).attr("toggle"));
-            if (input.attr("type") == "password") {
-                input.attr("type", "text");
-            } else {
-                input.attr("type", "password");
-            }
-        });
-    </script>
+    <script src="{{ url('/asset/js/Password.js') }}"></script>
     @endpush
 @endsection

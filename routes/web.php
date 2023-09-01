@@ -23,6 +23,9 @@ Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'rende
 
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
+Route::get('/lock', [\App\Http\Controllers\Auth\LockController::class, 'index']);
+Route::post('/unlock', [\App\Http\Controllers\Auth\UnlockController::class, 'unlock'])->name('unlock');
+
 //Order
 require __DIR__.'/partials/order.php';
 

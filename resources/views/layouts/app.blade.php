@@ -158,6 +158,21 @@
    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script src="/asset/js/ProspectFlow.js"></script>
 <script src="/asset/js/Notification.js"></script>
+@auth
+<script>
+    let inactivityInterval;
+    let lockTimeMin = 15;
+    const inactivityTime =  lockTimeMin * 60 * 1000; // 15 minutes
+
+    $(document).on('mousemove keydown', function() {
+        clearTimeout(inactivityInterval);
+        inactivityInterval = setTimeout(function() {
+            // Show lock screen on inactivity
+            window.location.href = '/lock';
+        }, inactivityTime);
+    });
+</script>
+@endauth
 @stack('scripts')
 </body>
 </html>

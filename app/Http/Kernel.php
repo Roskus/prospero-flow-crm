@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
 
             // CRM custom
             \App\Http\Middleware\Localization::class, // Localization Middleware
+            \App\Http\Middleware\LockedState::class,
         ],
 
         'api' => [
@@ -66,5 +67,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        //Custom
+        'locked' => \App\Http\Middleware\LockedState::class,
     ];
 }
