@@ -21,9 +21,9 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;
     use HasFactory;
-    use SoftDeletes;
-    use Notifiable;
     use HasRoles;
+    use Notifiable;
+    use SoftDeletes;
 
     protected $table = 'user';
 

@@ -14,10 +14,11 @@ class LockController extends Controller
     public function index()
     {
         // Check if the user is authenticated before show the locking screen
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('login');
         }
         session(['locked' => true]);
+
         return view('auth.lock');
     }
 }

@@ -13,7 +13,7 @@ class UnlockController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             // Si no hay usuario autenticado, redirige al formulario de inicio de sesión.
             return redirect()->route('login');
         }
@@ -22,6 +22,7 @@ class UnlockController extends Controller
             // Si la contraseña es correcta, autentica al usuario de nuevo.
             Auth::login($user);
             session(['locked' => false]);
+
             return redirect('/');
         } else {
             return back()->withErrors(['password' => __('Invalid password')]);

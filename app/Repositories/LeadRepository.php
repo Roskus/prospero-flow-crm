@@ -55,7 +55,7 @@ class LeadRepository
         $lead->opt_in = ! empty($data['opt_in']) ? $data['opt_in'] : null;
         $lead->tags = ! empty($data['tags']) ? explode(',', $data['tags']) : null;
 
-        $lead->status = !empty($data['status']) ? $data['status'] : Lead::OPEN;
+        $lead->status = ! empty($data['status']) ? $data['status'] : Lead::OPEN;
 
         $lead->updated_at = now();
         $lead->save();

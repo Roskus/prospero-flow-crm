@@ -123,7 +123,7 @@ use OpenApi\Annotations as OA;
  */
 class Product extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory, SoftDeletes;
 
     const ACTIVE = 1;
 
