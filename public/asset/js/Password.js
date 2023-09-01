@@ -8,6 +8,6 @@ $(".toggle-password").click(function() {
     }
 });
 
-$( ".toggle-password" ).on( "change", function() {
+$( "#password" ).on( "change", function() {
     $(this).removeClass('is-invalid');
 } );
