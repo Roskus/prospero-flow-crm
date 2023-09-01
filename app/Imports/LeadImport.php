@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class LeadImport implements ToModel, SkipsEmptyRows, WithHeadingRow, WithValidation
+class LeadImport implements SkipsEmptyRows, ToModel, WithHeadingRow, WithValidation
 {
     public function model(array $row)
     {

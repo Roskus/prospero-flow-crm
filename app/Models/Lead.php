@@ -105,9 +105,9 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  */
 class Lead extends Model
 {
+    use AuditableWithDeletesTrait;
     use HasFactory;
     use SoftDeletes;
-    use AuditableWithDeletesTrait;
 
     const OPEN = 'open'; //New
 

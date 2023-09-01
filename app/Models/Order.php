@@ -17,8 +17,8 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
 #[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'currency', 'items'])]
 final class Order extends Model
 {
-    use SoftDeletes, HasFactory;
     use AuditableWithDeletesTrait;
+    use HasFactory, SoftDeletes;
 
     // Class Constants
     const CANCELED = 0;

@@ -16,8 +16,8 @@ use OpenApi\Attributes as OAT;
 #[OAT\Schema(schema: 'Calendar', required: ['user_id', 'start_date', 'title'])]
 class Calendar extends Model
 {
-    use ICalendar;
     use HasFactory;
+    use ICalendar;
 
     protected $table = 'calendar';
 

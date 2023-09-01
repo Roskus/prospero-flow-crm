@@ -113,9 +113,9 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  */
 class Customer extends Model
 {
+    use AuditableWithDeletesTrait;
     use HasFactory;
     use SoftDeletes;
-    use AuditableWithDeletesTrait;
 
     const OPEN = 'open'; //New
 
