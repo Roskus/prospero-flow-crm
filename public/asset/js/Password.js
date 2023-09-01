@@ -7,3 +7,7 @@ $(".toggle-password").click(function() {
         input.attr("type", "password");
     }
 });
+
+$( ".toggle-password" ).on( "change", function() {
+    $(this).removeClass('is-invalid');
+} );
