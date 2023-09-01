@@ -13,8 +13,8 @@ use OpenApi\Attributes as OAT;
 #[OAT\Schema(schema: 'SupplierContact', required: ['first_name'])]
 class SupplierContact extends Model
 {
-    use SoftDeletes;
     use HasFactory;
+    use SoftDeletes;
     use VCard;
 
     protected $table = 'supplier_contact';

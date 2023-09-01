@@ -14,8 +14,8 @@ use Yajra\Auditable\AuditableTrait;
 #[OAT\Schema(schema: 'Email', required: ['from', 'to', 'subject', 'body'])]
 class Email extends Model
 {
-    use HasFactory;
     use AuditableTrait;
+    use HasFactory;
 
     protected $guarded = [];
 

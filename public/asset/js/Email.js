@@ -11,4 +11,4 @@ window.ProspectFlow.Email = {
             window.location = window.location.origin + '/email/duplicate?email_id=' + id + '&to=' + email;
         }
     }
-}
+};
