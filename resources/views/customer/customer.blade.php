@@ -400,22 +400,11 @@
         });
     </script>
     <script>
-        $('#phone, #phone2').on('keyup paste', function() {
+        $('#phone, #phone2, #mobile').on('input', function() {
             let $el = $(this);
-            setTimeout(function() {
-                $el.val(function(i, val) {
-                    return val.replace(/[ ()-.]/g, '')
-                })
-            })
-        });
-
-        $('#mobile').on('keyup paste', function() {
-            let $el = $(this);
-            setTimeout(function() {
-                $el.val(function(i, val) {
-                    return val.replace(/[ ()-.]/g, '')
-                })
-            })
+            $el.val(function(i, val) {
+                return val.replace(/[ ()-.]/g, '')
+            });
         });
 
         $('#email, #email2').on('keyup paste', function() {
