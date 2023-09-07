@@ -72,7 +72,7 @@
             </div>
             {{ Auth::user()->first_name }}
         </div>
-        <form action="{{ route('unlock') }}" method="post">
+        <form action="{{ route('unlock') }}" method="post" autocomplete="false">
             @csrf
             <div class="input-group">
                 <input type="password" name="password" id="password" placeholder="{{ __('Password') }}" required
