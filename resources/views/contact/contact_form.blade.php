@@ -102,6 +102,7 @@
         </form>
     </div>
 </div>
+@push('scripts')
 <script>
 $(document).ready(function() {
     $('#contact_linkedin').on('paste', function(event) {
@@ -126,3 +127,4 @@ $(document).ready(function() {
     });
 });
 </script>
+@endpush
