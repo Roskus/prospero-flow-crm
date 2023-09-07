@@ -76,7 +76,7 @@
             @csrf
             <div class="input-group">
                 <input type="password" name="password" id="password" placeholder="{{ __('Password') }}" required
-                       class="form-control @if ($errors->has('password')) is-invalid @endif">
+                       autocomplete="off" class="form-control @if ($errors->has('password')) is-invalid @endif">
                 <span toggle="#password" class="las la-eye field-icon toggle-password"></span>
                 <div class="input-group-append">
                     <button type="submit" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
