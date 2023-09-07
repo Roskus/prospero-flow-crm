@@ -231,9 +231,11 @@
                     </div><!--./input-group-->
                 </div><!--./col-->
                 <div class="col-12 col-md-6">
-                    <label for="twitter">Twitter</label>
+                    <label for="twitter">Twitter / X</label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="lab la-twitter"></i></span>
+                        <span class="input-group-text">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </span>
                         <input type="url" name="twitter" id="twitter" value="{{ old('twitter', $lead->twitter) }}"
                                placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
