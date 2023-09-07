@@ -102,3 +102,27 @@
         </form>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    $('#contact_linkedin').on('paste', function(event) {
+        setTimeout(() => {
+            let url = $(this).val();
+            let matches = url.match(/linkedin\.com\/in\/([^\/]+)\//);
+
+            if (matches && matches[1]) {
+                let parts = matches[1].split('-');
+
+                // Si tanto el nombre como el apellido están vacíos
+                if (!$('#contact_first_name').val() && !$('#contact_last_name').val()) {
+                    if (parts.length > 1) {
+                        $('#contact_first_name').val(parts[0]);
+                        $('#contact_last_name').val(parts.slice(1).join(' '));
+                    } else {
+                        $('#contact_first_name').val(matches[1]);
+                    }
+                }
+            }
+        }, 0);
+    });
+});
+</script>
