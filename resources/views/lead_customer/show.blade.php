@@ -11,7 +11,7 @@ $url = isset($lead) ? 'lead' : 'customer';
 
 <div class="card mb-2">
     <div class="card-body">
-        <div class="row">
+        <div class="row mb-1">
             <div class="col-md-2">
                 <div>{{ __('Name') }}:</div>
                 <strong>{{ $item->name }}</strong>
@@ -26,13 +26,17 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <strong>{{ $item->seller->first_name }}</strong>
                 @endisset
             </div>
+            <div class="col-md-2">
+                <div>{{ __('Status') }}:</div>
+                <span class="badge {{ App\Helpers\LeadStatus::renderBadge($item->status) }}">{{ __(ucfirst($item->status)) }}</span>
+            </div>
             <div class="col-md-1">
                 <a class="btn btn-warning" href="{{ url("/$url/update/$item->id") }}">
                     <i class="las la-pen"></i> {{ __('Edit') }}
                 </a>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-1">
             <div class="col-md-2">
                 <div>{{ __('Phone') }}:</div>
                 @isset($item->phone)
@@ -57,7 +61,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     </strong>
                 @endisset
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div>{{ __('Identity number') }}:</div>
                 <strong>{{ $item->vat }}</strong>
             </div>
@@ -70,7 +74,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                 @endisset
             </div>
         </div><!--./row-->
-        <div class="row">
+        <div class="row mb-1">
             <div class="col-md-2">
                 <div>{{ __('Country') }}:</div>
                 <strong>{{ ($item->country) ? $item->country->name : '' }}</strong>
@@ -90,6 +94,53 @@ $url = isset($lead) ? 'lead' : 'customer';
             <div class="col-md-2">
                 <div>{{ __('Zipcode') }}:</div>
                 <strong>{{ $item->zipcode }}</strong>
+            </div>
+        </div><!--./row-->
+        <div class="row mb-1">
+            <div class="col-12">
+                <div>{{ __('Social networks') }}:</div>
+                @if($item->facebook)
+                    <a href="{{ $item->facebook }}" target="_blank" class="text-decoration-none link-secondary">
+                        <i class="lab la-facebook-square fs-3"></i>
+                    </a>
+                @endif
+
+                @if($item->instagram)
+                    <a href="{{ $item->instagram }}" target="_blank" class="text-decoration-none link-secondary">
+                        <i class="lab la-instagram fs-3"></i>
+                    </a>
+                @endif
+
+                @if($item->linkedin)
+                    <a href="{{ $item->linkedin }}" target="_blank" class="text-decoration-none link-secondary">
+                        <i class="lab la-linkedin fs-3"></i>
+                    </a>
+                @endif
+
+                @if($item->youtube)
+                    <a href="{{ $item->youtube }}" target="_blank" class="text-decoration-none link-secondary">
+                        <i class="lab la-youtube-square fs-3"></i>
+                    </a>
+                @endif
+
+                @if($item->twitter)
+                    <a href="{{ $item->twitter }}" target="_blank" class="text-decoration-none link-secondary">
+                        <i class="lab la-twitter-square fs-3"></i>
+                    </a>
+                @endif
+
+                @if($item->tiktok)
+                    <a href="{{ $item->tiktok }}" target="_blank" class="text-decoration-none link-secondary">
+                        <span class="tiktok"><i class="fa-brands fa-tiktok"></i></span>
+                    </a>
+                @endif
+
+                @if($item->mobile)
+                    <a href="https://api.whatsapp.com/send/?phone={{ $item->mobile }}&text={{ __('Hello') }}"
+                       target="_blank" class="text-decoration-none link-secondary">
+                        <i class="lab la-whatsapp fs-3"></i>
+                    </a>
+                @endif
             </div>
         </div><!--./row-->
         @if(isset($item->latitude) && isset($item->longitude))
