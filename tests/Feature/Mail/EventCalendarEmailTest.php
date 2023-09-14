@@ -21,9 +21,9 @@ class EventCalendarEmailTest extends TestCase
 
         Mail::assertSent(EventCalendarEmail::class, function (EventCalendarEmail $mail) use ($user) {
             return $user->name === $mail->to[0]['name'] &&
-                null !== $mail->to[0]['name'] &&
+                $mail->to[0]['name'] !== null &&
                 $user->email === $mail->to[0]['address'] &&
-                null !== $mail->to[0]['address'];
+                $mail->to[0]['address'] !== null;
         });
     }
 }

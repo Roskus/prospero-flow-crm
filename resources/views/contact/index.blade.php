@@ -88,3 +88,6 @@
 @endif
 </tbody>
 </table>
+@push('scripts')
+<script src="/asset/js/Contact.js"></script>
+@endpush

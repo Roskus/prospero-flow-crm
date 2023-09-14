@@ -5,7 +5,6 @@ use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use App\Http\Controllers\Api\Brand\BrandListController;
 use App\Http\Controllers\Api\Brand\BrandReadController;
 use App\Http\Controllers\Api\Company\CompanyDeleteController;
-use App\Http\Controllers\Api\Contact\ContactDeleteController;
 use App\Http\Controllers\Api\Customer\CustomerDeleteController;
 use App\Http\Controllers\Api\Email\EmailDeleteController;
 use App\Http\Controllers\Api\Lead\LeadDeleteController;
@@ -32,7 +31,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['api'])->group(function () {
     // Brand
     Route::get('/brand', [BrandListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('/brand', [\App\Http\Controllers\Api\Brand\BrandCreateController::class, 'create'])->middleware(['auth:api']);
     Route::get('/brand/{id}', [BrandReadController::class, 'read'])->middleware(['auth:api']);
+    Route::put('/brand/{id}', [\App\Http\Controllers\Api\Brand\BrandUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Lead
@@ -64,8 +65,8 @@ Route::middleware(['api'])->group(function () {
     // Contact
     Route::get('/contact', [\App\Http\Controllers\Api\Contact\ContactListController::class, 'index'])->middleware(['auth:api']);
     Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
-    //Route::patch('/contact/{id}', 'Api\Contact\ContactUpdateController@update');
-    Route::delete('/contact/{id}', [ContactDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::put('/contact/{id}', [\App\Http\Controllers\Api\Contact\ContactUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/contact/{id}', [\App\Http\Controllers\Api\Contact\ContactDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // User
     Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
