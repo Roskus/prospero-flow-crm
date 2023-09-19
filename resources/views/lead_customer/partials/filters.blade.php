@@ -10,7 +10,7 @@
                 <select name="status" id="status" class="form-select">
                     <option value=""></option>
                     @foreach($statuses as $key => $status)
-                    <option value="{{ $key }}">{{ __($status) }}</option>
+                    <option value="{{ $key }}" @if(request()->query('status') == $key) selected="selected" @endif>{{ __($status) }}</option>
                     @endforeach
                 </select>
             </div>
