@@ -121,6 +121,8 @@ class Customer extends Model
 
     const IN_PROGRESS = 'in_progress';
 
+    const WAITING_FEEDBACK = 'waiting_feedback';
+
     const CONVERTED = 'converted'; // Promoted to customer
 
     const CLOSED = 'closed';
