@@ -266,6 +266,7 @@ class Lead extends Model
         return [
             self::OPEN => 'Open',
             self::IN_PROGRESS => 'In progress',
+            self::WAITING_FEEDBACK => 'Waiting for feedback',
             self::CONVERTED => 'Converted',
             self::CLOSED => 'Closed',
         ];
