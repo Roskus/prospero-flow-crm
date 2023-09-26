@@ -70,6 +70,7 @@ class LeadIndexController extends MainController
         $data['statuses'] = $lead->getStatus();
         // Temporary fix get this from configuration
         $data['industries'] = (Auth::user()->company_id == 3) ? $industry->getAllByCompany(Auth::user()->company_id) : $industry->getAll();
+        $data['filters'] = $filters;
 
         return view('lead.index', $data);
     }

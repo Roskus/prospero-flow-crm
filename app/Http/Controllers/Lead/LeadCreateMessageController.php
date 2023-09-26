@@ -27,6 +27,7 @@ class LeadCreateMessageController extends Controller
         }
         $lead->updated_at = now();
         $lead->save();
+
         return back();
     }
 }
