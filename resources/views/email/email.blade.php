@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="subject" class="">{{ __('Subject') }}</label>
-                        <input type="text" name="subject" id="subject" maxlength="80" required
+                        <input type="text" name="subject" id="subject" maxlength="100" required
                             value="{{ old('subject', $email->subject) }}" class="form-control">
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.print')
+@extends('layouts.basic')
 
 @section('content')
     <style>
