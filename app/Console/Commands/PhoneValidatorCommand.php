@@ -27,24 +27,39 @@ class PhoneValidatorCommand extends Command
     public function handle(Lead $leadModel)
     {
         $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        $verifiedLeads = $leadModel->whereNotNull('phone')
-            ->where('phone_verified', 0)->get();
+
+        $leadsValidated = $this->validateField($leadModel, $phoneUtil, 'phone', 'phone_verified');
+        $this->info("Leads validated phones: {$leadsValidated}");
+        $leadsValidated = $this->validateField($leadModel, $phoneUtil, 'mobile', 'mobile_verified');
+        $this->info("Leads validated mobiles: {$leadsValidated}");
+        $leadsValidated = $this->validateField($leadModel, $phoneUtil, 'phone2', 'phone2_verified');
+        $this->info("Leads validated phone2: {$leadsValidated}");
+    }
+
+    private function validateField($leadModel, $phoneUtil, $field, $verificationField): int
+    {
+        $verifiedLeads = $leadModel->whereNotNull($field)
+            ->where($verificationField, 0)->get();
         $leadsCount = $verifiedLeads->count();
-        $this->info("Leads to validate phone: $leadsCount");
+
+        $this->info("Leads to validate {$field}: {$leadsCount}");
         $leadsValidated = 0;
+
         foreach ($verifiedLeads as $lead) {
-            if($lead->phone)
-            {
-                $phoneNumber = $phoneUtil->parse($lead->phone, $lead->country_id);
-                if($phoneUtil->isValidNumber($phoneNumber))
-                {
-                    $lead->phone_verified = true;
+            try {
+                $number = $phoneUtil->parse($lead->{$field}, $lead->country_id);
+                if ($phoneUtil->isValidNumber($number)) {
+                    $lead->{$verificationField} = true;
                     $lead->updated_at = now();
                     $lead->save();
                     $leadsValidated++;
                 }
+            }  catch (\libphonenumber\NumberParseException $e) {
+                // Log or print the error
+                $this->error("Error parsing $field for Lead ID {$lead->id}");
             }
         }
-        $this->info("Leads validated phones: $leadsValidated");
+
+        return $leadsValidated;
     }
 }
