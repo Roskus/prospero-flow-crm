@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.basic')
 
 @section('content')
     <link rel="preconnect" href="https://fonts.googleapis.com">

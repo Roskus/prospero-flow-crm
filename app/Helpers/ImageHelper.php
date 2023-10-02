@@ -8,6 +8,6 @@ class ImageHelper
 {
     public static function render(string $path): string
     {
-        return isset($path) ? 'data:image/png;base64,'.base64_encode(file_get_contents($path)) : '';
+        return file_exists($path) ? 'data:image/png;base64,'.base64_encode(file_get_contents($path)) : '';
     }
 }
