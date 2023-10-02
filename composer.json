@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.2",
         "ext-gd": "*",
+        "ext-intl": "*",
         "aws/aws-sdk-php": "^3.234",
         "barryvdh/laravel-dompdf": "^2.0",
         "barryvdh/laravel-snappy": "^1.0",
@@ -19,6 +20,7 @@
         "dompdf/dompdf": "^2.0",
         "egulias/email-validator": "^4.0",
         "fakerphp/faker": "^1.9.1",
+        "giggsey/libphonenumber-for-php": "^8.13",
         "guzzlehttp/guzzle": "^7.5",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltoimage-i386": "0.12.x",
@@ -31,6 +33,7 @@
         "laravel/ui": "^4.0",
         "larswiegers/laravel-translations-checker": "^0.7.0",
         "maatwebsite/excel": "^3.1",
+        "moneyphp/money": "^4.2",
         "nesbot/carbon": "^2.66",
         "php-open-source-saver/jwt-auth": "^2.0",
         "psr/simple-cache": "^2.0",

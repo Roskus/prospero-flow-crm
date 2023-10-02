@@ -27,6 +27,7 @@ soap \
 zip
 
 RUN pecl install redis && docker-php-ext-enable redis
+RUN apt-get update && apt-get install -y libicu-dev && docker-php-ext-install intl
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 
 ADD ./conf.d/  /usr/local/etc/php/conf.d/

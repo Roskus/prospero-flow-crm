@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         Commands\CrmDevCheck::class,
         Commands\EmailValidatorCommand::class,
         Commands\ContactEmailPredictCommand::class,
+        Commands\PhoneValidatorCommand::class,
     ];
 
     /**
@@ -35,6 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('crm:notification-reminder:send')->everyFiveMinutes();
         $schedule->command('crm:contact:email-predict')->dailyAt('23:00');
         $schedule->command('crm:email:validate')->dailyAt('00:00');
+        $schedule->command('crm:phone:validate')->dailyAt('01:00');
     }
 
     /**
