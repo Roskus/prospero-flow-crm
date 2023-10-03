@@ -125,6 +125,12 @@
                             <i class="las la-mobile fs-4"></i>
                         </a>
 
+                        @if($lead->mobile_verified == 1)
+                            <i class="las la-check-circle text-success"></i>
+                        @else
+                            <i class="las la-times-circle text-danger"></i>
+                        @endif
+
                         <a href="sip:{{ $lead->mobile }}" title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}"
                            target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-headset fs-4"></i>
