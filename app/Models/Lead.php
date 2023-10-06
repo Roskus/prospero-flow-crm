@@ -228,15 +228,17 @@ class Lead extends Model
         }
         $leads = Lead::where('company_id', $company_id);
         if (! empty($search)) {
-            $words = explode(' ', $search);
-            if (count($words) == 1) {
-                $leads->where('name', 'LIKE', "%$search%")
-                    ->orWhere('business_name', 'LIKE', "%$search%")
-                    ->orWhere('tags', 'LIKE', "%$search%");
-            } else {
-                $leads->whereFullText(['name', 'business_name'], $search)
-                    ->orWhere('tags', 'LIKE', "%$search%");
-            }
+            $leads->where(function ($query) use ($search) {
+                $words = explode(' ', $search);
+                if (count($words) == 1) {
+                    $query->where('name', 'LIKE', "%$search%")
+                        ->orWhere('business_name', 'LIKE', "%$search%")
+                        ->orWhere('tags', 'LIKE', "%$search%");
+                } else {
+                    $query->whereFullText(['name', 'business_name'], $search)
+                        ->orWhere('tags', 'LIKE', "%$search%");
+                }
+            });
         }
 
         if (is_array($filters)) {
