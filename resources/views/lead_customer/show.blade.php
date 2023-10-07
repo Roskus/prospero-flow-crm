@@ -145,6 +145,7 @@ $url = isset($lead) ? 'lead' : 'customer';
         </div><!--./row-->
         @if(!empty($item->notes))
         <div class="row">
+            <div>{{ __('Notes') }}:</div>
             <div class="col">{{ $item->notes }}</div>
         </div><!--./row-->
         @endif
