@@ -143,6 +143,11 @@ $url = isset($lead) ? 'lead' : 'customer';
                 @endif
             </div>
         </div><!--./row-->
+        @if(!empty($item->notes))
+        <div class="row">
+            <div class="col">{{ $item->notes }}</div>
+        </div><!--./row-->
+        @endif
         @if(isset($item->latitude) && isset($item->longitude))
         <div class="row">
             <div class="col mt-3">
