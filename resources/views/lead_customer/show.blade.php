@@ -251,29 +251,27 @@ $url = isset($lead) ? 'lead' : 'customer';
 @endif
 
 {{-- CONTACTS --}}
-<div class="card mb-2 p-2">
-    @if($item->id)
-    <div class="card mt-2 mb-5">
-        <div class="card-header">
-            <div class="row">
-                <div class="col">
-                    {{ __('Contacts') }}
+@if($item->id)
+<div class="card mt-2 mb-5">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                {{ __('Contacts') }}
 
-                    <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', [$url, $item->id]) }}">
-                        <i class="las la-plus fw-bold"></i>
-                    </a>
-                </div>
+                <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', [$url, $item->id]) }}">
+                    <i class="las la-plus fw-bold"></i>
+                </a>
             </div>
         </div>
-
-        <div class="card-body bg-white">
-            <div class="mt-2 table-responsive">
-                @include('contact.index', ['contacts' => $item->contacts])
-            </div>
-        </div><!--./card-body-->
     </div>
-   @endif
-</div><!--./card-->
+
+    <div class="card-body bg-white">
+        <div class="mt-2 table-responsive">
+            @include('contact.index', ['contacts' => $item->contacts])
+        </div>
+    </div><!--./card-body-->
+</div>
+@endif
 
 <div id="new-message" class="card mt-3 d-none">
     <div class="card">
@@ -296,6 +294,24 @@ $url = isset($lead) ? 'lead' : 'customer';
         </div>
     </div>
 </div>
+
 @include('lead_customer.partials.messages', ['messages' => $item->messages, 'url' => $url])
+
+@if($url === 'customer')
+    <div class="card mt-2 mb-2">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    {{ __('Tickets') }}
+                </div>
+            </div>
+        </div>
+        <div class="card-body bg-white">
+            <div class="mt-2 table-responsive">
+                @include('ticket.grid', ['tickets' => $item->tickets])
+            </div>
+        </div><!--./card-body-->
+    </div>
+@endif
 
 @endsection

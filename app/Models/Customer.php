@@ -224,6 +224,10 @@ class Customer extends Model
         return $this->hasMany(Contact::class, 'customer_id', 'id');
     }
 
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class, 'customer_id', 'id');
+    }
     public function getAll(): Collection
     {
         return Customer::all();
