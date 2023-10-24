@@ -16,8 +16,8 @@ class LeadDeleteController extends MainController
     public function delete(Request $request, int $id)
     {
         $lead = Lead::find($id);
-        $lead->delete();
+        $status = $lead->delete();
 
-        return redirect('/lead')->with(['status' => true, 'message' => __('Lead deleted successfully')]);
+        return redirect('/lead')->with(['status' => $status ? 'success' : 'error', 'message' => __('Lead deleted successfully')]);
     }
 }

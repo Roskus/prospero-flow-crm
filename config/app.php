@@ -251,6 +251,7 @@ return [
         'es-MX' => 'Spanish (Mexico)',
         'es-ES' => 'Spanish (España)',
         'fr' => 'French',
+        'it' => 'Italian',
         'pt' => 'Portuguese',
         'de' => 'German',
     ],

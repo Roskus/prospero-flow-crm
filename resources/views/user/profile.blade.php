@@ -75,7 +75,7 @@
                 <div class="col">
                     <label for="password" class="col-md-4 control-label">{{ __('Password') }}</label>
                     <div class="input-group">
-                        <input type="password" name="password" id="password" autocomplete="off" class="form-control form-control-lg">
+                        <input type="password" name="password" id="password" autocomplete="new-password" class="form-control form-control-lg">
                         <span class="input-group-text"><i role="button" toggle="#password" class="las la-eye toggle-password"></i></span>
                     </div>
 
