@@ -57,7 +57,7 @@ class Email extends Model
         return Email::orderBy('created_at', 'DESC')->get();
     }
 
-    public function getAllByCompanyId(int $company_id, string $search = null, array $filters = null)
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
         if (empty($search)) {
             $email = Email::where('company_id', $company_id);

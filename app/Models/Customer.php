@@ -228,12 +228,13 @@ class Customer extends Model
     {
         return $this->hasMany(Ticket::class, 'customer_id', 'id');
     }
+
     public function getAll(): Collection
     {
         return Customer::all();
     }
 
-    public function getAllByCompanyId(int $company_id, string $search = null, array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
     {
         if (is_null($order_by)) {
             $order_by = 'created_at';
