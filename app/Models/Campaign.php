@@ -10,7 +10,7 @@ use OpenApi\Attributes as OAT;
 
 //use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[OAT\Schema(schema: 'Campaign', required: ['subject', 'body'], type: 'object')]
+#[OAT\Schema(schema: 'Campaign', required: ['subject', 'from', 'body', 'tags'], type: 'object')]
 class Campaign extends Model
 {
     use HasFactory;
@@ -21,7 +21,9 @@ class Campaign extends Model
     protected $fillable =
         [
             'subject',
+            'from',
             'body',
+            'tags',
             'schedule_send_date',
             'schedule_send_time',
             'send_at',
@@ -40,8 +42,14 @@ class Campaign extends Model
     #[OAT\Property(type: 'string', example: 'My amazing campaign')]
     protected string $subject;
 
+    #[OAT\Property(type: 'string', example: 'origin@mail.com')]
+    protected string $from;
+
     #[OAT\Property(type: 'string', example: 'My awesome campaign content')]
     protected string $body;
+
+    #[OAT\Property(type: 'string', example: 'Tags')]
+    protected string $tags;
 
     #[OAT\Property(type: 'string', format: 'date', example: '2023-01-10')]
     protected \DateTime $schedule_send_date;

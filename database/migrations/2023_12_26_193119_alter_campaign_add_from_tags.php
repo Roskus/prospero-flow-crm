@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('campaign', function (Blueprint $table) {
             $table->string('from', 254)->after('subject');
-            $table->json('tags')->after('body');
+            $table->json('tags')->after('body')->nullable();
         });
     }
 
