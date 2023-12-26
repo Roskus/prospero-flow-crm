@@ -32,7 +32,13 @@
                     <a href="{{ url("campaign/update/$campaign->id") }}">{{ $campaign->subject }}</a>
                 </td>
                 <td>{{ $campaign->from }}</td>
-                <td>{{ $campaign->tags }}</td>
+                <td>
+                    @if($campaign->tags)
+                        @foreach($campaign->tags as $tag)
+                            <a href="{{ url("/lead?search=$tag") }}" class="badge {{ $bootstrap_colors[array_rand($bootstrap_colors)] }} text-decoration-none">{{ $tag }}</a>
+                        @endforeach
+                    @endif
+                </td>
                 <td>{{ $campaign->schedule_date }}</td>
                 <td>{{ $campaign->schedule_date }}</td>
                 <td>{{ $campaign->send_at }}</td>
