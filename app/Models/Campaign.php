@@ -34,6 +34,10 @@ class Campaign extends Model
         'company_id',
     ];
 
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $id;
 
