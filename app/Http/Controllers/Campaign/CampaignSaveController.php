@@ -21,6 +21,9 @@ class CampaignSaveController extends MainController
             $campaign = Campaign::find($request->id);
         }
         $campaign->subject = $request->subject;
+        $campaign->from = $request->from;
+        $campaign->body = $request->body;
+        $campaign->tags = !empty($request->tags) ? explode(',', $request->tags) : null;
         $campaign->updated_at = now();
         $campaign->save();
 

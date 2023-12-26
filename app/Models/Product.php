@@ -184,7 +184,7 @@ class Product extends Model
         return Product::orderBy('name', 'asc')->get();
     }
 
-    public function getAllByCompanyId(int $company_id, string $search = null, array $filters = null)
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
         $products = Product::with('category', 'brand')->where('company_id', '=', $company_id);
         if (! empty($search)) {
