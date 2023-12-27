@@ -5,6 +5,9 @@ We made a free open source CRM. Our Community Edition (CE)
 ## Requirements
 * PHP >= 8.2
 * composer
+* Laravel 10
+* MariaDB
+* Redis
 
 ## Features
 * Multi company (White label)

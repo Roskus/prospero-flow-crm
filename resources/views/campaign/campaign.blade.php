@@ -12,13 +12,17 @@
             <input type="hidden" name="id" value="{{ (!empty($campaign->id)) ? $campaign->id : '' }}">
             <div class="row">
                 <div class="col">
-                    <label for="subject">{{ __('Subject') }}</label>
-                    <input type="text" name="subject" id="subject" value="{{ $campaign->subject }}" class="form-control form-control-lg">
+                    <label for="subject">
+                        {{ __('Subject') }} <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" name="subject" id="subject" value="{{ $campaign->subject }}" required class="form-control form-control-lg">
                 </div>
             </div><!--./row-->
             <div class="row">
                 <div class="col">
-                    <label for="from" class="">{{ __('From') }}</label>
+                    <label for="from" class="">
+                        {{ __('From') }} <span class="text-red-500">*</span>
+                    </label>
                     <select name="from" id="from" required class="form-select">
                         <option value=""></option>
                         @foreach ($froms as $from)
@@ -33,7 +37,9 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="body" class="">{{ __('Message') }}</label>
+                    <label for="body" class="">
+                        {{ __('Message') }} <span class="text-red-500">*</span>
+                    </label>
                     <div class="mb-1">
                         <a onclick="addVariable2Editor('body', '$prospect->first_name')">
                             <span class="btn btn-outline-secondary">&#123;&#123; $prospect->first_name &#125;&#125;</span>
@@ -53,11 +59,11 @@
             </div>
             <div class="row">
                 <div class="col mt-2">
-                    <label for="schedule_send_date"><i class="las la-hashtag"></i> {{ __('Schedule date') }}</label>
+                    <label for="schedule_send_date"><i class="las la-calendar"></i> {{ __('Schedule date') }}</label>
                     <input type="date" name="schedule_send_date" id="schedule_send_date" value="{{ $campaign->schedule_send_date }}" class="form-control form-control-lg">
                 </div>
                 <div class="col mt-2">
-                    <label for="schedule_send_time"><i class="las la-hashtag"></i> {{ __('Schedule time') }}</label>
+                    <label for="schedule_send_time"><i class="las la-clock"></i> {{ __('Schedule time') }}</label>
                     <input type="time" name="schedule_send_time" id="schedule_send_time" value="{{ $campaign->schedule_send_time }}" class="form-control form-control-lg">
                 </div>
             </div>
