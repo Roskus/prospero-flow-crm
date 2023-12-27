@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col">
                     <label for="subject">
-                        {{ __('Subject') }} <span class="text-red-500">*</span>
+                        {{ __('Subject') }} <span class="text-danger">*</span>
                     </label>
                     <input type="text" name="subject" id="subject" value="{{ $campaign->subject }}" required class="form-control form-control-lg">
                 </div>
@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col">
                     <label for="from" class="">
-                        {{ __('From') }} <span class="text-red-500">*</span>
+                        {{ __('From') }} <span class="text-danger">*</span>
                     </label>
                     <select name="from" id="from" required class="form-select">
                         <option value=""></option>
@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col">
                     <label for="body" class="">
-                        {{ __('Message') }} <span class="text-red-500">*</span>
+                        {{ __('Message') }} <span class="text-danger">*</span>
                     </label>
                     <div class="mb-1">
                         <a onclick="addVariable2Editor('body', '$prospect->first_name')">
