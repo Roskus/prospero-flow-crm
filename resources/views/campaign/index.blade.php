@@ -22,6 +22,7 @@
                 <td>{{ __('Schedule at') }}</td>
                 <td>{{ __('Delivered at') }}</td>
                 <td>{{ __('Emails sent') }}</td>
+                <td>{{ __('Status') }}</td>
                 <td>{{ __('Actions') }}</td>
             </tr>
             </thead>
@@ -39,12 +40,15 @@
                         @endforeach
                     @endif
                 </td>
+                <td>{{ $campaign->created_at }}</td>
+                <td>{{ $campaign->updated_at }}</td>
                 <td>{{ $campaign->schedule_date }}</td>
                 <td>{{ $campaign->schedule_date }}</td>
                 <td>{{ $campaign->send_at }}</td>
                 <td>{{ $campaign->emails_count }}</td>
-                <td>{{ $campaign->created_at }}</td>
-                <td>{{ $campaign->updated_at }}</td>
+                <td>
+
+                </td>
                 <td>
                     <a href="{{ url("/campaign/update/$campaign->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
