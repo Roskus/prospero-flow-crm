@@ -47,7 +47,7 @@
                 <td>{{ $campaign->send_at }}</td>
                 <td>{{ (isset($campaign->emails_count)) ? $campaign->emails_count : '-'  }}</td>
                 <td>
-
+                    {{ (isset($campaign->status)) ? __($campaign->status) : __('Draft')  }}
                 </td>
                 <td>
                     <a href="{{ url("/campaign/update/$campaign->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
