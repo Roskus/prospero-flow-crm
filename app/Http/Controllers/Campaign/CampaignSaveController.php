@@ -24,6 +24,8 @@ class CampaignSaveController extends MainController
         $campaign->from = $request->from;
         $campaign->body = $request->body;
         $campaign->tags = !empty($request->tags) ? explode(',', $request->tags) : null;
+        $campaign->schedule_send_date = $request->schedule_send_date;
+        $campaign->schedule_send_time = $request->schedule_send_time;
         $campaign->updated_at = now();
         $campaign->save();
 
