@@ -53,6 +53,16 @@
             </div>
             <div class="row">
                 <div class="col mt-2">
+                    <label for="schedule_send_date"><i class="las la-hashtag"></i> {{ __('Schedule date') }}</label>
+                    <input type="date" name="schedule_send_date" id="schedule_send_date" value="{{ $campaign->schedule_send_date }}" class="form-control form-control-lg">
+                </div>
+                <div class="col mt-2">
+                    <label for="schedule_send_time"><i class="las la-hashtag"></i> {{ __('Schedule time') }}</label>
+                    <input type="time" name="schedule_send_time" id="schedule_send_time" value="{{ $campaign->schedule_send_time }}" class="form-control form-control-lg">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-2">
                     <a href="{{ url('campaign') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                     <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>

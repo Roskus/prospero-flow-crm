@@ -45,7 +45,7 @@
                 <td>{{ $campaign->schedule_date }}</td>
                 <td>{{ $campaign->schedule_date }}</td>
                 <td>{{ $campaign->send_at }}</td>
-                <td>{{ $campaign->emails_count }}</td>
+                <td>{{ (isset($campaign->emails_count)) ? $campaign->emails_count : '-'  }}</td>
                 <td>
 
                 </td>
