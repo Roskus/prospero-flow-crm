@@ -44,7 +44,7 @@
                 <td>{{ $campaign->updated_at }}</td>
                 <td>{{ $campaign->schedule_send_date }}</td>
                 <td>{{ $campaign->schedule_send_time }}</td>
-                <td>{{ $campaign->send_at }}</td>
+                <td>{{ (isset($campaign->send_at)) ? $campaign->send_at : '-' }}</td>
                 <td>{{ (isset($campaign->emails_count)) ? $campaign->emails_count : '-'  }}</td>
                 <td>
                     {{ (isset($campaign->status)) ? __($campaign->status) : __('Draft')  }}
