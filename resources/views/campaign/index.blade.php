@@ -42,8 +42,8 @@
                 </td>
                 <td>{{ $campaign->created_at }}</td>
                 <td>{{ $campaign->updated_at }}</td>
-                <td>{{ $campaign->schedule_date }}</td>
-                <td>{{ $campaign->schedule_date }}</td>
+                <td>{{ $campaign->schedule_send_date }}</td>
+                <td>{{ $campaign->schedule_send_time }}</td>
                 <td>{{ $campaign->send_at }}</td>
                 <td>{{ (isset($campaign->emails_count)) ? $campaign->emails_count : '-'  }}</td>
                 <td>
@@ -55,6 +55,9 @@
                     </a>
                     <a onclick="Campaign.delete({{ $campaign->id }}, '{{ $campaign->subject }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
+                    </a>
+                    <a onclick="Campaign.send({{ $campaign->id }}, '{{ $campaign->subject }}')" title="{{ __('Send') }}" class="btn btn-primary">
+                        <i class="las la-play-circle"></i>
                     </a>
                 </td>
             </tr>
