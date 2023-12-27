@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col mt-2">
                     <label for="schedule_send_date"><i class="las la-calendar"></i> {{ __('Schedule date') }}</label>
-                    <input type="date" name="schedule_send_date" id="schedule_send_date" value="{{ $campaign->schedule_send_date }}" class="form-control form-control-lg">
+                    <input type="date" name="schedule_send_date" id="schedule_send_date" value="{{ $campaign->schedule_send_date }}" min="{{ date('Y-m-d') }}" class="form-control form-control-lg">
                 </div>
                 <div class="col mt-2">
                     <label for="schedule_send_time"><i class="las la-clock"></i> {{ __('Schedule time') }}</label>
