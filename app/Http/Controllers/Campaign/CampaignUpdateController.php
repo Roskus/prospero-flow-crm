@@ -19,6 +19,7 @@ class CampaignUpdateController extends MainController
             ['email' => Auth::user()->company->email, 'name' => Auth::user()->company->name],
             ['email' => Auth::user()->email, 'name' => Auth::user()->first_name.' '.Auth::user()->last_name],
         ];
+
         return view('campaign.campaign', $data);
     }
 }

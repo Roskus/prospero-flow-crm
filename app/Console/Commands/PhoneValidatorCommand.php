@@ -56,7 +56,7 @@ class PhoneValidatorCommand extends Command
                     $lead->save();
                     $leadsValidated++;
                 }
-            }  catch (\libphonenumber\NumberParseException $e) {
+            } catch (\libphonenumber\NumberParseException $e) {
                 // Log or print the error
                 $this->error("Error parsing $field for Lead ID {$lead->id}");
             }
