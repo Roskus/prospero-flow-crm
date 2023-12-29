@@ -92,19 +92,20 @@ Endpoint:
 
 Some API Endpoint for the full list check the doc:
 
-[POST] /api/auth
+| Method | Endpoint         | Description         |
+|--------|------------------|---------------------|
+| POST   | `/api/auth`      | User auth           |
+| GET    | `/api/lead`      | Get all leads       |
+| GET    | `/api/lead/{id}` | Get lead detail     |
+| POST   | `/api/lead`      | Create new lead     |
+| PUT    | `/api/lead/{id}` | Update existing lead |
+| DELETE | `/api/lead/{id}` | Delete a lead       |
+| GET    | `/api/customer`  | Get all customers   |
+| GET    | `/api/product`   | Get all products    |
+| GET    | `/api/order`     | Get all orders      |
+| GET    | `/api/supplier`  | Get all suppliers   |
+| GET    | `/api/ticket`    | Get all tickets     |
 
-[GET] /api/lead
-
-[GET] /api/lead/{id}
-
-[POST] /api/lead
-
-[PUT] /api/lead/{id}
-
-[DELETE] /api/lead/{id}
-
-[GET] /api/customer
 
 ## Translation (i18n)
 Check missing translation keys
