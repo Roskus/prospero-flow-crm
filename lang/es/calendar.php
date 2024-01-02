@@ -19,6 +19,13 @@ return [
     'November' => 'Noviembre',
     'December' => 'Diciembre',
     // Days
+    'Sun' => 'Dom',
+    'Mon' => 'Lun',
+    'Tue' => 'Mar',
+    'Wed' => 'Mié',
+    'Thu' => 'Jue',
+    'Fri' => 'Vie',
+    'Sat' => 'Sáb',
     'Sunday' => 'Domingo',
     'Monday' => 'Lunes',
     'Tuesday' => 'Martes',

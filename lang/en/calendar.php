@@ -20,6 +20,13 @@ return [
     'November' => 'November',
     'December' => 'December',
     // Days
+    'Sun' => 'Sun',
+    'Mon' => 'Mon',
+    'Tue' => 'Tue',
+    'Wed' => 'Wed',
+    'Thu' => 'Thu',
+    'Fri' => 'Fri',
+    'Sat' => 'Sat',
     'Sunday' => 'Sunday',
     'Monday' => 'Monday',
     'Tuesday' => 'Tuesday',
