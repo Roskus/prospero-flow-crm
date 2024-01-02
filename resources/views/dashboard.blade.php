@@ -7,14 +7,14 @@
         <div class="row">
             <div class="col-md-6 col-xl-6 mb-2">
                 @include('lead.partials._list', [
-                    'leads' => $leads, 
+                    'leads' => $leads,
                     'url' => url('/lead'),
                     'title' => __('Leads')
                 ])
                 <!-- Last Leads -->
 
                 @include('lead.partials._list', [
-                    'leads' => $customers, 
+                    'leads' => $customers,
                     'url' => url('/customer'),
                     'title' => __('Customers in progress')
                 ])
@@ -31,16 +31,36 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col text-center border">{{ __('calendar.Monday') }}</div>
-                            <div class="col text-center border">{{ __('calendar.Tuesday') }}</div>
-                            <div class="col text-center border">{{ __('calendar.Wednesday') }}</div>
-                            <div class="col text-center border">{{ __('calendar.Thursday') }}</div>
-                            <div class="col text-center border">{{ __('calendar.Friday') }}</div>
-                            <div class="col text-center border">{{ __('calendar.Saturday') }}</div>
-                            <div class="col text-center border">{{ __('calendar.Sunday') }}</div>
+                            <div class="col text-center border">
+                                <span class="d-xs">{{ __('calendar.Mon') }}</span>
+                                <span class="d-md">{{ __('calendar.Monday') }}</span>
+                            </div>
+                            <div class="col text-center border">
+                                <span class="d-xs">{{ __('calendar.Tue') }}</span>
+                                <span class="d-md">{{ __('calendar.Tuesday') }}</span>
+                            </div>
+                            <div class="col text-center border">
+                                <span class="d-xs">{{ __('calendar.Wed') }}</span>
+                                <span class="d-md">{{ __('calendar.Wednesday') }}</span>
+                            </div>
+                            <div class="col text-center border">
+                                <span class="d-xs">{{ __('calendar.Thu') }}</span>
+                                <span class="d-md">{{ __('calendar.Thursday') }}</span>
+                            </div>
+                            <div class="col text-center border">
+                                <span class="d-xs">{{ __('calendar.Fri') }}</span>
+                                <span class="d-md">{{ __('calendar.Friday') }}</span>
+                            </div>
+                            <div class="col text-center border">
+                                <span class="d-xs">{{ __('calendar.Sat') }}</span>
+                                <span class="d-md">{{ __('calendar.Saturday') }}</span>
+                            </div>
+                            <div class="col text-center border">
+                                <span class="d-xs">{{ __('calendar.Sun') }}</span>
+                                <span class="d-md">{{ __('calendar.Sunday') }}</span>
+                            </div>
                         </div>
                         <div class="row" style="height: 14vh;">
-
                             @while ($startOfCalendar <= $endOfCalendar)
                                 <div class="col text-center border p-1" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')">
                                     <span class="mb-1 @if($startOfCalendar->isToday()) badge rounded-pill text-bg-primary @endif">{{ $startOfCalendar->format('j') }}</span>
