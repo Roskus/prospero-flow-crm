@@ -32,32 +32,32 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col text-center border">
-                                <span class="d-none d-xs-block">{{ __('calendar.Mon') }}</span>
-                                <span class="d-none d-md-block">{{ __('calendar.Monday') }}</span>
+                                <span class="d-xs-block">{{ __('calendar.Mon') }}</span>
+                                <span class="d-md-block">{{ __('calendar.Monday') }}</span>
                             </div>
                             <div class="col text-center border">
-                                <span class="d-none d-xs-block">{{ __('calendar.Tue') }}</span>
-                                <span class="d-none d-md-block">{{ __('calendar.Tuesday') }}</span>
+                                <span class="d-xs-block">{{ __('calendar.Tue') }}</span>
+                                <span class="d-md-block">{{ __('calendar.Tuesday') }}</span>
                             </div>
                             <div class="col text-center border">
-                                <span class="d-none d-xs-block">{{ __('calendar.Wed') }}</span>
-                                <span class="d-none d-md-block">{{ __('calendar.Wednesday') }}</span>
+                                <span class="d-xs-block">{{ __('calendar.Wed') }}</span>
+                                <span class="d-md-block">{{ __('calendar.Wednesday') }}</span>
                             </div>
                             <div class="col text-center border">
-                                <span class="d-none d-xs-block">{{ __('calendar.Thu') }}</span>
-                                <span class="d-none d-md-block">{{ __('calendar.Thursday') }}</span>
+                                <span class="d-xs-block">{{ __('calendar.Thu') }}</span>
+                                <span class="d-md-block">{{ __('calendar.Thursday') }}</span>
                             </div>
                             <div class="col text-center border">
-                                <span class="d-none d-xs-block">{{ __('calendar.Fri') }}</span>
-                                <span class="d-none d-md-block">{{ __('calendar.Friday') }}</span>
+                                <span class="d-xs-block">{{ __('calendar.Fri') }}</span>
+                                <span class="d-md-block">{{ __('calendar.Friday') }}</span>
                             </div>
                             <div class="col text-center border">
-                                <span class="d-none d-xs-block">{{ __('calendar.Sat') }}</span>
-                                <span class="d-none d-md-block">{{ __('calendar.Saturday') }}</span>
+                                <span class="d-xs-block">{{ __('calendar.Sat') }}</span>
+                                <span class="d-md-block">{{ __('calendar.Saturday') }}</span>
                             </div>
                             <div class="col text-center border">
-                                <span class="d-none d-xs-block">{{ __('calendar.Sun') }}</span>
-                                <span class="d-none d-md-block">{{ __('calendar.Sunday') }}</span>
+                                <span class="d-xs-block">{{ __('calendar.Sun') }}</span>
+                                <span class="d-md-block">{{ __('calendar.Sunday') }}</span>
                             </div>
                         </div>
                         <div class="row" style="height: 14vh;">
