@@ -270,7 +270,8 @@
 <script>
     const Lead = {
         delete : function(id, name) {
-            let res = confirm("{{ __('Are you sure you want to delete the lead: :name?') }}");
+            let message = `{{ __('Are you sure you want to delete the lead: ') }}${name}?`;
+            let res = confirm(message);
             if(res)
                 window.location = '{{ url('/lead/delete') }}/'+id;
         }
