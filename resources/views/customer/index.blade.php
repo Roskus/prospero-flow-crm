@@ -66,25 +66,25 @@
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Province') }}</th>
                 <th class="d-none d-sm-table-cell">Social</th>
-                <th class="text-center">{{ __('Seller') }}</th>
                 <th class="text-center d-none d-sm-table-cell">
                     <a href="{{ request()->fullUrlWithQuery(['order_by' => 'industry_id']) }}"
                        class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
                         {{ __('Industry') }}
                     </a>
                 </th>
+                <th class="text-center">{{ __('Seller') }}</th>
                 <th class="text-center d-none d-sm-table-cell">{{ __('Tags') }}</th>
                 <th class="d-none d-sm-table-cell">{{ __('Status') }}</th>
                 <th class="d-none d-sm-table-cell">
                     <a href="{{ request()->fullUrlWithQuery(['order_by' => 'created_at']) }}"
                        class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
-                    {{ __('Created at') }}
+                        {{ __('Created at') }}
                     </a>
                 </th>
                 <th class="d-none d-sm-table-cell">
                     <a href="{{ request()->fullUrlWithQuery(['order_by' => 'updated_at']) }}"
                        class="link-secondary link-underline-opacity-25 link-underline-opacity-100-hover">
-                    {{ __('Updated at') }}
+                        {{ __('Updated at') }}
                     </a>
                 </th>
                 <th>{{ __('Actions') }}</th>
@@ -103,9 +103,14 @@
                     @if($customer->phone)
                         <a href="tel:{{ $customer->phone }}@isset($customer->extension),{{$customer->extension}}@endisset"
                            title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}"
-                           target="_blank"  class="link-secondary text-decoration-none">
+                           target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-phone fs-4"></i>
                         </a>
+                        @if($customer->phone_verified == 1)
+                            <i class="las la-check-circle text-success"></i>
+                        @else
+                            <i class="las la-times-circle text-danger"></i>
+                        @endif
 
                         <a href="sip:{{ $customer->phone }}@isset($customer->extension),{{$customer->extension}}@endisset" title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}"
                            target="_blank" class="link-secondary text-decoration-none">
@@ -119,6 +124,29 @@
                          title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" target="_blank"
                            class="link-secondary text-decoration-none">
                             <i class="las la-mobile fs-4"></i>
+                        </a>
+
+                        @if($customer->mobile_verified == 1)
+                            <i class="las la-check-circle text-success"></i>
+                        @else
+                            <i class="las la-times-circle text-danger"></i>
+                        @endif
+
+                        <a href="sip:{{ $customer->mobile }}" title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}"
+                           target="_blank" class="link-secondary text-decoration-none">
+                            <i class="las la-headset fs-4"></i>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" target="_blank"
+                           class="link-secondary text-decoration-none">
+                            <i class="lab la-whatsapp fs-4"></i>
+                        </a>
+
+                        <a href="https://telegram.me/{{ $customer->mobile }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" target="_blank"
+                           class="link-secondary text-decoration-none">
+                            <i class="lab la-telegram-plane fs-4"></i>
                         </a>
                     @endif
                 </td>
@@ -140,7 +168,7 @@
                     </a>
                     @endif
                 </td>
-                <td class="text-center d-sm-table-cell link-secondary"
+                <td class="text-center d-sm-table-cell link-secondary text-decoration-none"
                     title="{{ (!empty($customer->country)) ? $customer->country->name : '' }}">
                     @if(!empty($customer->country))
                     {{ $customer->country->flag }}
@@ -193,8 +221,12 @@
                     </a>
                     @endif
                 </td>
-                <td class="text-center text-nowrap">{{ (!empty($customer->seller)) ? $customer->seller->first_name : '' }}</td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($customer->industry) ? __($customer->industry->name) : '' }}</td>
+                <td class="text-center text-nowrap">
+                    @isset($customer->seller)
+                    {{ $customer->seller->first_name }}
+                    @endisset
+                </td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
                     @if(is_array($customer->tags) || is_object($customer->tags))
                         @foreach($customer->tags as $tag)
@@ -236,7 +268,8 @@
 <script>
     const Customer = {
         delete : function(id, name) {
-            let res = confirm("{{ __('Are you sure you want to delete the customer?') }}");
+            let message = `{{ __('Are you sure you want to delete the customer: ') }}${name}?`;
+            let res = confirm(message);
             if(res)
                 window.location = '{{ url('/customer/delete') }}/'+id;
         }

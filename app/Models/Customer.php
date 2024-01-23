@@ -130,16 +130,19 @@ class Customer extends Model
     protected $table = 'customer';
 
     protected $fillable = [
-        'external_id',
         'company_id',
+        'external_id',
         'name',
         'business_name',
         'dob',
         'vat',
         'phone',
+        'phone_verified',
         'extension',
         'phone2',
+        'phone2_verified',
         'mobile',
+        'mobile_verified',
         'email',
         'email_verified',
         'email2',
@@ -187,7 +190,7 @@ class Customer extends Model
         'deleted_by',
     ];
 
-    protected $with = ['country', 'seller', 'industry'];
+    protected $with = ['country', 'seller', 'industry', 'company'];
 
     public function company(): HasOne
     {

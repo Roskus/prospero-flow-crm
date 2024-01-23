@@ -18,7 +18,7 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *  @OA\Schema(
  *    schema="Lead",
  *    type="object",
- *    required={"name", "country"},
+ *    required={"name", "country", "seller_id"},
  *    @OA\Property(
  *        property="name",
  *        description="Name of the lead",
@@ -100,6 +100,11 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        type="string",
  *        format="url",
  *        example="https://www.likedin.com/in/profile"
+ *    ),
+ *    @OA\Property(
+ *        property="seller_id",
+ *        description="SellerID of the lead",
+ *        type="string"
  *    )
  * )
  */
