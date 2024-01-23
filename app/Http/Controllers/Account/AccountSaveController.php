@@ -14,7 +14,7 @@ class AccountSaveController extends MainController
     /**
      * Save accounts
      *
-     * @param  Request  $request HTTP request
+     * @param  Request  $request  HTTP request
      */
     public function save(Request $request)
     {
