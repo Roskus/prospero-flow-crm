@@ -74,6 +74,7 @@
                     </a>
                 </th>
                 <th class="text-center">{{ __('Seller') }}</th>
+                <th class="text-center">{{ __('Score') }}</th>
                 <th class="text-center d-none d-sm-table-cell">{{ __('Tags') }}</th>
                 <th class="d-none d-sm-table-cell">{{ __('Status') }}</th>
                 <th class="d-none d-sm-table-cell">
@@ -224,6 +225,9 @@
                     @isset($lead->seller)
                     {{ $lead->seller->first_name }}
                     @endisset
+                </td>
+                <td class="text-center text-nowrap">
+                    {{ $lead->getScore() }}
                 </td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
                     @if($lead->tags)

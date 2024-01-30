@@ -271,6 +271,31 @@ class Lead extends Model
         return $leads->limit($limit)->get();
     }
 
+    public function getScore(): int
+    {
+        // Ejemplo de lógica de puntuación
+        $score = 0;
+
+        // Aumentar puntuación segun criterios específicos
+        if (! empty($this->email)) {
+            $score = $this->email_verified ? $score + 10 : $score - 10;
+        }
+
+        if (! empty($this->mobile)) {
+            $score = $this->mobile_verified ? $score + 10 : $score - 10;
+        }
+
+        if (! empty($this->phone)) {
+            $score = $this->phone_verified ? $score + 10 : $score - 10;
+        }
+
+        if ($this->contacts()->count() > 0) {
+            $score += 10;
+        }
+
+        return $score;
+    }
+
     public static function getStatus(): array
     {
         return [
