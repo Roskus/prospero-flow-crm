@@ -3,7 +3,7 @@ We made a free open source CRM. Our Community Edition (CE)
 - Prospero Flow CRM is based in Laravel 10
 
 ## Requirements
-* PHP >= 8.2
+* PHP >= 8.3
 * composer
 * Laravel 10
 * MariaDB
@@ -92,19 +92,21 @@ Endpoint:
 
 Some API Endpoint for the full list check the doc:
 
-| Method | Endpoint         | Description         |
-|--------|------------------|---------------------|
-| POST   | `/api/auth`      | User auth           |
-| GET    | `/api/lead`      | Get all leads       |
-| GET    | `/api/lead/{id}` | Get lead detail     |
-| POST   | `/api/lead`      | Create new lead     |
+| Method | Endpoint         | Description          |
+|--------|------------------|----------------------|
+| POST   | `/api/auth`      | User auth            |
+| GET    | `/api/lead`      | Get all leads        |
+| GET    | `/api/lead/{id}` | Get lead detail      |
+| POST   | `/api/lead`      | Create new lead      |
 | PUT    | `/api/lead/{id}` | Update existing lead |
-| DELETE | `/api/lead/{id}` | Delete a lead       |
-| GET    | `/api/customer`  | Get all customers   |
-| GET    | `/api/product`   | Get all products    |
-| GET    | `/api/order`     | Get all orders      |
-| GET    | `/api/supplier`  | Get all suppliers   |
-| GET    | `/api/ticket`    | Get all tickets     |
+| DELETE | `/api/lead/{id}` | Delete a lead        |
+| GET    | `/api/customer`  | Get all customers    |
+| POST   | `/api/customer`  | Create new customer  |
+| GET    | `/api/product`   | Get all products     |
+| POST   | `/api/product`   | Create new product   |
+| GET    | `/api/order`     | Get all orders       |
+| GET    | `/api/supplier`  | Get all suppliers    |
+| GET    | `/api/ticket`    | Get all tickets      |
 
 
 ## Translation (i18n)

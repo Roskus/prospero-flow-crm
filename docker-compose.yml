@@ -2,14 +2,14 @@
 version: "3.9"
 services:
   php:
-    #image: php:8.2-fpm
+    #image: php:8.3-fpm
     build: './etc/infrastructure/php'
     container_name: crm-php
-    user: www-data
+    user: "www-data:www-data"
     volumes:
-    - ./etc/.bashrc:/root/.bashrc
+    - ./etc/.bashrc:/home/www-data/.bashrc
     - .:/var/www/crm/
-    - ./etc/infrastructure/nginx/conf.d:/etc/nginx/conf.d/
+    - ./bootstrap/cache/:/var/www/crm/bootstrap/cache/
     #- ./etc/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     working_dir: /var/www/crm/
     links:
@@ -25,7 +25,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-    - ./etc/.bashrc:/root/.bashrc
+    - ./etc/.bashrc:/home/www-data/.bashrc
     - .:/var/www/crm/
     - ./etc/infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf
     - ./etc/infrastructure/nginx/static.conf:/etc/nginx/conf.d/static.conf
