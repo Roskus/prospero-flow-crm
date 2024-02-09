@@ -180,44 +180,44 @@
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
                     @if($customer->facebook)
-                    <a href="{{ $customer->facebook }}" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->facebook }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-facebook-square fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->instagram)
-                    <a href="{{ $customer->instagram }}" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->instagram }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-instagram fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->linkedin)
-                    <a href="{{ $customer->linkedin }}" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->linkedin }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-linkedin fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->youtube)
-                    <a href="{{ $customer->youtube }}" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->youtube }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-youtube-square fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->twitter)
-                    <a href="{{ $customer->twitter }}" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->twitter }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-twitter-square fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->tiktok)
-                        <a href="{{ $customer->tiktok }}" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $customer->tiktok }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <span class="tiktok"><i class="fa-brands fa-tiktok"></i></span>
                         </a>
                     @endif
 
                     @if($customer->mobile)
                     <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
-                       target="_blank" class="text-decoration-none link-secondary">
+                       rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-whatsapp fs-3"></i>
                     </a>
                     @endif
