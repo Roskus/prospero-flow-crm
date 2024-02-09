@@ -14,6 +14,8 @@ We made a free open source CRM. Our Community Edition (CE)
 * Multi language
 * REST API
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Roskus_prospero-flow-crm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Roskus_prospero-flow-crm)
+
 ## Setup
 
 ### Clone the project:

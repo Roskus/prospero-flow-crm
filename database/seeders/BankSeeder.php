@@ -26,7 +26,7 @@ class BankSeeder extends Seeder
         foreach ($countries as $countryId) {
             $filePath = 'database/seeders/Bank/bank_'.$countryId.'.php';
             if (file_exists(base_path($filePath))) {
-                $data = require base_path($filePath);
+                $data = require_once base_path($filePath);
 
                 foreach ($data as $bank) {
                     $bank['uuid'] = Uuid::uuid5(Uuid::NAMESPACE_URL, $bank['bic'])->toString();
