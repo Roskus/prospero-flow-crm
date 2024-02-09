@@ -11,6 +11,7 @@
         <div class="card-body">
             <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
+            <caption></caption>
             <thead>
             <tr>
                 <th>{{ __('Name') }}</th>
