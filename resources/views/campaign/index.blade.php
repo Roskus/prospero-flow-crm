@@ -12,18 +12,19 @@
     <div class="card mt-2">
         <div class="card-body">
             <table class="table table-bordered table-striped table-hover">
+            <caption></caption>
             <thead>
             <tr>
-                <td>{{ __('Subject') }}</td>
-                <td>{{ __('From') }}</td>
-                <td>{{ __('Tags') }}</td>
-                <td>{{ __('Created at') }}</td>
-                <td>{{ __('Updated at') }}</td>
-                <td>{{ __('Schedule at') }}</td>
-                <td>{{ __('Delivered at') }}</td>
-                <td>{{ __('Emails sent') }}</td>
-                <td>{{ __('Status') }}</td>
-                <td>{{ __('Actions') }}</td>
+                <th>{{ __('Subject') }}</th>
+                <th>{{ __('From') }}</th>
+                <th>{{ __('Tags') }}</th>
+                <th>{{ __('Created at') }}</th>
+                <th>{{ __('Updated at') }}</th>
+                <th>{{ __('Schedule at') }}</th>
+                <th>{{ __('Delivered at') }}</th>
+                <th>{{ __('Emails sent') }}</th>
+                <th>{{ __('Status') }}</th>
+                <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>

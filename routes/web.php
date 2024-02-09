@@ -27,35 +27,35 @@ Route::get('/lock', [\App\Http\Controllers\Auth\LockController::class, 'index'])
 Route::post('/unlock', [\App\Http\Controllers\Auth\UnlockController::class, 'unlock'])->name('unlock');
 
 //Order
-require __DIR__.'/partials/order.php';
+require_once __DIR__.'/partials/order.php';
 
 //Product
-require __DIR__.'/partials/product.php';
+require_once __DIR__.'/partials/product.php';
 
 //Brand
-require __DIR__.'/partials/brand.php';
+require_once __DIR__.'/partials/brand.php';
 
 // Lead
-require __DIR__.'/partials/lead.php';
+require_once __DIR__.'/partials/lead.php';
 
 //Customer
-require __DIR__.'/partials/customer.php';
+require_once __DIR__.'/partials/customer.php';
 
 //Category
-require __DIR__.'/partials/category.php';
+require_once __DIR__.'/partials/category.php';
 
 // Company
-require __DIR__.'/partials/company.php';
+require_once __DIR__.'/partials/company.php';
 
 // Contact
-require __DIR__.'/partials/contact.php';
+require_once __DIR__.'/partials/contact.php';
 
 // Account
 Route::get('/accounting', [\App\Http\Controllers\Account\AccountIndexController::class, 'index']);
 Route::post('/account/save', [\App\Http\Controllers\Account\AccountSaveController::class, 'save']);
 
 // User
-require __DIR__.'/partials/user.php';
+require_once __DIR__.'/partials/user.php';
 
 // Profile
 Route::get('/profile', [\App\Http\Controllers\Profile\ProfileUpdateController::class, 'update']);
@@ -65,23 +65,23 @@ Route::get('/setting', [\App\Http\Controllers\SettingController::class, 'index']
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
 
 // Calendar
-require __DIR__.'/partials/calendar.php';
+require_once __DIR__.'/partials/calendar.php';
 
 // Email
-require __DIR__.'/partials/email.php';
+require_once __DIR__.'/partials/email.php';
 
 // Email template
 Route::match(['get', 'post'], '/email-template',
     [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
 
 // Campaign
-require __DIR__.'/partials/campaign.php';
+require_once __DIR__.'/partials/campaign.php';
 
 // Supplier
-require __DIR__.'/partials/supplier.php';
+require_once __DIR__.'/partials/supplier.php';
 
 // Ticket
-require __DIR__.'/partials/ticket.php';
+require_once __DIR__.'/partials/ticket.php';
 
 // Regions
 Route::get('ajax/region/{country}', [\App\Http\Controllers\Region\RegionGetAjaxController::class, 'index']);
@@ -95,7 +95,7 @@ Route::get('/report/email', [\App\Http\Controllers\Report\ReportEmailController:
 Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);
 
 // Notifications
-require __DIR__.'/partials/notification.php';
+require_once __DIR__.'/partials/notification.php';
 
 // Unsubscribe
 Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
@@ -106,7 +106,7 @@ Route::get('/permission', [\App\Http\Controllers\Permission\PermissionIndexContr
 Route::post('/permission', [\App\Http\Controllers\Permission\PermissionSaveController::class, 'save']);
 
 //Bank
-require __DIR__.'/partials/bank.php';
+require_once __DIR__.'/partials/bank.php';
 
 //Bank account
-require __DIR__.'/partials/bank_account.php';
+require_once __DIR__.'/partials/bank_account.php';
