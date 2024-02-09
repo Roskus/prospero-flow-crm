@@ -40,7 +40,7 @@
                 </td>
                 <td>
                     @if($supplier->website)
-                    <a href="{{ $supplier->website }}" target="_blank">{{ $supplier->website }}</a>
+                    <a href="{{ $supplier->website }}" rel="noopener" target="_blank">{{ $supplier->website }}</a>
                     @endif
                 </td>
                 <td class="text-center d-sm-table-cell" title="{{ !empty($supplier->country) ? $supplier->country->name : '' }}">
