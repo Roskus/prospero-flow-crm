@@ -54,14 +54,14 @@ class ScheduleNotificationReminder extends Command
         return 0;
     }
 
-    private function sendNotifications(string $type, string $subjectText, string $bodyText, Collection $recipients): void
+    private function sendNotifications(string $type, string $subject, string $body, Collection $recipients): void
     {
         foreach ($recipients as $recipient) {
             $time = $recipient->schedule_contact->format('H:i');
-            $subject = __($subjectText, ['name' => $recipient->name]);
+            $subject = __($subject, ['name' => $recipient->name]);
             $this->info($subject);
 
-            $body = __($bodyText, ['name' => $recipient->name, 'time' => $time]);
+            $body = __($body, ['name' => $recipient->name, 'time' => $time]);
 
             $emailTemplate = new InternalCRMEmail($recipient->company, $subject, ['body' => $body]);
             $notification = new Notification();
