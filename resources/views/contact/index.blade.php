@@ -52,11 +52,11 @@
         <td>{{ $contact->notes }}</td>
         <td>
             @if($contact->linkedin)
-                <a href="{{ $contact->linkedin }}" target="_blank"><i class="lab la-linkedin fs-3"></i></a>
+                <a href="{{ $contact->linkedin }}" rel="noopener" target="_blank"><i class="lab la-linkedin fs-3"></i></a>
             @endif
 
             @if($contact->twitter)
-                <a href="{{ $contact->twitter }}" target="_blank"><i class="lab la-twitter fs-3"></i></a>
+                <a href="{{ $contact->twitter }}" rel="noopener" target="_blank"><i class="lab la-twitter fs-3"></i></a>
             @endif
         </td>
         <td class="">{{ ($contact->created_at) ? $contact->created_at->format('d/m/Y H:i') : '' }}</td>
@@ -67,7 +67,7 @@
                class="btn btn-xs btn-warning text-white">
                 <i class="las la-pen"></i>
             </a>
-            <a href="{{ url('/contact/export-vcard/'.$contact->id) }}" target="_blank"
+            <a href="{{ url('/contact/export-vcard/'.$contact->id) }}" rel="noopener" target="_blank"
                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ __('Download').' vCard' }}"
                class="btn btn-xs btn-primary text-white">
                 <i class="las la-address-card"></i>

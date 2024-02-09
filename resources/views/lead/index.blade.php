@@ -138,13 +138,13 @@
                         </a>
 
                         <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
-                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
+                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" rel="noopener" target="_blank"
                            class="link-secondary text-decoration-none">
                             <i class="lab la-whatsapp fs-4"></i>
                         </a>
 
                         <a href="https://telegram.me/{{ $lead->mobile }}"
-                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" target="_blank"
+                           title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" rel="noopener" target="_blank"
                            class="link-secondary text-decoration-none">
                             <i class="lab la-telegram-plane fs-4"></i>
                         </a>
@@ -162,7 +162,7 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->website)
-                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank" class="link-secondary text-decoration-none">
+                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" rel="noopener" target="_blank" class="link-secondary text-decoration-none">
                         <i class="las la-globe fs-4"></i>
                     </a>
                     @endif
@@ -178,44 +178,44 @@
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
                     @if($lead->facebook)
-                        <a href="{{ $lead->facebook }}" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $lead->facebook }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-facebook-square fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->instagram)
-                        <a href="{{ $lead->instagram }}" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $lead->instagram }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-instagram fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->linkedin)
-                        <a href="{{ $lead->linkedin }}" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $lead->linkedin }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-linkedin fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->youtube)
-                        <a href="{{ $lead->youtube }}" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $lead->youtube }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-youtube-square fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->twitter)
-                        <a href="{{ $lead->twitter }}" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $lead->twitter }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-twitter-square fs-3"></i>
                         </a>
                     @endif
 
                     @if($lead->tiktok)
-                        <a href="{{ $lead->tiktok }}" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $lead->tiktok }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <span class="tiktok"><i class="fa-brands fa-tiktok"></i></span>
                         </a>
                     @endif
 
                     @if($lead->mobile)
                         <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
-                           target="_blank" class="text-decoration-none link-secondary">
+                           rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-whatsapp fs-3"></i>
                         </a>
                     @endif

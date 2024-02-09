@@ -44,7 +44,7 @@
             </td>
             <td>
                 @isset($bank->website)
-                    <a href="{{ $bank->website }}" target="_blank">{{ $bank->website }}</a>
+                    <a href="{{ $bank->website }}" rel="noopener" target="_blank">{{ $bank->website }}</a>
                 @endisset
             </td>
             <td>{{ $bank->bic }}</td>

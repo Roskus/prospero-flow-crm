@@ -39,7 +39,7 @@
                     {{ (!empty($order->items)) ? $order->items->count() : 0 }}
                 </td>
                 <td>
-                    {{ number_format($order->getAmount(), 2, ',', '.') }}
+                    {{ $order->getAmountFormated() }}
                 </td>
                 <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>

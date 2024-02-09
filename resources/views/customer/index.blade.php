@@ -121,7 +121,7 @@
                 <td class="text-nowrap text-center">
                     @if($customer->mobile)
                         <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
-                         title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" target="_blank"
+                         title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" rel="noopener" target="_blank"
                            class="link-secondary text-decoration-none">
                             <i class="las la-mobile fs-4"></i>
                         </a>
@@ -138,7 +138,8 @@
                         </a>
 
                         <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
-                           title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" target="_blank"
+                           title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}"
+                           rel="noopener" target="_blank"
                            class="link-secondary text-decoration-none">
                             <i class="lab la-whatsapp fs-4"></i>
                         </a>
@@ -162,7 +163,7 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($customer->website)
-                    <a href="{{ $customer->website }}" title="{{ $customer->website }}" target="_blank"
+                    <a href="{{ $customer->website }}" title="{{ $customer->website }}" rel="noopener" target="_blank"
                        class="link-secondary text-decoration-none">
                         <i class="las la-globe fs-4"></i>
                     </a>
