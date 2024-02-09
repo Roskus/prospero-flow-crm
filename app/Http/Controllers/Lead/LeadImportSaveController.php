@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\ImportRequest;
 use App\Models\Lead;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -15,18 +15,9 @@ class LeadImportSaveController extends MainController
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function save(Request $request)
+    public function save(ImportRequest $request)
     {
-        if (! $request->hasFile('upload')) {
-            return redirect('/lead')->withErrors(__("Upload file can't be in blank"));
-        }
-
         $file = $request->file('upload');
-        $extension = $file->getClientOriginalExtension();
-
-        //if($extension != 'csv')
-        //    return redirect('/lead')->withErrors(__("File upload only accept .csv"));
-
         $filePath = $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename();
 
         try {
@@ -50,33 +41,8 @@ class LeadImportSaveController extends MainController
                 continue;
             }
 
-            $country = trim($data[8]);
-            $lead = new Lead();
+            $lead = $this->mapCsvRowToLead($data);
 
-            $lead->company_id = Auth::user()->company_id;
-
-            $lead->name = $data[0];
-            $lead->business_name = $data[1];
-            $lead->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[2]);
-            $lead->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[3]);
-            $lead->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[4]);
-            $lead->email = $data[5];
-            $lead->email2 = $data[6];
-            $lead->website = rtrim($data[7], '/');
-            $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
-            $lead->city = $data[9];
-            $lead->notes = $data[10];
-            $lead->facebook = (isset($data[11])) ? $data[11] : null;
-            $lead->instagram = (isset($data[12])) ? $data[12] : null;
-            $lead->linkedin = (isset($data[13])) ? $data[13] : null;
-            $lead->twitter = (isset($data[14])) ? $data[14] : null;
-            $lead->youtube = (isset($data[15])) ? $data[15] : null;
-            $lead->tiktok = (isset($data[16])) ? $data[16] : null;
-
-            $lead->tags = (isset($data[17])) ? $data[17] : null;
-
-            $lead->seller_id = Auth::user()->id;
-            $lead->created_at = now();
             try {
                 $lead->save();
                 $rowCount++;
@@ -95,5 +61,37 @@ class LeadImportSaveController extends MainController
         ];
 
         return redirect('/lead')->with($response);
+    }
+
+    private function mapCsvRowToLead(array $data): Lead
+    {
+        $country = trim($data[8]);
+        $lead = new Lead();
+
+        $lead->company_id = Auth::user()->company_id;
+
+        $lead->name = $data[0];
+        $lead->business_name = $data[1];
+        $lead->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[2]);
+        $lead->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[3]);
+        $lead->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[4]);
+        $lead->email = $data[5];
+        $lead->email2 = $data[6];
+        $lead->website = rtrim($data[7], '/');
+        $lead->country_id = strlen($country) == 2 ? strtolower($country) : '';
+        $lead->city = $data[9];
+        $lead->notes = $data[10];
+        $lead->facebook = (isset($data[11])) ? $data[11] : null;
+        $lead->instagram = (isset($data[12])) ? $data[12] : null;
+        $lead->linkedin = (isset($data[13])) ? $data[13] : null;
+        $lead->twitter = (isset($data[14])) ? $data[14] : null;
+        $lead->youtube = (isset($data[15])) ? $data[15] : null;
+        $lead->tiktok = (isset($data[16])) ? $data[16] : null;
+
+        $lead->tags = (isset($data[17])) ? $data[17] : null;
+
+        $lead->seller_id = Auth::user()->id;
+        $lead->created_at = now();
+        return $lead;
     }
 }

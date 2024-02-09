@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\ImportRequest;
 use App\Models\Customer;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -16,14 +16,8 @@ class CustomerImportSaveController extends MainController
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function save(Request $request)
+    public function save(ImportRequest $request)
     {
-        $validatedData = $request->validate([
-            'upload' => ['required', 'file', 'mimes:csv,txt'],
-        ], [
-            'upload.mimes' => __('The file uploaded must be a CSV.'),
-        ]);
-
         $errors = [];
         $file = $request->file('upload');
         $filePath = $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename();
@@ -119,4 +113,8 @@ class CustomerImportSaveController extends MainController
 
         return $customer;
     }
+
+
+
+
 }
