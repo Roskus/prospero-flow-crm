@@ -1,4 +1,5 @@
 <table class="table table-bordered table-striped table-hover">
+    <caption>{{ __('Support ticket list') }}</caption>
     <thead>
     <tr>
         <th>#ID</th>

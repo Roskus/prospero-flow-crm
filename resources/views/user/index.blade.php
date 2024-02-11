@@ -31,6 +31,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
+            <caption>{{ __('User list') }}</caption>
             <thead>
             <tr>
                 <th>

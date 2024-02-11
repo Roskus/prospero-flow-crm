@@ -53,7 +53,7 @@
             </td>
             <td>
                 <a href="{{ url('bank/update'.$bank->uuid) }}" class="btn btn-warning btn-sm">
-                    <i class="las la-pen"></i>
+                    <i class="las la-pen text-white"></i>
                 </a>
                 <a href="{{ url('bank/delete'.$bank->uuid) }}" class="btn btn-danger btn-sm">
                     <i class="las la-trash-alt"></i>
