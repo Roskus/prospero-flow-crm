@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
         if (DB::table('user')->count() === 0) {
             $superAdmin = Role::findByName('SuperAdmin');
             $user = User::factory()->create([
+                'id' => 1, //
                 'company_id' => 1,
                 'first_name' => 'Admin',
                 'last_name' => 'Test',
