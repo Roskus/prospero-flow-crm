@@ -111,6 +111,11 @@ Some API Endpoint for the full list check the doc:
 | GET    | `/api/ticket`    | Get all tickets      |
 
 
+## Run tests
+```bash
+make test
+```
+
 ## Translation (i18n)
 Check missing translation keys
 ```bash

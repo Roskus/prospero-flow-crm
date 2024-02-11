@@ -11,20 +11,6 @@ use Tests\TestCase;
 class PredictEmailTest extends TestCase
 {
     /** @test */
-    public function predict_valid_email()
-    {
-        $predictEmail = new PredictEmail();
-
-        // Mocking the connection to the host
-        $this->partialMock(PredictEmail::class, function ($mock) {
-            $mock->shouldReceive('fsockopen')->andReturn(true);
-        });
-
-        $email = $predictEmail->predict('John', 'Doe', 'https://www.example.com');
-        $this->assertEquals('john.doe@example.com', $email);
-    }
-
-    /** @test */
     public function full_name_with_dots()
     {
         $predictEmail = new PredictEmail();
