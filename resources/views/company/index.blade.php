@@ -59,7 +59,7 @@
                         {{ (!empty($company->country)) ? $company->country->flag : '' }}
                     </span>
                 </td>
-                <td class="text-center">{{ $company->currency }}</td>
+                <td class="text-center">{{ strtoupper($company->currency) }}</td>
                 <td>{{ ($company->created_at) ? $company->created_at->format('d/m/Y H:i') : '' }}</td>
                 <td>{{ ($company->updated_at) ? $company->updated_at->format('d/m/Y H:i') : '' }}</td>
                 <td class="text-nowrap">

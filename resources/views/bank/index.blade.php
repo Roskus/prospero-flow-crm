@@ -52,6 +52,9 @@
                 {{ $bank->updated_at }}
             </td>
             <td>
+                <a href="{{ url('bank/update'.$bank->uuid) }}" class="btn btn-warning btn-sm">
+                    <i class="las la-pencil"></i>
+                </a>
                 <a href="{{ url('bank/delete'.$bank->uuid) }}" class="btn btn-danger btn-sm">
                     <i class="las la-trash-alt"></i>
                 </a>
