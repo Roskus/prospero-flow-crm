@@ -205,4 +205,9 @@ final class Order extends Model
     {
         return Order::where('company_id', $company_id)->paginate(10);
     }
+
+    public function getAmountFormated(): string
+    {
+        return (string) $this->getTotal();
+    }
 }
