@@ -31,6 +31,11 @@ class User extends Authenticatable implements JWTSubject
         'first_name', 'last_name', 'email', 'phone', 'password', 'photo', 'lang', 'timezone', 'last_login_at', 'last_login_ip',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'company_id',
         'password',
@@ -38,6 +43,11 @@ class User extends Authenticatable implements JWTSubject
         'deleted_at',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',

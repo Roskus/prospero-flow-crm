@@ -48,6 +48,7 @@ class TicketCreateController
 
         // Create the ticket
         $ticket = Ticket::create($request->all());
+
         return response()->json(['ticket' => $ticket], Response::HTTP_CREATED);
     }
 }
