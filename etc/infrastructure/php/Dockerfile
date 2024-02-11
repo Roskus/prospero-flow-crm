@@ -5,7 +5,7 @@ FROM php:8.3-fpm
 #ENV uid=1000
 
 # Update & upgrade apt Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils libicu-dev vim redis-tools git libxml2-dev wget ca-certificates zip unzip mc htop nano curl mariadb-client
 RUN pecl channel-update pecl.php.net
 RUN apt-get update -y && apt-get install -y libwebp-dev libjpeg-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \

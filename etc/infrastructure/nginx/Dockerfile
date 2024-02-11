@@ -1,3 +1,4 @@
 FROM nginx:stable
-RUN apt-get update && apt-get install -y \
-    vim git wget zip unzip mc htop nano
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    vim git wget zip unzip mc htop nano \
+    && rm -rf /var/lib/apt/lists/*
