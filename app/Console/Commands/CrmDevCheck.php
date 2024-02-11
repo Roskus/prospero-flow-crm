@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 
 class CrmDevCheck extends Command
 {
-    private $errors = [];
+    private array $errors = [];
 
     /**
      * The name and signature of the console command.
@@ -27,14 +27,12 @@ class CrmDevCheck extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $DS = DIRECTORY_SEPARATOR;
-        $path_models = 'Models'.$DS;
-        $path_controllers = 'Http'.$DS.'Controllers'.$DS;
+        $DIR_SEP = DIRECTORY_SEPARATOR;
+        $path_models = 'Models'.$DIR_SEP;
+        $path_controllers = 'Http'.$DIR_SEP.'Controllers'.$DIR_SEP;
 
         $models = $this->getModels();
 
@@ -46,17 +44,18 @@ class CrmDevCheck extends Command
                 /** MODELS */
                 app_path($path_models.$model.'.php'),
                 /** CONTROLLERS */
-                app_path($path_controllers.$model.$DS.$model.'CreateController.php'),
-                app_path($path_controllers.$model.$DS.$model.'DeleteController.php'),
-                app_path($path_controllers.$model.$DS.$model.'IndexController.php'),
-                app_path($path_controllers.$model.$DS.$model.'SaveController.php'),
-                app_path($path_controllers.$model.$DS.$model.'ShowController.php'),
-                app_path($path_controllers.$model.$DS.$model.'UpdateController.php'),
+                app_path($path_controllers.$model.$DIR_SEP.$model.'CreateController.php'),
+                app_path($path_controllers.$model.$DIR_SEP.$model.'DeleteController.php'),
+                app_path($path_controllers.$model.$DIR_SEP.$model.'IndexController.php'),
+                app_path($path_controllers.$model.$DIR_SEP.$model.'SaveController.php'),
+                app_path($path_controllers.$model.$DIR_SEP.$model.'ShowController.php'),
+                app_path($path_controllers.$model.$DIR_SEP.$model.'UpdateController.php'),
             ];
 
             foreach ($files as $file) {
                 if (! File::exists($file)) {
-                    $this->errors[$model_FQDN][] = 'The file '.preg_replace('/.*app/', '', $file).' does not exist.';
+                    $file_name = preg_replace('/.*app/', '', $file);
+                    $this->errors[$model_FQDN][] = 'The file '.$file_name.' does not exist.';
                 }
             }
         }
@@ -67,7 +66,7 @@ class CrmDevCheck extends Command
 
             foreach ($methods as $method) {
                 if (! in_array($method, get_class_methods(new $model_FQDN))) {
-                    $this->errors[$model_FQDN][] = 'The method '.$method.' does not exist in the model '.$model_FQDN.'.';
+                    $this->errors[$model_FQDN][] = 'The method '.$method.' does not exist, in model '.$model_FQDN.'.';
                 }
             }
         }
