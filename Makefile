@@ -12,13 +12,13 @@ build: ## Create docker build containers with MariaDB
 	docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml build
 
 build-pg: ## Create docker build containers with Postgres
-	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml build
+	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.pgadmin.yml build
 
 up: ## Start docker container with MariaDB
 	docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
 
 up-pg: ## Start docker container with Postgres
-	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.pgadmin.yml up -d
 
 down: ## Stop docker container
 	docker-compose down
