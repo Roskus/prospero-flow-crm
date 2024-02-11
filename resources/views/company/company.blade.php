@@ -55,7 +55,7 @@
                     <datalist id="currency-list">
                         @if(!empty($currencies))
                             @foreach($currencies as $currency)
-                            <option value="{{ $currency->id }}">{{ $currency->id }} ({{ $currency->symbol }})</option>
+                            <option value="{{ strtoupper($currency->id) }}">{{ strtoupper($currency->id) }} ({{ $currency->symbol }})</option>
                             @endforeach
                         @endif
                     </datalist>

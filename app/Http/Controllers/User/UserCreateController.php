@@ -23,6 +23,7 @@ class UserCreateController extends MainController
         $data['languages'] = config('app.locales');
         $data['roles'] = Role::all();
         $data['companies'] = Auth::user()->hasRole('SuperAdmin') ? Company::all() : [];
+        $data['timezones'] = timezone_identifiers_list();
 
         return view('user.user', $data);
     }
