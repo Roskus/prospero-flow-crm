@@ -7,10 +7,12 @@ FROM php:8.3-fpm
 # Update & upgrade apt Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils libicu-dev vim redis-tools git libxml2-dev wget ca-certificates zip unzip mc htop nano curl \
-    mariadb-client libpq-dev
+    mariadb-client libpq-dev \
+    && apt-get clean
 RUN pecl channel-update pecl.php.net
 RUN apt-get update -y && apt-get install -y --no-install-recommends libwebp-dev libjpeg-dev libjpeg62-turbo-dev  \
-    libpng-dev libxpm-dev libfreetype6-dev zlib1g-dev libzip-dev
+    libpng-dev libxpm-dev libfreetype6-dev zlib1g-dev libzip-dev libicu-dev \
+    && apt-get clean
 
 # Install php extensions
 RUN docker-php-ext-install \
@@ -24,10 +26,10 @@ pdo_mysql \
 pdo_pgsql \
 pgsql \
 soap \
-zip
+zip \
+intl
 
 RUN pecl install redis && docker-php-ext-enable redis
-RUN apt-get update && apt-get install -y libicu-dev && docker-php-ext-install intl
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 
 ADD ./conf.d/  /usr/local/etc/php/conf.d/

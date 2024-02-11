@@ -61,7 +61,7 @@
                 </div>
                 <div class="col">
                     <label for="timezone" class="control-label">{{ __('Time zone') }}</label>
-                    <input name="timezone" id="timezone" list="timezoneOptions" value="{{ $user->timezone }}" placeholder="{{ __('Type to search...') }}" autocomplete="off"  class="form-control form-control-lg">
+                    <input name="timezone" id="timezone" list="timezoneOptions" value="{{ $user->timezone }}" placeholder="{{ __('Type to search') }}..." autocomplete="off"  class="form-control form-control-lg">
 
                     <datalist id="timezoneOptions">
                         @foreach ($timezones as $name)
