@@ -12,18 +12,18 @@
         <div class="row form-group mb-3">
             <div class="col">
                 <label for="name" class="control-label">{{ __('First name') }}</label>
-                <input type="text" name="first_name" id="first_name" value="{{ $user->first_name }}" required autofocus class="form-control form-control-lg">
+                <input type="text" name="first_name" id="first_name" value="{{ $user->first_name }}" required autofocus maxlength="80" class="form-control form-control-lg">
             </div>
             <div class="col">
                 <label for="name" class="control-label">{{ __('Last name') }}</label>
-                <input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}" required class="form-control form-control-lg">
+                <input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}" required maxlength="80" class="form-control form-control-lg">
             </div>
         </div>
 
         <div class="row form-group mb-3">
             <div class="col">
                 <label for="email" class="col-md-4 control-label">E-Mail</label>
-                <input type="email" name="email" id="email" value="{{ $user->email }}" required class="form-control form-control-lg">
+                <input type="email" name="email" id="email" value="{{ $user->email }}" required maxlength="255" class="form-control form-control-lg">
             </div>
             <div class="col">
                 <label for="phone" class="col-md-4 control-label">{{ __('Phone') }}</label>

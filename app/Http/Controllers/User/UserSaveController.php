@@ -5,29 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class UserSaveController extends MainController
 {
-    public function save(Request $request)
+    public function save(UserRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|max:50',
-            'email' => 'required|email|max:254',
-            'lang' => 'required',
-            //'password_confirmation' => 'confirmed:password'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/user')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         if (empty($request->id)) {
             $user = new User();
             $user->created_at = now();
