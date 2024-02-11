@@ -7,11 +7,12 @@ namespace App\Http\Controllers\Customer;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class CustomerExportController
 {
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
         $separator = ';';
         $customer = new Customer();
@@ -52,8 +53,17 @@ class CustomerExportController
             $content = $content.$line."\n";
         }
 
-        Storage::disk('local')->put($fileName, $content);
+        $tempFilePath = $this->createTempFile($fileName, $content);
 
-        return Storage::download($fileName, null, $headers);
+        // Retorna el archivo para descarga
+        return Response::download($tempFilePath, basename($tempFilePath), $headers)->deleteFileAfterSend(true);
+    }
+
+    protected function createTempFile($fileName, $content): string
+    {
+        $tempFilePath = tempnam(sys_get_temp_dir(), $fileName).'.csv';
+        file_put_contents($tempFilePath, $content);
+
+        return $tempFilePath;
     }
 }
