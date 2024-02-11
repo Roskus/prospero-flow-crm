@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Brand;
 use App\Repositories\BrandRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BrandUpdateController
 {
@@ -35,29 +36,22 @@ class BrandUpdateController
      *         description="Brand found",
      *         @OA\JsonContent(ref="#/components/schemas/Brand")
      *     ),
-     *     @OA\Response(response="404", description="Brand not found")
+     *     @OA\Response(response="404", description="Brand not found"),
+     *     @OA\Response(response="422", description="Validation error")
      * )
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $status = 404;
         $valid = $request->validate([
             'name' => ['required', 'max:80'],
         ]);
 
-        if ($valid) {
-            $data = $request->all();
-            $data['id'] = $id;
-            $brand = $this->brandRepository->save($data);
-            $response['brand'] = $brand;
-        } else {
-            $response = $valid->errors();
-        }
+        $brand = $this->brandRepository->save($request->only(['name']) + ['id' => $id]);
 
         if ($brand) {
-            $status = 200;
+            return response()->json(['brand' => $brand], Response::HTTP_OK);
+        } else {
+            return response()->json(['message' => 'Brand not found'], Response::HTTP_NOT_FOUND);
         }
-
-        return response()->json($response, $status);
     }
 }

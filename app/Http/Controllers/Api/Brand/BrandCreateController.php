@@ -34,12 +34,11 @@ class BrandCreateController
             $data = $request->all();
             $brand = $this->brandRepository->save($data);
             $response['brand'] = $brand;
+            if ($brand) {
+                $status = 201;
+            }
         } else {
             $response = $valid->errors();
-        }
-
-        if ($brand) {
-            $status = 201;
         }
 
         return response()->json($response, $status);
