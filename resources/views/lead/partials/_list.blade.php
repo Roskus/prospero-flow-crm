@@ -67,7 +67,7 @@
                 </td>
                 <td class="text-center">
                     @isset($lead->website)
-                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" target="_blank" class="link-secondary text-decoration-none">
+                    <a href="{{ $lead->website }}" title="{{ $lead->website }}" rel="noopener" target="_blank" class="link-secondary text-decoration-none">
                         <i class="las la-globe fs-4"></i>
                     </a>
                     @endisset

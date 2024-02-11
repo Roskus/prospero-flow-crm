@@ -15,6 +15,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
+            <caption>{{ __('Company list') }}</caption>
             <thead>
             <tr>
                 <th>#ID</th>
