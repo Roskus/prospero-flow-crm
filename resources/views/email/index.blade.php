@@ -24,16 +24,16 @@
             <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <td>{{ __('Subject') }}</td>
-                <td>{{ __('From') }}</td>
-                <td>{{ __('To') }}</td>
-                <td class="text-center">
+                <th>{{ __('Subject') }}</th>
+                <th>{{ __('From') }}</th>
+                <th>{{ __('To') }}</th>
+                <th class="text-center">
                     <i class="las la-paperclip"></i>
-                </td>
-                <td>{{ __('Created at') }}</td>
-                <td>{{ __('Updated at') }}</td>
-                <td>{{ __('Status') }}</td>
-                <td class="text-nowrap">{{ __('Actions') }}</td>
+                </th>
+                <th>{{ __('Created at') }}</th>
+                <th>{{ __('Updated at') }}</th>
+                <th>{{ __('Status') }}</th>
+                <th class="text-nowrap">{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>

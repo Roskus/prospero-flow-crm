@@ -10,15 +10,15 @@
     <table style="margin-bottom: 30px">
         <tbody>
             <tr>
-                <td>{{ __('From') }}:</td>
+                <th>{{ __('From') }}:</th>
                 <td><strong>{{ $email->from }}</strong></td>
             </tr>
             <tr>
-                <td>{{ __('To') }}:</td>
+                <th>{{ __('To') }}:</th>
                 <td><strong>{{ $email->to }}</strong></td>
             </tr>
             <tr>
-                <td>{{ __('Subject') }}:</td>
+                <th>{{ __('Subject') }}:</th>
                 <td><strong>{{ $email->subject }}</strong></td>
             </tr>
         </tbody>
