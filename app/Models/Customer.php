@@ -21,7 +21,7 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *  @OA\Schema(
  *    schema="Customer",
  *    type="object",
- *    required={"name", "country", "seller_id"},
+ *    required={"name", "seller_id", "country_id"},
  *    @OA\Property(
  *        property="name",
  *        description="Name of the customer",
@@ -105,10 +105,20 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
  *        example="https://www.likedin.com/in/profile"
  *    ),
  *    @OA\Property(
+ *         property="notes",
+ *         description="Optional Notes",
+ *         type="string"
+ *    ),
+ *    @OA\Property(
  *        property="seller_id",
  *        description="SellerID of the customer",
  *        type="string"
- *    )
+ *    ),
+ *    @OA\Property(
+ *         property="country_id",
+ *         description="ISO country code 2 chars",
+ *         type="string"
+ *     )
  * )
  */
 class Customer extends Model

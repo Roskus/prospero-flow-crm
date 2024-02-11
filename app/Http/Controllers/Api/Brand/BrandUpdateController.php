@@ -36,13 +36,14 @@ class BrandUpdateController
      *         description="Brand found",
      *         @OA\JsonContent(ref="#/components/schemas/Brand")
      *     ),
+     *     @OA\Response(response="400", description="Bad request"),
      *     @OA\Response(response="404", description="Brand not found"),
      *     @OA\Response(response="422", description="Validation error")
      * )
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $valid = $request->validate([
+        $request->validate([
             'name' => ['required', 'max:80'],
         ]);
 
