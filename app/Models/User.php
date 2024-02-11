@@ -28,6 +28,7 @@ class User extends Authenticatable implements JWTSubject
     protected $table = 'user';
 
     protected $fillable = [
+        'manager_id',
         'first_name',
         'last_name',
         'email', 'phone',
@@ -101,6 +102,16 @@ class User extends Authenticatable implements JWTSubject
     public function company(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+
+    public function subordinates()
+    {
+        return $this->hasMany(User::class, 'manager_id');
     }
 
     public function getAll()

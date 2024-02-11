@@ -13,7 +13,7 @@ Route::get('/bank/create',
     [BankCreateController::class, 'create'])
     ->can('create bank');
 
-Route::get('/bank',
+Route::match(['get', 'post'], '/bank',
     [BankIndexController::class, 'index'])
     ->can('read bank');
 

@@ -110,3 +110,6 @@ require_once __DIR__.'/partials/bank.php';
 
 //Bank account
 require_once __DIR__.'/partials/bank_account.php';
+
+// Payroll
+require_once __DIR__.'/partials/payroll.php';

@@ -5,6 +5,21 @@
 <div class="mb-2">
     <a href="{{ url('bank/create') }}" class="btn btn-primary">{{ __('New') }}</a>
 </div>
+
+<div class="card">
+    <div class="card-body">
+    <form method="post" class="form-inline">
+        @csrf
+        <div class="row">
+            <div class="col">
+                @include('components.country')
+                <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">

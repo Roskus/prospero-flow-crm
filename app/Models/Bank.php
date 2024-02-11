@@ -73,9 +73,20 @@ class Bank extends Model
         return Bank::orderBy(['country_id', 'name'], 'asc')->get();
     }
 
-    public function getAllPaginated($limit = 10)
+    public function getAllPaginated(array $filters, $limit = 10)
     {
-        return Bank::orderBy('name', 'asc')->limit($limit)->paginate();
+        // Iniciar la consulta base
+        $query = Bank::orderBy('name', 'asc');
+
+        // Si el filtro no está vacío y contiene 'country_id'
+        if (! empty($filters) && isset($filters['country_id'])) {
+            $query->where('country_id', $filters['country_id']);
+        }
+
+        // Realizar la paginación de los resultados
+        $banks = $query->paginate($limit);
+
+        return $banks;
     }
 
     public function getAllByCountry(string $country_code)
