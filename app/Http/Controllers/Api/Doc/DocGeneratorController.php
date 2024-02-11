@@ -12,9 +12,9 @@ define('API_HOST', env('APP_API_URL'));
 
 #[
     OAT\Info(
-        version: '1.0.3',
+        version: '1.0.4',
         description: '',
-        title: 'Prospect Flow CRM API',
+        title: 'Prospero Flow CRM API',
         contact: new OAT\Contact(
             name: 'roskus',
             email: 'hello@roskus.com'
