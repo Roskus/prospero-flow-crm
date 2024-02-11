@@ -1,0 +1,19 @@
+# docker-compose -f docker-compose.yml -f docker-compose.postgres.yml up -d
+version: '3.9'
+services:
+  db:
+    image: postgres:latest
+    container_name: crm-db
+    environment:
+      POSTGRES_DB: $DB_DATABASE
+      POSTGRES_USER: $DB_USERNAME
+      POSTGRES_PASSWORD: $DB_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    links:
+      - php
+
+volumes:
+  postgres-data:

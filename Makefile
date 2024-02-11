@@ -8,11 +8,17 @@ help: ## Show this help menu
 	@echo 'targets:'
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
-build: ## Create docker build containers
-	docker-compose build
+build: ## Create docker build containers with MariaDB
+	docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml build
 
-up: ## Start docker container
-	docker-compose up -d
+build-pg: ## Create docker build containers with Postgres
+	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml build
+
+up: ## Start docker container with MariaDB
+	docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
+
+up-pg: ## Start docker container with Postgres
+	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml up -d
 
 down: ## Stop docker container
 	docker-compose down

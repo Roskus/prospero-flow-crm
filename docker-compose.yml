@@ -7,13 +7,13 @@ services:
     container_name: crm-php
     user: "www-data:www-data"
     volumes:
+    - ./etc/.bashrc:/root/.bashrc
     - ./etc/.bashrc:/home/www-data/.bashrc
     - .:/var/www/crm/
     - ./bootstrap/cache/:/var/www/crm/bootstrap/cache/
     #- ./etc/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     working_dir: /var/www/crm/
     links:
-    - db
     - cache
     ports:
       - "9003:9003"
@@ -33,7 +33,6 @@ services:
     - ./etc/infrastructure/nginx/conf.d:/etc/nginx/conf.d/
     links:
     - cache
-    - db
     - php
     depends_on:
     - php
@@ -44,21 +43,3 @@ services:
       - "6379:6379"
     volumes:
       - ./etc/infrastructure/redis/redis.conf:/etc/redis/redis.conf
-  db:
-    image: mariadb:latest
-    container_name: crm-db
-    ports:
-    - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=$DB_DATABASE
-      - MYSQL_USER={$DB_USERNAME}
-      - MYSQL_PASSWORD={$DB_PASSWORD}
-  phpmyadmin:
-    image: phpmyadmin
-    container_name: crm-pma
-    restart: always
-    ports:
-      - "8081:80"
-    environment:
-      - PMA_ARBITRARY=1

@@ -6,10 +6,11 @@ FROM php:8.3-fpm
 
 # Update & upgrade apt Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils libicu-dev vim redis-tools git libxml2-dev wget ca-certificates zip unzip mc htop nano curl mariadb-client
+    apt-utils libicu-dev vim redis-tools git libxml2-dev wget ca-certificates zip unzip mc htop nano curl \
+    mariadb-client libpq-dev
 RUN pecl channel-update pecl.php.net
-RUN apt-get update -y && apt-get install -y libwebp-dev libjpeg-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \
-    libfreetype6-dev zlib1g-dev libzip-dev
+RUN apt-get update -y && apt-get install -y --no-install-recommends libwebp-dev libjpeg-dev libjpeg62-turbo-dev  \
+    libpng-dev libxpm-dev libfreetype6-dev zlib1g-dev libzip-dev
 
 # Install php extensions
 RUN docker-php-ext-install \
@@ -20,6 +21,8 @@ opcache \
 mysqli \
 pdo \
 pdo_mysql \
+pdo_pgsql \
+pgsql \
 soap \
 zip
 

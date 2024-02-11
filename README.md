@@ -6,7 +6,7 @@ We made a free open source CRM. Our Community Edition (CE)
 * PHP >= 8.3
 * composer
 * Laravel 10
-* MariaDB
+* MariaDB / Postgres
 * Redis
 
 ## Features
@@ -35,15 +35,33 @@ make install
 
 ### Setup docker
 ```bash
-docker-compose build
-docker-compose up -d
+docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml build
+docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
 ```
 
-### Inside the container
+or
+```bash
+make build
+make up
+```
+
+With Postgres
+```bash
+make build-pg
+make up-pg
+```
+
+### Enter inside the container
 
 ```bash
 docker exec -it crm-php /bin/bash
 ```
+
+or
+```bash
+make ssh
+```
+
 
 Install dependencies:
 ```bash
@@ -94,21 +112,23 @@ Endpoint:
 
 Some API Endpoint for the full list check the doc:
 
-| Method | Endpoint         | Description          |
-|--------|------------------|----------------------|
-| POST   | `/api/auth`      | User auth            |
-| GET    | `/api/lead`      | Get all leads        |
-| GET    | `/api/lead/{id}` | Get lead detail      |
-| POST   | `/api/lead`      | Create new lead      |
-| PUT    | `/api/lead/{id}` | Update existing lead |
-| DELETE | `/api/lead/{id}` | Delete a lead        |
-| GET    | `/api/customer`  | Get all customers    |
-| POST   | `/api/customer`  | Create new customer  |
-| GET    | `/api/product`   | Get all products     |
-| POST   | `/api/product`   | Create new product   |
-| GET    | `/api/order`     | Get all orders       |
-| GET    | `/api/supplier`  | Get all suppliers    |
-| GET    | `/api/ticket`    | Get all tickets      |
+| Method | Endpoint           | Description           |
+|--------|--------------------|-----------------------|
+| POST   | `/api/auth`        | User auth             |
+| GET    | `/api/lead`        | Get all leads         |
+| GET    | `/api/lead/{id}`   | Get lead detail       |
+| POST   | `/api/lead`        | Create new lead       |
+| PUT    | `/api/lead/{id}`   | Update existing lead  |
+| DELETE | `/api/lead/{id}`   | Delete a lead         |
+| GET    | `/api/customer`    | Get all customers     |
+| POST   | `/api/customer`    | Create new customer   |
+| GET    | `/api/product`     | Get all products      |
+| POST   | `/api/product`     | Create new product    |
+| GET    | `/api/order`       | Get all orders        |
+| GET    | `/api/supplier`    | Get all suppliers     |
+| GET    | `/api/ticket`      | Get all tickets       |
+| GET    | `/api/ticket/{id}` | Get existing ticket   |
+| POST   | `/api/ticket`      | Create support ticket |
 
 
 ## Run tests
