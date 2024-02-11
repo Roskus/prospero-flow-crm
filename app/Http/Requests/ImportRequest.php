@@ -28,7 +28,7 @@ class ImportRequest extends FormRequest
                 'required',
                 'file',
                 'mimes:csv,txt',
-                'max:' . $maxFileSize,
+                'max:'.$maxFileSize,
             ],
         ];
     }
@@ -51,7 +51,7 @@ class ImportRequest extends FormRequest
     /**
      * Convertir los valores de configuración de PHP a kilobytes.
      *
-     * @param string $value Valor de configuración de PHP.
+     * @param  string  $value  Valor de configuración de PHP.
      * @return int Valor en kilobytes.
      */
     private function convertPhpIniValueToKilobytes(string $value): int
@@ -60,7 +60,7 @@ class ImportRequest extends FormRequest
         $lastChar = strtolower($value[strlen($value) - 1]);
         $value = (int) $value;
 
-        switch($lastChar) {
+        switch ($lastChar) {
             case 'g':
                 $value *= 1024 * 1024;
                 break;

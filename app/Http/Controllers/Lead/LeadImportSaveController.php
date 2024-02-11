@@ -92,6 +92,7 @@ class LeadImportSaveController extends MainController
 
         $lead->seller_id = Auth::user()->id;
         $lead->created_at = now();
+
         return $lead;
     }
 }
