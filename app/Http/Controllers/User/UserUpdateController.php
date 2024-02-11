@@ -22,6 +22,7 @@ class UserUpdateController extends MainController
         $data['languages'] = config('app.locales');
         $data['roles'] = Auth::user()->hasRole('SuperAdmin') ? $roles : $rolesWithoutSuperAdmin;
         $data['companies'] = Auth::user()->hasRole('SuperAdmin') ? Company::all() : [];
+        $data['timezones'] = timezone_identifiers_list();
 
         return view('user.user', $data);
     }

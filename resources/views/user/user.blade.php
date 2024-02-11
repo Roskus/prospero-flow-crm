@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-    <header>
-        <h1>{{ __('User') }}</h1>
-    </header>
+<header>
+    <h1>{{ __('User') }}</h1>
+</header>
 
-    <div class="card">
-        <div class="card-body">
+<div class="card">
+    <div class="card-body">
         <form method="POST" action="{{ url('/user/save') }}">
         @csrf
         <div class="row form-group mb-3">
             <div class="col">
-                <label for="name" class="control-label">{{ __('First name') }}</label>
+                <label for="first_name" class="control-label">{{ __('First name') }}</label>
                 <input type="text" name="first_name" id="first_name" value="{{ $user->first_name }}" required autofocus maxlength="80" class="form-control form-control-lg">
             </div>
             <div class="col">
-                <label for="name" class="control-label">{{ __('Last name') }}</label>
+                <label for="last_name" class="control-label">{{ __('Last name') }}</label>
                 <input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}" required maxlength="80" class="form-control form-control-lg">
             </div>
-        </div>
+        </div><!--./row-->
 
         <div class="row form-group mb-3">
             <div class="col">
@@ -29,7 +29,7 @@
                 <label for="phone" class="col-md-4 control-label">{{ __('Phone') }}</label>
                 <input type="tel" name="phone" id="phone" value="{{ $user->phone }}" maxlength="15" class="form-control form-control-lg">
             </div>
-        </div>
+        </div><!--./row-->
 
         <div class="row form-group mb-3">
             <div class="col">
@@ -44,7 +44,7 @@
             @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin') || \Illuminate\Support\Facades\Auth::user()->hasRole('CompanyAdmin'))
             <div class="col">
                 <label for="roles">{{ __('Roles') }}</label>
-                <select name="roles[]" multiple class="form-select form-control-lg">
+                <select name="roles[]" id="roles" multiple class="form-select form-control-lg">
                     @foreach($roles as $role)
                         <option value="{{ $role->name }}" @if($user->hasRole($role->name)) selected="selected" @endif>{{ __($role->name) }}</option>
                     @endforeach
@@ -67,10 +67,9 @@
                 <label for="password-confirm" class="control-label">{{ __('Confirm password') }}</label>
                 <input type="password" name="password_confirmation" id="password-confirm" autocomplete="off" class="form-control form-control-lg">
             </div>
-        </div>
-
-        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
+        </div><!--./row-->
         <div class="row form-group mb-3">
+            @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
             <div class="col">
                 <label for="company_id">{{ __('Company') }}</label>
                 <select name="company_id" id="company_id" required="required" class="form-select form-control-lg">
@@ -80,17 +79,26 @@
                     @endforeach
                 </select>
             </div>
-        </div>
-        @endif
+            @endif
+            <div class="col">
+                <label for="timezone" class="control-label">{{ __('Time zone') }}</label>
+                <input name="timezone" id="timezone" list="timezoneOptions" value="{{ $user->timezone }}" placeholder="{{ __('Type to search...') }}" autocomplete="off"  class="form-control form-control-lg">
 
-            <div class="row form-group">
-                <div class="col text-end">
-                    <a href="{{ url('/user') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
-                    <button type="submit" class="btn btn-primary btn-lg">{{ __('Save') }}</button>
-                </div>
+                <datalist id="timezoneOptions">
+                    @foreach ($timezones as $name)
+                        <option value="{{ $name }}">
+                    @endforeach
+                </datalist>
             </div>
-            <input type="hidden" name="id" value="{{ ($user->id) ?? $user->id }}">
-        </form>
+        </div><!--/row-->
+        <div class="row form-group">
+            <div class="col text-end">
+                <a href="{{ url('/user') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
+                <button type="submit" class="btn btn-primary btn-lg">{{ __('Save') }}</button>
+            </div>
         </div>
-    </div><!--./card-->
-    @endsection
+        <input type="hidden" name="id" value="{{ ($user->id) ?? $user->id }}">
+        </form>
+    </div><!--./card-body-->
+</div><!--./card-->
+@endsection

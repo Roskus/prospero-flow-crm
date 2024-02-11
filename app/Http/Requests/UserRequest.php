@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
             'phone' => 'nullable|string|max:15',
             'photo' => 'nullable|string|max:255',
             'lang' => 'required|string|max:2',
-            //'timezone' => 'required|string|max:255',
+            'timezone' => 'nullable|timezone',
             'password' => 'nullable|string|min:8', // Optional, only if user wants to update password
         ];
     }

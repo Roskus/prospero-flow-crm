@@ -32,6 +32,9 @@ class UserSaveController extends MainController
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->lang = $request->lang;
+        if ($request->timezone) {
+            $user->timezone = $request->timezone;
+        }
 
         if (
             ! empty($request->password) &&

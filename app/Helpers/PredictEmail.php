@@ -6,8 +6,16 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @version 1.0.2
+ */
 class PredictEmail
 {
+    /**
+     * @param  string  $name  Person first name
+     * @param  string  $last_name  Person last name
+     * @param  string  $company_url  Company website
+     */
     public function predict(string $name, string $last_name, string $company_url): string|false
     {
         $name = str_replace(' ', '', trim(strtolower($name)));
@@ -37,17 +45,17 @@ class PredictEmail
 
     public function fullNameWithDots(string $name, string $last_name, string $host): string
     {
-        return $name.'.'.$last_name.'@'.$host;
+        return strtolower($name.'.'.$last_name.'@'.$host);
     }
 
     public function firstLetterNameLastName(string $name, string $last_name, string $host): string
     {
-        return substr($name, 0, 1).$last_name.'@'.$host;
+        return strtolower(substr($name, 0, 1).$last_name.'@'.$host);
     }
 
     public function nameOnly(string $name, string $host): string
     {
-        return substr($name, 0, 1).'@'.$host;
+        return strtolower(substr($name, 0, 1).'@'.$host);
     }
 
     public function firstLettersOfNamesAndLastName(string $name, string $last_name, string $host): string
@@ -58,7 +66,7 @@ class PredictEmail
             $firstLetters .= substr($n, 0, 1);
         }
 
-        return $firstLetters.$last_name.'@'.$host;
+        return strtolower($firstLetters.$last_name.'@'.$host);
     }
 
     public function isValid(string $email): bool

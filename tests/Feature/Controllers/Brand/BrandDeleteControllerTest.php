@@ -14,6 +14,10 @@ class BrandDeleteControllerTest extends TestCase
 
         $this->get('brand/delete/'.$brand->id);
 
-        $this->assertDatabaseMissing('brand', $brand->toArray());
+        // Convertir el modelo a array y eliminar 'created_at' y 'updated_at' antes de la aserción
+        $brandData = $brand->toArray();
+        unset($brandData['created_at'], $brandData['updated_at']);
+
+        $this->assertDatabaseMissing('brand', $brandData);
     }
 }
