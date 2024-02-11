@@ -67,4 +67,9 @@ jobs:
           mysql -e 'CREATE DATABASE pflow_crm_test;' -uroot -proot
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml
+      # Adding SonarCloud Scan for test coverage
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
