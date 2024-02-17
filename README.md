@@ -62,16 +62,22 @@ or
 make ssh
 ```
 
+Copy template config
+```bash
+cp .env.example .env
+```
+
+Edit your .env config file and set language, database
+```dotenv
+DB_PASSWORD=
+```
 
 Install dependencies:
 ```bash
 composer install
 ```
-Copy template config
-```bash
-cp .env.example .env
-```
-Edit your .env config file and set language, database
+
+Generate your APP_KEY
 ```bash
 php artisan key:generate
 ```

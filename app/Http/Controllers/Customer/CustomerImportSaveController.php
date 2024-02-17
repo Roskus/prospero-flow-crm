@@ -20,7 +20,13 @@ class CustomerImportSaveController extends MainController
     {
         $errors = [];
         $file = $request->file('upload');
-        $filePath = $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename();
+
+        // Utiliza una ruta base segura para el almacenamiento de archivos subidos
+        $basePath = storage_path('uploads');
+
+        // Genera un nombre seguro para el archivo, sin aceptar la ruta del cliente
+        $safeFilename = basename($file->getClientOriginalName());
+        $filePath = $basePath.DIRECTORY_SEPARATOR.$safeFilename;
 
         try {
             $handle = fopen($filePath, 'r');
