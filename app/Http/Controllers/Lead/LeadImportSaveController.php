@@ -18,7 +18,16 @@ class LeadImportSaveController extends MainController
     public function save(ImportRequest $request)
     {
         $file = $request->file('upload');
-        $filePath = $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename();
+
+        $allowedExtensions = ['csv'];
+        if (! in_array($file->getClientOriginalExtension(), $allowedExtensions)) {
+            return redirect('/lead')->withErrors(__('Invalid file type. Only CSV files allowed.'));
+        }
+
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        // Remove special characters
+        $sanitizedFilename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
+        $filePath = $file->getPath().DIRECTORY_SEPARATOR.$sanitizedFilename;
 
         try {
             $handle = fopen($filePath, 'r');
@@ -52,7 +61,7 @@ class LeadImportSaveController extends MainController
         }
         fclose($handle);
 
-        $status = ($rowCount > 0) ? true : false;
+        $status = $rowCount > 0;
 
         $response = [
             'status' => $status,
