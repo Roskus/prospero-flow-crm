@@ -5,7 +5,8 @@
 
     <div class="row">
         <div class="col">
-            <a href="{{ url('/asset/upload/example/hammer_product_example_20221206.csv') }}" target="_blank" class="btn btn-outline-success">
+            <a href="{{ url('/asset/upload/example/pflow_product_example_20221206.csv') }}" rel="noopener"
+               target="_blank" class="btn btn-outline-success">
                 {{ __('Download example file') }} <i class="las la-file-csv"></i>
             </a>
         </div>

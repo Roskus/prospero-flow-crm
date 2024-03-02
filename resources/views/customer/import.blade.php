@@ -10,7 +10,10 @@
     <div class="card">
         <div class="card-body">
         <div class="mt-2 mb-2">
-            <a href="{{ asset('/asset/upload/example/pflow_customer_example_20230414.csv') }}" rel="noopener" target="_blank" class="btn btn-outline-success">{{ __('Download example file') }} <i class="las la-file-csv"></i></a>
+            <a href="{{ asset('/asset/upload/example/pflow_customer_example_20230414.csv') }}" rel="noopener"
+               target="_blank" class="btn btn-outline-success">
+                {{ __('Download example file') }} <i class="las la-file-csv"></i>
+            </a>
         </div>
         <form method="POST" action="{{ url('/customer/import/save') }}" enctype="multipart/form-data" class="form">
             @csrf
