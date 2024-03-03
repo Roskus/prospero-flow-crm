@@ -7,11 +7,20 @@ namespace App\Http\Controllers\Bank;
 use App\Models\Bank;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
+use Intervention\Validation\Rules\Bic;
 
 class BankSaveController
 {
     public function save(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'country_id' => 'required',
+            'bic' => 'required|bic|unique:bank',
+            'email' => 'nullable|email',
+            'website' => 'nullable|url',
+        ]);
+
         if (empty($request->uuid)) {
             $bank = new Bank();
             $bank->created_at = now();
