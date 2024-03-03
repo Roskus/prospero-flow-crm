@@ -16,7 +16,7 @@ class BankSaveController
         $request->validate([
             'name' => 'required',
             'country_id' => 'required',
-            'bic' => 'required|bic|unique:bank',
+            'bic' => empty($request->uuid) ? 'required|bic|unique:bank' : 'required|bic',
             'email' => 'nullable|email',
             'website' => 'nullable|url',
         ]);
