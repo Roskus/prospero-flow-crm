@@ -148,6 +148,12 @@ Check missing translation keys
 php artisan translations:check --excludedDirectories=lang/vendor
 ```
 
+## PHPStan
+Code quality check, find bugs
+```bash
+vendor/bin/phpstan analyse app tests
+```
+
 ## Resources
 Icon font Line Awesome
 https://icons8.com/line-awesome

@@ -8,15 +8,15 @@
         <div class="row mb-3">
             @csrf
             <div class="col">
-                <label>{{ __('Issue date')}} <span class="text-danger">*</span></label>
+                <label for="issue_date">{{ __('Issue date')}} <span class="text-danger">*</span></label>
                 <input type="date" name="issue_date" id="issue_date" value="{{ date('Y-m-d') }}" class="form-control form-control-lg" required="required">
             </div>
             <div class="col">
-                <label>{{ __('Name') }} <span class="text-danger">*</span></label>
+                <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
                 <input type="text" name="name" id="name" value="" required="required" class="form-control form-control-lg">
             </div>
             <div class="col">
-                <label>{{ __('Amount') }}  <span class="text-danger">*</span></label>
+                <label for="amount">{{ __('Amount') }}  <span class="text-danger">*</span></label>
                 <div class="input-group">
                     <input type="number" name="amount" id="amount" required="required" step="0.01" autocomplete="false" class="form-control form-control-lg">
                     <span class="input-group-text">€</span>

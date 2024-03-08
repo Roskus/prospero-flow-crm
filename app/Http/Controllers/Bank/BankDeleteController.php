@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\MainController;
 use App\Models\Bank;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BankDeleteController extends MainController

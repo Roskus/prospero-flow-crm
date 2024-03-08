@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Brand;
 
+use App\Repositories\BrandRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BrandCreateController
 {
+    private BrandRepository $brandRepository;
+
+    public function __construct(BrandRepository $brandRepository)
+    {
+        $this->brandRepository = $brandRepository;
+    }
+
     /**
      * @OA\Post(
      *     path="/brand",
