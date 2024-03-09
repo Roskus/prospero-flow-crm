@@ -1,19 +1,12 @@
 <?php
 
-use Illuminate\Console\Command;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
 
 return new class extends Migration
 {
-    protected Command $command;
-
-    public function __construct(Command $command)
-    {
-        $this->command = $command;
-    }
-
     /**
      * Run the migrations.
      *
@@ -31,7 +24,7 @@ return new class extends Migration
             });
         } else {
             // Output a warning indicating that the database driver does not support fulltext index creation
-            $this->command->info('Warning: Fulltext index creation is not supported by this database driver.');
+            Log::warning('Warning: Fulltext index creation is not supported by this database driver.');
         }
     }
 
@@ -52,7 +45,7 @@ return new class extends Migration
             });
         } else {
             // Output a warning indicating that the database driver does not support fulltext index creation
-            $this->command->info('Warning: Fulltext index creation is not supported by this database driver.');
+            Log::warning('Warning: Fulltext index creation is not supported by this database driver.');
         }
     }
 };
