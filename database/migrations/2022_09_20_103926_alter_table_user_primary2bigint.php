@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
+        // Then, add the foreign key constraint
         Schema::table('user', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->change();
-            $table->foreign('company_id')->on('company')->references('id');
+            $table->foreign('company_id')->references('id')->on('company');
         });
     }
 
@@ -26,8 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
+        // Drop the foreign key constraint
         Schema::table('user', function (Blueprint $table) {
-            $table->dropForeign('user_company_id_foreign');
+            $table->dropForeign(['company_id']);
         });
     }
 };

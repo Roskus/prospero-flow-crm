@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: crm-db
+    environment:
+      SA_PASSWORD: ${DB_PASSWORD}
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+volumes:
+  mssql-data:
+    driver: local

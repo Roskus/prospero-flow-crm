@@ -27,8 +27,8 @@ class MainController extends Controller
         $order = new Order();
         $lead = new Lead();
         $customer = new Customer();
-        $data['order_count'] = $order->getPendingCount(Auth::user()->company_id);
-        $data['leads'] = $lead->getLatestByCompany(Auth::user()->company_id, 4);
+        $data['order_count'] = $order->getPendingCount((int) Auth::user()->company_id);
+        $data['leads'] = $lead->getLatestByCompany((int) Auth::user()->company_id, 4);
         $data['customers'] = $customer
             ->whereCompanyId(Auth::user()->company_id)
             ->whereStatus(Customer::IN_PROGRESS)

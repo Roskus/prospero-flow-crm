@@ -14,6 +14,7 @@ class AccountDeleteController
         //TODO add security check, add can('account delete')
         $account = Account::find($id);
         $account->delete();
+
         return redirect()->back();
     }
 }

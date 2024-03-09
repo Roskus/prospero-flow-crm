@@ -23,12 +23,23 @@ class BrandCreateController
      *     summary="Create a Brand",
      *     tags={"Brand"},
      *     security={{"bearerAuth": {} }},
-     *     @OA\Response(
-     *         response="200",
-     *         description="Brand found",
-     *         @OA\JsonContent(ref="#/components/schemas/Brand")
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Brand data",
+     *          @OA\JsonContent(
+     *              required={"name"},
+     *              @OA\Property(property="name", type="string", maxLength=80, example="Example Brand")
+     *          ),
      *     ),
-     *     @OA\Response(response="404", description="Brand not found")
+     *     @OA\Response(
+     *          response=201,
+     *          description="Brand created successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/Brand")
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid input data"
+     *      )
      * )
      */
     public function create(Request $request): JsonResponse

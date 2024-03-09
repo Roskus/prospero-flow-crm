@@ -14,7 +14,7 @@ class CreateUserTable extends Migration
     public function up()
     {
         Schema::create('user', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedBigInteger('company_id')->default(1); // Demo company
             $table->string('first_name');
             $table->string('last_name');
@@ -24,6 +24,7 @@ class CreateUserTable extends Migration
             $table->string('lang', 2)->default('en');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

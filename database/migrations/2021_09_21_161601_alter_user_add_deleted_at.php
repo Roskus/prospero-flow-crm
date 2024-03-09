@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterUserAddDeletedAt extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class AlterUserAddDeletedAt extends Migration
      */
     public function up()
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->softDeletes()->after('updated_at');
-        });
+        // Check if the 'deleted_at' column does not exist
+        if (! Schema::hasColumn('user', 'deleted_at')) {
+            // If it doesn't exist, add the 'deleted_at' column
+            Schema::table('user', function (Blueprint $table) {
+                $table->softDeletes()->after('updated_at');
+            });
+        }
     }
 
     /**
@@ -29,4 +33,4 @@ class AlterUserAddDeletedAt extends Migration
             $table->dropColumn('deleted_at');
         });
     }
-}
+};

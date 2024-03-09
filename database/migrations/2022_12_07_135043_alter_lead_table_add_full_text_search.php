@@ -1,11 +1,19 @@
 <?php
 
+use Illuminate\Console\Command;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    protected Command $command;
+
+    public function __construct(Command $command)
+    {
+        $this->command = $command;
+    }
+
     /**
      * Run the migrations.
      *
@@ -13,9 +21,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('lead', function (Blueprint $table) {
-            $table->fullText(['name', 'business_name']);
-        });
+        // Check if the database driver supports fulltext index creation (e.g., MySQL or PostgreSQL)
+        $supportedDrivers = ['mysql', 'pgsql'];
+        $currentDriver = config('database.default');
+
+        if (in_array($currentDriver, $supportedDrivers)) {
+            Schema::table('lead', function (Blueprint $table) {
+                $table->fullText(['name', 'business_name'], 'lead_fulltext');
+            });
+        } else {
+            // Output a warning indicating that the database driver does not support fulltext index creation
+            $this->command->info('Warning: Fulltext index creation is not supported by this database driver.');
+        }
     }
 
     /**
@@ -25,8 +42,17 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('lead', function (Blueprint $table) {
-            $table->dropFullText('lead_name_business_name_fulltext');
-        });
+        // Check if the database driver supports fulltext index creation
+        $supportedDrivers = ['mysql', 'pgsql'];
+        $currentDriver = config('database.default');
+
+        if (in_array($currentDriver, $supportedDrivers)) {
+            Schema::table('lead', function (Blueprint $table) {
+                $table->dropIndex('lead_name_business_name_fulltext');
+            });
+        } else {
+            // Output a warning indicating that the database driver does not support fulltext index creation
+            $this->command->info('Warning: Fulltext index creation is not supported by this database driver.');
+        }
     }
 };

@@ -39,7 +39,8 @@ return new class extends Migration
             $table->dateTime('schedule_contact')->nullable()->after('zipcode');
             $table->unsignedBigInteger('industry_id')->nullable()->after('schedule_contact');
             $table->boolean('opt_in')->nullable()->default(true)->after('industry_id');
-            $table->enum('status', ['open', 'recall', 'quote', 'quoted', 'waiting_for_answer', 'standby', 'closed'])->nullable()->default('open')->after('country_id');
+            //$table->enum('status', ['open', 'recall', 'quote', 'quoted', 'waiting_for_answer', 'standby', 'closed'])->nullable()->default('open')->after('country_id');
+            $table->string('status', 20)->default('No contacted')->after('country_id');
         });
     }
 

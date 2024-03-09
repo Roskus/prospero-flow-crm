@@ -14,7 +14,7 @@ class OrderIndexController extends MainController
     public function index(Request $request)
     {
         $order = new Order();
-        $data['orders'] = $order->getAllActiveByCompany(Auth::user()->company_id);
+        $data['orders'] = $order->getAllActiveByCompany((int) Auth::user()->company_id);
 
         return view('order/index', $data);
     }

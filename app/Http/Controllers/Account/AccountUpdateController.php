@@ -13,6 +13,7 @@ class AccountUpdateController
     {
         $account = Account::find($id);
         $data['account'] = $account;
+
         return view('account.account', $data);
     }
 }

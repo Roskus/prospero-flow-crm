@@ -63,13 +63,13 @@ class LeadIndexController extends MainController
         $data['colors'] = config('color');
         $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info'];
         $data['countries'] = Country::orderBy('name')->get();
-        $data['lead_count'] = Lead::where('company_id', Auth::user()->company_id)->count();
-        $data['leads'] = $lead->getAllByCompanyId(Auth::user()->company_id, $search, $filters, $order_by);
+        $data['lead_count'] = Lead::where('company_id', (int) Auth::user()->company_id)->count();
+        $data['leads'] = $lead->getAllByCompanyId((int) Auth::user()->company_id, $search, $filters, $order_by);
         $data['search'] = $search;
-        $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
+        $data['sellers'] = $user->getAllActiveByCompany((int) Auth::user()->company_id);
         $data['statuses'] = $lead->getStatus();
         // Temporary fix get this from configuration
-        $data['industries'] = (Auth::user()->company_id == 3) ? $industry->getAllByCompany(Auth::user()->company_id) : $industry->getAll();
+        $data['industries'] = ((int) Auth::user()->company_id == 3) ? $industry->getAllByCompany((int) Auth::user()->company_id) : $industry->getAll();
         $data['filters'] = $filters;
 
         return view('lead.index', $data);

@@ -86,6 +86,8 @@ class Company extends Model
 
     const ACTIVE = 1;
 
+    const DEFAULT_COMPANY = 1;
+
     protected $table = 'company';
 
     protected $fillable = [

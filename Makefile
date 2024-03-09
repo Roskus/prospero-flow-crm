@@ -14,11 +14,17 @@ build: ## Create docker build containers with MariaDB
 build-pg: ## Create docker build containers with Postgres
 	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.pgadmin.yml build
 
+build-ms: ## Create docker build containers with MS SQL Server
+	docker-compose -f docker-compose.yml -f docker-compose.mssql.yml build
+
 up: ## Start docker container with MariaDB
 	docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
 
 up-pg: ## Start docker container with Postgres
 	docker-compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.pgadmin.yml up -d
+
+up-ms: ## Start docker container with MS SQL Server
+	docker-compose -f docker-compose.yml -f docker-compose.mssql.yml up -d
 
 down: ## Stop docker container
 	docker-compose down
