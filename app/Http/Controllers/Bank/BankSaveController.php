@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Bank;
 use App\Models\Bank;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
-use Intervention\Validation\Rules\Bic;
 
 class BankSaveController
 {
