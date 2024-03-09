@@ -27,8 +27,6 @@ class LoginController extends Controller
 
     /**
      * Where to redirect users after login.
-     *
-     * @var string
      */
     protected string $redirectTo = RouteServiceProvider::HOME;
 
