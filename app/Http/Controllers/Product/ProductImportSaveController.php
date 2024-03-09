@@ -22,8 +22,8 @@ class ProductImportSaveController extends MainController
         if (! $request->hasFile('upload')) {
             return redirect('/product')->withErrors(__("Upload file can't be in blank"));
         }
-        $categories = Category::getAllActiveAsArrayByCompany(Auth::user()->company_id);
-        $brands = Brand::getAllActiveAsArrayByCompany(Auth::user()->company_id);
+        $categories = Category::getAllActiveAsArrayByCompany((int) Auth::user()->company_id);
+        $brands = Brand::getAllActiveAsArrayByCompany((int) Auth::user()->company_id);
         $file = $request->file('upload');
         $extension = $file->getClientOriginalExtension();
 

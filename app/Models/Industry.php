@@ -27,7 +27,7 @@ class Industry extends Model
         if (Cache::has('industries')) {
             $industries = Cache::get('industries');
         } else {
-            $industries = Industry::all();
+            $industries = Industry::whereNull('company_id')->get();
             Cache::put('industries', $industries, 600); // 10 Minutes
         }
 

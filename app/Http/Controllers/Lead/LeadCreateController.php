@@ -26,8 +26,13 @@ class LeadCreateController extends MainController
         $data['lead'] = $lead;
         $data['countries'] = Country::orderBy('name')->get();
         // Temporary fix get this from configuration
-        $data['industries'] = (Auth::user()->company_id == 3) ? $industry->getAllByCompany(Auth::user()->company_id) : $industry->getAll();
-        $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
+        if (Auth::user()->company_id == 3) {
+            $industries = $industry->getAllByCompany((int) Auth::user()->company_id);
+        } else {
+            $industries = $industry->getAll();
+        }
+        $data['industries'] = $industries;
+        $data['sellers'] = $user->getAllActiveByCompany((int) Auth::user()->company_id);
         $data['sources'] = Source::all();
         $data['editorType'] = 'advanced';
 

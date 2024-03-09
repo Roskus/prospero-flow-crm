@@ -15,7 +15,8 @@ class ContactExportVCard extends MainController
     public function export(Request $request, int $id)
     {
         $contact = Contact::findOrFail($id);
-        $fileName = Str::slug(title: $contact->first_name.' '.$contact->last_name, separator: '-').'_'.date('Ymd_His').'.vcf';
+        $fullName = $contact->first_name.' '.$contact->last_name;
+        $fileName = Str::slug(title: $fullName, separator: '-').'_'.date('Ymd_His').'.vcf';
         $headers = [
             'Content-type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=$fileName",

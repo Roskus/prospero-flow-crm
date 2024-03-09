@@ -19,7 +19,7 @@ class CategorySaveController extends MainController
             $category = Category::find($request->id);
         }
         $category->name = $request->name;
-        $category->company_id = Auth::user()->company_id;
+        $category->company_id = (int) Auth::user()->company_id;
         $category->save();
 
         return redirect('/category');
