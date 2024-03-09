@@ -47,7 +47,7 @@ class CompanyDeleteController
         }
 
         // Ensure the user can only delete their own company
-        if (Auth::user()->company_id !== 1) {
+        if (Auth::user()->company_id !== Company::DEFAULT_COMPANY) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 

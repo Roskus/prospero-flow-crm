@@ -15,6 +15,6 @@ class GetLatestAjaxController extends Controller
     {
         $notification = new Notification();
 
-        return response()->json(['notifications' => $notification->getLatestByUser(Auth::user()->id)]);
+        return response()->json(['notifications' => $notification->getLatestByUser((int) Auth::user()->id)]);
     }
 }

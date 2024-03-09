@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class UserDeleteController
         }
 
         // Ensure the user can only delete users from their own company, except for users from company with ID 1
-        if ($user->company_id !== Auth::user()->company_id && Auth::user()->company_id !== 1) {
+        if ($user->company_id !== (int) Auth::user()->company_id && (int) Auth::user()->company_id !== Company::DEFAULT_COMPANY) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 

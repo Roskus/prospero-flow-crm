@@ -21,7 +21,7 @@ class OrderCreateController extends MainController
         $order = new Order();
         $customer = new Customer();
         $product = new Product();
-        $company_id = Auth::user()->company_id;
+        $company_id = (int) Auth::user()->company_id;
         $data['order'] = $order;
         $data['customers'] = $customer->getAllByCompanyId($company_id);
         $data['products'] = $product->getAllByCompanyId($company_id);

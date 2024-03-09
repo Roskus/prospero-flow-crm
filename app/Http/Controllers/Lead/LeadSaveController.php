@@ -7,13 +7,15 @@ namespace App\Http\Controllers\Lead;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\LeadRequest;
 use App\Repositories\LeadRepository;
+use Illuminate\Http\Request;
 
 class LeadSaveController extends MainController
 {
     private LeadRepository $leadSaveRepository;
 
-    public function __construct(LeadRepository $leadRepository)
+    public function __construct(LeadRepository $leadRepository, Request $request)
     {
+        parent::__construct($request);
         $this->leadSaveRepository = $leadRepository;
     }
 

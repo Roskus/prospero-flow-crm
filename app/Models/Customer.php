@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Customer\Message;
 use App\Models\Scopes\AssignedSellerScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use OpenApi\Annotations\OpenApi as OA;
 use Squire\Models\Country;
 use Yajra\Auditable\AuditableWithDeletesTrait;
@@ -247,33 +249,30 @@ class Customer extends Model
         return Customer::all();
     }
 
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, ?string $order_by = 'created_at', int $limit = 50): mixed
+    public function getAllByCompanyId(
+        int $company_id,
+        ?string $search = null,
+        ?array $filters = null,
+        ?string $order_by = 'created_at',
+        int $limit = 50): mixed
     {
         if (is_null($order_by)) {
             $order_by = 'created_at';
         }
-        $customers = Customer::where('company_id', $company_id);
-        if (! empty($search)) {
-            if (is_numeric($search)) {
-                $customers->orWhere('external_id', '=', "$search")
-                    ->orWhere('phone', 'LIKE', "%$search%");
-            }
 
-            if (is_string($search)) {
-                $words = explode(' ', $search);
-                if (count($words) == 1) {
-                    $customers->where('name', 'LIKE', "%$search%")
-                        ->orWhere('business_name', 'LIKE', "%$search%")
-                        ->orWhere('tags', 'LIKE', "%$search%")
-                        ->orWhere('external_id', 'LIKE', "%$search%")
-                        ->orWhere('vat', 'LIKE', "%$search%");
-                } else {
-                    $customers->whereFullText(['name', 'business_name'], $search)
-                        ->orWhere('tags', 'LIKE', "%$search%");
-                }
-            }
+        $customers = Customer::where('company_id', $company_id);
+
+        // Comprobamos si el motor de base de datos es compatible con búsquedas fulltext
+        $supportsFulltext = $this->supportsFulltext();
+
+        // Aplicamos la búsqueda adecuada según el soporte de fulltext
+        if ($supportsFulltext && ! empty($search)) {
+            $customers = $this->applyFulltextSearch($customers, $search);
+        } elseif (! empty($search)) {
+            $customers = $this->applyBasicSearch($customers, $search);
         }
 
+        // Apply aditionals filters
         if (is_array($filters)) {
             foreach ($filters as $key => $filter) {
                 $customers->where($key, $filter);
@@ -281,6 +280,58 @@ class Customer extends Model
         }
 
         return $customers->orderBy($order_by, 'desc')->paginate($limit);
+    }
+
+    protected function isPgTrgmEnabled(): bool
+    {
+        $connection = DB::connection();
+        $result = $connection->select("SELECT * FROM pg_extension WHERE extname = 'pg_trgm'");
+
+        return ! empty($result);
+    }
+
+    protected function supportsFulltext(): bool
+    {
+        $driver = config('database.connections.'.config('database.default').'.driver');
+
+        switch ($driver) {
+            case 'mysql':
+                // Verificar si estamos utilizando MySQL y si el modo de SQL es 'strict_all_tables'
+                return true;
+            case 'pgsql':
+                // Verificar si estamos utilizando PostgreSQL y si la extensión pg_trgm está habilitada
+                return $this->isPgTrgmEnabled();
+            default:
+                // Otros motores de base de datos no son compatibles con búsquedas fulltext
+                return false;
+        }
+    }
+
+    protected function applyFulltextSearch(Builder $query, string $search): Builder
+    {
+        // Lógica para aplicar la búsqueda fulltext
+        return $query->whereFullText(['name', 'business_name'], $search)
+            ->orWhere('tags', 'LIKE', "%$search%");
+    }
+
+    protected function applyBasicSearch(Builder $query, string $search): Builder
+    {
+        return $query->where(function (Builder $query) use ($search) {
+            if (is_numeric($search)) {
+                $query->orWhere('external_id', '=', $search)
+                    ->orWhere('phone', 'LIKE', "%$search%");
+            }
+
+            if (is_string($search)) {
+                $query->where(function (Builder $query) use ($search) {
+                    $query->where('name', 'LIKE', "%$search%")
+                        ->orWhere('business_name', 'LIKE', "%$search%")
+                        ->orWhere('tags', 'LIKE', "%$search%")
+                        ->orWhere('external_id', 'LIKE', "%$search%")
+                        ->orWhere('vat', 'LIKE', "%$search%");
+                });
+            }
+        });
     }
 
     public function getCountByCompany(int $company_id): int

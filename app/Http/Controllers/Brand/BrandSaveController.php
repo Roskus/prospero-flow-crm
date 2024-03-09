@@ -19,7 +19,7 @@ class BrandSaveController extends MainController
             $brand = Brand::find($request->id);
         }
         $brand->name = $request->name;
-        $brand->company_id = Auth::user()->company_id;
+        $brand->company_id = (int) Auth::user()->company_id;
         $brand->save();
 
         return redirect('/brand');

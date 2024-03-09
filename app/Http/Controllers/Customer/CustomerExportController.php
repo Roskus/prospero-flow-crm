@@ -17,7 +17,7 @@ class CustomerExportController
         $separator = ';';
         $customer = new Customer();
         $fileName = 'customers_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
-        $customers = Customer::where('company_id', Auth::user()->company_id)->get();
+        $customers = Customer::where('company_id', (int) Auth::user()->company_id)->get();
         $headers = [
             'Content-type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=$fileName",

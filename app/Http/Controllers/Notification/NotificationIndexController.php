@@ -14,7 +14,7 @@ class NotificationIndexController extends MainController
     public function index(Request $request)
     {
         $notification = new Notification();
-        $data['notifications'] = $notification->getLatestByUser(Auth::user()->id, 20, true);
+        $data['notifications'] = $notification->getLatestByUser((int) Auth::user()->id, 20, true);
 
         return view('notification.index', $data);
     }

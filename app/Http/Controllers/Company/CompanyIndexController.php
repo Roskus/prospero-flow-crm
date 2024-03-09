@@ -14,7 +14,12 @@ class CompanyIndexController extends MainController
     public function index(Request $request)
     {
         $company = new Company();
-        $data['companies'] = Auth::user()->hasRole('SuperAdmin') ? $company->getAllPaginated() : Company::where('id', Auth::user()->company_id)->paginate();
+        if (Auth::user()->hasRole('SuperAdmin')) {
+            $companies = $company->getAllPaginated();
+        } else {
+            $companies = Company::where('id', (int) Auth::user()->company_id)->paginate();
+        }
+        $data['companies'] = $companies;
 
         return view('company.index', $data);
     }

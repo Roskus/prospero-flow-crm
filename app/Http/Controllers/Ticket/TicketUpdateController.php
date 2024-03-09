@@ -21,8 +21,8 @@ class TicketUpdateController extends MainController
         $ticket = Ticket::find($id);
         $customer = new Customer();
         $data['ticket'] = $ticket;
-        $data['users'] = $user->getAllActiveByCompany(Auth::user()->company_id);
-        $data['customers'] = $customer->getAllByCompanyId(Auth::user()->company_id);
+        $data['users'] = $user->getAllActiveByCompany((int) Auth::user()->company_id);
+        $data['customers'] = $customer->getAllByCompanyId((int) Auth::user()->company_id);
         $attachments = collect(Storage::disk('public')->allFiles('attachments-tickets'.DIRECTORY_SEPARATOR.$ticket->id));
         $data['attachments'] = $attachments->map(function ($path) {
             return [

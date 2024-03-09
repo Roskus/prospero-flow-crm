@@ -22,7 +22,7 @@ class CampaignIndexController extends MainController
             'text-bg-warning',
             'text-bg-info',
         ];
-        $data['campaigns'] = $campaign->getAllByCompany(Auth::user()->company_id);
+        $data['campaigns'] = $campaign->getAllByCompany((int) Auth::user()->company_id);
 
         return view('campaign.index', $data);
     }
