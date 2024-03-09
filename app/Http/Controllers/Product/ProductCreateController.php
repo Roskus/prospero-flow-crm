@@ -18,9 +18,9 @@ class ProductCreateController
         $category = new Category();
         $brand = new Brand();
         $data['product'] = $product;
-        $data['products'] = $product->getAllByCompanyId(Auth::user()->company_id);
-        $data['categories'] = $category->getAllActiveByCompany(Auth::user()->company_id);
-        $data['brands'] = $brand->getAllActiveByCompany(Auth::user()->company_id);
+        $data['products'] = $product->getAllByCompanyId((int) Auth::user()->company_id);
+        $data['categories'] = $category->getAllActiveByCompany((int) Auth::user()->company_id);
+        $data['brands'] = $brand->getAllActiveByCompany((int) Auth::user()->company_id);
 
         return view('product/product', $data);
     }
