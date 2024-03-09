@@ -43,7 +43,7 @@ COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN apt-get update && apt-get --no-install-recommends install -y gnupg2 && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && ACCEPT_EULA=Y apt-get install -y unixodbc-dev msodbcsql17
+    apt-get update && ACCEPT_EULA=Y apt-get --no-install-recommends install -y unixodbc-dev msodbcsql17
 
 # Install PHP extensions for SQL Server
 RUN pecl install pdo_sqlsrv sqlsrv && docker-php-ext-enable pdo_sqlsrv sqlsrv
