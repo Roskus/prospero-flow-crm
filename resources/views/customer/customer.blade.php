@@ -4,6 +4,17 @@
     <header>
         <h1>{{ __('Customer') }} @if($customer->id) #{{ $customer->id }} @endif</h1>
     </header>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form method="POST" action="{{ url('/customer/save') }}" class="form">
         {{ csrf_field() }}
         <div class="card mt-2">
@@ -370,7 +381,8 @@
                 <div class="col">
                     {{ __('Contacts') }}
 
-                    <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', ['customer', $customer->id]) }}">
+                    <a class="btn btn-primary btn-sm" style="border-radius: 40px;"
+                       href="{{ url('/contact/create', ['customer', $customer->id]) }}">
                         <i class="las la-plus fw-bold"></i>
                     </a>
                 </div>

@@ -7,13 +7,15 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\CustomerRequest;
 use App\Repositories\CustomerRepository;
+use Illuminate\Http\Request;
 
 class CustomerSaveController extends MainController
 {
     private CustomerRepository $customerSaveRepository;
 
-    public function __construct(CustomerRepository $customerSaveRepository)
+    public function __construct(CustomerRepository $customerSaveRepository, Request $request)
     {
+        parent::__construct($request);
         $this->customerSaveRepository = $customerSaveRepository;
     }
 

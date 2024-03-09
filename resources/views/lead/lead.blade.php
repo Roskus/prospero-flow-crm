@@ -4,6 +4,17 @@
     <header>
         <h1>{{ __('Lead') }} @if($lead->id) #{{ $lead->id }} @endif</h1>
     </header>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form method="POST" action="{{ url('/lead/save') }}" class="form">
         {{ csrf_field() }}
         <div class="card mt-2">
@@ -24,7 +35,8 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="external_id">{{ __('External ID') }}</label>
-                        <input type="text" name="external_id" id="external_id" value="{{ old('external_id', $lead->external_id) }}"
+                        <input type="text" name="external_id" id="external_id"
+                               value="{{ old('external_id', $lead->external_id) }}"
                                maxlength="50" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
@@ -52,7 +64,8 @@
                         <label for="extension">{{ __('Extension') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="lab la-buromobelexperte"></i></span>
-                            <input type="text" name="extension" id="extension" value="{{ old('extension', $lead->extension) }}"
+                            <input type="text" name="extension" id="extension"
+                                   value="{{ old('extension', $lead->extension) }}"
                                    maxlength="6" class="form-control form-control-lg">
                         </div>
                     </div>
