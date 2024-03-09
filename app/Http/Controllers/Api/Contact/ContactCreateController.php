@@ -25,6 +25,17 @@ class ContactCreateController
      *     summary="Create a contact",
      *     tags={"Contact"},
      *     security={{"bearerAuth": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Contact data",
+     *          @OA\JsonContent(
+     *              required={"contact_first_name", "lead_id", "contact_email", "contact_phone"},
+     *              @OA\Property(property="contact_first_name", type="string", maxLength=50, example="John"),
+     *              @OA\Property(property="lead_id", type="integer", example=123),
+     *              @OA\Property(property="contact_email", type="string", maxLength=254, format="email", example="john@example.com"),
+     *              @OA\Property(property="contact_phone", type="string", maxLength=15, example="123-456-7890")
+     *          ),
+     *     ),
      *     @OA\Response(response="400", description="Bad request: Please review required params"),
      *     @OA\Response(response="201", description="Contact created successfully")
      * )

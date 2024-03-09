@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -34,10 +33,8 @@ class LoginController extends Controller
      *         description="Unauthorized or wrong credentials"
      *     )
      * )
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
             'email' => 'required|string|email',
@@ -47,7 +44,7 @@ class LoginController extends Controller
         $credentials = request(['email', 'password']);
         $token = auth('api')->attempt($credentials);
 
-        if (! $token) {
+        if (empty($token)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -56,20 +53,16 @@ class LoginController extends Controller
 
     /**
      * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public function me(): \Illuminate\Http\JsonResponse
     {
         return response()->json(auth('api')->user());
     }
 
     /**
      * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         auth('api')->logout();
 
@@ -78,25 +71,21 @@ class LoginController extends Controller
 
     /**
      * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    public function refresh(): \Illuminate\Http\JsonResponse
     {
         return $this->respondWithToken(auth('api')->refresh());
     }
 
     /**
      * Get the token array structure.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken(string $token)
+    protected function respondWithToken(string $token): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'expires_in' => auth('api')->factory()->getTTL() * 120,
         ]);
     }
 }
