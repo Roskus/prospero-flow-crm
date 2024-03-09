@@ -17,9 +17,9 @@ class TicketIndexController extends MainController
         $search = $request->query('search');
         $ticket = new Ticket();
 
-        $data['tickets'] = $ticket->getAllByCompanyId(Auth::user()->company_id, $search);
+        $data['tickets'] = $ticket->getAllByCompanyId((int) Auth::user()->company_id, $search);
         $data['search'] = $search;
-        $data['customers'] = Customer::whereCompany(Auth::user()->company);
+        $data['customers'] = Customer::whereCompany((int) Auth::user()->company);
 
         return view('ticket.index', $data);
     }
