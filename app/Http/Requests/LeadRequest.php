@@ -60,7 +60,7 @@ class LeadRequest extends FormRequest
             'tiktok' => 'nullable|url|max:255',
             'notes' => 'nullable',
             'seller_id' => 'required|numeric',
-            'country' => 'nullable|max:2',
+            'country_id' => 'required|max:2',
             'province' => 'nullable|max:80',
             'city' => 'nullable|max:50',
             'locality' => 'nullable|max:80',

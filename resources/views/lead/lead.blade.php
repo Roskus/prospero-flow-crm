@@ -5,16 +5,6 @@
         <h1>{{ __('Lead') }} @if($lead->id) #{{ $lead->id }} @endif</h1>
     </header>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form method="POST" action="{{ url('/lead/save') }}" class="form">
         {{ csrf_field() }}
         <div class="card mt-2">

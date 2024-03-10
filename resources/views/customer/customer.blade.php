@@ -5,16 +5,6 @@
         <h1>{{ __('Customer') }} @if($customer->id) #{{ $customer->id }} @endif</h1>
     </header>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form method="POST" action="{{ url('/customer/save') }}" class="form">
         {{ csrf_field() }}
         <div class="card mt-2">
@@ -63,7 +53,8 @@
                         <label for="extension">{{ __('Extension') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="lab la-buromobelexperte"></i></span>
-                            <input type="text" name="extension" id="extension" value="{{ old('extension', $customer->extension) }}"
+                            <input type="text" name="extension" id="extension"
+                                   value="{{ old('extension', $customer->extension) }}"
                                    maxlength="6" class="form-control form-control-lg">
                         </div>
                     </div>
@@ -148,8 +139,11 @@
                     <div class="col">
                         <label for="search-address">{{ __('Search for an address') }}</label>
                         <div class="input-group">
-                            <input type="text" id="search-address" placeholder="{{ __('Search for an address') }}" class="form-control form-control-lg">
-                            <button type="button" onclick="getCoordinates()" class="btn btn-secondary"><i class="las la-search"></i></button>
+                            <input type="text" id="search-address" placeholder="{{ __('Search for an address') }}"
+                                   class="form-control form-control-lg">
+                            <button type="button" onclick="getCoordinates()" class="btn btn-secondary">
+                                <i class="las la-search"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

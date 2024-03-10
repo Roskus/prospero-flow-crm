@@ -15,6 +15,61 @@
     var longitude = "{{ $attributes['longitude'] }}";
     var map = L.map("map");
 
+    function initializeMap(latitude, longitude) {
+        // Verifica si hay coordenadas disponibles y establece el centro del mapa y el marcador si es así
+        if (latitude && longitude) {
+            // Establece la vista del mapa en la posición inicial y un nivel de zoom determinado
+            map.setView([latitude, longitude], 18);
+
+            // Agrega capas de azulejos al mapa para mostrar el mapa base
+            var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 20,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            // Agrega un marcador a la posición inicial del mapa
+            var marker = L.marker([latitude, longitude]).addTo(map);
+        }
+    }
+
+
+    // Manage success get current user position
+    function showPosition(position) {
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+
+        // Llama a la función para mostrar el mapa y establecer la posición del marcador
+        initializeMap(latitude, longitude);
+    }
+
+    // Función para manejar el caso de error al obtener la ubicación
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                console.log("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                console.log("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                console.log("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                console.log("An unknown error occurred.");
+                break;
+        }
+    }
+
+
+    // Get current user location
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+
     function setMarker(latitude, longitude) {
         if (!latitude || !longitude) {
             document.getElementById('map').innerHTML = "<p class='p-3'>{{ __('It is not possible to show the map of the location because the geolocation is not established.') }}</p>";
@@ -62,7 +117,9 @@
                     document.getElementById('longitude').value = longitude;
 
                     // Actualizar el mapa con las nuevas coordenadas
-                    setMarker(latitude, longitude);
+                    if (map) {
+                        setMarker(latitude, longitude);
+                    }
 
                     console.log(`Coordenadas de la dirección '${address}': Latitud ${latitude}, Longitud ${longitude}`);
                 } else {
@@ -83,6 +140,8 @@
         }).addTo(map);
 
         var marker = L.marker([latitude, longitude]).addTo(map);
+    } else {
+        getLocation();
     }
 </script>
 @endpush
