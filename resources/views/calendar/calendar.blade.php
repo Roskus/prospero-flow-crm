@@ -39,7 +39,9 @@
                             <div class="d-flex flex-column">
                             @foreach ( $events->whereBetween('start_date', [$startOfCalendar->copy()->startOfDay(), $startOfCalendar->copy()->endOfDay()]) as $event)
                                 <div class="badge text-bg-secondary mb-1 text-wrap">
-                                    <span role="button" onclick="Calendar.read('{{ $event->id }}')">{{ $event->title }}</span>
+                                    <span role="button" onclick="Calendar.read('{{ $event->id }}')">
+                                        {{ $event->title }}
+                                    </span>
                                     <span>
                                         <a href="{{ url("/calendar/$event->id/export") }}" class="text-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

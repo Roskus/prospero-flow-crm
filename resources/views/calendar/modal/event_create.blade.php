@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ __('Add event') }}</h5>
+                <h5 class="modal-title">{{ __('Event') }}</h5>
                 <div class="d-flex justify-content-between align-items-center">
                     <form method="POST" id="form_delete" class="invisible">
                         @csrf
@@ -15,7 +15,7 @@
             </div>
             <form id="event_form" action="{{ route('calendar.save') }}" method="POST">
                 @csrf
-                <input type="hidden" name="id" class="event_id">
+                <input type="hidden" name="id" id="calendar_event_id" value="">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
@@ -26,7 +26,7 @@
                     <div>
                         <div class="row">
                             <div class="col">
-                                <label for="date" class="form-label">{{ __('Start Date') }}</label>
+                                <label for="date" class="form-label">{{ __('Start date') }}</label>
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"><i class="las la-calendar"></i></span>
                                     <input type="date" name="date" id="date" required class="form-control">
@@ -64,7 +64,8 @@
                         <div class="row">
                             <div class="col">
                                 <label for="description" class="form-label">{{ __('Description') }}</label>
-                                <textarea class="form-control mb-2" name="description" id="description" cols="30" rows="5"></textarea>
+                                <textarea class="form-control mb-2" name="description" id="description"
+                                          cols="30" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="row">
@@ -96,11 +97,21 @@
                                             <i class="las la-plus-circle"></i>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.jit.si/{{ str_slug(\Illuminate\Support\Facades\Auth::user()->company->name, '-') }}/{{ base64_encode((string) time()) }}')">Jitsi Meet</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://zoom.us/j/')">Zoom</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.google.com/')">Google Meet</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://teams.microsoft.com/')">Microsoft Teams</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="$('#meeting').val('https://whereby.com/')">Whereby</a></li>
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.jit.si/{{ str_slug(\Illuminate\Support\Facades\Auth::user()->company->name, '-') }}/{{ base64_encode((string) time()) }}')">Jitsi Meet</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="$('#meeting').val('https://zoom.us/j/')">Zoom</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="$('#meeting').val('https://meet.google.com/')">Google Meet</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="$('#meeting').val('https://teams.microsoft.com/')">Microsoft Teams</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="$('#meeting').val('https://whereby.com/')">Whereby</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

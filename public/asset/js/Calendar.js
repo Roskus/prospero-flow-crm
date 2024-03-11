@@ -5,7 +5,8 @@
 
 const options = {
     focus: true
-}
+};
+
 const myModal = new bootstrap.Modal(document.getElementById('sheduleEventModal'), options);
 
 window.Calendar = {
@@ -19,36 +20,39 @@ window.Calendar = {
     },
     read: function(id)
     {
-        fetch(route_calendar_controller + "/event/update/" + id, {
+        fetch( "/calendar/event/update/" + id, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
-            return response.json()
+            return response.json();
         }).then((data) => {
+            let calendarEvent = data.calendar;
             let regExDate = /^\d{4}-\d{2}-\d{2}/;
             let regExTime = /\d{2}:\d{2}/;
-            $('#form_delete').removeClass("invisible").addClass("visible").prop('action', route_calendar_controller + "/event/delete/" + data.id);
-            $('.event_id').val(data.id);
+            $('#form_delete').removeClass("invisible")
+                .addClass("visible")
+                .prop('action', route_calendar_controller + "/event/delete/" + calendarEvent.id);
+            $('#calendar_event_id').val(calendarEvent.id);
 
-            $('#title').val(data.title);
+            $('#title').val(calendarEvent.title);
 
-            $('#end_date').val((data.end_date).match(regExDate)[0]);
+            $('#end_date').val((calendarEvent.end_date).match(regExDate)[0]);
 
-            $('#is_all_day').prop('checked', (data.is_all_day == 1) ? true : false);
+            $('#is_all_day').prop('checked', (calendarEvent.is_all_day == 1) ? true : false);
 
-            $('#start_time').val((data.start_date).match(regExTime)[0]);
-            $('#end_time').val((data.end_date).match(regExTime)[0]);
-            $('#description').val(data.description);
-            $('#meeting').val(data.meeting);
-            $('#address').val(data.address);
+            $('#start_time').val((calendarEvent.start_date).match(regExTime)[0]);
+            $('#end_time').val((calendarEvent.end_date).match(regExTime)[0]);
+            $('#description').val(calendarEvent.description);
+            $('#meeting').val(calendarEvent.meeting);
+            $('#address').val(calendarEvent.address);
 
             let guest_list = $("#guest_list");
-            for(let i = 0; i < data.guests.length; i++) {
+            for(let i = 0; i < calendarEvent.guests.length; i++) {
                 let option = document.createElement("option");
-                let guest = data.guests[i];
+                let guest = calendarEvent.guests[i];
                 option.textContent = guest;
                 option.value = guest;
                 guest_list.append(option);
@@ -56,7 +60,7 @@ window.Calendar = {
 
             myModal.show();
         }).catch((error) => {
-            console.log(error)
+            console.log(error);
         });
     },
     addGuest: function ()
