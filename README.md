@@ -6,7 +6,7 @@ We made a free open source CRM. Our Community Edition (CE)
 * PHP >= 8.3
 * composer
 * Laravel 10
-* MariaDB / Postgres
+* MariaDB / Postgres / MS SQL Server
 * Redis
 
 ## Features
@@ -50,6 +50,13 @@ With Postgres
 make build-pg
 make up-pg
 ```
+
+With MS SQL Server
+```bash
+make build-ms
+make up-ms
+```
+
 
 ### Enter inside the container
 
