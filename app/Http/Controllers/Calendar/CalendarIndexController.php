@@ -9,7 +9,7 @@ use App\Models\Calendar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class CalendarController extends MainController
+class CalendarIndexController extends MainController
 {
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View

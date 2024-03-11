@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -55,6 +56,11 @@ class Calendar extends Model
 
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $user_id;
+
+    public function organizer()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 
     protected function startDate(): Attribute
     {

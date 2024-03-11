@@ -8,13 +8,15 @@ use App\Http\Controllers\MainController;
 use App\Models\Calendar;
 use Illuminate\Http\Request;
 
-class UpdateCalendarEventController extends MainController
+class CalendarDeleteEventController extends MainController
 {
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, int $id)
+    public function delete(Request $request, int $id)
     {
-        return Calendar::find($id);
+        Calendar::find($id)->delete();
+
+        return back();
     }
 }

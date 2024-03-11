@@ -9,12 +9,13 @@ use App\Repositories\CalendarRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class SaveCalendarEventController extends MainController
+class CalendarSaveEventController extends MainController
 {
-    private $calendarRepository;
+    private CalendarRepository $calendarRepository;
 
-    public function __construct(CalendarRepository $calendarRepository)
+    public function __construct(CalendarRepository $calendarRepository, Request $request)
     {
+        parent::__construct($request);
         $this->calendarRepository = $calendarRepository;
     }
 
