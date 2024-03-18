@@ -10,7 +10,7 @@ Route::post('/calendar/event/save', [\App\Http\Controllers\Calendar\CalendarSave
     ->name('calendar.save');
 Route::get('/calendar/event/update/{id}',
     [\App\Http\Controllers\Calendar\CalendarUpdateEventController::class, 'update'])->name('calendar.update');
-Route::delete('/calendar/event/delete/{id}',
+Route::get('/calendar/event/delete/{id}',
     [\App\Http\Controllers\Calendar\CalendarDeleteEventController::class, 'delete'])->name('calendar.delete');
 Route::get('/calendar/{id}/export', [CalendarExportController::class, 'exportICal'])
     ->name('calendar.export');

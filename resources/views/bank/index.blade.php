@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card mt-2">
     <div class="card-body">
         <div class="table-responsive">
         <table class="table table-bordered table-stiped">

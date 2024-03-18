@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Calendar;
 use App\Http\Controllers\Controller;
 use App\Models\Calendar as CalendarModel;
 use DateTime;
+use Illuminate\Support\Str;
 use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Components\Event;
 
@@ -52,7 +53,7 @@ class CalendarExportController extends Controller
 
         // Descargar el archivo iCalendar
         return response()
-            ->download($tempFilePath, $calendarEvent->title.'.ics')
+            ->download($tempFilePath, Str::slug($calendarEvent->title).'.ics')
             ->deleteFileAfterSend(true);
     }
 }
