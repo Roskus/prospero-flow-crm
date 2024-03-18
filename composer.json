@@ -53,6 +53,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
         "friendsofphp/php-cs-fixer": "^3.14",
+        "larastan/larastan": "^2.0",
         "laravel/pint": "^1.2",
         "marcocesarato/php-conventional-changelog": "^1.16",
         "mockery/mockery": "^1.4.4",

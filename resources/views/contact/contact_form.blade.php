@@ -111,17 +111,31 @@ $(document).ready(function() {
             let matches = url.match(/linkedin\.com\/in\/([^\/]+)\//);
 
             if (matches && matches[1]) {
-                let parts = matches[1].split('-');
+                let fullName = matches[1].replace(/-/g, ' '); // Reemplazar guiones con espacios
+                let nameParts = fullName.split(' ');
+                let firstName = '';
+                let lastName = '';
 
-                // Si tanto el nombre como el apellido están vacíos
-                if (!$('#contact_first_name').val() && !$('#contact_last_name').val()) {
-                    if (parts.length > 1) {
-                        $('#contact_first_name').val(parts[0]);
-                        $('#contact_last_name').val(parts.slice(1).join(' '));
+                nameParts.forEach(function(part, index) {
+                    if (index === 0) {
+                        firstName += part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // Convertir primera letra en mayúscula
                     } else {
-                        $('#contact_first_name').val(matches[1]);
+                        if (index === nameParts.length - 1) {
+                            // Última parte, eliminar cualquier hash alfanumérico
+                            lastName += part.replace(/[0-9a-fA-F]+$/, '').charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+                        } else {
+                            lastName += part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // Convertir primera letra en mayúscula
+                        }
+                        lastName += ' ';
                     }
-                }
+                });
+
+                // Eliminar espacio adicional al final del apellido
+                lastName = lastName.trim();
+
+                // Asignar valores a los campos de nombre y apellido
+                $('#contact_first_name').val(firstName);
+                $('#contact_last_name').val(lastName);
             }
         }, 0);
     });
