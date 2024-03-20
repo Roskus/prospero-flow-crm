@@ -70,7 +70,9 @@
                         <input type="url" name="contact_linkedin" id="contact_linkedin"
                                placeholder="https://linkedin.com/in/"
                                value="{{ !empty($contact->linkedin) ? $contact->linkedin : '' }}"
-                               class="form-control form-control-lg">
+                               class="form-control form-control-lg"
+                               onblur="updateNameFromLinkedIn(this.value)"
+                        >
                     </div>
                 </div>
                 <div class="col">
@@ -113,13 +115,9 @@ function isEmpty(str) {
     return (!str || str.trim().length === 0);
 }
 
-function removeLastWord(str) {
-    return str.replace(/\s\S*$/, '');
-}
-
 function updateNameFromLinkedIn(url) {
     if (url) {
-        let matches = url.match(/linkedin\.com\/in\/([^\/]+)\//);
+        let matches = url.match(/linkedin\.com\/in\/([^\/?#]+)/);
 
         if (matches && matches[1]) {
             let fullName = matches[1].replace(/-/g, ' '); // Reemplazar guiones con espacios
@@ -142,7 +140,7 @@ function updateNameFromLinkedIn(url) {
             });
 
             // Eliminar espacio adicional al final del apellido, remueve la ultima palabra si contiene un numero
-            lastName = removeLastWord(lastName.trim());
+            lastName = lastName.trim();
 
             // Asignar valores a los campos de nombre y apellido
             document.getElementById('contact_first_name').value = firstName;
