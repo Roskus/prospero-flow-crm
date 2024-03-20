@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('crm:notification-reminder:send')->everyFiveMinutes();
-        $schedule->command('crm:contact:email-predict')->dailyAt('23:00');
+        $schedule->command('crm:contact:email-predict')->hourly();
         $schedule->command('crm:email:validate')->dailyAt('00:00');
         $schedule->command('crm:phone:validate')->dailyAt('01:00');
     }
