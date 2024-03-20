@@ -204,7 +204,7 @@
                 <tr>
                     <td>{{ $message->author->first_name }}</td>
                     <td>{{ $message->body }}</td>
-                    <td>{{ $message->created_at->format('Y-m-d h:m') }}</td>
+                    <td>{{ $message->created_at->format('d/m/Y h:m') }}</td>
                 </tr>
                 @endforeach
             </tbody>

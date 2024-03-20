@@ -8,6 +8,8 @@ use App\Mail\TicketStateChanged;
 use App\Models\Ticket\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
@@ -47,7 +49,7 @@ class Ticket extends Model
     #[OAT\Property(property: 'priority', type: 'string', example: 'medium')]
     #[OAT\Property(property: 'order_id', type: 'int', example: 1)]
     #[OAT\Property(property: 'status', type: 'string', example: 'new')]
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
@@ -82,12 +84,12 @@ class Ticket extends Model
         return ['new', 'assigned', 'duplicated', 'closed'];
     }
 
-    public function messages()
+    public function messages(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
     }
 
-    public function company()
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }

@@ -12,7 +12,7 @@
                     <tr>
                         <th><button type="submit" class="btn btn-success">{{ __('Save') }}</button></th>
                         @foreach ($roles as $role)
-                        <th scope="col">{{ $role->name }}</th>
+                        <th scope="col">{{ __($role->name) }}</th>
                         @endforeach
                     </tr>
                 </thead>
@@ -23,7 +23,11 @@
                         @foreach ($roles as $role)
                         <th scope="col">
                             <div class="form-check">
-                                <input name="roles[{{ $role->id }}][{{ $permission->id }}]" class="form-check-input" type="checkbox" value="{{ $permission->id }}" id="flexCheckChecked" @if($role->hasPermissionTo($permission->name)) checked @endif>
+                                <input type="checkbox" name="roles[{{ $role->id }}][{{ $permission->id }}]"
+                                       class="form-check-input"
+                                       value="{{ $permission->id }}"
+                                       id="flexCheckChecked"
+                                       @if($role->hasPermissionTo($permission->name)) checked @endif>
                             </div>
                         </th>
                         @endforeach
