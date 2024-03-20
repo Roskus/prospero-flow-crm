@@ -5,7 +5,8 @@
 
 <div class="row">
     <div class="col d-flex">
-        <a href="{{ url('/customer/create') }}" class="btn btn-primary d-flex flex-fill align-items-center justify-content-center">{{ __('New') }}</a>
+        <a href="{{ url('/customer/create') }}"
+           class="btn btn-primary d-flex flex-fill align-items-center justify-content-center">{{ __('New') }}</a>
     </div>
     <div class="col">
         <div class="btn-group d-flex" role="group" aria-label="Basic mixed styles example">
@@ -33,7 +34,8 @@
         <form method="get" action="{{ url("/customer") }}" class="form-inline mb-2">
             @csrf
             <div class="input-group">
-                <input type="search" name="search" placeholder="{{ __('Search') }}" value="{{ !empty($search) ? $search : '' }}" class="form-control">
+                <input type="search" name="search" id="search" placeholder="{{ __('Search') }}"
+                       value="{{ !empty($search) ? $search : '' }}" class="form-control">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit" id="btn-search">
                         <i class="las la-search"></i>
@@ -62,7 +64,7 @@
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Mobile') }}</th>
                 <th>Email</th>
-                <th>Website</th>
+                <th>{{ __('Website') }}</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Province') }}</th>
                 <th class="d-none d-sm-table-cell">Social</th>
@@ -96,7 +98,9 @@
                 <td class="text-nowrap text-center">{{ $customer->id }}</td>
                 <td class="text-nowrap text-center">{{ $customer->external_id }}</td>
                 <td class="text-nowrap">
-                    <a href="{{ url("/customer/show/$customer->id") }}" title="{{ __('Show') }}">{{ $customer->name }}</a>
+                    <a href="{{ url("/customer/show/$customer->id") }}" title="{{ __('Show') }}">
+                        {{ $customer->name }}
+                    </a>
                 </td>
                 <td class="text-nowrap">{{ $customer->business_name }}</td>
                 <td class="text-nowrap text-center">
@@ -112,7 +116,8 @@
                             <i class="las la-times-circle text-danger"></i>
                         @endif
 
-                        <a href="sip:{{ $customer->phone }}@isset($customer->extension),{{$customer->extension}}@endisset" title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}"
+                        <a href="sip:{{ $customer->phone }}@isset($customer->extension),{{$customer->extension}}@endisset"
+                           title="{{ \App\Helpers\PhoneHelper::format($customer->phone) }}"
                            target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-headset fs-4"></i>
                         </a>
@@ -132,7 +137,8 @@
                             <i class="las la-times-circle text-danger"></i>
                         @endif
 
-                        <a href="sip:{{ $customer->mobile }}" title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}"
+                        <a href="sip:{{ $customer->mobile }}"
+                           title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}"
                            target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-headset fs-4"></i>
                         </a>
@@ -153,7 +159,8 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($customer->email)
-                        <a href="mailto:{{ $customer->email }}" title="{{ $customer->email }}" class="link-secondary"><i class="las la-envelope fs-4"></i></a>
+                        <a href="mailto:{{ $customer->email }}" title="{{ $customer->email }}"
+                           class="link-secondary"><i class="las la-envelope fs-4"></i></a>
                         @if($customer->email_verified == 1)
                             <i class="las la-check-circle text-success"></i>
                         @elseif($customer->email_verified == 3)
@@ -180,37 +187,43 @@
                 </td>
                 <td class="text-nowrap d-none d-sm-table-cell">
                     @if($customer->facebook)
-                    <a href="{{ $customer->facebook }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->facebook }}" rel="noopener" target="_blank"
+                       class="text-decoration-none link-secondary">
                         <i class="lab la-facebook-square fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->instagram)
-                    <a href="{{ $customer->instagram }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->instagram }}" rel="noopener" target="_blank"
+                       class="text-decoration-none link-secondary">
                         <i class="lab la-instagram fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->linkedin)
-                    <a href="{{ $customer->linkedin }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->linkedin }}" rel="noopener" target="_blank"
+                       class="text-decoration-none link-secondary">
                         <i class="lab la-linkedin fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->youtube)
-                    <a href="{{ $customer->youtube }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->youtube }}" rel="noopener" target="_blank"
+                       class="text-decoration-none link-secondary">
                         <i class="lab la-youtube-square fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->twitter)
-                    <a href="{{ $customer->twitter }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
+                    <a href="{{ $customer->twitter }}" rel="noopener" target="_blank"
+                       class="text-decoration-none link-secondary">
                         <i class="lab la-twitter-square fs-3"></i>
                     </a>
                     @endif
 
                     @if($customer->tiktok)
-                        <a href="{{ $customer->tiktok }}" rel="noopener" target="_blank" class="text-decoration-none link-secondary">
+                        <a href="{{ $customer->tiktok }}" rel="noopener" target="_blank"
+                           class="text-decoration-none link-secondary">
                             <span class="tiktok"><i class="fa-brands fa-tiktok"></i></span>
                         </a>
                     @endif
@@ -222,7 +235,9 @@
                     </a>
                     @endif
                 </td>
-                <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($customer->industry) ? __($customer->industry->name) : '' }}</td>
+                <td class="text-center text-nowrap d-none d-sm-table-cell">
+                    {{ ($customer->industry) ? __($customer->industry->name) : '' }}
+                </td>
                 <td class="text-center text-nowrap">
                     @isset($customer->seller)
                     {{ $customer->seller->first_name }}
@@ -231,7 +246,8 @@
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
                     @if(is_array($customer->tags) || is_object($customer->tags))
                         @foreach($customer->tags as $tag)
-                            <a href="{{ url("/customer?search=$tag") }}" class="badge {{ $bootstrap_colors[array_rand($bootstrap_colors)] }} text-decoration-none">{{ $tag }}</a>
+                            <a href="{{ url("/customer?search=$tag") }}"
+                               class="badge {{ $bootstrap_colors[array_rand($bootstrap_colors)] }} text-decoration-none">{{ $tag }}</a>
                         @endforeach
                     @endif
                 </td>
@@ -245,12 +261,14 @@
                     <small class="text-muted">{{ $customer->updated_at->format('d/m/y H:i') }}</small>
                 </td>
                 <td class="text-nowrap">
-                    <a href="{{ url("/customer/update/$customer->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
+                    <a href="{{ url("/customer/update/$customer->id") }}" title="{{ __('Update') }}"
+                       class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
 
                     @can('delete customer')
-                    <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->name }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
+                    <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->name }}');"
+                       title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                     @endcan

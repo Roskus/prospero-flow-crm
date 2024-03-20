@@ -63,7 +63,7 @@
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Mobile') }}</th>
                 <th>Email</th>
-                <th>Website</th>
+                <th>{{ __('Website') }}</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Province') }}</th>
                 <th class="d-none d-sm-table-cell">Social</th>
