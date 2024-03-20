@@ -104,10 +104,23 @@
 </div>
 @push('scripts')
 <script>
+// Función para convertir la primera letra de una cadena en mayúscula
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
+function isEmpty(str) {
+    return (!str || str.trim().length === 0);
+}
+
+function removeLastWord(str) {
+    return str.replace(/\s\S*$/, '');
+}
+
 $(document).ready(function() {
-    $('#contact_linkedin').on('paste', function(event) {
-        setTimeout(() => {
-            let url = $(this).val();
+
+    function updateNameFromLinkedIn(url) {
+        if (url) {
             let matches = url.match(/linkedin\.com\/in\/([^\/]+)\//);
 
             if (matches && matches[1]) {
@@ -118,27 +131,35 @@ $(document).ready(function() {
 
                 nameParts.forEach(function(part, index) {
                     if (index === 0) {
-                        firstName += part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // Convertir primera letra en mayúscula
+                        firstName += capitalizeFirstLetter(part); // Convertir primera letra en mayúscula
                     } else {
                         if (index === nameParts.length - 1) {
                             // Última parte, eliminar cualquier hash alfanumérico
-                            lastName += part.replace(/[0-9a-fA-F]+$/, '').charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+                            lastName += part.replace(/[0-9a-fA-F]+$/, '').trim();
                         } else {
-                            lastName += part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // Convertir primera letra en mayúscula
+                            lastName += capitalizeFirstLetter(part); // Convertir primera letra en mayúscula
                         }
                         lastName += ' ';
                     }
                 });
 
-                // Eliminar espacio adicional al final del apellido
-                lastName = lastName.trim();
+                // Eliminar espacio adicional al final del apellido, remueve la ultima palabra si contiene un numero
+                lastName = removeLastWord(lastName.trim());
 
                 // Asignar valores a los campos de nombre y apellido
                 $('#contact_first_name').val(firstName);
                 $('#contact_last_name').val(lastName);
             }
+        }
+    }
+
+    $('#contact_linkedin').on('paste change', function(event) {
+        setTimeout(() => {
+            let url = $('#contact_linkedin').val();
+            updateNameFromLinkedIn(url);
         }, 0);
     });
+
 });
 </script>
 @endpush
