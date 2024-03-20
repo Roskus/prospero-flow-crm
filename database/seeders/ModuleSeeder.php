@@ -18,15 +18,15 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         DB::table('module')->upsert([
-            ['name' => 'Lead'],
-            ['name' => 'Customer'],
-            ['name' => 'Product'],
-            ['name' => 'Order'],
-            ['name' => 'Supplier'],
-            ['name' => 'Accounting'],
-            ['name' => 'User'],
-            ['name' => 'Company'],
-            ['name' => 'Report'],
+            ['name' => 'Lead'], //1
+            ['name' => 'Customer'], //2
+            ['name' => 'Product'], //3
+            ['name' => 'Order'], //4
+            ['name' => 'Supplier'], //5
+            ['name' => 'Accounting'], //6
+            ['name' => 'User'], //7
+            ['name' => 'Company'], //8
+            ['name' => 'Report'], //9
         ], ['name'], ['name']);
     }
 }
