@@ -117,49 +117,52 @@ function removeLastWord(str) {
     return str.replace(/\s\S*$/, '');
 }
 
-$(document).ready(function() {
+function updateNameFromLinkedIn(url) {
+    if (url) {
+        let matches = url.match(/linkedin\.com\/in\/([^\/]+)\//);
 
-    function updateNameFromLinkedIn(url) {
-        if (url) {
-            let matches = url.match(/linkedin\.com\/in\/([^\/]+)\//);
+        if (matches && matches[1]) {
+            let fullName = matches[1].replace(/-/g, ' '); // Reemplazar guiones con espacios
+            let nameParts = fullName.split(' ');
+            let firstName = '';
+            let lastName = '';
 
-            if (matches && matches[1]) {
-                let fullName = matches[1].replace(/-/g, ' '); // Reemplazar guiones con espacios
-                let nameParts = fullName.split(' ');
-                let firstName = '';
-                let lastName = '';
-
-                nameParts.forEach(function(part, index) {
-                    if (index === 0) {
-                        firstName += capitalizeFirstLetter(part); // Convertir primera letra en mayúscula
+            nameParts.forEach(function (part, index) {
+                if (index === 0) {
+                    firstName += capitalizeFirstLetter(part); // Convertir primera letra en mayúscula
+                } else {
+                    if (index === nameParts.length - 1) {
+                        // Última parte, eliminar cualquier hash alfanumérico
+                        lastName += part.replace(/[0-9a-fA-F]+$/, '').trim();
                     } else {
-                        if (index === nameParts.length - 1) {
-                            // Última parte, eliminar cualquier hash alfanumérico
-                            lastName += part.replace(/[0-9a-fA-F]+$/, '').trim();
-                        } else {
-                            lastName += capitalizeFirstLetter(part); // Convertir primera letra en mayúscula
-                        }
-                        lastName += ' ';
+                        lastName += capitalizeFirstLetter(part); // Convertir primera letra en mayúscula
                     }
-                });
+                    lastName += ' ';
+                }
+            });
 
-                // Eliminar espacio adicional al final del apellido, remueve la ultima palabra si contiene un numero
-                lastName = removeLastWord(lastName.trim());
+            // Eliminar espacio adicional al final del apellido, remueve la ultima palabra si contiene un numero
+            lastName = removeLastWord(lastName.trim());
 
-                // Asignar valores a los campos de nombre y apellido
-                $('#contact_first_name').val(firstName);
-                $('#contact_last_name').val(lastName);
-            }
+            // Asignar valores a los campos de nombre y apellido
+            document.getElementById('contact_first_name').value = firstName;
+            document.getElementById('contact_last_name').value = lastName;
         }
     }
+}
 
-    $('#contact_linkedin').on('paste change', function(event) {
-        setTimeout(() => {
-            let url = $('#contact_linkedin').val();
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('contact_linkedin').addEventListener('paste', function(event) {
+            setTimeout(() => {
+                let url = document.getElementById('contact_linkedin').value;
+                updateNameFromLinkedIn(url);
+            }, 0);
+        });
+
+        document.getElementById('contact_linkedin').addEventListener('change', function(event) {
+            let url = document.getElementById('contact_linkedin').value;
             updateNameFromLinkedIn(url);
-        }, 0);
+        });
     });
-
-});
 </script>
 @endpush
