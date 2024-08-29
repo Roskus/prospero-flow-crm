@@ -11,7 +11,7 @@ class SupplierRepository
 {
     public function save(array $data): ?Supplier
     {
-        $supplier = (empty($data['id'])) ? new Supplier() : Supplier::find($data['id']);
+        $supplier = (empty($data['id'])) ? new Supplier : Supplier::find($data['id']);
         $supplier->company_id = Auth::user()->company_id;
         $supplier->name = $data['name'];
         $supplier->business_name = (! empty($data['business_name'])) ? $data['business_name'] : null;

@@ -64,7 +64,7 @@ class ScheduleNotificationReminder extends Command
             $body = __($body, ['name' => $recipient->name, 'time' => $time]);
 
             $emailTemplate = new InternalCRMEmail($recipient->company, $subject, ['body' => $body]);
-            $notification = new Notification();
+            $notification = new Notification;
             $notification->fill(
                 [
                     'company_id' => $recipient->company_id,

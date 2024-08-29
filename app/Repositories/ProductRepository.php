@@ -12,7 +12,7 @@ class ProductRepository
     public function save(array $data): ?Product
     {
         if (empty($data['id'])) {
-            $product = new Product();
+            $product = new Product;
             $product->created_at = now();
         } else {
             $product = Product::find($data['id']);

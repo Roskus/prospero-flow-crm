@@ -13,7 +13,7 @@ class CategoryIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $category = new Category();
+        $category = new Category;
         $data['categories'] = $category->getAllActiveByCompanyPaginated((int) Auth::user()->company_id);
 
         return view('category.index', $data);

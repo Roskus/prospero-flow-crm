@@ -12,7 +12,7 @@ class BrandCreateController extends MainController
 {
     public function create(Request $request)
     {
-        $brand = new Brand();
+        $brand = new Brand;
         $data['brand'] = $brand;
 
         return view('brand.brand', $data);

@@ -24,7 +24,7 @@ class LeadExportControllerTest extends TestCase
 
         $data = Storage::disk('local')->get($fileName);
 
-        $columns = array_merge(['id'], (new Lead())->getFillable(), ['created_at', 'updated_at']);
+        $columns = array_merge(['id'], (new Lead)->getFillable(), ['created_at', 'updated_at']);
         $rowHeaders = implode(';', $columns);
         $leads = Lead::all()->toArray();
         $content = $rowHeaders."\n";

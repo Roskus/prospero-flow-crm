@@ -25,7 +25,5 @@ class SupplierUpdateController
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function update(Request $request, int $id)
-    {
-    }
+    public function update(Request $request, int $id) {}
 }

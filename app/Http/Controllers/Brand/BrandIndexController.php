@@ -13,7 +13,7 @@ class BrandIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $brand = new Brand();
+        $brand = new Brand;
         $data['brands'] = $brand->getAllByCompanyId((int) Auth::user()->company_id);
 
         return view('brand.index', $data);

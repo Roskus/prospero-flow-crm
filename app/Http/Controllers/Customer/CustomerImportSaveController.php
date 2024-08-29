@@ -78,7 +78,7 @@ class CustomerImportSaveController extends MainController
     private function mapCsvRowToCustomer(array $data): Customer
     {
         $country = trim($data[11]);
-        $customer = new Customer();
+        $customer = new Customer;
 
         $customer->company_id = Auth::user()->company_id;
         $customer->external_id = isset($data[0]) ? (int) $data[0] : null;

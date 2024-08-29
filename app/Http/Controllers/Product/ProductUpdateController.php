@@ -15,8 +15,8 @@ class ProductUpdateController
     public function update(Request $request, int $id)
     {
         $product = Product::find($id);
-        $category = new Category();
-        $brand = new Brand();
+        $category = new Category;
+        $brand = new Brand;
         $data['product'] = $product;
         $data['categories'] = $category->getAllActiveByCompany(Auth::user()->company_id);
         $data['brands'] = $brand->getAllActiveByCompany(Auth::user()->company_id);

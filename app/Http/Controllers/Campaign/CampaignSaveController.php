@@ -14,7 +14,7 @@ class CampaignSaveController extends MainController
     public function save(Request $request)
     {
         if (empty($request->id)) {
-            $campaign = new Campaign();
+            $campaign = new Campaign;
             $campaign->company_id = Auth::user()->company_id;
             $campaign->created_at = now();
         } else {

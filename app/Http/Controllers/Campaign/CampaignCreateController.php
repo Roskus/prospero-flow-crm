@@ -13,7 +13,7 @@ class CampaignCreateController extends MainController
 {
     public function create(Request $request)
     {
-        $campaign = new Campaign();
+        $campaign = new Campaign;
         $data['campaign'] = $campaign;
         $data['froms'] = [
             ['email' => Auth::user()->company->email, 'name' => Auth::user()->company->name],

@@ -11,7 +11,7 @@ class BankCreateController
 {
     public function create()
     {
-        $bank = new Bank();
+        $bank = new Bank;
         $data['bank'] = $bank;
         $data['countries'] = Country::all();
 

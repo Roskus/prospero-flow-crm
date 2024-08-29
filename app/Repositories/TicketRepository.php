@@ -12,7 +12,7 @@ class TicketRepository
     public function save(array $data): ?Ticket
     {
         if (empty($data['id'])) {
-            $ticket = new Ticket();
+            $ticket = new Ticket;
             $ticket->created_at = now();
             $ticket->created_by = Auth::user()->id;
         } else {

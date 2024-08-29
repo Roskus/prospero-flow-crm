@@ -24,7 +24,7 @@ class CustomerExportControllerTest extends TestCase
 
         $data = Storage::disk('local')->get($fileName);
 
-        $columns = array_merge(['id'], (new Customer())->getFillable(), ['created_at', 'updated_at']);
+        $columns = array_merge(['id'], (new Customer)->getFillable(), ['created_at', 'updated_at']);
         $rowHeaders = implode(';', $columns);
         $customers = Customer::all()->toArray();
         $content = $rowHeaders."\n";

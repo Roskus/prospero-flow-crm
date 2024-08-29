@@ -46,7 +46,7 @@ class SupplierCreateController
             return response()->json(['errors' => $validator->errors()]);
         }
 
-        $supplier = new Supplier();
+        $supplier = new Supplier;
         $supplier->company_id = Auth::user()->company_id;
         $supplier->name = $request->name;
         $supplier->business_name = $request->business_name;
