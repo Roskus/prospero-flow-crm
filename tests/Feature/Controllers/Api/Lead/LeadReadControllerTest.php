@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Api\Lead;
 
 use App\Models\Lead;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LeadReadControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_read_lead(): void
     {
         $this->actingAs(User::factory()->create(), 'api');
@@ -19,7 +20,7 @@ class LeadReadControllerTest extends TestCase
         $this->assertEquals(array_except($response->json()['lead'], ['seller', 'industry', 'country', 'company']), $lead->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_not_found_a_lead(): void
     {
         $this->actingAs(User::factory()->create(), 'api');

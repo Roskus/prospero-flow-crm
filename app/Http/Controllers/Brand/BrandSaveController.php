@@ -14,7 +14,7 @@ class BrandSaveController extends MainController
     public function save(Request $request)
     {
         if (empty($request->id)) {
-            $brand = new Brand();
+            $brand = new Brand;
         } else {
             $brand = Brand::find($request->id);
         }

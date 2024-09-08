@@ -14,7 +14,7 @@ class PayrollIndexController extends MainController
     {
         $currentYear = (int) date('Y');
         $year = request('year', $currentYear);
-        $payroll = new Payroll();
+        $payroll = new Payroll;
         $data['years'] = range($currentYear, $currentYear - 5);
         $data['payrolls'] = $payroll->getAllByYear((int) $year);
 

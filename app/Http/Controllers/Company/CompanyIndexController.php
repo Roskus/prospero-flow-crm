@@ -13,7 +13,7 @@ class CompanyIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $company = new Company();
+        $company = new Company;
         if (Auth::user()->hasRole('SuperAdmin')) {
             $companies = $company->getAllPaginated();
         } else {

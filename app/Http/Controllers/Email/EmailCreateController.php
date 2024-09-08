@@ -13,7 +13,7 @@ class EmailCreateController extends MainController
 {
     public function create(Request $request)
     {
-        $email = new Email();
+        $email = new Email;
         $data['froms'] = [
             ['email' => Auth::user()->company->email, 'name' => Auth::user()->company->name],
             ['email' => Auth::user()->email, 'name' => Auth::user()->first_name.' '.Auth::user()->last_name],

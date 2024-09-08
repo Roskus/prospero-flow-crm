@@ -12,7 +12,7 @@ class CompanyRepository
     public function save(array $data): ?Company
     {
         if (empty($data['id'])) {
-            $company = new Company();
+            $company = new Company;
             $company->created_at = now();
         } else {
             $company = Company::find($data['id']);
@@ -35,7 +35,7 @@ class CompanyRepository
         $company->save();
 
         if (empty($data['id'])) {
-            $orderNumber = new OrderNumber();
+            $orderNumber = new OrderNumber;
             $orderNumber->company_id = $company->id;
             $orderNumber->last_order_number = 0;
             $orderNumber->created_at = now();

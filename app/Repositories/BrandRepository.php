@@ -12,7 +12,7 @@ class BrandRepository
     public function save(array $data): ?Brand
     {
         if (empty($data['id'])) {
-            $brand = new Brand();
+            $brand = new Brand;
             $brand->created_at = now();
         } else {
             $brand = Brand::find($data['id']);

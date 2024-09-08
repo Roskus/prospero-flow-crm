@@ -3,11 +3,12 @@
 namespace Tests\Feature\Controllers\Brand;
 
 use App\Models\Brand;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BrandDeleteControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_delete_brand()
     {
         $brand = Brand::factory()->create();

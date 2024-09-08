@@ -19,7 +19,7 @@ class OrderPdfController extends Controller
         //return view('order.print', $data);
         $html = view('order.print', $data)->render();
 
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf;
         $dompdf->loadHtml($html);
 
         // Opcional: configurar opciones de Dompdf (margenes, tamaño de papel, etc)

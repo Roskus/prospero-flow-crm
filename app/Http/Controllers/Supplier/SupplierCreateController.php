@@ -13,7 +13,7 @@ class SupplierCreateController extends MainController
 {
     public function create(Request $request)
     {
-        $supplier = new Supplier();
+        $supplier = new Supplier;
         $data['supplier'] = $supplier;
         $data['countries'] = Country::orderBy('name')->get();
 

@@ -9,11 +9,12 @@ use App\Models\Customer;
 use App\Models\Lead;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ScheduleNotificationReminderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_send_notifications(): void
     {
         Mail::fake();
@@ -41,7 +42,7 @@ class ScheduleNotificationReminderTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_can_store_notifications(): void
     {
         $timezone = 'Europe/Madrid';

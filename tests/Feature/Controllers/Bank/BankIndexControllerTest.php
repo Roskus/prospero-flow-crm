@@ -3,11 +3,12 @@
 namespace Tests\Feature\Controllers\Bank;
 
 use App\Models\Bank;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BankIndexControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_index_bank()
     {
         $banks = Bank::factory()->count(2)->create();

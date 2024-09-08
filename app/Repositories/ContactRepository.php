@@ -13,7 +13,7 @@ class ContactRepository
     public function save(array $data): ?Contact
     {
         if (empty($data['id'])) {
-            $contact = new Contact();
+            $contact = new Contact;
             $contact->company_id = Auth::user()->company_id;
             $contact->created_at = now();
         } else {

@@ -14,7 +14,7 @@ class CompanyCreateController extends MainController
 {
     public function create(Request $request)
     {
-        $company = new Company();
+        $company = new Company;
         $data['company'] = $company;
         $data['countries'] = Country::all();
         $data['currencies'] = Currency::all();

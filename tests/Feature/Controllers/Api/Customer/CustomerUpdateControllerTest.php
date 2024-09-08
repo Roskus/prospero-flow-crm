@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Controllers\Api\Customer;
 
 use App\Models\Customer;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomerUpdateControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_update_customer(): void
     {
         $this->actingAs(User::factory()->create(), 'api');

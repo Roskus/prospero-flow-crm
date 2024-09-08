@@ -13,7 +13,7 @@ class BankIndexController
     public function index(Request $request)
     {
         $filters = [];
-        $bank = new Bank();
+        $bank = new Bank;
         if (isset($request->country_id)) {
             $filters['country_id'] = $request->country_id;
         }

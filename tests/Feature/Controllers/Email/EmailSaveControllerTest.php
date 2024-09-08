@@ -8,11 +8,12 @@ use App\Models\Email;
 use App\Models\Email\Attach;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EmailSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_save_email(): void
     {
         $data = [
@@ -28,7 +29,7 @@ class EmailSaveControllerTest extends TestCase
         $this->assertDatabaseHas('email', $data);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_save_email_with_attachment(): void
     {
         Storage::fake();
@@ -50,7 +51,7 @@ class EmailSaveControllerTest extends TestCase
         Storage::deleteDirectory('company');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_email(): void
     {
         $email = Email::factory()->create();

@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Customer;
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomerExportControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_export_customer_to_csv()
     {
         Customer::factory()
@@ -24,7 +25,7 @@ class CustomerExportControllerTest extends TestCase
 
         $data = Storage::disk('local')->get($fileName);
 
-        $columns = array_merge(['id'], (new Customer())->getFillable(), ['created_at', 'updated_at']);
+        $columns = array_merge(['id'], (new Customer)->getFillable(), ['created_at', 'updated_at']);
         $rowHeaders = implode(';', $columns);
         $customers = Customer::all()->toArray();
         $content = $rowHeaders."\n";

@@ -16,8 +16,8 @@ class TicketCreateController extends MainController
     public function create(Request $request)
     {
         $ticket = new Ticket;
-        $user = new User();
-        $customer = new Customer();
+        $user = new User;
+        $customer = new Customer;
         $data['ticket'] = $ticket;
         $data['users'] = $user->getAllActiveByCompany((int) Auth::user()->company_id);
         $data['customers'] = $customer->getAllByCompanyId((int) Auth::user()->company_id);

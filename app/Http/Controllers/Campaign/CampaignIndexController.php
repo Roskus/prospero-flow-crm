@@ -13,7 +13,7 @@ class CampaignIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $campaign = new Campaign();
+        $campaign = new Campaign;
         $data['bootstrap_colors'] = [
             'text-bg-primary',
             'text-bg-secondary',

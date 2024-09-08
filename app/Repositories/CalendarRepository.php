@@ -12,7 +12,7 @@ class CalendarRepository
     public function save(array $data): Calendar
     {
         if (empty($data['id'])) {
-            $calendar = new Calendar();
+            $calendar = new Calendar;
             $calendar->created_at = now();
         } else {
             $calendar = Calendar::find($data['id']);

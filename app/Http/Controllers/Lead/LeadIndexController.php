@@ -22,8 +22,8 @@ class LeadIndexController extends MainController
         $filters = [];
         $order_by = null;
         $search = $request->search;
-        $user = new User();
-        $industry = new Industry();
+        $user = new User;
+        $industry = new Industry;
 
         if ($request->country_id) {
             $filters['country_id'] = $request->country_id;
@@ -59,7 +59,7 @@ class LeadIndexController extends MainController
             $order_by = $request->order_by;
         }
 
-        $lead = new Lead();
+        $lead = new Lead;
         $data['colors'] = config('color');
         $data['bootstrap_colors'] = ['text-bg-primary', 'text-bg-secondary', 'text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info'];
         $data['countries'] = Country::orderBy('name')->get();

@@ -13,7 +13,7 @@ class GetLatestAjaxController extends Controller
 {
     public function getLatest(Request $request): \Illuminate\Http\JsonResponse
     {
-        $notification = new Notification();
+        $notification = new Notification;
 
         return response()->json(['notifications' => $notification->getLatestByUser((int) Auth::user()->id)]);
     }

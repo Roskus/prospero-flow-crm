@@ -3,11 +3,12 @@
 namespace Tests\Feature\Controllers\Bank;
 
 use App\Models\Bank;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BankUpdateControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_update_bank(): void
     {
         $bank = Bank::factory()->create();

@@ -21,7 +21,7 @@ class BankSaveController
         ]);
 
         if (empty($request->uuid)) {
-            $bank = new Bank();
+            $bank = new Bank;
             $bank->created_at = now();
         } else {
             $bank = Bank::find($request->uuid);

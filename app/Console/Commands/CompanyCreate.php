@@ -31,7 +31,7 @@ class CompanyCreate extends Command
         $name = $this->ask('What is the name of the company?');
         $country_id = $this->ask('What is the country ISO code of the company? (2 chars)');
 
-        $company = new Company();
+        $company = new Company;
         $company->name = $name;
         $company->country_id = $country_id;
         $company->status = Company::ACTIVE;

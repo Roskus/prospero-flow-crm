@@ -20,9 +20,9 @@ class LeadCreateController extends MainController
      */
     public function create(Request $request)
     {
-        $lead = new Lead();
-        $industry = new Industry();
-        $user = new User();
+        $lead = new Lead;
+        $industry = new Industry;
+        $user = new User;
         $data['lead'] = $lead;
         $data['countries'] = Country::orderBy('name')->get();
         // Temporary fix get this from configuration

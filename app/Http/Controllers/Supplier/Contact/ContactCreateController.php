@@ -13,7 +13,7 @@ class ContactCreateController extends Controller
 {
     public function create(Request $request, string $model, string $id_model): View
     {
-        $contact = new SupplierContact();
+        $contact = new SupplierContact;
         $contact->{$model.'_id'} = $id_model;
 
         return view('supplier.contact.contact', compact('contact'));

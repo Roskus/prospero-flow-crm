@@ -13,7 +13,7 @@ class CustomerCreateMessageController extends Controller
 {
     public function save(Request $request)
     {
-        $message = new CustomerMessage();
+        $message = new CustomerMessage;
         $message->fill([
             'customer_id' => $request->customer_id,
             'body' => $request->message,

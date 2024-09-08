@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class LeadSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_save_lead(): void
     {
         $data = Lead::factory()->create()->toArray();
@@ -21,7 +21,7 @@ class LeadSaveControllerTest extends TestCase
         $this->equalTo(Lead::all()->last(), $data);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_lead(): void
     {
         $data = Lead::factory()->create()->toArray();

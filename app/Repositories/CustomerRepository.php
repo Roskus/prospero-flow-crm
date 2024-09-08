@@ -13,7 +13,7 @@ class CustomerRepository
     public function save(array $data): ?Customer
     {
         if (empty($data['id'])) {
-            $customer = new Customer();
+            $customer = new Customer;
             $customer->created_at = now();
         } else {
             $customer = Customer::find($data['id']);

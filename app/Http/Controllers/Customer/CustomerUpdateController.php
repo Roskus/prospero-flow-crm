@@ -21,8 +21,8 @@ class CustomerUpdateController extends MainController
     public function update(Request $request, int $id)
     {
         $customer = Customer::find($id);
-        $industry = new Industry();
-        $user = new User();
+        $industry = new Industry;
+        $user = new User;
         $data['customer'] = $customer;
         $data['countries'] = Country::orderBy('name')->get();
         // Temporary fix get this from configuration

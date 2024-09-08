@@ -2,11 +2,12 @@
 
 namespace Tests\Feature\Controllers\Bank;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BankCreateControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_bank()
     {
         $response = $this->get('/bank/create');

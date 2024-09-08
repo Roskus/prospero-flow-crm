@@ -17,7 +17,7 @@ class OrderRepository
         DB::beginTransaction();
 
         if (empty($data['id'])) {
-            $order = new Order();
+            $order = new Order;
             $company_id = Auth::user()->company_id;
             $last_order_number = OrderNumber::where('company_id', $company_id)
                 ->lockForUpdate()
@@ -51,7 +51,7 @@ class OrderRepository
         if (! empty($data['items'])) {
             foreach ($data['items'] as $requestItem) {
                 try {
-                    $item = new Order\Item();
+                    $item = new Order\Item;
                     $item->order_id = $order->id;
                     $item->product_id = $requestItem['product_id'];
                     $item->quantity = $requestItem['quantity'];

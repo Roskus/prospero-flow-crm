@@ -54,7 +54,7 @@ class ContactEmailPredictCommand extends Command
 
         $contacts = $leadContacts->merge($customerContacts)->merge($supplierContacts);
 
-        $predictEmail = new PredictEmail();
+        $predictEmail = new PredictEmail;
 
         foreach ($contacts as $contact) {
             $website = $contact->lead->website ?? $contact->customer->website ?? $contact->supplier->website;

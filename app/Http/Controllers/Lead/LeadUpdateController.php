@@ -21,8 +21,8 @@ class LeadUpdateController extends MainController
     public function update(Request $request, int $id)
     {
         $lead = Lead::find($id);
-        $industry = new Industry();
-        $user = new User();
+        $industry = new Industry;
+        $user = new User;
         $data['lead'] = $lead;
         $data['countries'] = Country::orderBy('name')->get();
         // Temporary fix get this from configuration

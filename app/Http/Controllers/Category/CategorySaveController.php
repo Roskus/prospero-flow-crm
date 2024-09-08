@@ -14,7 +14,7 @@ class CategorySaveController extends MainController
     public function save(Request $request)
     {
         if (empty($request->id)) {
-            $category = new Category();
+            $category = new Category;
         } else {
             $category = Category::find($request->id);
         }

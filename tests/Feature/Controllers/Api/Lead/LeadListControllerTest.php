@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Api\Lead;
 
 use App\Models\Lead;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LeadListControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_lead(): void
     {
         $this->actingAs(User::factory()->create(), 'api');

@@ -1,11 +1,11 @@
 # Prospero Flow CRM
 We made a free open source CRM. Our Community Edition (CE) 
-- Prospero Flow CRM is based in Laravel 10
+- Prospero Flow CRM is based in Laravel 11
 
 ## Requirements
 * PHP >= 8.3
 * composer
-* Laravel 10
+* Laravel 11
 * MariaDB / Postgres / MS SQL Server
 * Redis
 

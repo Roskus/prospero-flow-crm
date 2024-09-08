@@ -18,7 +18,7 @@ class UserCreateController extends MainController
      */
     public function create(Request $request)
     {
-        $user = new User();
+        $user = new User;
         $data['user'] = $user;
         $data['languages'] = config('app.locales');
         $data['roles'] = Role::all();

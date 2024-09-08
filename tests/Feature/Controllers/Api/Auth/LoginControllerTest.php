@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Api\Auth;
 
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
+    //#[CoversMethod('App\Http\Controllers\Api\Auth\LoginController', 'login')]
     public function it_can_login()
     {
         $credentials = ['email' => $this->user->email, 'password' => 'password'];
@@ -23,7 +26,7 @@ class LoginControllerTest extends TestCase
         $this->isAuthenticated('api');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_login_with_wrong_credentials()
     {
         $credentials = ['email' => $this->user->email, 'password' => 'wrong_password'];
@@ -36,7 +39,7 @@ class LoginControllerTest extends TestCase
         $this->assertGuest('api');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_credentials()
     {
         $this->actingAs($this->user, 'api');
@@ -48,7 +51,7 @@ class LoginControllerTest extends TestCase
             ->assertExactJson($this->user->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_logout()
     {
         $credentials = ['email' => $this->user->email, 'password' => 'password'];
@@ -64,7 +67,7 @@ class LoginControllerTest extends TestCase
         $this->assertGuest('api');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_refresh_token()
     {
         $credentials = ['email' => $this->user->email, 'password' => 'password'];

@@ -15,7 +15,7 @@ class OrderUpdateController extends MainController
     public function update(Request $request, int $id)
     {
         $order = Order::find($id);
-        $product = new Product();
+        $product = new Product;
         $data['order'] = $order;
         $company_id = Auth::user()->company_id;
         $data['customers'] = $order->customer->getAllByCompanyId($company_id);

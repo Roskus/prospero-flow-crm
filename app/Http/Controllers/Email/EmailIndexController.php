@@ -13,7 +13,7 @@ class EmailIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $data['emails'] = (new Email())->getAllByCompanyId(
+        $data['emails'] = (new Email)->getAllByCompanyId(
             (int) Auth::user()->company_id,
             $request->search
         );

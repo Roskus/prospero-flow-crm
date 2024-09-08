@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -81,11 +80,11 @@ class Calendar extends Model
     protected static function booted(): void
     {
         static::created(function (Calendar $calendar) {
-            (new SendCalendarEventService())->send($calendar);
+            (new SendCalendarEventService)->send($calendar);
         });
 
         static::updated(function (Calendar $calendar) {
-            (new SendCalendarEventService())->send($calendar);
+            (new SendCalendarEventService)->send($calendar);
         });
     }
 }

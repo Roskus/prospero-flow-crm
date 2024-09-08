@@ -2,11 +2,12 @@
 
 namespace Tests\Feature\Controllers\User;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UserSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_save_a_user()
     {
         $response = $this->post('user/save', []);

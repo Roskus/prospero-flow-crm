@@ -8,11 +8,12 @@ use App\Models\Company;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CompanySaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_save_company(): void
     {
         $data = [

@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class LeadCreateControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_lead()
     {
         $response = $this->get('/lead/create');

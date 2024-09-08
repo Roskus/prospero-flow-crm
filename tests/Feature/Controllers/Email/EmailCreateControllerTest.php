@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Email;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EmailCreateControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_email(): void
     {
         $response = $this->get('/email/create');

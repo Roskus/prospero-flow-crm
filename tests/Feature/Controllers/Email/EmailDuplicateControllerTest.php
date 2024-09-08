@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Email;
 
 use App\Models\Email;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EmailDuplicateControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_duplicate_email(): void
     {
         $email = Email::factory()->create(['status' => Email::DRAFT]);

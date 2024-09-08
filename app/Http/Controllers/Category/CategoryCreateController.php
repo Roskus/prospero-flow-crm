@@ -11,7 +11,7 @@ class CategoryCreateController extends MainController
 {
     public function create()
     {
-        $category = new Category();
+        $category = new Category;
         $data['category'] = $category;
 
         return view('category.category', $data);

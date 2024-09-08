@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class LeadImportIndexControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_index_import_lead(): void
     {
         $response = $this->get('/lead/import');

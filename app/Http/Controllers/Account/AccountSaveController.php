@@ -18,7 +18,7 @@ class AccountSaveController extends MainController
      */
     public function save(Request $request)
     {
-        $account = (empty($request->id)) ? new Account() : Account::find($request->id);
+        $account = (empty($request->id)) ? new Account : Account::find($request->id);
         $account->company_id = Auth::user()->company_id;
         $account->issue_date = $request->issue_date;
         $account->name = $request->name;

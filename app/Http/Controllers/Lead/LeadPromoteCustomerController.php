@@ -15,7 +15,7 @@ class LeadPromoteCustomerController extends MainController
     public function promote(Request $request, int $id)
     {
         $lead = Lead::find($id);
-        $customer = new Customer();
+        $customer = new Customer;
         foreach ($lead->getFillable() as $attribute) {
             $customer->{$attribute} = $lead->{$attribute};
         }

@@ -75,7 +75,7 @@ class LeadImportSaveController extends MainController
     private function mapCsvRowToLead(array $data): Lead
     {
         $country = trim($data[8]);
-        $lead = new Lead();
+        $lead = new Lead;
 
         $lead->company_id = Auth::user()->company_id;
 

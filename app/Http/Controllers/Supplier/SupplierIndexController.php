@@ -13,7 +13,7 @@ class SupplierIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $supplier = new Supplier();
+        $supplier = new Supplier;
         $data['suppliers'] = $supplier->getAllByCompany((int) Auth::user()->company_id);
 
         return view('supplier.index', $data);
