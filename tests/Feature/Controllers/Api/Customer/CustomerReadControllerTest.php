@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Api\Customer;
 
 use App\Models\Customer;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomerReadControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_read_customer(): void
     {
         $this->actingAs(User::factory()->create(), 'api');
@@ -19,7 +20,7 @@ class CustomerReadControllerTest extends TestCase
         $this->assertEquals(array_except($response->json()['customer'], ['seller', 'industry', 'country']), $customer->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_not_found_a_customer(): void
     {
         $this->actingAs(User::factory()->create(), 'api');

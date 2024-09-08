@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class LeadPromoteCustomerControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_promote_from_lead_to_customer()
     {
         $lead = Lead::factory()->create(['status' => 'open']);
@@ -26,7 +26,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
         $this->assertEquals(array_except($lead->toArray(), ['id', 'company']), array_except($customer->toArray(), ['id', 'company']));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_promote_from_lead_to_customer_with_contacts()
     {
         $lead = Lead::factory()->has(Contact::factory()->count(2))->create(['status' => 'open']);

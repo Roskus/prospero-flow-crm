@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Email;
 
 use App\Models\Email;
 use App\Models\EmailTemplate;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EmailIndexControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_show_emails_index()
     {
         EmailTemplate::factory()->create();
@@ -23,7 +24,7 @@ class EmailIndexControllerTest extends TestCase
         $response->assertSee($email2->to);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_emails_index()
     {
         EmailTemplate::factory()->create();

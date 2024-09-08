@@ -3,18 +3,19 @@
 namespace Tests\Feature\Controllers\Profile;
 
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProfileSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_not_save_profile_without_data()
     {
         $response = $this->post('profile/save', []);
         $response->assertSessionHasErrors();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_save_profile()
     {
         $data = [
@@ -32,7 +33,7 @@ class ProfileSaveControllerTest extends TestCase
         $response->assertSee($data['email']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_password()
     {
         $oldPassword = $this->user->password;

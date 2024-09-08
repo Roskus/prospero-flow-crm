@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class LeadExportControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_export_lead_to_csv()
     {
         Lead::factory()

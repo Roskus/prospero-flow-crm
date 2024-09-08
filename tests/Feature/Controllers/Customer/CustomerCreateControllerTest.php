@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Customer;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomerCreateControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_customer(): void
     {
         $response = $this->get('/customer/create');

@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class LeadIndexControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_view_index_leads()
     {
         $lead = Lead::factory()->create(['company_id' => $this->user->company_id, 'status' => Lead::OPEN]);

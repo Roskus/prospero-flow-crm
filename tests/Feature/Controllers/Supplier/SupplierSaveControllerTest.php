@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Supplier;
 
 use App\Models\Supplier;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class SupplierSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_save_supplier(): void
     {
         $data = Supplier::factory()->create()->toArray();
@@ -20,7 +21,7 @@ class SupplierSaveControllerTest extends TestCase
         $this->equalTo(Supplier::all()->last(), $data);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_supplier(): void
     {
         $data = Supplier::factory()->create()->toArray();

@@ -3,11 +3,12 @@
 namespace Tests\Feature\Controllers\Bank;
 
 use App\Models\Bank;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BankSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_save_bank(): void
     {
         $data = Bank::factory()->create()->toArray();
@@ -18,7 +19,7 @@ class BankSaveControllerTest extends TestCase
         $this->equalTo(Bank::all()->last(), $data);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_bank(): void
     {
         $data = Bank::factory()->create()->toArray();

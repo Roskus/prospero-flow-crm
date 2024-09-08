@@ -6,17 +6,16 @@ namespace Tests\Feature\Controllers\Api\Contact;
 
 use App\Models\Industry;
 use App\Models\Lead;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ContactCreateControllerTest extends TestCase
 {
-    protected $jsonStructureContact = [
+    protected array $jsonStructureContact = [
         'id',
     ];
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_create_contact(): void
     {
         $this->actingAs($this->user, 'api');
@@ -60,9 +59,7 @@ class ContactCreateControllerTest extends TestCase
             ->assertSee($data['contact_phone']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create_contact_have_missing_parameters(): void
     {
         $this->actingAs($this->user, 'api');

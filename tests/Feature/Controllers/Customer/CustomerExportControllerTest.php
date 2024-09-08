@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Customer;
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomerExportControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_export_customer_to_csv()
     {
         Customer::factory()

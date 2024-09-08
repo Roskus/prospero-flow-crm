@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class LeadImportSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_import_leads_from_csv()
     {
         $response = $this->post('lead/import/save', []);

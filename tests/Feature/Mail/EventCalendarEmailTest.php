@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class EventCalendarEmailTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_event_calendar_email(): void
     {
         Mail::fake();
