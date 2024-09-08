@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\Supplier;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\API\SupplierRequest;
+use App\Models\Supplier;
+use Illuminate\Http\JsonResponse;
 
 class SupplierUpdateController
 {
@@ -22,8 +24,19 @@ class SupplierUpdateController
      *     @OA\Response(response="200", description="Supplier updated successfully"),
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function update(Request $request, int $id) {}
+    public function update(SupplierRequest $request, int $id): JsonResponse
+    {
+        // Find the supplier
+        $supplier = Supplier::find($id);
+
+        if (! $supplier) {
+            return response()->json(['error' => 'Supplier not found'], 404);
+        }
+
+        // Update supplier's information
+        $supplier->update($request->all());
+
+        return response()->json(['message' => 'Supplier updated successfully', 'supplier' => $supplier], 200);
+    }
 }

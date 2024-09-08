@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\Supplier;
 
+use App\Http\Requests\API\SupplierRequest;
 use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class SupplierCreateController
 {
@@ -22,48 +21,49 @@ class SupplierCreateController
      *          @OA\JsonContent(
      *              required={"name", "country"},
      *              @OA\Property(property="name", type="string", example="Sony"),
-     *              @OA\Property(property="country", type="string", example="UK")
+     *              @OA\Property(property="email", type="string", format="email", example="supplier@sony.com"),
+     *              @OA\Property(property="phone", type="string", example="+1234567890"),
+     *              @OA\Property(property="country", type="string", example="UK"),
+     *              @OA\Property(property="business_name", type="string", example="Sony Corporation"),
+     *              @OA\Property(property="vat", type="string", example="GB123456789"),
+     *              @OA\Property(property="website", type="string", example="https://www.sony.com"),
+     *              @OA\Property(property="province", type="string", example="London"),
+     *              @OA\Property(property="city", type="string", example="London"),
+     *              @OA\Property(property="street", type="string", example="123 Main St"),
+     *              @OA\Property(property="zipcode", type="string", example="W1A 1AA")
      *          )
      *      ),
      *      @OA\Response(response="201", description="Supplier created successfully"),
      *      @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function create(Request $request): JsonResponse
+    public function create(SupplierRequest $request): JsonResponse
     {
-        $status = 400;
         $data = [];
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'max:50'],
-            'email' => ['email:rfc,dns', 'max:254'],
-            'phone' => ['max:15'],
-            'country' => ['required', 'max:2'],
-        ]);
+        try {
+            $supplier = new Supplier;
+            $supplier->company_id = Auth::user()->company_id;
+            $supplier->name = $request->name;
+            $supplier->business_name = $request->business_name;
+            $supplier->vat = $request->vat;
+            $supplier->phone = $request->phone;
+            $supplier->email = $request->email;
+            $supplier->website = $request->website;
+            $supplier->country_id = $request->country;
+            $supplier->province = $request->province;
+            $supplier->city = $request->city;
+            $supplier->street = $request->street;
+            $supplier->zipcode = $request->zipcode;
+            $supplier->created_at = now();
+            $supplier->save();
+            $status = 201;
+            $data['supplier'] = ['id' => $supplier->id];
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json($data, $status);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An error occurred: '.$e->getMessage(),
+            ], 500);
         }
-
-        $supplier = new Supplier;
-        $supplier->company_id = Auth::user()->company_id;
-        $supplier->name = $request->name;
-        $supplier->business_name = $request->business_name;
-        $supplier->vat = $request->vat;
-        $supplier->phone = $request->phone;
-        $supplier->email = $request->email;
-        $supplier->website = $request->website;
-        $supplier->country_id = $request->country;
-        $supplier->province = $request->province;
-        $supplier->city = $request->city;
-        $supplier->street = $request->street;
-        $supplier->zipcode = $request->zipcode;
-        $supplier->created_at = now();
-        $supplier->save();
-        $status = 201;
-        $data['supplier'] = ['id' => $supplier->id];
-
-        return response()->json($data, $status);
     }
 }
