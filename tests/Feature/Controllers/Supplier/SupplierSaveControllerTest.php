@@ -15,7 +15,7 @@ class SupplierSaveControllerTest extends TestCase
     {
         $data = Supplier::factory()->create()->toArray();
 
-        $response = $this->post('supplier/save', $data);
+        $response = $this->post('/supplier/save', $data);
 
         $response->assertRedirect('/supplier');
         $this->equalTo(Supplier::all()->last(), $data);
@@ -27,7 +27,7 @@ class SupplierSaveControllerTest extends TestCase
         $data = Supplier::factory()->create()->toArray();
         unset($data['id']);
 
-        $response = $this->post('supplier/save', $data);
+        $response = $this->post('/supplier/save', $data);
 
         $response->assertRedirect('/supplier');
         $this->equalTo(Supplier::all()->last(), $data);
