@@ -92,7 +92,6 @@ class Supplier extends Model
     #[OAT\Property(type: 'string', example: 'password123')]
     protected ?string $order_password = null;
 
-
     public function company()
     {
         return $this->belongsTo(Company::class);
