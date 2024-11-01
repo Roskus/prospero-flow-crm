@@ -53,7 +53,7 @@ class Company extends Model
     protected $with = ['country'];
 
     #[OA\Property(property: 'name', description: 'Name of the company', type: 'string', example: 'My Company')]
-    public string $name;
+    public string $name = '';
 
     #[OA\Property(property: 'business_name', description: 'Business Name of the company', type: 'string', example: 'My Company S.L')]
     public string $business_name;

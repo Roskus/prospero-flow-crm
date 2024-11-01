@@ -23,6 +23,11 @@ class SupplierRepository
         $supplier->province = (! empty($data['province'])) ? $data['province'] : null;
         $supplier->street = (! empty($data['street'])) ? $data['street'] : null;
         $supplier->zipcode = (! empty($data['zipcode'])) ? $data['zipcode'] : null;
+        $supplier->notes = !empty($data['notes']) ? $data['notes'] : null;
+        $supplier->account_number = !empty($data['account_number']) ? $data['account_number'] : null;
+        $supplier->order_url = !empty($data['order_url']) ? $data['order_url'] : null;
+        $supplier->order_user = !empty($data['order_user']) ? $data['order_user'] : null;
+        $supplier->order_password = !empty($data['order_password']) ? $data['order_password'] : null;
         $supplier->updated_at = now();
         $supplier->save();
 

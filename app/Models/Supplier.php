@@ -29,6 +29,11 @@ class Supplier extends Model
         'city',
         'street',
         'zipcode',
+        'notes',
+        'account_number',
+        'order_url',
+        'order_user',
+        'order_password',
     ];
 
     protected $hidden = [
@@ -71,6 +76,22 @@ class Supplier extends Model
 
     #[OAT\Property(type: 'string', example: 'EC4N 1SA')]
     protected ?string $zipcode;
+
+    #[OAT\Property(type: 'string', example: 'This is a note')]
+    protected ?string $notes = null;
+
+    #[OAT\Property(type: 'string', example: '1234567890')]
+    protected ?string $account_number = null;
+
+    #[OAT\Property(type: 'string', example: 'https://supplier.com/order')]
+    protected ?string $order_url = null;
+
+    #[OAT\Property(type: 'string', example: 'username123')]
+    protected ?string $order_user = null;
+
+    #[OAT\Property(type: 'string', example: 'password123')]
+    protected ?string $order_password = null;
+
 
     public function company()
     {
