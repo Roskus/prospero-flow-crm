@@ -17,9 +17,9 @@ class TicketUpdateController extends MainController
 {
     public function update(Request $request, int $id)
     {
-        $user = new User();
+        $user = new User;
         $ticket = Ticket::find($id);
-        $customer = new Customer();
+        $customer = new Customer;
         $data['ticket'] = $ticket;
         $data['users'] = $user->getAllActiveByCompany((int) Auth::user()->company_id);
         $data['customers'] = $customer->getAllByCompanyId((int) Auth::user()->company_id);

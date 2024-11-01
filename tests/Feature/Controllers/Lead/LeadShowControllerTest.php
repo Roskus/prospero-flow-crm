@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class LeadShowControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_show_lead(): void
     {
         $lead = Lead::factory()->create();

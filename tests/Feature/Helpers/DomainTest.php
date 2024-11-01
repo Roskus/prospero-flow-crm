@@ -3,11 +3,12 @@
 namespace Tests\Feature\Helpers;
 
 use App\Helpers\Domain;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class DomainTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_validate_a_domain()
     {
         $urlInvalid = '';

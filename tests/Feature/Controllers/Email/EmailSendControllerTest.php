@@ -7,11 +7,12 @@ namespace Tests\Feature\Controllers\Email;
 use App\Mail\GenericEmail;
 use App\Models\Email;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EmailSendControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_send_email(): void
     {
         Mail::fake();

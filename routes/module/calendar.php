@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Calendar\CalendarExportController;
+use Illuminate\Support\Facades\Route;
 
 Route::match(['get', 'post'], '/calendar/{date?}',
     [\App\Http\Controllers\Calendar\CalendarIndexController::class, 'index'])->name('calendar.index');

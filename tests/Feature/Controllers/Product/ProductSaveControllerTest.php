@@ -7,11 +7,12 @@ namespace Tests\Feature\Controllers\Product;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProductSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_save_a_product(): void
     {
         $product = Product::factory()->make()->toArray();

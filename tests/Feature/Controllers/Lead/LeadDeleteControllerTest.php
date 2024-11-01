@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class LeadDeleteControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_delete_lead()
     {
         $lead = Lead::factory()->create();

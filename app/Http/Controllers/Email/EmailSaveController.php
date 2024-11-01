@@ -18,7 +18,7 @@ class EmailSaveController extends MainController
     public function save(EmailRequest $request)
     {
         if (empty($request->id)) {
-            $email = new Email();
+            $email = new Email;
             $email->created_at = now();
         } else {
             $email = Email::find($request->id);
@@ -57,7 +57,7 @@ class EmailSaveController extends MainController
             try {
                 Storage::putFileAs($path, $file, $newName);
 
-                $attach = new Email\Attach();
+                $attach = new Email\Attach;
                 $attach->email_id = $email->id;
                 $attach->original_name = $originalName;
                 $attach->file = $path.$DS.$newName;

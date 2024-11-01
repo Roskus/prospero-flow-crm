@@ -30,10 +30,12 @@ class CompanyListController
         $count = 0;
         if (Auth::user()->hasRole('SuperAdmin')) {
             $count = Company::count();
-            $companies = Company::all();
+            $companies = Company::with('country')->get();
         } else {
             $count = Company::where('company_id', Auth::user()->company_id)->count();
-            $companies = Company::where('company_id', Auth::user()->company_id)->get();
+            $companies = Company::with('country')  // Cargar country para evitar problemas de relación
+                ->where('company_id', Auth::user()->company_id)
+                ->get();
         }
 
         return response()->json(['count' => $count, 'companies' => $companies]);

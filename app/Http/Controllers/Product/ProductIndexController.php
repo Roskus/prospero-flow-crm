@@ -28,9 +28,9 @@ class ProductIndexController extends MainController
 
         $filters = [];
         $search = $request->search;
-        $product = new Product();
-        $category = new Category();
-        $brand = new Brand();
+        $product = new Product;
+        $category = new Category;
+        $brand = new Brand;
         $data['search'] = $search;
         $data['product_count'] = Product::where('company_id', (int) Auth::user()->company_id)->count();
         $data['products'] = $product->getAllByCompanyId((int) Auth::user()->company_id, $search, $filters);

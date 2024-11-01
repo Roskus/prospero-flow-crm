@@ -2,6 +2,4 @@
 
 namespace App\Services;
 
-class CsvExportService
-{
-}
+class CsvExportService {}

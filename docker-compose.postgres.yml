@@ -1,5 +1,4 @@
 # docker-compose -f docker-compose.yml -f docker-compose.postgres.yml up -d
-version: '3.9'
 services:
   db:
     image: postgres:latest

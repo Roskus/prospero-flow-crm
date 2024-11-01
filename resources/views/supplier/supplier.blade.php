@@ -38,6 +38,32 @@
                     <input type="url" name="website" id="website" value="{{ $supplier->website }}" maxlength="255" class="form-control">
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="notes">{{ __('Notes') }}</label>
+                    <textarea name="notes" id="notes" class="form-control">{{ old('notes', $supplier->notes) }}</textarea>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="account_number">{{ __('Account Number') }}</label>
+                    <input type="text" name="account_number" id="account_number" value="{{ old('account_number', $supplier->account_number) }}" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="order_url">{{ __('Order URL') }}</label>
+                    <input type="url" name="order_url" id="order_url" value="{{ old('order_url', $supplier->order_url) }}" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="order_user">{{ __('Order User') }}</label>
+                    <input type="text" name="order_user" id="order_user" value="{{ old('order_user', $supplier->order_user) }}" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="order_password">{{ __('Order Password') }}</label>
+                    <input type="password" name="order_password" id="order_password" value="{{ old('order_password', $supplier->order_password) }}" class="form-control">
+                </div>
+            </div>
             <div class="card mt-2">
                 <div class="card-header">
                     {{ __('Address') }}

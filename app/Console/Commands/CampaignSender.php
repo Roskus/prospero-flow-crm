@@ -33,7 +33,7 @@ class CampaignSender extends Command
      */
     public function handle(): int
     {
-        $campaignModel = new Campaign();
+        $campaignModel = new Campaign;
         $today = now();
 
         $campaigns = $campaignModel::where('schedule_send_date', $today->format('Y-m-d'))

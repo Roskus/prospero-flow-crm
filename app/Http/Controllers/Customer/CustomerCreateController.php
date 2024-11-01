@@ -20,9 +20,9 @@ class CustomerCreateController extends MainController
      */
     public function create(Request $request)
     {
-        $customer = new Customer();
-        $industry = new Industry();
-        $user = new User();
+        $customer = new Customer;
+        $industry = new Industry;
+        $user = new User;
         $data['customer'] = $customer;
         $data['countries'] = Country::orderBy('name')->get();
         // Temporary fix get this from configuration

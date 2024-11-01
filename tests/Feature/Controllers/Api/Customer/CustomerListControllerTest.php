@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Api\Customer;
 
 use App\Models\Customer;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomerListControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_customer(): void
     {
         $this->actingAs(User::factory()->create(), 'api');

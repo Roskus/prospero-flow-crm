@@ -12,7 +12,7 @@ class EmailTemplateIndexController extends MainController
 {
     public function index(Request $request)
     {
-        $emailTemplate = new EmailTemplate();
+        $emailTemplate = new EmailTemplate;
         $data['templates'] = $emailTemplate->getAll();
 
         return view('email_template.index', $data);

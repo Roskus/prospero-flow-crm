@@ -12,7 +12,7 @@ class LeadRepository
     public function save(array $data): ?Lead
     {
         if (empty($data['id'])) {
-            $lead = new Lead();
+            $lead = new Lead;
             $lead->created_at = now();
         } else {
             $lead = Lead::find($data['id']);

@@ -10,10 +10,7 @@ use Illuminate\Http\Request;
 
 class EmailCreateController
 {
-    public function __construct(EmailRepository $emailRepository)
-    {
-
-    }
+    public function __construct(EmailRepository $emailRepository) {}
 
     public function create(Request $request): JsonResponse
     {

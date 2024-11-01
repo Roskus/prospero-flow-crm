@@ -41,7 +41,7 @@ class UserCreate extends Command
         $lang = $this->ask('What is the lang of the user? (en/es)');
         $password = Str::random(10);
 
-        $user = new User();
+        $user = new User;
         $user->company_id = $companyId;
         $user->first_name = $first_name;
         $user->last_name = $last_name;

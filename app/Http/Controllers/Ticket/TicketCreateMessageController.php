@@ -13,7 +13,7 @@ class TicketCreateMessageController extends Controller
 {
     public function save(Request $request)
     {
-        $message = new TicketMessage();
+        $message = new TicketMessage;
         $message->fill([
             'author_id' => Auth::user()->id,
             'ticket_id' => $request->ticket_id,

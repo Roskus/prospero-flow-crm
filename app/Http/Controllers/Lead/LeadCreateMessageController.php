@@ -14,7 +14,7 @@ class LeadCreateMessageController extends Controller
 {
     public function save(Request $request)
     {
-        $message = new LeadMessage();
+        $message = new LeadMessage;
         $message->fill([
             'lead_id' => $request->lead_id,
             'body' => $request->message,

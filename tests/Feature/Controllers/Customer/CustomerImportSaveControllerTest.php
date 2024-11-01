@@ -6,11 +6,12 @@ namespace Tests\Feature\Controllers\Customer;
 
 use App\Models\Customer;
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomerImportSaveControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_import_customers_from_csv()
     {
         $response = $this->post('customer/import/save', []);

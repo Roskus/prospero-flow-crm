@@ -13,7 +13,7 @@ class SupplierContactRepository
     public function save(array $data): ?SupplierContact
     {
         if (empty($data['id'])) {
-            $contact = new SupplierContact();
+            $contact = new SupplierContact;
             $contact->company_id = Auth::user()->company_id;
             $contact->created_at = now();
         } else {

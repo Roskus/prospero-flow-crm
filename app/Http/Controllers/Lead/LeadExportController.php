@@ -15,7 +15,7 @@ class LeadExportController extends MainController
     public function export(Request $request)
     {
         $separator = ';';
-        $lead = new Lead();
+        $lead = new Lead;
         $fileName = 'leads_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
         $leads = Lead::where('company_id', Auth::user()->company_id)->get();
         $headers = [

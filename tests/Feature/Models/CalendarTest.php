@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class CalendarTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_use_timezones()
     {
         $this->assertEquals(config('app.timezone'), $this->user->timezone);

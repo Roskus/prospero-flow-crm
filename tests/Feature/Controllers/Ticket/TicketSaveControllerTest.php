@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class TicketSaveControllerTest extends TestCase
@@ -20,7 +21,7 @@ class TicketSaveControllerTest extends TestCase
         $this->actingAs(User::factory()->create());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_save_ticket(): void
     {
         $data = [
@@ -37,7 +38,7 @@ class TicketSaveControllerTest extends TestCase
         $this->assertDatabaseHas('ticket', $data);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_send_an_email_when_the_ticket_status_is_updated(): void
     {
         Mail::fake();
@@ -63,7 +64,7 @@ class TicketSaveControllerTest extends TestCase
         Mail::assertSent(TicketStateChanged::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_send_an_email_when_the_ticket_is_closed(): void
     {
         Mail::fake();

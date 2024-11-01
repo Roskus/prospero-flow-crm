@@ -15,7 +15,7 @@ class CustomerExportController
     public function export(Request $request): BinaryFileResponse
     {
         $separator = ';';
-        $customer = new Customer();
+        $customer = new Customer;
         $fileName = 'customers_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
         $customers = Customer::where('company_id', (int) Auth::user()->company_id)->get();
         $headers = [

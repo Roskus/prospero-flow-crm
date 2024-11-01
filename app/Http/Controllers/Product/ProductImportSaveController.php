@@ -51,7 +51,7 @@ class ProductImportSaveController extends MainController
                 continue;
             }
 
-            $product = new Product();
+            $product = new Product;
             $product->company_id = Auth::user()->company_id;
             $product->category_id = Category::getCategoryIdByName($categories, $data[1]);
             $product->brand_id = Brand::getBrandIdByName($brands, $data[2]);
