@@ -52,7 +52,9 @@
                     <a href="mailto:{{ $company->email }}">{{ $company->email }}</a>
                 </td>
                 <td>
+                    @isset($company->website)
                     <a href="{{ $company->website }}" rel="noopener" target="_blank">{{ $company->website }}</a>
+                    @endisset
                 </td>
                 <td class="text-center">
                     <span title="{{ (!empty($company->country)) ? $company->country->name : '' }}">

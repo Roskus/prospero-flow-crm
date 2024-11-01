@@ -34,14 +34,6 @@ class CompanyRepository
         $company->updated_at = now();
         $company->save();
 
-        if (empty($data['id'])) {
-            $orderNumber = new OrderNumber;
-            $orderNumber->company_id = $company->id;
-            $orderNumber->last_order_number = 0;
-            $orderNumber->created_at = now();
-            $orderNumber->save();
-        }
-
         return $company;
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +13,20 @@ use Squire\Models\Country;
 #[OA\Schema(
     schema: 'Company',
     required: ['name', 'country_id'],
+    properties: [
+        new OA\Property(property: 'name', description: 'Name of the company', type: 'string', example: 'My Company'),
+        new OA\Property(property: 'business_name', description: 'Business name of the company', type: 'string', example: 'My Company S.L.'),
+        new OA\Property(property: 'vat', description: 'VAT / TAX Identification Number of the company', type: 'string', example: 'B12345678'),
+        new OA\Property(property: 'phone', description: 'Phone of the company', type: 'string', example: '+34645600000'),
+        new OA\Property(property: 'email', description: 'Email of the company', type: 'string', format: 'email', example: 'info@company.com'),
+        new OA\Property(property: 'country_id', description: 'Country ISO code of the company', type: 'string', example: 'ES'),
+        new OA\Property(property: 'province', description: 'Province of the company', type: 'string', example: 'Barcelona'),
+        new OA\Property(property: 'city', description: 'City of the company', type: 'string', example: 'Barcelona'),
+        new OA\Property(property: 'street', description: 'Street of the company', type: 'string', example: 'Av. Constitución 123'),
+        new OA\Property(property: 'zipcode', description: 'Zipcode of the company', type: 'string', example: '08860'),
+        new OA\Property(property: 'currency', description: 'Default currency of the company', type: 'string', example: 'USD'),
+        new OA\Property(property: 'website', description: 'Website of the company', type: 'string', example: 'https://www.company.com'),
+    ],
     type: 'object'
 )]
 class Company extends Model
@@ -51,49 +64,6 @@ class Company extends Model
     ];
 
     protected $with = ['country'];
-
-    #[OA\Property(property: 'name', description: 'Name of the company', type: 'string', example: 'My Company')]
-    public string $name = '';
-
-    #[OA\Property(property: 'business_name', description: 'Business Name of the company', type: 'string', example: 'My Company S.L')]
-    public string $business_name;
-
-    #[OA\Property(property: 'vat', description: 'VAT / TAX Identification Number of the company', type: 'string', example: '')]
-    public string $vat;
-
-    #[OA\Property(property: 'phone', description: 'Phone of the company', type: 'string', example: '+34645600000')]
-    public string $phone;
-
-    #[OA\Property(property: 'email', description: 'Email of the company', type: 'string', format: 'email', example: 'info@company.com')]
-    public string $email;
-
-    #[OA\Property(property: 'country_id', description: 'Country ISO code of the company', type: 'string', example: 'ES')]
-    public ?string $country_id = null;
-
-    #[OA\Property(property: 'province', description: 'Province of the company', type: 'string', example: 'Barcelona')]
-    public string $province;
-
-    #[OA\Property(property: 'city', description: 'City of the company', type: 'string', example: 'Barcelona')]
-    public string $city;
-
-    #[OA\Property(property: 'street', description: 'Street of the company', type: 'string', example: 'Av. Constitución 123')]
-    public string $street;
-
-    #[OA\Property(property: 'zipcode', description: 'Zipcode of the company', type: 'string', example: '08860')]
-    public string $zipcode;
-
-    #[OA\Property(property: 'currency', description: 'Default currency of the company', type: 'string', example: 'USD')]
-    public string $currency;
-
-    #[OA\Property(property: 'website', description: 'Website of the company', type: 'string', example: 'https://www.company.com')]
-    public string $website;
-
-    protected function name(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes): ?string => $attributes['name'] ?? null,
-        );
-    }
 
     public function getAllPaginated(int $limit = 50)
     {

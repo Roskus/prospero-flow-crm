@@ -14,8 +14,9 @@ class CompanySaveController extends MainController
 {
     private CompanyRepository $companyRepository;
 
-    public function __construct(CompanyRepository $companyRepository)
+    public function __construct(Request $request, CompanyRepository $companyRepository)
     {
+        parent::__construct($request);
         $this->companyRepository = $companyRepository;
     }
 
