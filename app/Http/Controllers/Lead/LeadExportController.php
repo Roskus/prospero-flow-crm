@@ -37,10 +37,10 @@ class LeadExportController extends MainController
 
             $row['tags'] = is_array($row['tags']) ? implode(separator: ',', array: $row['tags']) : '';
             $row['notes'] = is_null($row['notes']) ? null : str_replace(["\r", "\n"], '-', $row['notes']);
-            $row['country_id'] = $row['country']['id'];
-            $row['seller_id'] = $row['seller']['id'];
-            $row['industry_id'] = $row['industry']['id'];
-            $row['company_id'] = $row['company']['id'];
+            $row['country_id'] = $row['country']['id'] ?? null;
+            $row['seller_id'] = $row['seller']['id'] ?? null;
+            $row['industry_id'] = $row['industry']['id'] ?? null;
+            $row['company_id'] = $row['company']['id'] ?? null;
 
             // This ensures that each value is in the same order as the fields in the header.
             foreach ($columns as $column) {
