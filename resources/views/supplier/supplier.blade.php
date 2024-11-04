@@ -41,7 +41,7 @@
             <div class="row mt-3">
                 <div class="col">
                     <label for="notes">{{ __('Notes') }}</label>
-                    <textarea name="notes" id="notes" class="form-control">{{ old('notes', $supplier->notes) }}</textarea>
+                    <textarea name="notes" id="notes" class="form-control form-control-lg">{{ old('notes', $supplier->notes) }}</textarea>
                 </div>
             </div>
             <div class="row mt-3">
