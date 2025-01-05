@@ -1,4 +1,5 @@
 <?php
+
 /**
  * IE - Ireland Bank list
  */

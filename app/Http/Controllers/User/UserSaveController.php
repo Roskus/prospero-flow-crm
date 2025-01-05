@@ -17,7 +17,7 @@ class UserSaveController extends MainController
         if (empty($request->id)) {
             $user = new User;
             $user->created_at = now();
-            //Company should be assigned on create
+            // Company should be assigned on create
             $user->company_id = Auth::user()->company_id;
         } else {
             $user = User::find($request->id);

@@ -73,7 +73,7 @@ class CustomerRequest extends FormRequest
             'longitude' => 'nullable|numeric|gte:-180|lte:180|required_with:latitude',
             'opt_in' => 'nullable',
             'tags' => 'nullable',
-            'status' => 'nullable', //@todo validate status options
+            'status' => 'nullable', // @todo validate status options
             'created_at' => 'nullable|date',
             'updated_at' => 'nullable|date',
             'deleted_at' => 'nullable|date',

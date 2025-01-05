@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('customer', function (Blueprint $table) {
-            //No rollback change
+            // No rollback change
         });
     }
 };

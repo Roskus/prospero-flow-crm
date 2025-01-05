@@ -35,12 +35,12 @@ class CustomerImportSaveController extends MainController
         }
 
         // HEADER (25)
-        //external_id;name;business_name;vat;dob;phone;phone2;mobile;email;email2;website;country_id;province;city;locality;street;zipcode;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
+        // external_id;name;business_name;vat;dob;phone;phone2;mobile;email;email2;website;country_id;province;city;locality;street;zipcode;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
         $rowCount = 0;
         $successfulImports = 0;
         $separator = $request->input('separator', ';');
         while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
-            //Skip header starting in 1
+            // Skip header starting in 1
             if ($data[0] == 'external_id') {
                 continue;
             }

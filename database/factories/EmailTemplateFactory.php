@@ -22,7 +22,7 @@ class EmailTemplateFactory extends Factory
             'from' => $this->faker->email(),
             'subject' => $this->faker->title(),
             'body' => $this->faker->text(),
-            'lang' => 'en', //fake()->randomElement(array_keys(config('app.locales'))),
+            'lang' => 'en', // fake()->randomElement(array_keys(config('app.locales'))),
             'version' => 1,
         ];
     }

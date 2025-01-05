@@ -37,12 +37,12 @@ class CampaignSender extends Command
         $today = now();
 
         $campaigns = $campaignModel::where('schedule_send_date', $today->format('Y-m-d'))
-                                //->where('schedule_send_time')
+                                // ->where('schedule_send_time')
             ->get();
 
         foreach ($campaigns as $campaign) {
             $this->info("Campaign to send: $campaign->subject");
-            //Todo get contacts by campaign
+            // Todo get contacts by campaign
             $contacts = Lead::where('company_id', 1)
                 ->where('industry_id', 34)
                 ->whereNotNull('email')

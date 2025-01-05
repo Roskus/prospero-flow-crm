@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('title', 80);
             $table->text('description')->nullable();
             $table->json('guests')->nullable();
-            $table->string('meeting', 255)->nullable(); //Web link for meeting Google Meet, Jitsi, Zoom
+            $table->string('meeting', 255)->nullable(); // Web link for meeting Google Meet, Jitsi, Zoom
             $table->string('address', 255)->nullable();
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();

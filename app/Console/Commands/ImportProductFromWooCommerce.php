@@ -38,8 +38,8 @@ class ImportProductFromWooCommerce extends Command
     {
         $return = Command::FAILURE;
 
-        //$url = 'https://DOMAIN/wp-json/wc/store/v1/products';
-        //'/wp-json/wc/store/v1/products'
+        // $url = 'https://DOMAIN/wp-json/wc/store/v1/products';
+        // '/wp-json/wc/store/v1/products'
         $woocommerce_product_api_path = '/wp-json/wc/store/products';
         $url = 'https://'.$this->argument('domain').$woocommerce_product_api_path;
 
@@ -68,10 +68,10 @@ class ImportProductFromWooCommerce extends Command
                         ]);
                     }
 
-                    $product['category_id'] = $category->id; //TODO woocommerce return an array of categories
-                    $product['brand_id'] = 1; //TODO I think there is no similarity in woocommerce
-                    $product['cost'] = (float) $product['prices']['price']; //TODO woocommerce return an object of price
-                    $product['price'] = (float) $product['prices']['sale_price']; //TODO woocommerce return an object of
+                    $product['category_id'] = $category->id; // TODO woocommerce return an array of categories
+                    $product['brand_id'] = 1; // TODO I think there is no similarity in woocommerce
+                    $product['cost'] = (float) $product['prices']['price']; // TODO woocommerce return an object of price
+                    $product['price'] = (float) $product['prices']['sale_price']; // TODO woocommerce return an object of
                     $photo = $product['images'][0]['src'];
                     if (! empty($photo)) {
                         $photo_url = explode('/', $photo);
@@ -79,7 +79,7 @@ class ImportProductFromWooCommerce extends Command
                         shell_exec("wget $photo --directory-prefix=$photo_path");
                         echo $photo_url[count($photo_url) - 1];
                         $product['photo'] = $photo_url[count($photo_url) - 1];
-                        //mkdir(public_path("/asset/upload/product/$product->id"))
+                        // mkdir(public_path("/asset/upload/product/$product->id"))
                     }
 
                     Product::updateOrCreate([

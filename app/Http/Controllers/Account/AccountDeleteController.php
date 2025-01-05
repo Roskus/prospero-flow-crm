@@ -11,7 +11,7 @@ class AccountDeleteController
 {
     public function delete(Request $request, int $id)
     {
-        //TODO add security check, add can('account delete')
+        // TODO add security check, add can('account delete')
         $account = Account::find($id);
         $account->delete();
 

@@ -24,6 +24,6 @@ class CustomerDeleteMessageController extends Controller
         $message->delete();
 
         // Redirigimos de vuelta a la página anterior
-        return back(); //->with('success', 'Message deleted successfully.');
+        return back(); // ->with('success', 'Message deleted successfully.');
     }
 }

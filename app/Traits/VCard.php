@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version 1.0.1
  */
@@ -12,33 +13,33 @@ trait VCard
 {
     private static string $EOL = "\r\n";
 
-    //#[OAT\Property(type: 'int', example: 1)]
+    // #[OAT\Property(type: 'int', example: 1)]
     protected ?int $id = null;
 
     protected ?int $company_id = null;
 
-    //#[OAT\Property(description: 'Name of the contact', type: 'string', example: 'John')]
-    //protected string $first_name = '';
+    // #[OAT\Property(description: 'Name of the contact', type: 'string', example: 'John')]
+    // protected string $first_name = '';
 
-    //#[OAT\Property(description: 'Lastname of the contact', type: 'string', example: 'Smith')]
-    //protected ?string $last_name = null;
+    // #[OAT\Property(description: 'Lastname of the contact', type: 'string', example: 'Smith')]
+    // protected ?string $last_name = null;
 
-    //#[OAT\Property(description: 'Job title', type: 'string', example: 'Smith')]
+    // #[OAT\Property(description: 'Job title', type: 'string', example: 'Smith')]
 
-    //#[OAT\Property(description: 'Phone of the contact', type: 'string', example: '+34645000000')]
-    //protected ?string $phone = null;
+    // #[OAT\Property(description: 'Phone of the contact', type: 'string', example: '+34645000000')]
+    // protected ?string $phone = null;
 
-    //#[OAT\Property(description: 'Email of the contact', type: 'string', format: 'email', example: 'john.smith@company.com')]
-    //protected ?string $email = null;
+    // #[OAT\Property(description: 'Email of the contact', type: 'string', format: 'email', example: 'john.smith@company.com')]
+    // protected ?string $email = null;
 
-    //#[OAT\Property(description: 'LinkedIn url of the contact', type: 'string', format: 'url', example: 'https://likedin.com/in/contactname')]
-    //protected ?string $linkedin = null;
+    // #[OAT\Property(description: 'LinkedIn url of the contact', type: 'string', format: 'url', example: 'https://likedin.com/in/contactname')]
+    // protected ?string $linkedin = null;
 
-    //#[OAT\Property(description: 'Country ISO code of the contact', type: 'string', example: 'UK')]
-    //protected ?string $country = null;
+    // #[OAT\Property(description: 'Country ISO code of the contact', type: 'string', example: 'UK')]
+    // protected ?string $country = null;
 
-    //#[OAT\Property(description: 'Notes of the contact', type: 'string', example: 'We meet last time at the Coffee Shop inside the hotel.')]
-    //protected ?string $notes = null;
+    // #[OAT\Property(description: 'Notes of the contact', type: 'string', example: 'We meet last time at the Coffee Shop inside the hotel.')]
+    // protected ?string $notes = null;
 
     /**
      * RFC6350

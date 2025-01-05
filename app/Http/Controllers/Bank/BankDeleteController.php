@@ -15,7 +15,7 @@ class BankDeleteController extends MainController
     public function delete(Request $request, string $uuid)
     {
         $bank = Bank::find($uuid);
-        //@TODO improve this security check
+        // @TODO improve this security check
         if ((int) Auth::user()->company_id !== Company::DEFAULT_COMPANY) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }

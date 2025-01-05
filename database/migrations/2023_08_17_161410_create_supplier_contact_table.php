@@ -31,7 +31,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            //$table->foreign('supplier_id')->references('id')->on('supplier');
+            // $table->foreign('supplier_id')->references('id')->on('supplier');
         });
     }
 

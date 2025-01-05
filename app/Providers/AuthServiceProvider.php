@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //Custom
+        // Custom
         // Implicitly grant "SuperAdmin" role all permission checks using can()
         Gate::before(function ($user, $ability) {
             return $user->hasRole('SuperAdmin') ? true : null;

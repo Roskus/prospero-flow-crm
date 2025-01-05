@@ -17,4 +17,3 @@ Route::get('/bank-account/update/{id}',
 Route::get('/bank-account/save',
     [\App\Http\Controllers\Bank\Account\BankAccountSaveController::class, 'save'])
     ->can('create bank');
-

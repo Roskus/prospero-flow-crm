@@ -9,19 +9,19 @@ class Domain
     public static function isValid(string $url): bool
     {
         $validation = false;
-        /*Parse URL*/
+        /* Parse URL */
         $urlparts = parse_url(filter_var($url, FILTER_SANITIZE_URL));
-        /*Check host exist else path assign to host*/
+        /* Check host exist else path assign to host */
         if (! isset($urlparts['host'])) {
             $urlparts['host'] = $urlparts['path'];
         }
 
         if ($urlparts['host'] != '') {
-            /*Add scheme if not found*/
+            /* Add scheme if not found */
             if (! isset($urlparts['scheme'])) {
                 $urlparts['scheme'] = 'http';
             }
-            /*Validation*/
+            /* Validation */
             if (checkdnsrr($urlparts['host'], 'A')
                 && in_array($urlparts['scheme'], ['http', 'https'])
                 && ip2long($urlparts['host']) === false) {

@@ -11,7 +11,7 @@ use Tests\TestCase;
 class LoginControllerTest extends TestCase
 {
     #[Test]
-    //#[CoversMethod('App\Http\Controllers\Api\Auth\LoginController', 'login')]
+    // #[CoversMethod('App\Http\Controllers\Api\Auth\LoginController', 'login')]
     public function it_can_login()
     {
         $credentials = ['email' => $this->user->email, 'password' => 'password'];

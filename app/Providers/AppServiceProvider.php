@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        //Custom
+        // Custom
         Paginator::useBootstrapFive();
 
         Model::preventLazyLoading(! $this->app->isProduction());

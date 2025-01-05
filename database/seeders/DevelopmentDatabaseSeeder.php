@@ -38,7 +38,7 @@ class DevelopmentDatabaseSeeder extends Seeder
             'first_name' => 'Admin',
             'last_name' => 'Test',
             'email' => 'admin@admin.com',
-            'password' => '$2y$10$Rbren9IPDJs8/nbZQ5.z8.5wW.LmukvaLyL9ndnqZ3NH.AbdrPJLK', //admin
+            'password' => '$2y$10$Rbren9IPDJs8/nbZQ5.z8.5wW.LmukvaLyL9ndnqZ3NH.AbdrPJLK', // admin
             'lang' => 'en',
             'company_id' => $company->id,
         ]);

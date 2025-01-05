@@ -1,4 +1,5 @@
 <?php
+
 /*
 |--------------------------------------------------------------------------
 | Calendar English file
@@ -6,7 +7,7 @@
 | Base lang file
 */
 return [
-    //Months
+    // Months
     'January' => 'January',
     'February' => 'February',
     'March' => 'March',

@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OpenApi\Attributes as OAT;
 
-//use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[OAT\Schema(schema: 'Campaign', required: ['subject', 'from', 'body', 'tags'], type: 'object')]
 class Campaign extends Model
 {
     use HasFactory;
-    //use SoftDeletes;
+    // use SoftDeletes;
 
     protected $table = 'campaign';
 

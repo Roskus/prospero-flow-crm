@@ -114,7 +114,7 @@ class Lead extends Model
     use HasFactory;
     use SoftDeletes;
 
-    const OPEN = 'open'; //New
+    const OPEN = 'open'; // New
 
     const IN_PROGRESS = 'in_progress';
 

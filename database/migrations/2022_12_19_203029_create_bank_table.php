@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('bank', function (Blueprint $table) {
             $table->id();
             $table->string('name', 80);
-            $table->string('country', 2); //ISO
-            $table->string('bic', 8)->nullable(); //SWIFT
+            $table->string('country', 2); // ISO
+            $table->string('bic', 8)->nullable(); // SWIFT
             $table->string('phone', 15)->nullable();
             $table->string('email', 254)->nullable();
             $table->string('website', 255)->nullable();

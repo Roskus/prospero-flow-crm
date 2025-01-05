@@ -24,7 +24,7 @@ class CompanySaveController extends MainController
     {
         $company = $this->companyRepository->save($request->all());
 
-        //Save image
+        // Save image
         if (isset($request->logo)) {
             $extension = $request->file('logo')->extension();
             $origin_path = $request->file('logo')->getPathName();

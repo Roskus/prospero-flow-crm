@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Bank;
 
 use App\Models\Bank;
-use Squire\Models\Country;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Squire\Models\Country;
 
 class Account extends Model
 {
@@ -26,7 +26,6 @@ class Account extends Model
     {
         return $this->belongsTo(Country::class);
     }
-
 
     public function bank(): BelongsTo
     {

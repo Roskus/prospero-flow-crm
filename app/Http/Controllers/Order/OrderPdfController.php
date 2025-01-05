@@ -15,8 +15,8 @@ class OrderPdfController extends Controller
     {
         $order = Order::findOrFail($id);
         $data['order'] = $order;
-        //Debug
-        //return view('order.print', $data);
+        // Debug
+        // return view('order.print', $data);
         $html = view('order.print', $data)->render();
 
         $dompdf = new Dompdf;

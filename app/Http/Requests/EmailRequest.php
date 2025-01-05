@@ -30,8 +30,8 @@ class EmailRequest extends FormRequest
             'to' => 'nullable|email',
             'cc' => 'nullable|email',
             'body' => 'required|string',
-            //'signature' => 'nullable|boolean',
-            'attachment.*' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:10240', //10 MB
+            // 'signature' => 'nullable|boolean',
+            'attachment.*' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:10240', // 10 MB
         ];
     }
 }

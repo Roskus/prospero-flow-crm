@@ -26,22 +26,22 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 Route::get('/lock', [\App\Http\Controllers\Auth\LockController::class, 'index']);
 Route::post('/unlock', [\App\Http\Controllers\Auth\UnlockController::class, 'unlock'])->name('unlock');
 
-//Order
+// Order
 require_once __DIR__.'/module/order.php';
 
-//Product
+// Product
 require_once __DIR__.'/module/product.php';
 
-//Brand
+// Brand
 require_once __DIR__.'/module/brand.php';
 
 // Lead
 require_once __DIR__.'/module/lead.php';
 
-//Customer
+// Customer
 require_once __DIR__.'/module/customer.php';
 
-//Category
+// Category
 require_once __DIR__.'/module/category.php';
 
 // Company
@@ -86,7 +86,7 @@ require_once __DIR__.'/module/ticket.php';
 // Regions
 Route::get('ajax/region/{country}', [\App\Http\Controllers\Region\RegionGetAjaxController::class, 'index']);
 
-//Report
+// Report
 Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);
 Route::get('/report/sale', [\App\Http\Controllers\Report\ReportSaleController::class, 'index']);
 Route::get('/report/email', [\App\Http\Controllers\Report\ReportEmailController::class, 'index']);
@@ -105,10 +105,10 @@ Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeS
 Route::get('/permission', [\App\Http\Controllers\Permission\PermissionIndexController::class, 'index']);
 Route::post('/permission', [\App\Http\Controllers\Permission\PermissionSaveController::class, 'save']);
 
-//Bank
+// Bank
 require_once __DIR__.'/module/bank.php';
 
-//Bank account
+// Bank account
 require_once __DIR__.'/module/bank_account.php';
 
 // Payroll

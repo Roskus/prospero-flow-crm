@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bank', function (Blueprint $table) {
-            $table->string('bic', 11)->nullable()->change(); //SWIFT
+            $table->string('bic', 11)->nullable()->change(); // SWIFT
         });
     }
 
@@ -21,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //No rollback action
+        // No rollback action
     }
 };

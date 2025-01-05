@@ -48,7 +48,7 @@ class ProductSaveController extends MainController
                     $product->save();
                 }
             } catch (Throwable $t) {
-                //can't create directory
+                // can't create directory
                 Log::error($t->getMessage());
             }
         }

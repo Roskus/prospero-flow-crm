@@ -35,12 +35,12 @@ class ProductImportSaveController extends MainController
             return redirect('/product')->withErrors(__("Can't read uploaded file"));
         }
 
-        //name;category;brand;model;sku;barcode;cost;price;description;tags
+        // name;category;brand;model;sku;barcode;cost;price;description;tags
 
         $rowCount = 0;
-        $separator = ';'; //(! empty($request->separator)) ? $request->separator : ';';
+        $separator = ';'; // (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 2000, $separator)) !== false) {
-            //Skip header starting in 1
+            // Skip header starting in 1
 
             if ($data[0] == 'name') {
                 continue;
@@ -62,7 +62,7 @@ class ProductImportSaveController extends MainController
             $product->cost = (float) $data[6];
             $product->price = (float) $data[7];
             $product->description = $data[8];
-            $product->tags = null; //$data[9];
+            $product->tags = null; // $data[9];
             $product->created_at = now();
             $product->tax = 0;
 

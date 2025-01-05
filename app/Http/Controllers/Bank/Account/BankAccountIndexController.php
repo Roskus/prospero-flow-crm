@@ -13,6 +13,7 @@ class BankAccountIndexController
     {
         $bankAccount = new BankAccount;
         $data['bank_accounts'] = $bankAccount->getAllByCompanyId(Auth::user()->company_id);
+
         return view('bank.account.index');
     }
 }

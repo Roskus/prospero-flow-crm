@@ -183,7 +183,7 @@ class PermissionSeeder extends Seeder
             ],
             // Company
             [
-                'roles' => ['SuperAdmin'], //Only SuperAdmin can create company
+                'roles' => ['SuperAdmin'], // Only SuperAdmin can create company
                 'name' => 'create company',
                 'guard_name' => 'web',
                 'module_id' => 8,
@@ -201,14 +201,14 @@ class PermissionSeeder extends Seeder
                 'module_id' => 8,
             ],
             [
-                'roles' => ['SuperAdmin'], //Only SuperAdmin can delete company
+                'roles' => ['SuperAdmin'], // Only SuperAdmin can delete company
                 'name' => 'delete company',
                 'guard_name' => 'web',
                 'module_id' => 8,
             ],
             // User
             [
-                'roles' => ['SuperAdmin'], //Only SuperAdmin can create user
+                'roles' => ['SuperAdmin'], // Only SuperAdmin can create user
                 'name' => 'create user',
                 'guard_name' => 'web',
                 'module_id' => 7,

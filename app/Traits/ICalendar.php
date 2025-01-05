@@ -54,10 +54,10 @@ trait ICalendar
         $iCal .= 'CALSCALE:GREGORIAN'.self::$EOL;
         $iCal .= 'BEGIN:VEVENT'.self::$EOL;
         $iCal .= 'SUMMARY:'.$this->title.self::$EOL;
-        //$iCal .= 'DTSTART;TZID='.self::$EOL;
-        //$iCal .= 'DTEND;TZID='.self::$EOL;
-        //$iCal .= 'LOCATION:'.self::$EOL;
-        //$iCal .= 'DESCRIPTION:'.self::$EOL;
+        // $iCal .= 'DTSTART;TZID='.self::$EOL;
+        // $iCal .= 'DTEND;TZID='.self::$EOL;
+        // $iCal .= 'LOCATION:'.self::$EOL;
+        // $iCal .= 'DESCRIPTION:'.self::$EOL;
 
         $iCal .= 'END:VEVENT'.self::$EOL;
         $iCal .= 'END:VCALENDAR'.self::$EOL;

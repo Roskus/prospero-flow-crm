@@ -36,12 +36,12 @@ class ProfileSaveController
         $user->timezone = $request->timezone;
         $user->signature_html = $request->signature_html;
 
-        //Update password if change
+        // Update password if change
         if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
             $user->password = Hash::make($request->password);
         }
         $user->updated_at = now();
-        //Save image
+        // Save image
         if (isset($request->photo)) {
             $extension = $request->file('photo')->extension();
             $origin_path = $request->file('photo')->getPathName();
@@ -65,7 +65,7 @@ class ProfileSaveController
             }
         }
         $user->save();
-        //Update current software language
+        // Update current software language
         App::setLocale($locale);
         session()->put('locale', $locale);
 

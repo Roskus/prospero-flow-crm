@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //Can't rollback
+        // Can't rollback
     }
 };

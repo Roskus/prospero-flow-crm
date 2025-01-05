@@ -82,8 +82,8 @@ class User extends Authenticatable implements JWTSubject
     #[OAT\Property(description: 'Phone of the user', type: 'string', example: '+3464500000')]
     protected ?string $phone = null;
 
-    //#[OAT\Property(description: 'Password of the user', type: 'string', format: 'password', example: 'qwerty')]
-    //protected ?string $password = null;
+    // #[OAT\Property(description: 'Password of the user', type: 'string', format: 'password', example: 'qwerty')]
+    // protected ?string $password = null;
 
     #[OAT\Property(description: 'Profile photo', type: 'string', example: 'profile.jpg')]
     protected ?string $photo = null;

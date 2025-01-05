@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('ticket', function (Blueprint $table) {
-            //No rollback
+            // No rollback
         });
     }
 };

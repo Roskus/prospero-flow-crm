@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EE - Estonia Bank list
  */
