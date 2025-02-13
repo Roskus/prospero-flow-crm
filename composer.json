@@ -10,9 +10,10 @@
     "type": "project",
     "require": {
         "php": "^8.2",
+        "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-intl": "*",
-        "ext-bcmath": "*",
+        "akaunting/laravel-money": "^5.2",
         "aws/aws-sdk-php": "^3.234",
         "barryvdh/laravel-dompdf": "^3.0.0",
         "barryvdh/laravel-snappy": "^1.0.3",
