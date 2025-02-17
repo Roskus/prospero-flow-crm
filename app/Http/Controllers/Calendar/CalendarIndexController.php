@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Calendar;
 
 use App\Http\Controllers\MainController;
 use App\Models\Calendar;
-use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class CalendarIndexController extends MainController
 {
