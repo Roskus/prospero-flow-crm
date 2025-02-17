@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Product;
 
 use App\Models\Product;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\UploadedFile;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;

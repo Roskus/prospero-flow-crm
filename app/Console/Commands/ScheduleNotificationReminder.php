@@ -8,7 +8,7 @@ use App\Mail\InternalCRMEmail;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\Notification;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
