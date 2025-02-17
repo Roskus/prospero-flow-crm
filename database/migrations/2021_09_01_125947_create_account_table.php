@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Accounting model
  */
-class CreateAccountTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -40,4 +40,4 @@ class CreateAccountTable extends Migration
     {
         Schema::dropIfExists('account');
     }
-}
+};

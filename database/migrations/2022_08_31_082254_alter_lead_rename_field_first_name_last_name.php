@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterLeadRenameFieldFirstNameLastName extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +33,4 @@ class AlterLeadRenameFieldFirstNameLastName extends Migration
             $table->renameColumn('business_name', 'last_name');
         });
     }
-}
+};
