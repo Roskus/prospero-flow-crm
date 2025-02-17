@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
 
 Route::match(['get', 'post'], '/product', [\App\Http\Controllers\Product\ProductIndexController::class, 'index']);

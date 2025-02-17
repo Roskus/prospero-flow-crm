@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/order', [\App\Http\Controllers\Order\OrderIndexController::class, 'index']);

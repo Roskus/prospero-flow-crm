@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Calendar\CalendarExportController;
 use Illuminate\Support\Facades\Route;
 

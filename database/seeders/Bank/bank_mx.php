@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * MX Bank list
  * https://moneytransfers.com/swift-codes/mexico/mexico/banco-de-mexico/BDEMMXMM

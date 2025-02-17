@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
 
 Route::post('/contact/save', [\App\Http\Controllers\Contact\ContactSaveController::class, 'save']);
