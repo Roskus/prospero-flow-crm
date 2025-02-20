@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\ImportRequest;
 use App\Models\Customer;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
