@@ -51,8 +51,8 @@
         "yajra/laravel-auditable": "^11"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.24.1",
         "barryvdh/laravel-debugbar": "^3.14.10",
+        "fakerphp/faker": "^1.24.1",
         "friendsofphp/php-cs-fixer": "^3.66.1",
         "larastan/larastan": "^v2.9.12",
         "laravel/pint": "^1.19",
@@ -61,7 +61,7 @@
         "nunomaduro/collision": "^8.1",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^11.0.1",
-        "rector/rector": "^1.2.4",
+        "rector/rector": "^1.2",
         "spatie/laravel-ignition": "^2.0",
         "squizlabs/php_codesniffer": "^3.7"
     },
