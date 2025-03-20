@@ -9,8 +9,10 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class LoginController extends Controller
+class LoginController extends Controller implements HasMiddleware
 {
     /*
     |--------------------------------------------------------------------------
@@ -30,6 +32,13 @@ class LoginController extends Controller
      */
     protected string $redirectTo = RouteServiceProvider::HOME;
 
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('guest', except: ['logout']),
+        ];
+    }
+
     /**
      * Create a new controller instance.
      *
@@ -37,7 +46,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+
     }
 
     protected function authenticated(Request $request, $user): void

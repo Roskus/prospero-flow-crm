@@ -12,12 +12,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class MainController extends Controller
+class MainController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            'locked',
+            //new Middleware('log', only: ['index']),
+            //new Middleware('subscribed', except: ['store']),
+        ];
+    }
+
     public function __construct(Request $request)
     {
-        $this->middleware(['auth', 'locked']);
         // $locale = 'es';//App::getLocale();
         // App::setLocale($locale);
     }
