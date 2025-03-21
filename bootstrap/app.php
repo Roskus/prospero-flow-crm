@@ -13,7 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'locked' => \App\Http\Middleware\Locked::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
