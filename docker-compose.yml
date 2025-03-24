@@ -1,7 +1,7 @@
 # sudo docker-compose up -d
 services:
   php:
-    #image: php:8.3-fpm
+    #image: php:8.4-fpm
     build: './etc/infrastructure/php'
     container_name: crm-php
     user: "www-data:www-data"
@@ -19,13 +19,13 @@ services:
   web:
     #image: nginx:stable
     build: './etc/infrastructure/nginx'
-    container_name: crm-nginx
+    container_name: crm-web
     ports:
       - "80:80"
       - "443:443"
     volumes:
     - ./etc/.bashrc:/home/www-data/.bashrc
-    - .:/var/www/crm/
+    - .:/var/www/crm/:z
     - ./etc/infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf
     - ./etc/infrastructure/nginx/static.conf:/etc/nginx/conf.d/static.conf
     - ./etc/infrastructure/nginx/ssl/:/etc/ssl/
@@ -35,6 +35,7 @@ services:
     - php
     depends_on:
     - php
+    user: "root:www-data"
   cache:
     image: redis
     container_name: crm-cache

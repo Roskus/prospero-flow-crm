@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.4-fpm
 
 # Arguments defined in docker-compose.yml
 #ARG USERNAME=www-data
@@ -6,7 +6,7 @@ FROM php:8.3-fpm
 
 # Update & upgrade apt Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils libicu-dev vim redis-tools git libxml2-dev wget ca-certificates zip unzip mc htop nano curl \
+    apt-utils libicu-dev vim redis-tools git libxml2-dev wget ca-certificates zip unzip mc htop nano curl net-tools \
     mariadb-client libpq-dev \
     && apt-get clean
 RUN pecl channel-update pecl.php.net
@@ -26,16 +26,15 @@ pdo_mysql \
 pdo_pgsql \
 pgsql \
 soap \
-zip \
-intl
+zip
 
 RUN pecl install redis && docker-php-ext-enable redis
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 
 ADD ./conf.d/  /usr/local/etc/php/conf.d/
 
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
+# Install xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
@@ -43,7 +42,8 @@ COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN apt-get update && apt-get --no-install-recommends install -y gnupg2 && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && ACCEPT_EULA=Y apt-get --no-install-recommends install -y unixodbc-dev msodbcsql17
+    apt-get update && ACCEPT_EULA=Y apt-get --no-install-recommends install -y unixodbc-dev msodbcsql17 \
+    && apt-get clean
 
 # Install PHP extensions for SQL Server
 RUN pecl install pdo_sqlsrv sqlsrv && docker-php-ext-enable pdo_sqlsrv sqlsrv
@@ -62,9 +62,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 #    && chmod 0440 /etc/sudoers.d/$USERNAME
 
 ADD . /var/www/crm/
+
 # Chage permissions
-RUN chown www-data:www-data /var/www/crm/ -R
-RUN chmod 775 /var/www/crm/ -R
+RUN chown -R www-data:www-data /var/www/crm/ && \
+    chmod -R 775 /var/www/crm/
+
+# Remove git safe directory warning with this config
+RUN git config --global --add safe.directory /var/www/crm/
 
 #ENV COMPOSER_ALLOW_SUPERUSER=1
 #RUN composer install
