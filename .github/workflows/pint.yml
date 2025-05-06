@@ -26,6 +26,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: PHP Linting (Pint)
-          branch: php-lint/$(date +%s)
+          branch: php-lint-${{ github.run_id }}
           title: "PHP Linting (Pint) - Automated PR"
           body: "This PR contains changes made by the PHP Linting (Pint) workflow."
