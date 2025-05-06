@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Carbon;
 
 class LoginController extends Controller implements HasMiddleware
 {
@@ -44,10 +44,7 @@ class LoginController extends Controller implements HasMiddleware
      *
      * @return void
      */
-    public function __construct()
-    {
-
-    }
+    public function __construct() {}
 
     protected function authenticated(Request $request, $user): void
     {

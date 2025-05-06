@@ -9,10 +9,10 @@ use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing\Controllers\HasMiddleware;
 
 class MainController extends Controller implements HasMiddleware
 {
@@ -21,8 +21,8 @@ class MainController extends Controller implements HasMiddleware
         return [
             'auth',
             'locked',
-            //new Middleware('log', only: ['index']),
-            //new Middleware('subscribed', except: ['store']),
+            // new Middleware('log', only: ['index']),
+            // new Middleware('subscribed', except: ['store']),
         ];
     }
 
