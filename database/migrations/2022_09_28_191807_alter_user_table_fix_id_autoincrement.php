@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,7 +16,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('user', function (Blueprint $table) {
-            if (DB::connection()->getDriverName() === 'pgsql') {
+            $driver = DB::connection()->getDriverName();
+            if ($driver === 'pgsql') {
                 // Aquí colocas el código específico para PostgreSQL
                 $sequenceExists = DB::select("SELECT to_regclass('public.user_id_seq')");
 
@@ -26,7 +25,7 @@ return new class extends Migration
                     DB::statement('CREATE SEQUENCE user_id_seq');
                     DB::statement("ALTER TABLE user ALTER COLUMN id SET DEFAULT nextval('user_id_seq')");
                 }
-            } else {
+            } elseif ($driver === 'mysql') {
                 Schema::disableForeignKeyConstraints();
                 Schema::table('calendar', function (BluePrint $table) {
                     $table->dropForeign('calendar_user_id_foreign');
@@ -36,8 +35,11 @@ return new class extends Migration
                 } catch (Throwable $th) {
                     Log::error($th->getMessage());
                 }
+                Schema::enableForeignKeyConstraints();
+            } elseif ($driver === 'sqlite') {
+                // SQLite does not support altering autoincrement, so skip this step
+                // Optionally, log or comment here for future reference
             }
-            Schema::enableForeignKeyConstraints();
         });
     }
 
