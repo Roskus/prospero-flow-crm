@@ -15,7 +15,7 @@ We made a free open source CRM. Our Community Edition (CE)
 ## Features
 
 - Multi company (White label)
-- Multi language
+- Multi-language
 - REST API
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Roskus_prospero-flow-crm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Roskus_prospero-flow-crm)
@@ -126,7 +126,7 @@ crotab -e
 
 ## Demo
 
-![](doc/screenshoot.png)
+![](docs/screenshoot.png)
 - User: admin@admin.com
 - Pass: admin
 
