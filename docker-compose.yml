@@ -4,6 +4,7 @@ services:
     #image: php:8.4-fpm
     build: './etc/infrastructure/php'
     container_name: crm-php
+    #restart: always
     user: "www-data:www-data"
     volumes:
     - ./etc/.bashrc:/root/.bashrc
@@ -20,6 +21,7 @@ services:
     #image: nginx:stable
     build: './etc/infrastructure/nginx'
     container_name: crm-web
+    #restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -39,6 +41,7 @@ services:
   cache:
     image: redis
     container_name: crm-cache
+    #restart: always
     ports:
       - "6379:6379"
     volumes:
