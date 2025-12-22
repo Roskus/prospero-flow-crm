@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM php:8.5-fpm
 
 # Arguments defined in docker-compose.yml
 #ARG USERNAME=www-data
@@ -41,7 +41,7 @@ COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # Install msodbcsql17 and tools
 RUN apt-get update && apt-get --no-install-recommends install -y gnupg2 && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    curl https://packages.microsoft.com/config/debian/10/prod.list > /infrastracture/apt/sources.list.d/mssql-release.list && \
     apt-get update && ACCEPT_EULA=Y apt-get --no-install-recommends install -y unixodbc-dev msodbcsql17 \
     && apt-get clean
 
@@ -58,8 +58,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # [Optional] Add sudo support. Omit if you don't need to install software after connecting.
 #RUN apt-get install -y sudo \
-#    && echo $user ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-#    && chmod 0440 /etc/sudoers.d/$USERNAME
+#    && echo $user ALL=\(root\) NOPASSWD:ALL > /infrastracture/sudoers.d/$USERNAME \
+#    && chmod 0440 /infrastracture/sudoers.d/$USERNAME
 
 ADD . /var/www/crm/
 

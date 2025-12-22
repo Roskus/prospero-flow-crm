@@ -9,24 +9,24 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^8.3",
+        "php": "^8.5",
         "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-intl": "*",
         "akaunting/laravel-money": "^6.0.2",
-        "aws/aws-sdk-php": "^3.234",
+        "aws/aws-sdk-php": "^3.369.0",
         "barryvdh/laravel-dompdf": "^3.1.1",
         "barryvdh/laravel-snappy": "^1.0.4",
         "darkaonline/l5-swagger": "^8.6.5",
-        "dompdf/dompdf": "^3.1.0",
+        "dompdf/dompdf": "^3.1.4",
         "egulias/email-validator": "^4.0.4",
         "giggsey/libphonenumber-for-php": "^8.13",
-        "guzzlehttp/guzzle": "^7.9.3",
+        "guzzlehttp/guzzle": "^7.10.0",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltoimage-i386": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-i386": "0.12.x",
-        "intervention/validation": "^4.1",
+        "intervention/validation": "^4.6.1",
         "laravel/framework": "^12.0",
         "laravel/helpers": "^1.7.2",
         "laravel/sanctum": "^4.1.1",
@@ -53,7 +53,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
         "fakerphp/faker": "^1.24.1",
-        "friendsofphp/php-cs-fixer": "^3.66.1",
+        "friendsofphp/php-cs-fixer": "^3.92.3",
         "larastan/larastan": "^v3.3.1",
         "laravel/pint": "^1.19",
         "marcocesarato/php-conventional-changelog": "^1.17.2",
@@ -63,7 +63,7 @@
         "phpunit/phpunit": "^11.0.1",
         "rector/rector": "^2.0",
         "spatie/laravel-ignition": "^2.0",
-        "squizlabs/php_codesniffer": "^3.7"
+        "squizlabs/php_codesniffer": "^3.13.5"
     },
     "autoload": {
         "psr-4": {

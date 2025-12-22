@@ -90,7 +90,7 @@ tools:
   sub_category: Package Managers
   image_url: https://img.stackshare.io/service/1688/New_Project__65_.png
   detection_source_url: https://github.com/Roskus/prospero-flow-crm/blob/main/etc/infrastructure/php/Dockerfile
-  detection_source: etc/infrastructure/php/Dockerfile
+  detection_source: infrastracture/etc/php/Dockerfile
   last_updated_by: Gustavo Novaro
   last_updated_on: 2023-12-29 17:00:15.000000000 Z
 - name: Docker
@@ -175,7 +175,7 @@ tools:
   sub_category: Testing Frameworks
   image_url: https://img.stackshare.io/service/3502/6b9dfb07681dee602dbdf75d9393f07c_400x400.png
   detection_source_url: https://github.com/Roskus/prospero-flow-crm/blob/main/etc/infrastructure/php/Dockerfile
-  detection_source: etc/infrastructure/php/Dockerfile
+  detection_source: infrastracture/etc/php/Dockerfile
   last_updated_by: Gustavo Novaro
   last_updated_on: 2023-01-21 14:46:38.000000000 Z
 - name: phpMyAdmin
