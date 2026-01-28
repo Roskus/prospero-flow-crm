@@ -5,7 +5,7 @@ We made a free open source CRM. Our Community Edition (CE)
 
 ## Requirements
 
-- PHP >= 8.3
+- PHP >= 8.4
 - composer
 - Laravel 12
 - Docker
@@ -82,7 +82,7 @@ or
 make ssh
 ```
 
-Copy enviroment config file
+Copy environment config file
 
 ```bash
 cp .env.example .env

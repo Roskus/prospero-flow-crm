@@ -17,13 +17,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.3, 8.4]
+        php: [8.3, 8.4, 8.5]
 
     name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -70,6 +70,6 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
       # Adding SonarCloud Scan for test coverage
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
