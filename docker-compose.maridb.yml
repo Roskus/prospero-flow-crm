@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:latest
+    image: mariadb:latest
     container_name: crm-db
     ports:
       - "3306:3306"

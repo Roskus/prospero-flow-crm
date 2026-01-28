@@ -2,16 +2,16 @@
 services:
   php:
     #image: php:8.5-fpm
-    build: './infrastracture/etc/php'
+    build: './infrastructure/etc/php'
     container_name: crm-php
     #restart: always
     user: "www-data:www-data"
     volumes:
-    - ./infrastracture/.bashrc:/root/.bashrc
-    - ./infrastracture/.bashrc:/home/www-data/.bashrc
+    - ./infrastructure/.bashrc:/root/.bashrc
+    - ./infrastructure/.bashrc:/home/www-data/.bashrc
     - .:/var/www/crm/
     - ./bootstrap/cache/:/var/www/crm/bootstrap/cache/
-    #- ./infrastracture/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    #- ./infrastructure/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     working_dir: /var/www/crm/
     links:
     - cache
@@ -26,12 +26,12 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-    - ./infrastracture/.bashrc:/home/www-data/.bashrc
+    - ./infrastructure/.bashrc:/home/www-data/.bashrc
     - .:/var/www/crm/:z
-    - ./infrastracture/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    - ./infrastracture/etc/nginx/static.conf:/etc/nginx/conf.d/static.conf
-    - ./infrastracture/etc/nginx/ssl/:/etc/ssl/
-    - ./infrastracture/etc/nginx/conf.d:/etc/nginx/conf.d/
+    - ./infrastructure/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    - ./infrastructure/etc/nginx/static.conf:/etc/nginx/conf.d/static.conf
+    - ./infrastructure/etc/nginx/ssl/:/etc/ssl/
+    - ./infrastructure/etc/nginx/conf.d:/etc/nginx/conf.d/
     links:
     - cache
     - php
@@ -45,4 +45,4 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./infrastracture/etc/redis/redis.conf:/etc/redis/redis.conf
+      - ./infrastructure/etc/redis/redis.conf:/etc/redis/redis.conf

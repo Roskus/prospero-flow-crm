@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Lead;
 
@@ -12,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class LeadImportSaveController extends MainController
 {
+    private const LEAD_REDIRECT_URL = '/lead';
+
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -21,7 +21,7 @@ class LeadImportSaveController extends MainController
 
         $allowedExtensions = ['csv'];
         if (! in_array($file->getClientOriginalExtension(), $allowedExtensions)) {
-            return redirect('/lead')->withErrors(__('Invalid file type. Only CSV files allowed.'));
+            return redirect(self::LEAD_REDIRECT_URL)->withErrors(__('Invalid file type. Only CSV files allowed.'));
         }
 
         $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -32,7 +32,7 @@ class LeadImportSaveController extends MainController
         try {
             $handle = fopen($filePath, 'r');
         } catch (\Throwable $t) {
-            return redirect('/lead')->withErrors(__("Can't read uploaded file"));
+            return redirect(self::LEAD_REDIRECT_URL)->withErrors(__("Can't read uploaded file"));
         }
 
         // HEADER (17)
@@ -69,7 +69,7 @@ class LeadImportSaveController extends MainController
             'count' => $rowCount,
         ];
 
-        return redirect('/lead')->with($response);
+        return redirect(self::LEAD_REDIRECT_URL)->with($response);
     }
 
     private function mapCsvRowToLead(array $data): Lead

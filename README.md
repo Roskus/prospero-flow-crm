@@ -9,7 +9,7 @@ We made a free open source CRM. Our Community Edition (CE)
 - composer
 - Laravel 12
 - Docker
-- MariaDB / Postgres / MS SQL Server
+- MariaDB / MySQL / Postgres / MS SQL Server
 - Redis
 
 ## Features
@@ -45,8 +45,15 @@ make install
 With MariaDB
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml build
-docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.mariadb.yml -f docker-compose.pma.yml build
+docker compose -f docker-compose.yml -f docker-compose.mariadb.yml -f docker-compose.pma.yml up -d
+```
+
+With MySQL
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml build
+docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
 ```
 
 or
