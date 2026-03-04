@@ -40,7 +40,6 @@
         "psr/simple-cache": "^2.0",
         "ramsey/uuid": "^4.8.1",
         "sentry/sentry-laravel": "^4.10.2",
-        "shopify/shopify-api": "^v4.3.0",
         "spatie/icalendar-generator": "^2.9.0",
         "spatie/laravel-permission": "^6.10.1",
         "squirephp/continents-en": "^3.9.0",
