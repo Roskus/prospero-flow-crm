@@ -1,0 +1,14 @@
+{
+    "agents": [
+        "junie",
+        "codex",
+        "copilot",
+        "claude_code",
+        "gemini"
+    ],
+    "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "sail": false
+}
