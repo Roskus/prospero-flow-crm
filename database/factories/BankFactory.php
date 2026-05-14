@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Bank;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Squire\Models\Country;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Bank>
+ * @extends Factory<Bank>
  */
 class BankFactory extends Factory
 {

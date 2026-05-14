@@ -6,12 +6,15 @@ namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
 use App\Models\Lead;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class LeadDeleteController extends MainController
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function delete(Request $request, int $id)
     {

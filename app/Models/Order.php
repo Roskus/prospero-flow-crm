@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Order\Item;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,11 +22,11 @@ final class Order extends Model
     use HasFactory, SoftDeletes;
 
     // Class Constants
-    const CANCELED = 0;
+    const int CANCELED = 0;
 
-    const PENDING = 1;
+    const int PENDING = 1;
 
-    const CONFIRMED = 2;
+    const int CONFIRMED = 2;
 
     const COMPLETED = 3;
 
@@ -190,7 +191,7 @@ final class Order extends Model
         return $total;
     }
 
-    public function getAll(): \Illuminate\Database\Eloquent\Collection
+    public function getAll(): Collection
     {
         return Order::all();
     }

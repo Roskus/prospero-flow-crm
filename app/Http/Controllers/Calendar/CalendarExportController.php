@@ -10,10 +10,11 @@ use DateTime;
 use Illuminate\Support\Str;
 use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Components\Event;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class CalendarExportController extends Controller
 {
-    public function exportICal(int $id): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    public function exportICal(int $id): BinaryFileResponse
     {
         // Buscar el evento de calendario por su ID
         $calendarEvent = CalendarModel::find($id);

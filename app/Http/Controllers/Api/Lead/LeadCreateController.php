@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Lead;
 use App\Repositories\LeadRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Annotations as OA;
 
@@ -65,7 +66,7 @@ class LeadCreateController
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
     public function create(Request $request): JsonResponse
     {

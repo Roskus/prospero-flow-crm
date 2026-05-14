@@ -7,6 +7,9 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\ImportRequest;
 use App\Models\Customer;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 class CustomerImportSaveController extends MainController
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function save(ImportRequest $request)
     {

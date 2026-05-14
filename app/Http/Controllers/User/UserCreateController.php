@@ -7,6 +7,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\MainController;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -14,7 +17,7 @@ use Spatie\Permission\Models\Role;
 class UserCreateController extends MainController
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function create(Request $request)
     {

@@ -129,15 +129,15 @@ class Customer extends Model
     use HasFactory;
     use SoftDeletes;
 
-    const OPEN = 'open'; // New
+    const string OPEN = 'open'; // New
 
-    const IN_PROGRESS = 'in_progress';
+    const string IN_PROGRESS = 'in_progress';
 
-    const WAITING_FEEDBACK = 'waiting_feedback';
+    const string WAITING_FEEDBACK = 'waiting_feedback';
 
-    const CONVERTED = 'converted'; // Promoted to customer
+    const string CONVERTED = 'converted'; // Promoted to customer
 
-    const CLOSED = 'closed';
+    const string CLOSED = 'closed';
 
     protected $table = 'customer';
 
@@ -206,7 +206,7 @@ class Customer extends Model
 
     public function company(): HasOne
     {
-        return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
+        return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
     public function messages()
@@ -226,7 +226,7 @@ class Customer extends Model
 
     public function source(): HasOne
     {
-        return $this->hasOne(\App\Models\Source::class, 'id', 'source_id');
+        return $this->hasOne(Source::class, 'id', 'source_id');
     }
 
     public function industry(): HasOne

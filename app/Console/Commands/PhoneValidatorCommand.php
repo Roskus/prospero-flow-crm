@@ -6,6 +6,8 @@ namespace App\Console\Commands;
 
 use App\Models\Lead;
 use Illuminate\Console\Command;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberUtil;
 
 class PhoneValidatorCommand extends Command
 {
@@ -28,7 +30,7 @@ class PhoneValidatorCommand extends Command
      */
     public function handle(Lead $leadModel)
     {
-        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneUtil = PhoneNumberUtil::getInstance();
 
         $leadsValidated = $this->validateField($leadModel, $phoneUtil, 'phone', 'phone_verified');
         $this->info("Leads validated phones: {$leadsValidated}");
@@ -56,7 +58,7 @@ class PhoneValidatorCommand extends Command
                     $lead->save();
                     $leadsValidated++;
                 }
-            } catch (\libphonenumber\NumberParseException $e) {
+            } catch (NumberParseException $e) {
                 // Log or print the error
                 $this->error("Error parsing $field for Lead ID {$lead->id}");
             }

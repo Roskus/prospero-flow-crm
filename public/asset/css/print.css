@@ -1,3 +1,63 @@
 /**
  * CSS Prospect Flow print file
  */
+/* Estilos base para impresión */
+ body {
+     font-family: sans-serif;
+     font-size: 12px;
+     color: #333;
+ }
+ .card {
+     border: 1px solid #ddd;
+     margin-bottom: 10px;
+     border-radius: 4px;
+ }
+ .card-body {
+     padding: 10px;
+ }
+ .row {
+     display: table;
+     width: 100%;
+     table-layout: fixed;
+ }
+ .col {
+     display: table-cell;
+     padding: 5px;
+     vertical-align: top;
+ }
+ .table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-bottom: 1rem;
+ }
+ .table th, .table td {
+     padding: 0.5rem;
+     vertical-align: top;
+     border-top: 1px solid #dee2e6;
+ }
+ .table thead th {
+     vertical-align: bottom;
+     border-bottom: 2px solid #dee2e6;
+     text-align: left;
+ }
+ .table-bordered {
+     border: 1px solid #dee2e6;
+ }
+ .table-bordered th, .table-bordered td {
+     border: 1px solid #dee2e6;
+ }
+ .text-right {
+     text-align: right;
+ }
+ .mt-2 { margin-top: 0.5rem; }
+ .mt-4 { margin-top: 1.5rem; }
+ .fs-3 { font-size: 1.75rem; }
+ .img-fluid { max-width: 100%; height: auto; }
+ .img-thumbnail {
+     padding: 0.25rem;
+     background-color: #fff;
+     border: 1px solid #dee2e6;
+     border-radius: 0.25rem;
+     max-width: 100%;
+     height: auto;
+ }

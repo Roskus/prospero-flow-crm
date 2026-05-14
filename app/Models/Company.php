@@ -34,9 +34,9 @@ class Company extends Model
     use HasFactory;
     use SoftDeletes;
 
-    const ACTIVE = 1;
+    const int ACTIVE = 1;
 
-    const DEFAULT_COMPANY = 1;
+    const int DEFAULT_COMPANY = 1;
 
     protected $table = 'company';
 

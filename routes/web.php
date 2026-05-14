@@ -2,6 +2,26 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Account\AccountIndexController;
+use App\Http\Controllers\Account\AccountSaveController;
+use App\Http\Controllers\Auth\LockController;
+use App\Http\Controllers\Auth\UnlockController;
+use App\Http\Controllers\EmailTemplate\EmailTemplateIndexController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\ManifestController;
+use App\Http\Controllers\Permission\PermissionIndexController;
+use App\Http\Controllers\Permission\PermissionSaveController;
+use App\Http\Controllers\Profile\ProfileSaveController;
+use App\Http\Controllers\Profile\ProfileUpdateController;
+use App\Http\Controllers\Region\RegionGetAjaxController;
+use App\Http\Controllers\Report\ReportEmailController;
+use App\Http\Controllers\Report\ReportIndexController;
+use App\Http\Controllers\Report\ReportSaleController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Unsubscribe\UnsubscribeSaveController;
+use App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController;
+use App\Http\Controllers\WebForm\WebFormIndexController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,15 +36,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\MainController::class, 'index']);
+Route::get('/', [MainController::class, 'index']);
 // PWA - Progressive Web App
-Route::get('/manifest', [\App\Http\Controllers\ManifestController::class, 'renderWebManifest'])
+Route::get('/manifest', [ManifestController::class, 'renderWebManifest'])
     ->name('manifest');
 
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
-Route::get('/lock', [\App\Http\Controllers\Auth\LockController::class, 'index']);
-Route::post('/unlock', [\App\Http\Controllers\Auth\UnlockController::class, 'unlock'])->name('unlock');
+Route::get('/lock', [LockController::class, 'index']);
+Route::post('/unlock', [UnlockController::class, 'unlock'])->name('unlock');
 
 // Order
 require_once __DIR__.'/module/order.php';
@@ -51,18 +71,18 @@ require_once __DIR__.'/module/company.php';
 require_once __DIR__.'/module/contact.php';
 
 // Account
-Route::get('/accounting', [\App\Http\Controllers\Account\AccountIndexController::class, 'index']);
-Route::post('/account/save', [\App\Http\Controllers\Account\AccountSaveController::class, 'save']);
+Route::get('/accounting', [AccountIndexController::class, 'index']);
+Route::post('/account/save', [AccountSaveController::class, 'save']);
 
 // User
 require_once __DIR__.'/module/user.php';
 
 // Profile
-Route::get('/profile', [\App\Http\Controllers\Profile\ProfileUpdateController::class, 'update']);
-Route::post('/profile/save', [\App\Http\Controllers\Profile\ProfileSaveController::class, 'save']);
+Route::get('/profile', [ProfileUpdateController::class, 'update']);
+Route::post('/profile/save', [ProfileSaveController::class, 'save']);
 
-Route::get('/setting', [\App\Http\Controllers\SettingController::class, 'index']);
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/setting', [SettingController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
 
 // Calendar
 require_once __DIR__.'/module/calendar.php';
@@ -72,7 +92,7 @@ require_once __DIR__.'/module/email.php';
 
 // Email template
 Route::match(['get', 'post'], '/email-template',
-    [\App\Http\Controllers\EmailTemplate\EmailTemplateIndexController::class, 'index']);
+    [EmailTemplateIndexController::class, 'index']);
 
 // Campaign
 require_once __DIR__.'/module/campaign.php';
@@ -84,26 +104,26 @@ require_once __DIR__.'/module/supplier.php';
 require_once __DIR__.'/module/ticket.php';
 
 // Regions
-Route::get('ajax/region/{country}', [\App\Http\Controllers\Region\RegionGetAjaxController::class, 'index']);
+Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
 
 // Report
-Route::get('/report', [\App\Http\Controllers\Report\ReportIndexController::class, 'index']);
-Route::get('/report/sale', [\App\Http\Controllers\Report\ReportSaleController::class, 'index']);
-Route::get('/report/email', [\App\Http\Controllers\Report\ReportEmailController::class, 'index']);
+Route::get('/report', [ReportIndexController::class, 'index']);
+Route::get('/report/sale', [ReportSaleController::class, 'index']);
+Route::get('/report/email', [ReportEmailController::class, 'index']);
 
 // Web-form
-Route::get('/web-form', [\App\Http\Controllers\WebForm\WebFormIndexController::class, 'index']);
+Route::get('/web-form', [WebFormIndexController::class, 'index']);
 
 // Notifications
 require_once __DIR__.'/module/notification.php';
 
 // Unsubscribe
-Route::get('/unsubscribe', [\App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController::class, 'update']);
-Route::post('/unsubscribe/save', [\App\Http\Controllers\Unsubscribe\UnsubscribeSaveController::class, 'save']);
+Route::get('/unsubscribe', [UnsubscribeUpdateController::class, 'update']);
+Route::post('/unsubscribe/save', [UnsubscribeSaveController::class, 'save']);
 
 // Permission
-Route::get('/permission', [\App\Http\Controllers\Permission\PermissionIndexController::class, 'index']);
-Route::post('/permission', [\App\Http\Controllers\Permission\PermissionSaveController::class, 'save']);
+Route::get('/permission', [PermissionIndexController::class, 'index']);
+Route::post('/permission', [PermissionSaveController::class, 'save']);
 
 // Bank
 require_once __DIR__.'/module/bank.php';
