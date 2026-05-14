@@ -26,6 +26,17 @@ up-pg: ## Start docker container with Postgres
 up-ms: ## Start docker container with MS SQL Server
 	docker compose -f docker-compose.yml -f docker-compose.mssql.yml up -d
 
+permissions: ## Fix directory permissions for www-data
+	docker exec -u root ${DOCKER_PHP} mkdir -p /var/www/.composer/cache
+	docker exec -u root ${DOCKER_PHP} chown -R www-data:www-data /var/www/crm/storage /var/www/crm/bootstrap/cache /var/www/crm/vendor /var/www/crm/composer.json /var/www/crm/composer.lock /var/www/.composer
+	docker exec -u root ${DOCKER_PHP} chmod -R 775 /var/www/crm/storage /var/www/crm/bootstrap/cache /var/www/crm/vendor
+
+ssl: ## Generate self-signed SSL certificates for local development
+	openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+		-keyout infrastructure/etc/nginx/ssl/private/localhost.key \
+		-out infrastructure/etc/nginx/ssl/certs/localhost.crt \
+		-subj "/CN=localhost"
+
 down: ## Stop docker container
 	docker compose down
 

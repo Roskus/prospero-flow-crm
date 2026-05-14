@@ -61,7 +61,7 @@ RUN chown -R www-data:www-data /var/www/crm/ && \
     chmod -R 775 /var/www/crm/
 
 # Remove git safe directory warning with this config
-RUN git config --global --add safe.directory /var/www/crm/
+RUN git config --system --add safe.directory /var/www/crm
 
 #ENV COMPOSER_ALLOW_SUPERUSER=1
 #RUN composer install
