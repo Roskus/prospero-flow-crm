@@ -9,14 +9,17 @@ use App\Models\Industry;
 use App\Models\Lead;
 use App\Models\Source;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Squire\Models\Country;
 
 class LeadCreateController extends MainController
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create(Request $request)
     {

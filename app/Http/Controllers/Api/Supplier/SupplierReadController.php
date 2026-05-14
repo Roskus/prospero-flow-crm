@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Supplier;
 
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,7 @@ class SupplierReadController
      *     ),
      *     @OA\Response(response="404", description="Supplier not found")
      * )
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function read(Request $request, int $id)
     {

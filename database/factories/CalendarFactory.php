@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Calendar;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Calendar>
+ * @extends Factory<Calendar>
  */
 class CalendarFactory extends Factory
 {

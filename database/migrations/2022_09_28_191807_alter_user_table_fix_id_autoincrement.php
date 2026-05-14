@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -27,7 +29,7 @@ return new class extends Migration
                 }
             } elseif ($driver === 'mysql') {
                 Schema::disableForeignKeyConstraints();
-                Schema::table('calendar', function (BluePrint $table) {
+                Schema::table('calendar', function (Blueprint $table) {
                     $table->dropForeign('calendar_user_id_foreign');
                 });
                 try {

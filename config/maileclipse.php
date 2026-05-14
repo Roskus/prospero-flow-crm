@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use Illuminate\Foundation\Auth\User;
 
 return [
 
@@ -62,7 +63,7 @@ return [
     'relations' => [
         'relation_depth' => env('MAILECLIPSE_RELATION_DEPTH', 2),
 
-        'model' => \Illuminate\Foundation\Auth\User::class,
+        'model' => User::class,
     ],
 
     /*

@@ -66,16 +66,16 @@ class Contact extends Model
 
     public function lead()
     {
-        return $this->belongsTo(\App\Models\Lead::class);
+        return $this->belongsTo(Lead::class);
     }
 
     public function customer()
     {
-        return $this->belongsTo(\App\Models\Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function company()
     {
-        return $this->belongsTo(\App\Models\Company::class);
+        return $this->belongsTo(Company::class);
     }
 }

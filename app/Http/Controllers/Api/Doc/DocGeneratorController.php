@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Doc;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
 use OpenApi\Attributes as OAT;
+use OpenApi\Generator;
 
 define('API_HOST', env('APP_API_URL'));
 
@@ -44,7 +45,7 @@ class DocGeneratorController
         $exclude = [];
         $pattern = '*.php';
 
-        $openapi = \OpenApi\Generator::scan([
+        $openapi = Generator::scan([
             $app_path.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'Api',
             $app_path.DIRECTORY_SEPARATOR.'Models',
         ],

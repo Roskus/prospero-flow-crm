@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,7 @@ class CustomerReadController
      *     ),
      *     @OA\Response(response="404", description="Customer not found")
      * )
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function read(Request $request, int $id)
     {

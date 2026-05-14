@@ -2,10 +2,15 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Company\CompanyCreateController;
+use App\Http\Controllers\Company\CompanyDeleteController;
+use App\Http\Controllers\Company\CompanyIndexController;
+use App\Http\Controllers\Company\CompanySaveController;
+use App\Http\Controllers\Company\CompanyUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/company', [\App\Http\Controllers\Company\CompanyIndexController::class, 'index']);
-Route::get('/company/create', [\App\Http\Controllers\Company\CompanyCreateController::class, 'create']);
-Route::get('/company/update/{id}', [\App\Http\Controllers\Company\CompanyUpdateController::class, 'update']);
-Route::post('/company/save', [\App\Http\Controllers\Company\CompanySaveController::class, 'save']);
-Route::get('/company/delete/{id}', [\App\Http\Controllers\Company\CompanyDeleteController::class, 'delete']);
+Route::get('/company', [CompanyIndexController::class, 'index']);
+Route::get('/company/create', [CompanyCreateController::class, 'create']);
+Route::get('/company/update/{id}', [CompanyUpdateController::class, 'update']);
+Route::post('/company/save', [CompanySaveController::class, 'save']);
+Route::get('/company/delete/{id}', [CompanyDeleteController::class, 'delete']);

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Models\Lead;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class LeadListController extends ApiController
@@ -25,7 +26,7 @@ class LeadListController extends ApiController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
     public function index(Request $request): JsonResponse
     {

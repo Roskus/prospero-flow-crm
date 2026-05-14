@@ -6,12 +6,13 @@ namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\Industry;
+use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Squire\Models\Country;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Lead>
+ * @extends Factory<Lead>
  */
 class LeadFactory extends Factory
 {

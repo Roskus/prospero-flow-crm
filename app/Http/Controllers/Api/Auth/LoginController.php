@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -34,7 +35,7 @@ class LoginController extends Controller
      *     )
      * )
      */
-    public function login(Request $request): \Illuminate\Http\JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|string|email',
@@ -54,7 +55,7 @@ class LoginController extends Controller
     /**
      * Get the authenticated User.
      */
-    public function me(): \Illuminate\Http\JsonResponse
+    public function me(): JsonResponse
     {
         return response()->json(auth('api')->user());
     }
@@ -62,7 +63,7 @@ class LoginController extends Controller
     /**
      * Log the user out (Invalidate the token).
      */
-    public function logout(): \Illuminate\Http\JsonResponse
+    public function logout(): JsonResponse
     {
         auth('api')->logout();
 
@@ -72,7 +73,7 @@ class LoginController extends Controller
     /**
      * Refresh a token.
      */
-    public function refresh(): \Illuminate\Http\JsonResponse
+    public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth('api')->refresh());
     }
@@ -80,7 +81,7 @@ class LoginController extends Controller
     /**
      * Get the token array structure.
      */
-    protected function respondWithToken(string $token): \Illuminate\Http\JsonResponse
+    protected function respondWithToken(string $token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,

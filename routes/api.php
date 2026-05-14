@@ -3,19 +3,47 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Brand\BrandCreateController;
 use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use App\Http\Controllers\Api\Brand\BrandListController;
 use App\Http\Controllers\Api\Brand\BrandReadController;
+use App\Http\Controllers\Api\Brand\BrandUpdateController;
+use App\Http\Controllers\Api\Company\CompanyCreateController;
 use App\Http\Controllers\Api\Company\CompanyDeleteController;
+use App\Http\Controllers\Api\Company\CompanyListController;
+use App\Http\Controllers\Api\Company\CompanyReadController;
+use App\Http\Controllers\Api\Company\CompanyUpdateController;
+use App\Http\Controllers\Api\Contact\ContactCreateController;
+use App\Http\Controllers\Api\Contact\ContactDeleteController;
+use App\Http\Controllers\Api\Contact\ContactListController;
+use App\Http\Controllers\Api\Contact\ContactUpdateController;
+use App\Http\Controllers\Api\Customer\CustomerCreateController;
 use App\Http\Controllers\Api\Customer\CustomerDeleteController;
+use App\Http\Controllers\Api\Customer\CustomerListController;
+use App\Http\Controllers\Api\Customer\CustomerReadController;
+use App\Http\Controllers\Api\Doc\DocGeneratorController;
 use App\Http\Controllers\Api\Email\EmailDeleteController;
+use App\Http\Controllers\Api\Lead\LeadCreateController;
 use App\Http\Controllers\Api\Lead\LeadDeleteController;
+use App\Http\Controllers\Api\Lead\LeadListController;
+use App\Http\Controllers\Api\Lead\LeadReadController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
+use App\Http\Controllers\Api\Order\OrderListController;
+use App\Http\Controllers\Api\Product\ProductCreateController;
+use App\Http\Controllers\Api\Product\ProductDeleteController;
+use App\Http\Controllers\Api\Product\ProductListController;
+use App\Http\Controllers\Api\Product\ProductReadController;
+use App\Http\Controllers\Api\Product\ProductUpdateController;
+use App\Http\Controllers\Api\Supplier\SupplierCreateController;
 use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
+use App\Http\Controllers\Api\Supplier\SupplierListController;
+use App\Http\Controllers\Api\Supplier\SupplierReadController;
 use App\Http\Controllers\Api\Ticket\TicketDeleteController;
 use App\Http\Controllers\Api\Ticket\TicketListController;
 use App\Http\Controllers\Api\Ticket\TicketReadController;
 use App\Http\Controllers\Api\User\UserDeleteController;
+use App\Http\Controllers\Api\User\UserListController;
+use App\Http\Controllers\Api\User\UserReadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,56 +61,56 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['api'])->group(function () {
     // Brand
     Route::get('/brand', [BrandListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/brand', [\App\Http\Controllers\Api\Brand\BrandCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::post('/brand', [BrandCreateController::class, 'create'])->middleware(['auth:api']);
     Route::get('/brand/{id}', [BrandReadController::class, 'read'])->middleware(['auth:api']);
-    Route::put('/brand/{id}', [\App\Http\Controllers\Api\Brand\BrandUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::put('/brand/{id}', [BrandUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Lead
-    Route::get('lead', [\App\Http\Controllers\Api\Lead\LeadListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('lead/{id}', [\App\Http\Controllers\Api\Lead\LeadReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('/lead', [\App\Http\Controllers\Api\Lead\LeadCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::get('lead', [LeadListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('lead/{id}', [LeadReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('/lead', [LeadCreateController::class, 'create'])->middleware(['auth:api']);
     Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Company
-    Route::get('company', [\App\Http\Controllers\Api\Company\CompanyListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('company/{id}', [\App\Http\Controllers\Api\Company\CompanyReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('company', [\App\Http\Controllers\Api\Company\CompanyCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('company/{id}', [\App\Http\Controllers\Api\Company\CompanyUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::get('company', [CompanyListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('company/{id}', [CompanyReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('company', [CompanyCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('company/{id}', [CompanyUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/company/{id}', [CompanyDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Customer
-    Route::get('customer', [\App\Http\Controllers\Api\Customer\CustomerListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('customer/{id}', [\App\Http\Controllers\Api\Customer\CustomerReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('customer', [\App\Http\Controllers\Api\Customer\CustomerCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::get('customer', [CustomerListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('customer/{id}', [CustomerReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('customer', [CustomerCreateController::class, 'create'])->middleware(['auth:api']);
     Route::delete('/customer/{id}', [CustomerDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Product
-    Route::get('/product', [App\Http\Controllers\Api\Product\ProductListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/product/{id}', [App\Http\Controllers\Api\Product\ProductReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('product', [\App\Http\Controllers\Api\Product\ProductCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('product', [\App\Http\Controllers\Api\Product\ProductUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('product', [\App\Http\Controllers\Api\Product\ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/product', [ProductListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/product/{id}', [ProductReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('product', [ProductCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('product', [ProductUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('product', [ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Contact
-    Route::get('/contact', [\App\Http\Controllers\Api\Contact\ContactListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/contact', [\App\Http\Controllers\Api\Contact\ContactCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/contact/{id}', [\App\Http\Controllers\Api\Contact\ContactUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/contact/{id}', [\App\Http\Controllers\Api\Contact\ContactDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/contact', [ContactListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('/contact', [ContactCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/contact/{id}', [ContactUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/contact/{id}', [ContactDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // User
-    Route::get('/user', [\App\Http\Controllers\Api\User\UserListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/user/{id}', [\App\Http\Controllers\Api\User\UserReadController::class, 'read'])->middleware(['auth:api']);
+    Route::get('/user', [UserListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/user/{id}', [UserReadController::class, 'read'])->middleware(['auth:api']);
     Route::delete('/user/{id}', [UserDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Supplier
-    Route::get('/supplier', [App\Http\Controllers\Api\Supplier\SupplierListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/supplier/{id}', [App\Http\Controllers\Api\Supplier\SupplierReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('supplier', [\App\Http\Controllers\Api\Supplier\SupplierCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::get('/supplier', [SupplierListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/supplier/{id}', [SupplierReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('supplier', [SupplierCreateController::class, 'create'])->middleware(['auth:api']);
     Route::delete('/supplier/{id}', [SupplierDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Order
-    Route::get('/order', [App\Http\Controllers\Api\Order\OrderListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/order', [OrderListController::class, 'index'])->middleware(['auth:api']);
     Route::delete('/order/{id}', [OrderDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Ticket
@@ -108,5 +136,5 @@ Route::post('/auth/login', [LoginController::class, 'login']);
 
 // OpenApi Json Resource
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/resource.json', [\App\Http\Controllers\Api\Doc\DocGeneratorController::class, 'render']);
+    Route::get('/resource.json', [DocGeneratorController::class, 'render']);
 });

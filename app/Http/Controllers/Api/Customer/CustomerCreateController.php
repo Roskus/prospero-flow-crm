@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Customer;
 use App\Repositories\CustomerRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use OpenApi\Annotations as OA;
 
 class CustomerCreateController
@@ -28,7 +29,7 @@ class CustomerCreateController
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
     public function create(Request $request): JsonResponse
     {

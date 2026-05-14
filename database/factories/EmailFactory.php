@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\Email;
 use App\Models\EmailTemplate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Email>
+ * @extends Factory<Email>
  */
 class EmailFactory extends Factory
 {

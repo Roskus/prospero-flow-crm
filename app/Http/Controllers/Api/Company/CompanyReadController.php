@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Company;
 
 use App\Models\Company;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,7 @@ class CompanyReadController
      *     ),
      *     @OA\Response(response="404", description="Company not found")
      * )
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function read(Request $request, int $id)
     {

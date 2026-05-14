@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Database\Factories\Ticket;
 
 use App\Models\Ticket;
+use App\Models\Ticket\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ticket\Message>
+ * @extends Factory<Message>
  */
 class MessageFactory extends Factory
 {

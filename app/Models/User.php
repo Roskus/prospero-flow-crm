@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -99,9 +100,9 @@ class User extends Authenticatable implements JWTSubject
         $this->password = $password;
     }
 
-    public function company(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function company(): HasOne
     {
-        return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
+        return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
     public function manager()
