@@ -16,7 +16,7 @@ class Bank extends Model
 {
     use HasFactory, HasUuids;
 
-    const ACTIVE = 1;
+    const int ACTIVE = 1;
 
     protected $table = 'bank';
 
@@ -73,7 +73,7 @@ class Bank extends Model
         return Bank::orderBy(['country_id', 'name'], 'asc')->get();
     }
 
-    public function getAllPaginated(array $filters, $limit = 10)
+    public function getAllPaginated(array $filters, int $limit = 10)
     {
         // Iniciar la consulta base
         $query = Bank::orderBy('name', 'asc');

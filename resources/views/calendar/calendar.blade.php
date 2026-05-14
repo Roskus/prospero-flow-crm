@@ -7,13 +7,16 @@
         <div class="card">
             <div class="card-body d-flex">
                 <a href="{{ route('calendar.index') }}" class="btn btn-outline-dark me-2"
-                    title="{{ __('Today') }}">{{ __('Today') }}</a>
+                    title="{{ __('Today') }}" role="button" tabindex="0">{{ __('Today') }}
+                </a>
                 <a href="{{ route('calendar.index',$date->copy()->subMonth()->toDateString()) }}"
-                    class="btn btn-outline-dark me-2" title="{{ __('Previous month') }}"><i
-                        class="las la-chevron-left"></i></a>
+                    class="btn btn-outline-dark me-2" title="{{ __('Previous month') }}" role="button" tabindex="1">
+                    <i class="las la-chevron-left"></i>
+                </a>
                 <a href="{{ route('calendar.index',$date->copy()->addMonth()->toDateString()) }}"
-                    class="btn btn-outline-dark me-2" title="{{ __('Next month') }}"><i
-                        class="las la-chevron-right"></i></a>
+                    class="btn btn-outline-dark me-2" title="{{ __('Next month') }}" role="button" tabindex="2">
+                    <i class="las la-chevron-right"></i>
+                </a>
                 <span class="fs-5">{{ __($date->format('F')) }} {{ $date->format('Y') }}</span>
             </div>
         </div>
@@ -34,13 +37,13 @@
                 <div class="row" style="height: 14vh;">
 
                     @while ($startOfCalendar <= $endOfCalendar)
-                        <div class="col text-center border p-1" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')">
+                        <div class="col text-center border p-1" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')" role="button" tabindex="3">
                             <span class="mb-1 @if($startOfCalendar->isToday()) badge rounded-pill text-bg-primary @endif">{{ $startOfCalendar->format('j') }}</span>
                             <div class="d-flex flex-column">
                             @foreach ( $events->whereBetween('start_date', [$startOfCalendar->copy()->startOfDay(), $startOfCalendar->copy()->endOfDay()]) as $event)
                                 <div class="badge text-bg-secondary mb-1 text-wrap">
-                                    <span role="button" onclick="Calendar.read('{{ $event->id }}')">
-                                        {{ $event->title }}
+                                    <span role="button" tabindex="" onclick="Calendar.read('{{ $event->id }}')">
+                                        {{ $event->title ?? '' }}
                                     </span>
                                     <span>
                                         <a href="{{ url("/calendar/$event->id/export") }}" class="text-white">

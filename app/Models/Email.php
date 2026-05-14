@@ -21,13 +21,13 @@ class Email extends Model
 
     protected $table = 'email';
 
-    const DRAFT = 'draft';
+    const string DRAFT = 'draft';
 
-    const QUEUE = 'queue';
+    const string QUEUE = 'queue';
 
-    const SENT = 'sent';
+    const string SENT = 'sent';
 
-    const ERROR = 'error';
+    const string ERROR = 'error';
 
     #[OAT\Property(type: 'int', example: 1)]
     private ?int $id;

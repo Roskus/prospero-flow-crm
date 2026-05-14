@@ -13,7 +13,7 @@ class Account extends Model
 {
     use SoftDeletes;
 
-    const ACTIVE = 1;
+    const int ACTIVE = 1;
 
     protected $table = 'account';
 

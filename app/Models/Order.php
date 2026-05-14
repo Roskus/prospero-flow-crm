@@ -22,11 +22,11 @@ final class Order extends Model
     use HasFactory, SoftDeletes;
 
     // Class Constants
-    const CANCELED = 0;
+    const int CANCELED = 0;
 
-    const PENDING = 1;
+    const int PENDING = 1;
 
-    const CONFIRMED = 2;
+    const int CONFIRMED = 2;
 
     const COMPLETED = 3;
 

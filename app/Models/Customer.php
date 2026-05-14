@@ -129,15 +129,15 @@ class Customer extends Model
     use HasFactory;
     use SoftDeletes;
 
-    const OPEN = 'open'; // New
+    const string OPEN = 'open'; // New
 
-    const IN_PROGRESS = 'in_progress';
+    const string IN_PROGRESS = 'in_progress';
 
-    const WAITING_FEEDBACK = 'waiting_feedback';
+    const string WAITING_FEEDBACK = 'waiting_feedback';
 
-    const CONVERTED = 'converted'; // Promoted to customer
+    const string CONVERTED = 'converted'; // Promoted to customer
 
-    const CLOSED = 'closed';
+    const string CLOSED = 'closed';
 
     protected $table = 'customer';
 

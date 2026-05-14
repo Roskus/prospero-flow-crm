@@ -13,7 +13,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    const ACTIVE = 1;
+    const int ACTIVE = 1;
 
     protected $table = 'category';
 
