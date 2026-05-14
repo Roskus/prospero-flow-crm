@@ -6,13 +6,16 @@ namespace App\Http\Controllers\Calendar;
 
 use App\Http\Controllers\MainController;
 use App\Models\Calendar;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\View\View;
 
 class CalendarIndexController extends MainController
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function index(Request $request)
     {

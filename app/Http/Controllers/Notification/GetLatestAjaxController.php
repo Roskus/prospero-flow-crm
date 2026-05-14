@@ -6,12 +6,13 @@ namespace App\Http\Controllers\Notification;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GetLatestAjaxController extends Controller
 {
-    public function getLatest(Request $request): \Illuminate\Http\JsonResponse
+    public function getLatest(Request $request): JsonResponse
     {
         $notification = new Notification;
 

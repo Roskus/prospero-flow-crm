@@ -191,7 +191,7 @@ class Lead extends Model
 
     public function company()
     {
-        return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
+        return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
     public function messages()
@@ -201,7 +201,7 @@ class Lead extends Model
 
     public function seller()
     {
-        return $this->hasOne(\App\Models\User::class, 'id', 'seller_id');
+        return $this->hasOne(User::class, 'id', 'seller_id');
     }
 
     public function country()
@@ -211,17 +211,17 @@ class Lead extends Model
 
     public function source(): HasOne
     {
-        return $this->hasOne(\App\Models\Source::class, 'id', 'source_id');
+        return $this->hasOne(Source::class, 'id', 'source_id');
     }
 
     public function industry()
     {
-        return $this->hasOne(\App\Models\Industry::class, 'id', 'industry_id');
+        return $this->hasOne(Industry::class, 'id', 'industry_id');
     }
 
     public function contacts()
     {
-        return $this->hasMany(\App\Models\Contact::class, 'lead_id', 'id');
+        return $this->hasMany(Contact::class, 'lead_id', 'id');
     }
 
     public function getAll()

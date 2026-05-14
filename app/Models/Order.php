@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Order\Item;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -190,7 +191,7 @@ final class Order extends Model
         return $total;
     }
 
-    public function getAll(): \Illuminate\Database\Eloquent\Collection
+    public function getAll(): Collection
     {
         return Order::all();
     }

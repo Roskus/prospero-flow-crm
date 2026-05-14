@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Supplier\SupplierContact;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OpenApi\Attributes as OAT;
@@ -104,7 +105,7 @@ class Supplier extends Model
 
     public function contacts()
     {
-        return $this->hasMany(\App\Models\Supplier\SupplierContact::class, 'supplier_id', 'id');
+        return $this->hasMany(SupplierContact::class, 'supplier_id', 'id');
     }
 
     public function getAllByCompany(int $company_id)

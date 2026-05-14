@@ -1,10 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
 use App\Http\Requests\ImportRequest;
 use App\Models\Lead;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -13,7 +18,7 @@ class LeadImportSaveController extends MainController
     private const LEAD_REDIRECT_URL = '/lead';
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function save(ImportRequest $request)
     {

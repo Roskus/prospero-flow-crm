@@ -7,7 +7,10 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\CustomerRequest;
 use App\Repositories\CustomerRepository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class CustomerSaveController extends MainController
 {
@@ -20,7 +23,7 @@ class CustomerSaveController extends MainController
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function save(CustomerRequest $request)
     {

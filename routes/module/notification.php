@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Notification\DeleteNotificationController;
+use App\Http\Controllers\Notification\GetLatestAjaxController;
+use App\Http\Controllers\Notification\NotificationIndexController;
+use App\Http\Controllers\Notification\SetNotificationReadAjaxController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/notification', [\App\Http\Controllers\Notification\NotificationIndexController::class, 'index']);
-Route::get('/ajax/notification', [\App\Http\Controllers\Notification\GetLatestAjaxController::class, 'getLatest'])
+Route::get('/notification', [NotificationIndexController::class, 'index']);
+Route::get('/ajax/notification', [GetLatestAjaxController::class, 'getLatest'])
     ->middleware('auth');
 Route::get('/notification/read/{id}',
-    [\App\Http\Controllers\Notification\SetNotificationReadAjaxController::class, 'setRead'])
+    [SetNotificationReadAjaxController::class, 'setRead'])
     ->middleware('auth');
 Route::get('/notification/delete/{id}',
-    [\App\Http\Controllers\Notification\DeleteNotificationController::class, 'delete']);
+    [DeleteNotificationController::class, 'delete']);

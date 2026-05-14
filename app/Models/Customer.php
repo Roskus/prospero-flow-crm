@@ -206,7 +206,7 @@ class Customer extends Model
 
     public function company(): HasOne
     {
-        return $this->hasOne(\App\Models\Company::class, 'id', 'company_id');
+        return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
     public function messages()
@@ -226,7 +226,7 @@ class Customer extends Model
 
     public function source(): HasOne
     {
-        return $this->hasOne(\App\Models\Source::class, 'id', 'source_id');
+        return $this->hasOne(Source::class, 'id', 'source_id');
     }
 
     public function industry(): HasOne

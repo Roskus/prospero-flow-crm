@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Supplier;
 
+use App\Models\Company;
+use App\Models\Supplier;
 use App\Traits\VCard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -66,11 +68,11 @@ class SupplierContact extends Model
 
     public function supplier()
     {
-        return $this->belongsTo(\App\Models\Supplier::class);
+        return $this->belongsTo(Supplier::class);
     }
 
     public function company()
     {
-        return $this->belongsTo(\App\Models\Company::class);
+        return $this->belongsTo(Company::class);
     }
 }
