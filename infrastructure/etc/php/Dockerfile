@@ -15,21 +15,14 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends libwebp-dev 
     && apt-get clean
 
 # Install php extensions
-RUN docker-php-ext-install \
-bcmath \
-intl \
-gd \
-opcache \
-mysqli \
-pdo \
-pdo_mysql \
-pdo_pgsql \
-pgsql \
-soap \
-zip
-
+RUN docker-php-ext-install bcmath
+RUN docker-php-ext-install intl
+RUN docker-php-ext-configure gd --with-jpeg --with-webp && docker-php-ext-install gd
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN docker-php-ext-install pdo_pgsql pgsql
+RUN docker-php-ext-install soap
+RUN docker-php-ext-install zip
 RUN pecl install redis && docker-php-ext-enable redis
-RUN docker-php-ext-configure gd --with-jpeg --with-webp
 
 ADD ./conf.d/  /usr/local/etc/php/conf.d/
 
@@ -38,11 +31,11 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
-# Install msodbcsql17 and tools
+# Install msodbcsql18 and tools
 RUN apt-get update && apt-get --no-install-recommends install -y gnupg2 && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/10/prod.list > /infrastructure/apt/sources.list.d/mssql-release.list && \
-    apt-get update && ACCEPT_EULA=Y apt-get --no-install-recommends install -y unixodbc-dev msodbcsql17 \
+    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg && \
+    curl -fsSL https://packages.microsoft.com/config/debian/12/prod.list -o /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && ACCEPT_EULA=Y apt-get --no-install-recommends install -y unixodbc-dev msodbcsql18 \
     && apt-get clean
 
 # Install PHP extensions for SQL Server
