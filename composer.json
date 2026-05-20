@@ -32,7 +32,7 @@
         "laravel/sanctum": "^4.3.1",
         "laravel/tinker": "^3.0",
         "laravel/ui": "^4.6.1",
-        "maatwebsite/excel": "4.x-dev",
+        "maatwebsite/excel": "4.x",
         "moneyphp/money": "^4.8",
         "nesbot/carbon": "^3.11.1",
         "php-open-source-saver/jwt-auth": "^2.8.3",
