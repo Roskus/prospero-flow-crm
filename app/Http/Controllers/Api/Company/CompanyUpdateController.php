@@ -7,15 +7,11 @@ namespace App\Http\Controllers\Api\Company;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyUpdateController
 {
-    private CompanyRepository $companyRepository;
-
-    public function __construct(CompanyRepository $companyRepository)
-    {
-        $this->companyRepository = $companyRepository;
-    }
+    public function __construct(private CompanyRepository $companyRepository) {}
 
     /**
      * @OA\Put(
@@ -41,14 +37,13 @@ class CompanyUpdateController
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $status = 400;
-        $params['id'] = $id;
-        $params = array_merge($params, $request->all());
-        $company = $this->companyRepository->save($params);
-        if ($company) {
-            $status = 200;
+        if (Auth::user()->company_id !== $id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        return response()->json($company, $status);
+        $params = array_merge(['id' => $id], $request->all());
+        $company = $this->companyRepository->save($params);
+
+        return response()->json($company, $company ? 200 : 400);
     }
 }
