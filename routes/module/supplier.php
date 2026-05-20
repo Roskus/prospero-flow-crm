@@ -8,6 +8,7 @@ use App\Http\Controllers\Supplier\Contact\ContactExportVCard;
 use App\Http\Controllers\Supplier\Contact\ContactSaveController;
 use App\Http\Controllers\Supplier\Contact\ContactUpdateController;
 use App\Http\Controllers\Supplier\SupplierCreateController;
+use App\Http\Controllers\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Supplier\SupplierIndexController;
 use App\Http\Controllers\Supplier\SupplierSaveController;
 use App\Http\Controllers\Supplier\SupplierUpdateController;
@@ -17,6 +18,7 @@ Route::match(['get', 'post'], '/supplier', [SupplierIndexController::class, 'ind
 Route::get('/supplier/create', [SupplierCreateController::class, 'create']);
 Route::get('/supplier/update/{id}', [SupplierUpdateController::class, 'update']);
 Route::post('/supplier/save', [SupplierSaveController::class, 'save']);
+Route::get('/supplier/delete/{id}', [SupplierDeleteController::class, 'delete']);
 
 Route::post('/supplier/contact/save', [ContactSaveController::class, 'save']);
 Route::get('/supplier/contact/export-vcard/{id}', [ContactExportVCard::class, 'export']);
