@@ -46,7 +46,6 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 Route::get('/lock', [LockController::class, 'index']);
 Route::post('/unlock', [UnlockController::class, 'unlock'])->name('unlock');
 
-
 // Important use require insted of require_once for test loading.
 
 // Order
