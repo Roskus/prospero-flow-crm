@@ -8,7 +8,6 @@ use App\Http\Controllers\MainController;
 use App\Http\Requests\EmailRequest;
 use App\Models\Email;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
@@ -54,18 +53,14 @@ class EmailSaveController extends MainController
             $extension = $file->getClientOriginalExtension();
             $originalName = $file->getClientOriginalName();
             $newName = Uuid::uuid4()->toString().'.'.$extension;
-            try {
-                Storage::putFileAs($path, $file, $newName);
+            Storage::putFileAs($path, $file, $newName);
 
-                $attach = new Email\Attach;
-                $attach->email_id = $email->id;
-                $attach->original_name = $originalName;
-                $attach->file = $path.$DS.$newName;
-                $attach->mime = $file->getClientMimeType();
-                $attach->save();
-            } catch (\Throwable $t) {
-                Log::error($t->getMessage());
-            }
+            $attach = new Email\Attach;
+            $attach->email_id = $email->id;
+            $attach->original_name = $originalName;
+            $attach->file = $path.$DS.$newName;
+            $attach->mime = $file->getClientMimeType();
+            $attach->save();
         }
     }
 }
