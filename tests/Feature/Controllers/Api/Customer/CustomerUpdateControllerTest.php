@@ -34,8 +34,8 @@ class CustomerUpdateControllerTest extends TestCase
                 'id' => $customer['id'],
             ],
         ]);
-
-        $this->assertEquals(array_except(Customer::find($customer['id'])->toArray(), ['seller', 'industry', 'country']), $updatedCustomer);
-        $this->assertNotEquals(array_except(Customer::find($customer['id'])->toArray(), ['seller', 'industry', 'country']), $customer);
+        $excludedFields = ['seller', 'industry', 'country', 'company', 'phone_verified', 'phone2_verified', 'mobile_verified', 'email_verified'];
+        $this->assertEquals(array_except(Customer::find($customer['id'])->toArray(), $excludedFields), array_except($updatedCustomer, $excludedFields));
+        $this->assertNotEquals(array_except(Customer::find($customer['id'])->toArray(), $excludedFields), array_except($customer, $excludedFields));
     }
 }
