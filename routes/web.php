@@ -46,36 +46,39 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 Route::get('/lock', [LockController::class, 'index']);
 Route::post('/unlock', [UnlockController::class, 'unlock'])->name('unlock');
 
+
+// Important use require insted of require_once for test loading.
+
 // Order
-require_once __DIR__.'/module/order.php';
+require __DIR__.'/module/order.php';
 
 // Product
-require_once __DIR__.'/module/product.php';
+require __DIR__.'/module/product.php';
 
 // Brand
-require_once __DIR__.'/module/brand.php';
+require __DIR__.'/module/brand.php';
 
 // Lead
-require_once __DIR__.'/module/lead.php';
+require __DIR__.'/module/lead.php';
 
 // Customer
-require_once __DIR__.'/module/customer.php';
+require __DIR__.'/module/customer.php';
 
 // Category
-require_once __DIR__.'/module/category.php';
+require __DIR__.'/module/category.php';
 
 // Company
-require_once __DIR__.'/module/company.php';
+require __DIR__.'/module/company.php';
 
 // Contact
-require_once __DIR__.'/module/contact.php';
+require __DIR__.'/module/contact.php';
 
 // Account
 Route::get('/accounting', [AccountIndexController::class, 'index']);
 Route::post('/account/save', [AccountSaveController::class, 'save']);
 
 // User
-require_once __DIR__.'/module/user.php';
+require __DIR__.'/module/user.php';
 
 // Profile
 Route::get('/profile', [ProfileUpdateController::class, 'update']);
@@ -85,23 +88,23 @@ Route::get('/setting', [SettingController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index']);
 
 // Calendar
-require_once __DIR__.'/module/calendar.php';
+require __DIR__.'/module/calendar.php';
 
 // Email
-require_once __DIR__.'/module/email.php';
+require __DIR__.'/module/email.php';
 
 // Email template
 Route::match(['get', 'post'], '/email-template',
     [EmailTemplateIndexController::class, 'index']);
 
 // Campaign
-require_once __DIR__.'/module/campaign.php';
+require __DIR__.'/module/campaign.php';
 
 // Supplier
-require_once __DIR__.'/module/supplier.php';
+require __DIR__.'/module/supplier.php';
 
 // Ticket
-require_once __DIR__.'/module/ticket.php';
+require __DIR__.'/module/ticket.php';
 
 // Regions
 Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
@@ -115,7 +118,7 @@ Route::get('/report/email', [ReportEmailController::class, 'index']);
 Route::get('/web-form', [WebFormIndexController::class, 'index']);
 
 // Notifications
-require_once __DIR__.'/module/notification.php';
+require __DIR__.'/module/notification.php';
 
 // Unsubscribe
 Route::get('/unsubscribe', [UnsubscribeUpdateController::class, 'update']);
@@ -126,10 +129,10 @@ Route::get('/permission', [PermissionIndexController::class, 'index']);
 Route::post('/permission', [PermissionSaveController::class, 'save']);
 
 // Bank
-require_once __DIR__.'/module/bank.php';
+require __DIR__.'/module/bank.php';
 
 // Bank account
-require_once __DIR__.'/module/bank_account.php';
+require __DIR__.'/module/bank_account.php';
 
 // Payroll
-require_once __DIR__.'/module/payroll.php';
+require __DIR__.'/module/payroll.php';
