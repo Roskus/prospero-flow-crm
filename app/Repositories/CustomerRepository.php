@@ -52,7 +52,7 @@ class CustomerRepository
         $customer->industry_id = $data['industry_id'] ?? null;
         $customer->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
         $customer->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
-        $customer->schedule_contact = ! empty($data['schedule_contact']) ? Carbon::parse($data['schedule_contact'])->setTimezone(Auth::user()->company->timezone) : null;
+        $customer->schedule_contact = ! empty($data['schedule_contact']) ? Carbon::parse($data['schedule_contact'])->setTimezone(Auth::user()->timezone) : null;
 
         $customer->tags = ($data['tags']) ? explode(',', $data['tags']) : null;
 
