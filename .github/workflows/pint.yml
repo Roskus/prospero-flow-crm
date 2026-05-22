@@ -16,10 +16,9 @@ jobs:
           preset: laravel
           verboseMode: true
           testMode: true
-          configPath: "vendor/my-company/coding-style/pint.json"
+          configPath: "pint.json"
           pintVersion: 1.8.0
           onlyDirty: true
-          onlyDiff: "main"
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
