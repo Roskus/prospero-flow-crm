@@ -28,7 +28,7 @@ class CalendarFactory extends Factory
             'start_date' => Carbon::tomorrow(),
             'end_date' => Carbon::tomorrow()->addDay(),
             'is_all_day' => fake()->boolean(),
-            'title' => fake()->sentence(),
+            'title' => fake()->text(80),
             'description' => fake()->text(),
             'guests' => fake()->randomElements(['a@a.com', 'b@b.com', 'c@c.com', 'd@d.com'], 3),
             'meeting' => fake()->url(),
