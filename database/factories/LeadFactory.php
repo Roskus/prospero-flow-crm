@@ -62,7 +62,7 @@ class LeadFactory extends Factory
             'longitude' => str_pad((string) fake()->randomFloat(8, -3.5, -3.9), 11, '0'),
             'opt_in' => 1,
             'tags' => [fake()->word(), fake()->word()],
-            'status' => fake()->randomElement(['open', 'first_contact', 'recall', 'quote', 'quoted', 'waiting_for_answer', 'standby', 'closed']),
+            'status' => fake()->randomElement(array_keys(Lead::getStatus())),
         ];
     }
 }
