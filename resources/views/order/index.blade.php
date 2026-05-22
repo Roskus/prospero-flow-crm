@@ -47,24 +47,24 @@
                     </a>
 
                     @if($order->status == App\Models\Order::PENDING)
-                    <a href="{{ url('/order/update/'.$order->id) }}" title="{{ __('Edit') }}"
+                    <a href="{{ url('/order/update/'.$order->order_number) }}" title="{{ __('Edit') }}"
                        class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
 
-                    <a href="{{ url('/order/confirm/'.$order->id) }}" title="{{ __('Confirm') }}"
+                    <a href="{{ url('/order/confirm/'.$order->order_number) }}" title="{{ __('Confirm') }}"
                        class="btn btn-xs btn-success text-white">
                         <i class="las la-check-circle"></i>
                     </a>
                     @endif
 
-                    <a href="{{ url('/order/download/'.$order->id) }}" title="{{ __('Download') }}"
+                    <a href="{{ url('/order/download/'.$order->order_number) }}" title="{{ __('Download') }}"
                        class="btn btn-xs btn-secondary">
                         <i class="las la-file-pdf"></i>
                     </a>
 
                     @can('delete order')
-                    <a href="#" onclick="Order.delete({{ $order->id }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->id ]) }}')" title="{{ __('Delete') }}"
+                    <a href="#" onclick="Order.delete({{ $order->order_number }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->order_number]) }}')" title="{{ __('Delete') }}"
                        class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>

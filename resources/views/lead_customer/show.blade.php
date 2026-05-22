@@ -237,7 +237,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                             {{ __('View') }}
                         </a>
 
-                        <a href="{{ url("/order/update/$order->id") }}" class="btn btn-warning btn-sm">
+                        <a href="{{ url("/order/update/$order->order_number") }}" class="btn btn-warning btn-sm">
                             {{ __('Edit') }}
                         </a>
                     </td>

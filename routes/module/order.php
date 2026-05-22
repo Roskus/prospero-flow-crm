@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/order', [OrderIndexController::class, 'index']);
 Route::get('/order/create', [OrderCreateController::class, 'create']);
 Route::get('/order/show/{order_number}', [OrderShowController::class, 'show']);
-Route::get('/order/update/{id}', [OrderUpdateController::class, 'update']);
-Route::get('/order/delete/{id}', [OrderDeleteController::class, 'delete']);
+Route::get('/order/update/{order_number}', [OrderUpdateController::class, 'update']);
+Route::get('/order/delete/{order_number}', [OrderDeleteController::class, 'delete']);
 Route::post('/order/save', [OrderSaveController::class, 'save']);
-Route::get('/order/download/{id}', [OrderPdfController::class, 'download'])
+Route::get('/order/download/{order_number}', [OrderPdfController::class, 'download'])
     ->name('order-download');
-Route::get('/order/confirm/{id}', [OrderConfirmController::class, 'confirm']);
+Route::get('/order/confirm/{order_number}', [OrderConfirmController::class, 'confirm']);
