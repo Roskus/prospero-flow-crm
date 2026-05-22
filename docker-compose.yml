@@ -6,6 +6,8 @@ services:
     container_name: crm-php
     #restart: always
     user: "www-data:www-data"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
     - ./infrastructure/.bashrc:/root/.bashrc
     - ./infrastructure/.bashrc:/home/www-data/.bashrc
