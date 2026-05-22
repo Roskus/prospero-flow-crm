@@ -7,6 +7,7 @@ namespace Tests\Feature\Controllers\Lead;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LeadPromoteCustomerControllerTest extends TestCase
@@ -37,6 +38,6 @@ class LeadPromoteCustomerControllerTest extends TestCase
 
         $customer = Customer::latest()->first();
 
-        $this->assertEquals(array_except($lead->load('contacts', 'country', 'seller', 'industry')->toArray(), 'id'), array_except($customer->load('contacts', 'country', 'seller', 'industry')->toArray(), 'id'));
+        $this->assertEquals(array_except($lead->load('contacts', 'country', 'seller', 'industry', 'company')->toArray(), 'id'), array_except($customer->load('contacts', 'country', 'seller', 'industry', 'company')->toArray(), 'id'));
     }
 }

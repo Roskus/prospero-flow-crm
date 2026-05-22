@@ -23,8 +23,8 @@ class ProductImportSaveControllerTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHasErrors();
 
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, base_path('tests\Feature\Controllers\Product\hammer_product_example_20221206.csv'));
-        $file = new UploadedFile($path, 'prospero_product_example_20221206.csv');
+        $path = str_replace('\\', DIRECTORY_SEPARATOR, base_path('tests\Feature\Controllers\Product\prospero_product_example_20221206.csv'));
+        $file = new UploadedFile($path, 'prospero_product_example_20221206.csv', 'text/csv', null, true);
         $response = $this->post('product/import/save', ['upload' => $file]);
         $response->assertRedirect('/product');
 

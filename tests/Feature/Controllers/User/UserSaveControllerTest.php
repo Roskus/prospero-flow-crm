@@ -20,8 +20,8 @@ class UserSaveControllerTest extends TestCase
             'last_name' => fake()->name(),
             'email' => fake()->email(),
             'lang' => 'en',
-            'password' => 123,
-            'password_confirmation' => 123,
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
             'company_id' => $this->user->company_id,
         ];
         $response = $this->post('user/save', $data);

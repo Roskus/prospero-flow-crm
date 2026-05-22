@@ -7,6 +7,7 @@ namespace Tests\Feature\Mail;
 use App\Mail\EventCalendarEmail;
 use App\Models\Calendar;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EventCalendarEmailTest extends TestCase

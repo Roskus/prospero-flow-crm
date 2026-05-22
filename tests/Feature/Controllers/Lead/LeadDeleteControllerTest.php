@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Lead;
 
 use App\Models\Lead;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LeadDeleteControllerTest extends TestCase

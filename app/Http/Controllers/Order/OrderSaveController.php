@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 
-class OrderSaveController extends Controller
+class OrderSaveController extends MainController
 {
-    private OrderRepository $orderRepository;
-
-    public function __construct(OrderRepository $orderRepository)
+    public function __construct(private OrderRepository $orderRepository, Request $request)
     {
-        $this->orderRepository = $orderRepository;
+        parent::__construct($request);
     }
 
     public function save(Request $request)

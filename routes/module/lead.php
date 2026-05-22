@@ -50,7 +50,7 @@ Route::get('/lead/export',
     [LeadExportController::class, 'export'])
     ->can('export lead');
 
-Route::get('/lead/show/{lead}',
+Route::get('/lead/show/{id}',
     [LeadShowController::class, 'show'])
     ->can('read lead');
 

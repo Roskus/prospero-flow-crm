@@ -4,26 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Customer;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Customer\Message as CustomerMessage;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class CustomerDeleteMessageController extends Controller
+class CustomerDeleteMessageController extends MainController
 {
-    public function delete(Request $request, int $id)
+    public function delete(int $id)
     {
-        $message = CustomerMessage::findOrFail($id);
+        $message = CustomerMessage::where('id', $id)
+            ->where('author_id', Auth::id())
+            ->firstOrFail();
 
-        // Podrías agregar una verificación aquí para asegurarte de que el usuario actual tiene permiso para eliminar el mensaje
-        // Por ejemplo:
-        // if($message->author_id !== Auth::user()->id) {
-        //     return back()->withErrors(['You do not have permission to delete this message.']);
-        // }
-
-        // Borramos el mensaje
         $message->delete();
 
-        // Redirigimos de vuelta a la página anterior
-        return back(); // ->with('success', 'Message deleted successfully.');
+        return back();
     }
 }

@@ -6,6 +6,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\Calendar;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CalendarTest extends TestCase

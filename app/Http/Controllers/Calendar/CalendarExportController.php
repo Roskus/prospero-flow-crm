@@ -4,25 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Calendar;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Calendar as CalendarModel;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Components\Event;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class CalendarExportController extends Controller
+class CalendarExportController extends MainController
 {
     public function exportICal(int $id): BinaryFileResponse
     {
-        // Buscar el evento de calendario por su ID
-        $calendarEvent = CalendarModel::find($id);
-
-        // Verificar si el evento existe
-        if (! $calendarEvent) {
-            abort(404, 'Evento de calendario no encontrado.');
-        }
+        $calendarEvent = CalendarModel::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
         // Crear el objeto Calendar
         $calendar = Calendar::create($calendarEvent->title);
