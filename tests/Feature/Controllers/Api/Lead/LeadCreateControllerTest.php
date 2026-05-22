@@ -21,11 +21,8 @@ class LeadCreateControllerTest extends TestCase
 
         $response = $this->post('/api/lead', $data);
 
-        $response->assertJsonFragment([
-            'lead' => [
-                'id' => Lead::all()->last()->id,
-            ],
-        ]);
+        $response->assertStatus(201);
+        $response->assertJsonPath('id', Lead::all()->last()->id);
 
         $this->equalTo(Lead::all()->last(), $data);
     }

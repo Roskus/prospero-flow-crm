@@ -18,8 +18,16 @@ class CustomerImportSaveControllerTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHasErrors();
 
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, public_path('asset\upload\example\pflow_customer_example_20230414.csv'));
-        $file = new UploadedFile($path, 'pflow_customer_example_20230414.csv');
+        $fileName = 'pflow_customer_example_20230414.csv';
+        $sourcePath = public_path('asset/upload/example/'.$fileName);
+        $uploadDir = storage_path('uploads');
+
+        if (! is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        copy($sourcePath, $uploadDir.'/'.$fileName);
+
+        $file = new UploadedFile($sourcePath, $fileName, 'text/csv', null, true);
         $response = $this->post('customer/import/save', ['upload' => $file]);
         $response->assertRedirect('/customer');
 

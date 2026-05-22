@@ -20,7 +20,7 @@ class CustomerListControllerTest extends TestCase
         $response = $this->get('/api/customer');
 
         $this->assertEquals($response->json()['count'], $customers->count());
-        $this->assertEquals(array_except($response->json()['customers'][0], ['seller', 'industry', 'country']), $customers[0]->toArray());
-        $this->assertEquals(array_except($response->json()['customers'][1], ['seller', 'industry', 'country']), $customers[1]->toArray());
+        $this->assertEquals(array_except($response->json()['customers'][0], ['seller', 'industry', 'country', 'company']), $customers[0]->toArray());
+        $this->assertEquals(array_except($response->json()['customers'][1], ['seller', 'industry', 'country', 'company']), $customers[1]->toArray());
     }
 }

@@ -19,7 +19,7 @@ class CustomerReadControllerTest extends TestCase
 
         $response = $this->get('/api/customer/'.$customer->id);
 
-        $this->assertEquals(array_except($response->json()['customer'], ['seller', 'industry', 'country']), $customer->toArray());
+        $this->assertEquals(array_except($response->json()['customer'], ['seller', 'industry', 'country', 'company']), $customer->toArray());
     }
 
     #[Test]

@@ -24,12 +24,13 @@ class BankSaveControllerTest extends TestCase
     #[Test]
     public function it_can_update_bank(): void
     {
-        $data = Bank::factory()->create()->toArray();
-        unset($data['uuid']);
+        $bank = Bank::factory()->create();
+        $data = $bank->toArray();
+        $data['name'] = 'Updated Bank Name';
 
         $response = $this->post('bank/save', $data);
 
         $response->assertRedirect('/bank');
-        $this->equalTo(Bank::all()->last(), $data);
+        $this->assertEquals('Updated Bank Name', Bank::where('bic', $bank->bic)->first()->name);
     }
 }

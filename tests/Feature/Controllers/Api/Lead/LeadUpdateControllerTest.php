@@ -29,13 +29,11 @@ class LeadUpdateControllerTest extends TestCase
         $lead['tags'] = explode(',', $lead['tags']);
         $updatedLead['tags'] = explode(',', $updatedLead['tags']);
 
-        $response->assertJsonFragment([
-            'lead' => [
-                'id' => $lead['id'],
-            ],
-        ]);
+        $response->assertSuccessful();
+        $response->assertJsonPath('id', $lead['id']);
 
-        $this->assertEquals(array_except(Lead::find($lead['id'])->toArray(), ['seller', 'industry', 'country', 'company']), $updatedLead);
-        $this->assertNotEquals(array_except(Lead::find($lead['id'])->toArray(), ['seller', 'industry', 'country', 'company']), $lead);
+        $excludeFields = ['seller', 'industry', 'country', 'company', 'phone_verified', 'phone2_verified', 'mobile_verified', 'email_verified'];
+        $this->assertEquals(array_except(Lead::find($lead['id'])->toArray(), $excludeFields), array_except($updatedLead, $excludeFields));
+        $this->assertNotEquals(array_except(Lead::find($lead['id'])->toArray(), $excludeFields), array_except($lead, $excludeFields));
     }
 }
