@@ -26,11 +26,11 @@ class CalendarTest extends TestCase
             'start_time' => '20:00',
             'end_time' => '21:00',
         ]);
-        $event = DB::table('calendar')->find(1);
+        $event = DB::table('calendar')->orderBy('id')->first();
         $this->assertEquals('2022-12-15 20:00:00', $event->start_date);
         $this->assertEquals('2022-12-15 21:00:00', $event->end_date);
 
-        $event = Calendar::find(1);
+        $event = Calendar::orderBy('id')->first();
         $this->assertEquals('2022-12-15 20:00:00', $event->start_date);
         $this->assertEquals('2022-12-15 21:00:00', $event->end_date);
 
@@ -44,11 +44,11 @@ class CalendarTest extends TestCase
             'start_time' => '20:00',
             'end_time' => '21:00',
         ]);
-        $event = DB::table('calendar')->find(2);
+        $event = DB::table('calendar')->orderBy('id', 'desc')->first();
         $this->assertEquals('2022-12-15 19:00:00', $event->start_date);
         $this->assertEquals('2022-12-15 20:00:00', $event->end_date);
 
-        $event = Calendar::find(2);
+        $event = Calendar::orderBy('id', 'desc')->first();
         $this->assertEquals('2022-12-15 20:00:00', $event->start_date);
         $this->assertEquals('2022-12-15 21:00:00', $event->end_date);
     }
