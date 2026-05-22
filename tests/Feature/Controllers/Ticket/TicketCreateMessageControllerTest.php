@@ -37,4 +37,20 @@ class TicketCreateMessageControllerTest extends TestCase
             'body' => 'Test message',
         ]);
     }
+
+    #[Test]
+    public function it_blocks_saving_message_to_another_companys_ticket(): void
+    {
+        $ticket = Ticket::factory()->create(['company_id' => $this->user->company_id + 1]);
+
+        $response = $this->post('/ticket/message/save', [
+            'ticket_id' => $ticket->id,
+            'message' => 'Cross-tenant message',
+        ]);
+
+        $response->assertNotFound();
+        $this->assertDatabaseMissing('ticket_message', [
+            'ticket_id' => $ticket->id,
+        ]);
+    }
 }

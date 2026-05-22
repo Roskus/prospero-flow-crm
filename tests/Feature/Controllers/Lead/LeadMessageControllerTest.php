@@ -43,6 +43,25 @@ class LeadMessageControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_blocks_saving_message_to_another_companys_lead(): void
+    {
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id + 1,
+            'seller_id' => $this->user->id,
+        ]);
+
+        $response = $this->post('/lead/message/save', [
+            'lead_id' => $lead->id,
+            'message' => 'Cross-tenant message',
+        ]);
+
+        $response->assertNotFound();
+        $this->assertDatabaseMissing('lead_message', [
+            'lead_id' => $lead->id,
+        ]);
+    }
+
+    #[Test]
     public function it_blocks_unauthenticated_message_delete(): void
     {
         $lead = Lead::factory()->create([

@@ -7,13 +7,18 @@ namespace App\Http\Controllers\Lead;
 use App\Http\Controllers\MainController;
 use App\Models\Lead;
 use App\Models\Lead\Message as LeadMessage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LeadCreateMessageController extends MainController
 {
-    public function save(Request $request)
+    public function save(Request $request): RedirectResponse
     {
+        $lead = Lead::where('id', $request->lead_id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
+
         $message = new LeadMessage;
         $message->fill([
             'lead_id' => $request->lead_id,
@@ -21,7 +26,7 @@ class LeadCreateMessageController extends MainController
             'author_id' => Auth::user()->id,
         ]);
         $message->save();
-        $lead = Lead::find($request->lead_id);
+
         if ($lead->status == Lead::OPEN) {
             $lead->status = Lead::IN_PROGRESS;
         }

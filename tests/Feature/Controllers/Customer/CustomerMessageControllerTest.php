@@ -40,6 +40,22 @@ class CustomerMessageControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_blocks_saving_message_to_another_companys_customer(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id + 1]);
+
+        $response = $this->post('/customer/message/save', [
+            'customer_id' => $customer->id,
+            'message' => 'Cross-tenant message',
+        ]);
+
+        $response->assertNotFound();
+        $this->assertDatabaseMissing('customer_message', [
+            'customer_id' => $customer->id,
+        ]);
+    }
+
+    #[Test]
     public function it_blocks_unauthenticated_message_delete(): void
     {
         $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
