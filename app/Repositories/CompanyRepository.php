@@ -29,6 +29,7 @@ class CompanyRepository
         $company->zipcode = ! empty($data['zipcode']) ? $data['zipcode'] : null;
         $company->currency = ! empty($data['currency']) ? $data['currency'] : null;
         $company->website = ! empty($data['website']) ? $data['website'] : null;
+        $company->last_order_number = (int) ($data['last_order_number'] ?? $company->last_order_number ?? 0);
         $company->status = ! empty($data['status']) ? $data['status'] : Company::ACTIVE;
         $company->updated_at = now();
         $company->save();

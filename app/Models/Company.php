@@ -57,6 +57,7 @@ class Company extends Model
         'website',
         'updated_at',
         'status',
+        'last_order_number',
     ];
 
     protected $hidden = [
