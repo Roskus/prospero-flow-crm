@@ -9,7 +9,7 @@ jobs:
   phplint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
       - name: "laravel-pint"
@@ -17,7 +17,7 @@ jobs:
         with:
           preset: laravel
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: PHP Linting (Pint)
           skip_fetch: true
