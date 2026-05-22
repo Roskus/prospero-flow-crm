@@ -1,11 +1,12 @@
 name: Tests
 
 on:
-  push:
-    branches: [ main ]
+  - push
+  - pull_request
 
 permissions:
   contents: read
+  pull-requests: read
 
 env:
   DB_PASSWORD: 'root'
@@ -70,6 +71,7 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
       # Adding SonarCloud Scan for test coverage
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v8
+        if: matrix.php == '8.5'
+        uses: SonarSource/sonarqube-scan-action@v7.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
