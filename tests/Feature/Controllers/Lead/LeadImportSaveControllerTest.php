@@ -29,8 +29,10 @@ class LeadImportSaveControllerTest extends TestCase
         $file = new UploadedFile("{$tempDir}/{$baseName}.csv", "{$baseName}.csv", 'text/csv', null, true);
         $response = $this->post('lead/import/save', ['upload' => $file]);
         $response->assertRedirect('/lead');
+        $response->assertSessionHasNoErrors();
 
         $lead = Lead::first();
+        $this->assertNotNull($lead);
         $this->assertEquals('John Doe Corp.', $lead->name);
         $this->assertEquals('John Doe Corp.', $lead->business_name);
         $this->assertEquals('1111111111', $lead->phone);

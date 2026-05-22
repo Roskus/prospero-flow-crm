@@ -27,7 +27,7 @@ class CustomerImportSaveControllerTest extends TestCase
         }
         copy($sourcePath, $uploadDir.'/'.$fileName);
 
-        $file = new UploadedFile($sourcePath, $fileName, 'text/csv', null, true);
+        $file = new UploadedFile($uploadDir.'/'.$fileName, $fileName, 'text/csv', null, true);
         $response = $this->post('customer/import/save', ['upload' => $file]);
         $response->assertRedirect('/customer');
 
