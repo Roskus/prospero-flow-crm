@@ -5,7 +5,7 @@ We made a free open source CRM. Our Community Edition (CE)
 
 ## Requirements
 
-- PHP >= 8.4
+- PHP >= 8.4 / 8.5
 - composer
 - Laravel 13
 - Docker
@@ -135,7 +135,7 @@ crotab -e
 
 ![](docs/screenshoot.png)
 - User: admin@admin.com
-- Pass: admin
+- Pass: admin123
 
 ## API
 We will provide a REST API for exchange information with the CRM
@@ -188,6 +188,18 @@ Code quality check, find bugs
 ```bash
 vendor/bin/phpstan analyse app tests
 ```
+
+## Spec Drive Development / AI Assistant(SDD)
+### OpenSpec
+
+This project uses [OpenSpec](https://openspec.dev/) for spec-driven planning with AI assistants (Claude Code, Cursor, Copilot, etc.).
+
+Install the CLI:
+```bash
+npm install -g @fission-ai/openspec@latest
+```
+
+Specs are stored in `openspec/specs/` alongside the code and versioned with git.
 
 ## Resources
 Icon font Line Awesome

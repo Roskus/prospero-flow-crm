@@ -18,6 +18,7 @@ use App\Models\Ticket;
 use App\Models\Ticket\Message;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * php artisan db:seed --class=DevelopmentDatabaseSeeder
@@ -38,7 +39,7 @@ class DevelopmentDatabaseSeeder extends Seeder
             'first_name' => 'Admin',
             'last_name' => 'Test',
             'email' => 'admin@admin.com',
-            'password' => '$2y$10$Rbren9IPDJs8/nbZQ5.z8.5wW.LmukvaLyL9ndnqZ3NH.AbdrPJLK', // admin
+            'password' => Hash::make('admin123'),
             'lang' => 'en',
             'company_id' => $company->id,
         ]);
