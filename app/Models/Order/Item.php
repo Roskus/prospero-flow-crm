@@ -55,6 +55,7 @@ final class Item extends Model
 
     protected $fillable = [
         'order_id',
+        'order_number',
         'product_id',
         'quantity',
         'unit_price',

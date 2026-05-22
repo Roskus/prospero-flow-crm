@@ -42,6 +42,7 @@ class OrderRepository
                 try {
                     $item = new Order\Item;
                     $item->order_id = $order->id;
+                    $item->order_number = $order->order_number;
                     $item->product_id = $requestItem['product_id'];
                     $item->quantity = $requestItem['quantity'];
                     $item->unit_price = $requestItem['price'];

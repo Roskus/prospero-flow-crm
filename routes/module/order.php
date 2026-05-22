@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/order', [OrderIndexController::class, 'index']);
 Route::get('/order/create', [OrderCreateController::class, 'create']);
-Route::get('/order/show/{id}', [OrderShowController::class, 'show']);
+Route::get('/order/show/{order_number}', [OrderShowController::class, 'show']);
 Route::get('/order/update/{id}', [OrderUpdateController::class, 'update']);
 Route::get('/order/delete/{id}', [OrderDeleteController::class, 'delete']);
 Route::post('/order/save', [OrderSaveController::class, 'save']);

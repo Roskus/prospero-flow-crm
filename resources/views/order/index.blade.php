@@ -14,7 +14,6 @@
             <table class="table table-bordered table-striped table-hover table-condensed">
             <thead>
             <tr>
-                <th>#ID</th>
                 <th>{{ __('Number') }}</th>
                 <th>{{ __('Customer') }}</th>
                 <th>{{ __('Item count') }}</th>
@@ -29,10 +28,7 @@
             @foreach($orders as $order)
             <tr>
                 <td>
-                    <a href="{{ url('order/show/'.$order->id) }}">{{ $order->id }}</a>
-                </td>
-                <td>
-                    {{ $order->orderNumber() }}
+                    <a href="{{ url('order/show/'.$order->order_number) }}">{{ $order->orderNumber() }}</a>
                 </td>
                 <td>{{ (!empty($order->customer)) ? $order->customer->name : '' }}</td>
                 <td class="text-center">
@@ -43,9 +39,9 @@
                 </td>
                 <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
-                <td>{{ $order->status }}</td>
+                <td><span class="badge bg-{{ $order->getStatusBadgeClass() }}">{{ __($order->getStatusLabel()) }}</span></td>
                 <td class="text-nowrap">
-                    <a href="{{ url('order/show/'.$order->id) }}" title="{{ __('View') }}"
+                    <a href="{{ url('order/show/'.$order->order_number) }}" title="{{ __('View') }}"
                        class="btn btn-xs btn-primary text-white">
                         <i class="las la-eye"></i>
                     </a>

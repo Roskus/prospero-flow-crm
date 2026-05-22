@@ -232,7 +232,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                     <td>{{ $order->status }}</td>
                     <td>{{ $order->created_at->format('d/m/Y') }}</td>
                     <td>
-                        <a href="{{ url('/order/show/'.$order->id) }}" title="{{ __('View') }}"
+                        <a href="{{ url('/order/show/'.$order->order_number) }}" title="{{ __('View') }}"
                            class="btn btn-sm btn-primary text-white">
                             {{ __('View') }}
                         </a>
