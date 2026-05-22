@@ -13,12 +13,11 @@
     <div class="row">
         <div class="col">
             <label for="customer_name">{{ __('Customer') }}</label>
-            <input id="customer_name" required="required" class="form-control form-control-lg">
-            <input type="hidden" name="customer_id" id="customer_id" value="{{ isset($order->customer_id) ?? $order->customer_id }}">
+            <input id="customer_name" required="required" class="form-control form-control-lg" value="{{ $order->customer->name ?? '' }}">
+            <input type="hidden" name="customer_id" id="customer_id" value="{{ $order->getCustomerId() ?: '' }}">
         </div>
 
     </div>
-    </form>
     <div class="row">
         <div class="col">
             <label for="product_name">{{ __('Product') }}</label>
@@ -62,8 +61,12 @@
                     <td colspan="5">{{ __('No items') }}</td>
                 </tr>
                 @else
-                    @foreach($order->items as $item)
+                    @foreach($order->items as $i => $item)
                     <tr>
+                        <input type="hidden" name="items[{{ $i }}][product_id]" value="{{ $item->product_id }}">
+                        <input type="hidden" name="items[{{ $i }}][quantity]" value="{{ $item->quantity }}">
+                        <input type="hidden" name="items[{{ $i }}][price]" value="{{ $item->unit_price }}">
+                        <input type="hidden" name="items[{{ $i }}][discount]" value="{{ $item->discount }}">
                         <td>{{ (!empty($item->product)) ? $item->product->name : '' }}</td>
                         <td>{{ $item->unit_price }}</td>
                         <td>{{ $item->quantity }}</td>
@@ -93,8 +96,9 @@
     </div>
     <div>
         <a href="{{ url('/order')}}" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>
-        <button type="submit" form="order-form" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
+        <button type="submit" class="btn btn-lg btn-primary">{{ __('Save') }}</button>
     </div>
+    </form>
     </div>
 </div><!--./card-->
 
@@ -138,6 +142,10 @@
         });
     </script>
     <script src="{{ asset('/asset/js/Order.js') }}"></script>
+    <script>
+        Order.items = new Array({{ $order->items->count() }});
+        Order.total = {{ $order->getTotal() }};
+    </script>
 @endpush
 
 @endsection

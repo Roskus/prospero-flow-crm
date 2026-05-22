@@ -20,6 +20,7 @@ class OrderRepository
             $order->created_at = now();
         } else {
             $order = Order::find($data['id']);
+            $order->items()->delete();
         }
 
         $order->setCompanyId((int) Auth::user()->company_id);
