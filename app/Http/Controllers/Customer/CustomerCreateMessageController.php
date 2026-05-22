@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Customer;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Customer\Message as CustomerMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerCreateMessageController extends Controller
+class CustomerCreateMessageController extends MainController
 {
     public function save(Request $request)
     {

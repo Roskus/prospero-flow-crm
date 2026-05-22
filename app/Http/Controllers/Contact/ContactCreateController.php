@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Contact;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class ContactCreateController extends Controller
+class ContactCreateController extends MainController
 {
     public function create(Request $request, string $model, string $id_model): View
     {

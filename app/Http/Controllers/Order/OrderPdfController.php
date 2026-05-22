@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Order;
 use Dompdf\Dompdf;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class OrderPdfController extends Controller
+class OrderPdfController extends MainController
 {
-    public function download(Request $request, int $id)
+    public function download(int $id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
         $data['order'] = $order;
         // Debug
         // return view('order.print', $data);
@@ -25,10 +27,10 @@ class OrderPdfController extends Controller
         // Opcional: configurar opciones de Dompdf (margenes, tamaño de papel, etc)
         $dompdf->setPaper('A4', 'portrait');
 
-        // Render PDF
         $dompdf->render();
 
-        // Download PDF
-        return $dompdf->stream('order_'.$order->id.'.pdf');
+        return response($dompdf->output(), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="order_'.$order->id.'.pdf"');
     }
 }

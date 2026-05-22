@@ -11,9 +11,19 @@ use Tests\TestCase;
 class CustomerShowControllerTest extends TestCase
 {
     #[Test]
+    public function it_blocks_unauthenticated_access(): void
+    {
+        auth()->guard('web')->logout();
+
+        $response = $this->get('/customer/show/1');
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
     public function it_can_show_customer(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->get('/customer/show/'.$customer->id);
 
@@ -23,5 +33,15 @@ class CustomerShowControllerTest extends TestCase
         $response->assertSee($customer->business_name);
         $response->assertSee($customer->phone);
         $response->assertSee(__('Contacts'));
+    }
+
+    #[Test]
+    public function it_blocks_showing_another_companys_customer(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id + 1]);
+
+        $response = $this->get('/customer/show/'.$customer->id);
+
+        $response->assertNotFound();
     }
 }

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Lead;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Lead;
 use App\Models\Lead\Message as LeadMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LeadCreateMessageController extends Controller
+class LeadCreateMessageController extends MainController
 {
     public function save(Request $request)
     {

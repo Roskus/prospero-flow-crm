@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Ticket;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Ticket\Message as TicketMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TicketCreateMessageController extends Controller
+class TicketCreateMessageController extends MainController
 {
     public function save(Request $request)
     {

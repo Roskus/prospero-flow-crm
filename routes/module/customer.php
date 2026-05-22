@@ -45,7 +45,7 @@ Route::get('/customer/export',
     [CustomerExportController::class, 'export'])
     ->can('export customer');
 
-Route::get('/customer/show/{customer}',
+Route::get('/customer/show/{id}',
     [CustomerShowController::class, 'show'])
     ->can('read customer');
 

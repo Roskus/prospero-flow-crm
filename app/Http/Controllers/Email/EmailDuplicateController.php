@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Email;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Email;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class EmailDuplicateController extends Controller
+class EmailDuplicateController extends MainController
 {
     public function duplicate(Request $request): RedirectResponse
     {
@@ -18,7 +19,9 @@ class EmailDuplicateController extends Controller
             'to' => 'required|email',
         ]);
 
-        $email = Email::find($validated['email_id']);
+        $email = Email::where('id', $validated['email_id'])
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
         $to = $validated['to'];
 
         $email_duplicate = collect($email->replicate())->except(['cc', 'schedule_send']);
