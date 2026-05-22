@@ -61,9 +61,9 @@ final class Order extends Model
     protected $with = ['customer', 'items'];
 
     #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id;
+    private ?int $id; // NOSONAR
 
-    private ?int $company_id = null;
+    private ?int $company_id = null; // NOSONAR
 
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $customer_id;

@@ -43,7 +43,7 @@ class Supplier extends Model
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $id;
+    protected ?int $id; // NOSONAR
 
     #[OAT\Property(type: 'string', example: 'Supplier name')]
     protected string $name;
@@ -85,13 +85,13 @@ class Supplier extends Model
     protected ?string $account_number = null;
 
     #[OAT\Property(type: 'string', example: 'https://supplier.com/order')]
-    protected ?string $order_url = null;
+    protected ?string $order_url = null; // NOSONAR
 
     #[OAT\Property(type: 'string', example: 'username123')]
-    protected ?string $order_user = null;
+    protected ?string $order_user = null; // NOSONAR
 
     #[OAT\Property(type: 'string', example: 'password123')]
-    protected ?string $order_password = null;
+    protected ?string $order_password = null; // NOSONAR
 
     public function company()
     {

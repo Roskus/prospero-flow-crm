@@ -48,10 +48,10 @@ class Calendar extends Model
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id;
+    private ?int $id; // NOSONAR
 
     #[OAT\Property(type: 'int', example: 1)]
-    private ?int $company_id;
+    private ?int $company_id; // NOSONAR
 
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $user_id;

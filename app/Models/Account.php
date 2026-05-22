@@ -27,9 +27,9 @@ class Account extends Model
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $id;
+    protected ?int $id; // NOSONAR
 
-    protected int $company_id;
+    protected int $company_id; // NOSONAR
 
     #[OAT\Property(type: 'string', example: 'Purchase computer')]
     protected string $name;

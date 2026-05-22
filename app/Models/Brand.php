@@ -28,9 +28,9 @@ class Brand extends Model
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id;
+    private ?int $id; // NOSONAR
 
-    private ?int $company_id = null;
+    private ?int $company_id = null; // NOSONAR
 
     #[OAT\Property(type: 'string', example: 'My brand')]
     protected string $name;

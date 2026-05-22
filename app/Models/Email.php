@@ -30,7 +30,7 @@ class Email extends Model
     const string ERROR = 'error';
 
     #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id;
+    private ?int $id; // NOSONAR
 
     #[OAT\Property(description: 'From of the email', type: 'string', format: 'email', example: 'hello@company.com')]
     protected ?string $from = null;

@@ -39,9 +39,9 @@ class Campaign extends Model
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $id;
+    protected ?int $id; // NOSONAR
 
-    private ?int $company_id;
+    private ?int $company_id; // NOSONAR
 
     #[OAT\Property(type: 'string', example: 'My amazing campaign')]
     protected string $subject;

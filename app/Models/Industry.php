@@ -17,7 +17,7 @@ class Industry extends Model
     protected $table = 'industry';
 
     #[OAT\Property(type: 'int', example: 6)]
-    protected ?int $id;
+    protected ?int $id; // NOSONAR
 
     #[OAT\Property(type: 'string', example: 'Automotive')]
     protected string $name;

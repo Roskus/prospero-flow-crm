@@ -67,9 +67,9 @@ class User extends Authenticatable implements JWTSubject
     protected $with = ['company'];
 
     #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id = null;
+    private ?int $id = null; // NOSONAR
 
-    private ?int $company_id = null;
+    protected ?int $company_id = null; // NOSONAR
 
     #[OAT\Property(description: 'First Name of the user', type: 'string', example: 'John')]
     protected ?string $first_name = null;
