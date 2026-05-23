@@ -6,7 +6,7 @@ namespace Tests\Feature\Controllers\Company;
 
 use App\Models\Company;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -16,6 +16,8 @@ class CompanySaveControllerTest extends TestCase
     #[Test]
     public function it_can_save_company(): void
     {
+        Storage::fake('public');
+
         $data = [
             'name' => fake()->word(),
             'currency' => fake()->bothify('???'),
@@ -31,11 +33,10 @@ class CompanySaveControllerTest extends TestCase
         $this->assertDatabaseHas('company', $data);
 
         $company_folder = Str::slug($data['name'], '_');
-        $destination_path = public_path().DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'company'.DIRECTORY_SEPARATOR.$company_folder;
-        $destination = $destination_path.DIRECTORY_SEPARATOR.$logo;
+        $storagePath = 'company/'.$company_folder.'/'.$logo;
 
-        $this->assertFileExists($destination);
+        Storage::disk('public')->assertExists($storagePath);
 
-        File::delete($destination);
+        Storage::disk('public')->delete($storagePath);
     }
 }
