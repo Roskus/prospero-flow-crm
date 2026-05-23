@@ -47,6 +47,8 @@ class OrderRepository
                     $item->product_id = $requestItem['product_id'];
                     $item->quantity = $requestItem['quantity'];
                     $item->unit_price = $requestItem['price'];
+                    $item->discount = (float) ($requestItem['discount'] ?? 0);
+                    $item->tax = (float) ($requestItem['tax'] ?? 0);
                     $order->items()->save($item);
                 } catch (\Throwable $t) {
                     Log::error($t->getMessage());

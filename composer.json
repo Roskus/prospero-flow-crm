@@ -36,6 +36,7 @@
         "moneyphp/money": "^4.8",
         "nesbot/carbon": "^3.11.1",
         "php-open-source-saver/jwt-auth": "^2.8.3",
+        "picqer/php-barcode-generator": "^3.2",
         "psr/simple-cache": "^2.0",
         "ramsey/uuid": "^4.9.2",
         "sentry/sentry-laravel": "^4.21.1",

@@ -144,8 +144,8 @@
                     <label for="logo" class="label-control">Logo</label>
                     <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/svg" class="form-control">
                     @if($company->logo)
-                        <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}"
-                             alt="{{ env('APP_NAME') }}" class="logo">
+                        <img src="/storage/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}"
+                             alt="{{ config('app.name') }}" class="logo">
                     @endif
                 </div>
             </div>

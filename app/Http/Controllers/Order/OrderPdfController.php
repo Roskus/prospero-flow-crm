@@ -17,7 +17,7 @@ class OrderPdfController extends MainController
             ->where('order_number', $order_number)
             ->firstOrFail();
         $data['order'] = $order;
-        $html = view('order.print', $data)->render();
+        $html = view('order.pdf', $data)->render();
 
         $dompdf = new Dompdf;
         $dompdf->loadHtml($html);

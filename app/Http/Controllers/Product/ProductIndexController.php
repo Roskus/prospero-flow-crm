@@ -21,7 +21,7 @@ class ProductIndexController extends MainController
             $products = Product::where('company_id', (int) Auth::user()->company_id)
                 ->where('name', 'LIKE', "%$term%")
                 ->orWhere('sku', 'LIKE', "%$term%")
-                ->get(['id', 'name as label', 'price']);
+                ->get(['id', 'name as label', 'price', 'tax']);
 
             return response()->json($products);
         }

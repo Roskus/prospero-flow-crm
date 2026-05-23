@@ -84,10 +84,15 @@ final class Item extends Model
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
 
-    public function getSubTotal()
+    public function getSubTotal(): float
     {
         $amount = $this->unit_price * $this->quantity;
 
         return $amount - (($this->discount / 100) * $amount);
+    }
+
+    public function getTaxAmount(): float
+    {
+        return ($this->tax / 100) * $this->getSubTotal();
     }
 }

@@ -25,28 +25,17 @@ class CompanySaveController extends MainController
         $company = $this->companyRepository->save($request->all());
 
         // Save image
-        if (isset($request->logo)) {
-            $extension = $request->file('logo')->extension();
-            $origin_path = $request->file('logo')->getPathName();
+        if ($request->hasFile('logo')) {
+            $folder = 'company/'.Str::slug($company->name, '_');
+            $filename = time().'.'.$request->file('logo')->extension();
 
-            $company_folder = Str::slug($company->name, '_');
-
-            $destination_path = \public_path().DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'company'.DIRECTORY_SEPARATOR.$company_folder;
             try {
-                \mkdir($destination_path, 0775, true);
-            } catch (\Exception $e) {
-                Log::error('Backoffice -> Product -> Upload image: '.$destination_path);
+                $request->file('logo')->storeAs($folder, $filename, 'public');
+                $company->logo = $filename;
+                $company->save();
+            } catch (\Throwable $e) {
+                Log::error('Company logo upload failed: '.$e->getMessage());
             }
-
-            $new_name = time().'.'.$extension;
-
-            $origin = $origin_path;
-            $destination = $destination_path.DIRECTORY_SEPARATOR.$new_name;
-
-            if (copy($origin, $destination)) {
-                $company->logo = $new_name;
-            }
-            $company->save();
         }
 
         return redirect('/company');

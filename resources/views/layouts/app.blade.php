@@ -45,7 +45,7 @@
                 @if(empty(Auth::user()->company->logo))
                     {{ env('APP_NAME') }}
                 @else
-                   <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ env('APP_NAME') }}" class="logo">
+                   <img src="/storage/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ config('app.name') }}" class="logo">
                 @endif
                 @if(!App::environment('production'))
                     <span class="float-right">

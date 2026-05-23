@@ -228,7 +228,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                 @foreach ($orders as $order)
                 <tr>
                     <th scope="row">{{ $order->id }}</th>
-                    <td>{{ $order->amount }}</td>
+                    <td>{{ App\Helpers\CurrencyHelper::format($order->amount) }}</td>
                     <td>{{ $order->status }}</td>
                     <td>{{ $order->created_at->format('d/m/Y') }}</td>
                     <td>

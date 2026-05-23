@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Helpers\CurrencyHelper;
 use App\Models\Order\Item;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -231,6 +232,6 @@ final class Order extends Model
 
     public function getAmountFormated(): string
     {
-        return (string) $this->getTotal();
+        return CurrencyHelper::format($this->getTotal());
     }
 }

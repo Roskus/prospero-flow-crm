@@ -19,6 +19,7 @@
             <thead>
             <tr>
                 <th>#ID</th>
+                <th>Logo</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Business name') }}</th>
                 <th>{{ __('Tax identification') }}</th>
@@ -36,6 +37,12 @@
             @foreach($companies as $company)
             <tr>
                 <td>{{ $company->id }}</td>
+                <td>
+                    @if(!empty($company->logo))
+                        <img src="/storage/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}"
+                             alt="{{ $company->name }}" style="max-height:40px; max-width:80px;">
+                    @endif
+                </td>
                 <td>
                     @can('update company')
                         <a href="{{ url("/company/update/$company->id") }}">

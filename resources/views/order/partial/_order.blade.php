@@ -12,7 +12,7 @@
                 @if(empty(Auth::user()->company->logo))
                     {{ Auth::user()->company->name }}
                 @else
-                    <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/company/'.\Illuminate\Support\Str::slug(Auth::user()->company->name, '_').'/'.Auth::user()->company->logo)) }}" alt="{{ env('APP_NAME') }}" class="logo">
+                    <img src="/storage/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ config('app.name') }}" class="logo">
                 @endif
             </div>
             <div class="col">
@@ -149,13 +149,11 @@
                             @endif
                             {{ (!empty($item->product)) ? $item->product->name : '' }}
                         </td>
-                        <td>
-                            {{ number_format($item->unit_price, 2, ',', '.') }}
-                        </td>
+                        <td>{{ App\Helpers\CurrencyHelper::symbol() }} {{ number_format($item->unit_price, 2, ',', '.') }}</td>
                         <td>{{ (!empty($item->tax)) ? $item->tax : '' }}%</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ $item->discount }}%</td>
-                        <td>{{ number_format($item->getSubtotal(), 2, ',', '.') }}</td>
+                        <td>{{ App\Helpers\CurrencyHelper::symbol() }} {{ number_format($item->getSubtotal(), 2, ',', '.') }}</td>
                     </tr>
                 @endforeach
             @endif
@@ -164,16 +162,12 @@
             <tr>
                 <th colspan="5">&nbsp;</th>
                 <th class="text-right">{{ __('Taxes') }}</th>
-                <th>
-                    {{ number_format($order->getTax(), 2, ',', '.') }}
-                </th>
+                <th>{{ App\Helpers\CurrencyHelper::symbol() }} {{ number_format($order->getTax(), 2, ',', '.') }}</th>
             </tr>
             <tr>
                 <th colspan="5">&nbsp;</th>
                 <th class="text-right">{{ __('Total') }}</th>
-                <th>
-                    {{ number_format($order->getTotal(), 2, ',', '.') }}
-                </th>
+                <th>{{ App\Helpers\CurrencyHelper::symbol() }} {{ number_format($order->getTotal(), 2, ',', '.') }}</th>
             </tr>
             </tfoot>
         </table>
