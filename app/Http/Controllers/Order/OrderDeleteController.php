@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 
 class OrderDeleteController extends MainController
 {
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $order_number)
     {
-        $order = Order::find($id);
+        $order = Order::where('company_id', $request->user()->company_id)
+            ->where('order_number', $order_number)
+            ->firstOrFail();
         $order->delete();
 
         return redirect('order');

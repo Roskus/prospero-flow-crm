@@ -228,16 +228,16 @@ $url = isset($lead) ? 'lead' : 'customer';
                 @foreach ($orders as $order)
                 <tr>
                     <th scope="row">{{ $order->id }}</th>
-                    <td>{{ $order->amount }}</td>
+                    <td>{{ App\Helpers\CurrencyHelper::format($order->amount) }}</td>
                     <td>{{ $order->status }}</td>
                     <td>{{ $order->created_at->format('d/m/Y') }}</td>
                     <td>
-                        <a href="{{ url('/order/show/'.$order->id) }}" title="{{ __('View') }}"
+                        <a href="{{ url('/order/show/'.$order->order_number) }}" title="{{ __('View') }}"
                            class="btn btn-sm btn-primary text-white">
                             {{ __('View') }}
                         </a>
 
-                        <a href="{{ url("/order/update/$order->id") }}" class="btn btn-warning btn-sm">
+                        <a href="{{ url("/order/update/$order->order_number") }}" class="btn btn-warning btn-sm">
                             {{ __('Edit') }}
                         </a>
                     </td>

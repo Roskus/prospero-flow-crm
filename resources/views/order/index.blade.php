@@ -14,7 +14,6 @@
             <table class="table table-bordered table-striped table-hover table-condensed">
             <thead>
             <tr>
-                <th>#ID</th>
                 <th>{{ __('Number') }}</th>
                 <th>{{ __('Customer') }}</th>
                 <th>{{ __('Item count') }}</th>
@@ -29,10 +28,7 @@
             @foreach($orders as $order)
             <tr>
                 <td>
-                    <a href="{{ url('order/show/'.$order->id) }}">{{ $order->id }}</a>
-                </td>
-                <td>
-                    {{ $order->orderNumber() }}
+                    <a href="{{ url('order/show/'.$order->order_number) }}">{{ $order->orderNumber() }}</a>
                 </td>
                 <td>{{ (!empty($order->customer)) ? $order->customer->name : '' }}</td>
                 <td class="text-center">
@@ -43,32 +39,32 @@
                 </td>
                 <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
-                <td>{{ $order->status }}</td>
+                <td><span class="badge bg-{{ $order->getStatusBadgeClass() }}">{{ __($order->getStatusLabel()) }}</span></td>
                 <td class="text-nowrap">
-                    <a href="{{ url('order/show/'.$order->id) }}" title="{{ __('View') }}"
+                    <a href="{{ url('order/show/'.$order->order_number) }}" title="{{ __('View') }}"
                        class="btn btn-xs btn-primary text-white">
                         <i class="las la-eye"></i>
                     </a>
 
                     @if($order->status == App\Models\Order::PENDING)
-                    <a href="{{ url('/order/update/'.$order->id) }}" title="{{ __('Edit') }}"
+                    <a href="{{ url('/order/update/'.$order->order_number) }}" title="{{ __('Edit') }}"
                        class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
 
-                    <a href="{{ url('/order/confirm/'.$order->id) }}" title="{{ __('Confirm') }}"
+                    <a href="{{ url('/order/confirm/'.$order->order_number) }}" title="{{ __('Confirm') }}"
                        class="btn btn-xs btn-success text-white">
                         <i class="las la-check-circle"></i>
                     </a>
                     @endif
 
-                    <a href="{{ url('/order/download/'.$order->id) }}" title="{{ __('Download') }}"
+                    <a href="{{ url('/order/download/'.$order->order_number) }}" title="{{ __('Download') }}"
                        class="btn btn-xs btn-secondary">
                         <i class="las la-file-pdf"></i>
                     </a>
 
                     @can('delete order')
-                    <a href="#" onclick="Order.delete({{ $order->id }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->id ]) }}')" title="{{ __('Delete') }}"
+                    <a href="#" onclick="Order.delete({{ $order->order_number }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->order_number]) }}')" title="{{ __('Delete') }}"
                        class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>

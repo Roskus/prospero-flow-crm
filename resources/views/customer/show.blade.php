@@ -52,12 +52,12 @@
                 <tbody>
                     @foreach ($customer->orders as $order)
                         <tr>
-                            <th scope="row">{{ $order->id }}</th>
+                            <th scope="row">{{ $order->orderNumber() }}</th>
                             <td>{{ $order->amount }}</td>
-                            <td>{{ $order->status }}</td>
+                            <td><span class="badge bg-{{ $order->getStatusBadgeClass() }}">{{ __($order->getStatusLabel()) }}</span></td>
                             <td>{{ $order->created_at->format('d/m/Y') }}</td>
                             <td><a class="btn btn-warning btn-sm"
-                                    href="{{ url("/order/update/$order->id") }}">{{ __('Edit') }}</a></td>
+                                    href="{{ url("/order/update/$order->order_number") }}">{{ __('Edit') }}</a></td>
                         </tr>
                     @endforeach
                 </tbody>

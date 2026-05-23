@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 
 class OrderShowController extends MainController
 {
-    public function show(Request $request, int $id)
+    public function show(Request $request, int $order_number)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::where('company_id', $request->user()->company_id)
+            ->where('order_number', $order_number)
+            ->firstOrFail();
         $data['order'] = $order;
 
         return view('order.show', $data);

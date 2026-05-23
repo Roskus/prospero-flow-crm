@@ -18,7 +18,7 @@ class OrderPdfControllerTest extends TestCase
 
         auth()->guard('web')->logout();
 
-        $response = $this->get("/order/download/{$order->id}");
+        $response = $this->get("/order/download/{$order->order_number}");
 
         $response->assertRedirect('/login');
     }
@@ -28,7 +28,7 @@ class OrderPdfControllerTest extends TestCase
     {
         $otherOrder = Order::factory()->create();
 
-        $response = $this->get("/order/download/{$otherOrder->id}");
+        $response = $this->get("/order/download/{$otherOrder->order_number}");
 
         $response->assertNotFound();
     }
@@ -43,7 +43,7 @@ class OrderPdfControllerTest extends TestCase
             'seller_id' => $this->user->id,
         ]);
 
-        $response = $this->get("/order/download/{$order->id}");
+        $response = $this->get("/order/download/{$order->order_number}");
 
         $response->assertOk();
         $response->assertHeader('content-type', 'application/pdf');

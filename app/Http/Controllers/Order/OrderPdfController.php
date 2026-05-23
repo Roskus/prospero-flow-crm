@@ -11,26 +11,21 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderPdfController extends MainController
 {
-    public function download(int $id)
+    public function download(int $order_number)
     {
-        $order = Order::where('id', $id)
-            ->where('company_id', Auth::user()->company_id)
+        $order = Order::where('company_id', Auth::user()->company_id)
+            ->where('order_number', $order_number)
             ->firstOrFail();
         $data['order'] = $order;
-        // Debug
-        // return view('order.print', $data);
-        $html = view('order.print', $data)->render();
+        $html = view('order.pdf', $data)->render();
 
         $dompdf = new Dompdf;
         $dompdf->loadHtml($html);
-
-        // Opcional: configurar opciones de Dompdf (margenes, tamaño de papel, etc)
         $dompdf->setPaper('A4', 'portrait');
-
         $dompdf->render();
 
         return response($dompdf->output(), 200)
             ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="order_'.$order->id.'.pdf"');
+            ->header('Content-Disposition', 'attachment; filename="order_'.$order->order_number.'.pdf"');
     }
 }

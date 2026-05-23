@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Helpers\CurrencyHelper;
 use App\Models\Order\Item;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -115,7 +116,7 @@ final class Order extends Model
     // #[OAT\Property()]
     public function items(): HasMany
     {
-        return $this->hasMany(Item::class, 'order_id', 'id');
+        return $this->hasMany(Item::class, 'order_number', 'order_number');
     }
 
     // Accessors and Mutators
@@ -157,6 +158,28 @@ final class Order extends Model
     public function orderNumber(): string
     {
         return isset($this->order_number) ? str_pad((string) $this->order_number, 10, '0', STR_PAD_LEFT) : '';
+    }
+
+    public function getStatusLabel(): string
+    {
+        return match ((int) $this->getAttribute('status')) {
+            self::CANCELED => 'Canceled',
+            self::PENDING => 'Pending',
+            self::CONFIRMED => 'Confirmed',
+            self::COMPLETED => 'Completed',
+            default => 'Unknown',
+        };
+    }
+
+    public function getStatusBadgeClass(): string
+    {
+        return match ((int) $this->getAttribute('status')) {
+            self::CANCELED => 'danger',
+            self::PENDING => 'warning',
+            self::CONFIRMED => 'primary',
+            self::COMPLETED => 'success',
+            default => 'secondary',
+        };
     }
 
     /**
@@ -209,6 +232,6 @@ final class Order extends Model
 
     public function getAmountFormated(): string
     {
-        return (string) $this->getTotal();
+        return CurrencyHelper::format($this->getTotal());
     }
 }

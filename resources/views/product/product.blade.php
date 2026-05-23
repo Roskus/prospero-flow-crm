@@ -51,11 +51,11 @@
             <div class="row form-group">
                 <div class="col">
                     <label for="cost" class="label-control">{{ __('Cost') }} <span class="text-danger">*</span></label>
-                    <input type="number" name="cost" id="cost" value="{{ old('cost', $product->cost) }}" class="form-control" required="required" step="0.1" min="0">
+                    <input type="number" name="cost" id="cost" value="{{ old('cost', $product->cost) }}" class="form-control" required="required" step="0.01" min="0">
                 </div>
                 <div class="col">
                     <label for="price" class="label-control">{{ __('Price') }} <span class="text-danger">*</span></label>
-                    <input type="number" name="price" id="price" value="{{ old('price', $product->price) }}" class="form-control" required="required" step="0.1" min="0">
+                    <input type="number" name="price" id="price" value="{{ old('price', $product->price) }}" class="form-control" required="required" step="0.01" min="0">
                 </div>
                 <div class="col">
                     <label for="tax" class="label-control">{{ __('Tax') }}</label>

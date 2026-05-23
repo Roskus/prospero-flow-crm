@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderUpdateController extends MainController
 {
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $order_number)
     {
-        $order = Order::find($id);
+        $order = Order::where('company_id', Auth::user()->company_id)
+            ->where('order_number', $order_number)
+            ->firstOrFail();
         $product = new Product;
         $data['order'] = $order;
         $company_id = Auth::user()->company_id;

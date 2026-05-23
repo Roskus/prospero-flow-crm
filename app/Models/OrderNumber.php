@@ -7,6 +7,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @deprecated Superseded by company.last_order_number. Schedule for removal once confirmed unused.
+ */
 class OrderNumber extends Model
 {
     use HasFactory;

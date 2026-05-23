@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 
 class OrderConfirmController extends MainController
 {
-    public function confirm(Request $request, int $id)
+    public function confirm(Request $request, int $order_number)
     {
-        $order = Order::find($id);
+        $order = Order::where('company_id', $request->user()->company_id)
+            ->where('order_number', $order_number)
+            ->firstOrFail();
         $order->status = Order::CONFIRMED;
         $order->save();
 

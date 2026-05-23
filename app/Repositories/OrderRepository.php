@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Order;
-use App\Models\OrderNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,19 +17,10 @@ class OrderRepository
 
         if (empty($data['id'])) {
             $order = new Order;
-            $company_id = Auth::user()->company_id;
-            $last_order_number = OrderNumber::where('company_id', $company_id)
-                ->lockForUpdate()
-                ->value('last_order_number');
-
-            $new_order_number = $last_order_number + 1;
-
-            OrderNumber::where('company_id', $company_id)
-                ->update(['last_order_number' => $new_order_number]);
-            $order->order_number = $new_order_number;
             $order->created_at = now();
         } else {
             $order = Order::find($data['id']);
+            $order->items()->delete();
         }
 
         $order->setCompanyId((int) Auth::user()->company_id);
@@ -53,9 +43,12 @@ class OrderRepository
                 try {
                     $item = new Order\Item;
                     $item->order_id = $order->id;
+                    $item->order_number = $order->order_number;
                     $item->product_id = $requestItem['product_id'];
                     $item->quantity = $requestItem['quantity'];
                     $item->unit_price = $requestItem['price'];
+                    $item->discount = (float) ($requestItem['discount'] ?? 0);
+                    $item->tax = (float) ($requestItem['tax'] ?? 0);
                     $order->items()->save($item);
                 } catch (\Throwable $t) {
                     Log::error($t->getMessage());

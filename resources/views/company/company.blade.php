@@ -117,6 +117,23 @@
             </div>
         </div>
     </div>
+    <div class="card mb-2">
+        <div class="card-header">
+            <span class="card-title">{{ __('Orders') }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label for="last_order_number" class="label-control">{{ __('Last order number') }}</label>
+                    <input type="number" name="last_order_number" id="last_order_number" min="0"
+                           value="{{ old('last_order_number', $company->last_order_number) }}"
+                           class="form-control">
+                    <small class="form-text text-muted">{{ __('The next order will be assigned number') }} {{ ($company->last_order_number ?? 0) + 1 }}.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <span class="card-title">{{ __('Customize') }}</span>
@@ -127,8 +144,8 @@
                     <label for="logo" class="label-control">Logo</label>
                     <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/svg" class="form-control">
                     @if($company->logo)
-                        <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}"
-                             alt="{{ env('APP_NAME') }}" class="logo">
+                        <img src="/storage/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}"
+                             alt="{{ config('app.name') }}" class="logo">
                     @endif
                 </div>
             </div>
