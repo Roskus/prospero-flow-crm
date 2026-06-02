@@ -33,7 +33,7 @@
                         <select name="source_id" id="source_id" class="form-select form-select-lg">
                             <option value=""></option>
                             @foreach ($sources as $source)
-                                <option value="{{ $source->id }}" @if($source->id == $customer->source_id) selected="selected" @endif>
+                                <option value="{{ $source->id }}" @if($source->id == old('source_id', $customer->source_id)) selected="selected" @endif>
                                     {{ __($source->name) }}
                                 </option>
                             @endforeach
@@ -150,7 +150,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="country_id">{{ __('Country') }}</label>
-                        <input name="country_id" id="country_id" list="countryList" value="{{ $customer->country_id }}" class="form-control form-control-lg">
+                        <input name="country_id" id="country_id" list="countryList" value="{{ old('country_id', $customer->country_id) }}" class="form-control form-control-lg">
 
                         <datalist id="countryList">
                             @foreach ($countries as $country)
@@ -278,7 +278,7 @@
                         <select name="industry_id" id="industry_id" class="form-select form-select-lg">
                             <option value=""></option>
                             @foreach($industries as $industry)
-                            <option value="{{ $industry->id }}" @if($customer->industry_id == $industry->id) selected="selected" @endif>
+                            <option value="{{ $industry->id }}" @if($industry->id == old('industry_id', $customer->industry_id)) selected="selected" @endif>
                                 {{ __($industry->name) }}
                             </option>
                             @endforeach
@@ -289,7 +289,7 @@
                         <select name="status" id="status" class="form-select form-select-lg">
                             <option value="">{{ __('Choose') }}</option>
                             @foreach(\App\Models\Customer::getStatus() as $key => $status)
-                            <option value="{{ $key }}" @if($customer->status == $key) selected="selected" @endif>
+                            <option value="{{ $key }}" @if($key == old('status', $customer->status)) selected="selected" @endif>
                                 {{ __($status) }}
                             </option>
                             @endforeach
@@ -316,7 +316,7 @@
                             <option value=""></option>
                             @foreach ($sellers as $seller)
                                 <option value="{{ $seller->id }}"
-                                        @if ($customer->seller_id == $seller->id) selected="selected" @endif>
+                                        @if ($seller->id == old('seller_id', $customer->seller_id)) selected="selected" @endif>
                                     {{ $seller->first_name . ' ' . $seller->last_name }}</option>
                             @endforeach
                         </select>

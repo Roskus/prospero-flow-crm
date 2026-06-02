@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Squire\Models\Country;
 
 class CustomerRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class CustomerRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::check();
     }
@@ -35,10 +36,19 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
+        $countryInput = $this->input('country_id');
+        if (! empty($countryInput) && strlen($countryInput) > 2) {
+            $country = Country::where('name', $countryInput)->first();
+            if ($country) {
+                $countryInput = $country->code_2;
+            }
+        }
+
         $this->merge([
             'phone' => ! empty($this->input('phone')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone')) : null,
             'phone2' => ! empty($this->input('phone2')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone2')) : null,
             'mobile' => ! empty($this->input('mobile')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('mobile')) : null,
+            'country_id' => $countryInput,
         ]);
 
         return [

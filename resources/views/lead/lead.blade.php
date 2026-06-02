@@ -34,7 +34,7 @@
                         <select name="source_id" id="source_id" class="form-select form-select-lg">
                             <option value=""></option>
                             @foreach ($sources as $source)
-                            <option value="{{ $source->id }}" @if($source->id == $lead->source_id) selected="selected" @endif>
+                            <option value="{{ $source->id }}" @if($source->id == old('source_id', $lead->source_id)) selected="selected" @endif>
                                 {{ __($source->name) }}
                             </option>
                             @endforeach
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="dob">{{ __('Date of birth') }}</label>
+                        <label for="dob">{{ __('Date of birth') }} / {{ _('Foundation') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-calendar-day"></i></span>
                             <input type="date" name="dob" id="dob" value="{{ old('dob', $lead->dob) }}"
@@ -148,7 +148,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="country_id">{{ __('Country') }}</label>
-                        <input name="country_id" id="country_id" list="countryList" value="{{ $lead->country_id }}" class="form-control form-control-lg">
+                        <input name="country_id" id="country_id" list="countryList" value="{{ old('country_id', $lead->country_id) }}" class="form-control form-control-lg">
 
                         <datalist id="countryList">
                             @foreach ($countries as $country)
@@ -276,7 +276,7 @@
                         <select name="industry_id" id="industry_id" class="form-select form-select-lg">
                             <option value=""></option>
                             @foreach($industries as $industry)
-                            <option value="{{ $industry->id }}" @if($lead->industry_id == $industry->id) selected="selected" @endif>
+                            <option value="{{ $industry->id }}" @if($industry->id == old('industry_id', $lead->industry_id)) selected="selected" @endif>
                                 {{ __($industry->name) }}
                             </option>
                             @endforeach
@@ -287,7 +287,7 @@
                         <select name="status" id="status" class="form-select form-select-lg">
                             <option value="">{{ __('Choose') }}</option>
                             @foreach(\App\Models\Lead::getStatus() as $key => $status)
-                            <option value="{{ $key }}" @if($lead->status == $key) selected="selected" @endif>
+                            <option value="{{ $key }}" @if($key == old('status', $lead->status)) selected="selected" @endif>
                                 {{ __($status) }}
                             </option>
                             @endforeach
@@ -314,7 +314,7 @@
                             <option value=""></option>
                             @foreach ($sellers as $seller)
                                 <option value="{{ $seller->id }}"
-                                        @if ($lead->seller_id == $seller->id) selected="selected" @endif>
+                                        @if ($seller->id == old('seller_id', $lead->seller_id)) selected="selected" @endif>
                                     {{ $seller->first_name . ' ' . $seller->last_name }}</option>
                             @endforeach
                         </select>
