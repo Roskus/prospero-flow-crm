@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imports;
 
 use App\Models\Lead;
+use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -12,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class LeadImport implements SkipsEmptyRows, ToModel, WithHeadingRow, WithValidation
 {
-    public function model(array $row)
+    public function model(array $row): Model|array|null
     {
         return new Lead([
             'company_id' => $row['company_id'],
