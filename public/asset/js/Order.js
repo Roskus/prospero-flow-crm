@@ -36,9 +36,9 @@ var Order =
             item.quantity = quantity.value;
             item.price = price.value;
             item.discount = discount.value || 0;
-            item.tax = parseFloat(product_tax.value) || 0;
+            item.tax = Number.parseFloat(product_tax.value) || 0;
             item.subtotal = quantity.value * price.value;
-            this.total += parseFloat(item.subtotal);
+            this.total += Number.parseFloat(item.subtotal);
             let total_field = document.getElementById('total')
             total_field.value = this.total;
 
@@ -99,7 +99,7 @@ var Order =
 
             // tds[5] = Subtotal column
             tds[5].classList.add('item-subtotal');
-            tds[5].textContent = parseFloat(item.subtotal).toFixed(2);
+            tds[5].textContent = Number.parseFloat(item.subtotal).toFixed(2);
 
             let table_body = document.querySelector('#order-items');
             let row_clone = document.importNode(product_row.content, true);
@@ -124,10 +124,10 @@ var Order =
     },
     recalculateRow: function(input) {
         let row = input.closest('tr');
-        let price = parseFloat(row.querySelector('[name*="[price]"]').value) || 0;
-        let quantity = parseFloat(row.querySelector('[name*="[quantity]"]').value) || 0;
-        let discount = parseFloat(row.querySelector('[name*="[discount]"]').value) || 0;
-        let tax = parseFloat(row.dataset.tax) || 0;
+        let price = Number.parseFloat(row.querySelector('[name*="[price]"]').value) || 0;
+        let quantity = Number.parseFloat(row.querySelector('[name*="[quantity]"]').value) || 0;
+        let discount = Number.parseFloat(row.querySelector('[name*="[discount]"]').value) || 0;
+        let tax = Number.parseFloat(row.dataset.tax) || 0;
         let subtotal = price * quantity * (1 - discount / 100);
         let taxAmount = (tax / 100) * subtotal;
         let subtotalCell = row.querySelector('.item-subtotal');
@@ -139,7 +139,7 @@ var Order =
     recalculateTotal: function() {
         let total = 0;
         document.querySelectorAll('#order-items .item-subtotal').forEach(function(cell) {
-            total += parseFloat(cell.textContent) || 0;
+            total += Number.parseFloat(cell.textContent) || 0;
         });
         document.getElementById('total').value = total.toFixed(2);
     },

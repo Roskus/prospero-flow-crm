@@ -57,7 +57,7 @@
                 <hr class="dropdown-divider">
             </li>
             <li>
-                <a class="dropdown-item" onclick="Hammer.exit()" href="#"><i class="las la-door-open"></i> {{ __('Exit') }}</a>
+                <a class="dropdown-item" onclick="ProspectFlow.exit()" href="#"><i class="las la-door-open"></i> {{ __('Exit') }}</a>
             </li>
         </ul>
     </div>

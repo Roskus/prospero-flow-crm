@@ -119,7 +119,7 @@
                                 </li>
                                 <li role="separator" class="dropdown-divider"></li>
                                 <li>
-                                    <a href="#" onclick="Hammer.exit('{{ __('Do you want to exit?') }}')" class="dropdown-item">
+                                    <a href="#" onclick="ProspectFlow.exit('{{ __('Do you want to exit?') }}')" class="dropdown-item">
                                         <i class="las la-door-open"></i> {{ __('Exit') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
