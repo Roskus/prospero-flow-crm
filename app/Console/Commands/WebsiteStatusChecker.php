@@ -22,7 +22,7 @@ class WebsiteStatusChecker extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Check the HTTP status of all lead websites';
 
     /**
      * Execute the console command.
@@ -31,7 +31,7 @@ class WebsiteStatusChecker extends Command
      */
     public function handle()
     {
-        $leads = Lead::whereIsNotNull('website');
+        $leads = Lead::whereNotNull('website')->get();
         foreach ($leads as $lead) {
             $this->info("Cheking: $lead->website \n");
             if (Domain::isValid($lead->website)) {
