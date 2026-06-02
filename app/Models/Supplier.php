@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Supplier\SupplierContact;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 use Squire\Models\Country;
 
@@ -14,6 +15,7 @@ use Squire\Models\Country;
 class Supplier extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'supplier';
 

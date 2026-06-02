@@ -28,12 +28,17 @@ class ProductDeleteController
      *     @OA\Response(response="200", description="Product deleted successfully"),
      *     @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
-     *
-     * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id): JsonResponse
     {
-        $product = Product::find($id)->where('company_id', Auth::user()->company_id);
+        $product = Product::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
+        if (! $product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
         $product->delete();
 
         return response()->json(['message' => 'Product deleted successfully']);

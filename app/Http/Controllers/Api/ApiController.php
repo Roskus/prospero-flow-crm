@@ -11,6 +11,8 @@ use PHPOpenSourceSaver\JWTAuth\Exceptions\UserNotDefinedException;
 
 class ApiController extends Controller
 {
+    protected const int DEFAULT_ITEMS_PER_PAGE = 20;
+
     protected ?User $user = null;
 
     public function __construct()

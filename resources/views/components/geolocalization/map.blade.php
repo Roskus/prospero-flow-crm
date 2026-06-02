@@ -111,8 +111,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.length > 0) {
-                    const latitude = parseFloat(data[0].lat);
-                    const longitude = parseFloat(data[0].lon);
+                    const latitude = Number.parseFloat(data[0].lat);
+                    const longitude = Number.parseFloat(data[0].lon);
                     document.getElementById('latitude').value = latitude;
                     document.getElementById('longitude').value = longitude;
 

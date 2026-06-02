@@ -36,12 +36,17 @@ class ContactDeleteController
      * Delete a contact by ID.
      *
      * @authenticated
-     *
-     * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id): JsonResponse
     {
-        $contact = Contact::find($id)->where('user_id', Auth::id())->get();
+        $contact = Contact::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
+        if (! $contact) {
+            return response()->json(['message' => 'Contact not found'], 404);
+        }
+
         $contact->delete();
 
         return response()->json(['message' => 'Contact deleted successfully']);

@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\Supplier\SupplierCreateController;
 use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Api\Supplier\SupplierListController;
 use App\Http\Controllers\Api\Supplier\SupplierReadController;
+use App\Http\Controllers\Api\Ticket\TicketCreateController;
 use App\Http\Controllers\Api\Ticket\TicketDeleteController;
 use App\Http\Controllers\Api\Ticket\TicketListController;
 use App\Http\Controllers\Api\Ticket\TicketReadController;
@@ -90,7 +91,7 @@ Route::middleware(['api'])->group(function () {
     Route::get('/product/{id}', [ProductReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('product', [ProductCreateController::class, 'create'])->middleware(['auth:api']);
     Route::put('product', [ProductUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('product', [ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::delete('product/{id}', [ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Contact
     Route::get('/contact', [ContactListController::class, 'index'])->middleware(['auth:api']);
@@ -115,6 +116,7 @@ Route::middleware(['api'])->group(function () {
 
     // Ticket
     Route::get('/ticket', [TicketListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('/ticket', [TicketCreateController::class, 'create'])->middleware(['auth:api']);
     Route::get('/ticket/{id}', [TicketReadController::class, 'read'])->middleware(['auth:api']);
     Route::delete('/ticket/{id}', [TicketDeleteController::class, 'delete'])->middleware(['auth:api']);
 

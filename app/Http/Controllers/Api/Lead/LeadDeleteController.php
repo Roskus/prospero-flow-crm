@@ -36,12 +36,17 @@ class LeadDeleteController
      * Delete a lead by ID.
      *
      * @authenticated
-     *
-     * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id): JsonResponse
     {
-        $lead = Lead::find($id)->where('user_id', Auth::id())->get();
+        $lead = Lead::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
+        if (! $lead) {
+            return response()->json(['message' => 'Lead not found'], 404);
+        }
+
         $lead->delete();
 
         return response()->json(['message' => 'Lead deleted successfully']);

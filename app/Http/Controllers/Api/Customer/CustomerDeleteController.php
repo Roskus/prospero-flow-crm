@@ -31,12 +31,17 @@ class CustomerDeleteController
      * Delete a customer by ID.
      *
      * @authenticated
-     *
-     * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id): JsonResponse
     {
-        $customer = Customer::find($id)->where('company_id', Auth::user()->company_id)->get();
+        $customer = Customer::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
+        if (! $customer) {
+            return response()->json(['message' => 'Customer not found'], 404);
+        }
+
         $customer->delete();
 
         return response()->json(['message' => 'Customer deleted successfully']);

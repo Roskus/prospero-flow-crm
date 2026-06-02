@@ -29,9 +29,12 @@ class Ticket extends Model
         'title',
         'description',
         'customer_id',
+        'order_id',
         'type',
         'priority',
         'status',
+        'company_id',
+        'created_by',
     ];
 
     protected $hidden = [

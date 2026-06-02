@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Supplier;
 
 use App\Models\Supplier;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,12 +27,17 @@ class SupplierDeleteController
      *      @OA\Response(response="200", description="Supplier deleted successfully"),
      *      @OA\Response(response="400", description="Bad request, please review the parameters")
      * )
-     *
-     * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id): JsonResponse
     {
-        $supplier = Supplier::find($id)->where('company_id', Auth::user()->company_id)->get();
+        $supplier = Supplier::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
+        if (! $supplier) {
+            return response()->json(['message' => 'Supplier not found'], 404);
+        }
+
         $supplier->delete();
 
         return response()->json(['message' => 'Supplier deleted successfully']);

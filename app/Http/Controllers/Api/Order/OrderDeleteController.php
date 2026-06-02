@@ -36,12 +36,17 @@ class OrderDeleteController
      * Delete an order by ID.
      *
      * @authenticated
-     *
-     * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id): JsonResponse
     {
-        $order = Order::find($id)->where('user_id', Auth::id())->get();
+        $order = Order::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
+        if (! $order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
         $order->delete();
 
         return response()->json(['message' => 'Order deleted successfully']);

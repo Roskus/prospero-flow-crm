@@ -32,23 +32,19 @@ class CompanyReadController
      *     ),
      *     @OA\Response(response="404", description="Company not found")
      * )
-     * @return JsonResponse
      */
-    public function read(Request $request, int $id)
+    public function read(Request $request, int $id): JsonResponse
     {
-        $company = null;
-        $company_id = $id;
-        if (Auth::user()->hasRole('SuperAdmin')) {
-            $company_id = Auth::user()->company_id;
+        if (! Auth::user()->hasRole('SuperAdmin') && Auth::user()->company_id !== $id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         try {
-            $company = Company::where('id', $company_id)->firstOrFail();
-            $status = 200;
-        } catch (ModelNotFoundException $e) {
-            $status = 404;
-        }
+            $company = Company::where('id', $id)->firstOrFail();
 
-        return response()->json($company, $status);
+            return response()->json($company, 200);
+        } catch (ModelNotFoundException) {
+            return response()->json(['message' => 'Company not found'], 404);
+        }
     }
 }

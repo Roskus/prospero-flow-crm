@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Hammer Spanish file
+| Prospero Flow CRM Spanish file
 |--------------------------------------------------------------------------
 | Base lang file
 */
@@ -14,6 +14,8 @@ return [
     'Companies' => 'Empresas',
     'Customer' => 'Cliente',
     'Customers' => 'Clientes',
+    'Event' => 'Evento',
+    'Events' => 'Eventos',
     'Exit' => 'Salir',
     'Order' => 'Pedido',
     'Orders' => 'Pedidos',

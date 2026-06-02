@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Brand;
 use App\Models\Brand;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controller for brand deletion.
@@ -40,7 +41,10 @@ class BrandDeleteController
      */
     public function delete(Request $request, int $id)
     {
-        $brand = Brand::find($id);
+        $brand = Brand::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
         if (! $brand) {
             return response()->json(['message' => 'Brand not found'], 404);
         }

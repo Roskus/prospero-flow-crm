@@ -1,5 +1,5 @@
 <header>
-    <h1>{{ trans('hammer.Setup') }} - {{ trans('hammer.Step') }} 1</h1>
+    <h1>{{ trans('Setup') }} - {{ trans('Step') }} 1</h1>
 </header>
 <form method="post" action="/setup/step2">
     <div class="form-group">
@@ -8,8 +8,8 @@
             <option value="en" selected="selected">English</option>
             <option value="es" selected="selected">Spanish</option>
         </select>
-    </div>    
+    </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">{{ trans('hammer.Next') }}</button>
+        <button type="submit" class="btn btn-primary">{{ trans('Next') }}</button>
     </div>
 </form>
