@@ -3,7 +3,7 @@ git fetch
 git pull origin main
 
 # Install dependencies
-composer install --no-dev --optimize-autoloader
+sudo -u www-data composer install --no-dev --optimize-autoloader
 
 # Run DB migration
 php artisan migrate --force
@@ -25,7 +25,7 @@ VERSION=$(sed -n "s/.*APP_VERSION = '\(.*\)';/\1/p" version.php)
 export SENTRY_ORG=roskus-fo
 #debug|info
 export SENTRY_LOG_LEVEL=debug
-# Notify sentry new release version
-sentry-cli releases new -p prospectflow $VERSION
+# Notify sentry new release version (skipped if auth token not configured)
+sentry-cli releases new -p prospectflow $VERSION || true
 # Associate commits with the release
-sentry-cli releases set-commits --auto $VERSION
+sentry-cli releases set-commits --auto $VERSION || true
