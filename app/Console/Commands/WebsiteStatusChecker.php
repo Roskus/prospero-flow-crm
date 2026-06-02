@@ -26,20 +26,27 @@ class WebsiteStatusChecker extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $leads = Lead::whereNotNull('website')->get();
+        $ok = 0;
+        $errors = 0;
+
+        $this->info("Checking {$leads->count()} leads...");
+
         foreach ($leads as $lead) {
-            $this->info("Cheking: $lead->website \n");
             if (Domain::isValid($lead->website)) {
-                $this->info('Ok');
+                $this->info("OK: {$lead->website}");
+                $ok++;
             } else {
-                $this->info('Error');
+                $this->error("Error: {$lead->website}");
+                $errors++;
             }
         }
+
+        $this->newLine();
+        $this->info("Completed — OK: {$ok} / Errors: {$errors}");
 
         return Command::SUCCESS;
     }
