@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Middleware\Localization;
 use App\Http\Middleware\Locked;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,6 +23,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'locked' => Locked::class,
         ]);
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->command('crm:contact:email-predict')->hourly();
+        $schedule->command('crm:email:validate')->daily();
+        $schedule->command('crm:phone:validate')->daily();
+        $schedule->command('crm:website:checker')->daily();
+        $schedule->command('crm:notification-reminder:send')->everyFiveMinutes();
+        $schedule->command('crm:campaign:send')->everyFifteenMinutes();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
