@@ -36,6 +36,8 @@ class Company extends Model
 
     const int ACTIVE = 1;
 
+    const int INACTIVE = 0;
+
     const int DEFAULT_COMPANY = 1;
 
     protected $table = 'company';
@@ -68,7 +70,7 @@ class Company extends Model
 
     public function getAllPaginated(int $limit = 50)
     {
-        return Company::orderBy('name', 'asc')->paginate($limit);
+        return Company::withTrashed()->orderBy('name', 'asc')->paginate($limit);
     }
 
     public function getAll()
@@ -104,5 +106,14 @@ class Company extends Model
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function getStatusLabel(): string
+    {
+        return match ((int) $this->getAttribute('status')) {
+            self::ACTIVE => __('Active'),
+            self::INACTIVE => __('Inactive'),
+            default => 'Unknown',
+        };
     }
 }

@@ -17,8 +17,9 @@ class CompanyDeleteController extends MainController
         if ((int) Auth::user()->company_id !== Company::DEFAULT_COMPANY) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        $company->delete();
+        $company->status = Company::INACTIVE;
         $company->save();
+        $company->delete();
 
         return redirect('/company');
     }

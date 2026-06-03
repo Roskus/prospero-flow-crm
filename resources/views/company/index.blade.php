@@ -28,6 +28,7 @@
                 <th>{{ __('Website') }}</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Currency') }}</th>
+                <th>{{ __('Status') }}</th>
                 <th>{{ __('Created at') }}</th>
                 <th>{{ __('Updated at') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -35,7 +36,7 @@
             </thead>
             <tbody>
             @foreach($companies as $company)
-            <tr>
+            <tr @if($company->trashed()) class="table-danger" @endif>
                 <td>{{ $company->id }}</td>
                 <td>
                     @if(!empty($company->logo))
@@ -69,6 +70,7 @@
                     </span>
                 </td>
                 <td class="text-center">{{ strtoupper($company->currency) }}</td>
+                <td class="text-center">{{ $company->getStatusLabel() }}</td>
                 <td>{{ ($company->created_at) ? $company->created_at->format('d/m/Y H:i') : '' }}</td>
                 <td>{{ ($company->updated_at) ? $company->updated_at->format('d/m/Y H:i') : '' }}</td>
                 <td class="text-nowrap">
@@ -79,9 +81,11 @@
                 @endcan
 
                 @can('delete company')
+                @unless($company->trashed())
                 <a href="{{ url("/company/delete/$company->id") }}" class="btn btn-danger" title="{{ __('Delete') }}">
                     <i class="las la-trash-alt"></i>
                 </a>
+                @endunless
                 @endcan
                 </td>
             </tr>

@@ -14,6 +14,7 @@
     var latitude = "{{ $attributes['latitude'] }}";
     var longitude = "{{ $attributes['longitude'] }}";
     var map = L.map("map");
+    var marker;
 
     function initializeMap(latitude, longitude) {
         // Verifica si hay coordenadas disponibles y establece el centro del mapa y el marcador si es así
@@ -78,7 +79,7 @@
 
         if (latitude && longitude) {
 
-            if (!map.hasLayer(marker)) {
+            if (!marker || !map.hasLayer(marker)) {
                 // Si el marcador aún no está agregado al mapa, agrégalo
                 marker = L.marker([latitude, longitude]).addTo(map);
             } else {

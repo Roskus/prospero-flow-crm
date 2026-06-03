@@ -32,4 +32,5 @@ return [
     'New product' => 'Nuevo producto',
     'User' => 'Usuario',
     'Users' => 'Usuarios',
+    'Search for an address' => 'Buscar una dirección',
 ];
