@@ -29,17 +29,21 @@ class WebsiteStatusChecker extends Command
      */
     public function handle(): int
     {
-        $leads = Lead::whereNotNull('website')->get();
+        $leads = Lead::whereNotNull('website')->where('website', '!=', '')->whereNull('website_verified')->get();
         $ok = 0;
         $errors = 0;
 
-        $this->info("Checking {$leads->count()} leads...");
+        $this->info("Checking {$leads->count()} unverified leads...");
 
         foreach ($leads as $lead) {
             if (Domain::isValid($lead->website)) {
+                $lead->website_verified = true;
+                $lead->save();
                 $this->info("OK: {$lead->website}");
                 $ok++;
             } else {
+                $lead->website_verified = false;
+                $lead->save();
                 $this->error("Error: {$lead->website}");
                 $errors++;
             }

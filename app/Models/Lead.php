@@ -144,6 +144,7 @@ class Lead extends Model
         'email_verified',
         'email2',
         'website',
+        'website_verified',
         'source_id',
         'linkedin',
         'facebook',

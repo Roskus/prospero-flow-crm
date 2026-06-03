@@ -47,7 +47,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-phone"></i></span>
                             <input type="tel" name="phone" id="phone" value="{{ old('phone', $lead->phone) }}"
-                                   maxlength="15" class="form-control form-control-lg">
+                                   class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="col-2">
@@ -64,7 +64,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-phone"></i></span>
                             <input type="tel" name="phone2" id="phone2" value="{{ old('phone2', $lead->phone2) }}"
-                                   maxlength="15" class="form-control form-control-lg">
+                                   class="form-control form-control-lg">
                         </div>
                     </div>
                 </div><!--./row-->
@@ -92,7 +92,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="lab la-whatsapp"></i></span>
                             <input type="tel" name="mobile" id="mobile" value="{{ old('mobile', $lead->mobile) }}"
-                                   maxlength="15" class="form-control form-control-lg">
+                                   class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
@@ -102,6 +102,12 @@
                             <input type="url" name="website" id="website" placeholder="https://www.website.com"
                                    value="{{ old('website', $lead->website) }}" maxlength="255"
                                    class="form-control form-control-lg">
+                        </div>
+                        <div class="form-check mt-1">
+                            <input type="hidden" name="website_verified" value="0">
+                            <input class="form-check-input" type="checkbox" name="website_verified" id="website_verified" value="1"
+                                   @if(old('website_verified', $lead->website_verified)) checked @endif>
+                            <label class="form-check-label" for="website_verified">{{ __('Website verified') }}</label>
                         </div>
                     </div>
                 </div>
@@ -400,7 +406,7 @@
         $('#phone, #phone2, #mobile').on('input', function() {
             let $el = $(this);
             $el.val(function(i, val) {
-                return val.replace(/[ ()-.]/g, '')
+                return val.replace(/[ ()\-.]/g, '')
             });
         });
 

@@ -33,4 +33,5 @@ return [
     'User' => 'User',
     'Users' => 'Users',
     'Search for an address' => 'Search for an address',
+    'Website verified' => 'Website verified',
 ];

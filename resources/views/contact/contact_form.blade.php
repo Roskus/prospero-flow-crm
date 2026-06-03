@@ -120,7 +120,7 @@ function updateNameFromLinkedIn(url) {
         let matches = url.match(/linkedin\.com\/in\/([^\/?#]+)/);
 
         if (matches && matches[1]) {
-            let fullName = matches[1].replace(/-/g, ' '); // Reemplazar guiones con espacios
+            let fullName = decodeURIComponent(matches[1]).replace(/-/g, ' '); // Reemplazar guiones con espacios
             let nameParts = fullName.split(' ');
             let firstName = '';
             let lastName = '';

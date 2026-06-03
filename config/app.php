@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Prospect Flow CRM'),
+    'name' => env('APP_NAME', 'Prospero Flow CRM'),
 
     /*
     |--------------------------------------------------------------------------

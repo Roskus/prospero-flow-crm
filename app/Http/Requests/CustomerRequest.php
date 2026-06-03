@@ -12,8 +12,6 @@ class CustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -45,9 +43,9 @@ class CustomerRequest extends FormRequest
         }
 
         $this->merge([
-            'phone' => ! empty($this->input('phone')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone')) : null,
-            'phone2' => ! empty($this->input('phone2')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('phone2')) : null,
-            'mobile' => ! empty($this->input('mobile')) ? str_replace(['+', '-', '', '(', ')', '.'], '', $this->input('mobile')) : null,
+            'phone' => ! empty($this->input('phone')) ? str_replace(['-', '', '(', ')', '.'], '', $this->input('phone')) : null,
+            'phone2' => ! empty($this->input('phone2')) ? str_replace(['-', '', '(', ')', '.'], '', $this->input('phone2')) : null,
+            'mobile' => ! empty($this->input('mobile')) ? str_replace(['-', '', '(', ')', '.'], '', $this->input('mobile')) : null,
             'country_id' => $countryInput,
         ]);
 
@@ -63,6 +61,7 @@ class CustomerRequest extends FormRequest
             'email' => 'nullable|email|max:254',
             'email2' => 'nullable|email|max:254',
             'website' => 'nullable|url|max:255',
+            'website_verified' => 'nullable|boolean',
             'linkedin' => 'nullable|url|max:255',
             'facebook' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
