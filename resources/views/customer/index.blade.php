@@ -236,7 +236,7 @@
                     @endif
                 </td>
                 <td class="text-center text-nowrap d-none d-sm-table-cell">
-                    {{ ($customer->industry) ? __($customer->industry->name) : '' }}
+                    {{ ($customer->industry) ? __('industry.' . $customer->industry->name) : '' }}
                 </td>
                 <td class="text-center text-nowrap">
                     @isset($customer->seller)

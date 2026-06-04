@@ -220,7 +220,7 @@
                         </a>
                     @endif
                 </td>
-                <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($lead->industry) ? __($lead->industry->name) : '' }}</td>
+                <td class="text-center text-nowrap d-none d-sm-table-cell">{{ ($lead->industry) ? __('industry.' . $lead->industry->name) : '' }}</td>
                 <td class="text-center text-nowrap">
                     @isset($lead->seller)
                     {{ $lead->seller->first_name }}

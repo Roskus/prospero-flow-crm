@@ -9,33 +9,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Industry', required: ['name'])]
+#[OAT\Schema(
+    schema: 'Industry',
+    required: ['name'],
+    properties: [
+        new OAT\Property(property: 'id', type: 'int', example: 6),
+        new OAT\Property(property: 'name', type: 'string', example: 'Automotive'),
+    ],
+    type: 'object'
+)]
 class Industry extends Model
 {
     use HasFactory;
 
     protected $table = 'industry';
 
-    #[OAT\Property(type: 'int', example: 6)]
-    protected ?int $id; // NOSONAR
-
-    #[OAT\Property(type: 'string', example: 'Automotive')]
-    protected string $name;
-
     public function getAll()
     {
-        if (Cache::has('industries')) {
-            $industries = Cache::get('industries');
-        } else {
-            $industries = Industry::whereNull('company_id')->get();
-            Cache::put('industries', $industries, 600); // 10 Minutes
-        }
+        $cacheKey = 'industries_'.app()->getLocale();
 
-        return $industries;
+        return Cache::remember($cacheKey, 600, function () {
+            return Industry::whereNull('company_id')->get()
+                ->sortBy(fn ($industry) => __('industry.'.$industry->name))
+                ->values();
+        });
     }
 
     public function getAllByCompany(int $company_id)
     {
-        return Industry::where('company_id', $company_id)->orderBy('name')->get();
+        return Industry::where('company_id', $company_id)->get()
+            ->sortBy(fn ($industry) => __('industry.'.$industry->name))
+            ->values();
     }
 }

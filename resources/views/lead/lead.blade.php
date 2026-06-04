@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="dob">{{ __('Date of birth') }} / {{ _('Foundation') }}</label>
+                        <label for="dob">{{ __('Date of birth') }} / {{ __('Foundation') }}</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="las la-calendar-day"></i></span>
                             <input type="date" name="dob" id="dob" value="{{ old('dob', $lead->dob) }}"
@@ -154,13 +154,17 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="country_id">{{ __('Country') }}</label>
-                        <input name="country_id" id="country_id" list="countryList" value="{{ old('country_id', $lead->country_id) }}" class="form-control form-control-lg">
+                        @php
+                            $displayCountry = old('country_id', $lead->country_id);
+                            if (strlen((string) $displayCountry) === 2) {
+                                $displayCountry = $countries->firstWhere('code_2', $displayCountry)?->name ?? $displayCountry;
+                            }
+                        @endphp
+                        <input name="country_id" id="country_id" list="countryList" value="{{ $displayCountry }}" class="form-control form-control-lg">
 
                         <datalist id="countryList">
                             @foreach ($countries as $country)
-                                <option value="{{ $country->code_2 }}" @if($lead->country_id == $country->code_2) selected="selected" @endif>
-                                    {{ $country->name }} {{ $country->flag }}
-                                </option>
+                                <option value="{{ $country->name }}">{{ $country->name }} {{ $country->flag }}</option>
                             @endforeach
                         </datalist>
                     </div>
@@ -208,12 +212,12 @@
             <div class="card-body">
             <div class="row">
                 <div class="col-12 col-md-6">
-                    <label for="facebook">Facebook</label>
+                    <label for="linkedin">Linkedin</label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="lab la-facebook-f"></i></span>
-                        <input type="url" name="facebook" id="facebook"
-                               value="{{ old('facebook', $lead->facebook) }}"
-                               placeholder="https://www.facebook.com/" maxlength="255"
+                        <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
+                        <input type="url" name="linkedin" id="linkedin"
+                               value="{{ old('linkedin', $lead->linkedin) }}"
+                               placeholder="https://www.linkedin.com/" maxlength="255"
                                class="form-control form-control-lg">
                     </div><!--./input-group-->
                 </div><!--./col-->
@@ -227,18 +231,8 @@
                                maxlength="255" class="form-control form-control-lg">
                     </div><!--./input-group-->
                 </div><!--./col-->
-            </div>
+            </div><!--./row-->
             <div class="row">
-                <div class="col-12 col-md-6">
-                    <label for="linkedin">Linkedin</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="lab la-linkedin-in"></i></span>
-                        <input type="url" name="linkedin" id="linkedin"
-                               value="{{ old('linkedin', $lead->linkedin) }}"
-                               placeholder="https://www.linkedin.com/" maxlength="255"
-                               class="form-control form-control-lg">
-                    </div><!--./input-group-->
-                </div><!--./col-->
                 <div class="col-12 col-md-6">
                     <label for="twitter">Twitter / X</label>
                     <div class="input-group">
@@ -248,6 +242,16 @@
                         <input type="url" name="twitter" id="twitter" value="{{ old('twitter', $lead->twitter) }}"
                                placeholder="https://twitter.com/" maxlength="255" class="form-control form-control-lg">
                     </div>
+                </div><!--./col-->
+                <div class="col-12 col-md-6">
+                    <label for="facebook">Facebook</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="lab la-facebook-f"></i></span>
+                        <input type="url" name="facebook" id="facebook"
+                               value="{{ old('facebook', $lead->facebook) }}"
+                               placeholder="https://www.facebook.com/" maxlength="255"
+                               class="form-control form-control-lg">
+                    </div><!--./input-group-->
                 </div><!--./col-->
             </div>
             <div class="row">
@@ -283,7 +287,7 @@
                             <option value=""></option>
                             @foreach($industries as $industry)
                             <option value="{{ $industry->id }}" @if($industry->id == old('industry_id', $lead->industry_id)) selected="selected" @endif>
-                                {{ __($industry->name) }}
+                                {{ __('industry.' . $industry->name) }}
                             </option>
                             @endforeach
                         </select>
