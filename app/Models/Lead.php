@@ -159,6 +159,7 @@ class Lead extends Model
         'city',
         'locality',
         'street',
+        'address_extra',
         'zipcode',
         'schedule_contact',
         'industry_id',

@@ -28,7 +28,7 @@ class Industry extends Model
     {
         $cacheKey = 'industries_'.app()->getLocale();
 
-        return Cache::remember($cacheKey, 600, function () {
+        return Cache::remember($cacheKey, 600, function () { // 10 Minutes
             return Industry::whereNull('company_id')->get()
                 ->sortBy(fn ($industry) => __('industry.'.$industry->name))
                 ->values();

@@ -194,6 +194,12 @@
                                class="form-control form-control-lg" maxlength="80">
                     </div>
                     <div class="col-12 col-md-6">
+                        <label for="address_extra" class="">{{ __('Address extra') }}</label>
+                        <input type="text" name="address_extra" id="address_extra" value="{{ old('address_extra', $customer->address_extra) }}"
+                               placeholder="{{ __('Floor, office, suite...') }}"
+                               class="form-control form-control-lg" maxlength="80">
+                    </div>
+                    <div class="col-12 col-md-6">
                         <label for="zipcode" class="">{{ __('Zipcode') }}</label>
                         <input type="text" name="zipcode" id="zipcode" value="{{ old('zipcode', $customer->zipcode) }}"
                                class="form-control form-control-lg" maxlength="10">

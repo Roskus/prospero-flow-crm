@@ -74,6 +74,7 @@ class LeadRequest extends FormRequest
             'city' => 'nullable|max:50',
             'locality' => 'nullable|max:80',
             'street' => 'nullable|max:80',
+            'address_extra' => 'nullable|max:80',
             'zipcode' => 'nullable|max:10',
             'schedule_contact' => 'nullable|date',
             'industry_id' => 'nullable|numeric',

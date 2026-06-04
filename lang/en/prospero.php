@@ -35,4 +35,6 @@ return [
     'Search for an address' => 'Search for an address',
     'Website verified' => 'Website verified',
     'Foundation' => 'Foundation',
+    'Address extra' => 'Address extra',
+    'Floor, office, suite...' => 'Floor, office, suite...',
 ];
