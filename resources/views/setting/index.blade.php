@@ -121,11 +121,11 @@
     <div class="col text-center mb-1">
         <div class="card">
             <div class="card-body">
-                <a href="{{ url('/account/category') }}">
+                <a href="{{ url('/transaction/category') }}">
                     <div class="h1">
                         <i class="las la-tags"></i>
                     </div>
-                    {{ __('Account categories') }}
+                    {{ __('Transaction categories') }}
                 </a>
             </div>
         </div>

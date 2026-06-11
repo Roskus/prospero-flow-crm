@@ -123,7 +123,7 @@
                             <tr>
                                 <td class="text-nowrap">{{ $tx->issue_date?->format('d/m/Y') }}</td>
                                 <td>
-                                    <a href="{{ url('/account/edit/' . $tx->id) }}">{{ $tx->name }}</a>
+                                    <a href="{{ url('/transaction/edit/' . $tx->id) }}">{{ $tx->name }}</a>
                                     @if($tx->customer)
                                         <div class="text-muted small">{{ $tx->customer->name }}</div>
                                     @elseif($tx->supplier)

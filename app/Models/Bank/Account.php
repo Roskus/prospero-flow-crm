@@ -83,7 +83,7 @@ class Account extends Model
 
     public function transactions(): HasMany
     {
-        return $this->hasMany(\App\Models\Account::class, 'bank_account_id');
+        return $this->hasMany(\App\Models\Transaction::class, 'bank_account_id');
     }
 
     public function cards(): HasMany
@@ -93,10 +93,10 @@ class Account extends Model
 
     public function balance(): float
     {
-        $paid = $this->transactions()->where('status', \App\Models\Account::PAID);
+        $paid = $this->transactions()->where('status', \App\Models\Transaction::PAID);
 
-        $income = (float) $paid->where('type', \App\Models\Account::INCOME)->sum('amount');
-        $expense = (float) $paid->where('type', \App\Models\Account::EXPENSE)->sum('amount');
+        $income = (float) $paid->where('type', \App\Models\Transaction::INCOME)->sum('amount');
+        $expense = (float) $paid->where('type', \App\Models\Transaction::EXPENSE)->sum('amount');
 
         return (float) ($this->opening_balance ?? 0) + $income - $expense;
     }
