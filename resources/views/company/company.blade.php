@@ -134,6 +134,23 @@
         </div>
     </div>
 
+    <div class="card mb-2">
+        <div class="card-header">
+            <span class="card-title">{{ __('Security') }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label for="inactivity_lock_time" class="label-control">{{ __('Inactivity lock time') }}</label>
+                    <input type="number" name="inactivity_lock_time" id="inactivity_lock_time" min="1" max="1440"
+                           value="{{ old('inactivity_lock_time', $company->inactivity_lock_time) }}"
+                           class="form-control">
+                    <small class="form-text text-muted">{{ __('Minutes before screen lock on inactivity') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <span class="card-title">{{ __('Customize') }}</span>

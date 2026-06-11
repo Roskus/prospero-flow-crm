@@ -60,6 +60,7 @@ class Company extends Model
         'updated_at',
         'status',
         'last_order_number',
+        'inactivity_lock_time',
     ];
 
     protected $hidden = [

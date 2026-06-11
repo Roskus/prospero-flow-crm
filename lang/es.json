@@ -232,5 +232,12 @@
     "Salaries" : "Sueldos",
     "Utilities" : "Servicios públicos",
     "Office supplies" : "Materiales de oficina",
+    "Welcome" : "Bienvenido",
+    "Security" : "Seguridad",
+    "Inactivity lock time" : "Tiempo de bloqueo por inactividad",
+    "Minutes before screen lock on inactivity" : "Minutos antes de bloquear la pantalla por inactividad",
+    "Active" : "Activo",
+    "Inactive" : "Inactivo",
+    "Lock screen" : "Bloquear pantalla",
     "Other" : "Otros"
 }

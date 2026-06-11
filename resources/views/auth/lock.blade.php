@@ -58,7 +58,10 @@
             </span>
         @endif
         </div>
-        <b>Bienvenido, {{ Auth::user()->first_name }}</b>
+        <b>{{ __('Welcome') }}, {{ Auth::user()->first_name }}</b>
+        <div class="text-muted mt-2">
+            <small>{{ env('APP_NAME') }} <span style="font-size: 0.75rem;">v{{ config('app.version') }}</span></small>
+        </div>
     </div>
 
     <div class="lockscreen-item">

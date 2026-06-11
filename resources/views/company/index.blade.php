@@ -70,7 +70,13 @@
                     </span>
                 </td>
                 <td class="text-center">{{ strtoupper($company->currency) }}</td>
-                <td class="text-center">{{ $company->getStatusLabel() }}</td>
+                <td class="text-center">
+                    @if($company->status == \App\Models\Company::ACTIVE)
+                        <span class="badge bg-success">{{ __('Active') }}</span>
+                    @else
+                        <span class="badge bg-secondary">{{ __('Inactive') }}</span>
+                    @endif
+                </td>
                 <td>{{ ($company->created_at) ? $company->created_at->format('d/m/Y H:i') : '' }}</td>
                 <td>{{ ($company->updated_at) ? $company->updated_at->format('d/m/Y H:i') : '' }}</td>
                 <td class="text-nowrap">

@@ -119,6 +119,11 @@
                                 </li>
                                 <li role="separator" class="dropdown-divider"></li>
                                 <li>
+                                    <a href="{{ url('/lock') }}" class="dropdown-item">
+                                        <i class="las la-lock"></i> {{ __('Lock screen') }}
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#" onclick="ProspectFlow.exit('{{ __('Do you want to exit?') }}')" class="dropdown-item">
                                         <i class="las la-door-open"></i> {{ __('Exit') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -159,8 +164,8 @@
 @auth
 <script>
     let inactivityInterval;
-    let lockTimeMin = 15;
-    const inactivityTime =  lockTimeMin * 60 * 1000; // 15 minutes
+    let lockTimeMin = {{ Auth::user()->company?->inactivity_lock_time ?? 15 }};
+    const inactivityTime =  lockTimeMin * 60 * 1000;
 
     $(document).on('mousemove keydown', function() {
         clearTimeout(inactivityInterval);

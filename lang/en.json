@@ -239,5 +239,12 @@
     "Salaries" : "Salaries",
     "Utilities" : "Utilities",
     "Office supplies" : "Office supplies",
+    "Welcome" : "Welcome",
+    "Security" : "Security",
+    "Inactivity lock time" : "Inactivity lock time",
+    "Minutes before screen lock on inactivity" : "Minutes before screen lock on inactivity",
+    "Active" : "Active",
+    "Inactive" : "Inactive",
+    "Lock screen" : "Lock screen",
     "Other" : "Other"
 }
