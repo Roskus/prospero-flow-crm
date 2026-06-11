@@ -137,7 +137,7 @@
                                         <span class="badge bg-danger">{{ __('Expense') }}</span>
                                     @endif
                                 </td>
-                                <td class="text-nowrap small">{{ $tx->category?->name }}</td>
+                                <td class="text-nowrap small">{{ $tx->category ? __($tx->category->name) : '' }}</td>
                                 <td class="text-muted small">{{ $tx->reference }}</td>
                                 <td class="text-end text-nowrap fw-bold {{ $tx->type === 'income' ? 'text-success' : 'text-danger' }}">
                                     {{ $tx->type === 'expense' ? '-' : '+' }}{{ number_format($tx->amount, 2) }}

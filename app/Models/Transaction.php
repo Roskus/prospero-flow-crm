@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Account\Category;
+use App\Models\Transaction\Category;
 use App\Models\Bank\Account as BankAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Account', required: ['issue_date', 'name', 'amount', 'type'], type: 'object')]
-class Account extends Model
+#[OAT\Schema(schema: 'Transaction', required: ['issue_date', 'name', 'amount', 'type'], type: 'object')]
+class Transaction extends Model
 {
     use SoftDeletes;
 
@@ -26,7 +26,7 @@ class Account extends Model
 
     const string OVERDUE = 'overdue';
 
-    protected $table = 'account';
+    protected $table = 'transaction';
 
     protected $fillable = [
         'company_id',
@@ -35,7 +35,7 @@ class Account extends Model
         'payment_date',
         'name',
         'type',
-        'account_category_id',
+        'transaction_category_id',
         'bank_account_id',
         'bank_card_id',
         'amount',
@@ -64,7 +64,7 @@ class Account extends Model
     #[OAT\Property(property: 'payment_date', type: 'string', format: 'date', example: '2025-01-20', nullable: true)]
     #[OAT\Property(property: 'name', type: 'string', example: 'Invoice #123')]
     #[OAT\Property(property: 'type', type: 'string', enum: ['income', 'expense'], example: 'income')]
-    #[OAT\Property(property: 'account_category_id', type: 'integer', example: 1, nullable: true)]
+    #[OAT\Property(property: 'transaction_category_id', type: 'integer', example: 1, nullable: true)]
     #[OAT\Property(property: 'bank_account_id', type: 'integer', example: 1, nullable: true)]
     #[OAT\Property(property: 'bank_card_id', type: 'integer', example: 1, nullable: true)]
     #[OAT\Property(property: 'amount', type: 'number', format: 'float', example: 999.75)]
@@ -75,7 +75,7 @@ class Account extends Model
     #[OAT\Property(property: 'notes', type: 'string', example: 'Payment for services', nullable: true)]
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'account_category_id');
+        return $this->belongsTo(Category::class, 'transaction_category_id');
     }
 
     public function bankAccount(): BelongsTo
@@ -100,7 +100,7 @@ class Account extends Model
 
     public function getAllByCompany(int $company_id)
     {
-        return Account::where('company_id', $company_id)
+        return Transaction::where('company_id', $company_id)
             ->with(['category', 'customer', 'supplier', 'bankAccount'])
             ->orderBy('issue_date', 'desc')
             ->get();

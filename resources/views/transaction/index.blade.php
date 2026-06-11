@@ -34,7 +34,7 @@
     </div>
 
     <div class="mb-3">
-        <a href="{{ url('/account/create') }}" class="btn btn-primary">
+        <a href="{{ url('/transaction/create') }}" class="btn btn-primary">
             <i class="las la-plus"></i> {{ __('New transaction') }}
         </a>
     </div>
@@ -58,65 +58,65 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($accounts as $account)
+                        @forelse($transactions as $transaction)
                             <tr>
-                                <td class="text-nowrap">{{ $account->issue_date?->format('d/m/Y') }}</td>
+                                <td class="text-nowrap">{{ $transaction->issue_date?->format('d/m/Y') }}</td>
                                 <td>
-                                    <a href="{{ url('/account/edit/' . $account->id) }}">{{ $account->name }}</a>
-                                    @if($account->attachment)
-                                        <a href="{{ Storage::url($account->attachment) }}" target="_blank"
+                                    <a href="{{ url('/transaction/edit/' . $transaction->id) }}">{{ $transaction->name }}</a>
+                                    @if($transaction->attachment)
+                                        <a href="{{ Storage::url($transaction->attachment) }}" target="_blank"
                                            class="ms-1 text-muted" title="{{ __('Attachment') }}">
                                             <i class="las la-paperclip"></i>
                                         </a>
                                     @endif
-                                    @if($account->customer)
-                                        <div class="text-muted small">{{ $account->customer->name }}</div>
-                                    @elseif($account->supplier)
-                                        <div class="text-muted small">{{ $account->supplier->name }}</div>
+                                    @if($transaction->customer)
+                                        <div class="text-muted small">{{ $transaction->customer->name }}</div>
+                                    @elseif($transaction->supplier)
+                                        <div class="text-muted small">{{ $transaction->supplier->name }}</div>
                                     @endif
-                                    @if($account->bankCard)
+                                    @if($transaction->bankCard)
                                         <div class="text-muted small">
                                             <i class="las la-university"></i>
-                                            {{ $account->bankCard->bankAccount?->account_name ?: $account->bankCard->bankAccount?->bank?->name }}
-                                            &nbsp;<i class="las la-credit-card"></i> {{ $account->bankCard->last_four }}
+                                            {{ $transaction->bankCard->bankAccount?->account_name ?: $transaction->bankCard->bankAccount?->bank?->name }}
+                                            &nbsp;<i class="las la-credit-card"></i> {{ $transaction->bankCard->last_four }}
                                         </div>
-                                    @elseif($account->bankAccount)
+                                    @elseif($transaction->bankAccount)
                                         <div class="text-muted small">
                                             <i class="las la-university"></i>
-                                            {{ $account->bankAccount->account_name ?: $account->bankAccount->bank?->name }}
+                                            {{ $transaction->bankAccount->account_name ?: $transaction->bankAccount->bank?->name }}
                                         </div>
                                     @endif
                                 </td>
                                 <td class="text-nowrap">
-                                    @if($account->type === 'income')
+                                    @if($transaction->type === 'income')
                                         <span class="badge bg-success">{{ __('Income') }}</span>
                                     @else
                                         <span class="badge bg-danger">{{ __('Expense') }}</span>
                                     @endif
                                 </td>
-                                <td class="text-nowrap">{{ $account->category ? __($account->category->name) : '' }}</td>
-                                <td class="text-nowrap text-muted small">{{ $account->reference }}</td>
-                                <td class="text-nowrap text-end fw-bold {{ $account->type === 'income' ? 'text-success' : 'text-danger' }}">
-                                    {{ $account->type === 'expense' ? '-' : '' }}{{ number_format($account->amount, 2) }} €
+                                <td class="text-nowrap">{{ $transaction->category ? __($transaction->category->name) : '' }}</td>
+                                <td class="text-nowrap text-muted small">{{ $transaction->reference }}</td>
+                                <td class="text-nowrap text-end fw-bold {{ $transaction->type === 'income' ? 'text-success' : 'text-danger' }}">
+                                    {{ $transaction->type === 'expense' ? '-' : '' }}{{ number_format($transaction->amount, 2) }} €
                                 </td>
-                                <td class="text-nowrap">{{ $account->due_date?->format('d/m/Y') }}</td>
-                                <td class="text-nowrap">{{ $account->payment_date?->format('d/m/Y') }}</td>
+                                <td class="text-nowrap">{{ $transaction->due_date?->format('d/m/Y') }}</td>
+                                <td class="text-nowrap">{{ $transaction->payment_date?->format('d/m/Y') }}</td>
                                 <td class="text-nowrap">
                                     @php
-                                        $statusClass = match($account->status) {
+                                        $statusClass = match($transaction->status) {
                                             'paid' => 'bg-success',
                                             'overdue' => 'bg-danger',
                                             default => 'bg-warning text-dark',
                                         };
                                     @endphp
-                                    <span class="badge {{ $statusClass }}">{{ __(ucfirst($account->status)) }}</span>
+                                    <span class="badge {{ $statusClass }}">{{ __(ucfirst($transaction->status)) }}</span>
                                 </td>
                                 <td class="text-nowrap text-center">
-                                    <a href="{{ url('/account/edit/' . $account->id) }}"
+                                    <a href="{{ url('/transaction/edit/' . $transaction->id) }}"
                                        class="btn btn-xs btn-warning" title="{{ __('Edit') }}">
                                         <i class="las la-pen"></i>
                                     </a>
-                                    <a onclick="Account.delete({{ $account->id }}, '{{ addslashes($account->name) }}')"
+                                    <a onclick="Transaction.delete({{ $transaction->id }}, '{{ addslashes($transaction->name) }}')"
                                        class="btn btn-xs btn-danger" title="{{ __('Delete') }}">
                                         <i class="las la-trash"></i>
                                     </a>
@@ -136,10 +136,10 @@
 
 @push('scripts')
 <script>
-const Account = {
+const Transaction = {
     delete: function(id, name) {
         if (confirm(`{{ __('Are you sure you want to delete') }} "${name}"?`)) {
-            fetch(`/account/delete/${id}`, {
+            fetch(`/transaction/delete/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Account\AccountCreateController;
-use App\Http\Controllers\Account\AccountDeleteController;
-use App\Http\Controllers\Account\AccountIndexController;
-use App\Http\Controllers\Account\AccountSaveController;
-use App\Http\Controllers\Account\AccountUpdateController;
+use App\Http\Controllers\Transaction\TransactionAttachmentDeleteController;
+use App\Http\Controllers\Transaction\TransactionCreateController;
+use App\Http\Controllers\Transaction\TransactionDeleteController;
+use App\Http\Controllers\Transaction\TransactionIndexController;
+use App\Http\Controllers\Transaction\TransactionSaveController;
+use App\Http\Controllers\Transaction\TransactionUpdateController;
 use App\Http\Controllers\Auth\LockController;
 use App\Http\Controllers\Auth\UnlockController;
 use App\Http\Controllers\EmailTemplate\EmailTemplateIndexController;
@@ -75,14 +76,15 @@ require __DIR__.'/module/company.php';
 // Contact
 require __DIR__.'/module/contact.php';
 
-// Account
-require __DIR__.'/module/account_category.php';
+// Transaction
+require __DIR__.'/module/transaction_category.php';
 
-Route::get('/accounting', [AccountIndexController::class, 'index']);
-Route::get('/account/create', [AccountCreateController::class, 'create']);
-Route::get('/account/edit/{id}', [AccountUpdateController::class, 'update']);
-Route::post('/account/save', [AccountSaveController::class, 'save']);
-Route::delete('/account/delete/{id}', [AccountDeleteController::class, 'delete']);
+Route::get('/transactions', [TransactionIndexController::class, 'index']);
+Route::get('/transaction/create', [TransactionCreateController::class, 'create']);
+Route::get('/transaction/edit/{id}', [TransactionUpdateController::class, 'update']);
+Route::post('/transaction/save', [TransactionSaveController::class, 'save']);
+Route::delete('/transaction/delete/{id}', [TransactionDeleteController::class, 'delete']);
+Route::delete('/transaction/attachment/{id}', [TransactionAttachmentDeleteController::class, 'delete']);
 
 // User
 require __DIR__.'/module/user.php';

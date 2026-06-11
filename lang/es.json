@@ -162,8 +162,8 @@
     "Website" : "Web",
     "Week" : "Semana",
     "Zipcode" : "Código postal",
-    "Account categories" : "Categorías contables",
-    "Account category" : "Categoría contable",
+    "Transaction categories" : "Categorías contables",
+    "Transaction category" : "Categoría contable",
     "New category" : "Nueva categoría",
     "New transaction" : "Nueva transacción",
     "Edit transaction" : "Editar transacción",
@@ -222,5 +222,15 @@
     "Leave blank to keep current number" : "Dejar vacío para mantener el número actual",
     "Leave blank to keep current CVV" : "Dejar vacío para mantener el CVV actual",
     "Card" : "Tarjeta",
-    "mobile" : "móvil"
+    "mobile" : "móvil",
+    "Sales" : "Ventas",
+    "Services" : "Servicios",
+    "Rent" : "Alquileres",
+    "Taxes" : "Impuestos",
+    "Marketing" : "Marketing",
+    "Travel" : "Viajes",
+    "Salaries" : "Sueldos",
+    "Utilities" : "Servicios públicos",
+    "Office supplies" : "Materiales de oficina",
+    "Other" : "Otros"
 }

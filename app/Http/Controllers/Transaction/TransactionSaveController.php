@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\MainController;
-use App\Models\Account;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class AccountSaveController extends MainController
+class TransactionSaveController extends MainController
 {
     public function save(Request $request)
     {
@@ -22,7 +22,7 @@ class AccountSaveController extends MainController
             'due_date' => ['nullable', 'date'],
             'payment_date' => ['nullable', 'date'],
             'status' => ['required', 'in:pending,paid,overdue'],
-            'account_category_id' => ['nullable', 'integer'],
+            'transaction_category_id' => ['nullable', 'integer'],
             'bank_account_id' => ['nullable', 'integer'],
             'bank_card_id' => ['nullable', 'integer'],
             'reference' => ['nullable', 'string', 'max:80'],
@@ -32,34 +32,34 @@ class AccountSaveController extends MainController
             'attachment' => ['nullable', 'file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,webp,doc,docx,xls,xlsx'],
         ]);
 
-        $account = empty($request->id)
-            ? new Account
-            : Account::where('company_id', Auth::user()->company_id)->findOrFail($request->id);
+        $transaction = empty($request->id)
+            ? new Transaction
+            : Transaction::where('company_id', Auth::user()->company_id)->findOrFail($request->id);
 
-        $account->company_id = Auth::user()->company_id;
-        $account->fill($request->only([
+        $transaction->company_id = Auth::user()->company_id;
+        $transaction->fill($request->only([
             'name', 'type', 'amount', 'issue_date', 'due_date', 'payment_date',
-            'status', 'account_category_id', 'bank_account_id', 'bank_card_id',
+            'status', 'transaction_category_id', 'bank_account_id', 'bank_card_id',
             'reference', 'customer_id', 'supplier_id', 'notes',
         ]));
 
         if ($request->hasFile('attachment')) {
             // Delete old file if replacing
-            if ($account->attachment) {
-                Storage::disk('public')->delete($account->attachment);
+            if ($transaction->attachment) {
+                Storage::disk('public')->delete($transaction->attachment);
             }
-            $account->attachment = $request->file('attachment')
-                ->store('accounting/' . Auth::user()->company_id, 'public');
+            $transaction->attachment = $request->file('attachment')
+                ->store('transactions/' . Auth::user()->company_id, 'public');
         }
 
         if (empty($request->id)) {
-            $account->created_at = now();
+            $transaction->created_at = now();
         } else {
-            $account->updated_at = now();
+            $transaction->updated_at = now();
         }
 
-        $account->save();
+        $transaction->save();
 
-        return redirect('accounting');
+        return redirect('transactions');
     }
 }

@@ -169,8 +169,8 @@
     "Website" : "Web",
     "Week" : "Week",
     "Zipcode" : "Zipcode",
-    "Account categories" : "Account categories",
-    "Account category" : "Account category",
+    "Transaction categories" : "Transaction categories",
+    "Transaction category" : "Transaction category",
     "New category" : "New category",
     "New transaction" : "New transaction",
     "Edit transaction" : "Edit transaction",
@@ -229,5 +229,15 @@
     "Leave blank to keep current number" : "Leave blank to keep current number",
     "Leave blank to keep current CVV" : "Leave blank to keep current CVV",
     "Card" : "Card",
-    "mobile" : "mobile"
+    "mobile" : "mobile",
+    "Sales" : "Sales",
+    "Services" : "Services",
+    "Rent" : "Rent",
+    "Taxes" : "Taxes",
+    "Marketing" : "Marketing",
+    "Travel" : "Travel",
+    "Salaries" : "Salaries",
+    "Utilities" : "Utilities",
+    "Office supplies" : "Office supplies",
+    "Other" : "Other"
 }

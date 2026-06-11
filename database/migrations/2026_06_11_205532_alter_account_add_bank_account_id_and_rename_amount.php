@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Add bank_account_id to accounting transactions
+        // Add bank_account_id to accounting accounts
         Schema::table('account', function (Blueprint $table) {
             $table->unsignedBigInteger('bank_account_id')->nullable()->after('account_category_id');
             $table->foreign('bank_account_id')->references('id')->on('bank_account')->nullOnDelete();
