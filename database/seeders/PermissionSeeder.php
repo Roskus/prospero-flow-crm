@@ -281,6 +281,17 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'module_id' => 6,
             ],
+            // Bank card
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'bank card view number',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin'],
+                'name' => 'bank card view cvv',
+                'guard_name' => 'web',
+            ],
             // Report
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],

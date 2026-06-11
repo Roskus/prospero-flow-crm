@@ -7,18 +7,19 @@ namespace App\Http\Controllers\Bank\Account;
 use App\Models\Bank;
 use App\Models\Bank\Account as BankAccount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Squire\Models\Country;
 
 class BankAccountUpdateController
 {
     public function update(Request $request, int $id)
     {
-        $bank = new Bank;
-        $bank_account = BankAccount::find($id);
-        $data['bank'] = $bank->getAll();
-        $data['countries'] = Country::all();
-        $data['bank_account'] = $bank_account;
+        $bankAccount = BankAccount::where('company_id', Auth::user()->company_id)->findOrFail($id);
 
-        return view('bank_account.bank_account', $data);
+        return view('bank_account.bank_account', [
+            'banks' => Bank::orderBy('country_id')->orderBy('name')->with('country')->get(),
+            'countries' => Country::all(),
+            'bank_account' => $bankAccount,
+        ]);
     }
 }

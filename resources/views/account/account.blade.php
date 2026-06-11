@@ -57,6 +57,37 @@
                         </select>
                     </div>
                     <div class="col-12 col-md-3">
+                        <label for="bank_account_id">{{ __('Bank account') }}</label>
+                        <select name="bank_account_id" id="bank_account_id" class="form-select form-select-lg">
+                            <option value=""></option>
+                            @foreach($bank_accounts as $ba)
+                                <option value="{{ $ba->id }}" @selected(old('bank_account_id', $account->bank_account_id) == $ba->id)>
+                                    {{ $ba->account_name ?: $ba->bank?->name }} ({{ strtoupper($ba->currency) }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="bank_card_id">{{ __('Card') }}</label>
+                        <select name="bank_card_id" id="bank_card_id" class="form-select form-select-lg">
+                            <option value=""></option>
+                            @foreach($bank_cards as $card)
+                                <option value="{{ $card->id }}"
+                                        data-bank-account="{{ $card->bank_account_id }}"
+                                        @selected(old('bank_card_id', $account->bank_card_id) == $card->id)>
+                                    @switch($card->network)
+                                        @case('visa') VISA @break
+                                        @case('mastercard') MC @break
+                                        @case('amex') AMEX @break
+                                        @default {{ strtoupper($card->network) }}
+                                    @endswitch
+                                    **** {{ $card->last_four }}
+                                    · {{ $card->cardholder_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
                         <label for="reference">{{ __('Reference') }}</label>
                         <input type="text" name="reference" id="reference" maxlength="80"
                                value="{{ old('reference', $account->reference) }}"
@@ -123,3 +154,15 @@
         </div>
     </form>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('bank_card_id').addEventListener('change', function () {
+    const selected = this.options[this.selectedIndex];
+    const bankAccountId = selected.dataset.bankAccount;
+    if (bankAccountId) {
+        document.getElementById('bank_account_id').value = bankAccountId;
+    }
+});
+</script>
+@endpush

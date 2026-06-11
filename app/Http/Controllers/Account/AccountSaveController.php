@@ -22,6 +22,8 @@ class AccountSaveController extends MainController
             'payment_date' => ['nullable', 'date'],
             'status' => ['required', 'in:pending,paid,overdue'],
             'account_category_id' => ['nullable', 'integer'],
+            'bank_account_id' => ['nullable', 'integer'],
+            'bank_card_id' => ['nullable', 'integer'],
             'reference' => ['nullable', 'string', 'max:80'],
             'customer_id' => ['nullable', 'integer'],
             'supplier_id' => ['nullable', 'integer'],
@@ -32,7 +34,7 @@ class AccountSaveController extends MainController
         $account->company_id = Auth::user()->company_id;
         $account->fill($request->only([
             'name', 'type', 'amount', 'issue_date', 'due_date', 'payment_date',
-            'status', 'account_category_id', 'reference', 'customer_id', 'supplier_id', 'notes',
+            'status', 'account_category_id', 'bank_account_id', 'bank_card_id', 'reference', 'customer_id', 'supplier_id', 'notes',
         ]));
 
         if (empty($request->id)) {

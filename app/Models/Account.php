@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Account\Category;
+use App\Models\Bank\Account as BankAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,6 +36,8 @@ class Account extends Model
         'name',
         'type',
         'account_category_id',
+        'bank_account_id',
+        'bank_card_id',
         'amount',
         'status',
         'reference',
@@ -61,6 +64,8 @@ class Account extends Model
     #[OAT\Property(property: 'name', type: 'string', example: 'Invoice #123')]
     #[OAT\Property(property: 'type', type: 'string', enum: ['income', 'expense'], example: 'income')]
     #[OAT\Property(property: 'account_category_id', type: 'integer', example: 1, nullable: true)]
+    #[OAT\Property(property: 'bank_account_id', type: 'integer', example: 1, nullable: true)]
+    #[OAT\Property(property: 'bank_card_id', type: 'integer', example: 1, nullable: true)]
     #[OAT\Property(property: 'amount', type: 'number', format: 'float', example: 999.75)]
     #[OAT\Property(property: 'status', type: 'string', enum: ['pending', 'paid', 'overdue'], example: 'pending')]
     #[OAT\Property(property: 'reference', type: 'string', example: 'INV-2025-001', nullable: true)]
@@ -70,6 +75,16 @@ class Account extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'account_category_id');
+    }
+
+    public function bankAccount(): BelongsTo
+    {
+        return $this->belongsTo(BankAccount::class, 'bank_account_id');
+    }
+
+    public function bankCard(): BelongsTo
+    {
+        return $this->belongsTo(BankCard::class, 'bank_card_id');
     }
 
     public function customer(): BelongsTo
@@ -85,7 +100,7 @@ class Account extends Model
     public function getAllByCompany(int $company_id)
     {
         return Account::where('company_id', $company_id)
-            ->with(['category', 'customer', 'supplier'])
+            ->with(['category', 'customer', 'supplier', 'bankAccount'])
             ->orderBy('issue_date', 'desc')
             ->get();
     }

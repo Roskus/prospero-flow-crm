@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\MainController;
 use App\Models\Account;
 use App\Models\Account\Category;
+use App\Models\Bank\Account as BankAccount;
+use App\Models\BankCard;
 use App\Models\Customer;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -21,6 +23,8 @@ class AccountCreateController extends MainController
         return view('account.account', [
             'account' => new Account,
             'categories' => Category::where('company_id', $companyId)->orderBy('name')->get(),
+            'bank_accounts' => BankAccount::where('company_id', $companyId)->with('bank')->orderBy('account_name')->get(),
+            'bank_cards' => BankCard::where('company_id', $companyId)->orderBy('cardholder_name')->get(),
             'customers' => Customer::where('company_id', $companyId)->orderBy('name')->get(),
             'suppliers' => Supplier::where('company_id', $companyId)->orderBy('name')->get(),
         ]);

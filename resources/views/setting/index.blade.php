@@ -130,5 +130,18 @@
             </div>
         </div>
     </div>
+
+    <div class="col text-center mb-1">
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ url('/bank-account') }}">
+                    <div class="h1">
+                        <i class="las la-piggy-bank"></i>
+                    </div>
+                    {{ __('Bank accounts') }}
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

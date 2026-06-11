@@ -70,7 +70,7 @@ class Bank extends Model
 
     public function getAll()
     {
-        return Bank::orderBy(['country_id', 'name'], 'asc')->get();
+        return Bank::orderBy('country_id')->orderBy('name')->get();
     }
 
     public function getAllPaginated(array $filters, int $limit = 10)
@@ -78,9 +78,12 @@ class Bank extends Model
         // Iniciar la consulta base
         $query = Bank::orderBy('name', 'asc');
 
-        // Si el filtro no está vacío y contiene 'country_id'
-        if (! empty($filters) && isset($filters['country_id'])) {
+        if (! empty($filters['country_id'])) {
             $query->where('country_id', $filters['country_id']);
+        }
+
+        if (! empty($filters['name'])) {
+            $query->where('name', 'LIKE', '%'.$filters['name'].'%');
         }
 
         // Realizar la paginación de los resultados

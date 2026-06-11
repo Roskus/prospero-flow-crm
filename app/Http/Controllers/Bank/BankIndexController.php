@@ -13,10 +13,14 @@ class BankIndexController
     public function index(Request $request)
     {
         $filters = [];
-        $bank = new Bank;
-        if (isset($request->country_id)) {
-            $filters['country_id'] = $request->country_id;
+        if ($request->filled('country_id')) {
+            $filters['country_id'] = strtolower($request->country_id);
         }
+        if ($request->filled('name')) {
+            $filters['name'] = $request->name;
+        }
+
+        $bank = new Bank;
         $data['banks'] = $bank->getAllPaginated($filters, 20);
         $data['countries'] = Country::all();
 

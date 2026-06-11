@@ -15,7 +15,7 @@ class AccountIndexController extends MainController
     {
         $companyId = (int) Auth::user()->company_id;
         $accounts = Account::where('company_id', $companyId)
-            ->with(['category', 'customer', 'supplier'])
+            ->with(['category', 'customer', 'supplier', 'bankAccount.bank', 'bankCard.bankAccount.bank'])
             ->orderBy('issue_date', 'desc')
             ->get();
 

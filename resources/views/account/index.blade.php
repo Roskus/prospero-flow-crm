@@ -52,6 +52,7 @@
                             <th>{{ __('Reference') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Due date') }}</th>
+                            <th>{{ __('Payment date') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th></th>
                         </tr>
@@ -67,6 +68,18 @@
                                     @elseif($account->supplier)
                                         <div class="text-muted small">{{ $account->supplier->name }}</div>
                                     @endif
+                                    @if($account->bankCard)
+                                        <div class="text-muted small">
+                                            <i class="las la-university"></i>
+                                            {{ $account->bankCard->bankAccount?->account_name ?: $account->bankCard->bankAccount?->bank?->name }}
+                                            &nbsp;<i class="las la-credit-card"></i> {{ $account->bankCard->last_four }}
+                                        </div>
+                                    @elseif($account->bankAccount)
+                                        <div class="text-muted small">
+                                            <i class="las la-university"></i>
+                                            {{ $account->bankAccount->account_name ?: $account->bankAccount->bank?->name }}
+                                        </div>
+                                    @endif
                                 </td>
                                 <td class="text-nowrap">
                                     @if($account->type === 'income')
@@ -81,6 +94,7 @@
                                     {{ $account->type === 'expense' ? '-' : '' }}{{ number_format($account->amount, 2) }} €
                                 </td>
                                 <td class="text-nowrap">{{ $account->due_date?->format('d/m/Y') }}</td>
+                                <td class="text-nowrap">{{ $account->payment_date?->format('d/m/Y') }}</td>
                                 <td class="text-nowrap">
                                     @php
                                         $statusClass = match($account->status) {

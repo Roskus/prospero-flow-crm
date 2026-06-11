@@ -11,9 +11,11 @@ class BankAccountIndexController
 {
     public function index()
     {
-        $bankAccount = new BankAccount;
-        $data['bank_accounts'] = $bankAccount->getAllByCompanyId(Auth::user()->company_id);
+        $bankAccounts = BankAccount::where('company_id', Auth::user()->company_id)
+            ->with(['bank', 'country'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('bank.account.index');
+        return view('bank_account.index', ['bank_accounts' => $bankAccounts]);
     }
 }

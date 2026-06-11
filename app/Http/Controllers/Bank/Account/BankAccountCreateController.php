@@ -12,12 +12,10 @@ class BankAccountCreateController
 {
     public function create()
     {
-        $bank = new Bank;
-        $bank_account = new BankAccount;
-        $data['bank'] = $bank->getAll();
-        $data['countries'] = Country::all();
-        $data['bank_account'] = $bank_account;
-
-        return view('bank.account.bank_account', $data);
+        return view('bank_account.bank_account', [
+            'banks' => Bank::orderBy('country_id')->orderBy('name')->with('country')->get(),
+            'countries' => Country::all(),
+            'bank_account' => new BankAccount,
+        ]);
     }
 }

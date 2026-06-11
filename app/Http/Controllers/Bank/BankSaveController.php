@@ -30,7 +30,7 @@ class BankSaveController
         $bank->name = $request->name;
         $bank->phone = $request->phone;
         $bank->bic = $request->bic;
-        $bank->country_id = $request->country_id;
+        $bank->country_id = strtolower($request->country_id);
         $bank->email = $request->email;
         $bank->website = $request->website;
         $bank->updated_at = now();
