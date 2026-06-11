@@ -8,27 +8,29 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class ProductDeleteController
 {
-    /**
-     * @OA\Delete(
-     *     path="/product/{id}",
-     *     summary="Delete a Product",
-     *     tags={"Product"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Product",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(response="200", description="Product deleted successfully"),
-     *     @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     */
+    #[OAT\Delete(
+        path: '/product/{id}',
+        summary: 'Delete a Product',
+        security: [['bearerAuth' => []]],
+        tags: ['Product'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                in: 'path',
+                description: 'Id of Product',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Product deleted successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function delete(Request $request, int $id): JsonResponse
     {
         $product = Product::where('id', $id)

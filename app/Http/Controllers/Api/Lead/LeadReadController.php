@@ -8,30 +8,23 @@ use App\Models\Lead;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
 class LeadReadController
 {
-    /**
-     * @OA\Get(
-     *     path="/lead/{id}",
-     *     summary="Get Lead information",
-     *     tags={"Lead"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Lead",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Lead found",
-     *         @OA\JsonContent(ref="#/components/schemas/Lead")
-     *     ),
-     *     @OA\Response(response="404", description="Lead not found")
-     * )
-     */
+    #[OAT\Get(
+        path: '/lead/{id}',
+        summary: 'Get Lead information',
+        security: [['bearerAuth' => []]],
+        tags: ['Lead'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of Lead', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Lead found', content: new OAT\JsonContent(ref: '#/components/schemas/Lead')),
+            new OAT\Response(response: 404, description: 'Lead not found'),
+        ]
+    )]
     public function read(int $id): JsonResponse
     {
         $lead = null;

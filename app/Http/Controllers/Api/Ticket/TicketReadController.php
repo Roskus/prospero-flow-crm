@@ -8,39 +8,23 @@ use App\Models\Ticket;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
-/**
- * Controller for ticket read.
- *
- * @group Tickets
- */
 class TicketReadController
 {
-    /**
-     * @OA\Get(
-     *     path="/ticket/{id}",
-     *     summary="Get Ticket information",
-     *     tags={"Ticket"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Ticket",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Ticket found",
-     *         @OA\JsonContent(ref="#/components/schemas/Ticket")
-     *     ),
-     *     @OA\Response(response="404", description="Ticket not found")
-     * )
-     *
-     * Get the information of a ticket by ID.
-     *
-     * @authenticated
-     */
+    #[OAT\Get(
+        path: '/ticket/{id}',
+        summary: 'Get Ticket information',
+        security: [['bearerAuth' => []]],
+        tags: ['Ticket'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Ticket', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Ticket found', content: new OAT\JsonContent(ref: '#/components/schemas/Ticket')),
+            new OAT\Response(response: 404, description: 'Ticket not found'),
+        ]
+    )]
     public function read(int $id): JsonResponse
     {
         $ticket = null;

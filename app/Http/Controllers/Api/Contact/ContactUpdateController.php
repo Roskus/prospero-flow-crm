@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Contact;
 
 use App\Repositories\ContactRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class ContactUpdateController
 {
@@ -18,30 +17,30 @@ class ContactUpdateController
         $this->contactRepository = $contactRepository;
     }
 
-    /**
-     * @OA\Put(
-     *     path="/contact/{id}",
-     *     summary="Update a Contact",
-     *     tags={"Contact"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Contact",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Contact")
-     *     ),
-     *     @OA\Response(response="200", description="Contact updated successfully"),
-     *     @OA\Response(response="400", description="Bad request, please review the parameters"),
-     *     @OA\Response(response="404", description="Contact not found")
-     * )
-     *
-     * @return JsonResponse
-     */
+    #[OAT\Put(
+        path: '/contact/{id}',
+        summary: 'Update a Contact',
+        security: [['bearerAuth' => []]],
+        tags: ['Contact'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                in: 'path',
+                description: 'Id of Contact',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(ref: '#/components/schemas/Contact')
+        ),
+        responses: [
+            new OAT\Response(response: 200, description: 'Contact updated successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 404, description: 'Contact not found'),
+        ]
+    )]
     public function update(Request $request, int $id)
     {
         $status = 400;

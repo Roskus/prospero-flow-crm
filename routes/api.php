@@ -3,6 +3,16 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\BankAccount\BankAccountCreateController;
+use App\Http\Controllers\Api\BankAccount\BankAccountDeleteController;
+use App\Http\Controllers\Api\BankAccount\BankAccountListController;
+use App\Http\Controllers\Api\BankAccount\BankAccountReadController;
+use App\Http\Controllers\Api\BankAccount\BankAccountUpdateController;
+use App\Http\Controllers\Api\Calendar\CalendarCreateController;
+use App\Http\Controllers\Api\Calendar\CalendarDeleteController;
+use App\Http\Controllers\Api\Calendar\CalendarListController;
+use App\Http\Controllers\Api\Calendar\CalendarReadController;
+use App\Http\Controllers\Api\Calendar\CalendarUpdateController;
 use App\Http\Controllers\Api\Brand\BrandCreateController;
 use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use App\Http\Controllers\Api\Brand\BrandListController;
@@ -119,6 +129,20 @@ Route::middleware(['api'])->group(function () {
     Route::post('/ticket', [TicketCreateController::class, 'create'])->middleware(['auth:api']);
     Route::get('/ticket/{id}', [TicketReadController::class, 'read'])->middleware(['auth:api']);
     Route::delete('/ticket/{id}', [TicketDeleteController::class, 'delete'])->middleware(['auth:api']);
+
+    // BankAccount
+    Route::get('/bank-account', [BankAccountListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/bank-account/{id}', [BankAccountReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('/bank-account', [BankAccountCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/bank-account/{id}', [BankAccountUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/bank-account/{id}', [BankAccountDeleteController::class, 'delete'])->middleware(['auth:api']);
+
+    // Calendar
+    Route::get('/calendar', [CalendarListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/calendar/{id}', [CalendarReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('/calendar', [CalendarCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/calendar/{id}', [CalendarUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/calendar/{id}', [CalendarDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Email
     Route::delete('/email/{id}', [EmailDeleteController::class, 'delete'])->middleware(['auth:api']);

@@ -9,32 +9,24 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
 class CustomerReadController
 {
-    /**
-     * @OA\Get(
-     *     path="/customer/{id}",
-     *     summary="Get Customer information",
-     *     tags={"Customer"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of the Customer",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Customer found",
-     *         @OA\JsonContent(ref="#/components/schemas/Customer")
-     *     ),
-     *     @OA\Response(response="404", description="Customer not found")
-     * )
-     * @return JsonResponse
-     */
-    public function read(Request $request, int $id)
+    #[OAT\Get(
+        path: '/customer/{id}',
+        summary: 'Get Customer information',
+        security: [['bearerAuth' => []]],
+        tags: ['Customer'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Customer', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Customer found', content: new OAT\JsonContent(ref: '#/components/schemas/Customer')),
+            new OAT\Response(response: 404, description: 'Customer not found'),
+        ]
+    )]
+    public function read(Request $request, int $id): JsonResponse
     {
         $customer = null;
         try {

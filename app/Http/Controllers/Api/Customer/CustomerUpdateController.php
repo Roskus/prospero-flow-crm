@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api\Customer;
 use App\Repositories\CustomerRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class CustomerUpdateController
 {
@@ -18,28 +18,24 @@ class CustomerUpdateController
         $this->customerSaveRepository = $customerSaveRepository;
     }
 
-    /**
-     * @OA\Put(
-     *     path="/customer/{id}",
-     *     summary="Update a Customer",
-     *     tags={"Customer"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Lead",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Customer")
-     *     ),
-     *     @OA\Response(response="200", description="Customer updated successfully"),
-     *     @OA\Response(response="400", description="Bad request, please review the parameters"),
-     *     @OA\Response(response="404", description="Customer not found")
-     * )
-     */
+    #[OAT\Put(
+        path: '/customer/{id}',
+        summary: 'Update a Customer',
+        security: [['bearerAuth' => []]],
+        tags: ['Customer'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Customer', schema: new OAT\Schema(type: 'integer')),
+        ],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(ref: '#/components/schemas/Customer')
+        ),
+        responses: [
+            new OAT\Response(response: 200, description: 'Customer updated successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 404, description: 'Customer not found'),
+        ]
+    )]
     public function update(Request $request, int $id): JsonResponse
     {
         $status = 400;

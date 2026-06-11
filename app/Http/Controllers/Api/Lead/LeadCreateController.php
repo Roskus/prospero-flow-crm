@@ -7,9 +7,8 @@ namespace App\Http\Controllers\Api\Lead;
 use App\Repositories\LeadRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class LeadCreateController
 {
@@ -20,60 +19,26 @@ class LeadCreateController
         $this->leadSaveRepository = $leadRepository;
     }
 
-    /**
-     * @OA\Post(
-     *     path="/lead",
-     *     summary="Create a Lead",
-     *     tags={"Lead"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\RequestBody(
-     *          @OA\JsonContent(
-     *              required={"name"},
-     *              @OA\Property(
-     *                  property="name",
-     *                  type="string",
-     *                  example="John Smith"
-     *              ),
-     *              @OA\Property(
-     *                   property="business_name",
-     *                   type="string",
-     *                   example="John Smith LTD"
-     *              ),
-     *              @OA\Property(
-     *                  property="phone",
-     *                  type="int",
-     *                  example="34123456789",
-     *              ),
-     *              @OA\Property(
-     *                  property="email",
-     *                  type="string",
-     *                  format="email",
-     *                  example="john@smith.com",
-     *              ),
-     *              @OA\Property(
-     *                  property="notes",
-     *                  type="string",
-     *                  example="Notes of the lead",
-     *              ),
-     *              @OA\Property(
-     *                   property="country_id",
-     *                   type="string",
-     *                   example="ISO Country code 2 digits",
-     *               )
-     *          )
-     *     ),
-     *     @OA\Response(response="201", description="Lead created successfully"),
-     *     @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     *
-     * @return AnonymousResourceCollection
-     */
+    #[OAT\Post(
+        path: '/lead',
+        summary: 'Create a Lead',
+        security: [['bearerAuth' => []]],
+        tags: ['Lead'],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(ref: '#/components/schemas/Lead')
+        ),
+        responses: [
+            new OAT\Response(response: 201, description: 'Lead created successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function create(Request $request): JsonResponse
     {
         $status = 400;
         $data = [];
         $valid = $request->validate([
-            'name' => ['required', 'max:80'],
+            'name' => ['required', 'max:120'],
             'email' => ['required', 'max:254'],
             'phone' => ['required', 'max:15'],
         ]);

@@ -8,30 +8,23 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
 class UserReadController
 {
-    /**
-     * @OA\Get(
-     *     path="/user/{id}",
-     *     summary="Get User information",
-     *     tags={"User"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of User",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="User found",
-     *         @OA\JsonContent(ref="#/components/schemas/User")
-     *     ),
-     *     @OA\Response(response="404", description="User not found")
-     * )
-     */
+    #[OAT\Get(
+        path: '/user/{id}',
+        summary: 'Get User information',
+        security: [['bearerAuth' => []]],
+        tags: ['User'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of User', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'User found', content: new OAT\JsonContent(ref: '#/components/schemas/User')),
+            new OAT\Response(response: 404, description: 'User not found'),
+        ]
+    )]
     public function read(int $id): JsonResponse
     {
         $user = null;

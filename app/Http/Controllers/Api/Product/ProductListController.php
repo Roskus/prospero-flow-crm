@@ -5,28 +5,25 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Product;
 
 use App\Models\Product;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class ProductListController
 {
-    /**
-     * @OA\Get(
-     *     path="/product",
-     *     summary="Products list by company",
-     *     tags={"Product"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Response(
-     *         response="200",
-     *         description="Products list retrived successfully",
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
-     *     )
-     * )
-     *
-     * @return JsonResponse
-     */
+    #[OAT\Get(
+        path: '/product',
+        summary: 'Products list by company',
+        security: [['bearerAuth' => []]],
+        tags: ['Product'],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Products list retrived successfully',
+                content: new OAT\JsonContent(ref: '#/components/schemas/Product')
+            ),
+        ]
+    )]
     public function index(Request $request)
     {
         $count = Product::where('company_id', Auth::user()->company_id)->count();

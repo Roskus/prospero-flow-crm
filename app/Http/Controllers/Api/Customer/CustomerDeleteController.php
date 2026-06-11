@@ -8,30 +8,23 @@ use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
 class CustomerDeleteController
 {
-    /**
-     * @OA\Delete (
-     *      path="/customer/{id}",
-     *      summary="Delete a Customer",
-     *      tags={"Customer"},
-     *      security={{"bearerAuth": {}}},
-     *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Customer",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="Customer deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     *
-     * Delete a customer by ID.
-     *
-     * @authenticated
-     */
+    #[OAT\Delete(
+        path: '/customer/{id}',
+        summary: 'Delete a Customer',
+        security: [['bearerAuth' => []]],
+        tags: ['Customer'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Customer', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Customer deleted successfully'),
+            new OAT\Response(response: 404, description: 'Customer not found'),
+        ]
+    )]
     public function delete(Request $request, int $id): JsonResponse
     {
         $customer = Customer::where('id', $id)

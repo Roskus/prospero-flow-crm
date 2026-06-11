@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Product;
 
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class ProductUpdateController
 {
@@ -17,23 +17,25 @@ class ProductUpdateController
         $this->productRepository = $productRepository;
     }
 
-    /**
-     * @OA\Put(
-     *     path="/product/{id}",
-     *     summary="Update a Product",
-     *     tags={"Product"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Product",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(response="200", description="Product updated successfully"),
-     *     @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     */
+    #[OAT\Put(
+        path: '/product/{id}',
+        summary: 'Update a Product',
+        security: [['bearerAuth' => []]],
+        tags: ['Product'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                in: 'path',
+                description: 'Id of Product',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Product updated successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function update(Request $request, int $id)
     {
         $status = 400;

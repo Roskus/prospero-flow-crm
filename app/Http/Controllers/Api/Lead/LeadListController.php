@@ -8,26 +8,24 @@ use App\Http\Controllers\Api\ApiController;
 use App\Models\Lead;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
 class LeadListController extends ApiController
 {
-    /**
-     * @OA\Get(
-     *     path="/lead",
-     *     summary="Lead list by company",
-     *     tags={"Lead"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Response(
-     *         response="200",
-     *         description="Lead list retrived successfully",
-     *         @OA\JsonContent(ref="#/components/schemas/Lead")
-     *     )
-     * )
-     *
-     * @return AnonymousResourceCollection
-     */
+    #[OAT\Get(
+        path: '/lead',
+        summary: 'Lead list by company',
+        security: [['bearerAuth' => []]],
+        tags: ['Lead'],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Lead list retrieved successfully',
+                content: new OAT\JsonContent(ref: '#/components/schemas/Lead')
+            ),
+        ]
+    )]
     public function index(Request $request): JsonResponse
     {
         $count = Lead::where('company_id', Auth::user()->company_id)->count();

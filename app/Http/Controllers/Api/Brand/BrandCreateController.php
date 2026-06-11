@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Brand;
 use App\Repositories\BrandRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OAT;
 
 class BrandCreateController
 {
@@ -17,31 +18,30 @@ class BrandCreateController
         $this->brandRepository = $brandRepository;
     }
 
-    /**
-     * @OA\Post(
-     *     path="/brand",
-     *     summary="Create a Brand",
-     *     tags={"Brand"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\RequestBody(
-     *          required=true,
-     *          description="Brand data",
-     *          @OA\JsonContent(
-     *              required={"name"},
-     *              @OA\Property(property="name", type="string", maxLength=80, example="Example Brand")
-     *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=201,
-     *          description="Brand created successfully",
-     *          @OA\JsonContent(ref="#/components/schemas/Brand")
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Invalid input data"
-     *      )
-     * )
-     */
+    #[OAT\Post(
+        path: '/brand',
+        summary: 'Create a Brand',
+        security: [['bearerAuth' => []]],
+        tags: ['Brand'],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            description: 'Brand data',
+            content: new OAT\JsonContent(
+                required: ['name'],
+                properties: [
+                    new OAT\Property(property: 'name', type: 'string', maxLength: 80, example: 'Example Brand'),
+                ]
+            )
+        ),
+        responses: [
+            new OAT\Response(
+                response: 201,
+                description: 'Brand created successfully',
+                content: new OAT\JsonContent(ref: '#/components/schemas/Brand')
+            ),
+            new OAT\Response(response: 400, description: 'Invalid input data'),
+        ]
+    )]
     public function create(Request $request): JsonResponse
     {
         $status = 404;

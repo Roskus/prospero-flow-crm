@@ -47,15 +47,20 @@ class Calendar extends Model
         'guests' => 'array',
     ];
 
-    #[OAT\Property(type: 'int', example: 1)]
+    #[OAT\Property(property: 'id', type: 'integer', example: 1)]
     private ?int $id; // NOSONAR
 
-    #[OAT\Property(type: 'int', example: 1)]
-    private ?int $company_id; // NOSONAR
-
-    #[OAT\Property(type: 'int', example: 1)]
+    #[OAT\Property(property: 'user_id', type: 'integer', example: 1)]
     protected ?int $user_id;
 
+    #[OAT\Property(property: 'end_date', type: 'string', format: 'date-time', example: '2025-01-15 11:00:00')]
+    #[OAT\Property(property: 'description', type: 'string', example: 'Discuss Q1 results')]
+    #[OAT\Property(property: 'start_time', type: 'string', example: '10:00')]
+    #[OAT\Property(property: 'end_time', type: 'string', example: '11:00')]
+    #[OAT\Property(property: 'is_all_day', type: 'boolean', example: false)]
+    #[OAT\Property(property: 'meeting', type: 'string', example: 'https://meet.google.com/abc-defg-hij')]
+    #[OAT\Property(property: 'address', type: 'string', example: 'Av. Santa Fe 1234, Buenos Aires')]
+    #[OAT\Property(property: 'guests', type: 'array', items: new OAT\Items(type: 'string'), example: ['guest@email.com'])]
     public function organizer()
     {
         return $this->hasOne(User::class, 'id', 'user_id');

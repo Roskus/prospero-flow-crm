@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Contact;
 
-use App\Models\Contact;
 use App\Repositories\ContactRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class ContactCreateController
 {
@@ -19,27 +18,20 @@ class ContactCreateController
         $this->contactRepository = $contactRepository;
     }
 
-    /**
-     * @OA\Post(
-     *     path="/contact",
-     *     summary="Create a contact",
-     *     tags={"Contact"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\RequestBody(
-     *          required=true,
-     *          description="Contact data",
-     *          @OA\JsonContent(
-     *              required={"contact_first_name", "lead_id", "contact_email", "contact_phone"},
-     *              @OA\Property(property="contact_first_name", type="string", maxLength=50, example="John"),
-     *              @OA\Property(property="lead_id", type="integer", example=123),
-     *              @OA\Property(property="contact_email", type="string", maxLength=254, format="email", example="john@example.com"),
-     *              @OA\Property(property="contact_phone", type="string", maxLength=15, example="123-456-7890")
-     *          ),
-     *     ),
-     *     @OA\Response(response="400", description="Bad request: Please review required params"),
-     *     @OA\Response(response="201", description="Contact created successfully")
-     * )
-     */
+    #[OAT\Post(
+        path: '/contact',
+        summary: 'Create a contact',
+        security: [['bearerAuth' => []]],
+        tags: ['Contact'],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(ref: '#/components/schemas/Contact')
+        ),
+        responses: [
+            new OAT\Response(response: 400, description: 'Bad request: Please review required params'),
+            new OAT\Response(response: 201, description: 'Contact created successfully'),
+        ]
+    )]
     public function create(Request $request): JsonResponse
     {
         $status = 400;

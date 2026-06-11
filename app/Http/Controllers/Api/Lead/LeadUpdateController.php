@@ -8,7 +8,7 @@ use App\Models\Lead;
 use App\Repositories\LeadRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class LeadUpdateController
 {
@@ -19,28 +19,24 @@ class LeadUpdateController
         $this->leadSaveRepository = $leadRepository;
     }
 
-    /**
-     * @OA\Put(
-     *     path="/lead/{id}",
-     *     summary="Update a Lead",
-     *     tags={"Lead"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Lead",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Lead")
-     *     ),
-     *     @OA\Response(response="200", description="Lead updated successfully"),
-     *     @OA\Response(response="400", description="Bad request, please review the parameters"),
-     *     @OA\Response(response="404", description="Lead not found")
-     * )
-     */
+    #[OAT\Put(
+        path: '/lead/{id}',
+        summary: 'Update a Lead',
+        security: [['bearerAuth' => []]],
+        tags: ['Lead'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of Lead', schema: new OAT\Schema(type: 'integer')),
+        ],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(ref: '#/components/schemas/Lead')
+        ),
+        responses: [
+            new OAT\Response(response: 200, description: 'Lead updated successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 404, description: 'Lead not found'),
+        ]
+    )]
     public function update(Request $request, int $id): JsonResponse
     {
         $status = 400;

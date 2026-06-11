@@ -8,29 +8,26 @@ use App\Http\Controllers\Api\ApiController;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OAT;
 
 class CustomerListController extends ApiController
 {
-    /**
-     * @OA\Get(
-     *     path="/customer",
-     *     summary="Customer list by company",
-     *     tags={"Customer"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="per_page",
-     *         in="query",
-     *         description="Number of results per page",
-     *         required=false,
-     *         @OA\Schema(type="integer", default=15)
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Customers list retrived successfully",
-     *         @OA\JsonContent(ref="#/components/schemas/Customer")
-     *     )
-     * )
-     */
+    #[OAT\Get(
+        path: '/customer',
+        summary: 'Customer list by company',
+        security: [['bearerAuth' => []]],
+        tags: ['Customer'],
+        parameters: [
+            new OAT\Parameter(name: 'per_page', in: 'query', required: false, description: 'Number of results per page', schema: new OAT\Schema(type: 'integer', default: 15)),
+        ],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Customer list retrieved successfully',
+                content: new OAT\JsonContent(ref: '#/components/schemas/Customer')
+            ),
+        ]
+    )]
     public function index(Request $request): JsonResponse
     {
         $customers = Customer::where('company_id', $this->user->company_id)

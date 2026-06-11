@@ -8,119 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
-/**
- *  @OA\Schema(
- *    schema="Product",
- *    type="object",
- *    required={"category_id", "name"},
- *    @OA\Property(
- *        property="category_id",
- *        description="Category ID of the product",
- *        type="int",
- *        example="1"
- *    ),
- *    @OA\Property(
- *        property="brand_id",
- *        description="Brand ID of the product",
- *        type="int",
- *        example="2"
- *    ),
- *    @OA\Property(
- *        property="name",
- *        description="Name of the product",
- *        type="string",
- *        example="Hervidor Russell Hobbs"
- *    ),
- *    @OA\Property(
- *        property="model",
- *        description="Model of the product",
- *        type="string",
- *        example="Colours Plus+"
- *    ),
- *    @OA\Property(
- *        property="sku",
- *        description="SKU of the product",
- *        type="string",
- *        example="RUS*24994-70"
- *    ),
- *    @OA\Property(
- *        property="barcode",
- *        description="EAN-13 barcode of the product",
- *        type="string",
- *        example="4008496982943"
- *    ),
- *    @OA\Property(
- *        property="photo",
- *        description="Photo of the product",
- *        type="string",
- *        example="product.jpg"
- *    ),
- *    @OA\Property(
- *        property="cost",
- *        description="Cost of the product",
- *        type="number",
- *        example="10.5"
- *    ),
- *    @OA\Property(
- *        property="price",
- *        description="Price of the product",
- *        type="number",
- *        example="21.70"
- *    ),
- *    @OA\Property(
- *        property="tax",
- *        description="Tax of the product",
- *        type="number",
- *        example="21.00"
- *    ),
- *    @OA\Property(
- *        property="currency",
- *        description="Currency of the product",
- *        type="string",
- *        example="USD"
- *    ),
- *    @OA\Property(
- *        property="min_stock_quantity",
- *        description="Min Stock Quantity of the product",
- *        type="int",
- *        example="10"
- *    ),
- *    @OA\Property(
- *        property="quantity",
- *        description="Quantity of the product",
- *        type="int",
- *        example="33"
- *    ),
- *    @OA\Property(
- *        property="description",
- *        description="Description of the product",
- *        type="string",
- *        example="This is a product description"
- *    ),
- *    @OA\Property(
- *        property="elaboration_date",
- *        description="Elaboration date of the product",
- *        type="string",
- *        format="date",
- *        example="2023-01-01"
- *    ),
- *    @OA\Property(
- *        property="expiration_date",
- *        description="Expiration date of the product",
- *        type="string",
- *        format="date",
- *        example="2023-12-01"
- *    ),
- *    @OA\Property(
- *        property="tags",
- *        description="Tags of the product",
- *        type="string",
- *        example="['hervidor', 'pava electrica']"
- *    )
- *  )
- */
+#[OAT\Schema(schema: 'Product', required: ['category_id', 'name'], type: 'object')]
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
@@ -164,6 +54,23 @@ class Product extends Model
         'expiration_date' => 'date',
     ];
 
+    #[OAT\Property(property: 'category_id', type: 'integer', example: 1)]
+    #[OAT\Property(property: 'brand_id', type: 'integer', example: 2)]
+    #[OAT\Property(property: 'name', type: 'string', example: 'Hervidor Russell Hobbs')]
+    #[OAT\Property(property: 'model', type: 'string', example: 'Colours Plus+')]
+    #[OAT\Property(property: 'sku', type: 'string', example: 'RUS*24994-70')]
+    #[OAT\Property(property: 'barcode', type: 'string', example: '4008496982943')]
+    #[OAT\Property(property: 'photo', type: 'string', example: 'product.jpg')]
+    #[OAT\Property(property: 'cost', type: 'number', format: 'float', example: 10.5)]
+    #[OAT\Property(property: 'price', type: 'number', format: 'float', example: 21.70)]
+    #[OAT\Property(property: 'tax', type: 'number', format: 'float', example: 21.00)]
+    #[OAT\Property(property: 'currency', type: 'string', example: 'USD')]
+    #[OAT\Property(property: 'min_stock_quantity', type: 'integer', example: 10)]
+    #[OAT\Property(property: 'quantity', type: 'integer', example: 33)]
+    #[OAT\Property(property: 'description', type: 'string', example: 'This is a product description')]
+    #[OAT\Property(property: 'elaboration_date', type: 'string', format: 'date', example: '2023-01-01')]
+    #[OAT\Property(property: 'expiration_date', type: 'string', format: 'date', example: '2023-12-01')]
+    #[OAT\Property(property: 'tags', type: 'string', example: 'hervidor, pava electrica')]
     public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'id', 'company_id');

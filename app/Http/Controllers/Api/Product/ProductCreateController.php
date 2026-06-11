@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Product;
 
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class ProductCreateController
 {
@@ -17,16 +17,16 @@ class ProductCreateController
         $this->productRepository = $productRepository;
     }
 
-    /**
-     * @OA\Post(
-     *     path="/product",
-     *     summary="Create a Product",
-     *     tags={"Product"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Response(response="201", description="Product created successfully"),
-     *     @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     */
+    #[OAT\Post(
+        path: '/product',
+        summary: 'Create a Product',
+        security: [['bearerAuth' => []]],
+        tags: ['Product'],
+        responses: [
+            new OAT\Response(response: 201, description: 'Product created successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function create(Request $request)
     {
         $status = 400;

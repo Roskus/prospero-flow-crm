@@ -8,37 +8,40 @@ use App\Http\Requests\API\SupplierRequest;
 use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
 class SupplierCreateController
 {
-    /**
-     * @OA\Post (
-     *      path="/supplier",
-     *      summary="Create a Supplier",
-     *      tags={"Supplier"},
-     *      security={{"bearerAuth": {} }},
-     *      @OA\RequestBody(
-     *          required=true,
-     *          description="Supplier attributes",
-     *          @OA\JsonContent(
-     *              required={"name", "country"},
-     *              @OA\Property(property="name", type="string", example="Sony"),
-     *              @OA\Property(property="email", type="string", format="email", example="supplier@sony.com"),
-     *              @OA\Property(property="phone", type="string", example="+1234567890"),
-     *              @OA\Property(property="country", type="string", example="UK"),
-     *              @OA\Property(property="business_name", type="string", example="Sony Corporation"),
-     *              @OA\Property(property="vat", type="string", example="GB123456789"),
-     *              @OA\Property(property="website", type="string", example="https://www.sony.com"),
-     *              @OA\Property(property="province", type="string", example="London"),
-     *              @OA\Property(property="city", type="string", example="London"),
-     *              @OA\Property(property="street", type="string", example="123 Main St"),
-     *              @OA\Property(property="zipcode", type="string", example="W1A 1AA")
-     *          )
-     *      ),
-     *      @OA\Response(response="201", description="Supplier created successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     */
+    #[OAT\Post(
+        path: '/supplier',
+        summary: 'Create a Supplier',
+        security: [['bearerAuth' => []]],
+        tags: ['Supplier'],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            description: 'Supplier attributes',
+            content: new OAT\JsonContent(
+                required: ['name', 'country'],
+                properties: [
+                    new OAT\Property(property: 'name', type: 'string', example: 'Sony'),
+                    new OAT\Property(property: 'email', type: 'string', format: 'email', example: 'supplier@sony.com'),
+                    new OAT\Property(property: 'phone', type: 'string', example: '+1234567890'),
+                    new OAT\Property(property: 'country', type: 'string', example: 'UK'),
+                    new OAT\Property(property: 'business_name', type: 'string', example: 'Sony Corporation'),
+                    new OAT\Property(property: 'vat', type: 'string', example: 'GB123456789'),
+                    new OAT\Property(property: 'website', type: 'string', example: 'https://www.sony.com'),
+                    new OAT\Property(property: 'province', type: 'string', example: 'London'),
+                    new OAT\Property(property: 'city', type: 'string', example: 'London'),
+                    new OAT\Property(property: 'street', type: 'string', example: '123 Main St'),
+                    new OAT\Property(property: 'zipcode', type: 'string', example: 'W1A 1AA'),
+                ]
+            )
+        ),
+        responses: [
+            new OAT\Response(response: 201, description: 'Supplier created successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function create(SupplierRequest $request): JsonResponse
     {
         $data = [];

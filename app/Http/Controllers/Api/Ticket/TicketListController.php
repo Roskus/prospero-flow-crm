@@ -8,31 +8,23 @@ use App\Models\Ticket;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
-/**
- * Controller for ticket list.
- *
- * @group Tickets
- */
 class TicketListController
 {
-    /**
-     * @OA\Get(
-     *     path="/ticket",
-     *     summary="Ticket list by company",
-     *     tags={"Ticket"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Response(
-     *         response="200",
-     *         description="Ticket list retrieved successfully",
-     *         @OA\JsonContent(ref="#/components/schemas/Ticket")
-     *     )
-     * )
-     *
-     * Get the list of tickets by company.
-     *
-     * @authenticated
-     */
+    #[OAT\Get(
+        path: '/ticket',
+        summary: 'Ticket list by company',
+        security: [['bearerAuth' => []]],
+        tags: ['Ticket'],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Ticket list retrieved successfully',
+                content: new OAT\JsonContent(ref: '#/components/schemas/Ticket')
+            ),
+        ]
+    )]
     public function index(Request $request): JsonResponse
     {
         $count = Ticket::where('company_id', Auth::user()->company_id)->count();

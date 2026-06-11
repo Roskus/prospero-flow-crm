@@ -5,40 +5,31 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Brand;
 
 use App\Models\Brand;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
-/**
- * Controller for brand deletion.
- *
- * @group Brands
- */
 class BrandDeleteController
 {
-    /**
-     * @OA\Delete (
-     *      path="/brand/{id}",
-     *      summary="Delete a Brand",
-     *      tags={"Brand"},
-     *      security={{"bearerAuth": {}}},
-     *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Brand",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="Brand deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     *
-     * Delete a brand by ID.
-     *
-     * @authenticated
-     *
-     * @return JsonResponse
-     */
+    #[OAT\Delete(
+        path: '/brand/{id}',
+        summary: 'Delete a Brand',
+        security: [['bearerAuth' => []]],
+        tags: ['Brand'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                in: 'path',
+                description: 'ID of the Brand',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Brand deleted successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function delete(Request $request, int $id)
     {
         $brand = Brand::where('id', $id)

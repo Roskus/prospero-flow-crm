@@ -10,104 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OpenApi\Annotations\OpenApi as OA;
+use OpenApi\Attributes as OAT;
 use Squire\Models\Country;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
-/**
- *  @OA\Schema(
- *    schema="Lead",
- *    type="object",
- *    required={"name", "country", "seller_id"},
- *    @OA\Property(
- *        property="name",
- *        description="Name of the lead",
- *        type="string",
- *        example="My Company"
- *    ),
- *    @OA\Property(
- *        property="business_name",
- *        description="Business name or legal name of the lead",
- *        type="string",
- *        example="My Company S.A."
- *    ),
- *    @OA\Property(
- *        property="dob",
- *        description="Date of fundation of the lead",
- *        type="date",
- *        example="1990-02-20"
- *    ),
- *    @OA\Property(
- *        property="vat",
- *        description="VAT/NIF of the lead",
- *        type="string",
- *        example="ESX1234567X"
- *    ),
- *    @OA\Property(
- *        property="phone",
- *        description="Phone of the lead",
- *        type="string",
- *        example="+3464500000"
- *    ),
- *    @OA\Property(
- *        property="extension",
- *        description="Phone extension of the customer",
- *        type="string",
- *        example="4004"
- *    ),
- *    @OA\Property(
- *        property="phone2",
- *        description="Phone2 of the lead",
- *        type="string",
- *        example="+3464500000"
- *    ),
- *    @OA\Property(
- *        property="mobile",
- *        description="Mobile of the lead",
- *        type="string",
- *        example="+3464500000"
- *    ),
- *    @OA\Property(
- *        property="email",
- *        description="Email of the lead",
- *        type="string",
- *        format="email",
- *        example="jhon.doe@email.com"
- *    ),
- *    @OA\Property(
- *        property="email2",
- *        description="Email2 of the lead",
- *        type="string",
- *        format="email",
- *        example="jhon.doe@email.com"
- *    ),
- *    @OA\Property(
- *        property="website",
- *        description="Website of the lead",
- *        type="string",
- *        format="url",
- *        example="https://www.company.com"
- *    ),
- *    @OA\Property(
- *        property="source_id",
- *        description="Source ID of the lead",
- *        type="int",
- *        example="1"
- *    ),
- *    @OA\Property(
- *        property="linkedin",
- *        description="Linkedin of the lead",
- *        type="string",
- *        format="url",
- *        example="https://www.likedin.com/in/profile"
- *    ),
- *    @OA\Property(
- *        property="seller_id",
- *        description="SellerID of the lead",
- *        type="string"
- *    )
- * )
- */
+#[OAT\Schema(schema: 'Lead', required: ['name', 'seller_id'], type: 'object')]
 class Lead extends Model
 {
     use AuditableWithDeletesTrait;
@@ -126,6 +33,35 @@ class Lead extends Model
 
     protected $table = 'lead';
 
+    #[OAT\Property(property: 'name', type: 'string', example: 'My Company')]
+    #[OAT\Property(property: 'business_name', type: 'string', example: 'My Company S.A.')]
+    #[OAT\Property(property: 'dob', type: 'string', format: 'date', example: '1990-02-20')]
+    #[OAT\Property(property: 'vat', type: 'string', example: 'ESX1234567X')]
+    #[OAT\Property(property: 'phone', type: 'string', example: '+3464500000')]
+    #[OAT\Property(property: 'extension', type: 'string', example: '4004')]
+    #[OAT\Property(property: 'phone2', type: 'string', example: '+3464500000')]
+    #[OAT\Property(property: 'mobile', type: 'string', example: '+3464500000')]
+    #[OAT\Property(property: 'email', type: 'string', format: 'email', example: 'jhon.doe@email.com')]
+    #[OAT\Property(property: 'email2', type: 'string', format: 'email', example: 'jhon.doe@email.com')]
+    #[OAT\Property(property: 'website', type: 'string', format: 'uri', example: 'https://www.company.com')]
+    #[OAT\Property(property: 'source_id', type: 'integer', example: 1)]
+    #[OAT\Property(property: 'linkedin', type: 'string', format: 'uri', example: 'https://www.linkedin.com/in/profile')]
+    #[OAT\Property(property: 'facebook', type: 'string', format: 'uri', example: 'https://www.facebook.com/mycompany')]
+    #[OAT\Property(property: 'instagram', type: 'string', format: 'uri', example: 'https://www.instagram.com/mycompany')]
+    #[OAT\Property(property: 'twitter', type: 'string', format: 'uri', example: 'https://www.twitter.com/mycompany')]
+    #[OAT\Property(property: 'youtube', type: 'string', format: 'uri', example: 'https://www.youtube.com/@mycompany')]
+    #[OAT\Property(property: 'tiktok', type: 'string', format: 'uri', example: 'https://www.tiktok.com/@mycompany')]
+    #[OAT\Property(property: 'notes', type: 'string', example: 'Some notes about the lead')]
+    #[OAT\Property(property: 'seller_id', type: 'integer', example: 1)]
+    #[OAT\Property(property: 'country_id', type: 'string', example: 'ES')]
+    #[OAT\Property(property: 'province', type: 'string', example: 'Buenos Aires')]
+    #[OAT\Property(property: 'city', type: 'string', example: 'Buenos Aires')]
+    #[OAT\Property(property: 'locality', type: 'string', example: 'Palermo')]
+    #[OAT\Property(property: 'street', type: 'string', example: 'Av. Santa Fe 1234')]
+    #[OAT\Property(property: 'address_extra', type: 'string', example: 'Piso 3, Dpto B')]
+    #[OAT\Property(property: 'zipcode', type: 'string', example: '1425')]
+    #[OAT\Property(property: 'industry_id', type: 'integer', example: 1)]
+    #[OAT\Property(property: 'status', type: 'string', example: 'open')]
     protected $fillable = [
         'company_id',
         'external_id',

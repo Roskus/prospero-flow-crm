@@ -6,35 +6,35 @@ namespace App\Http\Controllers\Api\Product;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
 class ProductReadController
 {
-    /**
-     * @OA\Get(
-     *     path="/product/{id}",
-     *     summary="Get Product information",
-     *     tags={"Product"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Id of Product",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Product found",
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
-     *     ),
-     *     @OA\Response(response="404", description="Product not found")
-     * )
-     * @return JsonResponse
-     */
+    #[OAT\Get(
+        path: '/product/{id}',
+        summary: 'Get Product information',
+        security: [['bearerAuth' => []]],
+        tags: ['Product'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                in: 'path',
+                description: 'Id of Product',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Product found',
+                content: new OAT\JsonContent(ref: '#/components/schemas/Product')
+            ),
+            new OAT\Response(response: 404, description: 'Product not found'),
+        ]
+    )]
     public function read(Request $request, int $id)
     {
         $product = null;

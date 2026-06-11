@@ -8,30 +8,33 @@ use App\Models\Brand;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
 class BrandReadController
 {
-    /**
-     * @OA\Get(
-     *     path="/brand/{id}",
-     *     summary="Get Brand information",
-     *     tags={"Brand"},
-     *     security={{"bearerAuth": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of Brand",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Brand found",
-     *         @OA\JsonContent(ref="#/components/schemas/Brand")
-     *     ),
-     *     @OA\Response(response="404", description="Brand not found")
-     * )
-     */
+    #[OAT\Get(
+        path: '/brand/{id}',
+        summary: 'Get Brand information',
+        security: [['bearerAuth' => []]],
+        tags: ['Brand'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                in: 'path',
+                description: 'ID of Brand',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Brand found',
+                content: new OAT\JsonContent(ref: '#/components/schemas/Brand')
+            ),
+            new OAT\Response(response: 404, description: 'Brand not found'),
+        ]
+    )]
     public function read(int $id): JsonResponse
     {
         $brand = null;

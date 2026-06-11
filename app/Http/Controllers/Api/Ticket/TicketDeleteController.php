@@ -8,45 +8,31 @@ use App\Models\Ticket;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
-/**
- * Controller for ticket deletion.
- *
- * @group Tickets
- */
 class TicketDeleteController
 {
-    /**
-     * @OA\Delete (
-     *      path="/ticket/{id}",
-     *      summary="Delete a Ticket",
-     *      tags={"Ticket"},
-     *      security={{"bearerAuth": {}}},
-     *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Ticket",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="Ticket deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     *
-     * Delete a ticket by ID.
-     *
-     * @authenticated
-     *
-     * @return JsonResponse
-     */
-    public function delete(Request $request, int $id)
+    #[OAT\Delete(
+        path: '/ticket/{id}',
+        summary: 'Delete a Ticket',
+        security: [['bearerAuth' => []]],
+        tags: ['Ticket'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Ticket', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Ticket deleted successfully'),
+            new OAT\Response(response: 401, description: 'Unauthorized'),
+            new OAT\Response(response: 404, description: 'Ticket not found'),
+        ]
+    )]
+    public function delete(Request $request, int $id): JsonResponse
     {
         $ticket = Ticket::find($id);
         if (! $ticket) {
             return response()->json(['message' => 'Ticket not found'], 404);
         }
 
-        // Ensure the user can only delete their own tickets
         if ($ticket->user_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }

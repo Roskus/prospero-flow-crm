@@ -5,39 +5,36 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\User;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use OpenApi\Attributes as OAT;
 
-/**
- * @OA\Put(
- *     path="/user/{id}",
- *     summary="Update User information",
- *     tags={"User"},
- *     security={{"bearerAuth": {} }},
- *     @OA\Parameter(
- *         name="id",
- *         in="path",
- *         description="Id of User",
- *         required=true,
- *         @OA\Schema(type="integer")
- *     ),
- *     @OA\Response(
- *         response="200",
- *         description="User modified successfully",
- *         @OA\JsonContent(ref="#/components/schemas/User")
- *     ),
- *     @OA\Response(response="400", description="Bad request"),
- *     @OA\Response(response="404", description="User not found")
- * )
- */
 class UserUpdateController
 {
-    public function update(Request $request, int $id)
+    #[OAT\Put(
+        path: '/user/{id}',
+        summary: 'Update User information',
+        security: [['bearerAuth' => []]],
+        tags: ['User'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of User', schema: new OAT\Schema(type: 'integer')),
+        ],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(ref: '#/components/schemas/User')
+        ),
+        responses: [
+            new OAT\Response(response: 200, description: 'User updated successfully', content: new OAT\JsonContent(ref: '#/components/schemas/User')),
+            new OAT\Response(response: 404, description: 'User not found'),
+            new OAT\Response(response: 422, description: 'Validation error'),
+        ]
+    )]
+    public function update(Request $request, int $id): JsonResponse
     {
-        // Custom validation rules including optional password
         $rules = [
             'first_name' => 'required|string|max:80',
             'last_name' => 'required|string|max:80',
@@ -46,12 +43,11 @@ class UserUpdateController
             'photo' => 'nullable|string|max:255',
             'lang' => 'required|string|max:2',
             'timezone' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8', // Optional, only if user wants to update password
+            'password' => 'nullable|string|min:8',
         ];
-        // Validate the request data
+
         $validatedData = Validator::make($request->all(), $rules)->validate();
 
-        // Find the user within the same company
         $user = User::where('company_id', Auth::user()->company_id)
             ->where('id', $id)
             ->first();
@@ -60,15 +56,12 @@ class UserUpdateController
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
-        // If password is provided, hash it before updating
         if (! empty($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         } else {
-            // Remove password from array if not provided to avoid updating it to null
             unset($validatedData['password']);
         }
 
-        // Update the user with validated data
         $user->update($validatedData);
 
         return response()->json(['user' => $user], Response::HTTP_OK);
