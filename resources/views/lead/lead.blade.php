@@ -13,12 +13,12 @@
                     <div class="col-12 col-md-6">
                         <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
                         <input type="text" name="name" id="name" value="{{ old('name', $lead->name) }}"
-                               required="required" maxlength="80" class="form-control form-control-lg">
+                               required="required" maxlength="120" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="business_name">{{ __('Business name') }}</label>
                         <input type="text" name="business_name" id="business_name"
-                               value="{{ old('business_name', $lead->business_name) }}" maxlength="80"
+                               value="{{ old('business_name', $lead->business_name) }}" maxlength="120"
                                class="form-control form-control-lg">
                     </div>
                 </div><!--./row-->

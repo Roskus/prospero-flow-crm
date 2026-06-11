@@ -50,8 +50,8 @@ class LeadRequest extends FormRequest
         ]);
 
         return [
-            'name' => 'required|max:80',
-            'business_name' => 'max:80',
+            'name' => 'required|max:120',
+            'business_name' => 'max:120',
             'dob' => 'nullable|date',
             'vat' => 'nullable|max:20',
             'phone' => 'nullable|string|max_digits:15',
