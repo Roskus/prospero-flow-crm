@@ -174,6 +174,9 @@
                        class="link-secondary text-decoration-none">
                         <i class="las la-globe fs-4"></i>
                     </a>
+                    @if($customer->website_verified)
+                        <i class="las la-check-circle text-success"></i>
+                    @endif
                     @endif
                 </td>
                 <td class="text-center d-sm-table-cell link-secondary text-decoration-none"

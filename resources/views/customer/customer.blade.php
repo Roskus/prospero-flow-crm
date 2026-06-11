@@ -102,12 +102,6 @@
                                    value="{{ old('website', $customer->website) }}" maxlength="255"
                                    class="form-control form-control-lg">
                         </div>
-                        <div class="form-check mt-1">
-                            <input type="hidden" name="website_verified" value="0">
-                            <input class="form-check-input" type="checkbox" name="website_verified" id="website_verified" value="1"
-                                   @if(old('website_verified', $customer->website_verified)) checked @endif>
-                            <label class="form-check-label" for="website_verified">{{ __('Website verified') }}</label>
-                        </div>
                     </div>
                 </div>
                 <div class="row">

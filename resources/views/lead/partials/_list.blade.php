@@ -65,11 +65,14 @@
                         @endif
                     @endif
                 </td>
-                <td class="text-center">
+                <td class="text-center text-nowrap">
                     @isset($lead->website)
                     <a href="{{ $lead->website }}" title="{{ $lead->website }}" rel="noopener" target="_blank" class="link-secondary text-decoration-none">
                         <i class="las la-globe fs-4"></i>
                     </a>
+                    @if($lead->website_verified)
+                        <i class="las la-check-circle text-success"></i>
+                    @endif
                     @endisset
                 </td>
                 <td class="text-center">
