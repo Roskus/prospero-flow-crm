@@ -4,16 +4,26 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\MainController;
 use App\Models\Account;
+use App\Models\Account\Category;
+use App\Models\Customer;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class AccountUpdateController
+class AccountUpdateController extends MainController
 {
     public function update(Request $request, int $id)
     {
-        $account = Account::find($id);
-        $data['account'] = $account;
+        $companyId = (int) Auth::user()->company_id;
+        $account = Account::where('company_id', $companyId)->findOrFail($id);
 
-        return view('account.account', $data);
+        return view('account.account', [
+            'account' => $account,
+            'categories' => Category::where('company_id', $companyId)->orderBy('name')->get(),
+            'customers' => Customer::where('company_id', $companyId)->orderBy('name')->get(),
+            'suppliers' => Supplier::where('company_id', $companyId)->orderBy('name')->get(),
+        ]);
     }
 }
