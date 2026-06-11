@@ -79,7 +79,7 @@ require __DIR__.'/module/contact.php';
 // Transaction
 require __DIR__.'/module/transaction_category.php';
 
-Route::get('/transactions', [TransactionIndexController::class, 'index']);
+Route::get('/accounting', [TransactionIndexController::class, 'index']);
 Route::get('/transaction/create', [TransactionCreateController::class, 'create']);
 Route::get('/transaction/edit/{id}', [TransactionUpdateController::class, 'update']);
 Route::post('/transaction/save', [TransactionSaveController::class, 'save']);

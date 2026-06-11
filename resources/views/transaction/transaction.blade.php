@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.partials._header', ['title' => $transaction->id ? __('Edit transaction') . ' #' . $transaction->id : __('New transaction')])
 
-    <form method="POST" action="{{ url('/transaction/save') }}" class="form" enctype="multipart/form-data">
+    <form method="POST" action="{{ url('/accounting/save') }}" class="form" enctype="multipart/form-data">
         @csrf
         @if($transaction->id)
             <input type="hidden" name="id" value="{{ $transaction->id }}">
@@ -153,7 +153,7 @@
                                     <i class="las la-file-alt"></i>
                                     {{ basename($transaction->attachment) }}
                                 </a>
-                                <form method="POST" action="{{ url('/transaction/attachment/' . $transaction->id) }}"
+                                <form method="POST" action="{{ url('/accounting/attachment/' . $transaction->id) }}"
                                       class="d-inline"
                                       onsubmit="return confirm('{{ __('Remove attachment?') }}')">
                                     @csrf
@@ -175,7 +175,7 @@
 
         <div class="mt-3 d-flex gap-2">
             <button type="submit" class="btn btn-primary btn-lg">{{ __('Save') }}</button>
-            <a href="{{ url('/transactions') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
+            <a href="{{ url('/accountings') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
         </div>
     </form>
 @endsection

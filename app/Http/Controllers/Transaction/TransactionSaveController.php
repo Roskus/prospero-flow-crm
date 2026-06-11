@@ -49,7 +49,7 @@ class TransactionSaveController extends MainController
                 Storage::disk('public')->delete($transaction->attachment);
             }
             $transaction->attachment = $request->file('attachment')
-                ->store('transactions/' . Auth::user()->company_id, 'public');
+                ->store('accounting/' . Auth::user()->company_id, 'public');
         }
 
         if (empty($request->id)) {
@@ -60,6 +60,6 @@ class TransactionSaveController extends MainController
 
         $transaction->save();
 
-        return redirect('transactions');
+        return redirect('accounting');
     }
 }
