@@ -17,7 +17,7 @@
                     class="btn btn-outline-dark me-2" title="{{ __('Next month') }}" role="button" tabindex="2">
                     <i class="las la-chevron-right"></i>
                 </a>
-                <span class="fs-5">{{ __($date->format('F')) }} {{ $date->format('Y') }}</span>
+                <span class="fs-5">{{ __('calendar.'.$date->format('F')) }} {{ $date->format('Y') }}</span>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
                             @foreach ( $events->whereBetween('start_date', [$startOfCalendar->copy()->startOfDay(), $startOfCalendar->copy()->endOfDay()]) as $event)
                                 <div class="badge text-bg-secondary mb-1 text-wrap">
                                     <span role="button" tabindex="" onclick="Calendar.read('{{ $event->id }}')">
-                                        {{ $event->title ?? '' }}
+                                        {{ \Illuminate\Support\Carbon::parse($event->start_date)->format('H:i') }} - {{ $event->title ?? '' }}
                                     </span>
                                     <span>
                                         <a href="{{ url("/calendar/$event->id/export") }}" class="text-white">

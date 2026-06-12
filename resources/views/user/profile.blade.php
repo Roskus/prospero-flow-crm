@@ -58,7 +58,7 @@
         <div class="row">
             <div class="col">
                 <label for="lang" class="col-md-4 control-label">{{ __('Language') }}</label>
-                <select name="lang" id="lang" required="required" class="form-control form-control-lg">
+                <select name="lang" id="lang" required="required" class="form-select form-select-lg">
                     <option value=""></option>
                     @foreach ($languages as $code => $name)
                     <option value="{{ $code }}" @if(Auth::user()->lang == $code) selected="selected" @endif>
