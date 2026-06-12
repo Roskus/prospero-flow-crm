@@ -2,12 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Transaction\TransactionAttachmentDeleteController;
-use App\Http\Controllers\Transaction\TransactionCreateController;
-use App\Http\Controllers\Transaction\TransactionDeleteController;
-use App\Http\Controllers\Transaction\TransactionIndexController;
-use App\Http\Controllers\Transaction\TransactionSaveController;
-use App\Http\Controllers\Transaction\TransactionUpdateController;
 use App\Http\Controllers\Auth\LockController;
 use App\Http\Controllers\Auth\UnlockController;
 use App\Http\Controllers\EmailTemplate\EmailTemplateIndexController;
@@ -23,6 +17,12 @@ use App\Http\Controllers\Report\ReportEmailController;
 use App\Http\Controllers\Report\ReportIndexController;
 use App\Http\Controllers\Report\ReportSaleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Transaction\TransactionAttachmentDeleteController;
+use App\Http\Controllers\Transaction\TransactionCreateController;
+use App\Http\Controllers\Transaction\TransactionDeleteController;
+use App\Http\Controllers\Transaction\TransactionIndexController;
+use App\Http\Controllers\Transaction\TransactionSaveController;
+use App\Http\Controllers\Transaction\TransactionUpdateController;
 use App\Http\Controllers\Unsubscribe\UnsubscribeSaveController;
 use App\Http\Controllers\Unsubscribe\UnsubscribeUpdateController;
 use App\Http\Controllers\WebForm\WebFormIndexController;
@@ -72,6 +72,9 @@ require __DIR__.'/module/category.php';
 
 // Company
 require __DIR__.'/module/company.php';
+
+// Currency
+require __DIR__.'/module/currency.php';
 
 // Contact
 require __DIR__.'/module/contact.php';

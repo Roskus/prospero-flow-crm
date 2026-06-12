@@ -42,7 +42,7 @@ class PermissionSaveControllerTest extends TestCase
     #[Test]
     public function it_can_save_permissions(): void
     {
-        $role = Role::create(['name' => 'Buyer', 'guard_name' => 'web']);
+        $role = Role::create(['name' => 'Reviewer', 'guard_name' => 'web']);
         $permission = Permission::create(['name' => 'edit articles', 'guard_name' => 'web']);
 
         $response = $this->post('/permission', [
@@ -51,5 +51,34 @@ class PermissionSaveControllerTest extends TestCase
 
         $response->assertRedirect('/permission');
         $this->assertTrue($role->fresh()->hasPermissionTo('edit articles'));
+    }
+
+    #[Test]
+    public function it_groups_permissions_by_object_and_lists_actions_below(): void
+    {
+        Permission::create(['name' => 'create customer', 'guard_name' => 'web']);
+        Permission::create(['name' => 'read customer', 'guard_name' => 'web']);
+        Permission::create(['name' => 'update customer', 'guard_name' => 'web']);
+
+        $response = $this->get('/permission');
+
+        $response->assertOk();
+        $response->assertSeeInOrder([
+            'Customer',
+            'Create',
+            'Read',
+            'Update',
+        ]);
+    }
+
+    #[Test]
+    public function it_shows_the_buyer_role_column_in_permissions_index(): void
+    {
+        Role::findOrCreate('Buyer', 'web');
+
+        $response = $this->get('/permission');
+
+        $response->assertOk();
+        $response->assertSeeText('Buyer');
     }
 }
