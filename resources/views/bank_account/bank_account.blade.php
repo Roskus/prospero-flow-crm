@@ -46,10 +46,10 @@
                 <div id="row-bank">
                     <div class="row mt-3">
                         <div class="col-12 col-md-8">
-                            <label for="bank_id">{{ __('Bank') }}</label>
+                            <label for="bank_search">{{ __('Bank') }}</label>
                             <input type="text" id="bank_search" placeholder="{{ __('Search bank...') }}"
                                    class="form-control form-control-lg mb-1" autocomplete="off">
-                            <select name="bank_id" id="bank_id" class="form-select form-select-lg">
+                            <select name="bank_id" id="bank_id" class="form-select form-select-lg" aria-label="{{ __('Bank list') }}">
                                 <option value="">{{ __('Choose') }}</option>
                                 @foreach($banks as $bank)
                                     <option value="{{ $bank->id }}" @selected(old('bank_id', $bank_account->bank_id) == $bank->id)>
