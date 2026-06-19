@@ -14,7 +14,7 @@ class CustomerCreateControllerTest extends TestCase
     #[Test]
     public function it_can_save_customer(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
 
         $data = array_except(Customer::factory()->create(['seller_id' => auth()->id()])->toArray(), 'id');
         $data['tags'] = implode(',', $data['tags']);

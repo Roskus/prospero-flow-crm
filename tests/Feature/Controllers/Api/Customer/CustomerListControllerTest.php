@@ -14,7 +14,7 @@ class CustomerListControllerTest extends TestCase
     #[Test]
     public function it_can_list_customers(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
         $customers = Customer::factory()->count(2)->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
 
         $response = $this->getJson('/api/customer');
@@ -30,7 +30,7 @@ class CustomerListControllerTest extends TestCase
     #[Test]
     public function it_paginates_customers_with_custom_per_page(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
         Customer::factory()->count(5)->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
 
         $response = $this->getJson('/api/customer?per_page=2');

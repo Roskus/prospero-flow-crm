@@ -62,7 +62,7 @@ class TicketCreateControllerTest extends TestCase
     #[Test]
     public function it_validates_required_fields(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
 
         $response = $this->postJson('/api/ticket', []);
 

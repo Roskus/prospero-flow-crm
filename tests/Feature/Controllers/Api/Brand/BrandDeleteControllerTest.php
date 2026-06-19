@@ -14,7 +14,7 @@ class BrandDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_a_brand(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
         $brand = Brand::factory()->create(['company_id' => auth()->user()->company_id]);
 
         $response = $this->deleteJson('/api/brand/'.$brand->id);
@@ -26,7 +26,7 @@ class BrandDeleteControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_brand(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
 
         $response = $this->deleteJson('/api/brand/99999');
 
@@ -36,7 +36,7 @@ class BrandDeleteControllerTest extends TestCase
     #[Test]
     public function it_cannot_delete_a_brand_from_another_company(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
         $otherBrand = Brand::factory()->create(['company_id' => User::factory()->create()->company_id]);
 
         $response = $this->deleteJson('/api/brand/'.$otherBrand->id);

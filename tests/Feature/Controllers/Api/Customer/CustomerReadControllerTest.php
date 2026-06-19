@@ -14,7 +14,7 @@ class CustomerReadControllerTest extends TestCase
     #[Test]
     public function it_can_read_customer(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
         $customer = Customer::factory()->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
 
         $response = $this->get('/api/customer/'.$customer->id);
@@ -25,7 +25,7 @@ class CustomerReadControllerTest extends TestCase
     #[Test]
     public function it_not_found_a_customer(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
 
         $response = $this->get('/api/customer/9999');
 

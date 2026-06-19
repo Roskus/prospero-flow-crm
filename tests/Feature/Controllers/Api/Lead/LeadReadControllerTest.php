@@ -14,7 +14,7 @@ class LeadReadControllerTest extends TestCase
     #[Test]
     public function it_can_read_lead(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
         $lead = Lead::factory()->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
 
         $response = $this->get('/api/lead/'.$lead->id);
@@ -25,7 +25,7 @@ class LeadReadControllerTest extends TestCase
     #[Test]
     public function it_not_found_a_lead(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
 
         $response = $this->get('/api/lead/9999');
 

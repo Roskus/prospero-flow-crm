@@ -14,7 +14,7 @@ class LeadListControllerTest extends TestCase
     #[Test]
     public function it_can_list_lead(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, "api");
         $leads = Lead::factory()->count(2)->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
 
         $response = $this->get('/api/lead');
