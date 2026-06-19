@@ -15,7 +15,7 @@ class LeadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return Auth::user()?->can('create lead') ?? false;
     }
 
     public function messages(): array

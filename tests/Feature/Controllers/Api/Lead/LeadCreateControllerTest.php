@@ -14,7 +14,7 @@ class LeadCreateControllerTest extends TestCase
     #[Test]
     public function it_can_save_lead(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, 'api');
 
         $data = array_except(Lead::factory()->create(['seller_id' => auth()->id()])->toArray(), 'id');
         $data['tags'] = implode(',', $data['tags']);
@@ -25,5 +25,20 @@ class LeadCreateControllerTest extends TestCase
         $response->assertJsonPath('id', Lead::all()->last()->id);
 
         $this->equalTo(Lead::all()->last(), $data);
+    }
+
+    #[Test]
+    public function it_denies_user_without_permission(): void
+    {
+        $userWithoutPermission = User::factory()->create();
+
+        $this->actingAs($userWithoutPermission, 'api');
+
+        $data = array_except(Lead::factory()->create(['seller_id' => $userWithoutPermission->id])->toArray(), 'id');
+        $data['tags'] = implode(',', $data['tags']);
+
+        $response = $this->post('/api/lead', $data);
+
+        $response->assertStatus(403);
     }
 }
