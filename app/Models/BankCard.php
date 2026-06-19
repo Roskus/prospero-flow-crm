@@ -76,7 +76,7 @@ class BankCard extends Model
     public function getMaskedNumberAttribute(): string
     {
         // Shows first 4 and last 4, masks middle: 4111-****-****-1111
-        $first4 = $this->network === self::NETWORK_AMEX ? '****' : '****';
+        $first4 = '****';
         try {
             $full = $this->getNumberAttribute();
             $first4 = substr($full, 0, 4);
