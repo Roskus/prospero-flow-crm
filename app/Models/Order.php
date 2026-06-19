@@ -80,7 +80,7 @@ final class Order extends Model
 
     protected ?int $status;
 
-    #[OAT\Property(type: 'array')]
+    #[OAT\Property(type: 'array', items: new OAT\Items)]
     protected ?array $items = [];
 
     protected static function boot(): void
