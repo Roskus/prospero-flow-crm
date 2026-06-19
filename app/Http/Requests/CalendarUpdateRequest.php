@@ -16,6 +16,11 @@ class CalendarUpdateRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['sometimes', 'string'],
+            'start_date' => ['sometimes', 'date'],
+            'end_date' => ['sometimes', 'date'],
+        ];
     }
 }

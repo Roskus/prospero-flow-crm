@@ -16,6 +16,8 @@ class BrandUpdateRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'max:80'],
+        ];
     }
 }
