@@ -9,7 +9,14 @@ permissions:
   pull-requests: read
 
 env:
-  DB_PASSWORD: 'root'
+  DB_CONNECTION: mysql
+  DB_HOST: 127.0.0.1
+  DB_PORT: 3306
+  DB_DATABASE: pflow_crm_test
+  DB_USERNAME: root
+  DB_PASSWORD: root
+  APP_ENV: testing
+  APP_DEBUG: false
 
 jobs:
   tests:
@@ -67,11 +74,22 @@ jobs:
           sudo systemctl start mysql.service
           mysql -e 'CREATE DATABASE pflow_crm_test;' -uroot -proot
 
-      - name: Execute tests
-        run: vendor/bin/phpunit --coverage-clover=coverage.xml
-      # Adding SonarCloud Scan for test coverage
-      - name: SonarCloud Scan
+      - name: Execute tests with coverage
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml --log-junit=junit.xml
+
+      - name: Upload coverage to Codecov
         if: matrix.php == '8.5'
-        uses: SonarSource/sonarqube-scan-action@v7.2.1
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: SonarCloud Scan
+        if: matrix.php == '8.5' && github.event_name == 'push'
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

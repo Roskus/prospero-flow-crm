@@ -1,0 +1,57 @@
+name: Security Analysis
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    name: Security Scanning
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath
+
+      - name: Cache Composer packages
+        uses: actions/cache@v5
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Run Larastan (Static Analysis)
+        run: vendor/bin/larastan analyse --level=max
+        continue-on-error: true
+
+      - name: Run PHP Security Checker
+        run: |
+          composer require --dev sensiolabs/security-checker
+          vendor/bin/security-checker security:check
+        continue-on-error: true
+
+      - name: Run Laravel Pint Check
+        run: vendor/bin/pint --test --format=json > pint-report.json || true
+
+      - name: Upload Pint Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pint-report
+          path: pint-report.json
