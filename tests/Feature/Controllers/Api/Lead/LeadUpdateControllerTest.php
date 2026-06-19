@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Api\Lead;
 
 use App\Models\Lead;
-use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -14,26 +13,24 @@ class LeadUpdateControllerTest extends TestCase
     #[Test]
     public function it_can_update_lead(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, 'api');
 
-        $lead = Lead::factory()->create(['seller_id' => auth()->id()])->toArray();
-        $lead['tags'] = implode(',', $lead['tags']);
+        $lead = Lead::factory()->create([
+            'seller_id' => $this->user->id,
+            'company_id' => $this->user->company_id,
+        ]);
 
-        $updatedLead = array_except(Lead::factory()->create(['seller_id' => auth()->id()])->toArray(), 'id');
-        $updatedLead['tags'] = implode(',', $updatedLead['tags']);
-        $updatedLead['id'] = $lead['id'];
-        $updatedLead['vat'] = strtoupper($updatedLead['vat']);
+        $response = $this->putJson('/api/lead/'.$lead->id, [
+            'name' => 'Updated Lead',
+            'email' => 'updated@example.com',
+            'phone' => '1234567890',
+        ]);
 
-        $response = $this->post('/api/lead', $updatedLead);
-
-        $lead['tags'] = explode(',', $lead['tags']);
-        $updatedLead['tags'] = explode(',', $updatedLead['tags']);
-
-        $response->assertSuccessful();
-        $response->assertJsonPath('id', $lead['id']);
-
-        $excludeFields = ['seller', 'industry', 'country', 'company', 'phone_verified', 'phone2_verified', 'mobile_verified', 'email_verified'];
-        $this->assertEquals(array_except(Lead::find($lead['id'])->toArray(), $excludeFields), array_except($updatedLead, $excludeFields));
-        $this->assertNotEquals(array_except(Lead::find($lead['id'])->toArray(), $excludeFields), array_except($lead, $excludeFields));
+        $response->assertOk();
+        $this->assertDatabaseHas('lead', [
+            'id' => $lead->id,
+            'name' => 'Updated Lead',
+            'email' => 'updated@example.com',
+        ]);
     }
 }

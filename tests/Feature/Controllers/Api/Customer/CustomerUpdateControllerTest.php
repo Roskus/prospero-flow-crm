@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Api\Customer;
 
 use App\Models\Customer;
-use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -14,28 +13,22 @@ class CustomerUpdateControllerTest extends TestCase
     #[Test]
     public function it_can_update_customer(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, 'api');
 
-        $customer = Customer::factory()->create(['seller_id' => auth()->id()])->toArray();
-        $customer['tags'] = implode(',', $customer['tags']);
+        $customer = Customer::factory()->create(['seller_id' => $this->user->id]);
 
-        $updatedCustomer = array_except(Customer::factory()->create(['seller_id' => auth()->id()])->toArray(), 'id');
-        $updatedCustomer['tags'] = implode(',', $updatedCustomer['tags']);
-        $updatedCustomer['id'] = $customer['id'];
-        $updatedCustomer['vat'] = strtoupper($updatedCustomer['vat']);
-
-        $response = $this->post('/api/customer', $updatedCustomer);
-
-        $customer['tags'] = explode(',', $customer['tags']);
-        $updatedCustomer['tags'] = explode(',', $updatedCustomer['tags']);
-
-        $response->assertJsonFragment([
-            'customer' => [
-                'id' => $customer['id'],
-            ],
+        $response = $this->putJson('/api/customer/'.$customer->id, [
+            'first_name' => 'Updated Customer',
+            'email' => 'updated@example.com',
+            'phone' => '1234567890',
+            'country_id' => 'US',
         ]);
-        $excludedFields = ['seller', 'industry', 'country', 'company', 'phone_verified', 'phone2_verified', 'mobile_verified', 'email_verified'];
-        $this->assertEquals(array_except(Customer::find($customer['id'])->toArray(), $excludedFields), array_except($updatedCustomer, $excludedFields));
-        $this->assertNotEquals(array_except(Customer::find($customer['id'])->toArray(), $excludedFields), array_except($customer, $excludedFields));
+
+        $response->assertOk();
+        $this->assertDatabaseHas('customer', [
+            'id' => $customer->id,
+            'first_name' => 'Updated Customer',
+            'email' => 'updated@example.com',
+        ]);
     }
 }

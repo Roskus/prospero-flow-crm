@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Customer;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Repositories\CustomerRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class CustomerUpdateController
@@ -40,6 +41,7 @@ class CustomerUpdateController
     {
         $data = $request->validated();
         $data['id'] = $id;
+        $data['seller_id'] = Auth::user()->id;
         $customer = $this->customerSaveRepository->save($data);
 
         return response()->json(['customer' => $customer->toArray()], 200);

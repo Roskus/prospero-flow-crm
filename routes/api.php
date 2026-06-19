@@ -8,16 +8,16 @@ use App\Http\Controllers\Api\BankAccount\BankAccountDeleteController;
 use App\Http\Controllers\Api\BankAccount\BankAccountListController;
 use App\Http\Controllers\Api\BankAccount\BankAccountReadController;
 use App\Http\Controllers\Api\BankAccount\BankAccountUpdateController;
-use App\Http\Controllers\Api\Calendar\CalendarCreateController;
-use App\Http\Controllers\Api\Calendar\CalendarDeleteController;
-use App\Http\Controllers\Api\Calendar\CalendarListController;
-use App\Http\Controllers\Api\Calendar\CalendarReadController;
-use App\Http\Controllers\Api\Calendar\CalendarUpdateController;
 use App\Http\Controllers\Api\Brand\BrandCreateController;
 use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use App\Http\Controllers\Api\Brand\BrandListController;
 use App\Http\Controllers\Api\Brand\BrandReadController;
 use App\Http\Controllers\Api\Brand\BrandUpdateController;
+use App\Http\Controllers\Api\Calendar\CalendarCreateController;
+use App\Http\Controllers\Api\Calendar\CalendarDeleteController;
+use App\Http\Controllers\Api\Calendar\CalendarListController;
+use App\Http\Controllers\Api\Calendar\CalendarReadController;
+use App\Http\Controllers\Api\Calendar\CalendarUpdateController;
 use App\Http\Controllers\Api\Company\CompanyCreateController;
 use App\Http\Controllers\Api\Company\CompanyDeleteController;
 use App\Http\Controllers\Api\Company\CompanyListController;
@@ -31,12 +31,14 @@ use App\Http\Controllers\Api\Customer\CustomerCreateController;
 use App\Http\Controllers\Api\Customer\CustomerDeleteController;
 use App\Http\Controllers\Api\Customer\CustomerListController;
 use App\Http\Controllers\Api\Customer\CustomerReadController;
+use App\Http\Controllers\Api\Customer\CustomerUpdateController;
 use App\Http\Controllers\Api\Doc\DocGeneratorController;
 use App\Http\Controllers\Api\Email\EmailDeleteController;
 use App\Http\Controllers\Api\Lead\LeadCreateController;
 use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Lead\LeadListController;
 use App\Http\Controllers\Api\Lead\LeadReadController;
+use App\Http\Controllers\Api\Lead\LeadUpdateController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
 use App\Http\Controllers\Api\Order\OrderListController;
 use App\Http\Controllers\Api\Product\ProductCreateController;
@@ -48,6 +50,7 @@ use App\Http\Controllers\Api\Supplier\SupplierCreateController;
 use App\Http\Controllers\Api\Supplier\SupplierDeleteController;
 use App\Http\Controllers\Api\Supplier\SupplierListController;
 use App\Http\Controllers\Api\Supplier\SupplierReadController;
+use App\Http\Controllers\Api\Supplier\SupplierUpdateController;
 use App\Http\Controllers\Api\Ticket\TicketCreateController;
 use App\Http\Controllers\Api\Ticket\TicketDeleteController;
 use App\Http\Controllers\Api\Ticket\TicketListController;
@@ -55,6 +58,7 @@ use App\Http\Controllers\Api\Ticket\TicketReadController;
 use App\Http\Controllers\Api\User\UserDeleteController;
 use App\Http\Controllers\Api\User\UserListController;
 use App\Http\Controllers\Api\User\UserReadController;
+use App\Http\Controllers\Api\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,6 +85,7 @@ Route::middleware(['api'])->group(function () {
     Route::get('lead', [LeadListController::class, 'index'])->middleware(['auth:api']);
     Route::get('lead/{id}', [LeadReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('/lead', [LeadCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/lead/{id}', [LeadUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Company
@@ -94,13 +99,14 @@ Route::middleware(['api'])->group(function () {
     Route::get('customer', [CustomerListController::class, 'index'])->middleware(['auth:api']);
     Route::get('customer/{id}', [CustomerReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('customer', [CustomerCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/customer/{id}', [CustomerUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/customer/{id}', [CustomerDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Product
     Route::get('/product', [ProductListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/product/{id}', [ProductReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('product', [ProductCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('product', [ProductUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::put('/product/{id}', [ProductUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('product/{id}', [ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Contact
@@ -112,12 +118,14 @@ Route::middleware(['api'])->group(function () {
     // User
     Route::get('/user', [UserListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/user/{id}', [UserReadController::class, 'read'])->middleware(['auth:api']);
+    Route::put('/user/{id}', [UserUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/user/{id}', [UserDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Supplier
     Route::get('/supplier', [SupplierListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/supplier/{id}', [SupplierReadController::class, 'read'])->middleware(['auth:api']);
     Route::post('supplier', [SupplierCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/supplier/{id}', [SupplierUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/supplier/{id}', [SupplierDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Order

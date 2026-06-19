@@ -22,7 +22,7 @@ class CustomerRepository
         $customer->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $customer->company_id = Auth::user()->company_id;
         $customer->external_id = $data['external_id'] ?? null;
-        $customer->name = $data['name'];
+        $customer->name = $data['first_name'] ?? $data['name'] ?? null;
         $customer->business_name = $data['business_name'] ?? null;
         $customer->dob = $data['dob'] ?? null;
         $customer->vat = (isset($data['vat'])) ? strtoupper($data['vat']) : null; // Identity Number
@@ -33,17 +33,17 @@ class CustomerRepository
         $customer->email = $data['email'] ?? null;
         $customer->email2 = $data['email2'] ?? null;
         $customer->source_id = ! empty($data['source_id']) ? $data['source_id'] : null;
-        $customer->website = ($data['website']) ? rtrim($data['website'], '/') : null;
+        $customer->website = ($data['website'] ?? null) ? rtrim($data['website'], '/') : null;
         $customer->notes = $data['notes'] ?? null;
 
-        $customer->linkedin = ($data['linkedin']) ? rtrim($data['linkedin'], '/') : null;
-        $customer->facebook = ($data['facebook']) ? rtrim($data['facebook'], '/') : null;
-        $customer->instagram = ($data['instagram']) ? rtrim($data['instagram'], '/') : null;
-        $customer->twitter = ($data['twitter']) ? rtrim($data['twitter'], '/') : null;
-        $customer->youtube = ($data['youtube']) ? rtrim($data['youtube'], '/') : null;
-        $customer->tiktok = ($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
+        $customer->linkedin = ($data['linkedin'] ?? null) ? rtrim($data['linkedin'], '/') : null;
+        $customer->facebook = ($data['facebook'] ?? null) ? rtrim($data['facebook'], '/') : null;
+        $customer->instagram = ($data['instagram'] ?? null) ? rtrim($data['instagram'], '/') : null;
+        $customer->twitter = ($data['twitter'] ?? null) ? rtrim($data['twitter'], '/') : null;
+        $customer->youtube = ($data['youtube'] ?? null) ? rtrim($data['youtube'], '/') : null;
+        $customer->tiktok = ($data['tiktok'] ?? null) ? rtrim($data['tiktok'], '/') : null;
 
-        $customer->country_id = ($data['country_id']) ? strtolower($data['country_id']) : Auth::user()->company->country_id;
+        $customer->country_id = ($data['country_id'] ?? null) ? strtolower($data['country_id']) : Auth::user()->company->country_id;
         $customer->province = $data['province'] ?? null;
         $customer->city = $data['city'] ?? null;
         $customer->locality = $data['locality'] ?? null;
@@ -54,9 +54,9 @@ class CustomerRepository
         $customer->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
         $customer->schedule_contact = ! empty($data['schedule_contact']) ? Carbon::parse($data['schedule_contact'])->setTimezone(Auth::user()->timezone) : null;
 
-        $customer->tags = ($data['tags']) ? explode(',', $data['tags']) : null;
+        $customer->tags = ($data['tags'] ?? null) ? explode(',', $data['tags']) : null;
 
-        if ($data['status']) {
+        if (! empty($data['status'])) {
             $customer->status = $data['status'];
         }
         $customer->updated_at = now();

@@ -14,8 +14,8 @@ class BrandUpdateControllerTest extends TestCase
     #[Test]
     public function it_can_update_a_brand(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
-        $brand = Brand::factory()->create(['company_id' => auth()->user()->company_id]);
+        $this->actingAs($this->user, 'api');
+        $brand = Brand::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->putJson('/api/brand/'.$brand->id, ['name' => 'Updated Brand']);
 
@@ -26,8 +26,9 @@ class BrandUpdateControllerTest extends TestCase
     #[Test]
     public function it_cannot_update_a_brand_from_another_company(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
-        $otherBrand = Brand::factory()->create(['company_id' => User::factory()->create()->company_id]);
+        $this->actingAs($this->user, 'api');
+        $otherUser = User::factory()->create();
+        $otherBrand = Brand::factory()->create(['company_id' => $otherUser->company_id]);
 
         $response = $this->putJson('/api/brand/'.$otherBrand->id, ['name' => 'Hacked']);
 
@@ -38,8 +39,8 @@ class BrandUpdateControllerTest extends TestCase
     #[Test]
     public function it_validates_required_name(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
-        $brand = Brand::factory()->create(['company_id' => auth()->user()->company_id]);
+        $this->actingAs($this->user, 'api');
+        $brand = Brand::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->putJson('/api/brand/'.$brand->id, []);
 
