@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Lead;
 
+use App\Http\Requests\LeadDeleteRequest;
 use App\Models\Lead;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -22,10 +22,11 @@ class LeadDeleteController
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Lead deleted successfully'),
+            new OAT\Response(response: 403, description: 'Unauthorized'),
             new OAT\Response(response: 404, description: 'Lead not found'),
         ]
     )]
-    public function delete(Request $request, int $id): JsonResponse
+    public function delete(LeadDeleteRequest $request, int $id): JsonResponse
     {
         $lead = Lead::where('id', $id)
             ->where('company_id', Auth::user()->company_id)
