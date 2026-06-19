@@ -17,9 +17,10 @@ class CustomerUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:120'],
-            'email' => ['sometimes', 'email', 'max:254'],
-            'phone' => ['sometimes', 'max:15'],
+            'first_name' => ['required', 'max:50'],
+            'email' => ['required', 'email', 'max:254'],
+            'phone' => ['required', 'max:15'],
+            'country_id' => ['required', 'max:2'],
         ];
     }
 }

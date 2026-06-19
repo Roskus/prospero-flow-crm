@@ -48,19 +48,17 @@ class BrandUpdateController
     )]
     public function update(BrandUpdateRequest $request, int $id): JsonResponse
     {
-        $request->validate([
-            'name' => ['required', 'max:80'],
-        ]);
-
-        $exists = Brand::where('id', $id)
+        $brand = Brand::where('id', $id)
             ->where('company_id', Auth::user()->company_id)
-            ->exists();
+            ->first();
 
-        if (! $exists) {
+        if (! $brand) {
             return response()->json(['message' => 'Brand not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $brand = $this->brandRepository->save($request->only(['name']) + ['id' => $id]);
+        $data = $request->validated();
+        $data['id'] = $id;
+        $brand = $this->brandRepository->save($data);
 
         return response()->json(['brand' => $brand], Response::HTTP_OK);
     }

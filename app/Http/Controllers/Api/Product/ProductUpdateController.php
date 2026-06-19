@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Product;
 
 use App\Http\Requests\ProductUpdateRequest;
 use App\Repositories\ProductRepository;
+use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OAT;
 
 class ProductUpdateController
@@ -36,25 +37,12 @@ class ProductUpdateController
             new OAT\Response(response: 422, description: 'Validation failed'),
         ]
     )]
-    public function update(ProductUpdateRequest $request, int $id)
+    public function update(ProductUpdateRequest $request, int $id): JsonResponse
     {
-        $status = 400;
-        $data = [];
-        $params['id'] = $id;
-        $params = array_merge($params, $request->all());
-        $valid = $request->validate([
-            'name' => ['required', 'max:80'],
-        ]);
+        $data = $request->validated();
+        $data['id'] = $id;
+        $product = $this->productRepository->save($data);
 
-        if ($valid) {
-            $product = $this->productRepository->save($params);
-
-            if ($product) {
-                $status = 200;
-                $data['product'] = $product->toArray();
-            }
-        }
-
-        return response()->json($data, $status);
+        return response()->json(['product' => $product->toArray()], 200);
     }
 }

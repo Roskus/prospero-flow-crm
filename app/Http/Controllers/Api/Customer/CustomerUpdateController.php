@@ -38,25 +38,10 @@ class CustomerUpdateController
     )]
     public function update(CustomerUpdateRequest $request, int $id): JsonResponse
     {
-        $status = 400;
-        $data = [];
-        $valid = $request->validate([
-            'first_name' => ['required', 'max:50'],
-            'email' => ['required', 'max:254'],
-            'phone' => ['required', 'max:15'],
-            'country_id' => ['required', 'max:2'],
-        ]);
+        $data = $request->validated();
+        $data['id'] = $id;
+        $customer = $this->customerSaveRepository->save($data);
 
-        if ($valid) {
-            $params['id'] = $id;
-            $params = array_merge($params, $request->all());
-            $customer = $this->customerSaveRepository->save($params);
-            if ($customer) {
-                $status = 200;
-                $data['customer'] = $customer->toArray();
-            }
-        }
-
-        return response()->json($data, $status);
+        return response()->json(['customer' => $customer->toArray()], 200);
     }
 }
