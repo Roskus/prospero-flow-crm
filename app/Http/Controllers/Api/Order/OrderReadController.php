@@ -31,7 +31,7 @@ class OrderReadController
     )]
     public function read(int $id): JsonResponse
     {
-        $order = Order::find($id);
+        $order = Order::with('items')->find($id);
 
         if (! $order) {
             return response()->json(['message' => 'Order not found'], 404);

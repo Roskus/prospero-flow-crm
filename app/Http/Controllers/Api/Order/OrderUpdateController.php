@@ -49,6 +49,7 @@ class OrderUpdateController
         $data['updated_by'] = Auth::user()->id;
 
         $order->update($data);
+        $order->load('items');
 
         return response()->json(['order' => $order], 200);
     }

@@ -34,6 +34,7 @@ class OrderCreateController
         $data['created_by'] = Auth::user()->id;
 
         $order = Order::create($data);
+        $order->load('items');
 
         return response()->json(['order' => $order], 201);
     }
