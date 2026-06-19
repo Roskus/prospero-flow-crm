@@ -41,4 +41,20 @@ class LeadCreateControllerTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+    #[Test]
+    public function it_denies_seller_from_different_company(): void
+    {
+        $userFromDifferentCompany = User::factory()->create();
+
+        $this->actingAs($this->user, 'api');
+
+        $data = array_except(Lead::factory()->create(['seller_id' => $userFromDifferentCompany->id])->toArray(), 'id');
+        $data['tags'] = implode(',', $data['tags']);
+
+        $response = $this->postJson('/api/lead', $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('seller_id');
+    }
 }

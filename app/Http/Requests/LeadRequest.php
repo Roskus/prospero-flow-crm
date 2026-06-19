@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Squire\Models\Country;
 
 class LeadRequest extends FormRequest
@@ -24,6 +26,7 @@ class LeadRequest extends FormRequest
             'phone.max_digits' => 'Phone field should have :max_digits max digits.',
             'phone2.max_digits' => 'Phone2 field should have :max_digits max digits.',
             'mobile.max_digits' => 'Mobile field should have :max_digits max digits.',
+            'seller_id.exists' => 'The seller does not exist.',
         ];
     }
 
@@ -68,7 +71,18 @@ class LeadRequest extends FormRequest
             'youtube' => 'nullable|url|max:255',
             'tiktok' => 'nullable|url|max:255',
             'notes' => 'nullable',
-            'seller_id' => 'required|numeric',
+            'seller_id' => [
+                'required',
+                'numeric',
+                Rule::exists('user', 'id'),
+                function ($attribute, $value, $fail) {
+                    $seller = User::find($value);
+                    $currentUser = Auth::user();
+                    if ($seller && $seller->company_id !== $currentUser->company_id) {
+                        $fail('The seller must belong to your company.');
+                    }
+                },
+            ],
             'country_id' => 'required|max:2',
             'province' => 'nullable|max:80',
             'city' => 'nullable|max:50',
