@@ -28,7 +28,7 @@ class SupplierDeleteController
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Supplier deleted successfully'),
-            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 422, description: 'Validation failed'),
         ]
     )]
     public function delete(SupplierDeleteRequest $request, int $id): JsonResponse
