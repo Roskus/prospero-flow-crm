@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\BankAccount;
 
+use App\Http\Requests\BankAccountDeleteRequest;
 use App\Models\Bank\Account;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -25,7 +25,7 @@ class BankAccountDeleteController
             new OAT\Response(response: 404, description: 'Bank Account not found'),
         ]
     )]
-    public function delete(Request $request, int $id): JsonResponse
+    public function delete(BankAccountDeleteRequest $request, int $id): JsonResponse
     {
         $account = Account::where('company_id', Auth::user()->company_id)->find($id);
 

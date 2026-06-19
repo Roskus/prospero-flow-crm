@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\Calendar;
 
 use App\Models\Calendar;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -25,7 +24,7 @@ class CalendarListController
             ),
         ]
     )]
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         $events = Calendar::where('company_id', Auth::user()->company_id)
             ->with('organizer')

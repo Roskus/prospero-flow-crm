@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\BankAccount;
 
 use App\Models\Bank\Account;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -25,7 +24,7 @@ class BankAccountListController
             ),
         ]
     )]
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         $accounts = Account::where('company_id', Auth::user()->company_id)
             ->with(['bank', 'country'])
