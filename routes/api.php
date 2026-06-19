@@ -62,6 +62,11 @@ use App\Http\Controllers\Api\Ticket\TicketCreateController;
 use App\Http\Controllers\Api\Ticket\TicketDeleteController;
 use App\Http\Controllers\Api\Ticket\TicketListController;
 use App\Http\Controllers\Api\Ticket\TicketReadController;
+use App\Http\Controllers\Api\Transaction\TransactionCreateController;
+use App\Http\Controllers\Api\Transaction\TransactionDeleteController;
+use App\Http\Controllers\Api\Transaction\TransactionListController;
+use App\Http\Controllers\Api\Transaction\TransactionReadController;
+use App\Http\Controllers\Api\Transaction\TransactionUpdateController;
 use App\Http\Controllers\Api\User\UserCreateController;
 use App\Http\Controllers\Api\User\UserDeleteController;
 use App\Http\Controllers\Api\User\UserListController;
@@ -155,6 +160,13 @@ Route::middleware(['api'])->group(function () {
     Route::post('/ticket', [TicketCreateController::class, 'create'])->middleware(['auth:api']);
     Route::get('/ticket/{id}', [TicketReadController::class, 'read'])->middleware(['auth:api']);
     Route::delete('/ticket/{id}', [TicketDeleteController::class, 'delete'])->middleware(['auth:api']);
+
+    // Transaction (Accounting)
+    Route::get('/transaction', [TransactionListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('/transaction', [TransactionCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::get('/transaction/{id}', [TransactionReadController::class, 'read'])->middleware(['auth:api']);
+    Route::put('/transaction/{id}', [TransactionUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/transaction/{id}', [TransactionDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // BankAccount
     Route::get('/bank-account', [BankAccountListController::class, 'index'])->middleware(['auth:api']);

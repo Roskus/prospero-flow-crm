@@ -1,0 +1,51 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api\Transaction;
+
+use App\Http\Requests\TransactionUpdateRequest;
+use App\Models\Transaction;
+use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OAT;
+
+class TransactionUpdateController
+{
+    #[OAT\Put(
+        path: '/transaction/{id}',
+        summary: 'Update a Transaction',
+        security: [['bearerAuth' => []]],
+        tags: ['Transaction'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                in: 'path',
+                required: true,
+                description: 'Transaction ID',
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(ref: '#/components/schemas/Transaction')
+        ),
+        responses: [
+            new OAT\Response(response: 200, description: 'Transaction updated successfully'),
+            new OAT\Response(response: 403, description: 'Unauthorized'),
+            new OAT\Response(response: 404, description: 'Transaction not found'),
+            new OAT\Response(response: 422, description: 'Validation failed'),
+        ]
+    )]
+    public function update(TransactionUpdateRequest $request, int $id): JsonResponse
+    {
+        $transaction = Transaction::find($id);
+
+        if (! $transaction) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+
+        $transaction->update($request->validated());
+
+        return response()->json(['transaction' => $transaction], 200);
+    }
+}
