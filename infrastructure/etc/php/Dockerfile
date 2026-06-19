@@ -66,3 +66,4 @@ RUN git config --system --add safe.directory /var/www/crm
 #ENV COMPOSER_ALLOW_SUPERUSER=1
 #RUN composer install
 
+USER www-data
