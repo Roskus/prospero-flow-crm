@@ -164,8 +164,8 @@ return [
                     'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'A short description for oauth2 security scheme.',
                     'flow' => 'implicit', // The flow used by the OAuth2 security scheme. Valid values are "implicit", "password", "application" or "accessCode".
-                    'authorizationUrl' => 'http://example.com/auth', // The authorization URL to be used for (implicit/accessCode)
-                    //'tokenUrl' => 'http://example.com/auth' // The authorization URL to be used for (password/application/accessCode)
+                    'authorizationUrl' => 'https://example.com/auth', // The authorization URL to be used for (implicit/accessCode)
+                    //'tokenUrl' => 'https://example.com/auth' // The authorization URL to be used for (password/application/accessCode)
                     'scopes' => [
                         'read:projects' => 'read your projects',
                         'write:projects' => 'modify projects in your account',
@@ -291,7 +291,7 @@ return [
          * Constants which can be used in annotations
          */
         'constants' => [
-            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
+            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', env('APP_API_URL', 'https://api.example.com')),
         ],
     ],
 ];
