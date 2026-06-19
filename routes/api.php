@@ -55,6 +55,7 @@ use App\Http\Controllers\Api\Ticket\TicketCreateController;
 use App\Http\Controllers\Api\Ticket\TicketDeleteController;
 use App\Http\Controllers\Api\Ticket\TicketListController;
 use App\Http\Controllers\Api\Ticket\TicketReadController;
+use App\Http\Controllers\Api\User\UserCreateController;
 use App\Http\Controllers\Api\User\UserDeleteController;
 use App\Http\Controllers\Api\User\UserListController;
 use App\Http\Controllers\Api\User\UserReadController;
@@ -117,6 +118,7 @@ Route::middleware(['api'])->group(function () {
 
     // User
     Route::get('/user', [UserListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('/user', [UserCreateController::class, 'create'])->middleware(['auth:api']);
     Route::get('/user/{id}', [UserReadController::class, 'read'])->middleware(['auth:api']);
     Route::put('/user/{id}', [UserUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/user/{id}', [UserDeleteController::class, 'delete'])->middleware(['auth:api']);
