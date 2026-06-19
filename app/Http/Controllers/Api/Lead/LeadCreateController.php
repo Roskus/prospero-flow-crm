@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Lead;
 
+use App\Http\Requests\LeadRequest;
 use App\Repositories\LeadRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -33,29 +33,13 @@ class LeadCreateController
             new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
         ]
     )]
-    public function create(Request $request): JsonResponse
+    public function create(LeadRequest $request): JsonResponse
     {
-        $status = 400;
-        $data = [];
-        $valid = $request->validate([
-            'name' => ['required', 'max:120'],
-            'email' => ['required', 'max:254'],
-            'phone' => ['required', 'max:15'],
-        ]);
-        $data = $request->all();
+        $data = $request->validated();
         $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
 
-        $response = [];
-        if ($valid) {
-            $lead = $this->leadSaveRepository->save($data);
-            if (! empty($lead)) {
-                $status = 201;
-                $response = $lead;
-            }
-        } else {
-            $response = $valid->errors();
-        }
+        $lead = $this->leadSaveRepository->save($data);
 
-        return response()->json($response, $status);
+        return response()->json($lead, 201);
     }
 }
