@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Calendar;
 
+use App\Http\Requests\CalendarUpdateRequest;
 use App\Models\Calendar;
 use App\Repositories\CalendarRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -33,7 +33,7 @@ class CalendarUpdateController
             new OAT\Response(response: 422, description: 'Validation error'),
         ]
     )]
-    public function update(Request $request, int $id): JsonResponse
+    public function update(CalendarUpdateRequest $request, int $id): JsonResponse
     {
         $event = Calendar::where('company_id', Auth::user()->company_id)->find($id);
 

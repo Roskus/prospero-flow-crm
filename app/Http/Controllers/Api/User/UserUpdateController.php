@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,7 +33,7 @@ class UserUpdateController
             new OAT\Response(response: 422, description: 'Validation error'),
         ]
     )]
-    public function update(Request $request, int $id): JsonResponse
+    public function update(UserUpdateRequest $request, int $id): JsonResponse
     {
         $rules = [
             'first_name' => 'required|string|max:80',

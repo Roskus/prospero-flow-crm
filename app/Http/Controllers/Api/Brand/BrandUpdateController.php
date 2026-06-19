@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Brand;
 
+use App\Http\Requests\BrandUpdateRequest;
 use App\Models\Brand;
 use App\Repositories\BrandRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
@@ -46,7 +46,7 @@ class BrandUpdateController
             new OAT\Response(response: 422, description: 'Validation error'),
         ]
     )]
-    public function update(Request $request, int $id): JsonResponse
+    public function update(BrandUpdateRequest $request, int $id): JsonResponse
     {
         $request->validate([
             'name' => ['required', 'max:80'],

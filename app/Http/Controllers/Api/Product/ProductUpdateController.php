@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Product;
 
+use App\Http\Requests\ProductUpdateRequest;
 use App\Repositories\ProductRepository;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OAT;
 
 class ProductUpdateController
@@ -33,10 +33,10 @@ class ProductUpdateController
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Product updated successfully'),
-            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 422, description: 'Validation failed'),
         ]
     )]
-    public function update(Request $request, int $id)
+    public function update(ProductUpdateRequest $request, int $id)
     {
         $status = 400;
         $data = [];

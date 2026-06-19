@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Contact;
 
+use App\Http\Requests\ContactUpdateRequest;
 use App\Repositories\ContactRepository;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OAT;
 
 class ContactUpdateController
@@ -41,7 +41,7 @@ class ContactUpdateController
             new OAT\Response(response: 404, description: 'Contact not found'),
         ]
     )]
-    public function update(Request $request, int $id)
+    public function update(ContactUpdateRequest $request, int $id)
     {
         $status = 400;
         $params['id'] = $id;
