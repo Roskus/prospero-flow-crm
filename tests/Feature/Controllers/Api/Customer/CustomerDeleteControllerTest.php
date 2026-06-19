@@ -14,8 +14,8 @@ class CustomerDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_a_customer(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
-        $customer = Customer::factory()->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
+        $this->actingAs($this->user, 'api');
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->user->id]);
 
         $response = $this->deleteJson('/api/customer/'.$customer->id);
 
@@ -26,7 +26,7 @@ class CustomerDeleteControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_customer(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, 'api');
 
         $response = $this->deleteJson('/api/customer/99999');
 
@@ -36,7 +36,7 @@ class CustomerDeleteControllerTest extends TestCase
     #[Test]
     public function it_cannot_delete_a_customer_from_another_company(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, 'api');
         $otherUser = User::factory()->create();
         $otherCustomer = Customer::factory()->create(['company_id' => $otherUser->company_id, 'seller_id' => $otherUser->id]);
 
@@ -54,5 +54,19 @@ class CustomerDeleteControllerTest extends TestCase
         $response = $this->deleteJson('/api/customer/'.$customer->id);
 
         $response->assertUnauthorized();
+    }
+
+    #[Test]
+    public function it_denies_user_without_permission(): void
+    {
+        $userWithoutPermission = User::factory()->create();
+
+        $this->actingAs($userWithoutPermission, 'api');
+        $customer = Customer::factory()->create(['company_id' => $userWithoutPermission->company_id, 'seller_id' => $userWithoutPermission->id]);
+
+        $response = $this->deleteJson('/api/customer/'.$customer->id);
+
+        $response->assertStatus(403);
+        $this->assertNotSoftDeleted($customer);
     }
 }
