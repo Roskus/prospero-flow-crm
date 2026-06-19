@@ -10,10 +10,11 @@ use OpenApi\Attributes as OAT;
 use OpenApi\Generator;
 
 define('API_HOST', env('APP_API_URL'));
+define('APP_VERSION', APP_VERSION);
 
 #[
     OAT\Info(
-        version: '1.0.4',
+        version: APP_VERSION,
         description: '',
         title: 'Prospero Flow CRM API',
         contact: new OAT\Contact(
