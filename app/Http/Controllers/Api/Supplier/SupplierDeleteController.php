@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Supplier;
 
+use App\Http\Requests\SupplierDeleteRequest;
 use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -31,7 +31,7 @@ class SupplierDeleteController
             new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
         ]
     )]
-    public function delete(Request $request, int $id): JsonResponse
+    public function delete(SupplierDeleteRequest $request, int $id): JsonResponse
     {
         $supplier = Supplier::where('id', $id)
             ->where('company_id', Auth::user()->company_id)

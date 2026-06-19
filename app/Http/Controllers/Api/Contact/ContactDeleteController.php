@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Contact;
 
+use App\Http\Requests\ContactDeleteRequest;
 use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -28,10 +28,11 @@ class ContactDeleteController
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Contact deleted successfully'),
-            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 403, description: 'Unauthorized'),
+            new OAT\Response(response: 404, description: 'Contact not found'),
         ]
     )]
-    public function delete(Request $request, int $id): JsonResponse
+    public function delete(ContactDeleteRequest $request, int $id): JsonResponse
     {
         $contact = Contact::where('id', $id)
             ->where('company_id', Auth::user()->company_id)

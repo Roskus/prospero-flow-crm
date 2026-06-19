@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Ticket;
 
+use App\Http\Requests\TicketDeleteRequest;
 use App\Models\Ticket;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -26,7 +26,7 @@ class TicketDeleteController
             new OAT\Response(response: 404, description: 'Ticket not found'),
         ]
     )]
-    public function delete(Request $request, int $id): JsonResponse
+    public function delete(TicketDeleteRequest $request, int $id): JsonResponse
     {
         $ticket = Ticket::find($id);
         if (! $ticket) {

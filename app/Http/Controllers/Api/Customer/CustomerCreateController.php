@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Customer;
 
+use App\Http\Requests\CustomerRequest;
 use App\Repositories\CustomerRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OAT;
 
 class CustomerCreateController
@@ -29,28 +29,13 @@ class CustomerCreateController
         ),
         responses: [
             new OAT\Response(response: 201, description: 'Customer created successfully'),
-            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 403, description: 'Unauthorized'),
         ]
     )]
-    public function create(Request $request): JsonResponse
+    public function create(CustomerRequest $request): JsonResponse
     {
-        $status = 400;
-        $data = [];
-        $valid = $request->validate([
-            'name' => ['required', 'max:120'],
-            'email' => ['required', 'max:254'],
-            'phone' => ['required', 'max:15'],
-            'country_id' => ['required', 'max:2'],
-        ]);
+        $customer = $this->customerSaveRepository->save($request->validated());
 
-        if ($valid) {
-            $customer = $this->customerSaveRepository->save($request->all());
-            if ($customer) {
-                $status = 201;
-                $data['customer'] = ['id' => $customer->id];
-            }
-        }
-
-        return response()->json($data, $status);
+        return response()->json(['customer' => ['id' => $customer->id]], 201);
     }
 }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Email;
 
+use App\Http\Requests\EmailDeleteRequest;
 use App\Models\Email;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -39,7 +39,7 @@ class EmailDeleteController
      *
      * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(EmailDeleteRequest $request, int $id)
     {
         $email = Email::find($id);
         if (! $email) {

@@ -15,7 +15,7 @@ class CustomerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return Auth::user()?->can('create customer') ?? false;
     }
 
     public function messages(): array

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Contact;
 
+use App\Http\Requests\ContactRequest;
 use App\Repositories\ContactRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OAT;
 
 class ContactCreateController
@@ -28,29 +28,14 @@ class ContactCreateController
             content: new OAT\JsonContent(ref: '#/components/schemas/Contact')
         ),
         responses: [
-            new OAT\Response(response: 400, description: 'Bad request: Please review required params'),
             new OAT\Response(response: 201, description: 'Contact created successfully'),
+            new OAT\Response(response: 403, description: 'Unauthorized'),
         ]
     )]
-    public function create(Request $request): JsonResponse
+    public function create(ContactRequest $request): JsonResponse
     {
-        $status = 400;
-        $data = [];
-        $valid = $request->validate([
-            'contact_first_name' => ['required', 'max:50'],
-            'lead_id' => ['required'],
-            'contact_email' => ['required', 'max:254'],
-            'contact_phone' => ['required', 'max:15'],
-        ]);
+        $contact = $this->contactRepository->save($request->validated());
 
-        if ($valid) {
-            $contact = $this->contactRepository->save($request->all());
-            if ($contact) {
-                $status = 201;
-                $data['contact'] = ['id' => $contact->id];
-            }
-        }
-
-        return response()->json($data, $status);
+        return response()->json(['contact' => ['id' => $contact->id]], 201);
     }
 }
