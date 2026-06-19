@@ -18,7 +18,7 @@ class CustomerUpdateControllerTest extends TestCase
         $customer = Customer::factory()->create(['seller_id' => $this->user->id]);
 
         $response = $this->putJson('/api/customer/'.$customer->id, [
-            'first_name' => 'Updated Customer',
+            'name' => 'Updated Customer',
             'email' => 'updated@example.com',
             'phone' => '1234567890',
             'country_id' => 'US',
@@ -27,7 +27,7 @@ class CustomerUpdateControllerTest extends TestCase
         $response->assertOk();
         $this->assertDatabaseHas('customer', [
             'id' => $customer->id,
-            'first_name' => 'Updated Customer',
+            'name' => 'Updated Customer',
             'email' => 'updated@example.com',
         ]);
     }
