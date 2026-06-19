@@ -66,6 +66,9 @@ final class Order extends Model
 
     private ?int $company_id = null; // NOSONAR
 
+    #[OAT\Property(type: 'string', example: 'ORD-2026-001')]
+    protected ?string $order_number;
+
     #[OAT\Property(type: 'int', example: 1)]
     protected ?int $customer_id;
 
@@ -76,6 +79,9 @@ final class Order extends Model
     protected string $currency = 'EUR';
 
     protected ?int $status;
+
+    #[OAT\Property(type: 'array', items: new OAT\Items(ref: '#/components/schemas/OrderItem'))]
+    protected ?array $items = [];
 
     protected static function boot(): void
     {
