@@ -19,7 +19,7 @@ class CalendarUpdateRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['sometimes', 'string'],
-            'start_date' => ['sometimes', 'date'],
+            'start_date' => ['required', 'date'],
             'end_date' => ['sometimes', 'date'],
         ];
     }
