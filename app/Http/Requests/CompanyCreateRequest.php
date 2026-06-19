@@ -18,6 +18,7 @@ class CompanyCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:120'],
+            'country_id' => ['required', 'string', 'max:2'],
             'email' => ['sometimes', 'email', 'max:254'],
         ];
     }
