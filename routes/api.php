@@ -39,8 +39,11 @@ use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Lead\LeadListController;
 use App\Http\Controllers\Api\Lead\LeadReadController;
 use App\Http\Controllers\Api\Lead\LeadUpdateController;
+use App\Http\Controllers\Api\Order\OrderCreateController;
 use App\Http\Controllers\Api\Order\OrderDeleteController;
 use App\Http\Controllers\Api\Order\OrderListController;
+use App\Http\Controllers\Api\Order\OrderReadController;
+use App\Http\Controllers\Api\Order\OrderUpdateController;
 use App\Http\Controllers\Api\Product\ProductCreateController;
 use App\Http\Controllers\Api\Product\ProductDeleteController;
 use App\Http\Controllers\Api\Product\ProductListController;
@@ -132,6 +135,9 @@ Route::middleware(['api'])->group(function () {
 
     // Order
     Route::get('/order', [OrderListController::class, 'index'])->middleware(['auth:api']);
+    Route::post('/order', [OrderCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::get('/order/{id}', [OrderReadController::class, 'read'])->middleware(['auth:api']);
+    Route::put('/order/{id}', [OrderUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/order/{id}', [OrderDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Ticket
