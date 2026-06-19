@@ -8,45 +8,9 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
-/**
- *  @OA\Schema(
- *    schema="OrderItem",
- *    type="object",
- *    required={"product_id", "quantity", "unit_price"},
- *    @OA\Property(
- *        property="product_id",
- *        description="Product ID of the Item",
- *        type="int",
- *        example="1"
- *    ),
- *    @OA\Property(
- *        property="quantity",
- *        description="Quantity of the Item",
- *        type="int",
- *        example="3"
- *    ),
- *    @OA\Property(
- *        property="unit_price",
- *        description="Unit Price of the Item",
- *        type="double",
- *        example="3.5"
- *    ),
- *    @OA\Property(
- *        property="discount",
- *        description="Discount % of the Item",
- *        type="double",
- *        example="10.0"
- *    ),
- *    @OA\Property(
- *        property="tax",
- *        description="Tax % of the Item",
- *        type="double",
- *        example="21.0"
- *    )
- *  )
- */
+#[OAT\Schema(schema: 'OrderItem', required: ['product_id', 'quantity', 'unit_price'])]
 final class Item extends Model
 {
     use HasFactory;
@@ -67,7 +31,23 @@ final class Item extends Model
         'deleted_at',
     ];
 
+    #[OAT\Property(type: 'int', example: 1)]
     private ?int $order_id;
+
+    #[OAT\Property(type: 'int', example: 1)]
+    protected ?int $product_id;
+
+    #[OAT\Property(type: 'int', example: 3)]
+    protected ?int $quantity;
+
+    #[OAT\Property(type: 'float', example: 3.5)]
+    protected ?float $unit_price;
+
+    #[OAT\Property(type: 'float', example: 10.0)]
+    protected ?float $discount;
+
+    #[OAT\Property(type: 'float', example: 21.0)]
+    protected ?float $tax;
 
     protected $with = ['product'];
 
