@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Company;
 
+use App\Http\Requests\CompanyCreateRequest;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CompanyCreateController
 {
@@ -17,14 +17,10 @@ class CompanyCreateController
         $this->companyRepository = $companyRepository;
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(CompanyCreateRequest $request): JsonResponse
     {
-        $status = 400;
-        $company = $this->companyRepository->save($request->all());
-        if ($company) {
-            $status = 201;
-        }
+        $company = $this->companyRepository->save($request->validated());
 
-        return response()->json(['company' => $company, $status]);
+        return response()->json(['company' => $company], 201);
     }
 }
