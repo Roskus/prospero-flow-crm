@@ -10,7 +10,6 @@ use OpenApi\Attributes as OAT;
 use OpenApi\Generator;
 
 define('API_HOST', env('APP_API_URL'));
-define('APP_VERSION', APP_VERSION);
 
 #[
     OAT\Info(
