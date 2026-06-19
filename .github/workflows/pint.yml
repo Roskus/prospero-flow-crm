@@ -9,7 +9,7 @@ jobs:
   phplint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
       - name: "laravel-pint"
         uses: aglipanci/laravel-pint-action@latest
         with:
@@ -20,12 +20,12 @@ jobs:
           pintVersion: 1.8.0
           onlyDirty: true
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v7
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9  # v7
         with:
           commit_message: PHP Linting (Pint)
           skip_fetch: true
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1  # v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: PHP Linting (Pint)
