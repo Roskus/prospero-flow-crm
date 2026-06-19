@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Order;
 
+use App\Http\Requests\OrderDeleteRequest;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -30,14 +30,15 @@ class OrderDeleteController
      *         @OA\Schema(type="integer")
      *      ),
      *      @OA\Response(response="200", description="Order deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
+     *      @OA\Response(response="403", description="Unauthorized"),
+     *      @OA\Response(response="404", description="Order not found")
      * )
      *
      * Delete an order by ID.
      *
      * @authenticated
      */
-    public function delete(Request $request, int $id): JsonResponse
+    public function delete(OrderDeleteRequest $request, int $id): JsonResponse
     {
         $order = Order::where('id', $id)
             ->where('company_id', Auth::user()->company_id)

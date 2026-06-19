@@ -15,10 +15,9 @@ class OrderDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_an_order(): void
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'api');
-        $customer = Customer::factory()->create(['company_id' => $user->company_id, 'seller_id' => $user->id]);
-        $order = Order::factory()->create(['company_id' => $user->company_id, 'customer_id' => $customer->id, 'seller_id' => $user->id]);
+        $this->actingAs($this->user, 'api');
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->user->id]);
+        $order = Order::factory()->create(['company_id' => $this->user->company_id, 'customer_id' => $customer->id, 'seller_id' => $this->user->id]);
 
         $response = $this->deleteJson('/api/order/'.$order->id);
 
@@ -29,7 +28,7 @@ class OrderDeleteControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_order(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, 'api');
 
         $response = $this->deleteJson('/api/order/99999');
 
@@ -39,7 +38,7 @@ class OrderDeleteControllerTest extends TestCase
     #[Test]
     public function it_cannot_delete_an_order_from_another_company(): void
     {
-        $this->actingAs(User::factory()->create(), 'api');
+        $this->actingAs($this->user, 'api');
         $otherUser = User::factory()->create();
         $otherCustomer = Customer::factory()->create(['company_id' => $otherUser->company_id, 'seller_id' => $otherUser->id]);
         $otherOrder = Order::factory()->create(['company_id' => $otherUser->company_id, 'customer_id' => $otherCustomer->id, 'seller_id' => $otherUser->id]);
@@ -60,5 +59,20 @@ class OrderDeleteControllerTest extends TestCase
         $response = $this->deleteJson('/api/order/'.$order->id);
 
         $response->assertUnauthorized();
+    }
+
+    #[Test]
+    public function it_denies_user_without_permission(): void
+    {
+        $userWithoutPermission = User::factory()->create();
+
+        $this->actingAs($userWithoutPermission, 'api');
+        $customer = Customer::factory()->create(['company_id' => $userWithoutPermission->company_id, 'seller_id' => $userWithoutPermission->id]);
+        $order = Order::factory()->create(['company_id' => $userWithoutPermission->company_id, 'customer_id' => $customer->id, 'seller_id' => $userWithoutPermission->id]);
+
+        $response = $this->deleteJson('/api/order/'.$order->id);
+
+        $response->assertStatus(403);
+        $this->assertNotSoftDeleted($order);
     }
 }
