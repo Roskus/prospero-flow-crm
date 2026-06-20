@@ -35,8 +35,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup PHP with Xdebug (v3)
-        uses: shivammathur/setup-php@e026a05b6e9f93d8dfe0760d14d553caf4239f15
+      - name: Setup PHP with Xdebug (2.37.2)
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath
