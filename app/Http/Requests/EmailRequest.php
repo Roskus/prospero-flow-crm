@@ -9,21 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class EmailRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return Auth::check();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
@@ -34,8 +24,15 @@ class EmailRequest extends FormRequest
             'cc' => 'nullable|email',
             'bcc' => 'nullable|email',
             'body' => 'required|string',
-            'signature' => 'nullable|boolean',
+            'signature' => 'nullable|in:0,1,true,false,on,off',
             'attachment.*' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:10240',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'signature' => filter_var($this->input('signature'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+        ]);
     }
 }
