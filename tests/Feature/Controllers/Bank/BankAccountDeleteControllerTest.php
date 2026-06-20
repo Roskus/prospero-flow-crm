@@ -16,7 +16,7 @@ class BankAccountDeleteControllerTest extends TestCase
     {
         $bankAccount = BankAccount::factory()->create(['company_id' => $this->user->company_id]);
 
-        $response = $this->get('/bank-account/delete/'.$bankAccount->id);
+        $response = $this->delete('/bank-account/delete/'.$bankAccount->id);
 
         $response->assertRedirect('/bank-account');
         $this->assertDatabaseMissing('bank_account', ['id' => $bankAccount->id]);
@@ -25,7 +25,7 @@ class BankAccountDeleteControllerTest extends TestCase
     #[Test]
     public function it_returns_404_when_bank_account_not_found(): void
     {
-        $response = $this->get('/bank-account/delete/99999');
+        $response = $this->delete('/bank-account/delete/99999');
 
         $response->assertNotFound();
     }
@@ -36,7 +36,7 @@ class BankAccountDeleteControllerTest extends TestCase
         $otherCompany = Company::factory()->create();
         $bankAccount = BankAccount::factory()->create(['company_id' => $otherCompany->id]);
 
-        $response = $this->get('/bank-account/delete/'.$bankAccount->id);
+        $response = $this->delete('/bank-account/delete/'.$bankAccount->id);
 
         $response->assertNotFound();
         $this->assertDatabaseHas('bank_account', ['id' => $bankAccount->id]);

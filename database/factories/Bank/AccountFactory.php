@@ -33,8 +33,6 @@ class AccountFactory extends Factory
             'country_id' => Country::all()->random(),
             'currency' => fake()->currencyCode(),
             'iban' => fake()->iban(),
-            'amount' => fake()->randomFloat(3, 0, 100000),
-            'notes' => fake()->optional()->sentence(),
         ];
     }
 }

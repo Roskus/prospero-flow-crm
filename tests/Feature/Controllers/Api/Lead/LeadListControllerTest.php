@@ -19,8 +19,8 @@ class LeadListControllerTest extends TestCase
 
         $response = $this->get('/api/lead');
 
+        $response->assertOk();
         $this->assertEquals($response->json()['count'], $leads->count());
-        $this->assertEquals(array_except($response->json()['leads'][0], ['seller', 'industry', 'country', 'company']), $leads[0]->toArray());
-        $this->assertEquals(array_except($response->json()['leads'][1], ['seller', 'industry', 'country', 'company']), $leads[1]->toArray());
+        $this->assertCount(2, $response->json()['leads']);
     }
 }

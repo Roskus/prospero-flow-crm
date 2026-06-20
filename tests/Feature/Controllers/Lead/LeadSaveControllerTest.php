@@ -13,25 +13,29 @@ class LeadSaveControllerTest extends TestCase
     #[Test]
     public function it_can_save_lead(): void
     {
-        $data = Lead::factory()->create()->toArray();
+        $data = Lead::factory()->create([
+            'seller_id' => $this->user->id,
+            'company_id' => $this->user->company_id,
+        ])->toArray();
         $data['tags'] = 'one, two';
 
         $response = $this->post('lead/save', $data);
 
         $response->assertRedirect('/lead');
-        $this->equalTo(Lead::all()->last(), $data);
     }
 
     #[Test]
     public function it_can_update_lead(): void
     {
-        $data = Lead::factory()->create()->toArray();
+        $data = Lead::factory()->create([
+            'seller_id' => $this->user->id,
+            'company_id' => $this->user->company_id,
+        ])->toArray();
         $data['tags'] = 'one, two';
         unset($data['id']);
 
         $response = $this->post('lead/save', $data);
 
         $response->assertRedirect('/lead');
-        $this->equalTo(Lead::all()->last(), $data);
     }
 }
