@@ -6,6 +6,7 @@
 /public/info.php
 /public/asset/upload/company/*
 /storage/*.key
+/storage/framework/testing/disks/
 /vendor
 .env
 .env.backup
