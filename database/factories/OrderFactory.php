@@ -25,6 +25,7 @@ class OrderFactory extends Factory
             'company_id' => Company::factory(),
             'customer_id' => Customer::factory(),
             'seller_id' => User::factory(),
+            'order_number' => $this->faker->unique()->numberBetween(1000, 9999999),
             'amount' => $this->faker->randomFloat(2, 0, 10000),
             'currency' => $this->faker->bothify('???'),
             'status' => $this->faker->numberBetween(0, 3),

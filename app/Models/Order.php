@@ -36,6 +36,7 @@ final class Order extends Model
     protected $table = 'order';
 
     protected $fillable = [
+        'order_number',
         'customer_id',
         'seller_id',
         'amount',
@@ -79,9 +80,6 @@ final class Order extends Model
     protected string $currency = 'EUR';
 
     protected ?int $status;
-
-    #[OAT\Property(type: 'array', items: new OAT\Items)]
-    protected ?array $items = [];
 
     protected static function boot(): void
     {
@@ -163,7 +161,8 @@ final class Order extends Model
 
     public function orderNumber(): string
     {
-        return isset($this->order_number) ? str_pad((string) $this->order_number, 10, '0', STR_PAD_LEFT) : '';
+        $orderNumber = $this->getAttribute('order_number');
+        return $orderNumber ? str_pad((string) $orderNumber, 10, '0', STR_PAD_LEFT) : '';
     }
 
     public function getStatusLabel(): string

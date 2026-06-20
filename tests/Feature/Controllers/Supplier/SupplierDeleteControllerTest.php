@@ -19,7 +19,7 @@ class SupplierDeleteControllerTest extends TestCase
         $response = $this->get('/supplier/delete/'.$supplier->id);
 
         $response->assertRedirect('/supplier');
-        $this->assertDatabaseMissing('supplier', ['id' => $supplier->id]);
+        $this->assertSoftDeleted('supplier', ['id' => $supplier->id]);
     }
 
     #[Test]
