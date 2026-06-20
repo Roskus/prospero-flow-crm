@@ -33,6 +33,11 @@ class Lead extends Model
 
     protected $table = 'lead';
 
+    private const array SORTABLE_COLUMNS = [
+        'id', 'name', 'email', 'phone', 'mobile', 'country_id', 'seller_id',
+        'status', 'created_at', 'updated_at', 'vat', 'business_name',
+    ];
+
     #[OAT\Property(property: 'name', type: 'string', example: 'My Company')]
     #[OAT\Property(property: 'business_name', type: 'string', example: 'My Company S.A.')]
     #[OAT\Property(property: 'dob', type: 'string', format: 'date', example: '1990-02-20')]
@@ -169,10 +174,12 @@ class Lead extends Model
 
     public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters, ?string $order_by = 'created_at'): mixed
     {
-        if (is_null($order_by)) {
+        if (is_null($order_by) || ! in_array($order_by, self::SORTABLE_COLUMNS, true)) {
             $order_by = 'created_at';
         }
+
         $leads = Lead::where('company_id', $company_id);
+
         if (! empty($search)) {
             $leads->where(function ($query) use ($search) {
                 $words = explode(' ', $search);

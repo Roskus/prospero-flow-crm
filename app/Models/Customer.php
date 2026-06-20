@@ -38,6 +38,11 @@ class Customer extends Model
 
     protected $table = 'customer';
 
+    private const array SORTABLE_COLUMNS = [
+        'id', 'name', 'email', 'phone', 'mobile', 'country_id', 'seller_id',
+        'status', 'created_at', 'updated_at', 'vat', 'business_name',
+    ];
+
     #[OAT\Property(property: 'name', type: 'string', example: 'My Company')]
     #[OAT\Property(property: 'business_name', type: 'string', example: 'My Company S.A.')]
     #[OAT\Property(property: 'dob', type: 'string', format: 'date', example: '1990-02-20')]
@@ -184,23 +189,23 @@ class Customer extends Model
         ?string $order_by = 'created_at',
         int $limit = 50): mixed
     {
-        if (is_null($order_by)) {
+        if (is_null($order_by) || ! in_array($order_by, self::SORTABLE_COLUMNS, true)) {
             $order_by = 'created_at';
         }
 
         $customers = Customer::where('company_id', $company_id);
 
-        // Comprobamos si el motor de base de datos es compatible con búsquedas fulltext
+        // Check if database engine supports fulltext search
         $supportsFulltext = $this->supportsFulltext();
 
-        // Aplicamos la búsqueda adecuada según el soporte de fulltext
+        // Apply appropriate search based on fulltext support
         if ($supportsFulltext && ! empty($search)) {
             $customers = $this->applyFulltextSearch($customers, $search);
         } elseif (! empty($search)) {
             $customers = $this->applyBasicSearch($customers, $search);
         }
 
-        // Apply aditionals filters
+        // Apply additional filters
         if (is_array($filters)) {
             foreach ($filters as $key => $filter) {
                 $customers->where($key, $filter);
