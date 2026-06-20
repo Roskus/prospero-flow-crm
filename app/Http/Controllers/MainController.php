@@ -32,7 +32,7 @@ class MainController extends Controller implements HasMiddleware
         // App::setLocale($locale);
     }
 
-    public function index(Request $request)
+    public function dashboard(Request $request)
     {
         $order = new Order;
         $lead = new Lead;
