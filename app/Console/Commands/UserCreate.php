@@ -121,27 +121,40 @@ class UserCreate extends Command
             $sendEmail = $this->confirm('Send password via email?', false);
         }
 
-        $userCreateService = new UserCreateService();
-        $user = $userCreateService->create([
-            'company_id' => $companyId,
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'email' => $email,
-            'lang' => $lang,
-            'password' => $password,
-            'role' => $role,
-        ], $sendEmail);
+        try {
+            $userCreateService = new UserCreateService();
+            $user = $userCreateService->create([
+                'company_id' => $companyId,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'email' => $email,
+                'lang' => $lang,
+                'password' => $password,
+                'role' => $role,
+            ], $sendEmail);
 
-        $this->info('User created successfully');
-        $this->info('Email: '.$email);
-        if ($passwordOption === 'generate') {
-            $this->info('Temporary password sent via email');
-        } elseif ($sendEmail) {
-            $this->info('Password sent via email');
-        } else {
-            $this->info('Password set securely');
+            if (! $user || ! $user->id) {
+                $this->error('Failed to create user');
+
+                return Command::FAILURE;
+            }
+
+            $this->info('User created successfully');
+            $this->info('User ID: '.$user->id);
+            $this->info('Email: '.$user->email);
+            if ($passwordOption === 'generate') {
+                $this->info('Temporary password sent via email');
+            } elseif ($sendEmail) {
+                $this->info('Password sent via email');
+            } else {
+                $this->info('Password set securely');
+            }
+
+            return Command::SUCCESS;
+        } catch (\Throwable $e) {
+            $this->error('Error creating user: '.$e->getMessage());
+
+            return Command::FAILURE;
         }
-
-        return Command::SUCCESS;
     }
 }
