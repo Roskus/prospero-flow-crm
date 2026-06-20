@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('email_attach', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('email_id');
+            $table->foreignId('email_id')->constrained('email')->onDelete('cascade');
             $table->string('file', 255);
             $table->softDeletes();
         });

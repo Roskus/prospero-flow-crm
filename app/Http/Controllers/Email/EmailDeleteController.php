@@ -14,6 +14,7 @@ class EmailDeleteController extends MainController
     public function delete(Request $request, int $id)
     {
         $email = Email::where('company_id', Auth::user()->company_id)->findOrFail($id);
+        $email->attachments()->forceDelete();
         $email->delete();
 
         return redirect('/email')->with(['status' => true, 'message' => __('Email deleted successfully')]);

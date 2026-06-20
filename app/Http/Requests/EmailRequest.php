@@ -27,13 +27,15 @@ class EmailRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'nullable|exists:email,id',
             'from' => 'required|email',
             'subject' => 'required|string|max:255',
             'to' => 'nullable|email',
             'cc' => 'nullable|email',
+            'bcc' => 'nullable|email',
             'body' => 'required|string',
-            // 'signature' => 'nullable|boolean',
-            'attachment.*' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:10240', // 10 MB
+            'signature' => 'nullable|boolean',
+            'attachment.*' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:10240',
         ];
     }
 }

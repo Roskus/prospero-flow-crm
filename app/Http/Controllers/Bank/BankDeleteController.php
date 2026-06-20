@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\BankDeleteRequest;
 use App\Models\Bank;
-use App\Models\Company;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BankDeleteController extends MainController
 {
-    public function delete(Request $request, string $uuid)
+    public function delete(BankDeleteRequest $request, string $uuid)
     {
         $bank = Bank::find($uuid);
-        // @TODO improve this security check
-        if ((int) Auth::user()->company_id !== Company::DEFAULT_COMPANY) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+
+        if (! $bank) {
+            return redirect('bank')->with('error', __('Bank not found'));
         }
+
         $bank->delete();
 
-        return redirect('bank');
+        return redirect('bank')->with('success', __('Bank deleted successfully'));
     }
 }
