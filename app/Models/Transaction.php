@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Transaction\Category;
 use App\Models\Bank\Account as BankAccount;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,7 +15,7 @@ use OpenApi\Attributes as OAT;
 #[OAT\Schema(schema: 'Transaction', required: ['issue_date', 'name', 'amount', 'type'], type: 'object')]
 class Transaction extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     const string INCOME = 'income';
 
