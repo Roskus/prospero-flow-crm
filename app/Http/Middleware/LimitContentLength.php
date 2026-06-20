@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LimitContentLength
 {
-    private const int MAX_CONTENT_LENGTH = 50 * 1024 * 1024; // 50MB
+    private const int MAX_CONTENT_LENGTH = 100 * 1024 * 1024; // 100MB (multiple files + form data)
 
     public function handle(Request $request, Closure $next): Response
     {
