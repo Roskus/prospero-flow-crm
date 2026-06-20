@@ -39,7 +39,7 @@ class CompanyDeleteController
      *
      * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id) // @SuppressWarnings(S1172) - $request used for validation
     {
         $company = Company::find($id);
         if (! $company) {

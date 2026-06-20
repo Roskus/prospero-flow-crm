@@ -40,7 +40,7 @@ class UserDeleteController
      *
      * @return JsonResponse
      */
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id) // @SuppressWarnings(S1172) - $request used for validation
     {
         $user = User::find($id);
         if (! $user) {

@@ -29,6 +29,7 @@ class User extends Authenticatable implements JWTSubject
     protected $table = 'user';
 
     protected $fillable = [
+        'company_id',
         'manager_id',
         'first_name',
         'last_name',

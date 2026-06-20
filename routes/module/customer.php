@@ -7,6 +7,8 @@ use App\Http\Controllers\Customer\CustomerCreateMessageController;
 use App\Http\Controllers\Customer\CustomerDeleteController;
 use App\Http\Controllers\Customer\CustomerDeleteMessageController;
 use App\Http\Controllers\Customer\CustomerExportController;
+use App\Http\Controllers\Customer\CustomerImportExcelController;
+use App\Http\Controllers\Customer\CustomerImportExcelSaveController;
 use App\Http\Controllers\Customer\CustomerImportIndexController;
 use App\Http\Controllers\Customer\CustomerImportSaveController;
 use App\Http\Controllers\Customer\CustomerIndexController;
@@ -36,6 +38,12 @@ Route::get('/customer/import',
 
 Route::post('/customer/import/save',
     [CustomerImportSaveController::class, 'save']);
+
+Route::get('/customer/import/excel',
+    [CustomerImportExcelController::class, 'import']);
+
+Route::post('/customer/import/excel/save',
+    [CustomerImportExcelSaveController::class, 'importExcelSave']);
 
 Route::get('/customer/delete/{id}',
     [CustomerDeleteController::class, 'delete'])

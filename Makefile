@@ -8,7 +8,10 @@ help: ## Show this help menu
 	@echo 'targets:'
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
-build: ## Create docker build containers with MariaDB
+build: ## Create docker build containers (no database)
+	docker compose -f docker-compose.yml build
+
+build-maria: ## Create docker build containers with MariaDB
 	docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml build
 
 build-pg: ## Create docker build containers with Postgres
@@ -58,9 +61,14 @@ seed: ## Run Laravel seeders
 test: ## Run Laravel phpunit tests
 	docker exec -it ${DOCKER_PHP} php artisan test
 
-install: ## Setup local enviroment
+clear: ## Clear all Laravel caches (views, config, cache)
+	docker exec -it ${DOCKER_PHP} php artisan cache:clear
+	docker exec -it ${DOCKER_PHP} php artisan view:clear
+	docker exec -it ${DOCKER_PHP} php artisan config:clear
+
+install: ## Setup local enviroment with MariaDB
 	cp .env.example .env
-	$(MAKE) build
+	$(MAKE) build-maria
 	$(MAKE) up
 	$(MAKE) composer-install
 	docker exec -it ${DOCKER_PHP} php artisan key:generate

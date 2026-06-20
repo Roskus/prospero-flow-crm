@@ -30,7 +30,7 @@ class BrandDeleteController
             new OAT\Response(response: 422, description: 'Validation failed'),
         ]
     )]
-    public function delete(Request $request, int $id)
+    public function delete(Request $request, int $id) // @SuppressWarnings(S1172) - $request used for validation
     {
         $brand = Brand::where('id', $id)
             ->where('company_id', Auth::user()->company_id)

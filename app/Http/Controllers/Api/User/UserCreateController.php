@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Requests\UserCreateRequest;
-use App\Models\User;
+use App\Services\UserCreateService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
 use OpenApi\Attributes as OAT;
 
 class UserCreateController
@@ -29,10 +28,8 @@ class UserCreateController
     )]
     public function create(UserCreateRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $data['password'] = Hash::make($data['password']);
-
-        $user = User::create($data);
+        $userCreateService = new UserCreateService();
+        $user = $userCreateService->create($request->validated());
 
         return response()->json(['user' => $user], 201);
     }
