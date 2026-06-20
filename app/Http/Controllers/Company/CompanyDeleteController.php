@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\CompanyDeleteRequest;
 use App\Models\Company;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CompanyDeleteController extends MainController
 {
-    public function delete(Request $request, int $id)
+    public function delete(CompanyDeleteRequest $request, int $id)
     {
         $company = Company::find($id);
-        if ((int) Auth::user()->company_id !== Company::DEFAULT_COMPANY) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+
+        if (! $company) {
+            return redirect('/company')->with('error', __('Company not found'));
         }
+
         $company->status = Company::INACTIVE;
         $company->save();
         $company->delete();
 
-        return redirect('/company');
+        return redirect('/company')->with('success', __('Company deleted successfully'));
     }
 }
