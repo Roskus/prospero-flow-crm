@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Api\Customer;
 
 use App\Models\Customer;
-use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -14,7 +13,7 @@ class CustomerListControllerTest extends TestCase
     #[Test]
     public function it_can_list_customers(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         $customers = Customer::factory()->count(2)->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
 
         $response = $this->getJson('/api/customer');
@@ -30,7 +29,7 @@ class CustomerListControllerTest extends TestCase
     #[Test]
     public function it_paginates_customers_with_custom_per_page(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         Customer::factory()->count(5)->create(['company_id' => auth()->user()->company_id, 'seller_id' => auth()->id()]);
 
         $response = $this->getJson('/api/customer?per_page=2');

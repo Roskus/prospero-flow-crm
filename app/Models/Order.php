@@ -162,6 +162,7 @@ final class Order extends Model
     public function orderNumber(): string
     {
         $orderNumber = $this->getAttribute('order_number');
+
         return $orderNumber ? str_pad((string) $orderNumber, 10, '0', STR_PAD_LEFT) : '';
     }
 

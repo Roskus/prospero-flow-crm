@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Transaction\Category;
 use App\Models\Company;
+use App\Models\Transaction\Category;
 use Illuminate\Database\Seeder;
 
 class TransactionCategorySeeder extends Seeder

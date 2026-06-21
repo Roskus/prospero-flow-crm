@@ -14,7 +14,7 @@ class ContactDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_a_contact(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         $contact = Contact::factory()->create(['company_id' => auth()->user()->company_id]);
 
         $response = $this->deleteJson('/api/contact/'.$contact->id);
@@ -26,7 +26,7 @@ class ContactDeleteControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_contact(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
 
         $response = $this->deleteJson('/api/contact/99999');
 
@@ -36,7 +36,7 @@ class ContactDeleteControllerTest extends TestCase
     #[Test]
     public function it_cannot_delete_a_contact_from_another_company(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         $otherContact = Contact::factory()->create(['company_id' => User::factory()->create()->company_id]);
 
         $response = $this->deleteJson('/api/contact/'.$otherContact->id);

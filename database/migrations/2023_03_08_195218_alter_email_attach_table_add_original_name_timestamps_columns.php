@@ -14,6 +14,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('email_attach', function (Blueprint $table) {
+            try {
+                $table->dropForeign(['email_id']);
+            } catch (Exception $e) {
+                // Ignore if it does not exist
+            }
+        });
+
+        Schema::table('email_attach', function (Blueprint $table) {
             if (Schema::hasColumn('email_attach', 'deleted_at')) {
                 $table->dropColumn('deleted_at');
             }
@@ -30,7 +38,7 @@ return new class extends Migration
             }
             $table->softDeletes();
 
-            $table->foreign('email_id')->references('id')->on('email');
+            $table->foreign('email_id')->references('id')->on('email')->onDelete('cascade');
         });
     }
 

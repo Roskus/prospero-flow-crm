@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\MainController;
-use App\Models\Transaction;
-use App\Models\Transaction\Category;
 use App\Models\Bank\Account as BankAccount;
 use App\Models\BankCard;
 use App\Models\Customer;
 use App\Models\Supplier;
+use App\Models\Transaction;
+use App\Models\Transaction\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

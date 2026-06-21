@@ -32,9 +32,9 @@ class CompanyListController
             $count = Company::count();
             $companies = Company::with('country')->get();
         } else {
-            $count = Company::where('company_id', Auth::user()->company_id)->count();
+            $count = Company::where('id', Auth::user()->company_id)->count();
             $companies = Company::with('country')
-                ->where('company_id', Auth::user()->company_id)
+                ->where('id', Auth::user()->company_id)
                 ->get();
         }
 

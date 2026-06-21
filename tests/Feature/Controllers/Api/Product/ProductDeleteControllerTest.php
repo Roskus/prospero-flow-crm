@@ -14,7 +14,7 @@ class ProductDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_a_product(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         $product = Product::factory()->create(['company_id' => auth()->user()->company_id]);
 
         $response = $this->deleteJson('/api/product/'.$product->id);
@@ -26,7 +26,7 @@ class ProductDeleteControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_product(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
 
         $response = $this->deleteJson('/api/product/99999');
 
@@ -36,7 +36,7 @@ class ProductDeleteControllerTest extends TestCase
     #[Test]
     public function it_cannot_delete_a_product_from_another_company(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         $otherProduct = Product::factory()->create(['company_id' => User::factory()->create()->company_id]);
 
         $response = $this->deleteJson('/api/product/'.$otherProduct->id);

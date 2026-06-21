@@ -14,7 +14,7 @@ class SupplierDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_a_supplier(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         $supplier = Supplier::factory()->create(['company_id' => auth()->user()->company_id]);
 
         $response = $this->deleteJson('/api/supplier/'.$supplier->id);
@@ -26,7 +26,7 @@ class SupplierDeleteControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_supplier(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
 
         $response = $this->deleteJson('/api/supplier/99999');
 
@@ -36,7 +36,7 @@ class SupplierDeleteControllerTest extends TestCase
     #[Test]
     public function it_cannot_delete_a_supplier_from_another_company(): void
     {
-        $this->actingAs($this->user, "api");
+        $this->actingAs($this->user, 'api');
         $otherSupplier = Supplier::factory()->create(['company_id' => User::factory()->create()->company_id]);
 
         $response = $this->deleteJson('/api/supplier/'.$otherSupplier->id);
