@@ -134,7 +134,7 @@ require __DIR__.'/module/notification.php';
 
 // Unsubscribe
 Route::get('/unsubscribe', [UnsubscribeUpdateController::class, 'update']);
-Route::post('/unsubscribe/save', [UnsubscribeSaveController::class, 'save']);
+Route::post('/unsubscribe/save', [UnsubscribeSaveController::class, 'save'])->middleware('throttle:5,1');
 
 // Permission
 Route::get('/permission', [PermissionIndexController::class, 'index']);
