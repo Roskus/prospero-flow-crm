@@ -13,23 +13,28 @@ class SupplierSaveControllerTest extends TestCase
     #[Test]
     public function it_can_save_supplier(): void
     {
-        $data = Supplier::factory()->create()->toArray();
+        $data = Supplier::factory()->create(['company_id' => $this->user->company_id])->toArray();
 
         $response = $this->post('/supplier/save', $data);
 
         $response->assertRedirect('/supplier');
-        $this->equalTo(Supplier::all()->last(), $data);
     }
 
     #[Test]
     public function it_can_update_supplier(): void
     {
-        $data = Supplier::factory()->create()->toArray();
-        unset($data['id']);
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id]);
 
-        $response = $this->post('/supplier/save', $data);
+        $response = $this->post('/supplier/save', [
+            'id' => $supplier->id,
+            'name' => 'Updated supplier',
+            'country_id' => 'ES',
+        ]);
 
         $response->assertRedirect('/supplier');
-        $this->equalTo(Supplier::all()->last(), $data);
+        $this->assertDatabaseHas('supplier', [
+            'id' => $supplier->id,
+            'name' => 'Updated supplier',
+        ]);
     }
 }
