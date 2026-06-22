@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\ProductDeleteRequest;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductDeleteController extends MainController
 {
-    public function delete(Request $request, int $id)
+    public function delete(ProductDeleteRequest $request, int $id)
     {
-        $product = Product::find($id);
-        $product->delete();
+        $product = Product::where('company_id', Auth::user()->company_id)->find($id);
+
+        if ($product) {
+            $product->delete();
+        }
 
         return redirect('/product');
     }

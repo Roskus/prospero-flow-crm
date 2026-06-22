@@ -73,9 +73,15 @@
                     </a>
 
                     @can('delete product')
-                    <a href="{{ url("/product/delete/$product->id") }}" class="btn bt-xs btn-danger">
-                        <i class="las la-trash-alt"></i>
-                    </a>
+                    <form method="POST" action="{{ url("/product/delete/$product->id") }}"
+                          class="d-inline"
+                          onsubmit="return confirm('{{ __('Are you sure you want to delete this product?') }}')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn bt-xs btn-danger">
+                            <i class="las la-trash-alt"></i>
+                        </button>
+                    </form>
                     @endcan
                 </td>
             </tr>
