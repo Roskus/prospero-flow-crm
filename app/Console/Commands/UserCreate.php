@@ -86,8 +86,8 @@ class UserCreate extends Command
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
                 'email' => 'required|email|unique:user,email',
-                'lang' => 'required|in:' . $availableLangsStr,
-                'role' => 'required|in:' . implode(',', $availableRoles),
+                'lang' => 'required|in:'.$availableLangsStr,
+                'role' => 'required|in:'.implode(',', $availableRoles),
             ]);
 
             if ($validator->fails()) {
@@ -121,7 +121,7 @@ class UserCreate extends Command
         }
 
         try {
-            $userCreateService = new UserCreateService();
+            $userCreateService = new UserCreateService;
             $user = $userCreateService->create([
                 'company_id' => $companyId,
                 'first_name' => $first_name,

@@ -19,7 +19,7 @@ class BankAccountDeleteControllerTest extends TestCase
         $response = $this->delete('/bank-account/delete/'.$bankAccount->id);
 
         $response->assertRedirect('/bank-account');
-        $this->assertDatabaseMissing('bank_account', ['id' => $bankAccount->id]);
+        $this->assertSoftDeleted($bankAccount);
     }
 
     #[Test]

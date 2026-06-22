@@ -14,10 +14,24 @@ class TransactionSaveController extends MainController
 {
     public function save(Request $request)
     {
+        $isUpdate = $request->filled('id');
+
+        if ($isUpdate) {
+            if (Auth::user()->cannot('update accounting')) {
+                return redirect('/accounting')->with('error', __('Unauthorized'));
+            }
+        } elseif (Auth::user()->cannot('create accounting')) {
+            return redirect('/accounting')->with('error', __('Unauthorized'));
+        }
+
+        $amountRule = Auth::user()->can('update accounting')
+            ? ['required', 'numeric']
+            : ['required', 'numeric', 'min:0'];
+
         $request->validate([
             'name' => ['required', 'string', 'max:80'],
             'type' => ['required', 'in:income,expense'],
-            'amount' => ['required', 'numeric'],
+            'amount' => $amountRule,
             'issue_date' => ['required', 'date'],
             'due_date' => ['nullable', 'date'],
             'payment_date' => ['nullable', 'date'],
@@ -49,7 +63,7 @@ class TransactionSaveController extends MainController
                 Storage::disk('public')->delete($transaction->attachment);
             }
             $transaction->attachment = $request->file('attachment')
-                ->store('accounting/' . Auth::user()->company_id, 'public');
+                ->store('accounting/'.Auth::user()->company_id, 'public');
         }
 
         if (empty($request->id)) {
