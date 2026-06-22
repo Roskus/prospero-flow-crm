@@ -17,7 +17,17 @@ class SupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        $user = Auth::user();
+
+        if (! $user) {
+            return false;
+        }
+
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            return $user->can('update supplier');
+        }
+
+        return $user->can('create supplier');
     }
 
     /**

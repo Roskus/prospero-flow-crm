@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Supplier;
 use App\Http\Requests\API\SupplierRequest;
 use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class SupplierUpdateController
@@ -32,15 +33,13 @@ class SupplierUpdateController
     )]
     public function update(SupplierRequest $request, int $id): JsonResponse
     {
-        // Find the supplier
-        $supplier = Supplier::find($id);
+        $supplier = Supplier::where('company_id', Auth::user()->company_id)->find($id);
 
         if (! $supplier) {
             return response()->json(['error' => 'Supplier not found'], 404);
         }
 
-        // Update supplier's information
-        $supplier->update($request->all());
+        $supplier->update($request->validated());
 
         return response()->json(['message' => 'Supplier updated successfully', 'supplier' => $supplier], 200);
     }
