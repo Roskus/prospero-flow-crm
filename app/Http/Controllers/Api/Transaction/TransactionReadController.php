@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Transaction;
 
+use App\Http\Requests\TransactionReadRequest;
 use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class TransactionReadController
@@ -29,9 +31,9 @@ class TransactionReadController
             new OAT\Response(response: 404, description: 'Transaction not found'),
         ]
     )]
-    public function read(int $id): JsonResponse
+    public function read(TransactionReadRequest $request, int $id): JsonResponse
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::where('company_id', Auth::user()->company_id)->find($id);
 
         if (! $transaction) {
             return response()->json(['message' => 'Transaction not found'], 404);
