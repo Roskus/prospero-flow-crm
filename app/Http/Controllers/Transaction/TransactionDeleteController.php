@@ -12,11 +12,12 @@ class TransactionDeleteController
 {
     public function delete(Request $request, int $id)
     {
-        if (Auth::user()->cannot('transaction delete')) {
-            return redirect()->back()->with('error', 'You do not have permission to delete transactions.');
+        if (Auth::user()->cannot('delete accounting')) {
+            return redirect()->back()->with('error', __('Unauthorized'));
         }
 
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::where('company_id', Auth::user()->company_id)->find($id);
+
         if ($transaction) {
             $transaction->delete();
         }
