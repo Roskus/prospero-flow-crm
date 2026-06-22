@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\CompanyCreateRequest;
 use App\Models\Company;
-use Illuminate\Http\Request;
 use Squire\Models\Country;
 use Squire\Models\Currency;
 
 class CompanyCreateController extends MainController
 {
-    public function create(Request $request)
+    public function create(CompanyCreateRequest $request)
     {
         $company = new Company;
         $data['company'] = $company;

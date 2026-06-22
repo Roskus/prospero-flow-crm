@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\MainController;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -22,9 +23,16 @@ class CompanySaveController extends MainController
 
     public function save(Request $request)
     {
+        if (empty($request->id)) {
+            if (Auth::user()->cannot('create company')) {
+                return redirect('/company')->with('error', __('Unauthorized'));
+            }
+        } elseif (Auth::user()->cannot('update company')) {
+            return redirect('/company')->with('error', __('Unauthorized'));
+        }
+
         $company = $this->companyRepository->save($request->all());
 
-        // Save image
         if ($request->hasFile('logo')) {
             $folder = 'company/'.Str::slug($company->name, '_');
             $filename = time().'.'.$request->file('logo')->extension();
