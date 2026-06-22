@@ -28,7 +28,7 @@ class UserCreateController
     )]
     public function create(UserCreateRequest $request): JsonResponse
     {
-        $userCreateService = new UserCreateService();
+        $userCreateService = new UserCreateService;
         $user = $userCreateService->create($request->validated());
 
         return response()->json(['user' => $user], 201);

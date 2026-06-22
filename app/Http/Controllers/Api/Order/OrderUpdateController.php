@@ -39,7 +39,7 @@ class OrderUpdateController
     )]
     public function update(OrderUpdateRequest $request, int $id): JsonResponse
     {
-        $order = Order::find($id);
+        $order = Order::where('company_id', Auth::user()->company_id)->find($id);
 
         if (! $order) {
             return response()->json(['message' => 'Order not found'], 404);

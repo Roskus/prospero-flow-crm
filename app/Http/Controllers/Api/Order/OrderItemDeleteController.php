@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Order;
 use App\Http\Requests\OrderItemDeleteRequest;
 use App\Models\Order\Item;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class OrderItemDeleteController
@@ -33,7 +34,9 @@ class OrderItemDeleteController
     )]
     public function delete(OrderItemDeleteRequest $request, int $id): JsonResponse
     {
-        $item = Item::find($id);
+        $item = Item::whereHas('order', function ($query) {
+            $query->where('company_id', Auth::user()->company_id);
+        })->find($id);
 
         if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);

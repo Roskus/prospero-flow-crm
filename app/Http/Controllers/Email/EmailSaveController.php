@@ -12,7 +12,7 @@ class EmailSaveController extends MainController
 {
     public function save(EmailRequest $request)
     {
-        $emailCreateService = new EmailCreateService();
+        $emailCreateService = new EmailCreateService;
         $emailCreateService->create($request->validated(), $request->file('attachment'));
 
         return redirect('/email')->with('success', __('Email saved successfully'));

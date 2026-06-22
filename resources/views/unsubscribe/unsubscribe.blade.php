@@ -17,6 +17,9 @@
             @endif
 
             @csrf
+            <div style="display: none;">
+                <input type="text" name="website" tabindex="-1" autocomplete="off">
+            </div>
             <div class="row">
                 <div class="col">
                     <p>{{ __('If you want to stop receiving notifications enter your email') }}</p>

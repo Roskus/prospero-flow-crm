@@ -30,6 +30,7 @@ class OrderCreateController
     public function create(OrderCreateRequest $request): JsonResponse
     {
         $data = $request->validated();
+        $data['company_id'] = Auth::user()->company_id;
         $data['seller_id'] = Auth::user()->id;
         $data['created_by'] = Auth::user()->id;
 

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Order;
 
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class OrderReadController
@@ -31,7 +32,9 @@ class OrderReadController
     )]
     public function read(int $id): JsonResponse
     {
-        $order = Order::with('items')->find($id);
+        $order = Order::where('company_id', Auth::user()->company_id)
+            ->with('items')
+            ->find($id);
 
         if (! $order) {
             return response()->json(['message' => 'Order not found'], 404);

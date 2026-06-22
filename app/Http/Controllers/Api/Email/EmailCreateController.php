@@ -12,7 +12,7 @@ class EmailCreateController
 {
     public function create(EmailRequest $request): JsonResponse
     {
-        $emailCreateService = new EmailCreateService();
+        $emailCreateService = new EmailCreateService;
         $email = $emailCreateService->create($request->validated(), $request->file('attachment'));
 
         return response()->json(['email' => $email], 201);

@@ -36,6 +36,7 @@ final class Order extends Model
     protected $table = 'order';
 
     protected $fillable = [
+        'company_id',
         'order_number',
         'customer_id',
         'seller_id',
