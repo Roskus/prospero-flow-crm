@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\BankAccount;
 
+use App\Http\Requests\BankAccountReadRequest;
 use App\Models\Bank\Account;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class BankAccountReadController
             new OAT\Response(response: 404, description: 'Bank Account not found'),
         ]
     )]
-    public function read(int $id): JsonResponse
+    public function read(BankAccountReadRequest $request, int $id): JsonResponse
     {
         $account = Account::where('company_id', Auth::user()->company_id)
             ->with(['bank', 'country'])

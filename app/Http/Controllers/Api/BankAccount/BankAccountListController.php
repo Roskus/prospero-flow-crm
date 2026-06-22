@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\BankAccount;
 
+use App\Http\Requests\BankAccountListRequest;
 use App\Models\Bank\Account;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class BankAccountListController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(BankAccountListRequest $request): JsonResponse
     {
         $accounts = Account::where('company_id', Auth::user()->company_id)
             ->with(['bank', 'country'])

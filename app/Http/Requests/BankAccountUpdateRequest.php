@@ -11,7 +11,7 @@ class BankAccountUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Auth::user()?->can('update bankaccount') ?? false;
+        return Auth::user()?->can('update accounting') ?? false;
     }
 
     public function rules(): array

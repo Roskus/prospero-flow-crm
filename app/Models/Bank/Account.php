@@ -6,6 +6,7 @@ namespace App\Models\Bank;
 
 use App\Models\Bank;
 use App\Models\BankCard;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -83,7 +84,7 @@ class Account extends Model
 
     public function transactions(): HasMany
     {
-        return $this->hasMany(\App\Models\Transaction::class, 'bank_account_id');
+        return $this->hasMany(Transaction::class, 'bank_account_id');
     }
 
     public function cards(): HasMany
@@ -93,10 +94,10 @@ class Account extends Model
 
     public function balance(): float
     {
-        $paid = $this->transactions()->where('status', \App\Models\Transaction::PAID);
+        $paid = $this->transactions()->where('status', Transaction::PAID);
 
-        $income = (float) $paid->where('type', \App\Models\Transaction::INCOME)->sum('amount');
-        $expense = (float) $paid->where('type', \App\Models\Transaction::EXPENSE)->sum('amount');
+        $income = (float) $paid->where('type', Transaction::INCOME)->sum('amount');
+        $expense = (float) $paid->where('type', Transaction::EXPENSE)->sum('amount');
 
         return (float) ($this->opening_balance ?? 0) + $income - $expense;
     }
