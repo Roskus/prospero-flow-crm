@@ -24,8 +24,14 @@ class TicketSaveController extends MainController
         $ticket = $this->ticketRepository->save($request->all());
 
         if ($request->hasFile('attachment')) {
+            // Explicit MIME list (not image/*) to exclude SVG files,
+            // which can contain embedded scripts and cause stored XSS
+            // when served directly by the web server.
             $mimes = [
-                'image/*',
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'image/webp',
                 'application/pdf',
                 'application/msword',
                 'application/vnd.ms-excel',
