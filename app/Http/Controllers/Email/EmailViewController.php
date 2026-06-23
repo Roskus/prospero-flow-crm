@@ -13,7 +13,7 @@ class EmailViewController extends MainController
 {
     public function view(Request $request, int $id)
     {
-        $email = Email::find($id);
+        $email = Email::where('company_id', Auth::user()->company_id)->find($id);
         $data['email'] = $email;
 
         if (isset($email->signature)) {

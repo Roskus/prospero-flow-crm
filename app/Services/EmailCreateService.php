@@ -18,7 +18,7 @@ class EmailCreateService
             $email = new Email;
             $email->created_at = now();
         } else {
-            $email = Email::find($data['id']);
+            $email = Email::where('company_id', Auth::user()->company_id)->find($data['id']);
         }
 
         $email->from = $data['from'];

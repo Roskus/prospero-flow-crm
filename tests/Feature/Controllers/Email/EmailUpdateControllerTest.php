@@ -13,7 +13,7 @@ class EmailUpdateControllerTest extends TestCase
     #[Test]
     public function it_can_update_email(): void
     {
-        $email = Email::factory()->create();
+        $email = Email::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->get('/email/update/'.$email->id);
 

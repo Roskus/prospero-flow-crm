@@ -13,7 +13,7 @@ class EmailUpdateController extends MainController
 {
     public function update(Request $request, int $id)
     {
-        $email = Email::find($id);
+        $email = Email::where('company_id', Auth::user()->company_id)->find($id);
         $data['froms'] = [
             ['email' => Auth::user()->company->email, 'name' => Auth::user()->company->name],
             ['email' => Auth::user()->email, 'name' => Auth::user()->first_name.' '.Auth::user()->last_name],

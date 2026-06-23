@@ -22,7 +22,7 @@ class EmailSendController extends MainController
      */
     public function send(Request $request, int $id)
     {
-        $email = Email::findOrFail($id);
+        $email = Email::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $email->status = Email::QUEUE;
         $email->save();
         $params['from_email'] = $email->from_email;
