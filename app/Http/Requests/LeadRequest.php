@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\SanitizesInput;
+use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +14,8 @@ use Squire\Models\Country;
 
 class LeadRequest extends FormRequest
 {
+    use SanitizesInput;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -96,7 +100,13 @@ class LeadRequest extends FormRequest
             'longitude' => 'nullable|numeric|gte:-180|lte:180|required_with:latitude',
             'opt_in' => 'nullable',
             'tags' => 'nullable',
-            'status' => 'nullable', // @todo validate status options
+            'status' => ['nullable', Rule::in([
+                Lead::OPEN,
+                Lead::IN_PROGRESS,
+                Lead::WAITING_FEEDBACK,
+                Lead::CONVERTED,
+                Lead::CLOSED,
+            ])],
             'created_at' => 'nullable|date',
             'updated_at' => 'nullable|date',
             'deleted_at' => 'nullable|date',

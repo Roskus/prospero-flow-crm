@@ -53,10 +53,10 @@
                     <a href="{{ url("/campaign/update/$campaign->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
-                    <a onclick="Campaign.delete({{ $campaign->id }}, '{{ $campaign->subject }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
+                    <a onclick="Campaign.delete({{ $campaign->id }}, '{{ addslashes($campaign->subject) }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
-                    <a onclick="Campaign.send({{ $campaign->id }}, '{{ $campaign->subject }}')" title="{{ __('Send') }}" class="btn btn-primary">
+                    <a onclick="Campaign.send({{ $campaign->id }}, '{{ addslashes($campaign->subject) }}')" title="{{ __('Send') }}" class="btn btn-primary">
                         <i class="las la-play-circle"></i>
                     </a>
                 </td>

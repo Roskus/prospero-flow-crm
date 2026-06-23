@@ -25,7 +25,7 @@
 
 @if(session('status'))
     <div class="alert alert-{{ session('status') }} mt-2">
-        {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url("/customer/update/".session('id')).">".session('name')."</a>"])  !!}
+        {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url("/customer/update/".session('id')).">".e(session('name'))."</a>"])  !!}
     </div>
 @endif
 
@@ -270,7 +270,7 @@
                     </a>
 
                     @can('delete customer')
-                    <a onclick="Customer.delete({{ $customer->id }}, '{{ $customer->name }}');"
+                    <a onclick="Customer.delete({{ $customer->id }}, '{{ addslashes($customer->name) }}');"
                        title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>

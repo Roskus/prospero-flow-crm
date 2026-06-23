@@ -28,7 +28,7 @@
                     <a href="{{ url('/category/update/'.$category->id) }}" class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
-                    <a onclick="Category.delete({{ $category->id }}, '{{ $category->name }}');" class="btn btn-xs btn-danger">
+                    <a onclick="Category.delete({{ $category->id }}, '{{ addslashes($category->name) }}');" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                 </td>

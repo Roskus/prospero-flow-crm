@@ -90,7 +90,7 @@
                     @endcan
 
                     @can('delete user')
-                    <a href="#" onclick="User.delete({{ $user->id }},'{{ __('Are you sure you want to delete the user: :name?', ['name' => $user->first_name.' '.$user->last_name ]) }}')" class="btn bt-xs btn-danger">
+                    <a href="#" onclick="User.delete({{ $user->id }},'{{ __('Are you sure you want to delete the user: :name?', ['name' => e($user->first_name).' '.e($user->last_name)]) }}')" class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                     @endcan

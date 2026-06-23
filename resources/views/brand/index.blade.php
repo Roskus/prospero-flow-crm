@@ -28,7 +28,7 @@
                         <a href="{{ url('/brand/update/'.$brand->id) }}" class="btn btn-xs btn-warning text-white">
                             <i class="las la-pen"></i>
                         </a>
-                        <a onclick="Brand.delete({{ $brand->id }}, '{{ $brand->name }}');" class="btn btn-xs btn-danger">
+                        <a onclick="Brand.delete({{ $brand->id }}, '{{ addslashes($brand->name) }}');" class="btn btn-xs btn-danger">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>

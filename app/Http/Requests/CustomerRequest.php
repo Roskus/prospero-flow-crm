@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\SanitizesInput;
+use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Squire\Models\Country;
 
 class CustomerRequest extends FormRequest
 {
+    use SanitizesInput;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -83,7 +88,13 @@ class CustomerRequest extends FormRequest
             'longitude' => 'nullable|numeric|gte:-180|lte:180|required_with:latitude',
             'opt_in' => 'nullable',
             'tags' => 'nullable',
-            'status' => 'nullable', // @todo validate status options
+            'status' => ['nullable', Rule::in([
+                Customer::OPEN,
+                Customer::IN_PROGRESS,
+                Customer::WAITING_FEEDBACK,
+                Customer::CONVERTED,
+                Customer::CLOSED,
+            ])],
             'created_at' => 'nullable|date',
             'updated_at' => 'nullable|date',
             'deleted_at' => 'nullable|date',

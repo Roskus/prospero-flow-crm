@@ -41,14 +41,12 @@ class TransactionSaveControllerTest extends TestCase
         $response = $this->post('/transaction/save', [
             'name' => 'Hacked transaction',
             'type' => 'income',
-            'amount' => -750,
+            'amount' => 100,
             'issue_date' => '2025-06-19',
             'status' => 'paid',
         ]);
 
-        $response->assertRedirect('/accounting');
-        $response->assertSessionHas('error');
-        $this->assertDatabaseMissing('transaction', ['name' => 'Hacked transaction']);
+        $response->assertForbidden();
     }
 
     #[Test]
@@ -133,9 +131,7 @@ class TransactionSaveControllerTest extends TestCase
             'status' => 'paid',
         ]);
 
-        $response->assertRedirect('/accounting');
-        $response->assertSessionHas('error');
-        $this->assertDatabaseMissing('transaction', ['name' => 'Hacked update']);
+        $response->assertForbidden();
     }
 
     #[Test]

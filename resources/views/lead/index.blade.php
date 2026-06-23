@@ -25,7 +25,7 @@
 @if(session('status'))
     <div class="alert alert-{{ session('status') }} mt-2">
         @if(session('id'))
-            {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url("/lead/update/".session('id')).">".session('name')."</a>"])  !!}
+            {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url("/lead/update/".session('id')).">".e(session('name'))."</a>"])  !!}
         @else
             {{ __(session('message'), ['count' => session('count')]) }}
         @endif
@@ -258,7 +258,7 @@
                     </a>
 
                     @can('delete lead')
-                    <a onclick="Lead.delete({{ $lead->id }}, '{{ $lead->name }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
+                    <a onclick="Lead.delete({{ $lead->id }}, '{{ addslashes($lead->name) }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
                     @endcan

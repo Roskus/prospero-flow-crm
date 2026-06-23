@@ -73,7 +73,7 @@
                 <i class="las la-address-card"></i>
             </a>
             <a href="#"
-               onclick="Contact.delete({{ $contact->id }}, '{{ __('Do you want to delete the contact: :name', ['name' => $contact->first_name]) }}')"
+               onclick="Contact.delete({{ $contact->id }}, '{{ __('Do you want to delete the contact: :name', ['name' => e($contact->first_name)]) }}')"
                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ __('Delete') }}"
                class="btn btn-xs btn-danger text-white">
                 <i class="las la-trash"></i>
