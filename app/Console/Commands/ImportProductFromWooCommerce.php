@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -74,14 +75,19 @@ class ImportProductFromWooCommerce extends Command
                     $product['brand_id'] = 1; // TODO I think there is no similarity in woocommerce
                     $product['cost'] = (float) $product['prices']['price']; // TODO woocommerce return an object of price
                     $product['price'] = (float) $product['prices']['sale_price']; // TODO woocommerce return an object of
-                    $photo = $product['images'][0]['src'];
+                    $photo = $product['images'][0]['src'] ?? null;
                     if (! empty($photo)) {
-                        $photo_url = explode('/', $photo);
-                        $photo_path = public_path('/asset/upload/product');
-                        shell_exec("wget $photo --directory-prefix=$photo_path");
-                        echo $photo_url[count($photo_url) - 1];
-                        $product['photo'] = $photo_url[count($photo_url) - 1];
-                        // mkdir(public_path("/asset/upload/product/$product->id"))
+                        $photo_name = basename(parse_url($photo, PHP_URL_PATH));
+                        $photo_path = 'product'.DIRECTORY_SEPARATOR.$photo_name;
+                        try {
+                            $response = Http::timeout(10)->get($photo);
+                            if ($response->ok()) {
+                                Storage::disk('public')->put($photo_path, $response->body());
+                                $product['photo'] = $photo_name;
+                            }
+                        } catch (\Exception $e) {
+                            $this->error('Failed to download photo: '.$e->getMessage());
+                        }
                     }
 
                     Product::updateOrCreate([
