@@ -80,7 +80,7 @@
                     <label for="barcode" class="control">{{ __('Barcode') }}</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="las la-barcode"></i></span>
-                        <input type="text" name="barcode" id="barcode" placeholder="EAN-13" value="{{ old('barcode', $product->barcode) }}" onkeydown="document.getElementById('barcode-preview').innerHTML = this.value" onkeyup="document.getElementById('barcode-preview').innerHTML = this.value" class="form-control">
+                        <input type="text" name="barcode" id="barcode" placeholder="EAN-13" value="{{ old('barcode', $product->barcode) }}" onkeydown="document.getElementById('barcode-preview').textContent = this.value" onkeyup="document.getElementById('barcode-preview').textContent = this.value" class="form-control">
                     </div>
                     <div id="barcode-preview" class="barcode">{{ old('barcode', $product->barcode) }}</div>
                 </div>
