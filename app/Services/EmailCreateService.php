@@ -30,7 +30,17 @@ class EmailCreateService
         $email->to = $data['to'];
         $email->cc = $data['cc'] ?? null;
         $email->bcc = $data['bcc'] ?? null;
-        $email->body = $data['body'];
+        // Strip script, iframe, object, embed, form, input tags entirely
+        $body = strip_tags($data['body'], '<a><b><strong><i><em><u><br><p><div><span><ul><ol><li><table><tr><td><th><h1><h2><h3><h4><h5><h6><blockquote><pre><code><hr><img><figure><figcaption>');
+
+        // Remove event handler attributes (onload, onerror, onclick, etc.)
+        $body = preg_replace('/\s+on\w+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $body);
+
+        // Remove javascript: protocol from href attributes
+        $body = preg_replace('/href\s*=\s*"javascript:[^"]*"/i', 'href="#"', $body);
+        $body = preg_replace("/href\s*=\s*'javascript:[^']*'/i", "href='#'", $body);
+
+        $email->body = $body;
         $email->signature = (bool) ($data['signature'] ?? false);
         $email->updated_at = now();
         $email->status = Email::DRAFT;

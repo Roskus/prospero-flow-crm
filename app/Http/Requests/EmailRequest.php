@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 class EmailRequest extends FormRequest
 {
+    use SanitizesInput;
+
     public function authorize()
     {
         return Auth::check();
+    }
+
+    protected function unsafeFields(): array
+    {
+        return ['body'];
     }
 
     public function rules()

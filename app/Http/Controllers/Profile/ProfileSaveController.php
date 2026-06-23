@@ -34,7 +34,9 @@ class ProfileSaveController
         $user->lang = $locale;
         $user->phone = $request->phone;
         $user->timezone = $request->timezone;
-        $user->signature_html = $request->signature_html;
+        $user->signature_html = ! empty($request->signature_html)
+            ? strip_tags($request->signature_html, '<a><b><strong><i><em><u><br><p><div><span><ul><ol><li><img>')
+            : null;
 
         // Update password if change
         if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
