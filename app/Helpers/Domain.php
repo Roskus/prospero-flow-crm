@@ -6,9 +6,12 @@ namespace App\Helpers;
 
 class Domain
 {
+    /**
+     * @param string $url
+     * @return bool
+     */
     public static function isValid(string $url): bool
     {
-        $validation = false;
         $urlparts = parse_url(filter_var($url, FILTER_SANITIZE_URL));
 
         if (! isset($urlparts['host'])) {
@@ -23,47 +26,46 @@ class Domain
             $urlparts['scheme'] = 'http';
         }
 
-        if (! in_array($urlparts['scheme'], ['http', 'https'], true)) {
-            return false;
-        }
+        $valid = in_array($urlparts['scheme'], ['http', 'https'], true)
+            && ! self::isPrivateIp($urlparts['host']);
 
-        // Reject explicit IP addresses
-        if (self::isPrivateIp($urlparts['host'])) {
-            return false;
-        }
-
-        // Resolve hostname and validate resulting IP is public
-        $ips = @gethostbyname($urlparts['host']);
-        if ($ips === false || $ips === $urlparts['host']) {
-            return false;
-        }
-
-        foreach ((array) $ips as $ip) {
-            if (self::isPrivateIp($ip)) {
-                return false;
+        if ($valid) {
+            $ips = (array) @gethostbyname($urlparts['host']);
+            if ($ips === [false] || $ips === [$urlparts['host']]) {
+                $valid = false;
+            } else {
+                foreach ($ips as $ip) {
+                    if (self::isPrivateIp($ip)) {
+                        $valid = false;
+                        break;
+                    }
+                }
             }
         }
 
-        $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
-        $url = $urlparts['scheme'].'://'.$urlparts['host'].'/';
+        if ($valid) {
+            $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
+            $url = $urlparts['scheme'].'://'.$urlparts['host'].'/';
 
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-            return false;
+            if (filter_var($url, FILTER_VALIDATE_URL) !== false) {
+                $ch = curl_init();
+                curl_setopt_array($ch, [
+                    CURLOPT_URL => $url,
+                    CURLOPT_TIMEOUT => 5,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_FOLLOWLOCATION => false,
+                    CURLOPT_RESOLVE_ONLY_PUBLIC_IPS => true,
+                ]);
+                $result = @curl_exec($ch);
+                curl_close($ch);
+
+                $valid = $result !== false;
+            } else {
+                $valid = false;
+            }
         }
 
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_TIMEOUT => 5,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_RESOLVE_ONLY_PUBLIC_IPS => true,
-        ]);
-
-        $result = @curl_exec($ch);
-        curl_close($ch);
-
-        return $result !== false;
+        return $valid;
     }
 
     private static function isPrivateIp(string $ip): bool
@@ -73,13 +75,12 @@ class Domain
             return true;
         }
 
-        return (
+        return
             ($long >= ip2long('127.0.0.0') && $long <= ip2long('127.255.255.255')) ||
             ($long >= ip2long('10.0.0.0') && $long <= ip2long('10.255.255.255')) ||
             ($long >= ip2long('172.16.0.0') && $long <= ip2long('172.31.255.255')) ||
             ($long >= ip2long('192.168.0.0') && $long <= ip2long('192.168.255.255')) ||
             ($long >= ip2long('169.254.0.0') && $long <= ip2long('169.254.255.255')) ||
-            ($long >= ip2long('127.0.0.0') && $long <= ip2long('127.255.255.255'))
-        );
+            ($long >= ip2long('127.0.0.0') && $long <= ip2long('127.255.255.255'));
     }
 }

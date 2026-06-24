@@ -49,7 +49,7 @@ class Brand extends Model
 
     public function getAllActiveByCompany(int $company_id)
     {
-        return Brand::where('company_id', $company_id)->get();
+        return $this->getAllByCompanyId($company_id);
     }
 
     public static function getAllActiveAsArrayByCompany(int $company_id): array

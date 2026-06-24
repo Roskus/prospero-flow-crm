@@ -18,22 +18,15 @@ class PermissionSaveRequest extends FormRequest
             return false;
         }
 
-        if ($user->hasRole('SuperAdmin')) {
-            return true;
-        }
+        $authorized = $user->hasRole('SuperAdmin');
 
-        if ($user->hasRole('CompanyAdmin')) {
+        if (! $authorized && $user->hasRole('CompanyAdmin')) {
             $roles = $this->input('roles', []);
             $superAdminRole = Role::where('name', 'SuperAdmin')->first();
-
-            if ($superAdminRole && isset($roles[$superAdminRole->id])) {
-                return false;
-            }
-
-            return true;
+            $authorized = ! ($superAdminRole && isset($roles[$superAdminRole->id]));
         }
 
-        return false;
+        return $authorized;
     }
 
     public function rules(): array

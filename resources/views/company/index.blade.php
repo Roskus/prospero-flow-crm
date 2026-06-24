@@ -88,9 +88,14 @@
 
                 @can('delete company')
                 @unless($company->trashed())
-                <a href="{{ url("/company/delete/$company->id") }}" class="btn btn-danger" title="{{ __('Delete') }}">
-                    <i class="las la-trash-alt"></i>
-                </a>
+                <form method="POST" action="{{ url("/company/delete/$company->id") }}" class="d-inline"
+                      onsubmit="return confirm('{{ __('Are you sure you want to delete this company?') }}')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" title="{{ __('Delete') }}">
+                        <i class="las la-trash-alt"></i>
+                    </button>
+                </form>
                 @endunless
                 @endcan
                 </td>
