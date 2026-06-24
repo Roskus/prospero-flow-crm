@@ -19,7 +19,7 @@ class CompanyDeleteControllerTest extends TestCase
 
         $company = Company::factory()->create();
 
-        $response = $this->get('/company/delete/'.$company->id);
+        $response = $this->delete('/company/delete/'.$company->id);
         $response->assertRedirect('/company');
 
         $this->assertNull(Company::find($company->id));

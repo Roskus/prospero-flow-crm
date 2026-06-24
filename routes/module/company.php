@@ -13,4 +13,4 @@ Route::get('/company', [CompanyIndexController::class, 'index']);
 Route::get('/company/create', [CompanyCreateController::class, 'create']);
 Route::get('/company/update/{id}', [CompanyUpdateController::class, 'update']);
 Route::post('/company/save', [CompanySaveController::class, 'save']);
-Route::get('/company/delete/{id}', [CompanyDeleteController::class, 'delete']);
+Route::delete('/company/delete/{id}', [CompanyDeleteController::class, 'delete']);
