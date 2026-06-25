@@ -71,4 +71,43 @@ class NotificationControllerTest extends TestCase
 
         $response->assertNotFound();
     }
+
+    #[Test]
+    public function it_blocks_unauthenticated_delete(): void
+    {
+        $notification = Notification::factory()->create(['user_id' => $this->user->id]);
+
+        auth()->guard('web')->logout();
+
+        $response = $this->get("/notification/delete/{$notification->id}");
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
+    public function it_can_delete_own_notification(): void
+    {
+        $notification = Notification::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $response = $this->get("/notification/delete/{$notification->id}");
+
+        $response->assertRedirect();
+        $this->assertTrue(Notification::where('id', $notification->id)->onlyTrashed()->exists());
+    }
+
+    #[Test]
+    public function it_prevents_deleting_another_users_notification(): void
+    {
+        $otherUser = User::factory()->create();
+        $notification = Notification::factory()->create([
+            'user_id' => $otherUser->id,
+        ]);
+
+        $response = $this->get("/notification/delete/{$notification->id}");
+
+        $response->assertNotFound();
+        $this->assertNull(Notification::withTrashed()->find($notification->id)->deleted_at);
+    }
 }
