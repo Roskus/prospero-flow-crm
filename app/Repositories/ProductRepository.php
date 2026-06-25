@@ -15,7 +15,7 @@ class ProductRepository
             $product = new Product;
             $product->created_at = now();
         } else {
-            $product = Product::find($data['id']);
+            $product = Product::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
         $product->company_id = Auth::user()->company_id;
         $product->category_id = ! empty($data['category_id']) ? $data['category_id'] : null;

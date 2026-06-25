@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Product;
 
+use App\Http\Controllers\MainController;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProductCreateController
+class ProductCreateController extends MainController
 {
     public function create(Request $request)
     {
