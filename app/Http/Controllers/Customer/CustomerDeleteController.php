@@ -10,6 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerDeleteController extends MainController
 {
@@ -18,7 +19,9 @@ class CustomerDeleteController extends MainController
      */
     public function delete(Request $request, int $id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
         $customer->delete();
 
         return redirect('/customer')->with(['status' => true, 'message' => __('Customer deleted successfully')]);

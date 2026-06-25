@@ -10,6 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 class LeadDeleteController extends MainController
 {
@@ -18,7 +19,9 @@ class LeadDeleteController extends MainController
      */
     public function delete(Request $request, int $id)
     {
-        $lead = Lead::find($id);
+        $lead = Lead::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
         $status = $lead->delete();
 
         return redirect('/lead')->with(['status' => $status ? 'success' : 'error', 'message' => __('Lead deleted successfully')]);

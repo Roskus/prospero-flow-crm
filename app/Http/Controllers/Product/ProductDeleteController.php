@@ -13,11 +13,11 @@ class ProductDeleteController extends MainController
 {
     public function delete(ProductDeleteRequest $request, int $id)
     {
-        $product = Product::where('company_id', Auth::user()->company_id)->find($id);
+        $product = Product::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
 
-        if ($product) {
-            $product->delete();
-        }
+        $product->delete();
 
         return redirect('/product');
     }

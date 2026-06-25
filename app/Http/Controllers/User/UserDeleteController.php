@@ -13,11 +13,11 @@ class UserDeleteController extends MainController
 {
     public function delete(UserDeleteRequest $request, int $id)
     {
-        $user = User::where('company_id', Auth::user()->company_id)->find($id);
+        $user = User::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
 
-        if ($user) {
-            $user->delete();
-        }
+        $user->delete();
 
         return redirect('/user');
     }

@@ -27,8 +27,13 @@ class CompanySaveController extends MainController
             if (Auth::user()->cannot('create company')) {
                 return redirect('/company')->with('error', __('Unauthorized'));
             }
-        } elseif (Auth::user()->cannot('update company')) {
-            return redirect('/company')->with('error', __('Unauthorized'));
+        } else {
+            if (Auth::user()->cannot('update company')) {
+                return redirect('/company')->with('error', __('Unauthorized'));
+            }
+            if ((int) $request->id !== (int) Auth::user()->company_id) {
+                return redirect('/company')->with('error', __('Unauthorized'));
+            }
         }
 
         $company = $this->companyRepository->save($request->all());

@@ -7,12 +7,15 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\MainController;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryDeleteController extends MainController
 {
     public function delete(Request $request, int $id)
     {
-        $category = Category::find($id);
+        $category = Category::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
         $category->delete();
 
         return redirect('category');
