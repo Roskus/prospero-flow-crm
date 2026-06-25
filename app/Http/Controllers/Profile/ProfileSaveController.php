@@ -4,47 +4,41 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Profile;
 
+use App\Http\Controllers\MainController;
+use App\Http\Requests\ProfileSaveRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
-class ProfileSaveController
+class ProfileSaveController extends MainController
 {
-    public function save(Request $request)
+    public function save(ProfileSaveRequest $request)
     {
-        $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('user')->ignore(Auth::user())],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'timezone' => ['string', 'timezone'],
-            'photo' => ['image'],
-        ]);
+        $validated = $request->validated();
 
         $status = 'success';
-        $locale = $request->lang;
+        $locale = $validated['lang'] ?? 'en';
         $user = User::find(Auth::user()->id);
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
+        $user->first_name = $validated['first_name'];
+        $user->last_name = $validated['last_name'] ?? null;
+        $user->email = $validated['email'];
         $user->lang = $locale;
-        $user->phone = $request->phone;
-        $user->timezone = $request->timezone;
-        $user->signature_html = ! empty($request->signature_html)
-            ? strip_tags($request->signature_html, '<a><b><strong><i><em><u><br><p><div><span><ul><ol><li><img>')
+        $user->phone = $validated['phone'] ?? null;
+        $user->timezone = $validated['timezone'] ?? null;
+        $user->signature_html = ! empty($validated['signature_html'])
+            ? strip_tags($validated['signature_html'], '<a><b><strong><i><em><u><br><p><div><span><ul><ol><li><img>')
             : null;
 
         // Update password if change
-        if (! empty($request->password) && ! empty($request->password_confirmation) && ($request->password == $request->password_confirmation)) {
-            $user->password = Hash::make($request->password);
+        if (! empty($validated['password']) && ! empty($validated['password_confirmation']) && ($validated['password'] === $validated['password_confirmation'])) {
+            $user->password = Hash::make($validated['password']);
         }
         $user->updated_at = now();
         // Save image
-        if (isset($request->photo)) {
+        if ($request->hasFile('photo')) {
             $extension = $request->file('photo')->extension();
             $origin_path = $request->file('photo')->getPathName();
 

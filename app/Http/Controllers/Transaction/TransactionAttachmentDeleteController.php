@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Transaction;
 
+use App\Http\Controllers\MainController;
 use App\Models\Transaction;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class TransactionAttachmentDeleteController
+class TransactionAttachmentDeleteController extends MainController
 {
     public function delete(Request $request, int $id): RedirectResponse
     {

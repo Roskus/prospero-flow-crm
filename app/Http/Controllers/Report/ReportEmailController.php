@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Report;
 
-class ReportEmailController
+use App\Http\Controllers\MainController;
+
+class ReportEmailController extends MainController
 {
     public function index()
     {
