@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Bank\Account;
 
+use App\Http\Controllers\MainController;
 use App\Models\Bank\Account as BankAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BankAccountShowController
+class BankAccountShowController extends MainController
 {
     public function show(Request $request, int $id)
     {

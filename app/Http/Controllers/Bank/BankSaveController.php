@@ -4,35 +4,30 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Bank;
 
+use App\Http\Controllers\MainController;
+use App\Http\Requests\BankSaveRequest;
 use App\Models\Bank;
-use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
-class BankSaveController
+class BankSaveController extends MainController
 {
-    public function save(Request $request)
+    public function save(BankSaveRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'country_id' => 'required',
-            'bic' => empty($request->uuid) ? 'required|bic|unique:bank' : 'required|bic',
-            'email' => 'nullable|email',
-            'website' => 'nullable|url',
-        ]);
+        $validated = $request->validated();
 
-        if (empty($request->uuid)) {
+        if (empty($validated['uuid'])) {
             $bank = new Bank;
             $bank->created_at = now();
+            $bank->uuid = Uuid::uuid5(Uuid::NAMESPACE_URL, $validated['bic'])->toString();
         } else {
-            $bank = Bank::find($request->uuid);
+            $bank = Bank::find($validated['uuid']);
         }
-        $bank->uuid = Uuid::uuid5(Uuid::NAMESPACE_URL, $request->bic)->toString();
-        $bank->name = $request->name;
-        $bank->phone = $request->phone;
-        $bank->bic = $request->bic;
-        $bank->country_id = strtolower($request->country_id);
-        $bank->email = $request->email;
-        $bank->website = $request->website;
+        $bank->name = $validated['name'];
+        $bank->phone = $validated['phone'] ?? null;
+        $bank->bic = $validated['bic'];
+        $bank->country_id = strtolower($validated['country_id']);
+        $bank->email = $validated['email'] ?? null;
+        $bank->website = $validated['website'] ?? null;
         $bank->updated_at = now();
         $bank->save();
 
