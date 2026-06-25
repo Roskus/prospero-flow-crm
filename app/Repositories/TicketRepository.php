@@ -16,7 +16,9 @@ class TicketRepository
             $ticket->created_at = now();
             $ticket->created_by = Auth::user()->id;
         } else {
-            $ticket = Ticket::find($data['id']);
+            $ticket = Ticket::where('id', $data['id'])
+                ->where('company_id', Auth::user()->company_id)
+                ->firstOrFail();
         }
         $ticket->company_id = Auth::user()->company_id;
         $ticket->title = $data['title'];

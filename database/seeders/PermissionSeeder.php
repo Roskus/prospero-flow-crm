@@ -305,6 +305,31 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete message',
                 'guard_name' => 'web',
             ],
+            // Ticket
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'name' => 'create ticket',
+                'guard_name' => 'web',
+                'module_id' => 10,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'name' => 'read ticket',
+                'guard_name' => 'web',
+                'module_id' => 10,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'name' => 'update ticket',
+                'guard_name' => 'web',
+                'module_id' => 10,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete ticket',
+                'guard_name' => 'web',
+                'module_id' => 10,
+            ],
         ];
     }
 }
