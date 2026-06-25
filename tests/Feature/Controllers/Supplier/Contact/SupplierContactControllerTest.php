@@ -97,4 +97,45 @@ class SupplierContactControllerTest extends TestCase
 
         $response->assertNotFound();
     }
+
+    #[Test]
+    public function it_prevents_blind_write_to_another_companys_supplier_contact(): void
+    {
+        $contactFromOtherCompany = SupplierContact::factory()->create(['company_id' => $this->user->company_id + 1]);
+        $originalName = $contactFromOtherCompany->first_name;
+
+        $updateData = [
+            'id' => $contactFromOtherCompany->id,
+            'contact_first_name' => 'Hijacked',
+            'contact_last_name' => 'Name',
+            'contact_email' => 'hijacked@example.com',
+        ];
+
+        $response = $this->post('/supplier/contact/save', $updateData);
+        $response->assertNotFound();
+
+        $contactFromOtherCompany->refresh();
+        $this->assertEquals($originalName, $contactFromOtherCompany->first_name);
+    }
+
+    #[Test]
+    public function it_prevents_exporting_another_companys_supplier_contact_vcard(): void
+    {
+        $contactFromOtherCompany = SupplierContact::factory()->create(['company_id' => $this->user->company_id + 1]);
+
+        $response = $this->get("/supplier/contact/export-vcard/{$contactFromOtherCompany->id}");
+
+        $response->assertNotFound();
+    }
+
+    #[Test]
+    public function it_can_export_own_supplier_contact_vcard(): void
+    {
+        $contact = SupplierContact::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->get("/supplier/contact/export-vcard/{$contact->id}");
+
+        $response->assertOk();
+        $response->assertHeader('Content-Disposition');
+    }
 }

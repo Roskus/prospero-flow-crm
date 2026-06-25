@@ -17,7 +17,9 @@ class ContactRepository
             $contact->company_id = Auth::user()->company_id;
             $contact->created_at = now();
         } else {
-            $contact = Contact::find($data['id']);
+            $contact = Contact::where('id', $data['id'])
+                ->where('company_id', Auth::user()->company_id)
+                ->firstOrFail();
         }
 
         $contact->lead_id = ! empty($data['lead_id']) ? $data['lead_id'] : null;

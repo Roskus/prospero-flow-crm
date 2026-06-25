@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Supplier\Contact;
 use App\Http\Controllers\MainController;
 use App\Models\Supplier\SupplierContact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,9 @@ class ContactExportVCard extends MainController
 {
     public function export(Request $request, int $id)
     {
-        $contact = SupplierContact::findOrFail($id);
+        $contact = SupplierContact::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
         $fileName = Str::slug(title: $contact->first_name.' '.$contact->last_name, separator: '-').'_'.date('Ymd_His').'.vcf';
         $headers = [
             'Content-type' => 'text/csv',

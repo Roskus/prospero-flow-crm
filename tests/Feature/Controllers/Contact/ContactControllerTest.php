@@ -92,4 +92,45 @@ class ContactControllerTest extends TestCase
 
         $response->assertNotFound();
     }
+
+    #[Test]
+    public function it_prevents_blind_write_to_another_companys_contact(): void
+    {
+        $contactFromOtherCompany = Contact::factory()->create(['company_id' => $this->user->company_id + 1]);
+        $originalName = $contactFromOtherCompany->first_name;
+
+        $updateData = [
+            'id' => $contactFromOtherCompany->id,
+            'contact_first_name' => 'Hijacked',
+            'contact_last_name' => 'Name',
+            'contact_email' => 'hijacked@example.com',
+        ];
+
+        $response = $this->post('/contact/save', $updateData);
+        $response->assertNotFound();
+
+        $contactFromOtherCompany->refresh();
+        $this->assertEquals($originalName, $contactFromOtherCompany->first_name);
+    }
+
+    #[Test]
+    public function it_prevents_exporting_another_companys_contact_vcard(): void
+    {
+        $contactFromOtherCompany = Contact::factory()->create(['company_id' => $this->user->company_id + 1]);
+
+        $response = $this->get("/contact/export-vcard/{$contactFromOtherCompany->id}");
+
+        $response->assertNotFound();
+    }
+
+    #[Test]
+    public function it_can_export_own_contact_vcard(): void
+    {
+        $contact = Contact::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->get("/contact/export-vcard/{$contact->id}");
+
+        $response->assertOk();
+        $response->assertHeader('Content-Disposition');
+    }
 }

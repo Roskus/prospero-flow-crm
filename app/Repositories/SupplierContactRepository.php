@@ -17,7 +17,9 @@ class SupplierContactRepository
             $contact->company_id = Auth::user()->company_id;
             $contact->created_at = now();
         } else {
-            $contact = SupplierContact::find($data['id']);
+            $contact = SupplierContact::where('id', $data['id'])
+                ->where('company_id', Auth::user()->company_id)
+                ->firstOrFail();
         }
         $contact->supplier_id = ! empty($data['supplier_id']) ? $data['supplier_id'] : null;
         $contact->first_name = ! empty($data['contact_first_name']) ? $data['contact_first_name'] : null;

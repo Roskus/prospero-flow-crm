@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Contact;
 use App\Http\Controllers\MainController;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,9 @@ class ContactExportVCard extends MainController
 {
     public function export(Request $request, int $id)
     {
-        $contact = Contact::findOrFail($id);
+        $contact = Contact::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->firstOrFail();
         $fullName = $contact->first_name.' '.$contact->last_name;
         $fileName = Str::slug(title: $fullName, separator: '-').'_'.date('Ymd_His').'.vcf';
         $headers = [
