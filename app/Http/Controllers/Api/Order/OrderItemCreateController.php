@@ -17,11 +17,11 @@ class OrderItemCreateController
         path: '/order-item',
         summary: 'Add item to Order',
         security: [['bearerAuth' => []]],
-        tags: ['OrderItem'],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/OrderItem')
         ),
+        tags: ['OrderItem'],
         responses: [
             new OAT\Response(response: 201, description: 'Item added to order'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

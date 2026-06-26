@@ -19,7 +19,7 @@ class CompanyReadController
         security: [['bearerAuth' => []]],
         tags: ['Company'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Company', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'Id of the Company', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Company found', content: new OAT\JsonContent(ref: '#/components/schemas/Company')),

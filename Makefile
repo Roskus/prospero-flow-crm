@@ -20,7 +20,10 @@ build-pg: ## Create docker build containers with Postgres
 build-ms: ## Create docker build containers with MS SQL Server
 	docker compose -f docker-compose.yml -f docker-compose.mssql.yml build
 
-up: ## Start docker container with MariaDB
+up: ## Start docker container without db
+	docker compose -f docker-compose.yml up -d
+
+up-mysql: ## Start docker container with MariaDB / MySQL
 	docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
 
 up-pg: ## Start docker container with Postgres

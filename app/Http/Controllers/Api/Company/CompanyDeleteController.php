@@ -6,38 +6,23 @@ namespace App\Http\Controllers\Api\Company;
 
 use App\Http\Requests\CompanyDeleteRequest;
 use App\Models\Company;
-use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OAT;
 
-/**
- * Controller for company deletion.
- *
- * @group Companies
- */
 class CompanyDeleteController
 {
-    /**
-     * @OA\Delete (
-     *      path="/company/{id}",
-     *      summary="Delete a Company",
-     *      tags={"Company"},
-     *      security={{"bearerAuth": {}}},
-     *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Company",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="Company deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     *
-     * Delete a company by ID.
-     *
-     * @authenticated
-     *
-     * @return JsonResponse
-     */
+    #[OAT\Delete(
+        path: '/company/{id}',
+        summary: 'Delete a Company',
+        security: [['bearerAuth' => []]],
+        tags: ['Company'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Company', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Company deleted successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function delete(CompanyDeleteRequest $request, int $id) // @SuppressWarnings(S1172) - $request used for validation
     {
         $company = Company::find($id);

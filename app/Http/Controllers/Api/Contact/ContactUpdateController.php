@@ -21,20 +21,20 @@ class ContactUpdateController
         path: '/contact/{id}',
         summary: 'Update a Contact',
         security: [['bearerAuth' => []]],
-        tags: ['Contact'],
-        parameters: [
-            new OAT\Parameter(
-                name: 'id',
-                in: 'path',
-                description: 'Id of Contact',
-                required: true,
-                schema: new OAT\Schema(type: 'integer')
-            ),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Contact')
         ),
+        tags: ['Contact'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                description: 'Id of Contact',
+                in: 'path',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Contact updated successfully'),
             new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),

@@ -15,11 +15,11 @@ class UserCreateController
         path: '/user',
         summary: 'Create a User',
         security: [['bearerAuth' => []]],
-        tags: ['User'],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/User')
         ),
+        tags: ['User'],
         responses: [
             new OAT\Response(response: 201, description: 'User created successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized - SuperAdmin only'),

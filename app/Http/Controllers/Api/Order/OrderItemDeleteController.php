@@ -20,9 +20,9 @@ class OrderItemDeleteController
         parameters: [
             new OAT\Parameter(
                 name: 'id',
+                description: 'Item ID',
                 in: 'path',
                 required: true,
-                description: 'Item ID',
                 schema: new OAT\Schema(type: 'integer')
             ),
         ],

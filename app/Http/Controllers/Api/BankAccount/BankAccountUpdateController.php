@@ -16,14 +16,14 @@ class BankAccountUpdateController
         path: '/bank-account/{id}',
         summary: 'Update a Bank Account',
         security: [['bearerAuth' => []]],
-        tags: ['BankAccount'],
-        parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Bank Account', schema: new OAT\Schema(type: 'integer')),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/BankAccount')
         ),
+        tags: ['BankAccount'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Bank Account', schema: new OAT\Schema(type: 'integer')),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Bank Account updated successfully', content: new OAT\JsonContent(ref: '#/components/schemas/BankAccount')),
             new OAT\Response(response: 404, description: 'Bank Account not found'),

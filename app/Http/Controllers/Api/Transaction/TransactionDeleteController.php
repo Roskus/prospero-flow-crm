@@ -19,9 +19,9 @@ class TransactionDeleteController
         parameters: [
             new OAT\Parameter(
                 name: 'id',
+                description: 'Transaction ID',
                 in: 'path',
                 required: true,
-                description: 'Transaction ID',
                 schema: new OAT\Schema(type: 'integer')
             ),
         ],

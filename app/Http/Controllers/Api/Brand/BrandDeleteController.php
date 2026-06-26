@@ -19,8 +19,8 @@ class BrandDeleteController
         parameters: [
             new OAT\Parameter(
                 name: 'id',
-                in: 'path',
                 description: 'ID of the Brand',
+                in: 'path',
                 required: true,
                 schema: new OAT\Schema(type: 'integer')
             ),

@@ -24,14 +24,14 @@ class LeadUpdateController
         path: '/lead/{id}',
         summary: 'Update a Lead',
         security: [['bearerAuth' => []]],
-        tags: ['Lead'],
-        parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of Lead', schema: new OAT\Schema(type: 'integer')),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Lead')
         ),
+        tags: ['Lead'],
+        parameters: [
+            new OAT\Parameter(name: 'id', description: 'Id of Lead', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Lead updated successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

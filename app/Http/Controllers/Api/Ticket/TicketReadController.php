@@ -18,7 +18,7 @@ class TicketReadController
         security: [['bearerAuth' => []]],
         tags: ['Ticket'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Ticket', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'ID of the Ticket', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Ticket found', content: new OAT\JsonContent(ref: '#/components/schemas/Ticket')),

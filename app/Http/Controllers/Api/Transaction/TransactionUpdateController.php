@@ -15,20 +15,20 @@ class TransactionUpdateController
         path: '/transaction/{id}',
         summary: 'Update a Transaction',
         security: [['bearerAuth' => []]],
-        tags: ['Transaction'],
-        parameters: [
-            new OAT\Parameter(
-                name: 'id',
-                in: 'path',
-                required: true,
-                description: 'Transaction ID',
-                schema: new OAT\Schema(type: 'integer')
-            ),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Transaction')
         ),
+        tags: ['Transaction'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                description: 'Transaction ID',
+                in: 'path',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Transaction updated successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

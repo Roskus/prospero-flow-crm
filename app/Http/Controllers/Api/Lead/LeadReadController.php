@@ -18,7 +18,7 @@ class LeadReadController
         security: [['bearerAuth' => []]],
         tags: ['Lead'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of Lead', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'Id of Lead', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Lead found', content: new OAT\JsonContent(ref: '#/components/schemas/Lead')),

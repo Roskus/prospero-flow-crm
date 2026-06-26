@@ -23,11 +23,11 @@ class LeadCreateController
         path: '/lead',
         summary: 'Create a Lead',
         security: [['bearerAuth' => []]],
-        tags: ['Lead'],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Lead')
         ),
+        tags: ['Lead'],
         responses: [
             new OAT\Response(response: 201, description: 'Lead created successfully'),
             new OAT\Response(response: 422, description: 'Validation failed'),

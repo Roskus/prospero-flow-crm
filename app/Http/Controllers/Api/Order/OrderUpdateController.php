@@ -16,20 +16,20 @@ class OrderUpdateController
         path: '/order/{id}',
         summary: 'Update an Order',
         security: [['bearerAuth' => []]],
-        tags: ['Order'],
-        parameters: [
-            new OAT\Parameter(
-                name: 'id',
-                in: 'path',
-                required: true,
-                description: 'Order ID',
-                schema: new OAT\Schema(type: 'integer')
-            ),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Order')
         ),
+        tags: ['Order'],
+        parameters: [
+            new OAT\Parameter(
+                name: 'id',
+                description: 'Order ID',
+                in: 'path',
+                required: true,
+                schema: new OAT\Schema(type: 'integer')
+            ),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Order updated successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

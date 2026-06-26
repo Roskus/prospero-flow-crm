@@ -18,7 +18,7 @@ class CustomerDeleteController
         security: [['bearerAuth' => []]],
         tags: ['Customer'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Customer', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'ID of the Customer', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Customer deleted successfully'),

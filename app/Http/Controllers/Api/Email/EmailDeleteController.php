@@ -6,39 +6,24 @@ namespace App\Http\Controllers\Api\Email;
 
 use App\Http\Requests\EmailDeleteRequest;
 use App\Models\Email;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
-/**
- * Controller for email deletion.
- *
- * @group Emails
- */
 class EmailDeleteController
 {
-    /**
-     * @OA\Delete (
-     *      path="/email/{id}",
-     *      summary="Delete an Email",
-     *      tags={"Email"},
-     *      security={{"bearerAuth": {}}},
-     *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Email",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="Email deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     *
-     * Delete an email by ID.
-     *
-     * @authenticated
-     *
-     * @return JsonResponse
-     */
+    #[OAT\Delete(
+        path: '/email/{id}',
+        summary: 'Delete an Email',
+        security: [['bearerAuth' => []]],
+        tags: ['Email'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Email', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'Email deleted successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function delete(EmailDeleteRequest $request, int $id)
     {
         $email = Email::find($id);

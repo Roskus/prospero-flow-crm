@@ -7,34 +7,30 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OAT;
 
 class LoginController extends Controller
 {
-    /**
-     * Login and get a JWT given auth credentials.
-     * @OA\Post(
-     *     path="/auth/login",
-     *     summary="Login",
-     *     tags={"Auth"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="Pass user credentials",
-     *         @OA\JsonContent(
-     *             required={"email", "password"},
-     *             @OA\Property(property="email", type="string", format="email", example="admin@admin.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="admin")
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response="401",
-     *         description="Unauthorized or wrong credentials"
-     *     )
-     * )
-     */
+    #[OAT\Post(
+        path: '/auth/login',
+        summary: 'Login',
+        tags: ['Auth'],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            description: 'Pass user credentials',
+            content: new OAT\JsonContent(
+                required: ['email', 'password'],
+                properties: [
+                    new OAT\Property(property: 'email', type: 'string', format: 'email', example: 'admin@admin.com'),
+                    new OAT\Property(property: 'password', type: 'string', format: 'password', example: 'admin'),
+                ],
+            ),
+        ),
+        responses: [
+            new OAT\Response(response: 200, description: 'Success'),
+            new OAT\Response(response: 401, description: 'Unauthorized or wrong credentials'),
+        ]
+    )]
     public function login(Request $request): JsonResponse
     {
         $request->validate([

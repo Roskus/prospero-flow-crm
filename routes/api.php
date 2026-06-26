@@ -8,6 +8,11 @@ use App\Http\Controllers\Api\BankAccount\BankAccountDeleteController;
 use App\Http\Controllers\Api\BankAccount\BankAccountListController;
 use App\Http\Controllers\Api\BankAccount\BankAccountReadController;
 use App\Http\Controllers\Api\BankAccount\BankAccountUpdateController;
+use App\Http\Controllers\Api\BankCard\BankCardCreateController;
+use App\Http\Controllers\Api\BankCard\BankCardDeleteController;
+use App\Http\Controllers\Api\BankCard\BankCardListController;
+use App\Http\Controllers\Api\BankCard\BankCardReadController;
+use App\Http\Controllers\Api\BankCard\BankCardUpdateController;
 use App\Http\Controllers\Api\Brand\BrandCreateController;
 use App\Http\Controllers\Api\Brand\BrandDeleteController;
 use App\Http\Controllers\Api\Brand\BrandListController;
@@ -33,7 +38,11 @@ use App\Http\Controllers\Api\Customer\CustomerListController;
 use App\Http\Controllers\Api\Customer\CustomerReadController;
 use App\Http\Controllers\Api\Customer\CustomerUpdateController;
 use App\Http\Controllers\Api\Doc\DocGeneratorController;
+use App\Http\Controllers\Api\Email\EmailCreateController;
 use App\Http\Controllers\Api\Email\EmailDeleteController;
+use App\Http\Controllers\Api\Email\EmailListController;
+use App\Http\Controllers\Api\Email\EmailReadController;
+use App\Http\Controllers\Api\Email\EmailUpdateController;
 use App\Http\Controllers\Api\Lead\LeadCreateController;
 use App\Http\Controllers\Api\Lead\LeadDeleteController;
 use App\Http\Controllers\Api\Lead\LeadListController;
@@ -175,6 +184,13 @@ Route::middleware(['api'])->group(function () {
     Route::put('/bank-account/{id}', [BankAccountUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/bank-account/{id}', [BankAccountDeleteController::class, 'delete'])->middleware(['auth:api']);
 
+    // BankCard
+    Route::get('/bank-card', [BankCardListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/bank-card/{id}', [BankCardReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('/bank-card', [BankCardCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/bank-card/{id}', [BankCardUpdateController::class, 'update'])->middleware(['auth:api']);
+    Route::delete('/bank-card/{id}', [BankCardDeleteController::class, 'delete'])->middleware(['auth:api']);
+
     // Calendar
     Route::get('/calendar', [CalendarListController::class, 'index'])->middleware(['auth:api']);
     Route::get('/calendar/{id}', [CalendarReadController::class, 'read'])->middleware(['auth:api']);
@@ -183,6 +199,10 @@ Route::middleware(['api'])->group(function () {
     Route::delete('/calendar/{id}', [CalendarDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Email
+    Route::get('/email', [EmailListController::class, 'index'])->middleware(['auth:api']);
+    Route::get('/email/{id}', [EmailReadController::class, 'read'])->middleware(['auth:api']);
+    Route::post('/email', [EmailCreateController::class, 'create'])->middleware(['auth:api']);
+    Route::put('/email/{id}', [EmailUpdateController::class, 'update'])->middleware(['auth:api']);
     Route::delete('/email/{id}', [EmailDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     /** AUTH ROUTES */

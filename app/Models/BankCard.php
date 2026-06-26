@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Crypt;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(schema: 'BankCard', required: ['bank_account_id', 'type', 'network', 'cardholder_name', 'number', 'expires_month', 'expires_year'], type: 'object')]
 class BankCard extends Model
 {
     use HasFactory;
@@ -56,6 +58,16 @@ class BankCard extends Model
         'cvv_encrypted',
     ];
 
+    #[OAT\Property(property: 'bank_account_id', type: 'integer', example: 1)]
+    #[OAT\Property(property: 'type', type: 'string', example: 'debit', enum: ['debit', 'credit'])]
+    #[OAT\Property(property: 'network', type: 'string', example: 'visa', enum: ['visa', 'mastercard', 'amex', 'other'])]
+    #[OAT\Property(property: 'cardholder_name', type: 'string', example: 'John Doe', maxLength: 80)]
+    #[OAT\Property(property: 'number', type: 'string', example: '4111111111111111')]
+    #[OAT\Property(property: 'cvv', type: 'string', example: '123', nullable: true, maxLength: 4)]
+    #[OAT\Property(property: 'expires_month', type: 'integer', example: 12)]
+    #[OAT\Property(property: 'expires_year', type: 'integer', example: 2028)]
+    #[OAT\Property(property: 'last_four', type: 'string', example: '1111')]
+    #[OAT\Property(property: 'notes', type: 'string', example: 'Company debit card', nullable: true)]
     public function bankAccount(): BelongsTo
     {
         return $this->belongsTo(BankAccount::class, 'bank_account_id');

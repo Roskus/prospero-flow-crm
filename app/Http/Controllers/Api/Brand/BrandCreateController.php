@@ -22,10 +22,9 @@ class BrandCreateController
         path: '/brand',
         summary: 'Create a Brand',
         security: [['bearerAuth' => []]],
-        tags: ['Brand'],
         requestBody: new OAT\RequestBody(
-            required: true,
             description: 'Brand data',
+            required: true,
             content: new OAT\JsonContent(
                 required: ['name'],
                 properties: [
@@ -33,6 +32,7 @@ class BrandCreateController
                 ]
             )
         ),
+        tags: ['Brand'],
         responses: [
             new OAT\Response(
                 response: 201,

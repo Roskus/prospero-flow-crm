@@ -19,9 +19,9 @@ class OrderReadController
         parameters: [
             new OAT\Parameter(
                 name: 'id',
+                description: 'Order ID',
                 in: 'path',
                 required: true,
-                description: 'Order ID',
                 schema: new OAT\Schema(type: 'integer')
             ),
         ],

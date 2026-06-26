@@ -16,11 +16,11 @@ class BankAccountCreateController
         path: '/bank-account',
         summary: 'Create a Bank Account',
         security: [['bearerAuth' => []]],
-        tags: ['BankAccount'],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/BankAccount')
         ),
+        tags: ['BankAccount'],
         responses: [
             new OAT\Response(response: 201, description: 'Bank Account created successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

@@ -18,7 +18,7 @@ class LeadDeleteController
         security: [['bearerAuth' => []]],
         tags: ['Lead'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the Lead', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'ID of the Lead', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Lead deleted successfully'),

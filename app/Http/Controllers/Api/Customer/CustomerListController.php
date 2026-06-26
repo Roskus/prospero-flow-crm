@@ -18,7 +18,7 @@ class CustomerListController extends ApiController
         security: [['bearerAuth' => []]],
         tags: ['Customer'],
         parameters: [
-            new OAT\Parameter(name: 'per_page', in: 'query', required: false, description: 'Number of results per page', schema: new OAT\Schema(type: 'integer', default: 15)),
+            new OAT\Parameter(name: 'per_page', description: 'Number of results per page', in: 'query', required: false, schema: new OAT\Schema(type: 'integer', default: 15)),
         ],
         responses: [
             new OAT\Response(

@@ -17,11 +17,11 @@ class CalendarCreateController
         path: '/calendar',
         summary: 'Create a Calendar event',
         security: [['bearerAuth' => []]],
-        tags: ['Calendar'],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Calendar')
         ),
+        tags: ['Calendar'],
         responses: [
             new OAT\Response(response: 201, description: 'Calendar event created successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

@@ -23,14 +23,14 @@ class CustomerUpdateController
         path: '/customer/{id}',
         summary: 'Update a Customer',
         security: [['bearerAuth' => []]],
-        tags: ['Customer'],
-        parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Customer', schema: new OAT\Schema(type: 'integer')),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Customer')
         ),
+        tags: ['Customer'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Customer', schema: new OAT\Schema(type: 'integer')),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Customer updated successfully'),
             new OAT\Response(response: 422, description: 'Validation failed'),

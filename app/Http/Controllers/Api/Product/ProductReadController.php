@@ -20,8 +20,8 @@ class ProductReadController
         parameters: [
             new OAT\Parameter(
                 name: 'id',
-                in: 'path',
                 description: 'Id of Product',
+                in: 'path',
                 required: true,
                 schema: new OAT\Schema(type: 'integer')
             ),

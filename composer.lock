@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2fce30665565386dac0ca4c38bf9c749",
+    "content-hash": "e231bfa5bf3f85fa9e73037bb0ee1624",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2633,16 +2633,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.18",
+            "version": "v0.3.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "a19af51bb144bf87f08397921fa619f85c7d4e72"
+                "reference": "7753c65c281c2550c7c183f14e18062073b7d821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/a19af51bb144bf87f08397921fa619f85c7d4e72",
-                "reference": "a19af51bb144bf87f08397921fa619f85c7d4e72",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/7753c65c281c2550c7c183f14e18062073b7d821",
+                "reference": "7753c65c281c2550c7c183f14e18062073b7d821",
                 "shasum": ""
             },
             "require": {
@@ -2686,9 +2686,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.18"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.21"
             },
-            "time": "2026-05-19T00:47:18+00:00"
+            "time": "2026-06-26T00:11:25+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -3210,16 +3210,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.35.0",
+            "version": "3.35.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "d0a405f03d980461e4b6e08cfed2c162650f9f6b"
+                "reference": "f23af6c5aafd958a7593029a271d77baf5ed793c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/d0a405f03d980461e4b6e08cfed2c162650f9f6b",
-                "reference": "d0a405f03d980461e4b6e08cfed2c162650f9f6b",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f23af6c5aafd958a7593029a271d77baf5ed793c",
+                "reference": "f23af6c5aafd958a7593029a271d77baf5ed793c",
                 "shasum": ""
             },
             "require": {
@@ -3287,9 +3287,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.35.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.35.1"
             },
-            "time": "2026-06-22T20:12:06+00:00"
+            "time": "2026-06-25T06:52:23+00:00"
         },
         {
             "name": "league/flysystem-local",
@@ -11073,16 +11073,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.95.10",
+            "version": "v3.95.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "93e1ab3e1f153024bd3ab23c8a349556063c6f17"
+                "reference": "35f98e1293283397824d7f349ce5afb8747c3cd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/93e1ab3e1f153024bd3ab23c8a349556063c6f17",
-                "reference": "93e1ab3e1f153024bd3ab23c8a349556063c6f17",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/35f98e1293283397824d7f349ce5afb8747c3cd5",
+                "reference": "35f98e1293283397824d7f349ce5afb8747c3cd5",
                 "shasum": ""
             },
             "require": {
@@ -11116,7 +11116,7 @@
             "require-dev": {
                 "facile-it/paraunit": "^1.3.1 || ^2.11.0",
                 "infection/infection": "^0.32.7",
-                "justinrainbow/json-schema": "^6.9.0",
+                "justinrainbow/json-schema": "^6.10.0",
                 "keradus/cli-executor": "^2.3",
                 "mikey179/vfsstream": "^1.6.12",
                 "php-coveralls/php-coveralls": "^2.9.1",
@@ -11166,7 +11166,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.10"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.11"
             },
             "funding": [
                 {
@@ -11174,7 +11174,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-19T14:45:22+00:00"
+            "time": "2026-06-25T14:17:04+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -11426,16 +11426,16 @@
         },
         {
             "name": "laravel/mcp",
-            "version": "v0.8.1",
+            "version": "v0.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/mcp.git",
-                "reference": "fdc39c9e21048801508765cb4d72bd9e8501b51f"
+                "reference": "0c32bf369c6432cab21458f9f4479da33a49ba37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/mcp/zipball/fdc39c9e21048801508765cb4d72bd9e8501b51f",
-                "reference": "fdc39c9e21048801508765cb4d72bd9e8501b51f",
+                "url": "https://api.github.com/repos/laravel/mcp/zipball/0c32bf369c6432cab21458f9f4479da33a49ba37",
+                "reference": "0c32bf369c6432cab21458f9f4479da33a49ba37",
                 "shasum": ""
             },
             "require": {
@@ -11496,7 +11496,7 @@
                 "issues": "https://github.com/laravel/mcp/issues",
                 "source": "https://github.com/laravel/mcp"
             },
-            "time": "2026-06-11T13:59:49+00:00"
+            "time": "2026-06-25T14:00:45+00:00"
         },
         {
             "name": "laravel/pint",
@@ -14947,7 +14947,8 @@
         "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-intl": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"

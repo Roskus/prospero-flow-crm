@@ -19,7 +19,7 @@ class CustomerReadController
         security: [['bearerAuth' => []]],
         tags: ['Customer'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Customer', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'Id of the Customer', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Customer found', content: new OAT\JsonContent(ref: '#/components/schemas/Customer')),

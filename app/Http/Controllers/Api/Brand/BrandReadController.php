@@ -20,8 +20,8 @@ class BrandReadController
         parameters: [
             new OAT\Parameter(
                 name: 'id',
-                in: 'path',
                 description: 'ID of Brand',
+                in: 'path',
                 required: true,
                 schema: new OAT\Schema(type: 'integer')
             ),

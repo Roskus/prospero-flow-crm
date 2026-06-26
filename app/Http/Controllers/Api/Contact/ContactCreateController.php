@@ -22,11 +22,11 @@ class ContactCreateController
         path: '/contact',
         summary: 'Create a contact',
         security: [['bearerAuth' => []]],
-        tags: ['Contact'],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Contact')
         ),
+        tags: ['Contact'],
         responses: [
             new OAT\Response(response: 201, description: 'Contact created successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

@@ -16,10 +16,9 @@ class SupplierCreateController
         path: '/supplier',
         summary: 'Create a Supplier',
         security: [['bearerAuth' => []]],
-        tags: ['Supplier'],
         requestBody: new OAT\RequestBody(
-            required: true,
             description: 'Supplier attributes',
+            required: true,
             content: new OAT\JsonContent(
                 required: ['name', 'country'],
                 properties: [
@@ -37,6 +36,7 @@ class SupplierCreateController
                 ]
             )
         ),
+        tags: ['Supplier'],
         responses: [
             new OAT\Response(response: 201, description: 'Supplier created successfully'),
             new OAT\Response(response: 422, description: 'Validation failed'),

@@ -14,6 +14,7 @@
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-curl": "*",
+        "ext-pdo": "*",
         "akaunting/laravel-money": "^6.0.3",
         "aws/aws-sdk-php": "^3.371.4",
         "barryvdh/laravel-dompdf": "^3.1.2",

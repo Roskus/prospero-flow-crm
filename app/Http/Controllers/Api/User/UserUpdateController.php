@@ -18,14 +18,14 @@ class UserUpdateController
         path: '/user/{id}',
         summary: 'Update User information',
         security: [['bearerAuth' => []]],
-        tags: ['User'],
-        parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of User', schema: new OAT\Schema(type: 'integer')),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/User')
         ),
+        tags: ['User'],
+        parameters: [
+            new OAT\Parameter(name: 'id', description: 'Id of User', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'User updated successfully', content: new OAT\JsonContent(ref: '#/components/schemas/User')),
             new OAT\Response(response: 404, description: 'User not found'),

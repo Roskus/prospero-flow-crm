@@ -6,40 +6,25 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Models\Company;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 
-/**
- * Controller for user deletion.
- *
- * @group Users
- */
 class UserDeleteController
 {
-    /**
-     * @OA\Delete (
-     *      path="/user/{id}",
-     *      summary="Delete a User",
-     *      tags={"User"},
-     *      security={{"bearerAuth": {}}},
-     *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the User",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(response="200", description="User deleted successfully"),
-     *      @OA\Response(response="400", description="Bad request, please review the parameters")
-     * )
-     *
-     * Delete a user by ID.
-     *
-     * @authenticated
-     *
-     * @return JsonResponse
-     */
+    #[OAT\Delete(
+        path: '/user/{id}',
+        summary: 'Delete a User',
+        security: [['bearerAuth' => []]],
+        tags: ['User'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'ID of the User', schema: new OAT\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OAT\Response(response: 200, description: 'User deleted successfully'),
+            new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+        ]
+    )]
     public function delete(Request $request, int $id) // @SuppressWarnings(S1172) - $request used for validation
     {
         $user = User::find($id);

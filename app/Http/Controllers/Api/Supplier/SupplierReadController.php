@@ -20,8 +20,8 @@ class SupplierReadController
         parameters: [
             new OAT\Parameter(
                 name: 'id',
-                in: 'path',
                 description: 'Id of Supplier',
+                in: 'path',
                 required: true,
                 schema: new OAT\Schema(type: 'integer')
             ),

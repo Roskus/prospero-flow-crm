@@ -19,14 +19,14 @@ class CalendarUpdateController
         path: '/calendar/{id}',
         summary: 'Update a Calendar event',
         security: [['bearerAuth' => []]],
-        tags: ['Calendar'],
-        parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Calendar event', schema: new OAT\Schema(type: 'integer')),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Calendar')
         ),
+        tags: ['Calendar'],
+        parameters: [
+            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Calendar event', schema: new OAT\Schema(type: 'integer')),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Calendar event updated successfully', content: new OAT\JsonContent(ref: '#/components/schemas/Calendar')),
             new OAT\Response(response: 404, description: 'Calendar event not found'),

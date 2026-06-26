@@ -22,11 +22,11 @@ class CustomerCreateController
         path: '/customer',
         summary: 'Create a Customer',
         security: [['bearerAuth' => []]],
-        tags: ['Customer'],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Customer')
         ),
+        tags: ['Customer'],
         responses: [
             new OAT\Response(response: 201, description: 'Customer created successfully'),
             new OAT\Response(response: 403, description: 'Unauthorized'),

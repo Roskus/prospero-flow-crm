@@ -18,7 +18,7 @@ class UserReadController
         security: [['bearerAuth' => []]],
         tags: ['User'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of User', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'Id of User', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'User found', content: new OAT\JsonContent(ref: '#/components/schemas/User')),

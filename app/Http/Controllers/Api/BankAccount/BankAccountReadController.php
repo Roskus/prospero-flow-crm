@@ -18,7 +18,7 @@ class BankAccountReadController
         security: [['bearerAuth' => []]],
         tags: ['BankAccount'],
         parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of the Bank Account', schema: new OAT\Schema(type: 'integer')),
+            new OAT\Parameter(name: 'id', description: 'Id of the Bank Account', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
         ],
         responses: [
             new OAT\Response(response: 200, description: 'Bank Account found', content: new OAT\JsonContent(ref: '#/components/schemas/BankAccount')),

@@ -18,14 +18,14 @@ class CompanyUpdateController
         path: '/company/{id}',
         summary: 'Update a Company',
         security: [['bearerAuth' => []]],
-        tags: ['Company'],
-        parameters: [
-            new OAT\Parameter(name: 'id', in: 'path', required: true, description: 'Id of Company', schema: new OAT\Schema(type: 'integer')),
-        ],
         requestBody: new OAT\RequestBody(
             required: true,
             content: new OAT\JsonContent(ref: '#/components/schemas/Company')
         ),
+        tags: ['Company'],
+        parameters: [
+            new OAT\Parameter(name: 'id', description: 'Id of Company', in: 'path', required: true, schema: new OAT\Schema(type: 'integer')),
+        ],
         responses: [
             new OAT\Response(response: 200, description: 'Company updated successfully'),
             new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
