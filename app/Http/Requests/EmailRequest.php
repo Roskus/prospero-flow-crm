@@ -39,8 +39,10 @@ class EmailRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'signature' => filter_var($this->input('signature'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-        ]);
+        if ($this->has('signature')) {
+            $this->merge([
+                'signature' => filter_var($this->input('signature'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            ]);
+        }
     }
 }

@@ -54,13 +54,13 @@ class EmailSaveControllerTest extends TestCase
     #[Test]
     public function it_can_update_email(): void
     {
-        $email = Email::factory()->create();
+        $email = Email::factory()->create(['company_id' => $this->user->company_id]);
 
         $data = $email->toArray();
         $data['from'] = fake()->email();
         $this->post('/email/save', $data);
 
-        $this->assertDatabaseMissing('email', $data);
+        $this->assertDatabaseHas('email', ['id' => $email->id, 'from' => $data['from']]);
         $this->assertEquals($data['from'], Email::all()->last()->from);
         $this->assertNotEquals($email->from, Email::all()->last()->from);
     }

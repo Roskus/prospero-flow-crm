@@ -13,7 +13,7 @@ class LeadDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_lead()
     {
-        $lead = Lead::factory()->create();
+        $lead = Lead::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->get('/lead/delete/'.$lead->id);
 
