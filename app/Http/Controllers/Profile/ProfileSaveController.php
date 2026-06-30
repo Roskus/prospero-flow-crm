@@ -33,7 +33,7 @@ class ProfileSaveController extends MainController
             : null;
 
         // Update password if change
-        if (! empty($validated['password']) && ! empty($validated['password_confirmation']) && ($validated['password'] === $validated['password_confirmation'])) {
+        if (! empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
         }
         $user->updated_at = now();

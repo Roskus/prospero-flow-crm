@@ -13,7 +13,7 @@ class BrandDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_brand()
     {
-        $brand = Brand::factory()->create();
+        $brand = Brand::factory()->create(['company_id' => $this->user->company_id]);
 
         $this->get('brand/delete/'.$brand->id);
 

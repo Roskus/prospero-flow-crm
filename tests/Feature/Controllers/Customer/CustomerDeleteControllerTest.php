@@ -13,7 +13,7 @@ class CustomerDeleteControllerTest extends TestCase
     #[Test]
     public function it_can_delete_customer(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->get('/customer/delete/'.$customer->id);
 

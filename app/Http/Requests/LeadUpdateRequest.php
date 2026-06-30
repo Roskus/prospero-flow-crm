@@ -16,6 +16,13 @@ class LeadUpdateRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:120'],
+            'email' => ['nullable', 'email', 'max:254'],
+            'phone' => ['nullable', 'string', 'max:15'],
+            'mobile' => ['nullable', 'string', 'max:15'],
+            'country_id' => ['nullable', 'string', 'max:2'],
+            'business_name' => ['nullable', 'string', 'max:120'],
+        ];
     }
 }

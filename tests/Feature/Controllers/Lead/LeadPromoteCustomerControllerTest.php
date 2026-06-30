@@ -26,7 +26,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
         $lead = Lead::withTrashed()->find($lead->id);
 
         $this->assertTrue($lead->trashed());
-        $this->assertIsNotNull($customer);
+        $this->assertNotNull($customer);
         $this->assertEquals($lead->name, $customer->name);
     }
 
@@ -39,7 +39,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
 
         $customer = Customer::latest()->first();
 
-        $this->assertIsNotNull($customer);
+        $this->assertNotNull($customer);
         $this->assertEquals($lead->name, $customer->name);
     }
 }
