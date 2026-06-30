@@ -6,6 +6,7 @@ namespace App\Imports;
 
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -16,7 +17,7 @@ class CustomerImport implements SkipsEmptyRows, ToModel, WithHeadingRow, WithVal
     public function model(array $row): Model|array|null
     {
         return new Customer([
-            'company_id' => $row['company_id'],
+            'company_id' => Auth::user()->company_id,
             'name' => $row['name'],
             'business_name' => $row['business_name'],
             'vat' => $row['vat'],
