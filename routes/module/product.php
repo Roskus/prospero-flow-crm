@@ -18,4 +18,5 @@ Route::post('/product/save', [ProductSaveController::class, 'save']);
 Route::get('/product/import', [ProductImportIndexController::class, 'index']);
 Route::post('/product/import/save', [ProductImportSaveController::class, 'save']);
 
-Route::delete('/product/delete/{id}', [ProductDeleteController::class, 'delete']);
+Route::delete('/product/delete/{id}', [ProductDeleteController::class, 'delete'])
+    ->can('delete product');
