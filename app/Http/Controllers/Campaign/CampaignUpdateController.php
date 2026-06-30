@@ -13,7 +13,7 @@ class CampaignUpdateController extends MainController
 {
     public function update(Request $request, int $id)
     {
-        $campaign = Campaign::find($id);
+        $campaign = Campaign::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $data['campaign'] = $campaign;
         $data['froms'] = [
             ['email' => Auth::user()->company->email, 'name' => Auth::user()->company->name],

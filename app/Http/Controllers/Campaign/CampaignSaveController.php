@@ -18,7 +18,7 @@ class CampaignSaveController extends MainController
             $campaign->company_id = Auth::user()->company_id;
             $campaign->created_at = now();
         } else {
-            $campaign = Campaign::find($request->id);
+            $campaign = Campaign::where('company_id', Auth::user()->company_id)->findOrFail($request->id);
         }
         $campaign->subject = $request->subject;
         $campaign->from = $request->from;
