@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature\Helpers;
 
 use App\Helpers\Domain;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+
+#[Group('network')]
 
 class DomainTest extends TestCase
 {
