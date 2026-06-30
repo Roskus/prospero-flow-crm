@@ -26,7 +26,7 @@ class TransactionSaveController extends MainController
                 Storage::disk('public')->delete($transaction->attachment);
             }
             $transaction->attachment = $request->file('attachment')
-                ->store('accounting/' . Auth::user()->company_id, 'public');
+                ->store('accounting/'.Auth::user()->company_id, 'public');
         }
 
         if (empty($request->id)) {

@@ -63,11 +63,11 @@ class CustomerFactory extends Factory
             'opt_in' => 1,
             'tags' => [fake()->word(), fake()->word()],
             'status' => fake()->randomElement([
-                \App\Models\Customer::OPEN,
-                \App\Models\Customer::IN_PROGRESS,
-                \App\Models\Customer::WAITING_FEEDBACK,
-                \App\Models\Customer::CONVERTED,
-                \App\Models\Customer::CLOSED,
+                Customer::OPEN,
+                Customer::IN_PROGRESS,
+                Customer::WAITING_FEEDBACK,
+                Customer::CONVERTED,
+                Customer::CLOSED,
             ]),
         ];
     }

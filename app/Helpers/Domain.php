@@ -6,10 +6,6 @@ namespace App\Helpers;
 
 class Domain
 {
-    /**
-     * @param string $url
-     * @return bool
-     */
     public static function isValid(string $url): bool
     {
         $urlparts = parse_url(filter_var($url, FILTER_SANITIZE_URL));

@@ -23,6 +23,7 @@ use Tests\TestCase;
 class IDORDestructiveTest extends TestCase
 {
     protected User $userA;
+
     protected User $userB;
 
     protected function setUp(): void
