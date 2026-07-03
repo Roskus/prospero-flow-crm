@@ -7,6 +7,7 @@
 
     <form action="{{ url('bank-account/save') }}" method="post">
         @csrf
+        @include('layouts.partials._errors')
         <input type="hidden" name="id" value="{{ $bank_account->id ?? '' }}">
 
         <div class="card mt-2">
@@ -16,29 +17,33 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <label for="type">{{ __('Type') }} <span class="text-danger">*</span></label>
-                        <select name="type" id="type" required class="form-select form-select-lg">
+                        <select name="type" id="type" required class="form-select form-select-lg @error('type') is-invalid @enderror">
                             @foreach(\App\Models\Bank\Account::TYPES as $value => $label)
                                 <option value="{{ $value }}" @selected(old('type', $bank_account->type ?? 'bank') === $value)>
                                     {{ __($label) }}
                                 </option>
                             @endforeach
                         </select>
+                        @error('type') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="account_name">{{ __('Account name') }}</label>
                         <input type="text" name="account_name" id="account_name" maxlength="80"
                                value="{{ old('account_name', $bank_account->account_name) }}"
                                placeholder="{{ __('e.g. Main account') }}"
-                               class="form-control form-control-lg">
+                               class="form-control form-control-lg @error('account_name') is-invalid @enderror">
+                        @error('account_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-12 col-md-3">
                         @include('components.country', ['country_id' => old('country_id', $bank_account->country_id)])
+                        @error('country_id') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="currency">{{ __('Currency') }} <span class="text-danger">*</span></label>
                         <input type="text" name="currency" id="currency" maxlength="3"
                                value="{{ old('currency', $bank_account->currency) }}"
-                               placeholder="EUR" required class="form-control form-control-lg text-uppercase">
+                               placeholder="EUR" required class="form-control form-control-lg text-uppercase @error('currency') is-invalid @enderror">
+                        @error('currency') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
 
@@ -49,7 +54,7 @@
                             <label for="bank_search">{{ __('Bank') }}</label>
                             <input type="text" id="bank_search" placeholder="{{ __('Search bank...') }}"
                                    class="form-control form-control-lg mb-1" autocomplete="off">
-                            <select name="bank_id" id="bank_id" class="form-select form-select-lg" aria-label="{{ __('Bank list') }}">
+                            <select name="bank_id" id="bank_id" class="form-select form-select-lg @error('bank_id') is-invalid @enderror" aria-label="{{ __('Bank list') }}">
                                 <option value="">{{ __('Choose') }}</option>
                                 @foreach($banks as $bank)
                                     <option value="{{ $bank->id }}" @selected(old('bank_id', $bank_account->bank_id) == $bank->id)>
@@ -57,13 +62,15 @@
                                     </option>
                                 @endforeach
                             </select>
+                            @error('bank_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="swift">SWIFT</label>
                             <input type="text" name="swift" id="swift" maxlength="11"
                                    value="{{ old('swift', $bank_account->swift) }}"
                                    placeholder="BSCHESMMXXX"
-                                   class="form-control form-control-lg text-uppercase">
+                                   class="form-control form-control-lg text-uppercase @error('swift') is-invalid @enderror">
+                            @error('swift') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
 
@@ -74,7 +81,8 @@
                             <input type="text" name="iban" id="iban" maxlength="34"
                                    value="{{ old('iban', $bank_account->iban) }}"
                                    placeholder="ESXX XXXX XXXX XXXX XXXX XXXX"
-                                   class="form-control form-control-lg font-monospace">
+                                   class="form-control form-control-lg font-monospace @error('iban') is-invalid @enderror">
+                            @error('iban') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
 
@@ -85,13 +93,15 @@
                             <input type="text" name="sort_code" id="sort_code" maxlength="8"
                                    value="{{ old('sort_code', $bank_account->sort_code) }}"
                                    placeholder="20-00-00"
-                                   class="form-control form-control-lg font-monospace">
+                                   class="form-control form-control-lg font-monospace @error('sort_code') is-invalid @enderror">
+                            @error('sort_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-12 col-md-8">
                             <label for="account_number">{{ __('Account number') }}</label>
                             <input type="text" name="account_number" id="account_number" maxlength="30"
                                    value="{{ old('account_number', $bank_account->account_number) }}"
-                                   class="form-control form-control-lg font-monospace">
+                                   class="form-control form-control-lg font-monospace @error('account_number') is-invalid @enderror">
+                            @error('account_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
 
@@ -102,7 +112,8 @@
                             <input type="tel" name="bizum" id="bizum" maxlength="15"
                                    value="{{ old('bizum', $bank_account->bizum) }}"
                                    placeholder="+34 600 000 000"
-                                   class="form-control form-control-lg">
+                                   class="form-control form-control-lg @error('bizum') is-invalid @enderror">
+                            @error('bizum') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
 
@@ -114,7 +125,8 @@
                                    value="{{ old('cbu', $bank_account->cbu) }}"
                                    placeholder="0110048200000004823002"
                                    inputmode="numeric"
-                                   class="form-control form-control-lg font-monospace">
+                                   class="form-control form-control-lg font-monospace @error('cbu') is-invalid @enderror">
+                            @error('cbu') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="alias">
@@ -125,7 +137,8 @@
                                    placeholder="MI.CUENTA.BANCO"
                                    pattern="\S+"
                                    title="{{ __('No spaces allowed') }}"
-                                   class="form-control form-control-lg">
+                                   class="form-control form-control-lg @error('alias') is-invalid @enderror">
+                            @error('alias') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                 </div>
@@ -148,7 +161,8 @@
                         <div class="input-group">
                             <input type="number" name="opening_balance" id="opening_balance" step="0.01"
                                    value="{{ old('opening_balance', $bank_account->opening_balance ?? 0) }}"
-                                   class="form-control form-control-lg">
+                                   class="form-control form-control-lg @error('opening_balance') is-invalid @enderror">
+                            @error('opening_balance') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             <span class="input-group-text" id="currency-suffix">
                                 {{ old('currency', $bank_account->currency ?? '€') }}
                             </span>
@@ -158,7 +172,8 @@
                         <label for="notes">{{ __('Notes') }}</label>
                         <input type="text" name="notes" id="notes" maxlength="255"
                                value="{{ old('notes', $bank_account->notes) }}"
-                               class="form-control form-control-lg">
+                               class="form-control form-control-lg @error('notes') is-invalid @enderror">
+                        @error('notes') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
 

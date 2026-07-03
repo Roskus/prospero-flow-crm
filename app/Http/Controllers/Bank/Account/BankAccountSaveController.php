@@ -15,9 +15,9 @@ class BankAccountSaveController extends MainController
     {
         $validated = $request->validated();
 
-        $bankAccount = empty($validated['id'] ?? null)
+        $bankAccount = empty($request->id)
             ? new BankAccount
-            : BankAccount::where('company_id', Auth::user()->company_id)->findOrFail($validated['id']);
+            : BankAccount::where('company_id', Auth::user()->company_id)->findOrFail($request->id);
 
         $bankAccount->company_id = Auth::user()->company_id;
         $bankAccount->fill(array_merge(
