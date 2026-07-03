@@ -32,22 +32,22 @@ final class Item extends Model
     ];
 
     #[OAT\Property(type: 'int', example: 1)]
-    private ?int $order_id;
+    private ?int $order_id = null;
 
     #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $product_id;
+    protected ?int $product_id = null;
 
     #[OAT\Property(type: 'int', example: 3)]
-    protected ?int $quantity;
+    protected ?int $quantity = null;
 
     #[OAT\Property(type: 'float', example: 3.5)]
-    protected ?float $unit_price;
+    protected ?float $unit_price = null;
 
     #[OAT\Property(type: 'float', example: 10.0)]
-    protected ?float $discount;
+    protected ?float $discount = null;
 
     #[OAT\Property(type: 'float', example: 21.0)]
-    protected ?float $tax;
+    protected ?float $tax = null;
 
     protected $with = ['product'];
 
@@ -66,13 +66,13 @@ final class Item extends Model
 
     public function getSubTotal(): float
     {
-        $amount = $this->unit_price * $this->quantity;
+        $amount = $this->getAttribute('unit_price') * $this->getAttribute('quantity');
 
-        return $amount - (($this->discount / 100) * $amount);
+        return $amount - (($this->getAttribute('discount') / 100) * $amount);
     }
 
     public function getTaxAmount(): float
     {
-        return ($this->tax / 100) * $this->getSubTotal();
+        return ($this->getAttribute('tax') / 100) * $this->getSubTotal();
     }
 }
