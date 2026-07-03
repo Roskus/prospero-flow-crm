@@ -168,15 +168,12 @@
                                     <i class="las la-file-alt"></i>
                                     {{ basename($transaction->attachment) }}
                                 </a>
-                                <form method="POST" action="{{ url('/transaction/attachment/' . $transaction->id) }}"
-                                      class="d-inline"
-                                      onsubmit="return confirm('{{ __('Remove attachment?') }}')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="{{ __('Remove') }}">
-                                        <i class="las la-times"></i>
-                                    </button>
-                                </form>
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-danger"
+                                        title="{{ __('Remove') }}"
+                                        onclick="if(confirm('{{ __('Remove attachment?') }}')) { var f=document.createElement('form');f.method='POST';f.action='{{ url('/transaction/attachment/' . $transaction->id) }}';var i=document.createElement('input');i.name='_token';i.value='{{ csrf_token() }}';f.appendChild(i);var m=document.createElement('input');m.name='_method';m.value='DELETE';f.appendChild(m);document.body.appendChild(f);f.submit(); }">
+                                    <i class="las la-times"></i>
+                                </button>
                             </div>
                         @endif
                         <input type="file" name="attachment" id="attachment"
