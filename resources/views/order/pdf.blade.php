@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <style>
-        @page { margin: 15mm 15mm 15mm 15mm; }
+        @page { margin: 0; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: DejaVu Sans, sans-serif; font-size: 11px; color: #333; }
+        body { font-family: DejaVu Sans, sans-serif; font-size: 11px; color: #333; margin: 10mm; }
         table { width: 100%; border-collapse: collapse; }
         .layout-table td { vertical-align: top; padding: 4px 6px; }
         .company-name { font-size: 18px; font-weight: bold; margin-bottom: 4px; }
