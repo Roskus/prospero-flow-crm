@@ -23,7 +23,7 @@ class ProductImportSaveController extends MainController
     public function save(Request $request)
     {
         if (! $request->hasFile('upload')) {
-            return redirect('/product')->withErrors(__("Upload file can't be in blank"));
+            return redirect(route('product.index'))->withErrors(__("Upload file can't be in blank"));
         }
         $categories = Category::getAllActiveAsArrayByCompany((int) Auth::user()->company_id);
         $brands = Brand::getAllActiveAsArrayByCompany((int) Auth::user()->company_id);
@@ -35,7 +35,7 @@ class ProductImportSaveController extends MainController
         try {
             $handle = fopen($filePath, 'r');
         } catch (\Throwable $t) {
-            return redirect('/product')->withErrors(__("Can't read uploaded file"));
+            return redirect(route('product.index'))->withErrors(__("Can't read uploaded file"));
         }
 
         // name;category;brand;model;sku;barcode;cost;price;description;tags
@@ -85,6 +85,6 @@ class ProductImportSaveController extends MainController
             'count' => $rowCount,
         ];
 
-        return redirect('/product')->with($response);
+        return redirect(route('product.index'))->with($response);
     }
 }

@@ -54,6 +54,6 @@ class ProductSaveController extends MainController
         }
         $message = ($product) ? 'Product saved successfully' : 'An error occurs saving the product';
 
-        return redirect('/product')->with('message', $message);
+        return redirect(route('product.index'))->with('message', $message);
     }
 }

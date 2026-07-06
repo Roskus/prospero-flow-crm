@@ -15,13 +15,13 @@ class CompanyDeleteController extends MainController
         $company = Company::find($id);
 
         if (! $company) {
-            return redirect('/company')->with('error', __('Company not found'));
+            return redirect(route('company.index'))->with('error', __('Company not found'));
         }
 
         $company->status = Company::INACTIVE;
         $company->save();
         $company->delete();
 
-        return redirect('/company')->with('success', __('Company deleted successfully'));
+        return redirect(route('company.index'))->with('success', __('Company deleted successfully'));
     }
 }

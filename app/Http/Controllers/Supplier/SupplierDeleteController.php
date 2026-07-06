@@ -20,6 +20,6 @@ class SupplierDeleteController extends MainController
 
         $supplier->delete();
 
-        return redirect('/supplier');
+        return redirect(route('supplier.index'));
     }
 }

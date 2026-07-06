@@ -14,7 +14,7 @@ use App\Http\Controllers\Supplier\SupplierSaveController;
 use App\Http\Controllers\Supplier\SupplierUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], '/supplier', [SupplierIndexController::class, 'index']);
+Route::match(['get', 'post'], '/supplier', [SupplierIndexController::class, 'index'])->name('supplier.index');
 Route::get('/supplier/create', [SupplierCreateController::class, 'create']);
 Route::get('/supplier/update/{id}', [SupplierUpdateController::class, 'update']);
 Route::post('/supplier/save', [SupplierSaveController::class, 'save']);

@@ -22,14 +22,14 @@ class SupplierSaveController extends MainController
     {
         if (empty($request->id)) {
             if (Auth::user()->cannot('create supplier')) {
-                return redirect('/supplier')->with('error', __('Unauthorized'));
+                return redirect(route('supplier.index'))->with('error', __('Unauthorized'));
             }
         } elseif (Auth::user()->cannot('update supplier')) {
-            return redirect('/supplier')->with('error', __('Unauthorized'));
+            return redirect(route('supplier.index'))->with('error', __('Unauthorized'));
         }
 
         $supplier = $this->supplierRepository->save($request->all());
 
-        return redirect('/supplier');
+        return redirect(route('supplier.index'));
     }
 }

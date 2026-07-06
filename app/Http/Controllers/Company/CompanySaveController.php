@@ -25,14 +25,14 @@ class CompanySaveController extends MainController
     {
         if (empty($request->id)) {
             if (Auth::user()->cannot('create company')) {
-                return redirect('/company')->with('error', __('Unauthorized'));
+                return redirect(route('company.index'))->with('error', __('Unauthorized'));
             }
         } else {
             if (Auth::user()->cannot('update company')) {
-                return redirect('/company')->with('error', __('Unauthorized'));
+                return redirect(route('company.index'))->with('error', __('Unauthorized'));
             }
             if ((int) $request->id !== (int) Auth::user()->company_id) {
-                return redirect('/company')->with('error', __('Unauthorized'));
+                return redirect(route('company.index'))->with('error', __('Unauthorized'));
             }
         }
 
@@ -51,6 +51,6 @@ class CompanySaveController extends MainController
             }
         }
 
-        return redirect('/company');
+        return redirect(route('company.index'));
     }
 }

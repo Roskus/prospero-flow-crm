@@ -19,6 +19,6 @@ class ProductDeleteController extends MainController
 
         $product->delete();
 
-        return redirect('/product');
+        return redirect(route('product.index'));
     }
 }

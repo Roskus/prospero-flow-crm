@@ -11,7 +11,7 @@ use App\Http\Controllers\Product\ProductSaveController;
 use App\Http\Controllers\Product\ProductUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], '/product', [ProductIndexController::class, 'index']);
+Route::match(['get', 'post'], '/product', [ProductIndexController::class, 'index'])->name('product.index');
 Route::get('/product/create', [ProductCreateController::class, 'create']);
 Route::get('/product/update/{id}', [ProductUpdateController::class, 'update']);
 Route::post('/product/save', [ProductSaveController::class, 'save']);
