@@ -9,7 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Brand', required: ['name'], type: 'object')]
+#[OAT\Schema(
+    schema: 'Brand',
+    required: ['name'],
+    properties: [
+        new OAT\Property(property: 'id', description: 'Brand ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'name', description: 'Brand name', type: 'string', example: 'My brand'),
+    ],
+    type: 'object'
+)]
 class Brand extends Model
 {
     use HasFactory;
@@ -28,14 +36,6 @@ class Brand extends Model
         'company_id',
         'deleted_at',
     ];
-
-    #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id; // NOSONAR
-
-    private ?int $company_id = null; // NOSONAR
-
-    #[OAT\Property(type: 'string', example: 'My brand')]
-    protected string $name;
 
     public function getAll()
     {

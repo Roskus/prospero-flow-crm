@@ -16,22 +16,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
-#[OAT\Schema(schema: 'Order', required: ['customer_id', 'amount', 'currency', 'items'])]
+#[OAT\Schema(
+    schema: 'Order',
+    required: ['customer_id', 'amount', 'currency', 'items'],
+    properties: [
+        new OAT\Property(property: 'id', description: 'Order ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'order_number', description: 'Order number', type: 'string', example: 'ORD-2026-001'),
+        new OAT\Property(property: 'customer_id', description: 'Customer ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'seller_id', description: 'Seller ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'amount', description: 'Order amount', type: 'number', format: 'float', example: 72.30),
+        new OAT\Property(property: 'currency', description: 'Order currency', type: 'string', example: 'EUR'),
+        new OAT\Property(property: 'status', description: 'Order status', type: 'integer', example: 1),
+        new OAT\Property(property: 'items', description: 'Order items', type: 'array', items: new OAT\Items(type: 'object')),
+    ],
+    type: 'object'
+)]
 final class Order extends Model
 {
     use AuditableWithDeletesTrait;
     use HasFactory, SoftDeletes;
 
-    // Class Constants
     const int CANCELED = 0;
 
     const int PENDING = 1;
 
     const int CONFIRMED = 2;
 
-    const COMPLETED = 3;
-
-    // Class Properties
+    const int COMPLETED = 3;
 
     protected $table = 'order';
 
@@ -62,25 +73,6 @@ final class Order extends Model
     ];
 
     protected $with = ['customer', 'items'];
-
-    #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id; // NOSONAR
-
-    private ?int $company_id = null; // NOSONAR
-
-    #[OAT\Property(type: 'string', example: 'ORD-2026-001')]
-    protected ?string $order_number;
-
-    #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $customer_id;
-
-    #[OAT\Property(type: 'float', example: 72.30)]
-    protected float $amount = 0.0;
-
-    #[OAT\Property(type: 'string', example: 'EUR')]
-    protected string $currency = 'EUR';
-
-    protected ?int $status;
 
     protected static function boot(): void
     {

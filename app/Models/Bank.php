@@ -11,7 +11,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OpenApi\Attributes as OAT;
 use Squire\Models\Country;
 
-#[OAT\Schema(schema: 'Bank', required: ['name', 'country'])]
+#[OAT\Schema(
+    schema: 'Bank',
+    required: ['name', 'country_id'],
+    properties: [
+        new OAT\Property(property: 'uuid', description: 'Bank UUID', type: 'string', example: 'UUID'),
+        new OAT\Property(property: 'name', description: 'Bank name', type: 'string', example: 'Bank of America'),
+        new OAT\Property(property: 'country_id', description: 'Country code ISO-2', type: 'string', example: 'FR'),
+        new OAT\Property(property: 'bic', description: 'BIC of the bank', type: 'string'),
+        new OAT\Property(property: 'phone', description: 'Phone of the bank', type: 'string', example: '+3400000000'),
+        new OAT\Property(property: 'email', description: 'Email of the bank', type: 'string', format: 'email', example: 'bank@bank.com'),
+        new OAT\Property(property: 'website', description: 'Website of the bank', type: 'string', format: 'url', example: 'https://bank.com'),
+    ],
+    type: 'object'
+)]
 class Bank extends Model
 {
     use HasFactory, HasUuids;
@@ -38,30 +51,6 @@ class Bank extends Model
     protected $hidden = ['deletead_at'];
 
     protected $with = ['country'];
-
-    #[OAT\Property(type: 'int', example: 1)]
-    protected int $id;
-
-    #[OAT\Property(type: 'string', example: 'UUID')]
-    protected string $uuid;
-
-    #[OAT\Property(type: 'string', example: 'Bank of America')]
-    protected string $name;
-
-    #[OAT\Property(description: 'Country code ISO-2', type: 'string', example: 'FR')]
-    protected string $country_id;
-
-    #[OAT\Property(description: 'BIC of the bank', type: 'string', example: '')]
-    protected ?string $bic;
-
-    #[OAT\Property(description: 'Phone of the bank', type: 'string', example: '+3400000000')]
-    protected ?string $phone;
-
-    #[OAT\Property(description: 'Email of the bank', type: 'string', format: 'email', example: 'bank@bank.com')]
-    protected ?string $email;
-
-    #[OAT\Property(description: 'Website of the bank', type: 'string', format: 'url', example: 'https://bank.com')]
-    protected ?string $website;
 
     public function country(): BelongsTo
     {

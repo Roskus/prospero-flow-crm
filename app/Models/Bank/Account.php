@@ -15,7 +15,28 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 use Squire\Models\Country;
 
-#[OAT\Schema(schema: 'BankAccount', required: ['type', 'country_id', 'currency'], type: 'object')]
+#[OAT\Schema(
+    schema: 'BankAccount',
+    required: ['type', 'country_id', 'currency'],
+    properties: [
+        new OAT\Property(property: 'id', description: 'Bank account ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'type', description: 'Account type', type: 'string', enum: ['bank', 'stripe', 'paypal', 'mercadopago', 'other'], example: 'bank'),
+        new OAT\Property(property: 'account_name', description: 'Account name', type: 'string', example: 'Main account'),
+        new OAT\Property(property: 'bank_id', description: 'Bank ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'country_id', description: 'Country ISO code', type: 'string', example: 'ES'),
+        new OAT\Property(property: 'currency', description: 'Account currency', type: 'string', example: 'EUR'),
+        new OAT\Property(property: 'iban', description: 'IBAN number', type: 'string', example: 'ES9121000418450200051332'),
+        new OAT\Property(property: 'account_number', description: 'Account number', type: 'string', example: '12345678'),
+        new OAT\Property(property: 'swift', description: 'SWIFT code', type: 'string', example: 'BSCHESMMXXX'),
+        new OAT\Property(property: 'sort_code', description: 'Sort code', type: 'string', example: '20-00-00'),
+        new OAT\Property(property: 'cbu', description: 'CBU number', type: 'string', example: '0110048200000004823002'),
+        new OAT\Property(property: 'alias', description: 'Account alias', type: 'string', example: 'MI.CUENTA.AR'),
+        new OAT\Property(property: 'bizum', description: 'Bizum enabled', type: 'boolean'),
+        new OAT\Property(property: 'opening_balance', description: 'Opening balance', type: 'number', format: 'float', example: 0.00),
+        new OAT\Property(property: 'notes', description: 'Account notes', type: 'string', example: 'Main operating account'),
+    ],
+    type: 'object'
+)]
 class Account extends Model
 {
     use HasFactory;
@@ -59,19 +80,6 @@ class Account extends Model
         'notes',
     ];
 
-    #[OAT\Property(property: 'type', type: 'string', enum: ['bank', 'stripe', 'paypal', 'mercadopago', 'other'], example: 'bank')]
-    #[OAT\Property(property: 'account_name', type: 'string', example: 'Main account', nullable: true)]
-    #[OAT\Property(property: 'bank_id', type: 'integer', example: 1, nullable: true)]
-    #[OAT\Property(property: 'country_id', type: 'string', example: 'ES')]
-    #[OAT\Property(property: 'currency', type: 'string', example: 'EUR')]
-    #[OAT\Property(property: 'iban', type: 'string', example: 'ES9121000418450200051332', nullable: true)]
-    #[OAT\Property(property: 'account_number', type: 'string', example: '12345678', nullable: true)]
-    #[OAT\Property(property: 'swift', type: 'string', example: 'BSCHESMMXXX', nullable: true)]
-    #[OAT\Property(property: 'sort_code', type: 'string', example: '20-00-00', nullable: true)]
-    #[OAT\Property(property: 'cbu', type: 'string', example: '0110048200000004823002', nullable: true)]
-    #[OAT\Property(property: 'alias', type: 'string', example: 'MI.CUENTA.AR', nullable: true)]
-    #[OAT\Property(property: 'opening_balance', type: 'number', format: 'float', example: 0.00)]
-    #[OAT\Property(property: 'notes', type: 'string', example: 'Main operating account', nullable: true)]
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);

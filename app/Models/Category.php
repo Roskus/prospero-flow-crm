@@ -8,7 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Category', required: ['name'])]
+#[OAT\Schema(
+    schema: 'Category',
+    required: ['name'],
+    properties: [
+        new OAT\Property(property: 'id', description: 'Category ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'name', description: 'Category name', type: 'string', example: 'My category'),
+        new OAT\Property(property: 'amount', description: 'Category amount', type: 'number', format: 'float', example: 100.75),
+    ],
+    type: 'object'
+)]
 class Category extends Model
 {
     use HasFactory;
@@ -26,17 +35,6 @@ class Category extends Model
         'company_id',
         'deleted_at',
     ];
-
-    #[OAT\Property(type: 'int', example: 1)]
-    protected ?int $id; // NOSONAR
-
-    protected int $company_id; // NOSONAR
-
-    #[OAT\Property(type: 'string', example: 'My category')]
-    protected string $name;
-
-    #[OAT\Property(type: 'number', example: 100.75)]
-    protected float $amount;
 
     public function getAll()
     {

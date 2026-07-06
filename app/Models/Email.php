@@ -11,7 +11,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use OpenApi\Attributes as OAT;
 use Yajra\Auditable\AuditableTrait;
 
-#[OAT\Schema(schema: 'Email', required: ['from', 'to', 'subject', 'body'])]
+#[OAT\Schema(
+    schema: 'Email',
+    required: ['from', 'to', 'subject', 'body'],
+    properties: [
+        new OAT\Property(property: 'id', description: 'Email ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'from', description: 'From email address', type: 'string', format: 'email', example: 'hello@company.com'),
+        new OAT\Property(property: 'to', description: 'To email address', type: 'string', format: 'email', example: 'mail@company.com'),
+        new OAT\Property(property: 'subject', description: 'Email subject', type: 'string', example: 'Email subject'),
+        new OAT\Property(property: 'body', description: 'Email body content', type: 'string', example: 'Email body'),
+        new OAT\Property(property: 'signature', description: 'Include signature in the email', type: 'boolean', example: true),
+    ],
+    type: 'object'
+)]
 class Email extends Model
 {
     use AuditableTrait;
@@ -28,24 +40,6 @@ class Email extends Model
     const string SENT = 'sent';
 
     const string ERROR = 'error';
-
-    #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id; // NOSONAR
-
-    #[OAT\Property(description: 'From of the email', type: 'string', format: 'email', example: 'hello@company.com')]
-    protected ?string $from = null;
-
-    #[OAT\Property(description: 'To of the email', type: 'string', format: 'email', example: 'mail@company.com')]
-    protected ?string $to = null;
-
-    #[OAT\Property(description: 'Subject of the email', type: 'string', example: 'Email subject')]
-    protected string $subject;
-
-    #[OAT\Property(description: 'Body of the email', type: 'string', example: 'Email body')]
-    protected string $body;
-
-    #[OAT\Property(description: 'Include signature in the email', type: 'boolean', example: 'true')]
-    protected ?bool $signature = null;
 
     public function attachments(): HasMany
     {

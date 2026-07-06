@@ -4,17 +4,9 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use OpenApi\Attributes as OAT;
-
 trait ICalendar
 {
     private static string $EOL = "\r\n";
-
-    #[OAT\Property(type: 'string', format: 'date', example: '2022-01-27')]
-    protected ?string $start_date;
-
-    #[OAT\Property(type: 'string', example: 'My awesome event')]
-    protected ?string $title = '';
 
     /**
      *  https://www.rfc-editor.org/rfc/rfc6868

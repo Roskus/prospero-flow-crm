@@ -17,7 +17,23 @@ use OpenApi\Attributes as OAT;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 
-#[OAT\Schema(schema: 'User', required: ['first_name', 'email', 'password'])]
+#[OAT\Schema(
+    schema: 'User',
+    required: ['first_name', 'email', 'password'],
+    properties: [
+        new OAT\Property(property: 'id', description: 'User ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'first_name', description: 'First name of the user', type: 'string', example: 'John'),
+        new OAT\Property(property: 'last_name', description: 'Last name of the user', type: 'string', example: 'Smith'),
+        new OAT\Property(property: 'email', description: 'Email of the user', type: 'string', format: 'email', example: 'john.smith@company.com'),
+        new OAT\Property(property: 'phone', description: 'Phone of the user', type: 'string', example: '+3464500000'),
+        new OAT\Property(property: 'photo', description: 'Profile photo filename', type: 'string', example: 'profile.jpg'),
+        new OAT\Property(property: 'lang', description: 'Language ISO code', type: 'string', example: 'es'),
+        new OAT\Property(property: 'timezone', description: 'Timezone of the user', type: 'string', example: 'UTC'),
+        new OAT\Property(property: 'last_login_at', description: 'Last login date and time', type: 'string', format: 'date-time'),
+        new OAT\Property(property: 'last_login_ip', description: 'Last login IP address', type: 'string'),
+    ],
+    type: 'object'
+)]
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;
@@ -42,11 +58,6 @@ class User extends Authenticatable implements JWTSubject
         'last_login_ip',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'company_id',
         'password',
@@ -54,11 +65,6 @@ class User extends Authenticatable implements JWTSubject
         'deleted_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
@@ -66,35 +72,6 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $with = ['company'];
-
-    #[OAT\Property(type: 'int', example: 1)]
-    private ?int $id = null; // NOSONAR
-
-    protected ?int $company_id = null; // NOSONAR
-
-    #[OAT\Property(description: 'First Name of the user', type: 'string', example: 'John')]
-    protected ?string $first_name = null;
-
-    #[OAT\Property(description: 'Last Name of the user', type: 'string', example: 'Smith')]
-    protected ?string $last_name = null;
-
-    #[OAT\Property(description: 'Email of the user', type: 'string', format: 'email', example: 'john.smith@company.com')]
-    protected ?string $email = null;
-
-    #[OAT\Property(description: 'Phone of the user', type: 'string', example: '+3464500000')]
-    protected ?string $phone = null;
-
-    // #[OAT\Property(description: 'Password of the user', type: 'string', format: 'password', example: 'qwerty')]
-    // protected ?string $password = null;
-
-    #[OAT\Property(description: 'Profile photo', type: 'string', example: 'profile.jpg')]
-    protected ?string $photo = null;
-
-    #[OAT\Property(description: 'Language ISO code', type: 'string', example: 'es')]
-    protected ?string $lang = null;
-
-    #[OAT\Property(description: 'Date time zone', type: 'string', example: 'UTC')]
-    protected ?string $timezone = null;
 
     public function setPassword(string $password)
     {

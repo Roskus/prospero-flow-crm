@@ -10,7 +10,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(schema: 'Contact', required: ['first_name'])]
+#[OAT\Schema(
+    schema: 'Contact',
+    required: ['first_name'],
+    properties: [
+        new OAT\Property(property: 'id', description: 'Contact ID', type: 'integer', example: 1),
+        new OAT\Property(property: 'first_name', description: 'First name of the contact', type: 'string', example: 'John'),
+        new OAT\Property(property: 'last_name', description: 'Last name of the contact', type: 'string', example: 'Smith'),
+        new OAT\Property(property: 'phone', description: 'Phone of the contact', type: 'string', example: '3400000000'),
+        new OAT\Property(property: 'extension', description: 'Extension of the contact', type: 'string'),
+        new OAT\Property(property: 'email', description: 'Email of the contact', type: 'string', format: 'email', example: 'john.smith@gmail.com'),
+        new OAT\Property(property: 'linkedin', description: 'LinkedIn profile of the contact', type: 'string', example: 'https://linkedin.com/john.smith'),
+        new OAT\Property(property: 'twitter', description: 'Twitter / X profile of the contact', type: 'string', example: 'https://x.com/john.smith'),
+        new OAT\Property(property: 'country', description: 'Country of the contact', type: 'string', example: 'uk'),
+        new OAT\Property(property: 'notes', description: 'Notes about the contact', type: 'string', example: 'Test comment'),
+    ],
+    type: 'object'
+)]
 class Contact extends Model
 {
     use HasFactory;
@@ -39,30 +55,6 @@ class Contact extends Model
     protected $casts = [
         'updated_at' => 'date',
     ];
-
-    #[OAT\Property(description: 'First name of the contact', type: 'string', example: 'John')]
-    protected ?string $first_name = null;
-
-    #[OAT\Property(description: 'Lastname of the contact', type: 'string', example: 'Smith')]
-    protected ?string $last_name = null;
-
-    #[OAT\Property(description: 'Phone of the contact', type: 'string', example: '3400000000')]
-    protected ?string $phone = null;
-
-    #[OAT\Property(description: 'Email of the contact', type: 'string', format: 'email', example: 'john.smith@gmail.com')]
-    protected ?string $email = null;
-
-    #[OAT\Property(description: 'LinkedIn of the contact', type: 'string', example: 'https://linkedin.com/john.smith')]
-    protected ?string $linkedin = null;
-
-    #[OAT\Property(description: 'Twitter / X of the contact', type: 'string', example: 'https://x.com/john.smith')]
-    protected ?string $twitter = null;
-
-    #[OAT\Property(description: 'Country of the contact', type: 'string', example: 'uk')]
-    protected ?string $country = null;
-
-    #[OAT\Property(description: 'Notes of the contact', type: 'string', example: 'Test comment')]
-    protected ?string $notes = null;
 
     public function lead()
     {
