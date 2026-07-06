@@ -40,7 +40,7 @@ class BankSeeder extends Seeder
         }
         Schema::enableForeignKeyConstraints();
 
-        $countries = ['al', 'ad', 'ee', 'mx', 'es', 'lt', 'gb', 'fr', 'de', 'pt', 'nl', 'ie', 'ar', 'digital'];
+        $countries = ['al', 'ad', 'ee', 'mx', 'es', 'lt', 'gb', 'fr', 'de', 'pt', 'nl', 'ie', 'ar', 'digital', 'uy', 'cl', 'pe', 'py', 'br', 'hu', 'ro', 'bg', 'dk', 'pl', 'ch'];
 
         foreach ($countries as $countryId) {
             $filePath = 'database/seeders/Bank/bank_'.$countryId.'.php';
