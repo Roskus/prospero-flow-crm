@@ -42,9 +42,7 @@ class CampaignSender extends Command
 
         foreach ($campaigns as $campaign) {
             $this->info("Campaign to send: $campaign->subject");
-            // Todo get contacts by campaign
-            $contacts = Lead::where('company_id', 1)
-                ->where('industry_id', 34)
+            $contacts = Lead::where('company_id', $campaign->company_id)
                 ->whereNotNull('email')
                 ->get();
             $contacts_count = $contacts->count();
