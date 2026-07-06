@@ -20,7 +20,7 @@ class OrderPdfControllerTest extends TestCase
 
         $response = $this->get("/order/download/{$order->order_number}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

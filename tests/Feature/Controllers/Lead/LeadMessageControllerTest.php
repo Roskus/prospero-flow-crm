@@ -18,7 +18,7 @@ class LeadMessageControllerTest extends TestCase
 
         $response = $this->post('/lead/message/save', []);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -78,7 +78,7 @@ class LeadMessageControllerTest extends TestCase
 
         $response = $this->get("/lead/message/delete/{$message->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

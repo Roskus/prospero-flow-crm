@@ -17,7 +17,7 @@ class OrderSaveControllerTest extends TestCase
 
         $response = $this->post('/order/save', []);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

@@ -20,7 +20,7 @@ class SupplierContactControllerTest extends TestCase
 
         $response = $this->get("/supplier/contact/create/supplier/{$supplier->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -42,7 +42,7 @@ class SupplierContactControllerTest extends TestCase
 
         $response = $this->get("/supplier/contact/update/{$contact->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -74,7 +74,7 @@ class SupplierContactControllerTest extends TestCase
 
         $response = $this->get("/supplier/contact/delete/{$contact->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

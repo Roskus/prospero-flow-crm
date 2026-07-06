@@ -17,7 +17,7 @@ class BankAuthenticationTest extends TestCase
 
         $response = $this->get('/bank');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -27,7 +27,7 @@ class BankAuthenticationTest extends TestCase
 
         $response = $this->get('/bank/create');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -37,7 +37,7 @@ class BankAuthenticationTest extends TestCase
 
         $response = $this->get('/bank/update/test-uuid-1234-5678-90ab');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -51,7 +51,7 @@ class BankAuthenticationTest extends TestCase
             'bic' => 'TESTBIC1234',
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -61,7 +61,7 @@ class BankAuthenticationTest extends TestCase
 
         $response = $this->get('/bank-account');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -71,7 +71,7 @@ class BankAuthenticationTest extends TestCase
 
         $response = $this->get('/bank-account/create');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -84,7 +84,7 @@ class BankAuthenticationTest extends TestCase
 
             $response = $this->get("/bank-account/update/{$bankAccount->id}");
 
-            $response->assertRedirect('/login');
+            $response->assertRedirect(route('login'));
         }
     }
 
@@ -99,7 +99,7 @@ class BankAuthenticationTest extends TestCase
             'currency' => 'USD',
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

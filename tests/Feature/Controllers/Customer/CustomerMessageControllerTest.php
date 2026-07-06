@@ -18,7 +18,7 @@ class CustomerMessageControllerTest extends TestCase
 
         $response = $this->post('/customer/message/save', []);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -69,7 +69,7 @@ class CustomerMessageControllerTest extends TestCase
 
         $response = $this->get("/customer/message/delete/{$message->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

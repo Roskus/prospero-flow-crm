@@ -17,7 +17,7 @@ class CustomerShowControllerTest extends TestCase
 
         $response = $this->get('/customer/show/1');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

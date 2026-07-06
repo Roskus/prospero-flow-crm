@@ -20,7 +20,7 @@ class CalendarExportControllerTest extends TestCase
 
         $response = $this->get("/calendar/{$event->id}/export");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

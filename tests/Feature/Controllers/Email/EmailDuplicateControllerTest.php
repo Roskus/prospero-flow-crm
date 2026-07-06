@@ -17,7 +17,7 @@ class EmailDuplicateControllerTest extends TestCase
 
         $response = $this->post('/email/duplicate', []);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

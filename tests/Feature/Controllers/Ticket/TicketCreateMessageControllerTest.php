@@ -17,7 +17,7 @@ class TicketCreateMessageControllerTest extends TestCase
 
         $response = $this->post('/ticket/message/save', []);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

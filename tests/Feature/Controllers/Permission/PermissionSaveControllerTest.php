@@ -27,7 +27,7 @@ class PermissionSaveControllerTest extends TestCase
 
         $response = $this->get('/permission');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -37,7 +37,7 @@ class PermissionSaveControllerTest extends TestCase
 
         $response = $this->post('/permission', []);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

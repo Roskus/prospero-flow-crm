@@ -18,7 +18,7 @@ class NotificationControllerTest extends TestCase
 
         $response = $this->get('/ajax/notification');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -41,7 +41,7 @@ class NotificationControllerTest extends TestCase
 
         $response = $this->get("/notification/read/{$notification->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -81,7 +81,7 @@ class NotificationControllerTest extends TestCase
 
         $response = $this->get("/notification/delete/{$notification->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

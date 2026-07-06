@@ -27,7 +27,7 @@ class EmailDownloadAttachmentControllerTest extends TestCase
 
         $response = $this->get("/email/download-attachment/{$attach->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

@@ -19,7 +19,7 @@ class AuthenticationRemainingTest extends TestCase
             'email' => 'test@example.com',
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -29,7 +29,7 @@ class AuthenticationRemainingTest extends TestCase
 
         $response = $this->get('/report/email');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

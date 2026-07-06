@@ -17,7 +17,7 @@ class ContactControllerTest extends TestCase
 
         $response = $this->get('/contact/create/customer/1');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -37,7 +37,7 @@ class ContactControllerTest extends TestCase
 
         $response = $this->get("/contact/update/{$contact->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
@@ -69,7 +69,7 @@ class ContactControllerTest extends TestCase
 
         $response = $this->get("/contact/delete/{$contact->id}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]

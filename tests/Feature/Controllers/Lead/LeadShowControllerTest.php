@@ -17,7 +17,7 @@ class LeadShowControllerTest extends TestCase
 
         $response = $this->get('/lead/show/1');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
