@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body d-flex">
                 <a href="{{ route('calendar.index') }}" class="btn btn-outline-dark me-2"
-                    title="{{ __('Today') }}" role="button" tabindex="0">{{ __('Today') }}
+                    title="{{ __('Today') }}" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')window.location=this.href">{{ __('Today') }}
                 </a>
                 <a href="{{ route('calendar.index',$date->copy()->subMonth()->toDateString()) }}"
                     class="btn btn-outline-dark me-2" title="{{ __('Previous month') }}" role="button" tabindex="1">
