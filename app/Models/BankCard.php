@@ -89,10 +89,10 @@ class BankCard extends Model
     {
         // Shows first 4 and last 4, masks middle: 4111-****-****-1111
         $first4 = '****';
-        try {
+
+        if (! empty($this->attributes['number_encrypted'])) {
             $full = $this->getNumberAttribute();
             $first4 = substr($full, 0, 4);
-        } catch (\Exception) {
         }
 
         return $this->network === self::NETWORK_AMEX
