@@ -71,8 +71,10 @@ clear: ## Clear all Laravel caches (views, config, cache)
 
 install: ## Setup local enviroment with MariaDB
 	cp .env.example .env
+	$(MAKE) ssl
 	$(MAKE) build-maria
-	$(MAKE) up
+	$(MAKE) up-mysql
+	$(MAKE) permissions
 	$(MAKE) composer-install
 	docker exec -it ${DOCKER_PHP} php artisan key:generate
 	$(MAKE) migrate

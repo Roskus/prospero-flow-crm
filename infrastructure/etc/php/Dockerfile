@@ -44,6 +44,10 @@ RUN pecl install pdo_sqlsrv sqlsrv && docker-php-ext-enable pdo_sqlsrv sqlsrv
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Create Composer cache directory with correct ownership
+RUN mkdir -p /var/www/.composer/cache && \
+    chown -R www-data:www-data /var/www/.composer
+
 # Create system user to run Composer and Artisan Commands
 #RUN usermod -G www-data,root -u $uid -d /home/$USERNAME $USERNAME
 #RUN mkdir -p /home/$USERNAME/.composer && \
