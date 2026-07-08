@@ -54,7 +54,7 @@
                             <label for="bank_search">{{ __('Bank') }}</label>
                             <input type="text" id="bank_search" placeholder="{{ __('Search bank...') }}"
                                    class="form-control form-control-lg mb-1" autocomplete="off">
-                            <select name="bank_id" id="bank_id" class="form-select form-select-lg @error('bank_id') is-invalid @enderror" aria-label="{{ __('Bank list') }}">
+                            <select name="bank_id" id="bank_id" class="form-select form-select-lg @error('bank_id') is-invalid @enderror" aria-label="{{ __('Bank') }}">
                                 <option value="">{{ __('Choose') }}</option>
                                 @foreach($banks as $bank)
                                     <option value="{{ $bank->id }}" @selected(old('bank_id', $bank_account->bank_id) == $bank->id)>
