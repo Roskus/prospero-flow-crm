@@ -41,7 +41,7 @@ class ProductImportSaveController extends MainController
         // name;category;brand;model;sku;barcode;cost;price;description;tags
 
         $rowCount = 0;
-        $separator = ';'; // (! empty($request->separator)) ? $request->separator : ';';
+        $separator = (! empty($request->separator)) ? $request->separator : ';';
         while (($data = fgetcsv($handle, 2000, $separator)) !== false) {
             // Skip header starting in 1
 
