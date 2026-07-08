@@ -5,14 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Lead\Message;
-use App\Models\Scopes\AssignedSellerScope;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
-use Squire\Models\Country;
-use Yajra\Auditable\AuditableWithDeletesTrait;
 
 #[OAT\Schema(
     schema: 'Lead',
@@ -51,132 +44,18 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
     ],
     type: 'object'
 )]
-class Lead extends Model
+class Lead extends Prospect
 {
-    use AuditableWithDeletesTrait;
-    use HasFactory;
-    use SoftDeletes;
-
-    const string OPEN = 'open'; // New
-
-    const string IN_PROGRESS = 'in_progress';
-
-    const string WAITING_FEEDBACK = 'waiting_feedback';
-
-    const string CONVERTED = 'converted'; // Promoted to customer
-
-    const string CLOSED = 'closed';
-
     protected $table = 'lead';
-
-    private const array SORTABLE_COLUMNS = [
-        'id', 'name', 'email', 'phone', 'mobile', 'country_id', 'seller_id',
-        'status', 'created_at', 'updated_at', 'vat', 'business_name',
-    ];
-
-    protected $fillable = [
-        'company_id',
-        'external_id',
-        'name',
-        'business_name',
-        'dob',
-        'vat',
-        'phone',
-        'phone_verified',
-        'extension',
-        'phone2',
-        'phone2_verified',
-        'mobile',
-        'mobile_verified',
-        'email',
-        'email_verified',
-        'email2',
-        'website',
-        'website_verified',
-        'source_id',
-        'linkedin',
-        'facebook',
-        'instagram',
-        'twitter',
-        'youtube',
-        'tiktok',
-        'notes',
-        'seller_id',
-        'country_id',
-        'province',
-        'city',
-        'locality',
-        'street',
-        'address_extra',
-        'zipcode',
-        'schedule_contact',
-        'industry_id',
-        'latitude',
-        'longitude',
-        'opt_in',
-        'tags',
-        'status',
-        'created_by',
-        'updated_by',
-        'deleted_by',
-    ];
-
-    protected $casts = [
-        'schedule_contact' => 'datetime:Y-m-d H:i',
-        'tags' => 'array',
-        'latitude' => 'decimal:8',
-        'longitude' => 'decimal:8',
-        'dob' => 'date:Y-m-d',
-    ];
-
-    protected $hidden = [
-        'company_id',
-        'deleted_at',
-        'created_by',
-        'updated_by',
-        'deleted_by',
-    ];
-
-    protected $with = ['country', 'seller', 'industry', 'company'];
-
-    public function company()
-    {
-        return $this->hasOne(Company::class, 'id', 'company_id');
-    }
 
     public function messages()
     {
         return $this->hasMany(Message::class);
     }
 
-    public function seller()
-    {
-        return $this->hasOne(User::class, 'id', 'seller_id');
-    }
-
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    public function source(): HasOne
-    {
-        return $this->hasOne(Source::class, 'id', 'source_id');
-    }
-
-    public function industry()
-    {
-        return $this->hasOne(Industry::class, 'id', 'industry_id');
-    }
-
     public function contacts()
     {
         return $this->hasMany(Contact::class, 'lead_id', 'id');
-    }
-
-    public function getAll()
-    {
-        return Lead::all();
     }
 
     public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters, ?string $order_by = 'created_at'): mixed
@@ -185,7 +64,7 @@ class Lead extends Model
             $order_by = 'created_at';
         }
 
-        $leads = Lead::where('company_id', $company_id);
+        $leads = static::where('company_id', $company_id);
 
         if (! empty($search)) {
             $leads->where(function ($query) use ($search) {
@@ -210,25 +89,10 @@ class Lead extends Model
         return $leads->orderBy($order_by, 'desc')->paginate(10);
     }
 
-    public function getCountByCompany(int $company_id): int
-    {
-        return Lead::where('company_id', $company_id)->count();
-    }
-
-    public function getLatestByCompany(int $company_id, int $limit = 10)
-    {
-        $leads = Lead::where('company_id', $company_id);
-        $leads->orderBy('created_at', 'DESC');
-
-        return $leads->limit($limit)->get();
-    }
-
     public function getScore(): int
     {
-        // Ejemplo de lógica de puntuación
         $score = 0;
 
-        // Aumentar puntuación segun criterios específicos
         if (! empty($this->email)) {
             $score = $this->email_verified ? $score + 10 : $score - 10;
         }
@@ -246,21 +110,5 @@ class Lead extends Model
         }
 
         return $score;
-    }
-
-    public static function getStatus(): array
-    {
-        return [
-            self::OPEN => 'Open',
-            self::IN_PROGRESS => 'In progress',
-            self::WAITING_FEEDBACK => 'Waiting for feedback',
-            self::CONVERTED => 'Converted',
-            self::CLOSED => 'Closed',
-        ];
-    }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new AssignedSellerScope);
     }
 }
