@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 
 class CompanySaveController extends MainController
 {
+    private const string ROUTE_INDEX = 'company.index';
+
     private CompanyRepository $companyRepository;
 
     public function __construct(Request $request, CompanyRepository $companyRepository)
@@ -25,14 +27,14 @@ class CompanySaveController extends MainController
     {
         if (empty($request->id)) {
             if (Auth::user()->cannot('create company')) {
-                return redirect(route('company.index'))->with('error', __('Unauthorized'));
+                return redirect(route(self::ROUTE_INDEX))->with('error', __('Unauthorized'));
             }
         } else {
             if (Auth::user()->cannot('update company')) {
-                return redirect(route('company.index'))->with('error', __('Unauthorized'));
+                return redirect(route(self::ROUTE_INDEX))->with('error', __('Unauthorized'));
             }
             if ((int) $request->id !== (int) Auth::user()->company_id) {
-                return redirect(route('company.index'))->with('error', __('Unauthorized'));
+                return redirect(route(self::ROUTE_INDEX))->with('error', __('Unauthorized'));
             }
         }
 
@@ -51,6 +53,6 @@ class CompanySaveController extends MainController
             }
         }
 
-        return redirect(route('company.index'));
+        return redirect(route(self::ROUTE_INDEX));
     }
 }
