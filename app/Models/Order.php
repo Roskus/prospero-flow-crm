@@ -87,11 +87,25 @@ final class Order extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->company_id = 0;
-        $this->customer_id = 0;
-        $this->setAttribute('status', Order::PENDING);
-        $this->setAttribute('created_at', now());
-        $this->amount = 0.0;
+        if (! array_key_exists('company_id', $attributes)) {
+            $this->company_id = 0;
+        }
+
+        if (! array_key_exists('customer_id', $attributes)) {
+            $this->customer_id = 0;
+        }
+
+        if (! array_key_exists('status', $attributes)) {
+            $this->setAttribute('status', Order::PENDING);
+        }
+
+        if (! array_key_exists('created_at', $attributes)) {
+            $this->setAttribute('created_at', now());
+        }
+
+        if (! array_key_exists('amount', $attributes)) {
+            $this->amount = 0.0;
+        }
     }
 
     // Relationships
