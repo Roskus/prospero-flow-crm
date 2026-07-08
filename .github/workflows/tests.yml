@@ -30,8 +30,8 @@ jobs:
     name: PHP ${{ matrix.php }}
 
     steps:
-      - name: Checkout code (v6)
-        uses: actions/checkout@v4
+      - name: Checkout code (v5)
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
