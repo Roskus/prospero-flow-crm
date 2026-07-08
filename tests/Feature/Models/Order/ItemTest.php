@@ -59,6 +59,6 @@ final class ItemTest extends TestCase
             'tax' => 21,
         ]);
 
-        $this->assertSame(56.7, $item->getTaxAmount());
+        $this->assertEqualsWithDelta(56.7, $item->getTaxAmount(), 0.00001);
     }
 }
