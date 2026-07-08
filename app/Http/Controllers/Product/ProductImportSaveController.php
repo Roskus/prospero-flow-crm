@@ -30,7 +30,7 @@ class ProductImportSaveController extends MainController
         $file = $request->file('upload');
         $extension = $file->getClientOriginalExtension();
 
-        $filePath = $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename();
+        $filePath = $file->path();
 
         try {
             $handle = fopen($filePath, 'r');
