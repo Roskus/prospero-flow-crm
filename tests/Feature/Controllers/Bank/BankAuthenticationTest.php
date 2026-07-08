@@ -77,15 +77,13 @@ class BankAuthenticationTest extends TestCase
     #[Test]
     public function it_blocks_unauthenticated_access_to_bank_account_update(): void
     {
-        $bankAccount = BankAccount::where('company_id', $this->user->company_id)->first();
+        $bankAccount = BankAccount::factory()->create(['company_id' => $this->user->company_id]);
 
-        if ($bankAccount) {
-            auth()->guard('web')->logout();
+        auth()->guard('web')->logout();
 
-            $response = $this->get("/bank-account/update/{$bankAccount->id}");
+        $response = $this->get("/bank-account/update/{$bankAccount->id}");
 
-            $response->assertRedirect(route('login'));
-        }
+        $response->assertRedirect(route('login'));
     }
 
     #[Test]
