@@ -40,9 +40,7 @@ class LeadExportControllerTest extends TestCase
             $row['industry_id'] = $row['industry']['id'];
             $row['company_id'] = $row['company']['id'];
             foreach ($columns as $column) {
-                if (isset($row[$column])) {
-                    $line[] = $row[$column];
-                }
+                $line[] = $row[$column] ?? '';
             }
             $line = implode(';', $line);
             $content = $content.$line."\n";

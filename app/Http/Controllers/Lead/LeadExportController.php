@@ -42,11 +42,8 @@ class LeadExportController extends MainController
             $row['industry_id'] = $row['industry']['id'] ?? null;
             $row['company_id'] = $row['company']['id'] ?? null;
 
-            // This ensures that each value is in the same order as the fields in the header.
             foreach ($columns as $column) {
-                if (isset($row[$column])) {
-                    $line[] = $row[$column];
-                }
+                $line[] = $row[$column] ?? '';
             }
 
             $line = implode($separator, $line);

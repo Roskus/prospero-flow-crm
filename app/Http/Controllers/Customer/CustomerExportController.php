@@ -42,11 +42,8 @@ class CustomerExportController
             $row['seller_id'] = $row['seller']['id'];
             $row['industry_id'] = $row['industry']['id'];
 
-            // This ensures that each value is in the same order as the fields in the header.
             foreach ($columns as $column) {
-                if (isset($row[$column])) {
-                    $line[] = $row[$column];
-                }
+                $line[] = $row[$column] ?? '';
             }
 
             $line = implode($separator, $line);

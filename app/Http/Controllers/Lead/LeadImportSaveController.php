@@ -15,11 +15,16 @@ use Illuminate\Support\Facades\Log;
 
 class LeadImportSaveController extends MainController
 {
-    private const LEAD_REDIRECT_URL = '/lead';
+    private const string LEAD_REDIRECT_URL = '/lead';
 
     private const array SKIP_COLUMNS = [
-        'id', 'company_id', 'created_at', 'updated_at',
+        'id', 'company_id', 'seller_id',
+        'created_at', 'updated_at',
         'created_by', 'updated_by', 'deleted_by', 'deleted_at',
+    ];
+
+    private const array DATE_COLUMNS = [
+        'dob', 'schedule_contact',
     ];
 
     /**
@@ -45,7 +50,7 @@ class LeadImportSaveController extends MainController
         $rowCount = 0;
         $separator = (! empty($request->separator)) ? $request->separator : ';';
 
-        $header = fgetcsv($handle, 1000, $separator);
+        $header = fgetcsv($handle, 0, $separator);
 
         if ($header === false) {
             fclose($handle);
@@ -55,7 +60,7 @@ class LeadImportSaveController extends MainController
 
         $columnMap = $this->buildColumnMap($header);
 
-        while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
+        while (($data = fgetcsv($handle, 0, $separator)) !== false) {
             if (empty($data[0])) {
                 continue;
             }
@@ -71,15 +76,10 @@ class LeadImportSaveController extends MainController
         }
         fclose($handle);
 
-        $status = $rowCount > 0;
-
-        $response = [
-            'status' => $status,
-            'message' => ($status) ? 'Leads imported :count successfully' : 'An error occurred while importing leads',
+        return redirect(self::LEAD_REDIRECT_URL)->with([
+            'message' => ($rowCount > 0) ? 'Leads imported :count successfully' : 'An error occurred while importing leads',
             'count' => $rowCount,
-        ];
-
-        return redirect(self::LEAD_REDIRECT_URL)->with($response);
+        ]);
     }
 
     private function buildColumnMap(array $header): array
@@ -100,7 +100,6 @@ class LeadImportSaveController extends MainController
         $lead = new Lead;
 
         $lead->company_id = Auth::user()->company_id;
-        $lead->seller_id = Auth::user()->id;
 
         foreach ($columnMap as $column => $index) {
             if (in_array($column, self::SKIP_COLUMNS, true)) {
@@ -129,8 +128,18 @@ class LeadImportSaveController extends MainController
                 $value = rtrim($value, '/');
             }
 
+            if ($column === 'tags' && is_string($value)) {
+                $value = array_map('trim', explode(',', $value));
+            }
+
+            if (in_array($column, self::DATE_COLUMNS, true) && empty($value)) {
+                continue;
+            }
+
             $lead->$column = $value;
         }
+
+        $lead->seller_id = Auth::user()->id;
 
         return $lead;
     }
