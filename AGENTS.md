@@ -218,6 +218,18 @@ protected function isAccessible(User $user, ?string $path = null): bool
 - If you have modified any PHP files, you must run `vendor/bin/pint --dirty --format agent` before finalizing changes to ensure your code matches the project's expected style.
 - Do not run `vendor/bin/pint --test --format agent`, simply run `vendor/bin/pint --format agent` to fix any formatting issues.
 
+=== git rules ===
+
+# Git & Commits
+
+- Always increment the patch version in `version.php` before committing (e.g. `5.8.1` → `5.8.2`). Include `version.php` in every commit.
+- Use [Conventional Commits](https://www.conventionalcommits.org/) format:
+  - `feat:` for new features
+  - `fix:` for bug fixes
+  - `refactor:` for code changes that neither fix bugs nor add features
+  - `chore:` for maintenance tasks, version bumps, etc.
+  - Example: `refactor: extract Prospect base class from Lead and Customer`
+
 === phpunit/core rules ===
 
 # PHPUnit
