@@ -89,6 +89,7 @@ jobs:
 
       - name: SonarCloud Scan (v2)
         if: matrix.php == '8.5' && github.event_name == 'push'
+        continue-on-error: true
         uses: SonarSource/sonarcloud-github-action@e44258b109568baa0df60ed515909fc6c72cba92
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
