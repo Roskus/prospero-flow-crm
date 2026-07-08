@@ -29,10 +29,7 @@ class LeadImportSaveController extends MainController
             return redirect(self::LEAD_REDIRECT_URL)->withErrors(__('Invalid file type. Only CSV files allowed.'));
         }
 
-        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        // Remove special characters
-        $sanitizedFilename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
-        $filePath = $file->getPath().DIRECTORY_SEPARATOR.$sanitizedFilename;
+        $filePath = $file->path();
 
         try {
             $handle = fopen($filePath, 'r');
