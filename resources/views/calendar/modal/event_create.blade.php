@@ -76,7 +76,7 @@
                                         <i class="las la-user-plus"></i>
                                     </span>
                                     <input type="text" class="form-control" name="guest" id="guest">
-                                    <a class="input-group-text btn btn-primary" onclick="Calendar.addGuest()" id="basic-addon1">
+                                    <a class="input-group-text btn btn-primary" onclick="Calendar.addGuest()">
                                         <i class="las la-plus-circle"></i>
                                     </a>
                                 </div>
