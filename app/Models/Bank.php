@@ -75,10 +75,7 @@ class Bank extends Model
             $query->where('name', 'LIKE', '%'.$filters['name'].'%');
         }
 
-        // Realizar la paginación de los resultados
-        $banks = $query->paginate($limit);
-
-        return $banks;
+        return $query->paginate($limit);
     }
 
     public function getAllByCountry(string $country_code)

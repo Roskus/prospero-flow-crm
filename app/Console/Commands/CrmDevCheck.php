@@ -85,9 +85,8 @@ class CrmDevCheck extends Command
         return array_map(function ($file) {
             $pattern = '/.*app/';
             $string = $file->getPathname();
-            $model_FQDN = 'App'.substr(preg_replace($pattern, '', $string), 0, -4);
 
-            return $model_FQDN;
+            return 'App'.substr(preg_replace($pattern, '', $string), 0, -4);
         }, File::allFiles(app_path('Models')));
     }
 }

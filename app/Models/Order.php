@@ -200,8 +200,7 @@ final class Order extends Model
      */
     public function getTax(): float
     {
-        $items = $this->items;
-        $total = $items->sum(function ($item) {
+        return $this->items->sum(function ($item) {
             $tax = 0.0;
             $price = $item->getSubTotal();
             if (isset($item['tax'])) {
@@ -210,8 +209,6 @@ final class Order extends Model
 
             return $tax;
         });
-
-        return $total;
     }
 
     /**
@@ -219,12 +216,9 @@ final class Order extends Model
      */
     public function getTotal(): float
     {
-        $items = $this->items;
-        $total = $items->sum(function ($item) {
+        return $this->items->sum(function ($item) {
             return $item->getSubTotal();
         });
-
-        return $total;
     }
 
     public function getAll(): Collection
