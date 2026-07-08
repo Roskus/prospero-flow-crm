@@ -147,7 +147,7 @@ var Order =
         let product_id = document.getElementById('product_id');
         let price_field = document.getElementById('price');
         let selected_option = product_id.options[product_id.selectedIndex];
-        price_field.value = selected_option.getAttribute('data-price');
+        price_field.value = selected_option.dataset.price;
     },
     delete: function (id, message)
     {
