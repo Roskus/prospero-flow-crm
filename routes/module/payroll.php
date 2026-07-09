@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 Route::match(['get', 'post'], '/payroll', [PayrollIndexController::class, 'index']);
 Route::get('/payroll/create', [PayrollCreateController::class, 'create']);
 Route::get('/payroll/show/{id}', [PayrollShowController::class, 'show']);
-Route::post('/payroll/update/{id}', [PayrollUpdateController::class, 'update']);
+Route::match(['get', 'post'], '/payroll/update/{id}', [PayrollUpdateController::class, 'update']);
 Route::get('/payroll/delete/{id}', [PayrollDeleteController::class, 'delete']);
 Route::post('/payroll/save', [PayrollSaveController::class, 'save']);
