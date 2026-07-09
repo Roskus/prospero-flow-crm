@@ -33,6 +33,9 @@ class CompanyRepository
         $company->website = ! empty($data['website']) ? $data['website'] : null;
         $company->last_order_number = (int) ($data['last_order_number'] ?? $company->last_order_number ?? 0);
         $company->inactivity_lock_time = (int) ($data['inactivity_lock_time'] ?? $company->inactivity_lock_time ?? 15);
+        $company->vacation_days_per_year = (int) ($data['vacation_days_per_year'] ?? $company->vacation_days_per_year ?? 20);
+        $company->personal_days_per_year = (int) ($data['personal_days_per_year'] ?? $company->personal_days_per_year ?? 2);
+        $company->weekly_hours_full_time = (float) ($data['weekly_hours_full_time'] ?? $company->weekly_hours_full_time ?? 37.00);
         $company->status = ! empty($data['status']) ? $data['status'] : Company::ACTIVE;
         $company->updated_at = now();
         $company->save();

@@ -62,6 +62,9 @@ class Company extends Model
         'status',
         'last_order_number',
         'inactivity_lock_time',
+        'vacation_days_per_year',
+        'weekly_hours_full_time',
+        'personal_days_per_year',
     ];
 
     protected $hidden = [

@@ -148,3 +148,6 @@ require __DIR__.'/module/bank_account.php';
 
 // Payroll
 require __DIR__.'/module/payroll.php';
+
+// RRHH
+require __DIR__.'/module/rrhh.php';

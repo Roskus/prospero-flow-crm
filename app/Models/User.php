@@ -54,6 +54,12 @@ class User extends Authenticatable implements JWTSubject
         'photo',
         'lang',
         'timezone',
+        'employee_number',
+        'is_employee',
+        'hire_date',
+        'vacation_days_override',
+        'weekly_hours_override',
+        'iban',
         'last_login_at',
         'last_login_ip',
     ];
@@ -69,6 +75,8 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
         'password' => 'hashed',
+        'is_employee' => 'boolean',
+        'hire_date' => 'date:Y-m-d',
     ];
 
     protected $with = ['company'];
