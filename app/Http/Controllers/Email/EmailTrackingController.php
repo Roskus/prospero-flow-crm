@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 
 class EmailTrackingController extends Controller
 {
-    public function track_email(string $uuid): Response
+    public function trackEmail(string $uuid): Response
     {
         $email = Email::where('uuid', $uuid)->first();
 

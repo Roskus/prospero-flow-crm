@@ -27,6 +27,6 @@ Route::match(['get', 'post'], '/email/duplicate',
 Route::get('/email/download-attachment/{attachmentId}',
     [EmailDownloadAttachmentController::class, 'downloadAttachment'])
     ->name('downloadAttachment')->can('read email');
-Route::get('/email/tracking/{uuid}', [EmailTrackingController::class, 'track_email'])
+Route::get('/email/tracking/{uuid}', [EmailTrackingController::class, 'trackEmail'])
     ->name('email.tracking')
     ->middleware('throttle:20,1');
