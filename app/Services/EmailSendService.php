@@ -18,8 +18,11 @@ class EmailSendService
         $email->status = Email::QUEUE;
         $email->save();
 
+        $trackingUrl = route('email.tracking', $email->uuid);
+        $trackingPixel = '<img src="'.$trackingUrl.'" width="1" height="1" alt="" style="display:none;" />';
+
         $params['from_email'] = $email->from_email;
-        $params['body'] = $email->body;
+        $params['body'] = $email->body.$trackingPixel;
 
         if (isset($email->signature)) {
             $params['signature'] = $user->signature_html;
