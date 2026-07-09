@@ -11,12 +11,12 @@ use App\Http\Controllers\Product\ProductSaveController;
 use App\Http\Controllers\Product\ProductUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], '/product', [ProductIndexController::class, 'index'])->name('product.index');
-Route::get('/product/create', [ProductCreateController::class, 'create']);
-Route::get('/product/update/{id}', [ProductUpdateController::class, 'update']);
-Route::post('/product/save', [ProductSaveController::class, 'save']);
-Route::get('/product/import', [ProductImportIndexController::class, 'index']);
-Route::post('/product/import/save', [ProductImportSaveController::class, 'save']);
+Route::match(['get', 'post'], '/product', [ProductIndexController::class, 'index'])->name('product.index')->can('read product');
+Route::get('/product/create', [ProductCreateController::class, 'create'])->can('create product');
+Route::get('/product/update/{id}', [ProductUpdateController::class, 'update'])->can('update product');
+Route::post('/product/save', [ProductSaveController::class, 'save'])->can('create product')->can('update product');
+Route::get('/product/import', [ProductImportIndexController::class, 'index'])->can('create product');
+Route::post('/product/import/save', [ProductImportSaveController::class, 'save'])->can('create product');
 
 Route::delete('/product/delete/{id}', [ProductDeleteController::class, 'delete'])
     ->can('delete product');

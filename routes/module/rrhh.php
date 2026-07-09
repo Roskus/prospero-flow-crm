@@ -29,34 +29,34 @@ use App\Http\Controllers\Rrhh\TimeOffApproval\TimeOffApprovalSaveController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('rrhh')->group(function () {
-    Route::get('/', [EmployeeIndexController::class, 'index'])->name('rrhh.index');
-    Route::get('/employee/create', [EmployeeCreateController::class, 'create']);
-    Route::post('/employee/save', [EmployeeSaveController::class, 'save']);
-    Route::get('/employee/show/{id}', [EmployeeShowController::class, 'show']);
-    Route::post('/employee/update/{id}', [EmployeeUpdateController::class, 'update']);
-    Route::delete('/employee/delete/{id}', [EmployeeDeleteController::class, 'delete']);
+    Route::get('/', [EmployeeIndexController::class, 'index'])->name('rrhh.index')->can('read rrhh');
+    Route::get('/employee/create', [EmployeeCreateController::class, 'create'])->can('create rrhh');
+    Route::post('/employee/save', [EmployeeSaveController::class, 'save'])->can('create rrhh')->can('update rrhh');
+    Route::get('/employee/show/{id}', [EmployeeShowController::class, 'show'])->can('read rrhh');
+    Route::post('/employee/update/{id}', [EmployeeUpdateController::class, 'update'])->can('update rrhh');
+    Route::delete('/employee/delete/{id}', [EmployeeDeleteController::class, 'delete'])->can('delete rrhh');
 
-    Route::get('/schedule', [ScheduleIndexController::class, 'index']);
-    Route::post('/schedule/save', [ScheduleSaveController::class, 'save']);
-    Route::post('/schedule/update/{id}', [ScheduleUpdateController::class, 'update']);
-    Route::get('/schedule/delete/{id}', [ScheduleDeleteController::class, 'delete']);
+    Route::get('/schedule', [ScheduleIndexController::class, 'index'])->can('read rrhh');
+    Route::post('/schedule/save', [ScheduleSaveController::class, 'save'])->can('create rrhh')->can('update rrhh');
+    Route::post('/schedule/update/{id}', [ScheduleUpdateController::class, 'update'])->can('update rrhh');
+    Route::get('/schedule/delete/{id}', [ScheduleDeleteController::class, 'delete'])->can('delete rrhh');
 
-    Route::post('/clock/in', [ClockInController::class, 'in']);
-    Route::post('/clock/out', [ClockOutController::class, 'out']);
-    Route::get('/time-entries', [TimeEntryIndexController::class, 'index']);
-    Route::post('/time-entries/save', [TimeEntrySaveController::class, 'save']);
-    Route::post('/time-entries/update/{id}', [TimeEntryUpdateController::class, 'update']);
+    Route::post('/clock/in', [ClockInController::class, 'in'])->can('create rrhh');
+    Route::post('/clock/out', [ClockOutController::class, 'out'])->can('create rrhh');
+    Route::get('/time-entries', [TimeEntryIndexController::class, 'index'])->can('read rrhh');
+    Route::post('/time-entries/save', [TimeEntrySaveController::class, 'save'])->can('create rrhh');
+    Route::post('/time-entries/update/{id}', [TimeEntryUpdateController::class, 'update'])->can('update rrhh');
 
-    Route::get('/time-off', [TimeOffIndexController::class, 'index']);
-    Route::get('/time-off/create', [TimeOffCreateController::class, 'create']);
-    Route::post('/time-off/save', [TimeOffSaveController::class, 'save']);
+    Route::get('/time-off', [TimeOffIndexController::class, 'index'])->can('read rrhh');
+    Route::get('/time-off/create', [TimeOffCreateController::class, 'create'])->can('create rrhh');
+    Route::post('/time-off/save', [TimeOffSaveController::class, 'save'])->can('create rrhh')->can('update rrhh');
 
-    Route::get('/approvals', [TimeOffApprovalIndexController::class, 'index']);
-    Route::post('/approvals/{id}/approve', [TimeOffApprovalSaveController::class, 'approve']);
-    Route::post('/approvals/{id}/reject', [TimeOffApprovalSaveController::class, 'reject']);
+    Route::get('/approvals', [TimeOffApprovalIndexController::class, 'index'])->can('read rrhh');
+    Route::post('/approvals/{id}/approve', [TimeOffApprovalSaveController::class, 'approve'])->can('update rrhh');
+    Route::post('/approvals/{id}/reject', [TimeOffApprovalSaveController::class, 'reject'])->can('update rrhh');
 
-    Route::get('/holidays', [HolidayIndexController::class, 'index']);
-    Route::post('/holidays/save', [HolidaySaveController::class, 'save']);
-    Route::post('/holidays/update/{id}', [HolidayUpdateController::class, 'update']);
-    Route::delete('/holidays/delete/{id}', [HolidayDeleteController::class, 'delete']);
+    Route::get('/holidays', [HolidayIndexController::class, 'index'])->can('read rrhh');
+    Route::post('/holidays/save', [HolidaySaveController::class, 'save'])->can('create rrhh')->can('update rrhh');
+    Route::post('/holidays/update/{id}', [HolidayUpdateController::class, 'update'])->can('update rrhh');
+    Route::delete('/holidays/delete/{id}', [HolidayDeleteController::class, 'delete'])->can('delete rrhh');
 });

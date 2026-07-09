@@ -14,17 +14,17 @@ use App\Http\Controllers\Email\EmailUpdateController;
 use App\Http\Controllers\Email\EmailViewController;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], '/email', [EmailIndexController::class, 'index']);
-Route::get('/email/create', [EmailCreateController::class, 'create']);
-Route::get('/email/view/{id}', [EmailViewController::class, 'view']);
-Route::get('/email/update/{id}', [EmailUpdateController::class, 'update']);
-Route::post('/email/save', [EmailSaveController::class, 'save']);
-Route::get('/email/send/{id}', [EmailSendController::class, 'send']);
-Route::get('/email/delete/{id}', [EmailDeleteController::class, 'delete']);
+Route::match(['get', 'post'], '/email', [EmailIndexController::class, 'index'])->can('read email');
+Route::get('/email/create', [EmailCreateController::class, 'create'])->can('create email');
+Route::get('/email/view/{id}', [EmailViewController::class, 'view'])->can('read email');
+Route::get('/email/update/{id}', [EmailUpdateController::class, 'update'])->can('update email');
+Route::post('/email/save', [EmailSaveController::class, 'save'])->can('create email')->can('update email');
+Route::get('/email/send/{id}', [EmailSendController::class, 'send'])->can('update email');
+Route::get('/email/delete/{id}', [EmailDeleteController::class, 'delete'])->can('delete email');
 Route::match(['get', 'post'], '/email/duplicate',
     [EmailDuplicateController::class, 'duplicate'])
-    ->name('email.duplicate');
+    ->name('email.duplicate')->can('create email');
 Route::get('/email/download-attachment/{attachmentId}',
     [EmailDownloadAttachmentController::class, 'downloadAttachment'])
-    ->name('downloadAttachment');
+    ->name('downloadAttachment')->can('read email');
 Route::get('/email/tracking/{uuid}', [EmailTrackingController::class, 'track_email']);

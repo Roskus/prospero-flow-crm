@@ -34,16 +34,20 @@ Route::post('/customer/save',
     ->can('create customer')->can('update customer');
 
 Route::get('/customer/import',
-    [CustomerImportIndexController::class, 'index']);
+    [CustomerImportIndexController::class, 'index'])
+    ->can('create customer');
 
 Route::post('/customer/import/save',
-    [CustomerImportSaveController::class, 'save']);
+    [CustomerImportSaveController::class, 'save'])
+    ->can('create customer');
 
 Route::get('/customer/import/excel',
-    [CustomerImportExcelController::class, 'import']);
+    [CustomerImportExcelController::class, 'import'])
+    ->can('create customer');
 
 Route::post('/customer/import/excel/save',
-    [CustomerImportExcelSaveController::class, 'importExcelSave']);
+    [CustomerImportExcelSaveController::class, 'importExcelSave'])
+    ->can('create customer');
 
 Route::get('/customer/delete/{id}',
     [CustomerDeleteController::class, 'delete'])
@@ -57,5 +61,5 @@ Route::get('/customer/show/{id}',
     [CustomerShowController::class, 'show'])
     ->can('read customer');
 
-Route::post('/customer/message/save', [CustomerCreateMessageController::class, 'save']);
-Route::get('/customer/message/delete/{id}', [CustomerDeleteMessageController::class, 'delete']);
+Route::post('/customer/message/save', [CustomerCreateMessageController::class, 'save'])->can('update customer');
+Route::get('/customer/message/delete/{id}', [CustomerDeleteMessageController::class, 'delete'])->can('update customer');

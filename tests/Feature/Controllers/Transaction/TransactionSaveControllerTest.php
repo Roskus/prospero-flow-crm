@@ -70,7 +70,9 @@ class TransactionSaveControllerTest extends TestCase
     #[Test]
     public function it_blocks_negative_amount_without_update_permission(): void
     {
-        $limitedRole = Role::create(['name' => 'CreateOnly', 'guard_name' => 'web']);
+        $limitedRole = Role::findOrCreate('CreateOnly', 'web');
+        $limitedRole->givePermissionTo(Permission::findOrCreate('create transaction', 'web'));
+        $limitedRole->givePermissionTo(Permission::findOrCreate('update transaction', 'web'));
         $limitedRole->givePermissionTo(Permission::findOrCreate('create accounting', 'web'));
         $user = User::factory()->create();
         $user->assignRole($limitedRole);
@@ -137,7 +139,9 @@ class TransactionSaveControllerTest extends TestCase
     #[Test]
     public function it_allows_positive_amount_for_create_only_role(): void
     {
-        $limitedRole = Role::create(['name' => 'CreateOnlyAllowed', 'guard_name' => 'web']);
+        $limitedRole = Role::findOrCreate('CreateOnlyAllowed', 'web');
+        $limitedRole->givePermissionTo(Permission::findOrCreate('create transaction', 'web'));
+        $limitedRole->givePermissionTo(Permission::findOrCreate('update transaction', 'web'));
         $limitedRole->givePermissionTo(Permission::findOrCreate('create accounting', 'web'));
         $user = User::factory()->create();
         $user->assignRole($limitedRole);

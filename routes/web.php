@@ -82,12 +82,12 @@ require __DIR__.'/module/contact.php';
 // Transaction
 require __DIR__.'/module/transaction_category.php';
 
-Route::get('/accounting', [TransactionIndexController::class, 'index']);
-Route::get('/transaction/create', [TransactionCreateController::class, 'create']);
-Route::get('/transaction/edit/{id}', [TransactionUpdateController::class, 'update']);
-Route::post('/transaction/save', [TransactionSaveController::class, 'save']);
-Route::delete('/transaction/delete/{id}', [TransactionDeleteController::class, 'delete']);
-Route::delete('/transaction/attachment/{id}', [TransactionAttachmentDeleteController::class, 'delete']);
+Route::get('/accounting', [TransactionIndexController::class, 'index'])->can('read transaction');
+Route::get('/transaction/create', [TransactionCreateController::class, 'create'])->can('create transaction');
+Route::get('/transaction/edit/{id}', [TransactionUpdateController::class, 'update'])->can('update transaction');
+Route::post('/transaction/save', [TransactionSaveController::class, 'save'])->can('create transaction')->can('update transaction');
+Route::delete('/transaction/delete/{id}', [TransactionDeleteController::class, 'delete'])->can('delete transaction');
+Route::delete('/transaction/attachment/{id}', [TransactionAttachmentDeleteController::class, 'delete'])->can('update transaction');
 
 // User
 require __DIR__.'/module/user.php';

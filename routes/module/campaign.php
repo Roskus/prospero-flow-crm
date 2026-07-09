@@ -8,7 +8,7 @@ use App\Http\Controllers\Campaign\CampaignSaveController;
 use App\Http\Controllers\Campaign\CampaignUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], '/campaign', [CampaignIndexController::class, 'index']);
-Route::get('/campaign/create', [CampaignCreateController::class, 'create']);
-Route::get('/campaign/update/{id}', [CampaignUpdateController::class, 'update']);
-Route::post('/campaign/save', [CampaignSaveController::class, 'save']);
+Route::match(['get', 'post'], '/campaign', [CampaignIndexController::class, 'index'])->can('read campaign');
+Route::get('/campaign/create', [CampaignCreateController::class, 'create'])->can('create campaign');
+Route::get('/campaign/update/{id}', [CampaignUpdateController::class, 'update'])->can('update campaign');
+Route::post('/campaign/save', [CampaignSaveController::class, 'save'])->can('create campaign')->can('update campaign');

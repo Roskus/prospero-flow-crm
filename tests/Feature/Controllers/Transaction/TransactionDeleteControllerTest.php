@@ -32,9 +32,7 @@ class TransactionDeleteControllerTest extends TestCase
 
         $response = $this->delete('/transaction/delete/'.$transaction->id);
 
-        $response->assertRedirect();
-        $response->assertSessionHas('error');
-        $this->assertNotSoftDeleted($transaction);
+        $response->assertForbidden();
     }
 
     #[Test]

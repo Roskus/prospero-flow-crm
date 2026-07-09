@@ -8,6 +8,9 @@ sudo -u www-data composer install --no-dev --optimize-autoloader
 # Run DB migration
 php artisan migrate --force
 
+# Sync permissions (idempotent — safe to run on every deploy)
+php artisan db:seed --class=PermissionSeeder --force
+
 # Generate updated api doc
 php artisan l5-swagger:generate
 

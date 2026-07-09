@@ -7,20 +7,12 @@ namespace Tests\Feature\Controllers\Ticket;
 use App\Mail\TicketStateChanged;
 use App\Models\Customer;
 use App\Models\Ticket;
-use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class TicketSaveControllerTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->actingAs(User::factory()->create());
-    }
-
     #[Test]
     public function it_can_save_ticket(): void
     {

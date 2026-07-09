@@ -151,6 +151,12 @@ class PermissionSeeder extends Seeder
                 'module_id' => 3,
             ],
             [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'update product',
+                'guard_name' => 'web',
+                'module_id' => 3,
+            ],
+            [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'delete product',
                 'guard_name' => 'web',
@@ -372,6 +378,190 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete ticket',
                 'guard_name' => 'web',
                 'module_id' => 10,
+            ],
+            // Brand
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'create brand',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read brand',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'update brand',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete brand',
+                'guard_name' => 'web',
+            ],
+            // Category
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'create category',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read category',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'update category',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete category',
+                'guard_name' => 'web',
+            ],
+            // Calendar
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'create calendar',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read calendar',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'update calendar',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete calendar',
+                'guard_name' => 'web',
+            ],
+            // Campaign
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'create campaign',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read campaign',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'update campaign',
+                'guard_name' => 'web',
+            ],
+            // Contact
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'create contact',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read contact',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'update contact',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete contact',
+                'guard_name' => 'web',
+            ],
+            // Currency
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'name' => 'read currency',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'create currency',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'update currency',
+                'guard_name' => 'web',
+            ],
+            // Email
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'create email',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'read email',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'name' => 'update email',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete email',
+                'guard_name' => 'web',
+            ],
+            // Payroll
+            // Cada empleado puede ver su propio payroll (controlado por controlador).
+            // Ver listado completo y operaciones CRUD:
+            //   SuperAdmin, CompanyAdmin (actual)
+            //   TODO: agregar rol RRHH cuando se cree
+            //   TODO: agregar rol Accountant cuando se cree
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'create payroll',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'read payroll',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'update payroll',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete payroll',
+                'guard_name' => 'web',
+            ],
+            // Transaction (route-level permission, complements accounting)
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'create transaction',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'read transaction',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'update transaction',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete transaction',
+                'guard_name' => 'web',
             ],
         ];
     }

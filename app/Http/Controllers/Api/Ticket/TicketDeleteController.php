@@ -28,7 +28,7 @@ class TicketDeleteController
     )]
     public function delete(TicketDeleteRequest $request, int $id): JsonResponse
     {
-        $ticket = Ticket::find($id);
+        $ticket = Ticket::where('company_id', (int) Auth::user()->company_id)->where('id', $id)->first();
         if (! $ticket) {
             return response()->json(['message' => 'Ticket not found'], 404);
         }
