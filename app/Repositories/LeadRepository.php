@@ -15,7 +15,7 @@ class LeadRepository
             $lead = new Lead;
             $lead->created_at = now();
         } else {
-            $lead = Lead::find($data['id']);
+            $lead = Lead::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
 
         $lead->seller_id = (isset($data['seller_id'])) ? $data['seller_id'] : Auth::user()->id;

@@ -16,7 +16,7 @@ class CategorySaveController extends MainController
         if (empty($request->id)) {
             $category = new Category;
         } else {
-            $category = Category::find($request->id);
+            $category = Category::where('company_id', (int) Auth::user()->company_id)->findOrFail($request->id);
         }
         $category->name = $request->name;
         $category->company_id = (int) Auth::user()->company_id;

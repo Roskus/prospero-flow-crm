@@ -15,7 +15,7 @@ class UserUpdateController extends MainController
 {
     public function update(Request $request, int $id)
     {
-        $user = User::find($id);
+        $user = User::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $roles = Role::all();
         $rolesWithoutSuperAdmin = Role::where('name', '!=', 'SuperAdmin')->get();
         $data['user'] = $user;

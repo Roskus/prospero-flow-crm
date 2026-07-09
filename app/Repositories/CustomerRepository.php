@@ -16,7 +16,7 @@ class CustomerRepository
             $customer = new Customer;
             $customer->created_at = now();
         } else {
-            $customer = Customer::find($data['id']);
+            $customer = Customer::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
 
         $customer->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;

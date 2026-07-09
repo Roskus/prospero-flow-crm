@@ -7,7 +7,7 @@
     <div class="col">
         <form method="get" action="{{ url('/rrhh/schedule') }}" class="form-inline">
             <div class="input-group">
-                <select name="user_id" class="form-select" onchange="this.form.submit()">
+                <select name="user_id" id="employeeSelect" class="form-select" onchange="this.form.submit()">
                     @foreach($employees as $emp)
                     <option value="{{ $emp->id }}" {{ $employee_id == $emp->id ? 'selected' : '' }}>{{ $emp->first_name }} {{ $emp->last_name }}</option>
                     @endforeach

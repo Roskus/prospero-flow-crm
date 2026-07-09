@@ -127,7 +127,7 @@ php artisan jwt:secret
 Set Crontab
 
 ```bash
-crotab -e
+crontab -e
 * * * * * cd /home/ubuntu/www/crm && php artisan schedule:run >> /dev/null 2>&1
 ```
 

@@ -21,6 +21,10 @@ class PayrollShowController extends MainController
         }
 
         if ($request->has('download')) {
+            if (! $payroll->file) {
+                return redirect('/payroll')->with('error', __('No file attached to this payroll.'));
+            }
+
             return Storage::disk('public')->download($payroll->file);
         }
 

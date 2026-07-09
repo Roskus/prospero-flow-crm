@@ -23,7 +23,7 @@ class LeadUpdateController extends MainController
      */
     public function update(Request $request, int $id)
     {
-        $lead = Lead::find($id);
+        $lead = Lead::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $industry = new Industry;
         $user = new User;
         $data['lead'] = $lead;

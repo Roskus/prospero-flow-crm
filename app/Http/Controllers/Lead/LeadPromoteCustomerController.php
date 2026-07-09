@@ -8,13 +8,14 @@ use App\Http\Controllers\MainController;
 use App\Models\Customer;
 use App\Models\Lead;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LeadPromoteCustomerController extends MainController
 {
     public function promote(Request $request, int $id)
     {
-        $lead = Lead::find($id);
+        $lead = Lead::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $customer = new Customer;
         foreach ($lead->getFillable() as $attribute) {
             $customer->{$attribute} = $lead->{$attribute};

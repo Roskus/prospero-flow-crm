@@ -23,7 +23,7 @@ class CustomerUpdateController extends MainController
      */
     public function update(Request $request, int $id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $industry = new Industry;
         $user = new User;
         $data['customer'] = $customer;
