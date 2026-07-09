@@ -15,7 +15,7 @@ class CustomerUpdateControllerTest extends TestCase
     {
         $this->actingAs($this->user, 'api');
 
-        $customer = Customer::factory()->create(['seller_id' => $this->user->id]);
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->user->id]);
 
         $response = $this->putJson('/api/customer/'.$customer->id, [
             'name' => 'Updated Customer',

@@ -18,7 +18,7 @@ class LeadImportSaveControllerTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHasErrors();
 
-        $baseName = 'hammer_lead_example_20221212';
+        $baseName = 'lead_example';
         $sourcePath = base_path("tests/Feature/Controllers/Lead/{$baseName}.csv");
 
         // The controller reads from getPath()/{name_without_extension}, copy there

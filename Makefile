@@ -6,7 +6,7 @@ help: ## Show this help menu
 	@echo 'usage: make [target]'
 	@echo
 	@echo 'targets:'
-	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
 build: ## Create docker build containers (no database)
 	docker compose -f docker-compose.yml build
@@ -34,7 +34,7 @@ up-ms: ## Start docker container with MS SQL Server
 
 permissions: ## Fix directory permissions for www-data
 	docker exec -u root ${DOCKER_PHP} mkdir -p /var/www/.composer/cache
-	docker exec -u root ${DOCKER_PHP} chown -R www-data:www-data /var/www/crm/storage /var/www/crm/bootstrap/cache /var/www/crm/vendor /var/www/crm/composer.json /var/www/crm/composer.lock /var/www/.composer
+	docker exec -u root ${DOCKER_PHP} chown -R www-data:www-data /var/www/crm /var/www/.composer
 	docker exec -u root ${DOCKER_PHP} chmod -R 775 /var/www/crm/storage /var/www/crm/bootstrap/cache /var/www/crm/vendor
 
 ssl: ## Generate self-signed SSL certificates for local development
@@ -63,6 +63,9 @@ seed: ## Run Laravel seeders
 
 test: ## Run Laravel phpunit tests
 	docker exec -it ${DOCKER_PHP} php artisan test
+
+test-coverage: ## Run tests with HTML coverage report (requires Xdebug)
+	docker exec -e XDEBUG_MODE=coverage -it ${DOCKER_PHP} vendor/bin/phpunit --coverage-html=storage/coverage
 
 clear: ## Clear all Laravel caches (views, config, cache)
 	docker exec -it ${DOCKER_PHP} php artisan cache:clear

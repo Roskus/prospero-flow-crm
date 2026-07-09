@@ -21,7 +21,7 @@ class ContactCreateControllerTest extends TestCase
         $this->actingAs($this->user, 'api');
 
         Industry::factory()->create();
-        $lead = Lead::factory()->create();
+        $lead = Lead::factory()->create(['company_id' => $this->user->company_id]);
 
         $data = [
             'lead_id' => $lead->id,
@@ -53,6 +53,7 @@ class ContactCreateControllerTest extends TestCase
             'phone' => 666666666,
         ]);
 
+        $this->actingAs($this->user, 'web');
         $this->get('/lead/update/'.$lead->id)
             ->assertSee($data['contact_email'])
             ->assertSee($data['contact_first_name'])

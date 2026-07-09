@@ -12,6 +12,9 @@
 .env.backup
 .env.production
 .phpunit.result.cache
+coverage.xml
+junit.xml
+/storage/coverage/
 Homestead.json
 Homestead.yaml
 auth.json

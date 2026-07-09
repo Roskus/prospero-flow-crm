@@ -177,6 +177,22 @@ Some API Endpoint for the full list check the doc:
 make test
 ```
 
+### With coverage report
+
+Inside the container (`make ssh`):
+
+```bash
+XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html=storage/coverage
+```
+
+Or from the host:
+
+```bash
+make test-coverage
+```
+
+Open `storage/coverage/index.html` in your browser to explore line-by-line coverage.
+
 ## Translation (i18n)
 Check missing translation keys
 ```bash

@@ -13,25 +13,35 @@ class CustomerSaveControllerTest extends TestCase
     #[Test]
     public function it_can_save_customer(): void
     {
-        $data = Customer::factory()->create()->toArray();
-        $data['tags'] = 'one, two';
+        $data = [
+            'name' => 'Test Customer',
+            'email' => 'test@example.com',
+            'phone' => '123456789',
+            'country_id' => 'US',
+            'seller_id' => $this->user->id,
+            'tags' => 'one, two',
+        ];
 
-        $response = $this->post('customer/save', $data);
+        $response = $this->post('/customer/save', $data);
 
         $response->assertRedirect('/customer');
-        $this->equalTo(Customer::all()->last(), $data);
+        $this->assertDatabaseHas('customer', ['name' => 'Test Customer']);
     }
 
     #[Test]
     public function it_can_update_customer(): void
     {
-        $data = Customer::factory()->create()->toArray();
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+        $data = $customer->toArray();
         $data['tags'] = 'one, two';
-        unset($data['id']);
+        $data['name'] = 'Updated Name';
 
-        $response = $this->post('customer/save', $data);
+        $response = $this->post('/customer/save', $data);
 
         $response->assertRedirect('/customer');
-        $this->equalTo(Customer::all()->last(), $data);
+        $this->assertEquals('Updated Name', $customer->fresh()->name);
     }
 }
