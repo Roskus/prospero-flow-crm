@@ -52,8 +52,7 @@ class CustomerExportController
 
         $tempFilePath = $this->createTempFile($fileName, $content);
 
-        // Retorna el archivo para descarga
-        return Response::download($tempFilePath, basename($tempFilePath), $headers)->deleteFileAfterSend(true);
+        return Response::download($tempFilePath, $fileName, $headers)->deleteFileAfterSend(true);
     }
 
     protected function createTempFile($fileName, $content): string

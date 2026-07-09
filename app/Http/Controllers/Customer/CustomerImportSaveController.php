@@ -10,12 +10,25 @@ use App\Models\Customer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CustomerImportSaveController extends MainController
 {
+    private const string CUSTOMER_REDIRECT_URL = '/customer';
+
+    private const array SKIP_COLUMNS = [
+        'id', 'company_id', 'seller_id', 'source_id',
+        'created_at', 'updated_at',
+        'created_by', 'updated_by', 'deleted_by', 'deleted_at',
+        'latitude', 'longitude', 'opt_in',
+        'phone_verified', 'phone2_verified', 'mobile_verified', 'email_verified', 'website_verified',
+    ];
+
+    private const array DATE_COLUMNS = [
+        'dob', 'schedule_contact',
+    ];
+
     /**
      * @return Application|RedirectResponse|Redirector
      */
@@ -24,36 +37,34 @@ class CustomerImportSaveController extends MainController
         $errors = [];
         $file = $request->file('upload');
 
-        // Utiliza una ruta base segura para el almacenamiento de archivos subidos
-        $basePath = storage_path('uploads');
-
-        // Genera un nombre seguro para el archivo, sin aceptar la ruta del cliente
-        $safeFilename = basename($file->getClientOriginalName());
-        $filePath = $basePath.DIRECTORY_SEPARATOR.$safeFilename;
+        $filePath = $file->path();
 
         try {
             $handle = fopen($filePath, 'r');
         } catch (\Throwable $t) {
-            return redirect('/customer/import')->withErrors(__("Can't read uploaded file"));
+            return redirect(self::CUSTOMER_REDIRECT_URL)->withErrors(__("Can't read uploaded file"));
         }
 
-        // HEADER (25)
-        // external_id;name;business_name;vat;dob;phone;phone2;mobile;email;email2;website;country_id;province;city;locality;street;zipcode;notes;facebook;instagram;linkedin;twitter;youtube;tiktok;tags
         $rowCount = 0;
         $successfulImports = 0;
         $separator = $request->input('separator') ?: ';';
-        while (($data = fgetcsv($handle, 1000, $separator)) !== false) {
-            // Skip header starting in 1
-            if ($data[0] == 'external_id') {
-                continue;
-            }
 
-            // if row is empty continue
+        $header = fgetcsv($handle, 0, $separator);
+
+        if ($header === false) {
+            fclose($handle);
+
+            return redirect(self::CUSTOMER_REDIRECT_URL)->withErrors(__('Empty file'));
+        }
+
+        $columnMap = $this->buildColumnMap($header);
+
+        while (($data = fgetcsv($handle, 0, $separator)) !== false) {
             if (empty($data[0])) {
                 continue;
             }
 
-            $customer = $this->mapCsvRowToCustomer($data);
+            $customer = $this->mapRowToCustomer($data, $columnMap);
 
             try {
                 $customer->save();
@@ -75,50 +86,80 @@ class CustomerImportSaveController extends MainController
             'count' => $rowCount,
         ];
 
-        return redirect('/customer')->with($response);
+        return redirect(self::CUSTOMER_REDIRECT_URL)->with($response);
     }
 
-    private function mapCsvRowToCustomer(array $data): Customer
+    private function buildColumnMap(array $header): array
     {
-        $country = trim($data[11]);
+        $map = [];
+
+        foreach ($header as $index => $column) {
+            $column = trim($column);
+
+            $map[$column] = $index;
+        }
+
+        return $map;
+    }
+
+    private function mapRowToCustomer(array $data, array $columnMap): Customer
+    {
         $customer = new Customer;
 
         $customer->company_id = Auth::user()->company_id;
-        $customer->external_id = isset($data[0]) ? (int) $data[0] : null;
-        $customer->name = $data[1];
-        $customer->business_name = $data[2];
-        $customer->vat = $data[3];
-        try {
-            $dob = isset($data[4]) ? Carbon::createFromFormat('d/m/Y', $data[4])->format('Y-m-d') : null;
-        } catch (\Throwable $t) {
-            $dob = null;
-        }
-        $customer->dob = $dob;
-        $customer->phone = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[5]);
-        $customer->phone2 = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[6]);
-        $customer->mobile = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $data[7]);
-        $customer->email = $data[8];
-        $customer->email2 = $data[9];
-        $customer->website = rtrim($data[10], '/');
-        $customer->country_id = strlen($country) == 2 ? strtolower($country) : '';
-        $customer->province = $data[12];
-        $customer->city = $data[13];
-        $customer->locality = $data[14];
-        $customer->street = $data[15];
-        $customer->zipcode = $data[16];
-        $customer->notes = $data[17];
-        $customer->facebook = (isset($data[18])) ? $data[18] : null;
-        $customer->instagram = (isset($data[19])) ? $data[19] : null;
-        $customer->linkedin = (isset($data[20])) ? $data[20] : null;
-        $customer->twitter = (isset($data[21])) ? $data[21] : null;
-        $customer->youtube = (isset($data[22])) ? $data[22] : null;
-        $customer->tiktok = (isset($data[23])) ? $data[23] : null;
-        if (isset($data[24]) && json_validate($data[24])) {
-            $customer->tags = $data[24];
+
+        foreach ($columnMap as $column => $index) {
+            if (in_array($column, self::SKIP_COLUMNS, true)) {
+                continue;
+            }
+
+            if (! isset($data[$index])) {
+                continue;
+            }
+
+            $value = $data[$index];
+
+            if (in_array($column, ['phone', 'phone2', 'mobile'], true)) {
+                $value = str_replace([' ', '(', ')', '.', '-', '/', '|'], '', $value);
+            }
+
+            if ($column === 'email2' && empty($value)) {
+                continue;
+            }
+
+            if ($column === 'country_id') {
+                $value = strlen(trim($value)) == 2 ? strtolower(trim($value)) : '';
+            }
+
+            if ($column === 'website') {
+                $value = rtrim($value, '/');
+            }
+
+            if ($column === 'tags') {
+                if (is_string($value)) {
+                    $value = array_map('trim', explode(',', $value));
+                }
+                if (empty($value) || $value === ['']) {
+                    continue;
+                }
+            }
+
+            if (in_array($column, self::DATE_COLUMNS, true) && empty($value)) {
+                continue;
+            }
+
+            if ($column === 'industry_id' && $value === '') {
+                continue;
+            }
+
+            if ($column === 'notes') {
+                $value = str_replace(["\r", "\n"], '-', $value);
+            }
+
+            $customer->$column = $value;
         }
 
         $customer->seller_id = Auth::user()->id;
-        $customer->created_at = now();
 
         return $customer;
     }
