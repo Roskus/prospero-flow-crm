@@ -32,6 +32,13 @@ class UserSaveController extends MainController
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->lang = $request->lang;
+        $user->employee_number = $request->employee_number;
+        $user->hire_date = $request->hire_date;
+        $user->is_employee = $request->boolean('is_employee', true);
+        $user->manager_id = $request->manager_id;
+        $user->iban = $request->iban;
+        $user->vacation_days_override = $request->vacation_days_override;
+        $user->weekly_hours_override = $request->weekly_hours_override;
         if ($request->timezone) {
             $user->timezone = $request->timezone;
         }

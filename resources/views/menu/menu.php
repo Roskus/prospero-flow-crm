@@ -83,4 +83,54 @@ return [
         'icon_class' => 'las la-chart-pie',
         'permissions' => ['read report'],
     ],
+    [
+        'is_drop_down' => true,
+        'title' => __('HR'),
+        'icon_class' => 'las la-users-cog',
+        'permissions' => ['read rrhh'],
+        'children' => [
+            [
+                'url' => url('/rrhh'),
+                'title' => __('Employees'),
+                'icon_class' => 'las la-user-tie',
+                'permissions' => ['read rrhh'],
+            ],
+            [
+                'url' => url('/rrhh/schedule'),
+                'title' => __('Schedules'),
+                'icon_class' => 'las la-clock',
+                'permissions' => ['read rrhh'],
+            ],
+            [
+                'url' => url('/rrhh/time-entries'),
+                'title' => __('Time entries'),
+                'icon_class' => 'las la-stopwatch',
+                'permissions' => ['read rrhh'],
+            ],
+            [
+                'url' => url('/rrhh/time-off'),
+                'title' => __('Time off'),
+                'icon_class' => 'las la-calendar-minus',
+                'permissions' => ['read rrhh'],
+            ],
+            [
+                'url' => url('/rrhh/approvals'),
+                'title' => __('Approvals'),
+                'icon_class' => 'las la-check-double',
+                'permissions' => ['approve timeoff'],
+            ],
+            [
+                'url' => url('/rrhh/holidays'),
+                'title' => __('Holidays'),
+                'icon_class' => 'las la-gift',
+                'permissions' => ['read rrhh'],
+            ],
+            [
+                'url' => url('/payroll'),
+                'title' => __('Payroll'),
+                'icon_class' => 'las la-file-invoice-dollar',
+                'permissions' => ['read rrhh'],
+            ],
+        ],
+    ],
 ];

@@ -151,6 +151,34 @@
         </div>
     </div>
 
+    <div class="card mb-2">
+        <div class="card-header">
+            <span class="card-title">{{ __('HR Settings') }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label for="vacation_days_per_year" class="label-control">{{ __('Vacation days per year') }}</label>
+                    <input type="number" name="vacation_days_per_year" id="vacation_days_per_year" min="0" max="60"
+                           value="{{ old('vacation_days_per_year', $company->vacation_days_per_year) }}"
+                           class="form-control">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="personal_days_per_year" class="label-control">{{ __('Personal days per year') }}</label>
+                    <input type="number" name="personal_days_per_year" id="personal_days_per_year" min="0" max="30"
+                           value="{{ old('personal_days_per_year', $company->personal_days_per_year) }}"
+                           class="form-control">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="weekly_hours_full_time" class="label-control">{{ __('Weekly hours full time') }}</label>
+                    <input type="number" step="0.5" name="weekly_hours_full_time" id="weekly_hours_full_time" min="1" max="168"
+                           value="{{ old('weekly_hours_full_time', $company->weekly_hours_full_time) }}"
+                           class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <span class="card-title">{{ __('Customize') }}</span>

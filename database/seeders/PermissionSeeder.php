@@ -305,6 +305,49 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete message',
                 'guard_name' => 'web',
             ],
+            // RRHH
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'read rrhh',
+                'guard_name' => 'web',
+                'module_id' => 14,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'create rrhh',
+                'guard_name' => 'web',
+                'module_id' => 14,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'update rrhh',
+                'guard_name' => 'web',
+                'module_id' => 14,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete rrhh',
+                'guard_name' => 'web',
+                'module_id' => 14,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'approve timeoff',
+                'guard_name' => 'web',
+                'module_id' => 14,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'manage schedule',
+                'guard_name' => 'web',
+                'module_id' => 14,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'manage holidays',
+                'guard_name' => 'web',
+                'module_id' => 14,
+            ],
             // Ticket
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],

@@ -29,7 +29,7 @@ class Payroll extends Model
 
     protected $table = 'payroll';
 
-    protected $fillable = ['user_id', 'amount', 'payment_date', 'file', 'notes'];
+    protected $fillable = ['user_id', 'gross_amount', 'net_amount', 'payment_date', 'period_year', 'period_month', 'iban', 'file', 'notes'];
 
     protected $hidden = [
         'deleted_at',
