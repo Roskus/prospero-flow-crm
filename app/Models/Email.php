@@ -8,6 +8,7 @@ use App\Models\Email\Attach;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use OpenApi\Attributes as OAT;
 use Yajra\Auditable\AuditableTrait;
 
@@ -44,6 +45,15 @@ class Email extends Model
     public function attachments(): HasMany
     {
         return $this->hasMany(Attach::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Email $email) {
+            if (empty($email->uuid)) {
+                $email->uuid = (string) Str::uuid();
+            }
+        });
     }
 
     public function getAll()
