@@ -8,12 +8,15 @@ use App\Http\Controllers\MainController;
 use App\Models\WorkSchedule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleUpdateController extends MainController
 {
     public function update(Request $request, int $id): RedirectResponse
     {
-        $schedule = WorkSchedule::findOrFail($id);
+        $schedule = WorkSchedule::whereHas('user', function ($query) {
+            $query->where('company_id', Auth::user()->company_id);
+        })->findOrFail($id);
 
         $validated = $request->validate([
             'day_of_week' => 'required|integer|between:1,7',

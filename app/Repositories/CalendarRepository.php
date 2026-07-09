@@ -15,7 +15,7 @@ class CalendarRepository
             $calendar = new Calendar;
             $calendar->created_at = now();
         } else {
-            $calendar = Calendar::find($data['id']);
+            $calendar = Calendar::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
 
         $calendar->company_id = Auth::user()->company_id;

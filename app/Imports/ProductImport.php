@@ -30,10 +30,12 @@ class ProductImport implements SkipsEmptyRows, ToModel, WithHeadingRow, WithVali
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
-                'string',
-            ],
+            'name' => 'required|string|max:255',
+            'model' => 'nullable|string|max:255',
+            'sku' => 'nullable|string|max:255',
+            'barcode' => 'nullable|numeric|digits_between:1,48',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string|max:5000',
         ];
     }
 }

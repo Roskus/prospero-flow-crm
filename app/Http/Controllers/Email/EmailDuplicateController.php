@@ -24,7 +24,7 @@ class EmailDuplicateController extends MainController
             ->firstOrFail();
         $to = $validated['to'];
 
-        $email_duplicate = collect($email->replicate())->except(['cc', 'schedule_send']);
+        $email_duplicate = collect($email->replicate())->except(['cc', 'schedule_send', 'uuid', 'opened_at']);
         $email_duplicate['from'] = $email->from;
         $email_duplicate['to'] = $to;
         $email_duplicate['status'] = Email::DRAFT;

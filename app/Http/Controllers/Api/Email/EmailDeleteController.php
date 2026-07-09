@@ -26,7 +26,7 @@ class EmailDeleteController
     )]
     public function delete(EmailDeleteRequest $request, int $id)
     {
-        $email = Email::find($id);
+        $email = Email::where('company_id', (int) Auth::user()->company_id)->where('id', $id)->first();
         if (! $email) {
             return response()->json(['message' => 'Email not found'], 404);
         }

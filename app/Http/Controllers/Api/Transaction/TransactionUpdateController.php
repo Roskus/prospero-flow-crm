@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Transaction;
 use App\Http\Requests\TransactionUpdateRequest;
 use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class TransactionUpdateController
@@ -38,7 +39,7 @@ class TransactionUpdateController
     )]
     public function update(TransactionUpdateRequest $request, int $id): JsonResponse
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::where('company_id', Auth::user()->company_id)->find($id);
 
         if (! $transaction) {
             return response()->json(['message' => 'Transaction not found'], 404);

@@ -14,7 +14,9 @@ class PayrollUpdateController extends MainController
 {
     public function update(Request $request, int $id)
     {
-        $payroll = Payroll::findOrFail($id);
+        $payroll = Payroll::whereHas('user', function ($query) {
+            $query->where('company_id', Auth::user()->company_id);
+        })->findOrFail($id);
         $data['payroll'] = $payroll;
         $data['employees'] = User::where('company_id', Auth::user()->company_id)
             ->where('is_employee', true)

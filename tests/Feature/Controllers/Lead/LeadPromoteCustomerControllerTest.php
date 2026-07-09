@@ -15,7 +15,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
     #[Test]
     public function it_can_promote_from_lead_to_customer()
     {
-        $lead = Lead::factory()->create(['status' => 'open']);
+        $lead = Lead::factory()->create(['company_id' => $this->user->company_id, 'status' => 'open']);
 
         $this->get('lead/promote/'.$lead->id)
             ->assertRedirect('/customer')
@@ -33,7 +33,7 @@ class LeadPromoteCustomerControllerTest extends TestCase
     #[Test]
     public function it_can_promote_from_lead_to_customer_with_contacts()
     {
-        $lead = Lead::factory()->has(Contact::factory()->count(2))->create(['status' => 'open']);
+        $lead = Lead::factory()->has(Contact::factory()->count(2))->create(['company_id' => $this->user->company_id, 'status' => 'open']);
 
         $this->get('lead/promote/'.$lead->id);
 

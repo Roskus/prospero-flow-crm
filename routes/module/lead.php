@@ -28,7 +28,8 @@ Route::get('/lead/update/{id}',
     ->can('update lead');
 
 Route::get('/lead/promote/{id}',
-    [LeadPromoteCustomerController::class, 'promote']);
+    [LeadPromoteCustomerController::class, 'promote'])
+    ->can('update lead');
 
 Route::post('/lead/save',
     [LeadSaveController::class, 'save'])

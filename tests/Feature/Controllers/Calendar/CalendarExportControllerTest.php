@@ -14,7 +14,7 @@ class CalendarExportControllerTest extends TestCase
     #[Test]
     public function it_blocks_unauthenticated_calendar_export(): void
     {
-        $event = Calendar::factory()->create(['user_id' => $this->user->id]);
+        $event = Calendar::factory()->create(['company_id' => $this->user->company_id, 'user_id' => $this->user->id]);
 
         auth()->guard('web')->logout();
 
@@ -27,7 +27,7 @@ class CalendarExportControllerTest extends TestCase
     public function it_blocks_cross_user_calendar_export(): void
     {
         $otherUser = User::factory()->create();
-        $event = Calendar::factory()->create(['user_id' => $otherUser->id]);
+        $event = Calendar::factory()->create(['company_id' => $otherUser->company_id, 'user_id' => $otherUser->id]);
 
         $response = $this->get("/calendar/{$event->id}/export");
 
@@ -37,7 +37,7 @@ class CalendarExportControllerTest extends TestCase
     #[Test]
     public function it_can_export_own_calendar_event(): void
     {
-        $event = Calendar::factory()->create(['user_id' => $this->user->id]);
+        $event = Calendar::factory()->create(['company_id' => $this->user->company_id, 'user_id' => $this->user->id]);
 
         $response = $this->get("/calendar/{$event->id}/export");
 

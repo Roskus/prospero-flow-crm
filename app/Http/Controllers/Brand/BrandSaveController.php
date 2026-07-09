@@ -16,7 +16,7 @@ class BrandSaveController extends MainController
         if (empty($request->id)) {
             $brand = new Brand;
         } else {
-            $brand = Brand::find($request->id);
+            $brand = Brand::where('company_id', (int) Auth::user()->company_id)->findOrFail($request->id);
         }
         $brand->name = $request->name;
         $brand->company_id = (int) Auth::user()->company_id;

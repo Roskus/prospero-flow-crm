@@ -14,6 +14,7 @@ class CalendarDeleteEventController extends MainController
     public function delete(Request $request, int $id)
     {
         Calendar::where('id', $id)
+            ->where('company_id', (int) Auth::user()->company_id)
             ->where('user_id', Auth::user()->id)
             ->firstOrFail()
             ->delete();

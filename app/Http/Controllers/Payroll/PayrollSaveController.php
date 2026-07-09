@@ -8,6 +8,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Requests\PayrollRequest;
 use App\Models\Payroll;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PayrollSaveController extends MainController
@@ -19,7 +20,9 @@ class PayrollSaveController extends MainController
         if (empty($request->id)) {
             $payroll = new Payroll;
         } else {
-            $payroll = Payroll::findOrFail($request->id);
+            $payroll = Payroll::whereHas('user', function ($query) {
+                $query->where('company_id', Auth::user()->company_id);
+            })->findOrFail($request->id);
         }
 
         $payroll->user_id = $validated['user_id'];

@@ -13,7 +13,7 @@ class BrandUpdateControllerTest extends TestCase
     #[Test]
     public function it_can_update_brand(): void
     {
-        $brand = Brand::factory()->create();
+        $brand = Brand::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->get('brand/update/'.$brand->id);
         $response->assertSee($brand->name);

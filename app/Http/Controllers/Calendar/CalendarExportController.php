@@ -18,6 +18,7 @@ class CalendarExportController extends MainController
     public function exportICal(int $id): BinaryFileResponse
     {
         $calendarEvent = CalendarModel::where('id', $id)
+            ->where('company_id', (int) Auth::user()->company_id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
 

@@ -44,6 +44,7 @@ class CampaignSender extends Command
             $this->info("Campaign to send: $campaign->subject");
             $contacts = Lead::where('company_id', $campaign->company_id)
                 ->whereNotNull('email')
+                ->where('opt_in', true)
                 ->get();
             $contacts_count = $contacts->count();
             $this->info("Contacts to send the campaign: $contacts_count");

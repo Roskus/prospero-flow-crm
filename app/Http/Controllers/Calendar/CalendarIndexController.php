@@ -10,6 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class CalendarIndexController extends MainController
@@ -23,7 +24,7 @@ class CalendarIndexController extends MainController
         $startOfCalendar = $date->copy()->firstOfMonth()->startOfWeek(Carbon::MONDAY);
         $endOfCalendar = $date->copy()->lastOfMonth()->endOfWeek(Carbon::SUNDAY);
 
-        $events = Calendar::whereUserId(auth()->id())
+        $events = Calendar::where('company_id', (int) Auth::user()->company_id)
             ->whereBetween('start_date', [$startOfCalendar, $endOfCalendar])
             ->get();
 
