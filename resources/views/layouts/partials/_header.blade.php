@@ -1,3 +1,20 @@
+@php
+    $alertClass = match (session('status')) {
+        'error' => 'danger',
+        default => session('status'),
+    };
+@endphp
+
+@if(session('status') && session('message'))
+    <div class="alert alert-{{ $alertClass }} mt-2">
+        @if(session('id'))
+            {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url(request()->segment(1).'/update/'.session('id')).">".e(session('name'))."</a>"])  !!}
+        @else
+            {{ __(session('message'), ['count' => session('count')]) }}
+        @endif
+    </div>
+@endif
+
 <header class="mb-3 mt-2 rounded bg-light text-dark d-print-none">
     <div class="m-0 py-1">
         <div class="row">

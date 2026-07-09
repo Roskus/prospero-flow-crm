@@ -23,12 +23,6 @@
     </div>
 </div>
 
-@if(session('status'))
-    <div class="alert alert-{{ session('status') }} mt-2">
-        {!! __(session('message'), ['id'=> session('id'), 'name' => "<a href=".url("/customer/update/".session('id')).">".e(session('name'))."</a>"])  !!}
-    </div>
-@endif
-
 <div class="row mt-2">
     <div class="col">
         <form method="get" action="{{ url("/customer") }}" class="form-inline mb-2">

@@ -24,6 +24,6 @@ class CustomerDeleteController extends MainController
             ->firstOrFail();
         $customer->delete();
 
-        return redirect('/customer')->with(['status' => true, 'message' => __('Customer deleted successfully')]);
+        return redirect('/customer')->with(['status' => 'success', 'message' => __('Customer deleted successfully')]);
     }
 }

@@ -77,11 +77,11 @@ class ProductImportSaveController extends MainController
             }
         }
         fclose($handle);
-        $status = ($rowCount > 0) ? true : false;
+        $status = ($rowCount > 0) ? 'success' : 'error';
 
         $response = [
             'status' => $status,
-            'message' => ($status) ? 'Products imported :count successfully' : 'An error occurred while importing products',
+            'message' => ($status === 'success') ? 'Products imported :count successfully' : 'An error occurred while importing products',
             'count' => $rowCount,
         ];
 

@@ -18,9 +18,11 @@ class LeadImportSaveController extends MainController
     private const string LEAD_REDIRECT_URL = '/lead';
 
     private const array SKIP_COLUMNS = [
-        'id', 'company_id', 'seller_id',
+        'id', 'company_id', 'seller_id', 'source_id',
         'created_at', 'updated_at',
         'created_by', 'updated_by', 'deleted_by', 'deleted_at',
+        'latitude', 'longitude', 'opt_in',
+        'phone_verified', 'phone2_verified', 'mobile_verified', 'email_verified', 'website_verified',
     ];
 
     private const array DATE_COLUMNS = [
@@ -76,7 +78,10 @@ class LeadImportSaveController extends MainController
         }
         fclose($handle);
 
+        $status = ($rowCount > 0) ? 'success' : 'error';
+
         return redirect(self::LEAD_REDIRECT_URL)->with([
+            'status' => $status,
             'message' => ($rowCount > 0) ? 'Leads imported :count successfully' : 'An error occurred while importing leads',
             'count' => $rowCount,
         ]);
@@ -126,6 +131,10 @@ class LeadImportSaveController extends MainController
 
             if ($column === 'website') {
                 $value = rtrim($value, '/');
+            }
+
+            if ($column === 'industry_id' && $value === '') {
+                continue;
             }
 
             if ($column === 'tags' && is_string($value)) {

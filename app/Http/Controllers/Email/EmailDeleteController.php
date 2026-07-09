@@ -17,6 +17,6 @@ class EmailDeleteController extends MainController
         $email->attachments()->forceDelete();
         $email->delete();
 
-        return redirect('/email')->with(['status' => true, 'message' => __('Email deleted successfully')]);
+        return redirect('/email')->with(['status' => 'success', 'message' => __('Email deleted successfully')]);
     }
 }

@@ -3,11 +3,6 @@
 @section('content')
     @include('layouts.partials._header', ['title' => __('Profile')])
 
-    @if(session('status'))
-        <div class="alert alert-{{ session('status') }} mt-2">
-            {!! __(session('message'))  !!}
-        </div>
-    @endif
     <div class="card">
         <div class="card-body">
         <form method="POST" action="{{ url('/profile/save') }}" enctype="multipart/form-data" class="form">
