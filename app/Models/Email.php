@@ -47,6 +47,13 @@ class Email extends Model
         return $this->hasMany(Attach::class);
     }
 
+    public function casts(): array
+    {
+        return [
+            'opened_at' => 'datetime',
+        ];
+    }
+
     protected static function booted(): void
     {
         static::creating(function (Email $email) {

@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Mail\Attachment;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\URL;
 
 class EmailSendService
 {
@@ -19,7 +18,7 @@ class EmailSendService
         $email->status = Email::QUEUE;
         $email->save();
 
-        $trackingUrl = URL::to('/email/tracking/'.$email->uuid);
+        $trackingUrl = route('email.tracking', $email->uuid);
         $trackingPixel = '<img src="'.$trackingUrl.'" width="1" height="1" alt="" style="display:none;" />';
 
         $params['from_email'] = $email->from_email;
