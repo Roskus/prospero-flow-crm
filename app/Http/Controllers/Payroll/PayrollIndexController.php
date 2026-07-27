@@ -19,12 +19,15 @@ class PayrollIndexController extends MainController
 
         $query = Payroll::where('period_year', $year);
 
+        if (! Auth::user()->hasRole('SuperAdmin')) {
+            $query->whereHas('user', fn ($q) => $q->where('company_id', Auth::user()->company_id));
+        }
+
         if (Auth::user()->can('read payroll')) {
             $employeeId = $request->get('user_id');
 
             if ($employeeId) {
-                $query->where('user_id', $employeeId)
-                    ->whereHas('user', fn ($q) => $q->where('company_id', Auth::user()->company_id));
+                $query->where('user_id', $employeeId);
             }
         } else {
             $query->where('user_id', Auth::user()->id);
