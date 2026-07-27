@@ -6,7 +6,8 @@ FROM php:8.5-fpm
 
 # Update & upgrade apt Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils ca-certificates curl git htop libicu-dev libpq-dev libxml2-dev mariadb-client mc nano net-tools redis-tools unzip vim wget zip \
+    apt-utils ca-certificates curl git htop libicu-dev libpq-dev libxml2-dev mariadb-client mc nano net-tools \
+    redis-tools unzip vim wget zip \
     && apt-get clean
 RUN pecl channel-update pecl.php.net
 RUN apt-get update -y && apt-get install -y --no-install-recommends libwebp-dev libjpeg-dev libjpeg62-turbo-dev  \
