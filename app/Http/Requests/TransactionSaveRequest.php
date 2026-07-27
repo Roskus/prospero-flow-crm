@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Http\Requests\Concerns\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class TransactionSaveRequest extends FormRequest
 {
@@ -48,12 +49,40 @@ class TransactionSaveRequest extends FormRequest
             'due_date' => ['nullable', 'date'],
             'payment_date' => ['nullable', 'date'],
             'status' => ['required', 'in:pending,paid,overdue'],
-            'transaction_category_id' => ['nullable', 'integer'],
-            'bank_account_id' => ['nullable', 'integer'],
-            'bank_card_id' => ['nullable', 'integer'],
+            'transaction_category_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('transaction_category', 'id')->where('company_id', $this->user()?->company_id),
+            ],
+            'bank_account_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('bank_account', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('bank_account.deleted_at'),
+            ],
+            'bank_card_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('bank_card', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('bank_card.deleted_at'),
+            ],
             'reference' => ['nullable', 'string', 'max:80'],
-            'customer_id' => ['nullable', 'integer'],
-            'supplier_id' => ['nullable', 'integer'],
+            'customer_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('customer', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('customer.deleted_at'),
+            ],
+            'supplier_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('supplier', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('supplier.deleted_at'),
+            ],
             'notes' => ['nullable', 'string'],
             'attachment' => ['nullable', 'file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,webp,doc,docx,xls,xlsx'],
         ];
