@@ -25,10 +25,11 @@ abstract class TestCase extends BaseTestCase
 
         $this->freezeTime();
 
-        $role = Role::create(['name' => 'SuperAdmin', 'guard_name' => 'web']);
+        Role::create(['name' => 'SuperAdmin', 'guard_name' => 'web']);
+        Role::create(['name' => 'User', 'guard_name' => 'web']);
 
         $this->user = User::factory()->create();
-        $this->user->assignRole($role);
+        $this->user->assignRole('SuperAdmin');
 
         $this->actingAs($this->user);
     }

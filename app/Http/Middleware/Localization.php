@@ -19,12 +19,28 @@ class Localization
      */
     public function handle($request, Closure $next)
     {
+        $locale = null;
+
         if (Auth::check()) {
-            App::setlocale(Auth::user()->lang);
+            $locale = Auth::user()->lang;
         }
 
         if (session()->has('locale')) {
-            App::setlocale(session()->get('locale'));
+            $locale = session()->get('locale');
+        }
+
+        if (! $locale) {
+            $locales = array_keys(config('app.locales'));
+            $locale = $request->getPreferredLanguage($locales);
+
+            if ($locale && ! in_array($locale, $locales)) {
+                $base = substr($locale, 0, 2);
+                $locale = in_array($base, $locales) ? $base : null;
+            }
+        }
+
+        if ($locale) {
+            App::setlocale($locale);
         }
 
         return $next($request);

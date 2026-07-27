@@ -20,6 +20,10 @@ class PayrollShowController extends MainController
             return redirect('/payroll')->with('error', __('Unauthorized'));
         }
 
+        if (! Auth::user()->can('read payroll') && $payroll->user_id !== Auth::user()->id) {
+            return redirect('/payroll')->with('error', __('Unauthorized'));
+        }
+
         if ($request->has('download')) {
             if (! $payroll->file) {
                 return redirect('/payroll')->with('error', __('No file attached to this payroll.'));

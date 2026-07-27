@@ -15,9 +15,11 @@ class TicketIndexController extends MainController
     public function index(Request $request)
     {
         $search = $request->query('search');
+        $userId = Auth::user()->hasRole('SuperAdmin') || Auth::user()->hasRole('CompanyAdmin') || Auth::user()->hasRole('Support') ? null : Auth::user()->id;
+
         $ticket = new Ticket;
 
-        $data['tickets'] = $ticket->getAllByCompanyId((int) Auth::user()->company_id, $search);
+        $data['tickets'] = $ticket->getAllByCompanyId((int) Auth::user()->company_id, $search, $userId);
         $data['search'] = $search;
         $data['customers'] = Customer::whereCompany(Auth::user()->company);
 

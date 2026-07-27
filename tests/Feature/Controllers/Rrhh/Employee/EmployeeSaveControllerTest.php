@@ -12,7 +12,7 @@ use Tests\TestCase;
 class EmployeeSaveControllerTest extends TestCase
 {
     #[Test]
-    public function it_creates_employee_with_random_password(): void
+    public function it_creates_employee_with_random_password_and_must_change_flag(): void
     {
         $response = $this->post('/rrhh/employee/save', [
             'first_name' => 'Jane',
@@ -31,5 +31,7 @@ class EmployeeSaveControllerTest extends TestCase
         $this->assertNotNull($user);
         $this->assertFalse(Hash::check('changeme', $user->password));
         $this->assertFalse(Hash::check('password', $user->password));
+        $this->assertTrue($user->must_change_password);
+        $this->assertTrue($user->hasRole('User'));
     }
 }

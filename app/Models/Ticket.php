@@ -97,15 +97,23 @@ class Ticket extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function getAllByCompanyId(int $company_id, ?string $search)
+    public function getAllByCompanyId(int $company_id, ?string $search, ?int $userId = null)
     {
         $tickets = Ticket::where('company_id', $company_id);
 
+        if ($userId) {
+            $tickets->where(function ($q) use ($userId) {
+                $q->where('assigned_to', $userId)
+                    ->orWhere('created_by', $userId);
+            });
+        }
+
         if (! empty($search)) {
-            $tickets
-                ->where('title', 'LIKE', "%$search%")
-                ->orWhere('description', 'LIKE', "%$search%")
-                ->orWhere('status', 'LIKE', "%$search%");
+            $tickets->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%$search%")
+                    ->orWhere('description', 'LIKE', "%$search%")
+                    ->orWhere('status', 'LIKE', "%$search%");
+            });
         }
 
         return $tickets->orderBy('created_at', 'desc')->paginate(10);

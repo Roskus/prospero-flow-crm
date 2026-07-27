@@ -9,6 +9,7 @@ use App\Models\WorkHour;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TimeEntrySaveController extends MainController
 {
@@ -22,11 +23,13 @@ class TimeEntrySaveController extends MainController
             'notes' => 'nullable|string|max:500',
         ]);
 
+        $userId = Auth::user()->can('read rrhh') ? $validated['user_id'] : Auth::user()->id;
+
         $start = Carbon::parse($validated['entry_date'].' '.$validated['start_time']);
         $end = Carbon::parse($validated['entry_date'].' '.$validated['end_time']);
 
         WorkHour::create([
-            'user_id' => $validated['user_id'],
+            'user_id' => $userId,
             'start_time' => $start,
             'end_time' => $end,
             'type' => 'work',
@@ -34,7 +37,7 @@ class TimeEntrySaveController extends MainController
             'notes' => $validated['notes'] ?? null,
         ]);
 
-        return redirect('/rrhh/time-entries?user_id='.$validated['user_id'])
+        return redirect('/rrhh/time-entries?user_id='.$userId)
             ->with(['status' => 'success', 'message' => __('Time entry saved successfully')]);
     }
 }

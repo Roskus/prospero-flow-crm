@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Auth\LockController;
+use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\Auth\UnlockController;
 use App\Http\Controllers\EmailTemplate\EmailTemplateIndexController;
 use App\Http\Controllers\HomeController;
@@ -50,6 +51,11 @@ Auth::routes(['register' => env('APP_ENV') != 'production']);
 Route::get('/lock', [LockController::class, 'index']);
 Route::post('/unlock', [UnlockController::class, 'unlock'])->name('unlock');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/password/change', [PasswordChangeController::class, 'showForm'])->name('password.change.form');
+    Route::post('/password/change', [PasswordChangeController::class, 'update'])->name('password.change.update');
+});
+
 // Important use require insted of require_once for test loading.
 
 // Order
@@ -96,7 +102,7 @@ require __DIR__.'/module/user.php';
 Route::get('/profile', [ProfileUpdateController::class, 'update']);
 Route::post('/profile/save', [ProfileSaveController::class, 'save']);
 
-Route::get('/setting', [SettingController::class, 'index']);
+Route::get('/setting', [SettingController::class, 'index'])->middleware('permission:read company|update company');
 Route::get('/home', [HomeController::class, 'index']);
 
 // Calendar

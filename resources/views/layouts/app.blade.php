@@ -112,11 +112,13 @@
                                         <i class="las la-user-tie"></i> {{ __('Profile') }}
                                     </a>
                                 </li>
+                                @canany(['read company', 'update company'])
                                 <li>
                                     <a href="{{ url('/setting') }}" class="dropdown-item">
                                         <i class="las la-cogs"></i> {{ __('Setting') }}
                                     </a>
                                 </li>
+                                @endcanany
                                 <li role="separator" class="dropdown-divider"></li>
                                 <li>
                                     <a href="{{ url('/lock') }}" class="dropdown-item">

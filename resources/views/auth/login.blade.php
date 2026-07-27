@@ -23,12 +23,12 @@
             padding-right: 10px;
         }
     </style>
-    <div class="row">
-        <div class="form-signin m-auto col-12 col-md-3 h-100">
+    <div class="row g-0">
+        <div class="form-signin m-auto col-12 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ env('APP_NAME') }}">
+                        <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ env('APP_NAME') }}" class="img-fluid">
                     </div>
                     <h1 class="h5">{{ __('Login') }}</h1>
                 </div>
@@ -90,12 +90,11 @@
                     <div class="mt-4">
                         @include('powered')
                     </div>
+                    <div class="text-muted text-center small mt-1">v{{ APP_VERSION }}</div>
                 </div>
             </div>
         </div>
-        <div class="col-0 col-md-9 h-100 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg'); background-repeat: no-repeat; background-size: cover; min-height: 100vh;">
-            <div style="color: #e5e5e5; margin-bottom: 30px; position: absolute; bottom: 0;">Power by roskus and OpenSource</div>
-        </div>
+        <div class="col-md-9 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg') center/cover no-repeat; min-height: 100vh;"></div>
     </div>
     @push('scripts')
     <script src="{{ url('/asset/js/Password.js') }}"></script>
