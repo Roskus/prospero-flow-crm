@@ -182,7 +182,10 @@ class TransactionSaveControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/accounting');
-        $this->assertDatabaseHas('transaction', ['name' => 'Own bank account test']);
+        $this->assertDatabaseHas('transaction', [
+            'name' => 'Own bank account test',
+            'bank_account_id' => $bankAccount->id,
+        ]);
     }
 
     #[Test]
@@ -234,7 +237,10 @@ class TransactionSaveControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/accounting');
-        $this->assertDatabaseHas('transaction', ['name' => 'Own bank card test']);
+        $this->assertDatabaseHas('transaction', [
+            'name' => 'Own bank card test',
+            'bank_card_id' => $bankCard->id,
+        ]);
     }
 
     #[Test]
@@ -286,7 +292,10 @@ class TransactionSaveControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/accounting');
-        $this->assertDatabaseHas('transaction', ['name' => 'Own customer test']);
+        $this->assertDatabaseHas('transaction', [
+            'name' => 'Own customer test',
+            'customer_id' => $customer->id,
+        ]);
     }
 
     #[Test]
@@ -327,7 +336,10 @@ class TransactionSaveControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/accounting');
-        $this->assertDatabaseHas('transaction', ['name' => 'Own supplier test']);
+        $this->assertDatabaseHas('transaction', [
+            'name' => 'Own supplier test',
+            'supplier_id' => $supplier->id,
+        ]);
     }
 
     #[Test]
