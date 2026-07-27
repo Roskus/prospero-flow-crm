@@ -51,7 +51,11 @@
                     <a href="{{ url("/rrhh/employee/show/{$employee->id}") }}" class="btn btn-xs btn-info text-white"><i class="las la-eye"></i></a>
                     <a href="{{ url("/user/update/{$employee->id}") }}" class="btn btn-xs btn-warning text-white"><i class="las la-pen"></i></a>
                     @can('delete rrhh')
-                    <a onclick="if(!confirm('{{ __('Are you sure?') }}')) return false; window.location='{{ url("/user/delete/{$employee->id}") }}'" class="btn btn-xs btn-danger"><i class="las la-trash-alt"></i></a>
+                    <form action="{{ url("/user/delete/{$employee->id}") }}" method="POST" style="display:inline" onsubmit="return confirm('{{ __("Are you sure you want to delete :name (#:id)?", ["name" => $employee->first_name." ".$employee->last_name, "id" => $employee->employee_number ?: $employee->id]) }}')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-xs btn-danger"><i class="las la-trash-alt"></i></button>
+                    </form>
                     @endcan
                 </td>
             </tr>
