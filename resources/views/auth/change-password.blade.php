@@ -19,7 +19,7 @@
                     <div class="input-group">
                         <input type="password" name="current_password" id="current_password" required class="form-control">
                         <span class="input-group-text">
-                            <i role="button" toggle="#current_password" class="las la-eye toggle-password"></i>
+                            <button type="button" toggle="#current_password" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                         </span>
                     </div>
                     @error('current_password')
@@ -34,7 +34,7 @@
                     <div class="input-group">
                         <input type="password" name="password" id="password" minlength="8" required class="form-control">
                         <span class="input-group-text">
-                            <i role="button" toggle="#password" class="las la-eye toggle-password"></i>
+                            <button type="button" toggle="#password" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                         </span>
                     </div>
                     @error('password')
@@ -46,7 +46,7 @@
                     <div class="input-group">
                         <input type="password" name="password_confirmation" id="password_confirmation" minlength="8" required class="form-control">
                         <span class="input-group-text">
-                            <i role="button" toggle="#password_confirmation" class="las la-eye toggle-password"></i>
+                            <button type="button" toggle="#password_confirmation" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                         </span>
                     </div>
                 </div>

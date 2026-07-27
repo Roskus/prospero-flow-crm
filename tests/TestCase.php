@@ -15,6 +15,8 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use RefreshDatabase;
 
+    public const string TEST_EMAIL = 'test@example.com';
+
     protected $user;
 
     protected function setUp(): void

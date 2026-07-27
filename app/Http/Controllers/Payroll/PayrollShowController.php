@@ -17,16 +17,16 @@ class PayrollShowController extends MainController
         $payroll = Payroll::with('user')->findOrFail($id);
 
         if (! Auth::user()->hasRole('SuperAdmin') && $payroll->user->company_id !== Auth::user()->company_id) {
-            return redirect('/payroll')->with('error', __('Unauthorized'));
+            return redirect(route('payroll.index'))->with('error', __('Unauthorized'));
         }
 
         if (! Auth::user()->can('read payroll') && $payroll->user_id !== Auth::user()->id) {
-            return redirect('/payroll')->with('error', __('Unauthorized'));
+            return redirect(route('payroll.index'))->with('error', __('Unauthorized'));
         }
 
         if ($request->has('download')) {
             if (! $payroll->file) {
-                return redirect('/payroll')->with('error', __('No file attached to this payroll.'));
+                return redirect(route('payroll.index'))->with('error', __('No file attached to this payroll.'));
             }
 
             return Storage::disk('public')->download($payroll->file);

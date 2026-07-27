@@ -56,7 +56,7 @@
 
                             <div>
                                 <input id="password" type="password" name="password" required class="form-control form-control-lg @if ($errors->has('password')) is-invalid @endif">
-                                <span toggle="#password" class="las la-eye field-icon toggle-password"></span>
+                                <button type="button" toggle="#password" class="field-icon toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                                 @if ($errors->has('password'))
                                     <div class="invalid-feedback">
                                         <strong>{{ $errors->first('password') }}</strong>

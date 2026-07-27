@@ -17,17 +17,17 @@ class EmployeeSaveControllerTest extends TestCase
         $response = $this->post('/rrhh/employee/save', [
             'first_name' => 'Jane',
             'last_name' => 'Doe',
-            'email' => 'jane.doe@example.com',
+            'email' => self::TEST_EMAIL,
         ]);
 
         $response->assertRedirect('/rrhh');
         $this->assertDatabaseHas('user', [
-            'email' => 'jane.doe@example.com',
+            'email' => self::TEST_EMAIL,
             'company_id' => $this->user->company_id,
             'is_employee' => true,
         ]);
 
-        $user = User::where('email', 'jane.doe@example.com')->first();
+        $user = User::where('email', self::TEST_EMAIL)->first();
         $this->assertNotNull($user);
         $this->assertFalse(Hash::check('changeme', $user->password));
         $this->assertFalse(Hash::check('password', $user->password));

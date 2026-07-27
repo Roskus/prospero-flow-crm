@@ -80,7 +80,7 @@
             <div class="input-group">
                 <input type="password" name="password" id="password" placeholder="{{ __('Password') }}" required
                        autocomplete="new-password" class="form-control @if ($errors->has('password')) is-invalid @endif">
-                <span toggle="#password" class="las la-eye field-icon toggle-password"></span>
+                <button type="button" toggle="#password" class="field-icon toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                 <div class="input-group-append">
                     <button type="submit" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
                 </div>
