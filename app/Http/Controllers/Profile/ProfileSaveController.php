@@ -32,9 +32,9 @@ class ProfileSaveController extends MainController
             ? strip_tags($validated['signature_html'], '<a><b><strong><i><em><u><br><p><div><span><ul><ol><li><img>')
             : null;
 
-        // Update password if change
         if (! empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
+            $user->must_change_password = false;
         }
         $user->updated_at = now();
         // Save image

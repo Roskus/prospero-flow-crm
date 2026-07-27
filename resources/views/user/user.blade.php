@@ -131,18 +131,17 @@
             </div>
             <div class="col-md-3">
                 <label for="vacation_days_override" class="control-label">{{ __('Vacation days') }}</label>
-                <input type="number" name="vacation_days_override" id="vacation_days_override" value="{{ $user->vacation_days_override }}" class="form-control form-control-lg" placeholder="{{ __('Default') }}: {{ $user->company->vacation_days_per_year }}">
+                <input type="number" name="vacation_days_override" id="vacation_days_override" value="{{ $user->vacation_days_override }}" class="form-control form-control-lg" placeholder="{{ $user->company ? __('Default') . ': ' . $user->company->vacation_days_per_year : '' }}">
             </div>
         </div>
         <div class="row form-group mb-3">
                 <div class="col-md-3">
                     <label for="weekly_hours_override" class="control-label">{{ __('Weekly hours') }}</label>
-                    <input type="number" step="0.5" name="weekly_hours_override" id="weekly_hours_override" value="{{ $user->weekly_hours_override }}" class="form-control form-control-lg" placeholder="{{ __('Default') }}: {{ $user->company->weekly_hours_full_time }}">
+                    <input type="number" step="0.5" name="weekly_hours_override" id="weekly_hours_override" value="{{ $user->weekly_hours_override }}" class="form-control form-control-lg" placeholder="{{ $user->company ? __('Default') . ': ' . $user->company->weekly_hours_full_time : '' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="iban" class="control-label">{{ __('IBAN') }}</label>
                     <input type="text" name="iban" id="iban" value="{{ $user->iban }}" maxlength="34" class="form-control form-control-lg" placeholder="ES0000000000000000000000">
-                <input type="number" step="0.5" name="weekly_hours_override" id="weekly_hours_override" value="{{ $user->weekly_hours_override }}" class="form-control form-control-lg" placeholder="{{ __('Default') }}: {{ $user->company->weekly_hours_full_time }}">
             </div>
         </div>
     </div>

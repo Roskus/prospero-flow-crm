@@ -8,6 +8,8 @@ use App\Http\Controllers\MainController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class EmployeeSaveController extends MainController
 {
@@ -26,9 +28,15 @@ class EmployeeSaveController extends MainController
         ]);
 
         $validated['company_id'] = Auth::user()->company_id;
-        $validated['password'] = bcrypt($request->input('password', 'changeme'));
+        $validated['password'] = bcrypt(Str::random(32));
+        $validated['must_change_password'] = true;
+        $validated['lang'] = Auth::user()->lang ?? config('app.locale');
 
-        User::create($validated);
+        $user = User::create($validated);
+
+        $user->assignRole('User');
+
+        Password::broker()->sendResetLink(['email' => $user->email]);
 
         return redirect('/rrhh')->with(['status' => 'success', 'message' => __('Employee created successfully')]);
     }

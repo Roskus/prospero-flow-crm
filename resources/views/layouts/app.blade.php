@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="noindex">
     <meta name="googlebot" content="noindex">
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ config('app.name') }}</title>
     <link rel="icon" href="/favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ url('/asset/img/funnel.png') }}">
     <link rel="manifest" href="{{ url('/manifest') }}">
@@ -43,7 +43,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
                 @if(empty(Auth::user()->company->logo))
-                    {{ env('APP_NAME') }}
+                    {{ config('app.name') }}
                 @else
                    <img src="/storage/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ config('app.name') }}" class="logo">
                 @endif
@@ -112,11 +112,13 @@
                                         <i class="las la-user-tie"></i> {{ __('Profile') }}
                                     </a>
                                 </li>
+                                @canany(['read company', 'update company'])
                                 <li>
                                     <a href="{{ url('/setting') }}" class="dropdown-item">
                                         <i class="las la-cogs"></i> {{ __('Setting') }}
                                     </a>
                                 </li>
+                                @endcanany
                                 <li role="separator" class="dropdown-divider"></li>
                                 <li>
                                     <a href="{{ url('/lock') }}" class="dropdown-item">
@@ -148,7 +150,7 @@
         @yield('content')
         <footer class="d-print-none">
             <div class="text-center">
-                <small class="">{{ env('APP_NAME') }} | Ver. {{ config('app.version') }}</small>
+                <small class="">{{ config('app.name') }} | Ver. {{ config('app.version') }}</small>
             </div>
         </footer>
     </div>

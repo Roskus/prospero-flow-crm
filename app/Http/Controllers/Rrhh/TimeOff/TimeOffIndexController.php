@@ -15,12 +15,17 @@ class TimeOffIndexController extends MainController
     public function index(Request $request)
     {
         $companyId = Auth::user()->company_id;
-        $employeeId = $request->get('user_id');
 
         $query = TimeOff::where('company_id', $companyId);
 
-        if ($employeeId) {
-            $query->where('user_id', $employeeId);
+        if (Auth::user()->can('read rrhh')) {
+            $employeeId = $request->get('user_id');
+
+            if ($employeeId) {
+                $query->where('user_id', $employeeId);
+            }
+        } else {
+            $query->where('user_id', Auth::user()->id);
         }
 
         if ($request->filled('status')) {

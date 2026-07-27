@@ -16,12 +16,18 @@ class PayrollIndexController extends MainController
     {
         $currentYear = (int) date('Y');
         $year = (int) ($request->get('year', $currentYear));
-        $employeeId = $request->get('user_id');
 
         $query = Payroll::where('period_year', $year);
 
-        if ($employeeId) {
-            $query->where('user_id', $employeeId);
+        if (Auth::user()->can('read payroll')) {
+            $employeeId = $request->get('user_id');
+
+            if ($employeeId) {
+                $query->where('user_id', $employeeId)
+                    ->whereHas('user', fn ($q) => $q->where('company_id', Auth::user()->company_id));
+            }
+        } else {
+            $query->where('user_id', Auth::user()->id);
         }
 
         $data['payrolls'] = $query->with('user')->orderBy('payment_date', 'desc')->get();

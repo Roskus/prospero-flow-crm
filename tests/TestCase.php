@@ -15,6 +15,8 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use RefreshDatabase;
 
+    public const string TEST_EMAIL = 'test@example.com';
+
     protected $user;
 
     protected function setUp(): void
@@ -25,10 +27,11 @@ abstract class TestCase extends BaseTestCase
 
         $this->freezeTime();
 
-        $role = Role::create(['name' => 'SuperAdmin', 'guard_name' => 'web']);
+        Role::create(['name' => 'SuperAdmin', 'guard_name' => 'web']);
+        Role::create(['name' => 'User', 'guard_name' => 'web']);
 
         $this->user = User::factory()->create();
-        $this->user->assignRole($role);
+        $this->user->assignRole('SuperAdmin');
 
         $this->actingAs($this->user);
     }

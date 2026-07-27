@@ -83,7 +83,7 @@
                     <input type="password" name="password" id="password" autocomplete="new-password"
                            class="form-control form-control-lg">
                     <span class="input-group-text">
-                        <i role="button" toggle="#password" class="las la-eye toggle-password"></i>
+                        <button type="button" toggle="#password" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </span>
                 </div>
 
@@ -100,7 +100,7 @@
                     <input type="password" name="password_confirmation" id="password-confirm" autocomplete="off"
                            class="form-control form-control-lg">
                     <span class="input-group-text">
-                        <i role="button" toggle="#password-confirm" class="las la-eye toggle-password"></i>
+                        <button type="button" toggle="#password-confirm" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </span>
                 </div>
             </div>

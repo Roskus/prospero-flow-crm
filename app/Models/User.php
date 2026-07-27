@@ -28,6 +28,7 @@ use Spatie\Permission\Traits\HasRoles;
         new OAT\Property(property: 'phone', description: 'Phone of the user', type: 'string', example: '+3464500000'),
         new OAT\Property(property: 'photo', description: 'Profile photo filename', type: 'string', example: 'profile.jpg'),
         new OAT\Property(property: 'lang', description: 'Language ISO code', type: 'string', example: 'es'),
+        new OAT\Property(property: 'must_change_password', description: 'Whether the user must change their password on next login', type: 'boolean', example: false),
         new OAT\Property(property: 'timezone', description: 'Timezone of the user', type: 'string', example: 'UTC'),
         new OAT\Property(property: 'last_login_at', description: 'Last login date and time', type: 'string', format: 'date-time'),
         new OAT\Property(property: 'last_login_ip', description: 'Last login IP address', type: 'string'),
@@ -54,6 +55,7 @@ class User extends Authenticatable implements JWTSubject
         'photo',
         'lang',
         'timezone',
+        'must_change_password',
         'employee_number',
         'is_employee',
         'hire_date',
@@ -76,6 +78,7 @@ class User extends Authenticatable implements JWTSubject
         'last_login_at' => 'datetime',
         'password' => 'hashed',
         'is_employee' => 'boolean',
+        'must_change_password' => 'boolean',
         'hire_date' => 'date:Y-m-d',
     ];
 

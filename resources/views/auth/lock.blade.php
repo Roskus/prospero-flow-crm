@@ -48,7 +48,7 @@
     <div class="lockscreen-logo">
         <div>
         @if(empty(Auth::user()->company->logo))
-            {{ env('APP_NAME') }}
+            {{ config('app.name') }}
         @else
             <img src="/storage/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ config('app.name') }}" class="logo">
         @endif
@@ -60,7 +60,7 @@
         </div>
         <b>{{ __('Welcome') }}, {{ Auth::user()->first_name }}</b>
         <div class="text-muted mt-2">
-            <small>{{ env('APP_NAME') }} <span style="font-size: 0.75rem;">v{{ config('app.version') }}</span></small>
+            <small>{{ config('app.name') }} <span style="font-size: 0.75rem;">v{{ config('app.version') }}</span></small>
         </div>
     </div>
 
@@ -80,7 +80,7 @@
             <div class="input-group">
                 <input type="password" name="password" id="password" placeholder="{{ __('Password') }}" required
                        autocomplete="new-password" class="form-control @if ($errors->has('password')) is-invalid @endif">
-                <span toggle="#password" class="las la-eye field-icon toggle-password"></span>
+                <button type="button" toggle="#password" class="field-icon toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                 <div class="input-group-append">
                     <button type="submit" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
                 </div>

@@ -41,15 +41,15 @@ Route::prefix('rrhh')->group(function () {
     Route::post('/schedule/update/{id}', [ScheduleUpdateController::class, 'update'])->can('update rrhh');
     Route::get('/schedule/delete/{id}', [ScheduleDeleteController::class, 'delete'])->can('delete rrhh');
 
-    Route::post('/clock/in', [ClockInController::class, 'in'])->can('create rrhh');
-    Route::post('/clock/out', [ClockOutController::class, 'out'])->can('create rrhh');
-    Route::get('/time-entries', [TimeEntryIndexController::class, 'index'])->can('read rrhh');
-    Route::post('/time-entries/save', [TimeEntrySaveController::class, 'save'])->can('create rrhh');
-    Route::post('/time-entries/update/{id}', [TimeEntryUpdateController::class, 'update'])->can('update rrhh');
+    Route::post('/clock/in', [ClockInController::class, 'in'])->middleware('permission:create rrhh|manage own timesheet');
+    Route::post('/clock/out', [ClockOutController::class, 'out'])->middleware('permission:create rrhh|manage own timesheet');
+    Route::get('/time-entries', [TimeEntryIndexController::class, 'index'])->middleware('permission:read rrhh|manage own timesheet');
+    Route::post('/time-entries/save', [TimeEntrySaveController::class, 'save'])->middleware('permission:create rrhh|manage own timesheet');
+    Route::post('/time-entries/update/{id}', [TimeEntryUpdateController::class, 'update'])->middleware('permission:update rrhh|manage own timesheet');
 
-    Route::get('/time-off', [TimeOffIndexController::class, 'index'])->can('read rrhh');
-    Route::get('/time-off/create', [TimeOffCreateController::class, 'create'])->can('create rrhh');
-    Route::post('/time-off/save', [TimeOffSaveController::class, 'save'])->can('create rrhh')->can('update rrhh');
+    Route::get('/time-off', [TimeOffIndexController::class, 'index'])->middleware('permission:read rrhh|manage own timeoff');
+    Route::get('/time-off/create', [TimeOffCreateController::class, 'create'])->middleware('permission:create rrhh|manage own timeoff');
+    Route::post('/time-off/save', [TimeOffSaveController::class, 'save'])->middleware('permission:create rrhh|manage own timeoff');
 
     Route::get('/approvals', [TimeOffApprovalIndexController::class, 'index'])->can('read rrhh');
     Route::post('/approvals/{id}/approve', [TimeOffApprovalSaveController::class, 'approve'])->can('update rrhh');

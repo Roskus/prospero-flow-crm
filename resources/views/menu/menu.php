@@ -43,7 +43,7 @@ return [
         'is_drop_down' => true,
         'title' => 'E-mail',
         'icon_class' => 'las la-envelope-open-text',
-        'permissions' => [],
+        'permissions' => ['read email', 'create campaign'],
         'children' => [
             [
                 'url' => url('/email'),
@@ -87,7 +87,7 @@ return [
         'is_drop_down' => true,
         'title' => __('HR'),
         'icon_class' => 'las la-users-cog',
-        'permissions' => ['read rrhh'],
+        'permissions' => ['read rrhh', 'read payroll', 'manage own timeoff', 'manage own timesheet', 'read own payroll'],
         'children' => [
             [
                 'url' => url('/rrhh'),
@@ -105,13 +105,13 @@ return [
                 'url' => url('/rrhh/time-entries'),
                 'title' => __('Time entries'),
                 'icon_class' => 'las la-stopwatch',
-                'permissions' => ['read rrhh'],
+                'permissions' => ['read rrhh', 'manage own timesheet'],
             ],
             [
                 'url' => url('/rrhh/time-off'),
                 'title' => __('Time off'),
                 'icon_class' => 'las la-calendar-minus',
-                'permissions' => ['read rrhh'],
+                'permissions' => ['read rrhh', 'manage own timeoff'],
             ],
             [
                 'url' => url('/rrhh/approvals'),
@@ -129,7 +129,7 @@ return [
                 'url' => url('/payroll'),
                 'title' => __('Payroll'),
                 'icon_class' => 'las la-file-invoice-dollar',
-                'permissions' => ['read rrhh'],
+                'permissions' => ['read rrhh', 'read payroll', 'read own payroll'],
             ],
         ],
     ],

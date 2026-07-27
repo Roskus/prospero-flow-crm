@@ -5,7 +5,9 @@
 
 <div class="row mb-2">
     <div class="col">
+        @can('create payroll')
         <a href="{{ url('/payroll/create') }}" class="btn btn-primary">{{ __('New payroll') }}</a>
+        @endcan
     </div>
     <div class="col">
         <form method="get" action="{{ url('/payroll') }}" class="form-inline">

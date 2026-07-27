@@ -12,14 +12,14 @@
 </head>
 
 <body style="background-color: #edf2f6; padding-left: 30px; padding-right: 30px; margin: 0">
-    <h1 style="text-align: center">{{ env('APP_NAME') }}</h1>
+    <h1 style="text-align: center">{{ config('app.name') }}</h1>
     <div
         style="width: 70%; background-color: white; margin-left: 15%; margin-right: 15%; padding-bottom: 30px; padding-top: 1px; padding-left: 35px">
         
         @yield('content')
 
         <p style="color: #6799cc; margin: 0">{{ __('Greetings') }},</p>
-        <p style="color: #6799cc; margin: 0">{{ env('APP_NAME') }}</p>
+        <p style="color: #6799cc; margin: 0">{{ config('app.name') }}</p>
     </div>
 </body>
 

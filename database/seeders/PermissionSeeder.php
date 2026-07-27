@@ -356,19 +356,19 @@ class PermissionSeeder extends Seeder
             ],
             // Ticket
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support', 'User'],
                 'name' => 'create ticket',
                 'guard_name' => 'web',
                 'module_id' => 10,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support', 'User'],
                 'name' => 'read ticket',
                 'guard_name' => 'web',
                 'module_id' => 10,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support', 'User'],
                 'name' => 'update ticket',
                 'guard_name' => 'web',
                 'module_id' => 10,
@@ -428,7 +428,7 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support', 'User'],
                 'name' => 'read calendar',
                 'guard_name' => 'web',
             ],
@@ -540,6 +540,22 @@ class PermissionSeeder extends Seeder
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin'],
                 'name' => 'delete payroll',
+                'guard_name' => 'web',
+            ],
+            // Employee self-service
+            [
+                'roles' => ['User'],
+                'name' => 'read own payroll',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['User'],
+                'name' => 'manage own timeoff',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['User'],
+                'name' => 'manage own timesheet',
                 'guard_name' => 'web',
             ],
             // Transaction (route-level permission, complements accounting)
