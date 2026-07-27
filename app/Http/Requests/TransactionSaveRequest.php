@@ -57,23 +57,31 @@ class TransactionSaveRequest extends FormRequest
             'bank_account_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('bank_account', 'id')->where('company_id', $this->user()?->company_id),
+                Rule::exists('bank_account', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('bank_account.deleted_at'),
             ],
             'bank_card_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('bank_card', 'id')->where('company_id', $this->user()?->company_id),
+                Rule::exists('bank_card', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('bank_card.deleted_at'),
             ],
             'reference' => ['nullable', 'string', 'max:80'],
             'customer_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('customer', 'id')->where('company_id', $this->user()?->company_id),
+                Rule::exists('customer', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('customer.deleted_at'),
             ],
             'supplier_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('supplier', 'id')->where('company_id', $this->user()?->company_id),
+                Rule::exists('supplier', 'id')
+                    ->where('company_id', $this->user()?->company_id)
+                    ->whereNull('supplier.deleted_at'),
             ],
             'notes' => ['nullable', 'string'],
             'attachment' => ['nullable', 'file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,webp,doc,docx,xls,xlsx'],
