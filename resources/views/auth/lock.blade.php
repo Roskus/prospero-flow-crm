@@ -48,7 +48,7 @@
     <div class="lockscreen-logo">
         <div>
         @if(empty(Auth::user()->company->logo))
-            {{ env('APP_NAME') }}
+            {{ config('app.name') }}
         @else
             <img src="/storage/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->company->logo }}" alt="{{ config('app.name') }}" class="logo">
         @endif
@@ -60,7 +60,7 @@
         </div>
         <b>{{ __('Welcome') }}, {{ Auth::user()->first_name }}</b>
         <div class="text-muted mt-2">
-            <small>{{ env('APP_NAME') }} <span style="font-size: 0.75rem;">v{{ config('app.version') }}</span></small>
+            <small>{{ config('app.name') }} <span style="font-size: 0.75rem;">v{{ config('app.version') }}</span></small>
         </div>
     </div>
 

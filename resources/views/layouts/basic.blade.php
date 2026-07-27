@@ -7,7 +7,7 @@
     <meta http-equiv="refresh" content="6300">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ config('app.name') }}</title>
     <base href="{{ url('/') }}">
 
     <!-- Bootstrap -->

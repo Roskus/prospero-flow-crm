@@ -28,7 +28,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ env('APP_NAME') }}" class="img-fluid">
+                        <img src="/asset/img/prospero_flow_crm_logo.svg" alt="{{ config('app.name') }}" class="img-fluid">
                     </div>
                     <h1 class="h5">{{ __('Login') }}</h1>
                 </div>

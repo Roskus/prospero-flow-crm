@@ -87,7 +87,7 @@ return [
         'is_drop_down' => true,
         'title' => __('HR'),
         'icon_class' => 'las la-users-cog',
-        'permissions' => ['read rrhh', 'manage own timeoff', 'manage own timesheet', 'read own payroll'],
+        'permissions' => ['read rrhh', 'read payroll', 'manage own timeoff', 'manage own timesheet', 'read own payroll'],
         'children' => [
             [
                 'url' => url('/rrhh'),
@@ -129,7 +129,7 @@ return [
                 'url' => url('/payroll'),
                 'title' => __('Payroll'),
                 'icon_class' => 'las la-file-invoice-dollar',
-                'permissions' => ['read rrhh', 'read own payroll'],
+                'permissions' => ['read rrhh', 'read payroll', 'read own payroll'],
             ],
         ],
     ],
