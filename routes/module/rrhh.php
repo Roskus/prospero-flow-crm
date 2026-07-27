@@ -49,7 +49,7 @@ Route::prefix('rrhh')->group(function () {
 
     Route::get('/time-off', [TimeOffIndexController::class, 'index'])->middleware('permission:read rrhh|manage own timeoff');
     Route::get('/time-off/create', [TimeOffCreateController::class, 'create'])->middleware('permission:create rrhh|manage own timeoff');
-    Route::post('/time-off/save', [TimeOffSaveController::class, 'save'])->middleware('permission:create rrhh|manage own timeoff')->can('update rrhh');
+    Route::post('/time-off/save', [TimeOffSaveController::class, 'save'])->middleware('permission:create rrhh|manage own timeoff');
 
     Route::get('/approvals', [TimeOffApprovalIndexController::class, 'index'])->can('read rrhh');
     Route::post('/approvals/{id}/approve', [TimeOffApprovalSaveController::class, 'approve'])->can('update rrhh');
