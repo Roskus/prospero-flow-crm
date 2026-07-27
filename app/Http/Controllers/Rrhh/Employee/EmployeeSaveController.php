@@ -8,6 +8,8 @@ use App\Http\Controllers\MainController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class EmployeeSaveController extends MainController
 {
@@ -26,9 +28,18 @@ class EmployeeSaveController extends MainController
         ]);
 
         $validated['company_id'] = Auth::user()->company_id;
-        $validated['password'] = bcrypt($request->input('password', 'changeme'));
+        $validated['password'] = bcrypt($plainPassword = Str::random(16));
+        $validated['lang'] = Auth::user()->lang ?? config('app.locale');
 
-        User::create($validated);
+        $user = User::create($validated);
+
+        Mail::raw(
+            __("Welcome :name!\n\nYour temporary password is: :password\n\nPlease change it after your first login.", ['name' => $user->first_name, 'password' => $plainPassword]),
+            function ($message) use ($user) {
+                $message->to($user->email)
+                    ->subject(__('Welcome to :app', ['app' => config('app.name')]));
+            }
+        );
 
         return redirect('/rrhh')->with(['status' => 'success', 'message' => __('Employee created successfully')]);
     }
