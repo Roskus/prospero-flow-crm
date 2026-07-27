@@ -27,6 +27,3 @@ yarn-error.log
 /storage/api-docs/api-docs.json
 docker-compose.override.yml
 *:Zone.Identifier
-/app/Casts/
-/app/ValueObjects/
-/openspec/changes/add-contracts-module/
