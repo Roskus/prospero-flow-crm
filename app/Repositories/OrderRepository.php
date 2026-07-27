@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,32 +16,30 @@ class OrderRepository
     {
         DB::beginTransaction();
 
-        if (empty($data['id'])) {
-            $order = new Order;
-            $order->created_at = now();
-        } else {
-            $order = Order::find($data['id']);
-            $order->items()->delete();
-        }
-
-        $order->setCompanyId((int) Auth::user()->company_id);
-        $order->setCustomerId((int) $data['customer_id']);
-        $order->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
-
-        $total = $order->getTotal();
-
-        $order->setAmount((float) $total);
         try {
-            $status = $order->save();
-            DB::commit();
-        } catch (\Throwable $t) {
-            DB::rollBack();
-            Log::error($t->getMessage());
-        }
+            $companyId = (int) Auth::user()->company_id;
 
-        if (! empty($data['items'])) {
-            foreach ($data['items'] as $requestItem) {
-                try {
+            if (empty($data['id'])) {
+                $order = new Order;
+                $order->created_at = now();
+            } else {
+                $order = Order::where('company_id', $companyId)->findOrFail($data['id']);
+                $order->items()->delete();
+            }
+
+            if (! empty($data['customer_id'])) {
+                Customer::where('company_id', $companyId)->findOrFail($data['customer_id']);
+            }
+
+            $order->setCompanyId($companyId);
+            $order->setCustomerId((int) $data['customer_id']);
+            $order->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
+
+            $order->setAmount((float) $order->getTotal());
+            $order->save();
+
+            if (! empty($data['items'])) {
+                foreach ($data['items'] as $requestItem) {
                     $item = new Order\Item;
                     $item->order_id = $order->id;
                     $item->order_number = $order->order_number;
@@ -50,12 +49,16 @@ class OrderRepository
                     $item->discount = (float) ($requestItem['discount'] ?? 0);
                     $item->tax = (float) ($requestItem['tax'] ?? 0);
                     $order->items()->save($item);
-                } catch (\Throwable $t) {
-                    Log::error($t->getMessage());
                 }
             }
-        }
 
-        return $order;
+            DB::commit();
+
+            return $order;
+        } catch (\Throwable $t) {
+            DB::rollBack();
+            Log::error($t->getMessage());
+            throw $t;
+        }
     }
 }
