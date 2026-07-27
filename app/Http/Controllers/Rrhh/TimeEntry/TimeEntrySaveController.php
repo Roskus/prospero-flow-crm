@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Rrhh\TimeEntry;
 
 use App\Http\Controllers\MainController;
+use App\Models\User;
 use App\Models\WorkHour;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +24,17 @@ class TimeEntrySaveController extends MainController
             'notes' => 'nullable|string|max:500',
         ]);
 
-        $userId = Auth::user()->can('read rrhh') ? $validated['user_id'] : Auth::user()->id;
+        if (Auth::user()->can('read rrhh')) {
+            $targetUser = User::where('company_id', Auth::user()->company_id)->find($validated['user_id']);
+
+            if (! $targetUser) {
+                return redirect('/rrhh/time-entries')->with(['status' => 'error', 'message' => __('Invalid user.')]);
+            }
+
+            $userId = $targetUser->id;
+        } else {
+            $userId = Auth::user()->id;
+        }
 
         $start = Carbon::parse($validated['entry_date'].' '.$validated['start_time']);
         $end = Carbon::parse($validated['entry_date'].' '.$validated['end_time']);

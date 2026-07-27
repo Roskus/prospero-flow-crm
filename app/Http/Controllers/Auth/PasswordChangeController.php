@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PasswordChangeRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -19,12 +19,9 @@ class PasswordChangeController extends Controller
         return view('auth.change-password');
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(PasswordChangeRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'current_password' => ['required', 'string'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $validated = $request->validated();
 
         $user = Auth::user();
 

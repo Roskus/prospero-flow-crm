@@ -23,7 +23,8 @@ class PayrollIndexController extends MainController
             $employeeId = $request->get('user_id');
 
             if ($employeeId) {
-                $query->where('user_id', $employeeId);
+                $query->where('user_id', $employeeId)
+                    ->whereHas('user', fn ($q) => $q->where('company_id', Auth::user()->company_id));
             }
         } else {
             $query->where('user_id', Auth::user()->id);

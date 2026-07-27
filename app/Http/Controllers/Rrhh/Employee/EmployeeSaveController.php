@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Rrhh\Employee;
 
 use App\Http\Controllers\MainController;
-use App\Mail\WelcomeEmployee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class EmployeeSaveController extends MainController
@@ -29,7 +28,7 @@ class EmployeeSaveController extends MainController
         ]);
 
         $validated['company_id'] = Auth::user()->company_id;
-        $validated['password'] = bcrypt($plainPassword = Str::random(16));
+        $validated['password'] = bcrypt(Str::random(32));
         $validated['must_change_password'] = true;
         $validated['lang'] = Auth::user()->lang ?? config('app.locale');
 
@@ -37,9 +36,7 @@ class EmployeeSaveController extends MainController
 
         $user->assignRole('User');
 
-        Mail::to($user->email)->queue(
-            new WelcomeEmployee($user, $plainPassword)
-        );
+        Password::broker()->sendResetLink(['email' => $user->email]);
 
         return redirect('/rrhh')->with(['status' => 'success', 'message' => __('Employee created successfully')]);
     }

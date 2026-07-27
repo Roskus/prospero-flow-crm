@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Profile;
 
+use App\Http\Middleware\MustChangePassword;
 use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -51,5 +52,45 @@ class ProfileSaveControllerTest extends TestCase
         $response = $this->post('profile/save', $data);
 
         $this->assertNotEquals($oldPassword, User::first()->password);
+    }
+
+    #[Test]
+    public function it_clears_must_change_password_when_password_provided(): void
+    {
+        $this->user->must_change_password = true;
+        $this->user->save();
+
+        $newPassword = 'NewPass123!';
+
+        $this->withoutMiddleware(MustChangePassword::class)
+            ->post('profile/save', [
+                'first_name' => fake()->name(),
+                'last_name' => fake()->name(),
+                'email' => fake()->email(),
+                'lang' => 'en',
+                'password' => $newPassword,
+                'password_confirmation' => $newPassword,
+            ]);
+
+        $this->user->refresh();
+        $this->assertFalse($this->user->must_change_password);
+    }
+
+    #[Test]
+    public function it_preserves_must_change_password_when_password_empty(): void
+    {
+        $this->user->must_change_password = true;
+        $this->user->save();
+
+        $this->withoutMiddleware(MustChangePassword::class)
+            ->post('profile/save', [
+                'first_name' => fake()->name(),
+                'last_name' => fake()->name(),
+                'email' => fake()->email(),
+                'lang' => 'en',
+            ]);
+
+        $this->user->refresh();
+        $this->assertTrue($this->user->must_change_password);
     }
 }
