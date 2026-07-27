@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,15 +16,21 @@ class OrderRepository
     {
         DB::beginTransaction();
 
+        $companyId = (int) Auth::user()->company_id;
+
         if (empty($data['id'])) {
             $order = new Order;
             $order->created_at = now();
         } else {
-            $order = Order::find($data['id']);
+            $order = Order::where('company_id', $companyId)->findOrFail($data['id']);
             $order->items()->delete();
         }
 
-        $order->setCompanyId((int) Auth::user()->company_id);
+        if (! empty($data['customer_id'])) {
+            Customer::where('company_id', $companyId)->findOrFail($data['customer_id']);
+        }
+
+        $order->setCompanyId($companyId);
         $order->setCustomerId((int) $data['customer_id']);
         $order->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
 
