@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class PayrollRequest extends FormRequest
 {
@@ -16,7 +18,7 @@ class PayrollRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:user,id',
+            'user_id' => ['required', Rule::exists('user', 'id')->where('company_id', Auth::user()->company_id)],
             'gross_amount' => 'required|numeric|min:0',
             'net_amount' => 'required|numeric|min:0',
             'period_year' => 'required|integer|min:2000|max:2099',

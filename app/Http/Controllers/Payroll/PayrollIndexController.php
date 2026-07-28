@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Payroll;
 use App\Http\Controllers\MainController;
 use App\Models\Payroll;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,16 +16,16 @@ class PayrollIndexController extends MainController
     public function index(Request $request)
     {
         $currentYear = (int) date('Y');
-        $year = (int) ($request->get('year', $currentYear));
+        $year = (int) ($request->input('year', $currentYear));
 
-        $query = Payroll::where('period_year', $year);
+        $query = Payroll::where('period_year', $year)
+            ->whereHas('user', fn (Builder $q): Builder => $q->where('company_id', Auth::user()->company_id));
 
         if (Auth::user()->can('read payroll')) {
-            $employeeId = $request->get('user_id');
+            $employeeId = $request->input('user_id');
 
             if ($employeeId) {
-                $query->where('user_id', $employeeId)
-                    ->whereHas('user', fn ($q) => $q->where('company_id', Auth::user()->company_id));
+                $query->where('user_id', $employeeId);
             }
         } else {
             $query->where('user_id', Auth::user()->id);
