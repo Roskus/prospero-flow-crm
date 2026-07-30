@@ -5,41 +5,23 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\Company\CompanySaveRequest;
 use App\Repositories\CompanyRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CompanySaveController extends MainController
 {
-    private CompanyRepository $companyRepository;
+    public function __construct(private CompanyRepository $companyRepository) {}
 
-    public function __construct(Request $request, CompanyRepository $companyRepository)
+    public function save(CompanySaveRequest $request)
     {
-        parent::__construct($request);
-        $this->companyRepository = $companyRepository;
-    }
-
-    public function save(Request $request)
-    {
-        if (empty($request->id)) {
-            if (Auth::user()->cannot('create company')) {
-                return redirect(route('company.index'))->with('error', __('Unauthorized'));
-            }
-        } else {
-            if (Auth::user()->cannot('update company')) {
-                return redirect(route('company.index'))->with('error', __('Unauthorized'));
-            }
-            if ((int) $request->id !== (int) Auth::user()->company_id) {
-                return redirect(route('company.index'))->with('error', __('Unauthorized'));
-            }
-        }
-
-        $company = $this->companyRepository->save($request->all());
+        // Authorization is now handled by FormRequest
+        $company = $this->companyRepository->save($request->validated());
 
         if ($request->hasFile('logo')) {
             $folder = 'company/'.Str::slug($company->name, '_');
+            // Use the validated MIME type: jpeg|jpg|png|webp only
             $filename = time().'.'.$request->file('logo')->extension();
 
             try {
