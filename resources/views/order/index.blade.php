@@ -52,10 +52,12 @@
                         <i class="las la-pen"></i>
                     </a>
 
-                    <a href="{{ url('/order/confirm/'.$order->order_number) }}" title="{{ __('Confirm') }}"
-                       class="btn btn-xs btn-success text-white">
-                        <i class="las la-check-circle"></i>
-                    </a>
+                    <form method="POST" action="{{ route('order.confirm', $order->order_number) }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" title="{{ __('Confirm') }}" class="btn btn-xs btn-success text-white" onclick="return confirm('{{ __('Are you sure you want to confirm the order: :id?', ['id' => $order->order_number]) }}')">
+                            <i class="las la-check-circle"></i>
+                        </button>
+                    </form>
                     @endif
 
                     <a href="{{ url('/order/download/'.$order->order_number) }}" title="{{ __('Download') }}"

@@ -20,4 +20,6 @@ Route::get('/order/delete/{order_number}', [OrderDeleteController::class, 'delet
 Route::post('/order/save', [OrderSaveController::class, 'save'])->can('create order')->can('update order');
 Route::get('/order/download/{order_number}', [OrderPdfController::class, 'download'])
     ->name('order-download')->can('read order');
-Route::get('/order/confirm/{order_number}', [OrderConfirmController::class, 'confirm'])->can('update order');
+Route::post('/order/confirm/{order_number}', [OrderConfirmController::class, 'confirm'])
+    ->name('order.confirm')
+    ->can('update order');
