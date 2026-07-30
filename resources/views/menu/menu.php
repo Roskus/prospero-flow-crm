@@ -103,7 +103,7 @@ return [
             ],
             [
                 'url' => url('/rrhh/time-entries'),
-                'title' => __('Time entries'),
+                'title' => __('Time entry'),
                 'icon_class' => 'las la-stopwatch',
                 'permissions' => ['read rrhh', 'manage own timesheet'],
             ],

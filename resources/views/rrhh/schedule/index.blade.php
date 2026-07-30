@@ -24,7 +24,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-sm">
+            <table class="table table-bordered table-sm table-striped">
             <thead>
             <tr>
                 <th>{{ __('Day') }}</th>
@@ -56,7 +56,11 @@
                             $hours = $s->diffInMinutes($e) / 60;
                         @endphp
                         <td>{{ number_format($hours, 1) }}h</td>
-                        <td><span class="type-display">{{ $block->type == 'break' ? __('Break') : __('Work') }}</span></td>
+                        <td>
+                            <span class="type-display">
+                                {!! $block->type == 'break' ? '<span class="badge rounded-pill text-bg-secondary">'.__('Break') .'</span>' : '<span class="badge rounded-pill text-bg-primary">'.__('Work') .'</span>' !!}
+                            </span>
+                        </td>
                         <td class="text-nowrap">
                             <a href="#" class="btn btn-xs btn-warning text-white" onclick="editSchedule({{ $block->id }}, {{ $block->day_of_week }}, '{{ substr($block->start_time, 0, 5) }}', '{{ substr($block->end_time, 0, 5) }}', '{{ $block->type }}'); return false;"><i class="las la-pen"></i></a>
                             <a href="{{ url("/rrhh/schedule/delete/{$block->id}?user_id={$employee_id}") }}" class="btn btn-xs btn-danger" onclick="return confirm('{{ __('Are you sure?') }}')"><i class="las la-trash-alt"></i></a>
