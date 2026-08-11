@@ -57,6 +57,7 @@
         "friendsofphp/php-cs-fixer": "^3.92.3",
         "larastan/larastan": "^v3.3.1",
         "laravel/boost": "^2.4.8",
+        "laravel/doctor": "^0.1.0",
         "laravel/pint": "^1.29.1",
         "marcocesarato/php-conventional-changelog": "^1.17.3",
         "mockery/mockery": "^1.6.12",
