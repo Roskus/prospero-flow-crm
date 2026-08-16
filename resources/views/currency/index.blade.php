@@ -13,7 +13,7 @@
                 @csrf
 
                 <div class="table-responsive">
-                    <table class="table table-sm table-hover align-middle">
+                    <table class="table table-sm table-hover table-striped align-middle">
                         <thead>
                             <tr>
                                 <th>{{ __('Code') }}</th>
@@ -34,7 +34,7 @@
                                     <td class="text-nowrap">{{ $currencyCode }}</td>
                                     <td>{{ $currency->name }}</td>
                                     <td class="text-nowrap">{{ $currency->symbol ?: '—' }}</td>
-                                    <td style="min-width: 180px;">
+                                    <td>
                                         <input
                                             type="number"
                                             step="0.000001"

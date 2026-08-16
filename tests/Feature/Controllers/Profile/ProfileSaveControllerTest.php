@@ -6,6 +6,9 @@ namespace Tests\Feature\Controllers\Profile;
 
 use App\Http\Middleware\MustChangePassword;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Log\Events\MessageLogged;
+use Illuminate\Support\Facades\Event;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -34,6 +37,31 @@ class ProfileSaveControllerTest extends TestCase
         $response->assertSee($data['first_name']);
         $response->assertSee($data['last_name']);
         $response->assertSee($data['email']);
+    }
+
+    #[Test]
+    public function it_blocks_polyglot_photo_upload_and_logs_security_incident(): void
+    {
+        Event::fake([MessageLogged::class]);
+
+        $payload = "GIF89a\n<html><body><script>alert('xss')</script></body></html>";
+        $file = UploadedFile::fake()->createWithContent('poc.html', $payload)->mimeType('image/gif');
+
+        $response = $this->post('profile/save', [
+            'first_name' => fake()->name(),
+            'last_name' => fake()->name(),
+            'email' => fake()->email(),
+            'lang' => 'en',
+            'photo' => $file,
+        ]);
+
+        $response->assertSessionHasErrors('photo');
+        $this->assertNull($this->user->fresh()->photo);
+
+        Event::assertDispatched(MessageLogged::class, function (MessageLogged $event) {
+            return ($event->context['channel'] ?? null) === 'security'
+                && ($event->context['event'] ?? null) === 'upload_extension_mismatch';
+        });
     }
 
     #[Test]
