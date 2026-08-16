@@ -13,11 +13,13 @@ class OrderObserver
     public function creating(Order $order): void
     {
         DB::transaction(function () use ($order): void {
-            Company::where('id', $order->getCompanyId())
+            Company::withTrashed()
+                ->where('id', $order->getCompanyId())
                 ->lockForUpdate()
                 ->increment('last_order_number');
 
-            $order->order_number = Company::where('id', $order->getCompanyId())
+            $order->order_number = Company::withTrashed()
+                ->where('id', $order->getCompanyId())
                 ->value('last_order_number');
         });
     }

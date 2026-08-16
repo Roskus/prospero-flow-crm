@@ -41,6 +41,7 @@
                 <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
                 <td><span class="badge bg-{{ $order->getStatusBadgeClass() }}">{{ __($order->getStatusLabel()) }}</span></td>
                 <td class="text-nowrap">
+                    @if(!empty($order->order_number))
                     <a href="{{ url('order/show/'.$order->order_number) }}" title="{{ __('View') }}"
                        class="btn btn-xs btn-primary text-white">
                         <i class="las la-eye"></i>
@@ -71,6 +72,9 @@
                         <i class="las la-trash-alt"></i>
                     </a>
                     @endcan
+                    @else
+                    <span class="text-muted">—</span>
+                    @endif
                 </td>
             </tr>
             @endforeach
