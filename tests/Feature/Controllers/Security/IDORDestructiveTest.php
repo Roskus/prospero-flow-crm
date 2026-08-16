@@ -125,7 +125,7 @@ class IDORDestructiveTest extends TestCase
             'currency' => 'USD',
         ]);
 
-        $response->assertRedirect('/company');
+        $response->assertForbidden();
 
         $companyB->refresh();
         $this->assertEquals($originalName, $companyB->name);

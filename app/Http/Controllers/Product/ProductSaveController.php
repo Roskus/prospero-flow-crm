@@ -28,7 +28,7 @@ class ProductSaveController extends MainController
             $photoFile = $request->file('photo');
             // Generate a new random file name
             $uuid = Uuid::uuid4();
-            $newFileName = $uuid->toString().'.'.$photoFile->getClientOriginalExtension();
+            $newFileName = $uuid->toString().'.'.$photoFile->extension();
             // Create a path for product photo
             $destinationPath = public_path("asset/upload/product/$product->id");
             try {

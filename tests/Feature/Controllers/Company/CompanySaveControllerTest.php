@@ -16,8 +16,6 @@ class CompanySaveControllerTest extends TestCase
     #[Test]
     public function it_can_save_company(): void
     {
-        Storage::fake('public');
-
         $data = [
             'name' => fake()->word(),
             'currency' => fake()->bothify('???'),

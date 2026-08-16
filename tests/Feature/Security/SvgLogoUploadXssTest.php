@@ -10,18 +10,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
+/**
+ * Security regression tests for the company logo upload.
+ *
+ * Documents the fix for CWE-434 (Unrestricted Upload) + CWE-79 (Stored XSS):
+ * SVG files with embedded <script> are rejected before being stored.
+ */
 class SvgLogoUploadXssTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_svg_logo_upload_accepted_without_validation(): void
+    public function test_malicious_svg_logo_upload_is_rejected(): void
     {
-        // Create test data
         $company = Company::factory()->create(['name' => 'Test Corp']);
         $user = User::factory()->create(['company_id' => $company->id]);
         $user->assignRole('SuperAdmin');
 
-        // Create malicious SVG content
         $maliciousSvg = <<<'SVG'
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
@@ -34,10 +38,7 @@ SVG;
 
         $file = UploadedFile::fake()->createWithContent('logo.svg', $maliciousSvg);
 
-        // Authenticate as user with "update company" permission
         $this->actingAs($user);
-
-        // Upload logo - no validation should stop this
         $response = $this->post('/company/save', [
             'id' => $company->id,
             'name' => $company->name,
@@ -45,21 +46,12 @@ SVG;
             'logo' => $file,
         ]);
 
-        // Verify upload was accepted (no validation error)
-        $this->assertResponseRedirects('/company');
-
-        // Verify company was updated with logo
-        $updatedCompany = $company->fresh();
-        $this->assertNotNull($updatedCompany->logo);
-        $this->assertStringEndsWith('.svg', $updatedCompany->logo);
-
-        echo "\n✓ SVG file upload accepted without validation\n";
-        echo '  Logo filename stored: '.$updatedCompany->logo."\n";
+        $response->assertSessionHasErrors('logo');
+        $this->assertNull($company->fresh()->logo);
     }
 
-    public function test_company_logo_served_publicly_without_authentication(): void
+    public function test_malicious_svg_is_not_persisted_as_company_logo(): void
     {
-        // Create company and upload logo
         $company = Company::factory()->create(['name' => 'Public Test']);
         $user = User::factory()->create(['company_id' => $company->id]);
         $user->assignRole('SuperAdmin');
@@ -81,19 +73,6 @@ SVG;
             'logo' => $file,
         ]);
 
-        // Get the company to find logo filename
-        $updatedCompany = $company->fresh();
-        $logoPath = '/storage/company/'.str_slug($company->name, '_').'/'.$updatedCompany->logo;
-
-        // Access logo WITHOUT authentication in a fresh session (no cookies)
-        $response = $this->get($logoPath);
-
-        echo "\n✓ Logo is publicly accessible without authentication\n";
-        echo '  URL: '.$logoPath."\n";
-        echo '  Status: '.$response->status()."\n";
-
-        // The vulnerability: file is publicly accessible
-        $this->assertEquals(200, $response->status(), 'Logo should be publicly accessible without auth');
-        $this->assertStringContainsString('<script', $response->content());
+        $this->assertNull($company->fresh()->logo);
     }
 }

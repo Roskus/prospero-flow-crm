@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Rules\ExtensionMatchesContent;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -25,7 +26,7 @@ class ProfileSaveRequest extends FormRequest
             'timezone' => ['nullable', 'string', 'timezone'],
             'phone' => ['nullable', 'string', 'max:15'],
             'signature_html' => ['nullable', 'string'],
-            'photo' => ['nullable', 'image', 'max:3072'],
+            'photo' => ['nullable', 'image', 'max:3072', new ExtensionMatchesContent],
             'lang' => ['nullable', 'string', 'max:10'],
         ];
     }
