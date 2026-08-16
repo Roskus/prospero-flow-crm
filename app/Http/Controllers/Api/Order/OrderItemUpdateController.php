@@ -6,12 +6,15 @@ namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Requests\OrderItemUpdateRequest;
 use App\Models\Order\Item;
+use App\Services\SecurityLogger;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class OrderItemUpdateController
 {
+    public function __construct(private SecurityLogger $securityLogger) {}
+
     #[OAT\Put(
         path: '/order-item/{id}',
         summary: 'Update Order Item',
@@ -47,7 +50,21 @@ class OrderItemUpdateController
             return response()->json(['message' => 'Item not found'], 404);
         }
 
-        $item->update($request->validated());
+        $data = $request->validated();
+
+        if (isset($data['unit_price']) && ! Auth::user()->hasPermissionTo('override order price', 'web')) {
+            unset($data['unit_price']);
+        } elseif (isset($data['unit_price'])) {
+            $this->securityLogger->log('order_price_override', [
+                'order_id' => $item->order_id,
+                'product_id' => $item->product_id,
+                'catalogue_price' => (float) ($item->product->price ?? 0),
+                'overridden_price' => (float) $data['unit_price'],
+                'quantity' => (int) ($data['quantity'] ?? $item->quantity),
+            ]);
+        }
+
+        $item->update($data);
 
         return response()->json(['item' => $item], 200);
     }

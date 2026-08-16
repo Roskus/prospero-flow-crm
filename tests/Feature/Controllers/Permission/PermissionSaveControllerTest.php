@@ -47,7 +47,7 @@ class PermissionSaveControllerTest extends TestCase
         $permission = Permission::create(['name' => 'edit articles', 'guard_name' => 'web']);
 
         $response = $this->post('/permission', [
-            'roles' => [$role->id => [$permission->id => 1]],
+            'roles' => [$role->id => [$permission->id => $permission->id]],
         ]);
 
         $response->assertRedirect('/permission');

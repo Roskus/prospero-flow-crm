@@ -31,7 +31,7 @@
         </div>
         <div class="col">
             <label for="price">{{ __('Price')}}</label>
-            <input type="number" name="price" id="price" placeholder="{{ __('Price') }}" min="0" step="0.01" class="form-control form-control-lg">
+            <input type="number" name="price" id="price" placeholder="{{ __('Price') }}" min="0" step="0.01" class="form-control form-control-lg" @unless(Auth::user()->can('override order price')) readonly @endunless>
         </div>
         <div class="col">
             <label for="discount">{{ __('Discount') }}</label>
@@ -71,7 +71,7 @@
                             {{ (!empty($item->product)) ? $item->product->name : '' }}
                         </td>
                         <td>
-                            <input type="number" name="items[{{ $i }}][price]" value="{{ $item->unit_price }}" step="0.001" min="0" class="form-control form-control-sm" oninput="Order.recalculateRow(this)">
+                            <input type="number" name="items[{{ $i }}][price]" value="{{ $item->unit_price }}" step="0.001" min="0" class="form-control form-control-sm" oninput="Order.recalculateRow(this)" @unless(Auth::user()->can('override order price')) readonly @endunless>
                         </td>
                         <td>
                             <input type="hidden" name="items[{{ $i }}][tax]" value="{{ $item->tax }}">
