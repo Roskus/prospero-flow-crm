@@ -1,15 +1,16 @@
 {
-    "name": "roskus/prospect-flow-crm",
-    "description": "ProspectFlow CRM based in The Laravel Framework.",
+    "name": "roskus/prospero-flow-crm",
+    "description": "ProsperoFlow CRM based in The Laravel Framework.",
     "keywords": [
         "crm",
         "framework",
-        "laravel"
+        "laravel",
+        "prosperoflow"
     ],
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^8.4|^8.5",
+        "php": "^8.4|^8.5|^8.6",
         "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-intl": "*",
