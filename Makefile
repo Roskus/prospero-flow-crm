@@ -72,7 +72,7 @@ clear: ## Clear all Laravel caches (views, config, cache)
 	docker exec -it ${DOCKER_PHP} php artisan view:clear
 	docker exec -it ${DOCKER_PHP} php artisan config:clear
 
-install: ## Setup local enviroment with MariaDB
+install: ## Setup local environment with MariaDB
 	cp .env.example .env
 	$(MAKE) ssl
 	$(MAKE) build-maria
@@ -83,3 +83,4 @@ install: ## Setup local enviroment with MariaDB
 	$(MAKE) migrate
 	$(MAKE) seed
 	docker exec -it ${DOCKER_PHP} php artisan jwt:secret
+	docker exec -it ${DOCKER_PHP} php artisan crm:user:create

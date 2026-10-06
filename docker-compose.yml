@@ -7,7 +7,8 @@ services:
     #restart: always
     user: "www-data:www-data"
     environment:
-      DB_HOST: host.docker.internal
+      DB_HOST: ${DB_HOST:-db}
+      COMPOSER_HOME: /var/www/.composer
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
