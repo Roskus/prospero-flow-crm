@@ -20,6 +20,9 @@ services:
     working_dir: /var/www/crm/
     links:
     - cache
+    - db
+    depends_on:
+      - db
     ports:
       - "9003:9003"
   web:
@@ -38,9 +41,10 @@ services:
     - ./infrastructure/etc/nginx/ssl/:/etc/ssl/
     links:
     - cache
-    - php
+    - db
     depends_on:
-    - php
+      - db
+      - php
     user: "root:www-data"
   cache:
     image: redis

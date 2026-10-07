@@ -11,8 +11,11 @@ help: ## Show this help menu
 build: ## Create docker build containers (no database)
 	docker compose -f docker-compose.yml build
 
-build-maria: ## Create docker build containers with MariaDB
+build-mysql: ## Create docker build containers with MySQL
 	docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml build
+
+build-maria: ## Create docker build containers with MariaDB
+	docker compose -f docker-compose.yml -f docker-compose.mariadb.yml -f docker-compose.pma.yml build
 
 build-pg: ## Create docker build containers with Postgres
 	docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.pgadmin.yml build
@@ -23,8 +26,11 @@ build-ms: ## Create docker build containers with MS SQL Server
 up: ## Start docker container without db
 	docker compose -f docker-compose.yml up -d
 
-up-mysql: ## Start docker container with MariaDB / MySQL
+up-mysql: ## Start docker container with MySQL
 	docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.pma.yml up -d
+
+up-maria: ## Start docker container with MariaDB
+	docker compose -f docker-compose.yml -f docker-compose.mariadb.yml -f docker-compose.pma.yml up -d
 
 up-pg: ## Start docker container with Postgres
 	docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.pgadmin.yml up -d
@@ -76,9 +82,9 @@ install: ## Setup local environment with MariaDB
 	cp .env.example .env
 	$(MAKE) ssl
 	$(MAKE) build-maria
-	$(MAKE) up-mysql
-	$(MAKE) permissions
+	$(MAKE) up-maria
 	$(MAKE) composer-install
+	$(MAKE) permissions
 	docker exec -it ${DOCKER_PHP} php artisan key:generate
 	$(MAKE) migrate
 	$(MAKE) seed
