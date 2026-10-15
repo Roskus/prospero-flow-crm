@@ -1,9 +1,18 @@
+#!/usr/bin/env bash
+# Stop on first error so a failed step never leaves a half-deployed release
+set -euo pipefail
+
+if [ "$(id -u)" -eq 0 ]; then
+    echo "Do not run deploy.sh as root, run it as the project owner (e.g. ubuntu)." >&2
+    exit 1
+fi
+
 git fetch
 # Update branch
 git pull origin main
 
-# Install dependencies
-sudo -u www-data composer install --no-dev --optimize-autoloader
+# Install dependencies as the project owner (never as root)
+composer install --no-dev --optimize-autoloader --no-interaction
 
 # Run DB migration
 php artisan migrate --force
@@ -14,8 +23,9 @@ php artisan db:seed --class=PermissionSeeder --force
 # Generate updated api doc
 php artisan l5-swagger:generate
 
-# Fix storage permission also for logs
-sudo chmod 775 storage/ -R
+# Web server (www-data group) must be able to write storage and cache, also for logs
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwX storage bootstrap/cache
 
 # Copy and fix permissions for wkhtmltopdf Prevent error 126
 sudo cp vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64 /usr/local/bin/
