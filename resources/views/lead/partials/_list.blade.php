@@ -1,7 +1,12 @@
 <div class="card mb-3">
     <div class="card-header">
         <h4 class="d-flex d-flex justify-content-between m-0">
-            <a href="{{ $url }}" class="text-decoration-none text-body">{{ $title }}</a>
+            <span class="d-flex align-items-center gap-2">
+                <a href="{{ $url }}" class="text-decoration-none text-body">{{ $title }}</a>
+                @if(!empty($createUrl) && (empty($createPermission) || auth()->user()?->can($createPermission)))
+                    @include('components.add_button', ['url' => $createUrl])
+                @endif
+            </span>
             <span class="badge rounded-pill text-bg-success">{{ $leads->count() }}</span>
         </h4>
     </div>
@@ -17,6 +22,7 @@
                 <th>{{ __('Mobile') }}</th>
                 <th>Email</th>
                 <th>{{ __('Website') }}</th>
+                <th>{{ __('Country') }}</th>
                 <th>{{ __('Status') }}</th>
                 <th>{{ __('Created at') }}</th>
             </tr>
@@ -74,6 +80,11 @@
                         <i class="las la-check-circle text-success"></i>
                     @endif
                     @endisset
+                </td>
+                <td class="text-center text-nowrap" title="{{ (!empty($lead->country)) ? $lead->country->name : '' }}">
+                    @if(!empty($lead->country))
+                    {{ $lead->country->flag }}
+                    @endif
                 </td>
                 <td class="text-center">
                     <span class="badge {{ App\Helpers\LeadStatus::renderBadge($lead->status) }}">

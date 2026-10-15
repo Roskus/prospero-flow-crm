@@ -9,7 +9,9 @@
                 @include('lead.partials._list', [
                     'leads' => $leads,
                     'url' => url('/lead'),
-                    'title' => __('Leads')
+                    'title' => __('Leads'),
+                    'createUrl' => url('/lead/create'),
+                    'createPermission' => 'create lead',
                 ])
                 <!-- Last Leads -->
 

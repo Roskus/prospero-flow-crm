@@ -206,9 +206,7 @@ $url = isset($lead) ? 'lead' : 'customer';
         <div class="row">
             <div class="col">
                 {{ __('Orders') }}
-                <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/order/create') }}">
-                    <i class="las la-plus fw-bold"></i>
-                </a>
+                @include('components.add_button', ['url' => url('/order/create')])
             </div>
         </div>
     </div>
@@ -258,9 +256,7 @@ $url = isset($lead) ? 'lead' : 'customer';
             <div class="col">
                 {{ __('Contacts') }}
 
-                <a class="btn btn-primary btn-sm" style="border-radius: 40px;" href="{{ url('/contact/create', [$url, $item->id]) }}">
-                    <i class="las la-plus fw-bold"></i>
-                </a>
+                @include('components.add_button', ['url' => url('/contact/create', [$url, $item->id])])
             </div>
         </div>
     </div>

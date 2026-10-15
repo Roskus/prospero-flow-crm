@@ -253,5 +253,9 @@
     "Inactive" : "Inactive",
     "Lock screen" : "Lock screen",
     "Other" : "Other",
-    "Currency conversion rates saved successfully" : "Currency conversion rates saved successfully"
+    "Currency conversion rates saved successfully" : "Currency conversion rates saved successfully",
+    "Search for an address" : "Search for an address",
+    "Enter an address to search" : "Enter an address to search",
+    "Address not found" : "Address not found",
+    "An error occurred while searching for the address" : "An error occurred while searching for the address"
 }

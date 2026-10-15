@@ -15,22 +15,10 @@
     var longitude = "{{ $attributes['longitude'] }}";
     var map = L.map("map");
     var marker;
+    var tiles;
 
     function initializeMap(latitude, longitude) {
-        // Verifica si hay coordenadas disponibles y establece el centro del mapa y el marcador si es así
-        if (latitude && longitude) {
-            // Establece la vista del mapa en la posición inicial y un nivel de zoom determinado
-            map.setView([latitude, longitude], 18);
-
-            // Agrega capas de azulejos al mapa para mostrar el mapa base
-            var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                maxZoom: 20,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);
-
-            // Agrega un marcador a la posición inicial del mapa
-            var marker = L.marker([latitude, longitude]).addTo(map);
-        }
+        setMarker(latitude, longitude);
     }
 
 
@@ -71,76 +59,98 @@
         }
     }
 
+    function addTiles() {
+        if (tiles) {
+            return;
+        }
+
+        tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 20,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+    }
+
     function setMarker(latitude, longitude) {
         if (!latitude || !longitude) {
-            document.getElementById('map').innerHTML = "<p class='p-3'>{{ __('It is not possible to show the map of the location because the geolocation is not established.') }}</p>";
-            return; // No hagas nada si no hay coordenadas válidas
+            return;
         }
 
-        if (latitude && longitude) {
+        map.setView([latitude, longitude], 18);
+        addTiles();
 
-            if (!marker || !map.hasLayer(marker)) {
-                // Si el marcador aún no está agregado al mapa, agrégalo
-                marker = L.marker([latitude, longitude]).addTo(map);
-            } else {
-                // Si el marcador ya está en el mapa, actualiza su posición
-                marker.setLatLng([latitude, longitude]);
-            }
-
-            // Centrar el mapa en la nueva posición del marcador
-            map.setView([latitude, longitude], 18);
-
-            /*
-            var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                maxZoom: 20
-                , attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);*/
+        if (!marker || !map.hasLayer(marker)) {
+            marker = L.marker([latitude, longitude]).addTo(map);
+        } else {
+            marker.setLatLng([latitude, longitude]);
         }
+    }
+
+    function setAddressFeedback(message) {
+        const addressInput = document.getElementById('search-address');
+        const feedback = document.getElementById('search-address-feedback');
+
+        addressInput.classList.toggle('is-invalid', message !== null);
+        feedback.textContent = message ?? '';
     }
 
     function getCoordinates() {
         const addressInput = document.getElementById('search-address');
-        const address = addressInput.value;
+        const searchButton = document.getElementById('search-address-button');
+        const address = addressInput.value.trim();
 
-        if (address.trim() === '') {
+        if (address === '') {
+            setAddressFeedback(@json(__('Enter an address to search')));
             return;
         }
 
-        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`;
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
+
+        setAddressFeedback(null);
+        searchButton.disabled = true;
 
         fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const latitude = Number.parseFloat(data[0].lat);
-                    const longitude = Number.parseFloat(data[0].lon);
-                    document.getElementById('latitude').value = latitude;
-                    document.getElementById('longitude').value = longitude;
-
-                    // Actualizar el mapa con las nuevas coordenadas
-                    if (map) {
-                        setMarker(latitude, longitude);
-                    }
-
-                    console.log(`Coordenadas de la dirección '${address}': Latitud ${latitude}, Longitud ${longitude}`);
-                } else {
-                    console.log('No se pudieron obtener las coordenadas para la dirección especificada.');
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
                 }
+
+                return response.json();
+            })
+            .then(data => {
+                if (data.length === 0) {
+                    setAddressFeedback(@json(__('Address not found')));
+                    return;
+                }
+
+                const latitude = Number.parseFloat(data[0].lat);
+                const longitude = Number.parseFloat(data[0].lon);
+                document.getElementById('latitude').value = latitude;
+                document.getElementById('longitude').value = longitude;
+
+                setMarker(latitude, longitude);
             })
             .catch(error => {
-                console.error('Error al obtener las coordenadas:', error);
+                console.error(error);
+                setAddressFeedback(@json(__('An error occurred while searching for the address')));
+            })
+            .finally(() => {
+                searchButton.disabled = false;
             });
     }
 
+    document.getElementById('search-address')?.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            getCoordinates();
+        }
+    });
+
+    document.getElementById('search-address')?.addEventListener('input', function () {
+        setAddressFeedback(null);
+    });
+
     if (latitude && longitude) {
-        map.setView([latitude, longitude], 18);
-
-        var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 20,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        var marker = L.marker([latitude, longitude]).addTo(map);
+        setMarker(latitude, longitude);
     } else {
         getLocation();
     }

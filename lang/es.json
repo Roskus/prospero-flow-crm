@@ -293,5 +293,9 @@
     "Wednesday": "Miércoles",
     "Thursday": "Jueves",
     "Friday": "Viernes",
-    "Saturday": "Sábado"
+    "Saturday": "Sábado",
+    "Search for an address": "Buscar una dirección",
+    "Enter an address to search": "Introduce una dirección para buscar",
+    "Address not found": "No se encontró la dirección",
+    "An error occurred while searching for the address": "Ocurrió un error al buscar la dirección"
 }

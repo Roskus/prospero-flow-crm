@@ -11,6 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Squire\Models\Country;
+use Squire\Rules\CountryRule;
 
 class LeadRequest extends FormRequest
 {
@@ -43,10 +44,14 @@ class LeadRequest extends FormRequest
     {
         $countryInput = $this->input('country_id');
         if (! empty($countryInput) && strlen($countryInput) > 2) {
-            $country = Country::where('name', $countryInput)->first();
+            $normalizedCountryName = mb_strtolower(trim($countryInput));
+            $country = Country::all()->first(fn (Country $country): bool => mb_strtolower($country->name) === $normalizedCountryName);
             if ($country) {
                 $countryInput = $country->code_2;
             }
+        }
+        if (is_string($countryInput)) {
+            $countryInput = strtolower(trim($countryInput));
         }
 
         $this->merge([
@@ -87,7 +92,7 @@ class LeadRequest extends FormRequest
                     }
                 },
             ],
-            'country_id' => 'required|max:2',
+            'country_id' => ['required', 'max:2', new CountryRule('code_2')],
             'province' => 'nullable|max:80',
             'city' => 'nullable|max:50',
             'locality' => 'nullable|max:80',

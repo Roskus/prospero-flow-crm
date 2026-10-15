@@ -137,32 +137,16 @@
             <div class="card-body">
                 <div class="row mb-1">
                     <div class="col">
-                        <label for="search-address">{{ __('Search for an address') }}</label>
-                        <div class="input-group">
-                            <input type="text" id="search-address" placeholder="{{ __('Search for an address') }}"
-                                   class="form-control form-control-lg">
-                            <button type="button" onclick="getCoordinates()" class="btn btn-secondary">
-                                <i class="las la-search"></i>
-                            </button>
-                        </div>
+                        @include('components.geolocalization.search')
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <label for="country_id">{{ __('Country') }}</label>
-                        @php
-                            $displayCountry = old('country_id', $customer->country_id);
-                            if (strlen((string) $displayCountry) === 2) {
-                                $displayCountry = $countries->firstWhere('code_2', $displayCountry)?->name ?? $displayCountry;
-                            }
-                        @endphp
-                        <input name="country_id" id="country_id" list="countryList" value="{{ $displayCountry }}" class="form-control form-control-lg">
-
-                        <datalist id="countryList">
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->name }}">{{ $country->name }} {{ $country->flag }}</option>
-                            @endforeach
-                        </datalist>
+                        @include('components.country', [
+                            'country_id' => old('country_id', $customer->country_id),
+                            'class' => 'form-select-lg',
+                            'required' => true,
+                        ])
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="province" class="">{{ __('Province') }}</label>
@@ -285,7 +269,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="industry_id">{{ __('Industry') }}</label>
-                        <select name="industry_id" id="industry_id" class="form-select form-select-lg">
+                        <select name="industry_id" id="industry_id" class="form-select form-select-lg" data-tom-select>
                             <option value=""></option>
                             @foreach($industries as $industry)
                             <option value="{{ $industry->id }}" @if($industry->id == old('industry_id', $customer->industry_id)) selected="selected" @endif>
@@ -322,7 +306,7 @@
                     </div>
                     <div class="col mt-2">
                         <label for="seller_id">{{ __('Seller') }} <span class="text-danger">*</span></label>
-                        <select name="seller_id" id="seller_id" required="required" class="form-select form-select-lg">
+                        <select name="seller_id" id="seller_id" required="required" class="form-select form-select-lg" data-tom-select>
                             <option value=""></option>
                             @foreach ($sellers as $seller)
                                 <option value="{{ $seller->id }}"
@@ -448,6 +432,7 @@
             })
         });
     </script>
+    @include('components.tom_select')
     <script src="/asset/js/Contact.js"></script>
     <script src="/asset/js/Region.js"></script>
     @endpush

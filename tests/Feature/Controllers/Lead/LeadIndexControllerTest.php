@@ -43,4 +43,21 @@ class LeadIndexControllerTest extends TestCase
         $response->assertSee($lead->name);
         $response->assertDontSee($lead2->name);
     }
+
+    #[Test]
+    public function it_filters_leads_by_country_with_searchable_select(): void
+    {
+        $spanishLead = Lead::factory()->create(['company_id' => $this->user->company_id, 'country_id' => 'es']);
+        $frenchLead = Lead::factory()->create(['company_id' => $this->user->company_id, 'country_id' => 'fr']);
+
+        $response = $this->get('/lead?country_id=es');
+
+        $response->assertOk();
+        $response->assertSee($spanishLead->name);
+        $response->assertDontSee($frenchLead->name);
+        $this->assertMatchesRegularExpression('/<select name="country_id"[^>]*data-tom-select/', $response->getContent());
+        $this->assertMatchesRegularExpression('/<option value="es"\s+selected="selected"\s*>/', $response->getContent());
+        $response->assertSee('tom-select@2.4.3', false);
+        $response->assertSee('clear_button', false);
+    }
 }
