@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Company;
 
-use App\Http\Requests\CompanyUpdateRequest;
+use App\Http\Requests\Company\CompanySaveRequest;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class CompanyUpdateController
@@ -33,13 +32,9 @@ class CompanyUpdateController
             new OAT\Response(response: 404, description: 'Company not found'),
         ]
     )]
-    public function update(CompanyUpdateRequest $request, int $id): JsonResponse
+    public function update(CompanySaveRequest $request, int $id): JsonResponse
     {
-        if (Auth::user()->company_id !== $id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $params = array_merge(['id' => $id], $request->all());
+        $params = array_merge($request->validated(), ['id' => $id]);
         $company = $this->companyRepository->save($params);
 
         return response()->json($company, $company ? 200 : 400);

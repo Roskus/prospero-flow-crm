@@ -16,6 +16,8 @@ class CompanyIndexRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'filter' => 'nullable|in:active,deleted',
+        ];
     }
 }

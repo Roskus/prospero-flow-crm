@@ -61,6 +61,17 @@
                     </datalist>
                 </div>
             </div>
+            @role('SuperAdmin')
+            <div class="row">
+                <div class="col form-group">
+                    <label for="status" class="label-control">{{ __('Status') }}</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="{{ \App\Models\Company::ACTIVE }}" @selected((int) old('status', $company->status ?? \App\Models\Company::ACTIVE) === \App\Models\Company::ACTIVE)>{{ __('Active') }}</option>
+                        <option value="{{ \App\Models\Company::INACTIVE }}" @selected((int) old('status', $company->status ?? \App\Models\Company::ACTIVE) === \App\Models\Company::INACTIVE)>{{ __('Inactive') }}</option>
+                    </select>
+                </div>
+            </div>
+            @endrole
             <div class="row">
                 <div class="col form-group">
                     <label for="website" class="label-control">{{ __('Website') }}</label>

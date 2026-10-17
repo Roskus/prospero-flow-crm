@@ -14,7 +14,7 @@ class CompanyUpdateController extends MainController
 {
     public function update(CompanyUpdateRequest $request, int $id)
     {
-        $company = Company::find($id);
+        $company = Company::withTrashed()->findOrFail($id);
         $data['company'] = $company;
         $data['countries'] = Country::all();
         $data['currencies'] = Currency::all();

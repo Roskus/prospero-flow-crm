@@ -14,7 +14,7 @@ class CompanyRepository
             $company = new Company;
             $company->created_at = now();
         } else {
-            $company = Company::find($data['id']);
+            $company = Company::withTrashed()->findOrFail($data['id']);
         }
         $company->name = $data['name'];
         $company->business_name = ! empty($data['business_name']) ? $data['business_name'] : null;
@@ -36,8 +36,13 @@ class CompanyRepository
         $company->vacation_days_per_year = (int) ($data['vacation_days_per_year'] ?? $company->vacation_days_per_year ?? 20);
         $company->personal_days_per_year = (int) ($data['personal_days_per_year'] ?? $company->personal_days_per_year ?? 2);
         $company->weekly_hours_full_time = (float) ($data['weekly_hours_full_time'] ?? $company->weekly_hours_full_time ?? 37.00);
-        $company->status = ! empty($data['status']) ? $data['status'] : Company::ACTIVE;
+        $company->status = isset($data['status']) ? (int) $data['status'] : ($company->status ?? Company::ACTIVE);
         $company->updated_at = now();
+
+        if (isset($data['status']) && $company->status === Company::ACTIVE && $company->trashed()) {
+            $company->deleted_at = null;
+        }
+
         $company->save();
 
         return $company;

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Company;
 
-use App\Http\Requests\CompanyCreateRequest;
+use App\Http\Requests\Company\CompanySaveRequest;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use OpenApi\Attributes as OAT;
 
 class CompanyCreateController
@@ -33,9 +34,9 @@ class CompanyCreateController
             new OAT\Response(response: 422, description: 'Validation failed'),
         ]
     )]
-    public function create(CompanyCreateRequest $request): JsonResponse
+    public function create(CompanySaveRequest $request): JsonResponse
     {
-        $company = $this->companyRepository->save($request->validated());
+        $company = $this->companyRepository->save(Arr::except($request->validated(), ['id']));
 
         return response()->json(['company' => $company], 201);
     }

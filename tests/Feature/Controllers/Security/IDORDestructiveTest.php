@@ -13,6 +13,7 @@ use App\Models\Lead;
 use App\Models\Product;
 use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -117,7 +118,14 @@ class IDORDestructiveTest extends TestCase
         $companyB = Company::find($this->userB->company_id);
         $originalName = $companyB->name;
 
-        $this->actingAs($this->userA);
+        $companyAdmin = User::factory()->create();
+        $companyAdmin->assignRole('User');
+        $companyAdmin->givePermissionTo([
+            Permission::create(['name' => 'create company', 'guard_name' => 'web']),
+            Permission::create(['name' => 'update company', 'guard_name' => 'web']),
+        ]);
+
+        $this->actingAs($companyAdmin);
         $response = $this->post('/company/save', [
             'id' => $companyB->id,
             'name' => 'Hijacked Company',

@@ -5,11 +5,20 @@
    <h1>{{ __('Companies') }}</h1>
 </header>
 
-@can('create company')
-<div class="mb-2">
-    <a href="{{ url("/company/create") }}" class="btn btn-primary">{{ __('New') }}</a>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <div>
+        @can('create company')
+        <a href="{{ url("/company/create") }}" class="btn btn-primary">{{ __('New') }}</a>
+        @endcan
+    </div>
+    <form method="GET" action="{{ route('company.index') }}">
+        <select name="filter" class="form-select" onchange="this.form.submit()" aria-label="{{ __('Status') }}">
+            <option value="">{{ __('All') }}</option>
+            <option value="active" @selected(request('filter') === 'active')>{{ __('Active') }}</option>
+            <option value="deleted" @selected(request('filter') === 'deleted')>{{ __('Deleted') }}</option>
+        </select>
+    </form>
 </div>
-@endcan
 
 <div class="card">
     <div class="card-body">
@@ -94,6 +103,15 @@
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger" title="{{ __('Delete') }}">
                         <i class="las la-trash-alt"></i>
+                    </button>
+                </form>
+                @else
+                <form method="POST" action="{{ url("/company/restore/$company->id") }}" class="d-inline"
+                      onsubmit="return confirm('{{ __('Are you sure you want to restore this company?') }}')">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-success" title="{{ __('Restore') }}">
+                        <i class="las la-trash-restore"></i>
                     </button>
                 </form>
                 @endunless

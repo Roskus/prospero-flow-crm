@@ -13,7 +13,7 @@ class CompanyIndexController extends MainController
     public function index(CompanyIndexRequest $request)
     {
         $company = new Company;
-        $companies = $company->getAllPaginated();
+        $companies = $company->getAllPaginated(filter: $request->validated('filter'));
         $data['companies'] = $companies;
 
         return view('company.index', $data);
