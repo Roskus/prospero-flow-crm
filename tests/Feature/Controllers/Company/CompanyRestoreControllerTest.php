@@ -27,6 +27,18 @@ class CompanyRestoreControllerTest extends TestCase
     }
 
     #[Test]
+    public function restoring_a_company_restores_its_users(): void
+    {
+        $company = Company::factory()->create();
+        $companyUser = User::factory()->create(['company_id' => $company->id]);
+        $company->delete();
+
+        $this->patch('/company/restore/'.$company->id);
+
+        $this->assertNotSoftDeleted('user', ['id' => $companyUser->id]);
+    }
+
+    #[Test]
     public function it_returns_an_error_for_a_company_that_is_not_deleted(): void
     {
         $company = Company::factory()->create();
@@ -60,7 +72,7 @@ class CompanyRestoreControllerTest extends TestCase
         $deletedCompany = Company::factory()->create();
         $deletedCompany->delete();
 
-        $response = $this->get('/company');
+        $response = $this->get('/company?filter=all');
 
         $response->assertOk();
         $response->assertSee('/company/restore/'.$deletedCompany->id, false);

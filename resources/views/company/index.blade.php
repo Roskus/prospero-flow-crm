@@ -13,9 +13,9 @@
     </div>
     <form method="GET" action="{{ route('company.index') }}">
         <select name="filter" class="form-select" onchange="this.form.submit()" aria-label="{{ __('Status') }}">
-            <option value="">{{ __('All') }}</option>
-            <option value="active" @selected(request('filter') === 'active')>{{ __('Active') }}</option>
+            <option value="active" @selected(in_array(request('filter'), [null, 'active'], true))>{{ __('Active') }}</option>
             <option value="deleted" @selected(request('filter') === 'deleted')>{{ __('Deleted') }}</option>
+            <option value="all" @selected(request('filter') === 'all')>{{ __('All') }}</option>
         </select>
     </form>
 </div>

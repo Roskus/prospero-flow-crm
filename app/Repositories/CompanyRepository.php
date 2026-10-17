@@ -38,12 +38,11 @@ class CompanyRepository
         $company->weekly_hours_full_time = (float) ($data['weekly_hours_full_time'] ?? $company->weekly_hours_full_time ?? 37.00);
         $company->status = isset($data['status']) ? (int) $data['status'] : ($company->status ?? Company::ACTIVE);
         $company->updated_at = now();
+        $company->save();
 
         if (isset($data['status']) && $company->status === Company::ACTIVE && $company->trashed()) {
-            $company->deleted_at = null;
+            $company->restore();
         }
-
-        $company->save();
 
         return $company;
     }

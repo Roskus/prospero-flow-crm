@@ -182,6 +182,7 @@ class CompanySaveControllerTest extends TestCase
     public function setting_status_to_active_restores_a_deleted_company(): void
     {
         $company = Company::factory()->create(['status' => Company::INACTIVE]);
+        $companyUser = User::factory()->create(['company_id' => $company->id]);
         $company->delete();
 
         $response = $this->post('/company/save', [
@@ -193,6 +194,7 @@ class CompanySaveControllerTest extends TestCase
 
         $response->assertRedirect('/company');
         $this->assertNotSoftDeleted('company', ['id' => $company->id]);
+        $this->assertNotSoftDeleted('user', ['id' => $companyUser->id]);
         $this->assertEquals(Company::ACTIVE, $company->fresh()->status);
     }
 

@@ -13,7 +13,11 @@ class UserListController extends MainController
 {
     public function index(Request $request)
     {
-        $users = (Auth::user()->can('create company')) ? User::orderBy('company_id')->paginate(10) : User::orderBy('company_id')->where('company_id', Auth::user()->company_id)->paginate(10);
+        $users = User::query()
+            ->with(['company' => fn ($query) => $query->withTrashed()])
+            ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
+            ->orderBy('company_id')
+            ->paginate(10);
         $data['users'] = $users;
 
         return view('user.index', $data);

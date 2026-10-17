@@ -265,6 +265,7 @@
     "All": "Todas",
     "Deleted": "Eliminadas",
     "Restore": "Restaurar",
+    "You cannot delete your own company": "No puedes eliminar tu propia compañía",
     "Company restored successfully": "Compañía restaurada correctamente",
     "Are you sure you want to restore this company?": "¿Seguro que quieres restaurar esta compañía?",
     "You are not allowed to change the company status.": "No tienes permiso para cambiar el estado de la compañía.",

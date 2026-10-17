@@ -75,7 +75,7 @@
                 </td>
                 <td class="text-center">{{ $user->lang }}</td>
                 @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
-                <td>{{ $user->company->name }}</td>
+                <td>{{ $user->company?->name }}</td>
                 @endif
                 <td>
                     {{ $user->getRoleNames() }}

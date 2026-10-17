@@ -9,3 +9,8 @@
 .nav-pills .nav-link {
     --bs-nav-link-color: #284B63 !important;
 }
+
+.table {
+    --bs-table-striped-bg: #e3edf5;
+    --bs-table-hover-bg: #c9dbe9;
+}

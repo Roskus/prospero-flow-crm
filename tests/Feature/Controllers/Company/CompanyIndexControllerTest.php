@@ -30,13 +30,27 @@ class CompanyIndexControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_lists_active_and_deleted_companies_without_filter(): void
+    public function it_lists_only_active_companies_by_default(): void
     {
         $activeCompany = Company::factory()->create();
         $deletedCompany = Company::factory()->create();
         $deletedCompany->delete();
 
         $response = $this->get('/company');
+
+        $response->assertOk();
+        $response->assertSee($activeCompany->name);
+        $response->assertDontSee($deletedCompany->name);
+    }
+
+    #[Test]
+    public function it_lists_active_and_deleted_companies_with_all_filter(): void
+    {
+        $activeCompany = Company::factory()->create();
+        $deletedCompany = Company::factory()->create();
+        $deletedCompany->delete();
+
+        $response = $this->get('/company?filter=all');
 
         $response->assertOk();
         $response->assertSee($activeCompany->name);

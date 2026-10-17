@@ -74,14 +74,13 @@ class Company extends Model
     protected $with = ['country'];
 
     /**
-     * @param  'active'|'deleted'|null  $filter
+     * @param  'active'|'deleted'|'all'|null  $filter  Active companies by default
      */
     public function getAllPaginated(int $limit = 50, ?string $filter = null)
     {
         return Company::query()
-            ->when($filter === 'active', fn ($query) => $query->withoutTrashed())
             ->when($filter === 'deleted', fn ($query) => $query->onlyTrashed())
-            ->when($filter === null, fn ($query) => $query->withTrashed())
+            ->when($filter === 'all', fn ($query) => $query->withTrashed())
             ->orderBy('name', 'asc')
             ->paginate($limit);
     }

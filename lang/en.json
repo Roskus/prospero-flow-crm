@@ -253,6 +253,7 @@
     "All" : "All",
     "Deleted" : "Deleted",
     "Restore" : "Restore",
+    "You cannot delete your own company" : "You cannot delete your own company",
     "Company restored successfully" : "Company restored successfully",
     "Are you sure you want to restore this company?" : "Are you sure you want to restore this company?",
     "You are not allowed to change the company status." : "You are not allowed to change the company status.",
