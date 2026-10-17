@@ -20,7 +20,9 @@ class UserSaveController extends MainController
             // Company should be assigned on create
             $user->company_id = Auth::user()->company_id;
         } else {
-            $user = User::where('company_id', Auth::user()->company_id)->findOrFail($request->id);
+            $user = User::query()
+                ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
+                ->findOrFail($request->id);
         }
 
         if (Auth::user()->hasRole('SuperAdmin')) {

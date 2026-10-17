@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\User;
 
+use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -31,5 +32,27 @@ class UserSaveControllerTest extends TestCase
         $response->assertSee($data['first_name']);
         $response->assertSee($data['last_name']);
         $response->assertSee($data['email']);
+    }
+
+    #[Test]
+    public function super_admin_can_update_a_user_of_another_company(): void
+    {
+        $otherCompanyUser = User::factory()->create();
+
+        $response = $this->post('/user/save', [
+            'id' => $otherCompanyUser->id,
+            'first_name' => 'Updated',
+            'last_name' => $otherCompanyUser->last_name,
+            'email' => $otherCompanyUser->email,
+            'lang' => 'es',
+            'company_id' => $otherCompanyUser->company_id,
+        ]);
+
+        $response->assertRedirect('/user');
+        $this->assertDatabaseHas('user', [
+            'id' => $otherCompanyUser->id,
+            'first_name' => 'Updated',
+            'company_id' => $otherCompanyUser->company_id,
+        ]);
     }
 }
