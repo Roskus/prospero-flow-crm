@@ -214,4 +214,35 @@ class CompanySaveControllerTest extends TestCase
         $response->assertRedirect('/company');
         $this->assertSoftDeleted('company', ['id' => $company->id]);
     }
+
+    #[Test]
+    public function it_can_save_the_dashboard_calendar_view(): void
+    {
+        $company = Company::factory()->create();
+
+        $response = $this->post('/company/save', [
+            'id' => $company->id,
+            'name' => $company->name,
+            'currency' => 'USD',
+            'dashboard_calendar_view' => Company::CALENDAR_VIEW_WEEK,
+        ]);
+
+        $response->assertRedirect('/company');
+        $this->assertDatabaseHas('company', ['id' => $company->id, 'dashboard_calendar_view' => Company::CALENDAR_VIEW_WEEK]);
+    }
+
+    #[Test]
+    public function it_rejects_an_invalid_dashboard_calendar_view(): void
+    {
+        $company = Company::factory()->create();
+
+        $response = $this->post('/company/save', [
+            'id' => $company->id,
+            'name' => $company->name,
+            'currency' => 'USD',
+            'dashboard_calendar_view' => 'yearly',
+        ]);
+
+        $response->assertSessionHasErrors('dashboard_calendar_view');
+    }
 }

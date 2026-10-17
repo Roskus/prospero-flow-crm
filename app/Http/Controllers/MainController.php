@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Calendar;
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\Order;
@@ -37,21 +38,29 @@ class MainController extends Controller implements HasMiddleware
         $order = new Order;
         $lead = new Lead;
         $customer = new Customer;
-        $data['order_count'] = $order->getPendingCount((int) Auth::user()->company_id);
-        $data['leads'] = $lead->getLatestByCompany((int) Auth::user()->company_id, 4);
-        $data['customers'] = $customer
-            ->whereCompanyId(Auth::user()->company_id)
-            ->whereStatus(Customer::IN_PROGRESS)
-            ->limit(4)
-            ->get();
+        $companyId = (int) Auth::user()->company_id;
+        $data['leads'] = $lead->getLatestByCompany($companyId, 4);
+        $data['customers'] = $customer->getRecentInteractionsByCompany($companyId, (int) Auth::id(), 4);
+
+        if (Auth::user()->hasAnyRole(['SuperAdmin', 'CompanyAdmin'])) {
+            $data['sales'] = $order->getSalesSummary($companyId);
+        }
 
         $date = Carbon::now();
-        $startOfCalendar = $date->copy()->firstOfMonth()->startOfWeek(Carbon::MONDAY);
-        $endOfCalendar = $date->copy()->lastOfMonth()->endOfWeek(Carbon::SUNDAY);
+        $calendarView = Auth::user()->company?->dashboard_calendar_view ?? Company::CALENDAR_VIEW_MONTH;
+
+        if ($calendarView === Company::CALENDAR_VIEW_WEEK) {
+            $startOfCalendar = $date->copy()->startOfWeek(Carbon::MONDAY);
+            $endOfCalendar = $date->copy()->endOfWeek(Carbon::SUNDAY);
+        } else {
+            $startOfCalendar = $date->copy()->firstOfMonth()->startOfWeek(Carbon::MONDAY);
+            $endOfCalendar = $date->copy()->lastOfMonth()->endOfWeek(Carbon::SUNDAY);
+        }
 
         $data['events'] = Calendar::whereUserId(auth()->id())
             ->whereBetween('start_date', [$startOfCalendar, $endOfCalendar])
             ->get();
+        $data['calendarView'] = $calendarView;
         $data['startOfCalendar'] = $startOfCalendar;
         $data['endOfCalendar'] = $endOfCalendar;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Calendar;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\CalendarCreateRequest;
 use App\Repositories\CalendarRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,9 +20,9 @@ class CalendarSaveEventController extends MainController
         $this->calendarRepository = $calendarRepository;
     }
 
-    public function save(Request $request): RedirectResponse
+    public function save(CalendarCreateRequest $request): RedirectResponse
     {
-        $this->calendarRepository->save($request->all());
+        $this->calendarRepository->save($request->validated());
 
         return back();
     }

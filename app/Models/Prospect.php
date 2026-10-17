@@ -138,7 +138,7 @@ abstract class Prospect extends Model
     public function getLatestByCompany(int $company_id, int $limit = 10)
     {
         return static::where('company_id', $company_id)
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->limit($limit)
             ->get();
     }

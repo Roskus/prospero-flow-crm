@@ -106,7 +106,7 @@ class IDORDestructiveTest extends TestCase
         $calendarEventFromB = Calendar::factory()->create(['user_id' => $this->userB->id]);
 
         $this->actingAs($this->userA);
-        $response = $this->get("/calendar/event/delete/{$calendarEventFromB->id}");
+        $response = $this->delete("/calendar/event/delete/{$calendarEventFromB->id}");
 
         $response->assertNotFound();
         $this->assertNotNull(Calendar::find($calendarEventFromB->id));

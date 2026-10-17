@@ -20,9 +20,10 @@ class CalendarRepository
 
         $calendar->company_id = Auth::user()->company_id;
         $calendar->user_id = Auth::user()->id;
-        $calendar->start_date = $data['date'].' '.$data['start_time'];
-        $calendar->end_date = $data['date'].' '.$data['end_time'];
-        $calendar->is_all_day = $data['is_all_day'] ?? false;
+        $isAllDay = (bool) ($data['is_all_day'] ?? false);
+        $calendar->start_date = $data['date'].' '.($isAllDay ? '00:00' : $data['start_time']);
+        $calendar->end_date = $data['date'].' '.($isAllDay ? '23:59' : $data['end_time']);
+        $calendar->is_all_day = $isAllDay;
         $calendar->title = $data['title'];
         $calendar->description = (! empty($data['description'])) ? $data['description'] : null;
         $calendar->guests = (! empty($data['guest_list'])) ? $data['guest_list'] : null;

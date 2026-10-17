@@ -2,6 +2,7 @@
 
 @section('content')
     @include('layouts.partials._header', ['title' =>  __('Calendar')])
+    @include('layouts.partials._errors')
 
     <div class="row m-2">
         <div class="card">
@@ -78,5 +79,8 @@
     @push('scripts')
         <script> const route_calendar_controller = "{{ url(path:'calendar', secure: app()->environment('production')) }}"; </script>
         <script src="{{ url('/asset/js/Calendar.js') }}"></script>
+        @if(request()->integer('event') > 0)
+            <script>Calendar.read({{ request()->integer('event') }});</script>
+        @endif
     @endpush
 @endsection

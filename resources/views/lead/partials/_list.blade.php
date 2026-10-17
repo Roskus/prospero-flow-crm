@@ -24,7 +24,7 @@
                 <th>{{ __('Website') }}</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Status') }}</th>
-                <th>{{ __('Created at') }}</th>
+                <th>{{ __('Updated at') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -92,7 +92,7 @@
                     </span>
                 </td>
                 <td>
-                    <small class="text-muted">{{ $lead->created_at->format('d/m/Y H:i') }}</small>
+                    <small class="text-muted">{{ $lead->updated_at?->format('d/m/Y H:i') }}</small>
                 </td>
             </tr>
             @endforeach

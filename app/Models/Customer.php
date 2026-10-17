@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Customer\Message;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use OpenApi\Attributes as OAT;
@@ -69,6 +70,31 @@ class Customer extends Prospect
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Customers ordered by the latest interaction: the most recent between
+     * the customer update and the last message written by the given user.
+     *
+     * @return Collection<int, Customer>
+     */
+    public function getRecentInteractionsByCompany(int $companyId, int $userId, int $limit = 5): Collection
+    {
+        $lastMessageByUser = Message::withoutGlobalScopes()
+            ->selectRaw('MAX(created_at)')
+            ->whereColumn('customer_message.customer_id', 'customer.id')
+            ->where('author_id', $userId);
+
+        $customersWithLastMessage = static::query()
+            ->select('customer.*')
+            ->selectSub($lastMessageByUser, 'last_message_at')
+            ->where('company_id', $companyId);
+
+        return static::query()
+            ->fromSub($customersWithLastMessage, 'customer')
+            ->orderByRaw('CASE WHEN last_message_at IS NOT NULL AND last_message_at > updated_at THEN last_message_at ELSE updated_at END DESC')
+            ->limit($limit)
+            ->get();
     }
 
     public function getAllByCompanyId(

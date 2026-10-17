@@ -15,7 +15,7 @@ Route::post('/calendar/event/save', [CalendarSaveEventController::class, 'save']
     ->name('calendar.save')->can('create calendar');
 Route::get('/calendar/event/update/{id}',
     [CalendarUpdateEventController::class, 'update'])->name('calendar.update')->can('update calendar');
-Route::get('/calendar/event/delete/{id}',
+Route::delete('/calendar/event/delete/{id}',
     [CalendarDeleteEventController::class, 'delete'])->name('calendar.delete')->can('delete calendar');
 Route::get('/calendar/{id}/export', [CalendarExportController::class, 'exportICal'])
     ->name('calendar.export')->can('read calendar');

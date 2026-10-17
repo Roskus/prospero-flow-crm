@@ -41,6 +41,10 @@ class Company extends Model
 
     const int DEFAULT_COMPANY = 1;
 
+    const string CALENDAR_VIEW_MONTH = 'month';
+
+    const string CALENDAR_VIEW_WEEK = 'week';
+
     protected $table = 'company';
 
     protected $fillable = [
@@ -65,6 +69,7 @@ class Company extends Model
         'vacation_days_per_year',
         'weekly_hours_full_time',
         'personal_days_per_year',
+        'dashboard_calendar_view',
     ];
 
     protected $hidden = [

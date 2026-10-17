@@ -56,6 +56,7 @@ class CompanySaveRequest extends FormRequest
             'vacation_days_per_year' => 'nullable|integer|min:0',
             'personal_days_per_year' => 'nullable|integer|min:0',
             'weekly_hours_full_time' => 'nullable|numeric|min:0',
+            'dashboard_calendar_view' => 'nullable|in:'.Company::CALENDAR_VIEW_MONTH.','.Company::CALENDAR_VIEW_WEEK,
             // FIX for CWE-434 (Unrestricted Upload) + CWE-79 (Stored XSS)
             // - Explicit MIME type allow-list (jpg, jpeg, png, webp, svg)
             // - Maximum file size of 2MB

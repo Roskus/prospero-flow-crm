@@ -1,5 +1,5 @@
 /**
- * @version 1.0.1
+ * @version 1.1.0
  * @type {{scheduleEvent: Window.Calendar.scheduleEvent, save: Window.Calendar.save}}
  */
 
@@ -13,6 +13,10 @@ window.Calendar = {
     scheduleEvent : function(startDate)
     {
         document.getElementById('event_form').reset();
+        // Hidden inputs keep their value after reset(), clear the previously opened event
+        document.getElementById('calendar_event_id').value = '';
+        document.getElementById('guest_list').innerHTML = '';
+        $('#form_delete').removeClass("visible").addClass("invisible").removeAttr('action');
         let date = document.getElementById('date');
         date.value = startDate;
 
@@ -38,6 +42,7 @@ window.Calendar = {
             $('#calendar_event_id').val(calendarEvent.id);
 
             $('#title').val(calendarEvent.title);
+            $('#date').val((calendarEvent.start_date).match(regExDate)[0]);
 
             $('#end_date').val((calendarEvent.end_date).match(regExDate)[0]);
 
@@ -49,14 +54,8 @@ window.Calendar = {
             $('#meeting').val(calendarEvent.meeting);
             $('#address').val(calendarEvent.address);
 
-            let guest_list = $("#guest_list");
-            for(let i = 0; i < calendarEvent.guests.length; i++) {
-                let option = document.createElement("option");
-                let guest = calendarEvent.guests[i];
-                option.textContent = guest;
-                option.value = guest;
-                guest_list.append(option);
-            }
+            document.getElementById('guest_list').innerHTML = '';
+            (calendarEvent.guests || []).forEach((guest) => Calendar.appendGuest(guest));
 
             myModal.show();
         }).catch((error) => {
@@ -65,13 +64,55 @@ window.Calendar = {
     },
     addGuest: function ()
     {
-        let guest = $("#guest").val();
-        if(guest != '') {
-            let guest_list = $("#guest_list");
-            let option = document.createElement("option");
-            option.textContent = guest;
-            option.value = guest;
-            guest_list.append(option);
+        let input = document.getElementById('guest');
+        let guest = input.value.trim();
+
+        if (guest === '' || !input.checkValidity()) {
+            input.reportValidity();
+            return;
         }
+
+        Calendar.appendGuest(guest);
+        input.value = '';
+        input.focus();
+    },
+    appendGuest: function (guest)
+    {
+        let list = document.getElementById('guest_list');
+        let alreadyAdded = Array.from(list.querySelectorAll('input[name="guest_list[]"]'))
+            .some((hidden) => hidden.value.toLowerCase() === guest.toLowerCase());
+
+        if (alreadyAdded) {
+            return;
+        }
+
+        let item = document.createElement('li');
+        item.className = 'list-group-item d-flex justify-content-between align-items-center py-1';
+
+        let label = document.createElement('span');
+        label.textContent = guest;
+
+        let hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.name = 'guest_list[]';
+        hidden.value = guest;
+
+        let remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'btn btn-sm btn-link text-danger p-0';
+        remove.innerHTML = '<i class="las la-times"></i>';
+        remove.addEventListener('click', () => item.remove());
+
+        item.append(label, hidden, remove);
+        list.append(item);
     }
 }
+
+document.getElementById('event_form').addEventListener('submit', () => {
+    let pendingGuest = document.getElementById('guest');
+
+    if (pendingGuest.value.trim() !== '') {
+        Calendar.appendGuest(pendingGuest.value.trim());
+        pendingGuest.value = '';
+    }
+});

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Lead;
 
+use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Message extends Model
 {
@@ -27,6 +29,13 @@ class Message extends Model
 
     protected $with = ['author'];
 
+    /**
+     * Adding a message counts as an interaction with the lead.
+     *
+     * @var list<string>
+     */
+    protected $touches = ['lead'];
+
     protected static function boot()
     {
         parent::boot();
@@ -35,6 +44,11 @@ class Message extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('created_at', 'desc');
         });
+    }
+
+    public function lead(): BelongsTo
+    {
+        return $this->belongsTo(Lead::class);
     }
 
     public function author()

@@ -190,6 +190,24 @@
         </div>
     </div>
 
+    <div class="card mb-2">
+        <div class="card-header">
+            <span class="card-title">{{ __('Dashboard') }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label for="dashboard_calendar_view" class="label-control">{{ __('Calendar view') }}</label>
+                    <select name="dashboard_calendar_view" id="dashboard_calendar_view" class="form-select">
+                        @foreach([\App\Models\Company::CALENDAR_VIEW_MONTH => __('Monthly'), \App\Models\Company::CALENDAR_VIEW_WEEK => __('Weekly')] as $calendarView => $calendarViewLabel)
+                            <option value="{{ $calendarView }}" @selected(old('dashboard_calendar_view', $company->dashboard_calendar_view ?? \App\Models\Company::CALENDAR_VIEW_MONTH) === $calendarView)>{{ $calendarViewLabel }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <span class="card-title">{{ __('Customize') }}</span>

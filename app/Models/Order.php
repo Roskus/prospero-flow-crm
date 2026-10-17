@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use OpenApi\Attributes as OAT;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
@@ -230,6 +231,36 @@ final class Order extends Model
     {
         return Order::where('company_id', $company_id)
             ->where('status', self::PENDING)->count();
+    }
+
+    /**
+     * Sales (confirmed and completed orders) of the current month compared with the previous one.
+     *
+     * @return array{current_month_total: float, previous_month_total: float, change_percentage: float|null, current_month_orders: int, pending_orders: int}
+     */
+    public function getSalesSummary(int $companyId): array
+    {
+        $salesBetween = fn (Carbon $start, Carbon $end) => Order::withoutGlobalScope('orderCreated')
+            ->where('company_id', $companyId)
+            ->whereIn('status', [self::CONFIRMED, self::COMPLETED])
+            ->whereBetween('created_at', [$start, $end]);
+
+        $now = Carbon::now();
+        $previousMonth = $now->copy()->subMonthNoOverflow();
+
+        $currentMonthSales = $salesBetween($now->copy()->startOfMonth(), $now->copy()->endOfMonth());
+        $currentMonthTotal = (float) $currentMonthSales->clone()->sum('amount');
+        $previousMonthTotal = (float) $salesBetween($previousMonth->copy()->startOfMonth(), $previousMonth->copy()->endOfMonth())->sum('amount');
+
+        return [
+            'current_month_total' => $currentMonthTotal,
+            'previous_month_total' => $previousMonthTotal,
+            'change_percentage' => $previousMonthTotal > 0
+                ? round(($currentMonthTotal - $previousMonthTotal) / $previousMonthTotal * 100, 1)
+                : null,
+            'current_month_orders' => $currentMonthSales->count(),
+            'pending_orders' => $this->getPendingCount($companyId),
+        ];
     }
 
     public function getAllActiveByCompany(int $company_id)

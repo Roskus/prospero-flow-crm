@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">{{ __('Event') }}</h5>
                 <div class="d-flex justify-content-between align-items-center">
-                    <form method="POST" id="form_delete" class="invisible">
+                    <form method="POST" id="form_delete" class="invisible" onsubmit="return confirm('{{ __('Are you sure you want to delete this event?') }}')">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="id" class="event_id">
@@ -75,14 +75,13 @@
                                     <span class="input-group-text" id="basic-addon1">
                                         <i class="las la-user-plus"></i>
                                     </span>
-                                    <input type="text" class="form-control" name="guest" id="guest">
-                                    <a class="input-group-text btn btn-primary" onclick="Calendar.addGuest()">
+                                    <input type="email" class="form-control" id="guest" placeholder="email@example.com"
+                                           onkeydown="if (event.key === 'Enter') { event.preventDefault(); Calendar.addGuest(); }">
+                                    <button type="button" class="btn btn-primary" onclick="Calendar.addGuest()" title="{{ __('Add guest') }}">
                                         <i class="las la-plus-circle"></i>
-                                    </a>
+                                    </button>
                                 </div>
-                                <select name="guest_list[]" id="guest_list" multiple class="form-control">
-
-                                </select>
+                                <ul id="guest_list" class="list-group mb-2"></ul>
                             </div>
                         </div>
                         <div class="row">

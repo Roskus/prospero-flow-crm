@@ -36,6 +36,7 @@ class CompanyRepository
         $company->vacation_days_per_year = (int) ($data['vacation_days_per_year'] ?? $company->vacation_days_per_year ?? 20);
         $company->personal_days_per_year = (int) ($data['personal_days_per_year'] ?? $company->personal_days_per_year ?? 2);
         $company->weekly_hours_full_time = (float) ($data['weekly_hours_full_time'] ?? $company->weekly_hours_full_time ?? 37.00);
+        $company->dashboard_calendar_view = $data['dashboard_calendar_view'] ?? $company->dashboard_calendar_view ?? Company::CALENDAR_VIEW_MONTH;
         $company->status = isset($data['status']) ? (int) $data['status'] : ($company->status ?? Company::ACTIVE);
         $company->updated_at = now();
         $company->save();
