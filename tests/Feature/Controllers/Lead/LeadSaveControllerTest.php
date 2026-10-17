@@ -92,4 +92,42 @@ class LeadSaveControllerTest extends TestCase
         $response->assertSessionHasErrors('country_id');
         $this->assertSame('es', $lead->fresh()->country_id);
     }
+
+    #[Test]
+    public function it_normalizes_formatted_phone_numbers(): void
+    {
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+        $data = $lead->toArray();
+        $data['tags'] = 'one, two';
+        $data['phone'] = '+507 214-4700';
+        $data['phone2'] = '(507) 214.4701';
+        $data['mobile'] = '+34 600 123 456';
+
+        $response = $this->post('lead/save', $data);
+
+        $response->assertSessionHasNoErrors();
+        $lead = $lead->fresh();
+        $this->assertSame('5072144700', $lead->phone);
+        $this->assertSame('5072144701', $lead->phone2);
+        $this->assertSame('34600123456', $lead->mobile);
+    }
+
+    #[Test]
+    public function it_rejects_phone_numbers_longer_than_fifteen_digits(): void
+    {
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+        $data = $lead->toArray();
+        $data['tags'] = 'one, two';
+        $data['phone'] = '+1234 5678 9012 3456';
+
+        $response = $this->post('lead/save', $data);
+
+        $response->assertSessionHasErrors('phone');
+    }
 }

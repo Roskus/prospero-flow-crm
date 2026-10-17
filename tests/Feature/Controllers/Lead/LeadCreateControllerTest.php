@@ -24,4 +24,14 @@ class LeadCreateControllerTest extends TestCase
         $response->assertSee(__('Status'));
         $response->assertSee(__('Seller'));
     }
+
+    #[Test]
+    public function it_keeps_tags_from_old_input_after_validation_error(): void
+    {
+        $response = $this->withSession(['_old_input' => ['tags' => 'vip,panama']])
+            ->get('/lead/create');
+
+        $response->assertOk();
+        $response->assertSee('vip,panama');
+    }
 }

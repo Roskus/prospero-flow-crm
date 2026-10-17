@@ -98,4 +98,42 @@ class CustomerSaveControllerTest extends TestCase
         $response->assertSessionHasErrors('country_id');
         $this->assertSame('es', $customer->fresh()->country_id);
     }
+
+    #[Test]
+    public function it_normalizes_formatted_phone_numbers(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+        $data = $customer->toArray();
+        $data['tags'] = 'one, two';
+        $data['phone'] = '+507 214-4700';
+        $data['phone2'] = '(507) 214.4701';
+        $data['mobile'] = '+34 600 123 456';
+
+        $response = $this->post('/customer/save', $data);
+
+        $response->assertSessionHasNoErrors();
+        $customer = $customer->fresh();
+        $this->assertSame('5072144700', $customer->phone);
+        $this->assertSame('5072144701', $customer->phone2);
+        $this->assertSame('34600123456', $customer->mobile);
+    }
+
+    #[Test]
+    public function it_rejects_phone_numbers_longer_than_fifteen_digits(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+        $data = $customer->toArray();
+        $data['tags'] = 'one, two';
+        $data['phone'] = '+1234 5678 9012 3456';
+
+        $response = $this->post('/customer/save', $data);
+
+        $response->assertSessionHasErrors('phone');
+    }
 }

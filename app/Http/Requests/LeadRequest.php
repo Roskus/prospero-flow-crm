@@ -55,9 +55,9 @@ class LeadRequest extends FormRequest
         }
 
         $this->merge([
-            'phone' => ! empty($this->input('phone')) ? str_replace(['-', '', '(', ')', '.'], '', $this->input('phone')) : null,
-            'phone2' => ! empty($this->input('phone2')) ? str_replace(['-', '', '(', ')', '.'], '', $this->input('phone2')) : null,
-            'mobile' => ! empty($this->input('mobile')) ? str_replace(['-', '', '(', ')', '.'], '', $this->input('mobile')) : null,
+            'phone' => ! empty($this->input('phone')) ? preg_replace('/\D/', '', (string) $this->input('phone')) : null,
+            'phone2' => ! empty($this->input('phone2')) ? preg_replace('/\D/', '', (string) $this->input('phone2')) : null,
+            'mobile' => ! empty($this->input('mobile')) ? preg_replace('/\D/', '', (string) $this->input('mobile')) : null,
             'country_id' => $countryInput,
         ]);
 

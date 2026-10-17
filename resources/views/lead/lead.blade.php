@@ -302,7 +302,7 @@
                         <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
                         <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2"
                                   class="form-control form-control-lg">
-                            {{ (!empty($lead->tags)) ? implode(',', $lead->tags) : '' }}
+                            {{ old('tags', !empty($lead->tags) ? implode(',', $lead->tags) : '') }}
                         </textarea>
                     </div>
                     <div class="col mt-2">
