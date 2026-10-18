@@ -6,35 +6,24 @@ namespace App\Http\Controllers\Lead;
 
 use App\Http\Controllers\MainController;
 use App\Models\Lead;
+use App\Services\CsvExportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class LeadExportController extends MainController
 {
-    public function export(Request $request)
+    public function __construct(private CsvExportService $csvExportService) {}
+
+    public function export(Request $request): StreamedResponse
     {
-        $separator = ';';
         $lead = new Lead;
         $fileName = 'leads_'.Auth::user()->company->name.'_'.date('Ymd_His').'.csv';
         $leads = Lead::where('company_id', Auth::user()->company_id)->get();
-        $headers = [
-            'Content-type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=$fileName",
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0',
-        ];
 
         $columns = array_merge(['id'], $lead->getFillable(), ['created_at', 'updated_at']);
-        $rowHeaders = implode($separator, $columns);
-        $data = $leads->toArray();
 
-        $content = $rowHeaders."\n";
-        foreach ($data as $row) {
-
-            $line = [];
-
+        $rows = array_map(function (array $row): array {
             $row['tags'] = is_array($row['tags']) ? implode(separator: ',', array: $row['tags']) : '';
             $row['notes'] = is_null($row['notes']) ? null : str_replace(["\r", "\n"], '-', $row['notes']);
             $row['country_id'] = $row['country']['id'] ?? null;
@@ -42,16 +31,9 @@ class LeadExportController extends MainController
             $row['industry_id'] = $row['industry']['id'] ?? null;
             $row['company_id'] = $row['company']['id'] ?? null;
 
-            foreach ($columns as $column) {
-                $line[] = $row[$column] ?? '';
-            }
+            return $row;
+        }, $leads->toArray());
 
-            $line = implode($separator, $line);
-            $content = $content.$line."\n";
-        }
-
-        Storage::disk('local')->put($fileName, $content);
-
-        return Storage::download($fileName, null, $headers);
+        return $this->csvExportService->download($fileName, $columns, $rows);
     }
 }

