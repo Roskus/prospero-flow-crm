@@ -30,6 +30,9 @@ class UserReadController
         $user = null;
         try {
             $user = User::where('company_id', Auth::user()->company_id)->where('id', $id)->first();
+            if ($user && ! Auth::user()->canSeeBankDetails()) {
+                $user->makeHidden('iban');
+            }
             $status = 200;
         } catch (ModelNotFoundException $e) {
             $status = 404;

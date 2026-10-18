@@ -139,10 +139,12 @@
                     <label for="weekly_hours_override" class="control-label">{{ __('Weekly hours') }}</label>
                     <input type="number" step="0.5" name="weekly_hours_override" id="weekly_hours_override" value="{{ $user->weekly_hours_override }}" class="form-control form-control-lg" placeholder="{{ $user->company ? __('Default') . ': ' . $user->company->weekly_hours_full_time : '' }}">
                 </div>
+                @if(Auth::user()->canSeeBankDetails())
                 <div class="col-md-3">
                     <label for="iban" class="control-label">{{ __('IBAN') }}</label>
                     <input type="text" name="iban" id="iban" value="{{ $user->iban }}" maxlength="34" class="form-control form-control-lg" placeholder="ES0000000000000000000000">
-            </div>
+                </div>
+                @endif
         </div>
     </div>
 </div>

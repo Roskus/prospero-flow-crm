@@ -207,9 +207,9 @@ Route::middleware(['api'])->group(function () {
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {
-        Route::post('logout', [LoginController::class, 'logout']);
+        Route::post('logout', [LoginController::class, 'logout'])->middleware(['auth:api']);
         Route::post('refresh', [LoginController::class, 'refresh']);
-        Route::post('me', [LoginController::class, 'me']);
+        Route::post('me', [LoginController::class, 'me'])->middleware(['auth:api']);
     });
 });
 

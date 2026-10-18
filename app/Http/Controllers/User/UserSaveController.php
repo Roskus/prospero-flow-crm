@@ -38,7 +38,9 @@ class UserSaveController extends MainController
         $user->hire_date = $request->hire_date;
         $user->is_employee = $request->boolean('is_employee', true);
         $user->manager_id = $request->manager_id;
-        $user->iban = $request->iban;
+        if ($request->has('iban') && Auth::user()->canSeeBankDetails()) {
+            $user->iban = $request->iban;
+        }
         $user->vacation_days_override = $request->vacation_days_override;
         $user->weekly_hours_override = $request->weekly_hours_override;
         if ($request->timezone) {

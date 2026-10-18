@@ -130,6 +130,14 @@ class User extends Authenticatable implements JWTSubject
         );
     }
 
+    /**
+     * IBANs are payroll data: only users who manage payroll may see other users' bank details.
+     */
+    public function canSeeBankDetails(): bool
+    {
+        return $this->can('read payroll');
+    }
+
     public function getAllActiveByCompany(int $company_id)
     {
         return User::where('company_id', $company_id)->get();

@@ -30,6 +30,10 @@ class UserListController
         $count = User::where('company_id', Auth::user()->company_id)->count();
         $users = User::where('company_id', Auth::user()->company_id)->get();
 
+        if (! Auth::user()->canSeeBankDetails()) {
+            $users->makeHidden('iban');
+        }
+
         return response()->json(['count' => $count, 'users' => $users]);
     }
 }
