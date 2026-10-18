@@ -294,5 +294,9 @@
     "Totals for the selected filters" : "Totals for the selected filters",
     "The selected type is not valid." : "The selected type is not valid.",
     "The selected status is not valid." : "The selected status is not valid.",
-    "The selected category is not valid." : "The selected category is not valid."
+    "The selected category is not valid." : "The selected category is not valid.",
+    "Export PDF" : "Export PDF",
+    "Indicator" : "Indicator",
+    "Change" : "Change",
+    "Generated on" : "Generated on"
 }

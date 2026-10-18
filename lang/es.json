@@ -334,5 +334,9 @@
     "Totals for the selected filters": "Totales de los filtros seleccionados",
     "The selected type is not valid.": "El tipo seleccionado no es válido.",
     "The selected status is not valid.": "El estado seleccionado no es válido.",
-    "The selected category is not valid.": "La categoría seleccionada no es válida."
+    "The selected category is not valid.": "La categoría seleccionada no es válida.",
+    "Export PDF": "Exportar PDF",
+    "Indicator": "Indicador",
+    "Change": "Variación",
+    "Generated on": "Generado el"
 }

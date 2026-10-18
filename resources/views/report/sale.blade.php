@@ -26,10 +26,14 @@
                 </select>
             </div>
         @endif
-        <div class="col-12 col-md-2 d-grid">
-            <button type="submit" class="btn btn-primary">
+        <div class="col-12 col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-primary flex-fill">
                 <i class="las la-filter"></i> {{ __('Filter') }}
             </button>
+            <a href="{{ url('/report/sale/pdf') }}?{{ http_build_query(array_filter(['from' => $from->format('Y-m-d'), 'to' => $to->format('Y-m-d'), 'seller_id' => $can_see_all_sellers ? $seller_id : null])) }}"
+               class="btn btn-outline-danger" id="sales-report-pdf" title="{{ __('Export PDF') }}">
+                <i class="las la-file-pdf"></i> <span class="d-md-none">{{ __('Export PDF') }}</span>
+            </a>
         </div>
     </form>
 
@@ -39,15 +43,6 @@
         <span class="ms-2"><span class="badge bg-primary">&nbsp;</span> {{ __('Current period') }}</span>
         <span class="ms-2"><span class="badge bg-secondary">&nbsp;</span> {{ __('Previous period') }}</span>
     </p>
-
-    @php
-        $kpis = [
-            'total' => ['label' => __('Total sales'), 'currency' => true, 'higher_is_better' => true],
-            'orders' => ['label' => __('Orders'), 'currency' => false, 'higher_is_better' => true],
-            'average_ticket' => ['label' => __('Average ticket'), 'currency' => true, 'higher_is_better' => true],
-            'pending_orders' => ['label' => __('Pending orders'), 'currency' => false, 'higher_is_better' => false],
-        ];
-    @endphp
 
     <div class="row" id="sales-report-kpis">
         @foreach($kpis as $key => $kpi)

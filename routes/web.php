@@ -17,6 +17,7 @@ use App\Http\Controllers\Region\RegionGetAjaxController;
 use App\Http\Controllers\Report\ReportEmailController;
 use App\Http\Controllers\Report\ReportIndexController;
 use App\Http\Controllers\Report\ReportSaleController;
+use App\Http\Controllers\Report\ReportSalePdfController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Transaction\TransactionAttachmentDeleteController;
 use App\Http\Controllers\Transaction\TransactionCreateController;
@@ -130,6 +131,7 @@ Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
 // Report
 Route::get('/report', [ReportIndexController::class, 'index'])->can('read report');
 Route::get('/report/sale', [ReportSaleController::class, 'index'])->can('read report');
+Route::get('/report/sale/pdf', [ReportSalePdfController::class, 'download'])->can('read report');
 Route::get('/report/email', [ReportEmailController::class, 'index'])->can('read report');
 
 // Web-form
