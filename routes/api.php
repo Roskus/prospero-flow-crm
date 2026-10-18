@@ -89,8 +89,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+| routes are loaded from bootstrap/app.php with the "/api" prefix and
+| are assigned to the "api" middleware group, which is rate limited.
 |
 */
 
@@ -216,7 +216,7 @@ Route::middleware(['api'])->group(function () {
 /** UNPROTECTED ROUTES */
 
 // Login
-Route::post('/auth/login', [LoginController::class, 'login']);
+Route::post('/auth/login', [LoginController::class, 'login'])->middleware('throttle:login');
 
 // OpenApi Json Resource
 Route::group(['middleware' => 'web'], function () {

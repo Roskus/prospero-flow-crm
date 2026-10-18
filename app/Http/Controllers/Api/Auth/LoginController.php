@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\SecurityLogger;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OAT;
 
 class LoginController extends Controller
 {
+    public function __construct(private SecurityLogger $securityLogger) {}
+
     #[OAT\Post(
         path: '/auth/login',
         summary: 'Login',
@@ -29,6 +32,7 @@ class LoginController extends Controller
         responses: [
             new OAT\Response(response: 200, description: 'Success'),
             new OAT\Response(response: 401, description: 'Unauthorized or wrong credentials'),
+            new OAT\Response(response: 429, description: 'Too many login attempts'),
         ]
     )]
     public function login(Request $request): JsonResponse
@@ -42,6 +46,10 @@ class LoginController extends Controller
         $token = auth('api')->attempt($credentials);
 
         if (empty($token)) {
+            $this->securityLogger->log('api_login_failed', [
+                'attempted_email' => $credentials['email'],
+            ]);
+
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
