@@ -11,7 +11,7 @@ class UserDeleteRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Auth::user()?->hasRole('SuperAdmin') ?? false;
+        return Auth::user()?->can('delete user') ?? false;
     }
 
     public function rules(): array

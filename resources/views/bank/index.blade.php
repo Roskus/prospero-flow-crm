@@ -74,9 +74,15 @@
                                     <a href="{{ url('bank/update/' . $bank->uuid) }}" class="btn btn-warning btn-sm">
                                         <i class="las la-pen text-white"></i>
                                     </a>
-                                    <a href="{{ url('bank/delete/' . $bank->uuid) }}" class="btn btn-danger btn-sm">
-                                        <i class="las la-trash-alt"></i>
-                                    </a>
+                                    <form method="POST" action="{{ url('bank/delete/' . $bank->uuid) }}"
+                                          class="d-inline"
+                                          onsubmit="return confirm('{{ __('Are you sure you want to delete') }}?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" title="{{ __('Delete') }}">
+                                            <i class="las la-trash-alt"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

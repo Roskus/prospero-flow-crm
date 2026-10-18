@@ -15,7 +15,7 @@ class BrandRepository
             $brand = new Brand;
             $brand->created_at = now();
         } else {
-            $brand = Brand::find($data['id']);
+            $brand = Brand::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
         $brand->name = $data['name'];
         $brand->company_id = Auth::user()->company_id;

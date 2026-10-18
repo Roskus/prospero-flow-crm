@@ -97,18 +97,18 @@ use Illuminate\Support\Facades\Route;
 /** PROTECTED ROUTES */
 Route::middleware(['api'])->group(function () {
     // Brand
-    Route::get('/brand', [BrandListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/brand', [BrandCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::get('/brand/{id}', [BrandReadController::class, 'read'])->middleware(['auth:api']);
-    Route::put('/brand/{id}', [BrandUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/brand', [BrandListController::class, 'index'])->middleware(['auth:api'])->can('read brand');
+    Route::post('/brand', [BrandCreateController::class, 'create'])->middleware(['auth:api'])->can('create brand');
+    Route::get('/brand/{id}', [BrandReadController::class, 'read'])->middleware(['auth:api'])->can('read brand');
+    Route::put('/brand/{id}', [BrandUpdateController::class, 'update'])->middleware(['auth:api'])->can('update brand');
+    Route::delete('/brand/{id}', [BrandDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete brand');
 
     // Lead
-    Route::get('lead', [LeadListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('lead/{id}', [LeadReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('/lead', [LeadCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/lead/{id}', [LeadUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('lead', [LeadListController::class, 'index'])->middleware(['auth:api'])->can('read lead');
+    Route::get('lead/{id}', [LeadReadController::class, 'read'])->middleware(['auth:api'])->can('read lead');
+    Route::post('/lead', [LeadCreateController::class, 'create'])->middleware(['auth:api'])->can('create lead');
+    Route::put('/lead/{id}', [LeadUpdateController::class, 'update'])->middleware(['auth:api'])->can('update lead');
+    Route::delete('/lead/{id}', [LeadDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete lead');
 
     // Company
     Route::get('company', [CompanyListController::class, 'index'])->middleware(['auth:api']);
@@ -118,92 +118,92 @@ Route::middleware(['api'])->group(function () {
     Route::delete('/company/{id}', [CompanyDeleteController::class, 'delete'])->middleware(['auth:api']);
 
     // Customer
-    Route::get('customer', [CustomerListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('customer/{id}', [CustomerReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('customer', [CustomerCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/customer/{id}', [CustomerUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/customer/{id}', [CustomerDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('customer', [CustomerListController::class, 'index'])->middleware(['auth:api'])->can('read customer');
+    Route::get('customer/{id}', [CustomerReadController::class, 'read'])->middleware(['auth:api'])->can('read customer');
+    Route::post('customer', [CustomerCreateController::class, 'create'])->middleware(['auth:api'])->can('create customer');
+    Route::put('/customer/{id}', [CustomerUpdateController::class, 'update'])->middleware(['auth:api'])->can('update customer');
+    Route::delete('/customer/{id}', [CustomerDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete customer');
 
     // Product
-    Route::get('/product', [ProductListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/product/{id}', [ProductReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('product', [ProductCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/product/{id}', [ProductUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('product/{id}', [ProductDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/product', [ProductListController::class, 'index'])->middleware(['auth:api'])->can('read product');
+    Route::get('/product/{id}', [ProductReadController::class, 'read'])->middleware(['auth:api'])->can('read product');
+    Route::post('product', [ProductCreateController::class, 'create'])->middleware(['auth:api'])->can('create product');
+    Route::put('/product/{id}', [ProductUpdateController::class, 'update'])->middleware(['auth:api'])->can('update product');
+    Route::delete('product/{id}', [ProductDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete product');
 
     // Contact
-    Route::get('/contact', [ContactListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/contact', [ContactCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/contact/{id}', [ContactUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/contact/{id}', [ContactDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/contact', [ContactListController::class, 'index'])->middleware(['auth:api'])->can('read contact');
+    Route::post('/contact', [ContactCreateController::class, 'create'])->middleware(['auth:api'])->can('create contact');
+    Route::put('/contact/{id}', [ContactUpdateController::class, 'update'])->middleware(['auth:api'])->can('update contact');
+    Route::delete('/contact/{id}', [ContactDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete contact');
 
     // User
-    Route::get('/user', [UserListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/user', [UserCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::get('/user/{id}', [UserReadController::class, 'read'])->middleware(['auth:api']);
-    Route::put('/user/{id}', [UserUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/user/{id}', [UserDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/user', [UserListController::class, 'index'])->middleware(['auth:api'])->can('read user');
+    Route::post('/user', [UserCreateController::class, 'create'])->middleware(['auth:api'])->can('create user');
+    Route::get('/user/{id}', [UserReadController::class, 'read'])->middleware(['auth:api'])->can('read user');
+    Route::put('/user/{id}', [UserUpdateController::class, 'update'])->middleware(['auth:api'])->can('update user');
+    Route::delete('/user/{id}', [UserDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete user');
 
     // Supplier
-    Route::get('/supplier', [SupplierListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/supplier/{id}', [SupplierReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('supplier', [SupplierCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/supplier/{id}', [SupplierUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/supplier/{id}', [SupplierDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/supplier', [SupplierListController::class, 'index'])->middleware(['auth:api'])->can('read supplier');
+    Route::get('/supplier/{id}', [SupplierReadController::class, 'read'])->middleware(['auth:api'])->can('read supplier');
+    Route::post('supplier', [SupplierCreateController::class, 'create'])->middleware(['auth:api'])->can('create supplier');
+    Route::put('/supplier/{id}', [SupplierUpdateController::class, 'update'])->middleware(['auth:api'])->can('update supplier');
+    Route::delete('/supplier/{id}', [SupplierDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete supplier');
 
     // Order
-    Route::get('/order', [OrderListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/order', [OrderCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::get('/order/{id}', [OrderReadController::class, 'read'])->middleware(['auth:api']);
-    Route::put('/order/{id}', [OrderUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/order/{id}', [OrderDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/order', [OrderListController::class, 'index'])->middleware(['auth:api'])->can('read order');
+    Route::post('/order', [OrderCreateController::class, 'create'])->middleware(['auth:api'])->can('create order');
+    Route::get('/order/{id}', [OrderReadController::class, 'read'])->middleware(['auth:api'])->can('read order');
+    Route::put('/order/{id}', [OrderUpdateController::class, 'update'])->middleware(['auth:api'])->can('update order');
+    Route::delete('/order/{id}', [OrderDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete order');
 
     // OrderItem
-    Route::post('/order-item', [OrderItemCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::get('/order-item/{id}', [OrderItemReadController::class, 'read'])->middleware(['auth:api']);
-    Route::put('/order-item/{id}', [OrderItemUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/order-item/{id}', [OrderItemDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::post('/order-item', [OrderItemCreateController::class, 'create'])->middleware(['auth:api'])->can('create order');
+    Route::get('/order-item/{id}', [OrderItemReadController::class, 'read'])->middleware(['auth:api'])->can('read order');
+    Route::put('/order-item/{id}', [OrderItemUpdateController::class, 'update'])->middleware(['auth:api'])->can('update order');
+    Route::delete('/order-item/{id}', [OrderItemDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete order');
 
     // Ticket
-    Route::get('/ticket', [TicketListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/ticket', [TicketCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::get('/ticket/{id}', [TicketReadController::class, 'read'])->middleware(['auth:api']);
-    Route::delete('/ticket/{id}', [TicketDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/ticket', [TicketListController::class, 'index'])->middleware(['auth:api'])->can('read ticket');
+    Route::post('/ticket', [TicketCreateController::class, 'create'])->middleware(['auth:api'])->can('create ticket');
+    Route::get('/ticket/{id}', [TicketReadController::class, 'read'])->middleware(['auth:api'])->can('read ticket');
+    Route::delete('/ticket/{id}', [TicketDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete ticket');
 
     // Transaction (Accounting)
-    Route::get('/transaction', [TransactionListController::class, 'index'])->middleware(['auth:api']);
-    Route::post('/transaction', [TransactionCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::get('/transaction/{id}', [TransactionReadController::class, 'read'])->middleware(['auth:api']);
-    Route::put('/transaction/{id}', [TransactionUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/transaction/{id}', [TransactionDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/transaction', [TransactionListController::class, 'index'])->middleware(['auth:api'])->can('read accounting');
+    Route::post('/transaction', [TransactionCreateController::class, 'create'])->middleware(['auth:api'])->can('create accounting');
+    Route::get('/transaction/{id}', [TransactionReadController::class, 'read'])->middleware(['auth:api'])->can('read accounting');
+    Route::put('/transaction/{id}', [TransactionUpdateController::class, 'update'])->middleware(['auth:api'])->can('update accounting');
+    Route::delete('/transaction/{id}', [TransactionDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete accounting');
 
     // BankAccount
-    Route::get('/bank-account', [BankAccountListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/bank-account/{id}', [BankAccountReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('/bank-account', [BankAccountCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/bank-account/{id}', [BankAccountUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/bank-account/{id}', [BankAccountDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/bank-account', [BankAccountListController::class, 'index'])->middleware(['auth:api'])->can('read accounting');
+    Route::get('/bank-account/{id}', [BankAccountReadController::class, 'read'])->middleware(['auth:api'])->can('read accounting');
+    Route::post('/bank-account', [BankAccountCreateController::class, 'create'])->middleware(['auth:api'])->can('create accounting');
+    Route::put('/bank-account/{id}', [BankAccountUpdateController::class, 'update'])->middleware(['auth:api'])->can('update accounting');
+    Route::delete('/bank-account/{id}', [BankAccountDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete accounting');
 
     // BankCard
-    Route::get('/bank-card', [BankCardListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/bank-card/{id}', [BankCardReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('/bank-card', [BankCardCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/bank-card/{id}', [BankCardUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/bank-card/{id}', [BankCardDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/bank-card', [BankCardListController::class, 'index'])->middleware(['auth:api'])->can('read accounting');
+    Route::get('/bank-card/{id}', [BankCardReadController::class, 'read'])->middleware(['auth:api'])->can('read accounting');
+    Route::post('/bank-card', [BankCardCreateController::class, 'create'])->middleware(['auth:api'])->can('create accounting');
+    Route::put('/bank-card/{id}', [BankCardUpdateController::class, 'update'])->middleware(['auth:api'])->can('update accounting');
+    Route::delete('/bank-card/{id}', [BankCardDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete accounting');
 
     // Calendar
-    Route::get('/calendar', [CalendarListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/calendar/{id}', [CalendarReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('/calendar', [CalendarCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/calendar/{id}', [CalendarUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/calendar/{id}', [CalendarDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/calendar', [CalendarListController::class, 'index'])->middleware(['auth:api'])->can('read calendar');
+    Route::get('/calendar/{id}', [CalendarReadController::class, 'read'])->middleware(['auth:api'])->can('read calendar');
+    Route::post('/calendar', [CalendarCreateController::class, 'create'])->middleware(['auth:api'])->can('create calendar');
+    Route::put('/calendar/{id}', [CalendarUpdateController::class, 'update'])->middleware(['auth:api'])->can('update calendar');
+    Route::delete('/calendar/{id}', [CalendarDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete calendar');
 
     // Email
-    Route::get('/email', [EmailListController::class, 'index'])->middleware(['auth:api']);
-    Route::get('/email/{id}', [EmailReadController::class, 'read'])->middleware(['auth:api']);
-    Route::post('/email', [EmailCreateController::class, 'create'])->middleware(['auth:api']);
-    Route::put('/email/{id}', [EmailUpdateController::class, 'update'])->middleware(['auth:api']);
-    Route::delete('/email/{id}', [EmailDeleteController::class, 'delete'])->middleware(['auth:api']);
+    Route::get('/email', [EmailListController::class, 'index'])->middleware(['auth:api'])->can('read email');
+    Route::get('/email/{id}', [EmailReadController::class, 'read'])->middleware(['auth:api'])->can('read email');
+    Route::post('/email', [EmailCreateController::class, 'create'])->middleware(['auth:api'])->can('create email');
+    Route::put('/email/{id}', [EmailUpdateController::class, 'update'])->middleware(['auth:api'])->can('update email');
+    Route::delete('/email/{id}', [EmailDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete email');
 
     /** AUTH ROUTES */
     Route::prefix('auth')->group(function () {

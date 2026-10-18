@@ -17,6 +17,8 @@ class UserDeleteController extends MainController
             ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
             ->findOrFail($id);
 
+        abort_if($user->hasRole('SuperAdmin') && ! Auth::user()->hasRole('SuperAdmin'), 403);
+
         $user->delete();
 
         return redirect('/user');

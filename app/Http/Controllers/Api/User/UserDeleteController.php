@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Models\Company;
+use App\Http\Requests\UserDeleteRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -23,18 +23,22 @@ class UserDeleteController
         responses: [
             new OAT\Response(response: 200, description: 'User deleted successfully'),
             new OAT\Response(response: 400, description: 'Bad request, please review the parameters'),
+            new OAT\Response(response: 403, description: 'Forbidden'),
+            new OAT\Response(response: 404, description: 'User not found'),
         ]
     )]
-    public function delete(Request $request, int $id) // @SuppressWarnings(S1172) - $request used for validation
+    public function delete(UserDeleteRequest $request, int $id): JsonResponse
     {
-        $user = User::find($id);
+        $user = User::query()
+            ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
+            ->find($id);
+
         if (! $user) {
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        // Ensure the user can only delete users from their own company, except for users from company with ID 1
-        if ($user->company_id !== (int) Auth::user()->company_id && (int) Auth::user()->company_id !== Company::DEFAULT_COMPANY) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        if ($user->hasRole('SuperAdmin') && ! Auth::user()->hasRole('SuperAdmin')) {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
 
         $user->delete();

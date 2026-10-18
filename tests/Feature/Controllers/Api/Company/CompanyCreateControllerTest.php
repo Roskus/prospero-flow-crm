@@ -51,7 +51,7 @@ class CompanyCreateControllerTest extends TestCase
     {
         $companyAdmin = User::factory()->create();
         $companyAdmin->assignRole('User');
-        $companyAdmin->givePermissionTo(Permission::create(['name' => 'create company', 'guard_name' => 'api']));
+        $companyAdmin->givePermissionTo(Permission::create(['name' => 'create company', 'guard_name' => 'web']));
 
         $response = $this->actingAs($companyAdmin, 'api')
             ->postJson('/api/company', [

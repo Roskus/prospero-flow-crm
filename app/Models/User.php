@@ -45,6 +45,11 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'user';
 
+    /**
+     * Roles and permissions are seeded for the web guard only; pin it so API (JWT) requests resolve them too.
+     */
+    protected $guard_name = 'web';
+
     protected $fillable = [
         'company_id',
         'manager_id',

@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class TicketCreateControllerTest extends TestCase
@@ -31,7 +32,7 @@ class TicketCreateControllerTest extends TestCase
     #[Test]
     public function it_can_create_a_ticket(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createTicketCreator();
         $this->actingAs($user, 'api');
 
         $response = $this->postJson('/api/ticket', $this->validPayload($user));
@@ -47,7 +48,7 @@ class TicketCreateControllerTest extends TestCase
     #[Test]
     public function it_forces_company_id_from_authenticated_user(): void
     {
-        $user = User::factory()->create();
+        $user = $this->createTicketCreator();
         $this->actingAs($user, 'api');
         $payload = $this->validPayload($user);
         $payload['company_id'] = 99999;
@@ -71,10 +72,57 @@ class TicketCreateControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_forbids_users_without_create_ticket_permission(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'api');
+
+        $response = $this->postJson('/api/ticket', $this->validPayload($user));
+
+        $response->assertForbidden();
+        $this->assertDatabaseMissing('ticket', ['title' => 'Test Ticket']);
+    }
+
+    #[Test]
+    public function it_rejects_customer_and_order_from_another_company(): void
+    {
+        $user = $this->createTicketCreator();
+        $this->actingAs($user, 'api');
+        $payload = $this->validPayload(User::factory()->create());
+
+        $response = $this->postJson('/api/ticket', $payload);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['customer_id', 'order_id']);
+    }
+
+    #[Test]
+    public function it_ignores_created_by_from_the_payload(): void
+    {
+        $user = $this->createTicketCreator();
+        $this->actingAs($user, 'api');
+        $payload = $this->validPayload($user);
+        $payload['created_by'] = $this->user->id;
+
+        $response = $this->postJson('/api/ticket', $payload);
+
+        $response->assertCreated();
+        $this->assertDatabaseHas('ticket', ['id' => $response->json('ticket.id'), 'created_by' => $user->id]);
+    }
+
+    #[Test]
     public function it_requires_authentication(): void
     {
         $response = $this->postJson('/api/ticket', []);
 
         $response->assertUnauthorized();
+    }
+
+    private function createTicketCreator(): User
+    {
+        $user = User::factory()->create();
+        $user->givePermissionTo(Permission::findOrCreate('create ticket', 'web'));
+
+        return $user;
     }
 }

@@ -129,7 +129,7 @@ class CompanyUpdateControllerTest extends TestCase
     {
         $companyAdmin = User::factory()->create();
         $companyAdmin->assignRole('User');
-        $companyAdmin->givePermissionTo(Permission::create(['name' => 'update company', 'guard_name' => 'api']));
+        $companyAdmin->givePermissionTo(Permission::create(['name' => 'update company', 'guard_name' => 'web']));
 
         return $companyAdmin;
     }

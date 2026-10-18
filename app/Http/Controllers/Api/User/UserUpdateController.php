@@ -44,6 +44,10 @@ class UserUpdateController
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
+        if ($user->hasRole('SuperAdmin') && ! Auth::user()->hasRole('SuperAdmin')) {
+            return response()->json(['message' => 'Forbidden'], Response::HTTP_FORBIDDEN);
+        }
+
         if (! empty($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         } else {

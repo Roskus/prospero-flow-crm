@@ -25,6 +25,6 @@ Route::post('/bank/save',
     [BankSaveController::class, 'save'])
     ->can('update bank');
 
-Route::get('/bank/delete/{uuid}',
+Route::delete('/bank/delete/{uuid}',
     [BankDeleteController::class, 'delete'])
     ->can('delete bank');

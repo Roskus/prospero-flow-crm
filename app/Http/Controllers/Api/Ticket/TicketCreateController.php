@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OAT;
 
 class TicketCreateController
@@ -33,10 +34,10 @@ class TicketCreateController
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'customer_id' => 'required|integer',
+            'customer_id' => ['required', 'integer', Rule::exists('customer', 'id')->where('company_id', Auth::user()->company_id)],
             'type' => 'required|string',
             'priority' => 'required|string',
-            'order_id' => 'required|integer',
+            'order_id' => ['required', 'integer', Rule::exists('order', 'id')->where('company_id', Auth::user()->company_id)],
             'status' => 'required|string',
         ]);
 
@@ -44,7 +45,7 @@ class TicketCreateController
             return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $ticket = Ticket::create(array_merge($request->all(), [
+        $ticket = Ticket::create(array_merge($validator->validated(), [
             'company_id' => Auth::user()->company_id,
             'created_by' => Auth::id(),
         ]));

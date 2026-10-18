@@ -24,4 +24,4 @@ Route::delete('/bank-account/delete/{id}', [BankAccountDeleteController::class, 
 Route::get('/bank-card/create/{bankAccountId}', [BankCardFormController::class, 'create'])->can('read bank');
 Route::get('/bank-card/edit/{id}', [BankCardFormController::class, 'edit'])->can('read bank');
 Route::post('/bank-card/save', [BankCardSaveController::class, 'save'])->can('read bank');
-Route::delete('/bank-card/delete/{id}', [BankCardDeleteController::class, 'delete'])->can('read bank');
+Route::delete('/bank-card/delete/{id}', [BankCardDeleteController::class, 'delete'])->can('delete bank');
