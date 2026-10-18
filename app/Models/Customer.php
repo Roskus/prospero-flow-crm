@@ -151,8 +151,10 @@ class Customer extends Prospect
 
     protected function applyFulltextSearch(Builder $query, string $search): Builder
     {
-        return $query->whereFullText(['name', 'business_name'], $search)
-            ->orWhere('tags', 'LIKE', "%$search%");
+        return $query->where(function (Builder $query) use ($search) {
+            $query->whereFullText(['name', 'business_name'], $search)
+                ->orWhere('tags', 'LIKE', "%$search%");
+        });
     }
 
     protected function applyBasicSearch(Builder $query, string $search): Builder

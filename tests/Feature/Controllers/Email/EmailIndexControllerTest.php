@@ -30,8 +30,8 @@ class EmailIndexControllerTest extends TestCase
     public function it_can_search_emails_index()
     {
         EmailTemplate::factory()->create();
-        $email = Email::factory()->create();
-        $email2 = Email::factory()->create();
+        $email = Email::factory()->create(['company_id' => $this->user->company_id]);
+        $email2 = Email::factory()->create(['company_id' => $this->user->company_id]);
 
         $response = $this->get('/email?search='.$email->subject);
         $response->assertStatus(200);

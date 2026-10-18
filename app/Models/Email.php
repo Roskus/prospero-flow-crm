@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Email\Attach;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -68,14 +69,18 @@ class Email extends Model
         return Email::orderBy('created_at', 'DESC')->get();
     }
 
+    public function searchByCompany(int $company_id, ?string $search = null): Builder
+    {
+        return Email::where('company_id', $company_id)
+            ->when(! empty($search), fn (Builder $query) => $query->where(function (Builder $query) use ($search) {
+                $query->where('to', 'LIKE', "%$search%")
+                    ->orWhere('subject', 'LIKE', "%$search%");
+            }));
+    }
+
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
-        if (empty($search)) {
-            $email = Email::where('company_id', $company_id);
-        } else {
-            $email = Email::where('to', 'LIKE', "%$search%")
-                ->orWhere('subject', 'LIKE', "%$search%");
-        }
+        $email = $this->searchByCompany($company_id, $search);
 
         if (is_array($filters)) {
             foreach ($filters as $key => $filter) {

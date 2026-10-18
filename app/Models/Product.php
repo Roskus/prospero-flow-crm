@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -91,14 +92,20 @@ class Product extends Model
         return Product::orderBy('name', 'asc')->get();
     }
 
+    public function searchByCompany(int $company_id, ?string $search = null): Builder
+    {
+        return Product::where('company_id', $company_id)
+            ->when(! empty($search), fn (Builder $query) => $query->where(function (Builder $query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orWhere('sku', 'LIKE', "%$search%");
+            }));
+    }
+
     public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
     {
-        $products = Product::with('category', 'brand')->where('company_id', '=', $company_id);
-        if (! empty($search)) {
-            $products->where('name', 'LIKE', "%$search%")
-                ->orWhere('sku', 'LIKE', "%$search%");
-        }
-
-        return $products->orderBy('name', 'asc')->paginate(10);
+        return $this->searchByCompany($company_id, $search)
+            ->with('category', 'brand')
+            ->orderBy('name', 'asc')
+            ->paginate(10);
     }
 }
