@@ -55,4 +55,33 @@ class UserSaveControllerTest extends TestCase
             'company_id' => $otherCompanyUser->company_id,
         ]);
     }
+
+    #[Test]
+    public function it_requires_a_password_when_creating_a_user(): void
+    {
+        $response = $this->from('/user/create')->post('/user/save', [
+            'first_name' => 'No',
+            'last_name' => 'Password',
+            'email' => 'no.password@example.com',
+            'lang' => 'es',
+        ]);
+
+        $response->assertSessionHasErrors(['password' => __('The password is required for new users.')]);
+        $this->assertDatabaseMissing('user', ['email' => 'no.password@example.com']);
+    }
+
+    #[Test]
+    public function it_rejects_a_password_confirmation_that_does_not_match(): void
+    {
+        $response = $this->from('/user/create')->post('/user/save', [
+            'first_name' => 'Wrong',
+            'last_name' => 'Confirmation',
+            'email' => 'wrong.confirmation@example.com',
+            'lang' => 'es',
+            'password' => 'initial-password',
+            'password_confirmation' => 'another-password',
+        ]);
+
+        $response->assertSessionHasErrors(['password' => __('The password confirmation does not match.')]);
+    }
 }

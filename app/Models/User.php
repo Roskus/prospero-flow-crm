@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use OpenApi\Attributes as OAT;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 #[OAT\Schema(
@@ -29,6 +31,7 @@ use Spatie\Permission\Traits\HasRoles;
         new OAT\Property(property: 'photo', description: 'Profile photo filename', type: 'string', example: 'profile.jpg'),
         new OAT\Property(property: 'lang', description: 'Language ISO code', type: 'string', example: 'es'),
         new OAT\Property(property: 'must_change_password', description: 'Whether the user must change their password on next login', type: 'boolean', example: false),
+        new OAT\Property(property: 'active', description: 'Inactive users cannot log in', type: 'boolean', example: true),
         new OAT\Property(property: 'timezone', description: 'Timezone of the user', type: 'string', example: 'UTC'),
         new OAT\Property(property: 'last_login_at', description: 'Last login date and time', type: 'string', format: 'date-time'),
         new OAT\Property(property: 'last_login_ip', description: 'Last login IP address', type: 'string'),
@@ -78,12 +81,20 @@ class User extends Authenticatable implements JWTSubject
         'deleted_at',
     ];
 
+    /**
+     * Same default as the database column, so new instances are active before being refreshed.
+     */
+    protected $attributes = [
+        'active' => true,
+    ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
         'password' => 'hashed',
         'is_employee' => 'boolean',
         'must_change_password' => 'boolean',
+        'active' => 'boolean',
         'hire_date' => 'date:Y-m-d',
     ];
 
@@ -128,6 +139,51 @@ class User extends Authenticatable implements JWTSubject
         return Attribute::make(
             get: fn (mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name'],
         );
+    }
+
+    /**
+     * Administrator roles: SuperAdmin is only assigned and managed by a SuperAdmin; CompanyAdmin also by
+     * another CompanyAdmin of the same company. Other roles (e.g. HR) can neither assign nor manage them.
+     */
+    public const array ADMINISTRATOR_ROLES = ['SuperAdmin', 'CompanyAdmin'];
+
+    public function isAdministrator(): bool
+    {
+        return $this->hasAnyRole(self::ADMINISTRATOR_ROLES);
+    }
+
+    /**
+     * SuperAdmin manages everyone. A CompanyAdmin manages anyone of its company but SuperAdmins; any other
+     * role only the non-administrators of its company.
+     */
+    public function canManageUser(User $user): bool
+    {
+        if ($this->hasRole('SuperAdmin')) {
+            return true;
+        }
+
+        if ((int) $user->company_id !== (int) $this->company_id || $user->hasRole('SuperAdmin')) {
+            return false;
+        }
+
+        return $this->hasRole('CompanyAdmin') || ! $user->isAdministrator();
+    }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function assignableRoles(): Collection
+    {
+        $forbiddenRoles = match (true) {
+            $this->hasRole('SuperAdmin') => [],
+            $this->hasRole('CompanyAdmin') => ['SuperAdmin'],
+            default => self::ADMINISTRATOR_ROLES,
+        };
+
+        return Role::query()
+            ->whereNotIn('name', $forbiddenRoles)
+            ->orderBy('name')
+            ->get();
     }
 
     /**

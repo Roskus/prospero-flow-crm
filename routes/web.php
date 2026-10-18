@@ -130,8 +130,8 @@ Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
 
 // Report
 Route::get('/report', [ReportIndexController::class, 'index'])->can('read report');
-Route::get('/report/sale', [ReportSaleController::class, 'index'])->can('read report');
-Route::get('/report/sale/pdf', [ReportSalePdfController::class, 'download'])->can('read report');
+Route::get('/report/sale', [ReportSaleController::class, 'index'])->can('read sales report');
+Route::get('/report/sale/pdf', [ReportSalePdfController::class, 'download'])->can('read sales report');
 Route::get('/report/email', [ReportEmailController::class, 'index'])->can('read report');
 
 // Web-form

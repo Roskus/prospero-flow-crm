@@ -16,7 +16,7 @@ class ReportSaleRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Auth::user()?->can('read report') ?? false;
+        return Auth::user()?->can('read sales report') ?? false;
     }
 
     /**

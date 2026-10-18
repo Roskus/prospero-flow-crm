@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -15,7 +17,13 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->hasRole('SuperAdmin');
+        if (empty($this->input('id'))) {
+            return Auth::user()->can('create user');
+        }
+
+        $user = User::find($this->input('id'));
+
+        return $user !== null && Auth::user()->can('update user') && Auth::user()->canManageUser($user);
     }
 
     /**
@@ -33,7 +41,21 @@ class UserRequest extends FormRequest
             'photo' => 'nullable|string|max:255',
             'lang' => 'required|string|max:2',
             'timezone' => 'nullable|timezone',
-            'password' => 'nullable|string|min:8', // Optional, only if user wants to update password
+            'password' => ['required_without:id', 'nullable', 'string', 'min:8', 'confirmed'], // Required on create, optional on update
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['string', Rule::in(Auth::user()->assignableRoles()->pluck('name')->all())],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'roles.*.in' => __('You are not allowed to assign this role.'),
+            'password.required_without' => __('The password is required for new users.'),
+            'password.confirmed' => __('The password confirmation does not match.'),
         ];
     }
 }

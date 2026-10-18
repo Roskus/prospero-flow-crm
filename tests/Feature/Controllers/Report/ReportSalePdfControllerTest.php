@@ -81,7 +81,7 @@ class ReportSalePdfControllerTest extends TestCase
     public function seller_pdf_only_includes_own_sales(): void
     {
         $role = Role::findOrCreate('Seller', 'web');
-        $role->givePermissionTo(Permission::findOrCreate('read report', 'web'));
+        $role->givePermissionTo(Permission::findOrCreate('read sales report', 'web'));
         $seller = User::factory()->create();
         $seller->assignRole($role);
         $otherSeller = User::factory()->create(['company_id' => $seller->company_id]);

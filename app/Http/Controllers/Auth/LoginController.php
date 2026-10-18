@@ -45,6 +45,16 @@ class LoginController extends Controller implements HasMiddleware
      */
     public function __construct() {}
 
+    /**
+     * Inactive users cannot log in.
+     *
+     * @return array<string, mixed>
+     */
+    protected function credentials(Request $request): array
+    {
+        return array_merge($request->only($this->username(), 'password'), ['active' => true]);
+    }
+
     protected function authenticated(Request $request, $user): void
     {
         $user->update([

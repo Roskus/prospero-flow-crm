@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\EnsureUserIsActive;
 use App\Http\Middleware\LimitContentLength;
 use App\Http\Middleware\Localization;
 use App\Http\Middleware\Locked;
@@ -25,8 +26,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->throttleApi();
 
         $middleware->web(append: [
+            EnsureUserIsActive::class,
             Localization::class,
             MustChangePassword::class,
+        ]);
+
+        $middleware->api(append: [
+            EnsureUserIsActive::class,
         ]);
 
         $middleware->alias([

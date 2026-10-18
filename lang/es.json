@@ -338,5 +338,19 @@
     "Export PDF": "Exportar PDF",
     "Indicator": "Indicador",
     "Change": "Variación",
-    "Generated on": "Generado el"
+    "Generated on": "Generado el",
+    "Accountant": "Contable",
+    "HR": "RRHH",
+    "Activate": "Activar",
+    "Deactivate": "Desactivar",
+    "Activate this user?": "¿Activar este usuario?",
+    "Deactivate this user? They will not be able to log in.": "¿Desactivar este usuario? No podrá iniciar sesión.",
+    "User activated": "Usuario activado",
+    "User deactivated": "Usuario desactivado",
+    "Your account is inactive.": "Tu cuenta está inactiva.",
+    "You are not allowed to assign this role.": "No tienes permiso para asignar este rol.",
+    "The status is required.": "El estado es obligatorio.",
+    "The status is not valid.": "El estado no es válido.",
+    "The password is required for new users.": "La contraseña es obligatoria para los usuarios nuevos.",
+    "The password confirmation does not match.": "La confirmación de la contraseña no coincide."
 }

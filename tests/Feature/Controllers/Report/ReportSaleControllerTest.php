@@ -174,7 +174,7 @@ class ReportSaleControllerTest extends TestCase
     private function createSellerWithReportAccess(): User
     {
         $role = Role::findOrCreate('Seller', 'web');
-        $role->givePermissionTo(Permission::findOrCreate('read report', 'web'));
+        $role->givePermissionTo(Permission::findOrCreate('read sales report', 'web'));
 
         $seller = User::factory()->create();
         $seller->assignRole($role);

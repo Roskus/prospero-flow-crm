@@ -12,7 +12,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
 
 class UserCreateController extends MainController
 {
@@ -24,7 +23,7 @@ class UserCreateController extends MainController
         $user = new User;
         $data['user'] = $user;
         $data['languages'] = config('app.locales');
-        $data['roles'] = Role::all();
+        $data['roles'] = Auth::user()->assignableRoles();
         $data['companies'] = Auth::user()->hasRole('SuperAdmin') ? Company::all() : [];
         $data['timezones'] = timezone_identifiers_list();
 

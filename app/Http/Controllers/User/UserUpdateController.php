@@ -9,7 +9,6 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
 
 class UserUpdateController extends MainController
 {
@@ -18,11 +17,11 @@ class UserUpdateController extends MainController
         $user = User::query()
             ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
             ->findOrFail($id);
-        $roles = Role::all();
-        $rolesWithoutSuperAdmin = Role::where('name', '!=', 'SuperAdmin')->get();
+        abort_unless(Auth::user()->canManageUser($user), 403);
+
         $data['user'] = $user;
         $data['languages'] = config('app.locales');
-        $data['roles'] = Auth::user()->hasRole('SuperAdmin') ? $roles : $rolesWithoutSuperAdmin;
+        $data['roles'] = Auth::user()->assignableRoles();
         $data['companies'] = Auth::user()->hasRole('SuperAdmin') ? Company::all() : [];
         $data['timezones'] = timezone_identifiers_list();
 

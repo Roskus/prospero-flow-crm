@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<header>
-   <h1>{{ __('Users') }}</h1>
-</header>
+@include('layouts.partials._header', ['title' => __('Users')])
+@include('layouts.partials._errors')
 
 @can('create user')
 <div class="row mb-3">
@@ -49,6 +48,7 @@
                 </th>
                 @endif
                 <th>{{ __('Roles') }}</th>
+                <th>{{ __('Status') }}</th>
                 <th>{{ __('Updated at') }}</th>
                 <th>{{ __('Last login') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -58,11 +58,11 @@
             @foreach($users as $user)
             <tr>
                 <td>
-                    @can('update user')
+                    @if(Auth::user()->can('update user') && Auth::user()->canManageUser($user))
                         <a href="{{ url("/user/update/$user->id") }}">{{ $user->last_name }}</a>
                     @else
                         {{ $user->last_name }}
-                    @endcan
+                    @endif
                 </td>
                 <td>{{ $user->first_name }}</td>
                 <td>
@@ -78,16 +78,35 @@
                 <td>{{ $user->company?->name }}</td>
                 @endif
                 <td>
-                    {{ $user->getRoleNames() }}
+                    {{ $user->getRoleNames()->map(fn ($role) => __($role))->implode(', ') }}
+                </td>
+                <td class="text-center">
+                    @if($user->active)
+                        <span class="badge bg-success">{{ __('Active') }}</span>
+                    @else
+                        <span class="badge bg-secondary">{{ __('Inactive') }}</span>
+                    @endif
                 </td>
                 <td>{{ $user->updated_at->format('d/m/Y H:i') }}</td>
                 <td>{{ (!empty($user->last_login_at)) ? $user->last_login_at->diffForHumans() : '' }}</td>
                 <td class="text-nowrap">
-                    @can('update user')
+                    @if(Auth::user()->can('update user') && Auth::user()->canManageUser($user))
                     <a href="{{ url("/user/update/$user->id") }}" class="btn bt-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
-                    @endcan
+                        @if($user->id !== Auth::id())
+                        <form method="POST" action="{{ url("/user/status/$user->id") }}" class="d-inline"
+                              onsubmit="return confirm('{{ $user->active ? __('Deactivate this user? They will not be able to log in.') : __('Activate this user?') }}')">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="active" value="{{ $user->active ? 0 : 1 }}">
+                            <button type="submit" class="btn bt-xs {{ $user->active ? 'btn-secondary' : 'btn-success' }}"
+                                    title="{{ $user->active ? __('Deactivate') : __('Activate') }}">
+                                <i class="las {{ $user->active ? 'la-user-slash' : 'la-user-check' }}"></i>
+                            </button>
+                        </form>
+                        @endif
+                    @endif
 
                     @can('delete user')
                     <a href="#" onclick="User.delete({{ $user->id }},'{{ __('Are you sure you want to delete the user: :name?', ['name' => e($user->first_name).' '.e($user->last_name)]) }}')" class="btn bt-xs btn-danger">

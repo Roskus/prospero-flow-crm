@@ -46,7 +46,7 @@
                   @endforeach
                 </select>
             </div>
-            @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin') || \Illuminate\Support\Facades\Auth::user()->hasRole('CompanyAdmin'))
+            @if($roles->isNotEmpty())
             <div class="col">
                 <label for="roles">{{ __('Roles') }}</label>
                 <select name="roles[]" id="roles" multiple class="form-select form-control-lg">

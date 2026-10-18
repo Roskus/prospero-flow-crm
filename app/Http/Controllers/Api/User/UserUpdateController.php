@@ -44,7 +44,7 @@ class UserUpdateController
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
-        if ($user->hasRole('SuperAdmin') && ! Auth::user()->hasRole('SuperAdmin')) {
+        if (! Auth::user()->canManageUser($user)) {
             return response()->json(['message' => 'Forbidden'], Response::HTTP_FORBIDDEN);
         }
 

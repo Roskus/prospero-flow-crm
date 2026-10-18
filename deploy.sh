@@ -49,7 +49,9 @@ composer install --no-dev --optimize-autoloader --no-interaction
 # Run DB migration
 php artisan migrate --force
 
-# Sync permissions (idempotent — safe to run on every deploy)
+# Sync roles and permissions (idempotent — safe to run on every deploy).
+# Roles first: PermissionSeeder assigns permissions to roles and fails if a role is missing.
+php artisan db:seed --class=RoleSeeder --force
 php artisan db:seed --class=PermissionSeeder --force
 
 # Generate updated api doc

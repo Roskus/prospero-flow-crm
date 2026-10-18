@@ -298,5 +298,19 @@
     "Export PDF" : "Export PDF",
     "Indicator" : "Indicator",
     "Change" : "Change",
-    "Generated on" : "Generated on"
+    "Generated on" : "Generated on",
+    "Accountant" : "Accountant",
+    "HR" : "HR",
+    "Activate" : "Activate",
+    "Deactivate" : "Deactivate",
+    "Activate this user?" : "Activate this user?",
+    "Deactivate this user? They will not be able to log in." : "Deactivate this user? They will not be able to log in.",
+    "User activated" : "User activated",
+    "User deactivated" : "User deactivated",
+    "Your account is inactive." : "Your account is inactive.",
+    "You are not allowed to assign this role." : "You are not allowed to assign this role.",
+    "The status is required." : "The status is required.",
+    "The status is not valid." : "The status is not valid.",
+    "The password is required for new users." : "The password is required for new users.",
+    "The password confirmation does not match." : "The password confirmation does not match."
 }

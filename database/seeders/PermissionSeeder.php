@@ -70,7 +70,7 @@ class PermissionSeeder extends Seeder
         return [
             // Dashboard
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support', 'Accountant', 'HR'],
                 'name' => 'read dashboard',
                 'guard_name' => 'web',
                 'module_id' => null,
@@ -114,7 +114,7 @@ class PermissionSeeder extends Seeder
                 'module_id' => 2,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support', 'Accountant'],
                 'name' => 'read customer',
                 'guard_name' => 'web',
                 'module_id' => 2,
@@ -170,7 +170,7 @@ class PermissionSeeder extends Seeder
                 'module_id' => 4,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support', 'Accountant'],
                 'name' => 'read order',
                 'guard_name' => 'web',
                 'module_id' => 4,
@@ -214,19 +214,19 @@ class PermissionSeeder extends Seeder
             ],
             // User
             [
-                'roles' => ['SuperAdmin'], // Only SuperAdmin can create user
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'], // Assignable roles are limited by User::assignableRoles()
                 'name' => 'create user',
                 'guard_name' => 'web',
                 'module_id' => 7,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support', 'HR'],
                 'name' => 'read user',
                 'guard_name' => 'web',
                 'module_id' => 7,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support', 'HR'],
                 'name' => 'update user',
                 'guard_name' => 'web',
                 'module_id' => 7,
@@ -245,7 +245,7 @@ class PermissionSeeder extends Seeder
                 'module_id' => 5,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Support', 'Accountant'],
                 'name' => 'read supplier',
                 'guard_name' => 'web',
                 'module_id' => 5,
@@ -264,25 +264,25 @@ class PermissionSeeder extends Seeder
             ],
             // Accounting
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'create accounting',
                 'guard_name' => 'web',
                 'module_id' => 6,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'read accounting',
                 'guard_name' => 'web',
                 'module_id' => 6,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'update accounting',
                 'guard_name' => 'web',
                 'module_id' => 6,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'delete accounting',
                 'guard_name' => 'web',
                 'module_id' => 6,
@@ -300,8 +300,14 @@ class PermissionSeeder extends Seeder
             ],
             // Report
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support', 'Accountant', 'HR'],
                 'name' => 'read report',
+                'guard_name' => 'web',
+                'module_id' => 9,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support', 'Accountant'],
+                'name' => 'read sales report',
                 'guard_name' => 'web',
                 'module_id' => 9,
             ],
@@ -313,43 +319,43 @@ class PermissionSeeder extends Seeder
             ],
             // RRHH
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'read rrhh',
                 'guard_name' => 'web',
                 'module_id' => 14,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'create rrhh',
                 'guard_name' => 'web',
                 'module_id' => 14,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'update rrhh',
                 'guard_name' => 'web',
                 'module_id' => 14,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'delete rrhh',
                 'guard_name' => 'web',
                 'module_id' => 14,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'approve timeoff',
                 'guard_name' => 'web',
                 'module_id' => 14,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'manage schedule',
                 'guard_name' => 'web',
                 'module_id' => 14,
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'manage holidays',
                 'guard_name' => 'web',
                 'module_id' => 14,
@@ -519,63 +525,61 @@ class PermissionSeeder extends Seeder
             // Payroll
             // Cada empleado puede ver su propio payroll (controlado por controlador).
             // Ver listado completo y operaciones CRUD:
-            //   SuperAdmin, CompanyAdmin (actual)
-            //   TODO: agregar rol RRHH cuando se cree
-            //   TODO: agregar rol Accountant cuando se cree
+            //   SuperAdmin, CompanyAdmin (actual), Accountant, HR
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant', 'HR'],
                 'name' => 'create payroll',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant', 'HR'],
                 'name' => 'read payroll',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant', 'HR'],
                 'name' => 'update payroll',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
                 'name' => 'delete payroll',
                 'guard_name' => 'web',
             ],
             // Employee self-service
             [
-                'roles' => ['User'],
+                'roles' => ['User', 'Accountant', 'HR'],
                 'name' => 'read own payroll',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['User'],
+                'roles' => ['User', 'Accountant', 'HR'],
                 'name' => 'manage own timeoff',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['User'],
+                'roles' => ['User', 'Accountant', 'HR'],
                 'name' => 'manage own timesheet',
                 'guard_name' => 'web',
             ],
             // Transaction (route-level permission, complements accounting)
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'create transaction',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'read transaction',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'update transaction',
                 'guard_name' => 'web',
             ],
             [
-                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
                 'name' => 'delete transaction',
                 'guard_name' => 'web',
             ],

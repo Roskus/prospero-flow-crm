@@ -19,6 +19,7 @@
             </div>
         </div><!--./col-->
 
+        @can('read sales report')
         <div class="col text-center">
             <div class="card">
                 <div class="card-body">
@@ -31,5 +32,6 @@
                 </div>
             </div>
         </div><!--./col-->
+        @endcan
     </div>
 @endsection

@@ -17,10 +17,9 @@ class LoginController extends Controller
     #[OAT\Post(
         path: '/auth/login',
         summary: 'Login',
-        tags: ['Auth'],
         requestBody: new OAT\RequestBody(
-            required: true,
             description: 'Pass user credentials',
+            required: true,
             content: new OAT\JsonContent(
                 required: ['email', 'password'],
                 properties: [
@@ -29,6 +28,7 @@ class LoginController extends Controller
                 ],
             ),
         ),
+        tags: ['Auth'],
         responses: [
             new OAT\Response(response: 200, description: 'Success'),
             new OAT\Response(response: 401, description: 'Unauthorized or wrong credentials'),
@@ -43,7 +43,7 @@ class LoginController extends Controller
         ]);
 
         $credentials = request(['email', 'password']);
-        $token = auth('api')->attempt($credentials);
+        $token = auth('api')->attempt(array_merge($credentials, ['active' => true]));
 
         if (empty($token)) {
             $this->securityLogger->log('api_login_failed', [
