@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Helpers\CurrencyHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,7 @@ class BankAccountCreateRequest extends FormRequest
             'country_id' => ['required', 'string', 'max:2'],
             'currency' => ['required', 'string', 'max:3'],
             'iban' => ['required', 'string', 'max:34'],
-            'opening_balance' => ['nullable', 'numeric'],
+            'opening_balance' => ['nullable', 'numeric', 'min:-'.CurrencyHelper::MAX_AMOUNT, 'max:'.CurrencyHelper::MAX_AMOUNT],
             'notes' => ['nullable', 'string'],
         ];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Helpers\CurrencyHelper;
 use App\Rules\ExtensionMatchesContent;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -29,8 +30,8 @@ class ProductRequest extends FormRequest
             'brand_id' => 'required',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'cost' => 'nullable|numeric|min:0',
-            'price' => 'required|numeric|min:0',
+            'cost' => 'nullable|numeric|min:0|max:'.CurrencyHelper::MAX_AMOUNT,
+            'price' => 'required|numeric|min:0|max:'.CurrencyHelper::MAX_AMOUNT,
             'tax' => 'nullable|numeric|min:0',
             'quantity' => 'required|numeric|min:0',
             'sku' => 'nullable',

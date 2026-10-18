@@ -9,6 +9,11 @@ use Squire\Models\Currency;
 
 class CurrencyHelper
 {
+    /**
+     * Largest absolute value that fits the money columns, decimal(18,5): 13 integer digits and 5 decimals.
+     */
+    public const string MAX_AMOUNT = '9999999999999.99999';
+
     public static function symbol(): string
     {
         $user = Auth::user();

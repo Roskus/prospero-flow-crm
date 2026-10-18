@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Helpers\CurrencyHelper;
 use App\Http\Requests\Concerns\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class TransactionCreateRequest extends FormRequest
             'transaction_category_id' => ['sometimes', 'integer'],
             'bank_account_id' => ['sometimes', 'integer'],
             'bank_card_id' => ['sometimes', 'integer'],
-            'amount' => ['required', 'numeric', 'min:0.01'],
+            'amount' => ['required', 'numeric', 'min:0.01', 'max:'.CurrencyHelper::MAX_AMOUNT],
             'status' => ['sometimes', 'string', 'in:pending,paid,overdue'],
             'reference' => ['sometimes', 'string', 'max:255'],
             'customer_id' => ['sometimes', 'integer'],

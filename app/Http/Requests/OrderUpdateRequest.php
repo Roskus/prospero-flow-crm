@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Helpers\CurrencyHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,7 @@ class OrderUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => ['sometimes', 'numeric', 'min:0.01'],
+            'amount' => ['sometimes', 'numeric', 'min:0.01', 'max:'.CurrencyHelper::MAX_AMOUNT],
             'currency' => ['sometimes', 'string', 'max:3'],
             'status' => ['sometimes', 'integer', 'in:0,1,2,3'],
         ];

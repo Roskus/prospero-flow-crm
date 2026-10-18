@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Helpers\CurrencyHelper;
 use App\Http\Requests\Concerns\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -38,8 +39,8 @@ class TransactionSaveRequest extends FormRequest
          * All other roles are restricted to positive amounts (min:0).
          */
         $amountRule = Auth::user()?->hasRole(['SuperAdmin', 'CompanyAdmin'])
-            ? ['required', 'numeric']
-            : ['required', 'numeric', 'min:0'];
+            ? ['required', 'numeric', 'min:-'.CurrencyHelper::MAX_AMOUNT, 'max:'.CurrencyHelper::MAX_AMOUNT]
+            : ['required', 'numeric', 'min:0', 'max:'.CurrencyHelper::MAX_AMOUNT];
 
         return [
             'name' => ['required', 'string', 'max:80'],

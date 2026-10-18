@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Helpers\CurrencyHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -19,8 +20,8 @@ class PayrollRequest extends FormRequest
     {
         return [
             'user_id' => ['required', Rule::exists('user', 'id')->where('company_id', Auth::user()->company_id)],
-            'gross_amount' => 'required|numeric|min:0',
-            'net_amount' => 'required|numeric|min:0',
+            'gross_amount' => 'required|numeric|min:0|max:'.CurrencyHelper::MAX_AMOUNT,
+            'net_amount' => 'required|numeric|min:0|max:'.CurrencyHelper::MAX_AMOUNT,
             'period_year' => 'required|integer|min:2000|max:2099',
             'period_month' => 'required|integer|between:1,12',
             'payment_date' => 'nullable|date',
