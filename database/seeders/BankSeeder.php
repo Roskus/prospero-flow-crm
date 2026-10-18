@@ -4,57 +4,36 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use Illuminate\Console\Command;
-use Illuminate\Database\QueryException;
+use App\Models\Bank;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Ramsey\Uuid\Uuid;
 
 class BankSeeder extends Seeder
 {
-    protected $command;
-
-    public function __construct(Command $command)
-    {
-        $this->command = $command;
-    }
-
     /**
-     * Run the database seeds.
+     * Loads every database/seeders/Bank/bank_<country>.php file. Idempotent: banks are matched
+     * by a UUID derived from their BIC, so existing rows (and the bank accounts that reference
+     * their ids) are kept and only updated.
      * php artisan db:seed --class=BankSeeder
      */
     public function run(): void
     {
-        Schema::disableForeignKeyConstraints();
-        try {
-            DB::table('bank')->truncate();
-        } catch (QueryException $e) {
-            // If truncating the table fails, try to delete records individually
-            $this->command->info('Truncate failed. Trying to delete records individually.');
+        $banks = [];
 
-            // Delete records individually
-            DB::table('bank')->delete();
-
-            $this->command->info('Records deleted successfully.');
-        }
-        Schema::enableForeignKeyConstraints();
-
-        $countries = ['al', 'ad', 'ee', 'mx', 'es', 'lt', 'gb', 'fr', 'de', 'pt', 'nl', 'ie', 'ar', 'digital', 'uy', 'cl', 'pe', 'py', 'br', 'hu', 'ro', 'bg', 'dk', 'pl', 'ch'];
-
-        foreach ($countries as $countryId) {
-            $filePath = 'database/seeders/Bank/bank_'.$countryId.'.php';
-            if (file_exists(base_path($filePath))) {
-                $data = require_once base_path($filePath);
-
-                foreach ($data as $bank) {
-                    $bank['uuid'] = Uuid::uuid5(Uuid::NAMESPACE_URL, $bank['bic'])->toString();
-                    if (isset($bank['phone'])) {
-                        $bank['phone'] = str_replace([' ', '-'], '', $bank['phone']);
-                    }
-                    DB::table('bank')->insert($bank);
-                }
+        foreach (glob(database_path('seeders/Bank/bank_*.php')) as $filePath) {
+            foreach (require $filePath as $bank) {
+                $banks[] = [
+                    'uuid' => Uuid::uuid5(Uuid::NAMESPACE_URL, $bank['bic'])->toString(),
+                    'country_id' => $bank['country_id'],
+                    'name' => $bank['name'],
+                    'bic' => $bank['bic'],
+                    'phone' => isset($bank['phone']) ? str_replace([' ', '-'], '', $bank['phone']) : null,
+                    'email' => $bank['email'] ?? null,
+                    'website' => $bank['website'] ?? null,
+                ];
             }
         }
+
+        Bank::query()->upsert($banks, ['uuid'], ['country_id', 'name', 'bic', 'phone', 'email', 'website']);
     }
 }

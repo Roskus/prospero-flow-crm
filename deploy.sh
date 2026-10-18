@@ -53,6 +53,8 @@ php artisan migrate --force
 # Roles first: PermissionSeeder assigns permissions to roles and fails if a role is missing.
 php artisan db:seed --class=RoleSeeder --force
 php artisan db:seed --class=PermissionSeeder --force
+# Bank catalogue: upserted by a BIC-derived UUID, so existing bank accounts keep their bank
+php artisan db:seed --class=BankSeeder --force
 
 # Generate updated api doc
 php artisan l5-swagger:generate

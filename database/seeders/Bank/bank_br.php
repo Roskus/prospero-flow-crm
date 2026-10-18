@@ -14,5 +14,5 @@ return [
     ['country_id' => 'br', 'name' => 'Banco Santander Brasil', 'phone' => '+551140041234', 'email' => '', 'website' => 'https://www.santander.com.br', 'bic' => 'BSANBRSP', 'created_at' => now()],
     ['country_id' => 'br', 'name' => 'BBVA Brasil', 'phone' => '+551140104400', 'email' => '', 'website' => 'https://www.bbva.com.br', 'bic' => 'BBVABRRJ', 'created_at' => now()],
     ['country_id' => 'br', 'name' => 'Banco Inter', 'phone' => '+551140045500', 'email' => '', 'website' => 'https://www.bancointer.com.br', 'bic' => 'BKIRUS33', 'created_at' => now()],
-    ['country_id' => 'br', 'name' => 'Banco C6', 'phone' => '+551135064600', 'email' => '', 'website' => 'https://www.c6bank.com.br', 'bic' => 'C6BRBRSP', 'created_at' => now()],
+    ['country_id' => 'br', 'name' => 'Banco C6', 'phone' => '+551135064600', 'email' => '', 'website' => 'https://www.c6bank.com.br', 'bic' => 'CSIXBRSPXXX', 'created_at' => now()],
 ];

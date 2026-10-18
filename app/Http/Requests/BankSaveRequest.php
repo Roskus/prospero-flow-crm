@@ -20,7 +20,7 @@ class BankSaveRequest extends FormRequest
             'name' => 'required|string|max:255',
             'country_id' => 'required|string',
             'bic' => $this->filled('uuid')
-                ? 'required|bic'
+                ? 'exclude'
                 : 'required|bic|unique:bank,bic',
             'email' => 'nullable|email',
             'website' => 'nullable|url',

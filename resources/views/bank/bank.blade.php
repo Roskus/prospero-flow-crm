@@ -25,8 +25,13 @@
                         {{ __('BIC') }}
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="text" name="bic" id="bic" value="{{ $bank->bic }}" maxlength="11" required="required"
-                           class="form-control">
+                    @if ($bank->uuid)
+                        <input type="text" id="bic" value="{{ $bank->bic }}" class="form-control" readonly="readonly">
+                    @else
+                        <input type="text" name="bic" id="bic" value="{{ old('bic', $bank->bic) }}" maxlength="11" required="required"
+                               class="form-control @error('bic') is-invalid @enderror">
+                        @error('bic') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @endif
                 </div>
             </div>
             <div class="row">

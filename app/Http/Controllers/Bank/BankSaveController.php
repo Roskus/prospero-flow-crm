@@ -19,12 +19,12 @@ class BankSaveController extends MainController
             $bank = new Bank;
             $bank->created_at = now();
             $bank->uuid = Uuid::uuid5(Uuid::NAMESPACE_URL, $validated['bic'])->toString();
+            $bank->bic = $validated['bic'];
         } else {
-            $bank = Bank::find($validated['uuid']);
+            $bank = Bank::findOrFail($validated['uuid']);
         }
         $bank->name = $validated['name'];
         $bank->phone = $validated['phone'] ?? null;
-        $bank->bic = $validated['bic'];
         $bank->country_id = strtolower($validated['country_id']);
         $bank->email = $validated['email'] ?? null;
         $bank->website = $validated['website'] ?? null;
