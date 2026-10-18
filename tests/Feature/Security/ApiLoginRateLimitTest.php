@@ -99,7 +99,7 @@ class ApiLoginRateLimitTest extends TestCase
     {
         $this->mock(SecurityLogger::class, function (MockInterface $mock) {
             $mock->shouldReceive('log')->times(5)->with('api_login_failed', ['attempted_email' => $this->user->email]);
-            $mock->shouldReceive('log')->once()->with('login_throttled', ['attempted_email' => $this->user->email]);
+            $mock->shouldReceive('log')->once()->with('api_login_throttled', ['attempted_email' => $this->user->email]);
         });
 
         for ($attempt = 1; $attempt <= 6; $attempt++) {

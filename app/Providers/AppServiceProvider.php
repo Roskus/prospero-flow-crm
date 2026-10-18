@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(5)
                 ->by(Str::transliterate(Str::lower((string) $request->input('email')).'|'.$request->ip()))
                 ->response(function (Request $request, array $headers) {
-                    app(SecurityLogger::class)->log('login_throttled', [
+                    app(SecurityLogger::class)->log('api_login_throttled', [
                         'attempted_email' => (string) $request->input('email'),
                     ]);
 
