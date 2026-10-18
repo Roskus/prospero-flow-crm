@@ -106,7 +106,7 @@
                                 @endif
                                 {{ Auth::user()->first_name }}
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdown10">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown10">
                                 <li>
                                     <a href="{{ url('/profile') }}" class="dropdown-item">
                                         <i class="las la-user-tie"></i> {{ __('Profile') }}

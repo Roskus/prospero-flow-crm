@@ -128,9 +128,9 @@ require __DIR__.'/module/ticket.php';
 Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
 
 // Report
-Route::get('/report', [ReportIndexController::class, 'index']);
-Route::get('/report/sale', [ReportSaleController::class, 'index']);
-Route::get('/report/email', [ReportEmailController::class, 'index']);
+Route::get('/report', [ReportIndexController::class, 'index'])->can('read report');
+Route::get('/report/sale', [ReportSaleController::class, 'index'])->can('read report');
+Route::get('/report/email', [ReportEmailController::class, 'index'])->can('read report');
 
 // Web-form
 Route::get('/web-form', [WebFormIndexController::class, 'index']);

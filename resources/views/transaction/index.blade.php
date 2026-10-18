@@ -2,6 +2,59 @@
 
 @section('content')
     @include('layouts.partials._header', ['title' => __('Accounting')])
+    @include('layouts.partials._errors')
+
+    <form method="get" action="{{ url('/accounting') }}" class="row g-2 align-items-end mb-3 d-print-none" id="transaction-filters">
+        <div class="col-12 col-md-4">
+            <label for="search" class="form-label">{{ __('Search') }}</label>
+            <input type="search" name="search" id="search" value="{{ $filters['search'] ?? '' }}"
+                   placeholder="{{ __('Name or reference') }}" maxlength="80" class="form-control">
+        </div>
+        <div class="col-6 col-md-2">
+            <label for="type" class="form-label">{{ __('Type') }}</label>
+            <select name="type" id="type" class="form-select">
+                <option value="">{{ __('All') }}</option>
+                <option value="income" @selected(($filters['type'] ?? '') === 'income')>{{ __('Income') }}</option>
+                <option value="expense" @selected(($filters['type'] ?? '') === 'expense')>{{ __('Expense') }}</option>
+            </select>
+        </div>
+        <div class="col-6 col-md-2">
+            <label for="status" class="form-label">{{ __('Status') }}</label>
+            <select name="status" id="status" class="form-select">
+                <option value="">{{ __('All') }}</option>
+                @foreach(['pending', 'paid', 'overdue'] as $status)
+                    <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ __(ucfirst($status)) }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-12 col-md-4">
+            <label for="transaction_category_id" class="form-label">{{ __('Category') }}</label>
+            <select name="transaction_category_id" id="transaction_category_id" class="form-select">
+                <option value="">{{ __('All') }}</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" @selected((int) ($filters['transaction_category_id'] ?? 0) === $category->id)>{{ __($category->name) }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-6 col-md-3">
+            <label for="from" class="form-label">{{ __('From') }}</label>
+            <input type="date" name="from" id="from" value="{{ $filters['from'] ?? '' }}" class="form-control">
+        </div>
+        <div class="col-6 col-md-3">
+            <label for="to" class="form-label">{{ __('To') }}</label>
+            <input type="date" name="to" id="to" value="{{ $filters['to'] ?? '' }}" class="form-control">
+        </div>
+        <div class="col-12 col-md-6 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="las la-filter"></i> {{ __('Filter') }}
+            </button>
+            @if(array_filter($filters))
+                <a href="{{ url('/accounting') }}" class="btn btn-outline-secondary">
+                    <i class="las la-times"></i> {{ __('Clear filters') }}
+                </a>
+            @endif
+        </div>
+    </form>
 
     <div class="row mb-3">
         <div class="col-12 col-md-4">
@@ -32,6 +85,12 @@
             </div>
         </div>
     </div>
+
+    @if(array_filter($filters))
+        <p class="text-muted small mt-n2">
+            <i class="las la-info-circle"></i> {{ __('Totals for the selected filters') }}
+        </p>
+    @endif
 
     <div class="mb-3">
         <a href="{{ url('/transaction/create') }}" class="btn btn-primary">
@@ -124,13 +183,17 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="text-center text-muted py-4">{{ __('No transactions found') }}</td>
+                                <td colspan="10" class="text-center text-muted py-4">{{ __('No transactions found') }}</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
+
+    <div class="mt-3" id="transaction-pagination">
+        {{ $transactions->links() }}
     </div>
 @endsection
 

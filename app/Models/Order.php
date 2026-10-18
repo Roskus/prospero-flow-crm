@@ -263,6 +263,69 @@ final class Order extends Model
         ];
     }
 
+    /**
+     * Sales KPIs between two dates, optionally for a single seller.
+     * Sales are confirmed and completed orders, as in getSalesSummary().
+     *
+     * @return array{total: float, orders: int, average_ticket: float, pending_orders: int}
+     */
+    public function getSalesKpis(int $companyId, Carbon $from, Carbon $to, ?int $sellerId = null): array
+    {
+        $orders = Order::withoutGlobalScope('orderCreated')
+            ->where('company_id', $companyId)
+            ->whereBetween('created_at', [$from, $to])
+            ->when($sellerId, fn (Builder $query) => $query->where('seller_id', $sellerId));
+
+        $sales = $orders->clone()->whereIn('status', [self::CONFIRMED, self::COMPLETED]);
+        $total = (float) $sales->clone()->sum('amount');
+        $count = $sales->count();
+
+        return [
+            'total' => $total,
+            'orders' => $count,
+            'average_ticket' => $count > 0 ? round($total / $count, 2) : 0.0,
+            'pending_orders' => $orders->clone()->where('status', self::PENDING)->count(),
+        ];
+    }
+
+    /**
+     * Sales KPIs of a period compared with the previous period of the same length.
+     *
+     * @return array{
+     *     current: array{total: float, orders: int, average_ticket: float, pending_orders: int},
+     *     previous: array{total: float, orders: int, average_ticket: float, pending_orders: int},
+     *     change: array{total: float|null, orders: float|null, average_ticket: float|null, pending_orders: float|null},
+     *     previous_from: Carbon,
+     *     previous_to: Carbon
+     * }
+     */
+    public function getSalesReport(int $companyId, Carbon $from, Carbon $to, ?int $sellerId = null): array
+    {
+        $from = $from->copy()->startOfDay();
+        $to = $to->copy()->endOfDay();
+        $days = (int) $from->diffInDays($to->copy()->startOfDay()) + 1;
+        $previousTo = $from->copy()->subDay()->endOfDay();
+        $previousFrom = $previousTo->copy()->subDays($days - 1)->startOfDay();
+
+        $current = $this->getSalesKpis($companyId, $from, $to, $sellerId);
+        $previous = $this->getSalesKpis($companyId, $previousFrom, $previousTo, $sellerId);
+
+        $change = [];
+        foreach ($current as $kpi => $value) {
+            $change[$kpi] = $previous[$kpi] > 0
+                ? round(($value - $previous[$kpi]) / $previous[$kpi] * 100, 1)
+                : null;
+        }
+
+        return [
+            'current' => $current,
+            'previous' => $previous,
+            'change' => $change,
+            'previous_from' => $previousFrom,
+            'previous_to' => $previousTo,
+        ];
+    }
+
     public function getAllActiveByCompany(int $company_id)
     {
         return Order::where('company_id', $company_id)->paginate(10);

@@ -137,6 +137,29 @@ crontab -e
 - User: admin@admin.com
 - Pass: admin123
 
+### Sales and accounting demo data
+
+To try the sales report and the accounting area with realistic data, run the demo seeder manually (it is not part of `php artisan db:seed`):
+
+```bash
+php artisan db:seed --class=SalesAndExpensesDemoSeeder
+```
+
+It asks for the company id to seed (defaults to company `1`). To skip the question and use company `1`:
+
+```bash
+php artisan db:seed --class=SalesAndExpensesDemoSeeder --no-interaction
+```
+
+It creates, over the last 3 months:
+- 45 orders with 1 to 4 products each (completed, confirmed, pending and canceled)
+- An income transaction (invoice) for every confirmed or completed order
+- Monthly fixed expenses (rent, payroll, utilities) and 15 occasional expenses linked to suppliers
+
+Missing customers, suppliers, products and transaction categories are created when needed. Every run adds a new batch of data, it does not replace the previous one.
+
+Then check `/report/sale`, `/order` and `/accounting`.
+
 ## API
 We will provide a REST API for exchange information with the CRM
 

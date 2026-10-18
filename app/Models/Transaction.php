@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Bank\Account as BankAccount;
 use App\Models\Transaction\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -104,6 +105,28 @@ class Transaction extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    /**
+     * Transactions of a company matching the given filters. The text search is grouped so it can never
+     * bypass the company condition.
+     *
+     * @param  array{search?: string|null, type?: string|null, status?: string|null, transaction_category_id?: int|string|null, from?: string|null, to?: string|null}  $filters
+     */
+    public function searchByCompany(int $company_id, array $filters = []): Builder
+    {
+        $search = $filters['search'] ?? null;
+
+        return Transaction::where('company_id', $company_id)
+            ->when(! empty($search), fn (Builder $query) => $query->where(function (Builder $query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orWhere('reference', 'LIKE', "%$search%");
+            }))
+            ->when(! empty($filters['type']), fn (Builder $query) => $query->where('type', $filters['type']))
+            ->when(! empty($filters['status']), fn (Builder $query) => $query->where('status', $filters['status']))
+            ->when(! empty($filters['transaction_category_id']), fn (Builder $query) => $query->where('transaction_category_id', (int) $filters['transaction_category_id']))
+            ->when(! empty($filters['from']), fn (Builder $query) => $query->whereDate('issue_date', '>=', $filters['from']))
+            ->when(! empty($filters['to']), fn (Builder $query) => $query->whereDate('issue_date', '<=', $filters['to']));
     }
 
     public function getAllByCompany(int $company_id)
