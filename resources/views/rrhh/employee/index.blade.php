@@ -24,7 +24,7 @@
             <table class="table table-striped table-bordered table-hover table-sm">
             <thead>
             <tr>
-                <th>{{ __('Employee #') }}</th>
+                <th>{{ __('Employee') }} #</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Email') }}</th>
                 <th>{{ __('Phone') }}</th>

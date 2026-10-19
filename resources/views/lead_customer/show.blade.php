@@ -49,7 +49,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                 <div>{{ __('Mobile') }}:</div>
                 @isset($item->mobile)
                 <strong>
-                    <a href="https://api.whatsapp.com/send/?phone={{ $item->mobile }}">{{ $item->mobile }}</a>
+                    <a href="https://api.whatsapp.com/send/?phone={{ $item->mobile }}&text={{ __('Hello') }}, {{ $item->name }}">{{ $item->mobile }}</a>
                 </strong>
                 @endisset
             </div>
@@ -136,7 +136,7 @@ $url = isset($lead) ? 'lead' : 'customer';
                 @endif
 
                 @if($item->mobile)
-                    <a href="https://api.whatsapp.com/send/?phone={{ $item->mobile }}&text={{ __('Hello') }}"
+                    <a href="https://api.whatsapp.com/send/?phone={{ $item->mobile }}&text={{ __('Hello') }}, {{ $item->name }}"
                        rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-whatsapp fs-3"></i>
                     </a>

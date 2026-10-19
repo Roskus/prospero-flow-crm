@@ -119,7 +119,7 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($customer->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
+                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}, {{ $customer->name }}"
                          title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}" rel="noopener" target="_blank"
                            class="link-secondary text-decoration-none">
                             <i class="las la-mobile fs-4"></i>
@@ -137,7 +137,7 @@
                             <i class="las la-headset fs-4"></i>
                         </a>
 
-                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
+                        <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}, {{ $customer->name }}"
                            title="{{ \App\Helpers\PhoneHelper::format($customer->mobile) }}"
                            rel="noopener" target="_blank"
                            class="link-secondary text-decoration-none">
@@ -226,7 +226,7 @@
                     @endif
 
                     @if($customer->mobile)
-                    <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}"
+                    <a href="https://api.whatsapp.com/send/?phone={{ $customer->mobile }}&text={{ __('Hello') }}, {{ $customer->name }}"
                        rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                         <i class="lab la-whatsapp fs-3"></i>
                     </a>

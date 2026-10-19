@@ -31,7 +31,7 @@
         </td>
         <td class="text-center">
             @if($contact->mobile)
-                <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}"
+                <a href="https://api.whatsapp.com/send/?phone={{ $contact->mobile }}&text={{ __('Hello') }}, {{ $contact->first_name }}"
                    title="{{ $contact->mobile }}" class="link-secondary text-decoration-none">
                     <i class="las la-mobile fs-4"></i>
                 </a>

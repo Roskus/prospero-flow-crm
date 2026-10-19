@@ -127,7 +127,7 @@
                             <i class="las la-headset fs-4"></i>
                         </a>
 
-                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
+                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}, {{ $lead->name }}"
                            title="{{ \App\Helpers\PhoneHelper::format($lead->mobile) }}" rel="noopener" target="_blank"
                            class="link-secondary text-decoration-none">
                             <i class="lab la-whatsapp fs-4"></i>
@@ -207,7 +207,7 @@
                     @endif
 
                     @if($lead->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
+                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}, {{ $lead->name }}"
                            rel="noopener" target="_blank" class="text-decoration-none link-secondary">
                             <i class="lab la-whatsapp fs-3"></i>
                         </a>

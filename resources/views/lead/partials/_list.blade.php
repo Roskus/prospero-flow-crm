@@ -48,7 +48,7 @@
                 </td>
                 <td class="text-nowrap text-center">
                     @if($lead->mobile)
-                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}"
+                        <a href="https://api.whatsapp.com/send/?phone={{ $lead->mobile }}&text={{ __('Hello') }}, {{ $lead->name }}"
                            title="{{ $lead->mobile }}" target="_blank" class="link-secondary text-decoration-none">
                             <i class="las la-mobile fs-4"></i>
                         </a>
