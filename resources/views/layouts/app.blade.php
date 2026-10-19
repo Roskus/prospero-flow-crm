@@ -166,7 +166,7 @@
 @auth
 <script>
     let inactivityInterval;
-    let lockTimeMin = {{ Auth::user()->company?->inactivity_lock_time ?? 15 }};
+    let lockTimeMin = {{ Auth::user()->company?->inactivity_lock_time ?? config('session.inactivity_lock_time', 20) }};
     const inactivityTime =  lockTimeMin * 60 * 1000;
 
     $(document).on('mousemove keydown', function() {

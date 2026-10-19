@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('company', function (Blueprint $table) {
-            $table->unsignedInteger('inactivity_lock_time')->default(15)->after('name')->comment('Inactivity lock time in minutes');
+            $table->unsignedInteger('inactivity_lock_time')->default((int) config('session.inactivity_lock_time', 20))->after('name')->comment('Inactivity lock time in minutes');
         });
     }
 

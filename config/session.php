@@ -35,6 +35,8 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 480), // 8 hours
 
+    'inactivity_lock_time' => (int) env('INACTIVITY_LOCK_TIME', 20),
+
     'expire_on_close' => false,
 
     /*
