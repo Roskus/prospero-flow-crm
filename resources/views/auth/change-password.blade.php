@@ -18,9 +18,7 @@
                     <label for="current_password">{{ __('Current password') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <input type="password" name="current_password" id="current_password" required class="form-control">
-                        <span class="input-group-text">
-                            <button type="button" toggle="#current_password" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
-                        </span>
+                        <button type="button" toggle="#current_password" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </div>
                     @error('current_password')
                         <span class="text-danger"><strong>{{ $message }}</strong></span>
@@ -33,9 +31,7 @@
                     <label for="password">{{ __('New password') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <input type="password" name="password" id="password" minlength="8" required class="form-control">
-                        <span class="input-group-text">
-                            <button type="button" toggle="#password" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
-                        </span>
+                        <button type="button" toggle="#password" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </div>
                     @error('password')
                         <span class="text-danger"><strong>{{ $message }}</strong></span>
@@ -45,9 +41,7 @@
                     <label for="password_confirmation">{{ __('Confirm new password') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <input type="password" name="password_confirmation" id="password_confirmation" minlength="8" required class="form-control">
-                        <span class="input-group-text">
-                            <button type="button" toggle="#password_confirmation" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
-                        </span>
+                        <button type="button" toggle="#password_confirmation" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </div>
                 </div>
             </div>
@@ -62,16 +56,6 @@
 </div>
 
 @push('scripts')
-<script>
-    $(".toggle-password").click(function() {
-        $(this).toggleClass("la-eye la-eye-slash");
-        let input = $($(this).attr("toggle"));
-        if (input.attr("type") == "password") {
-            input.attr("type", "text");
-        } else {
-            input.attr("type", "password");
-        }
-    });
-</script>
+<script src="{{ url('/asset/js/Password.js') }}"></script>
 @endpush
 @endsection

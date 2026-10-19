@@ -79,12 +79,10 @@
         <div class="row form-group{{ $errors->has('password') ? ' has-error' : '' }} mb-2">
             <div class="col">
                 <label for="password" class="col-md-4 control-label">{{ __('Password') }}</label>
-                <div class="input-group">
+                <div class="input-group input-group-lg">
                     <input type="password" name="password" id="password" autocomplete="new-password"
                            class="form-control form-control-lg">
-                    <span class="input-group-text">
-                        <button type="button" toggle="#password" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
-                    </span>
+                    <button type="button" toggle="#password" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                 </div>
 
                 @if ($errors->has('password'))
@@ -96,12 +94,10 @@
 
             <div class="col-md-6">
                 <label for="password-confirm" class="col-md-4 control-label">{{ __('Confirm password') }}</label>
-                <div class="input-group">
+                <div class="input-group input-group-lg">
                     <input type="password" name="password_confirmation" id="password-confirm" autocomplete="off"
                            class="form-control form-control-lg">
-                    <span class="input-group-text">
-                        <button type="button" toggle="#password-confirm" class="toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
-                    </span>
+                    <button type="button" toggle="#password-confirm" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                 </div>
             </div>
         </div><!--./row-->
@@ -146,17 +142,7 @@
         </div><!--./card-body-->
     </div><!--./card-->
     @push('scripts')
-    <script>
-        $(".toggle-password").click(function() {
-            $(this).toggleClass("la-eye la-eye-slash");
-            let input = $($(this).attr("toggle"));
-            if (input.attr("type") == "password") {
-                input.attr("type", "text");
-            } else {
-                input.attr("type", "password");
-            }
-        });
-    </script>
+    <script src="{{ url('/asset/js/Password.js') }}"></script>
     @include('html_editor', ['id' => 'signature_html', 'placeholder' => 'Email signature'])
     @endpush
 @endsection

@@ -35,14 +35,6 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .field-icon {
-            float: right;
-            position: relative;
-            z-index: 2;
-            padding-right: 10px;
-            left: -26px;
-            padding-top: 10px;
-        }
     </style>
     <div id="lockscreen" class="lockscreen-wrapper">
     <div class="lockscreen-logo">
@@ -80,13 +72,11 @@
             <div class="input-group">
                 <input type="password" name="password" id="password" placeholder="{{ __('Password') }}" required
                        autocomplete="new-password" class="form-control @if ($errors->has('password')) is-invalid @endif">
-                <button type="button" toggle="#password" class="field-icon toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
-                <div class="input-group-append">
-                    <button type="submit" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
-                </div>
+                <button type="button" toggle="#password" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
+                <button type="submit" class="btn btn-outline-secondary" aria-label="{{ __('Unlock') }}"><i class="fa fa-arrow-right"></i></button>
             </div>
             @if ($errors->has('password'))
-                <div class="invalid-feedback">
+                <div class="invalid-feedback d-block">
                     <strong>{{ $errors->first('password') }}</strong>
                 </div>
             @endif

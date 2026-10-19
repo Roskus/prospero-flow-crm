@@ -14,14 +14,6 @@
         .btn-primary {
             background: #2d3748;
         }
-        .field-icon {
-            float: right;
-            margin-top: -30px;
-            position: relative;
-            z-index: 2;
-            margin-left: -150px;
-            padding-right: 10px;
-        }
     </style>
     <div class="row g-0">
         <div class="form-signin m-auto col-12 col-md-3">
@@ -54,9 +46,9 @@
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} mb-3">
                             <label for="password" class="control-label mb-2">{{ __('Password') }}</label>
 
-                            <div>
+                            <div class="input-group input-group-lg has-validation">
                                 <input id="password" type="password" name="password" required class="form-control form-control-lg @if ($errors->has('password')) is-invalid @endif">
-                                <button type="button" toggle="#password" class="field-icon toggle-password btn" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
+                                <button type="button" toggle="#password" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                                 @if ($errors->has('password'))
                                     <div class="invalid-feedback">
                                         <strong>{{ $errors->first('password') }}</strong>

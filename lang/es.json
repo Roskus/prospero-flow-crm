@@ -352,5 +352,6 @@
     "The status is required.": "El estado es obligatorio.",
     "The status is not valid.": "El estado no es válido.",
     "The password is required for new users.": "La contraseña es obligatoria para los usuarios nuevos.",
-    "The password confirmation does not match.": "La confirmación de la contraseña no coincide."
+    "The password confirmation does not match.": "La confirmación de la contraseña no coincide.",
+    "Unlock": "Desbloquear"
 }

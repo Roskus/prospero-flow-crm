@@ -307,5 +307,6 @@
     "The status is required." : "The status is required.",
     "The status is not valid." : "The status is not valid.",
     "The password is required for new users." : "The password is required for new users.",
-    "The password confirmation does not match." : "The password confirmation does not match."
+    "The password confirmation does not match." : "The password confirmation does not match.",
+    "Unlock" : "Unlock"
 }
