@@ -36,4 +36,16 @@ class DomainTest extends TestCase
         $validation = Domain::isValid($urlInvalid);
         $this->assertTrue($validation);
     }
+
+    #[Test]
+    public function it_refuses_ip_literals_private_hosts_and_other_schemes(): void
+    {
+        $this->assertFalse(Domain::isValid('8.8.8.8'));
+        $this->assertFalse(Domain::isValid('http://127.0.0.1'));
+        $this->assertFalse(Domain::isValid('http://10.0.0.1/admin'));
+        $this->assertFalse(Domain::isValid('localhost'));
+        $this->assertFalse(Domain::isValid('http://172-23-0-4.sslip.io/ssrf-poc-marker'));
+        $this->assertFalse(Domain::isValid('ftp://example.com'));
+        $this->assertFalse(Domain::isValid('this-domain-does-not-exist-'.uniqid().'.com'));
+    }
 }

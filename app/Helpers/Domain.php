@@ -6,9 +6,16 @@ namespace App\Helpers;
 
 class Domain
 {
+    /**
+     * Check that the website is reachable, refusing IP literals and hosts that resolve to non-public IPs (SSRF).
+     */
     public static function isValid(string $url): bool
     {
         $urlparts = parse_url(filter_var($url, FILTER_SANITIZE_URL));
+
+        if ($urlparts === false) {
+            return false;
+        }
 
         if (! isset($urlparts['host'])) {
             $urlparts['host'] = $urlparts['path'] ?? '';
@@ -22,61 +29,66 @@ class Domain
             $urlparts['scheme'] = 'http';
         }
 
-        $valid = in_array($urlparts['scheme'], ['http', 'https'], true)
-            && ! self::isPrivateIp($urlparts['host']);
+        $scheme = strtolower($urlparts['scheme']);
+        if (! in_array($scheme, ['http', 'https'], true)) {
+            return false;
+        }
 
-        if ($valid) {
-            $ips = (array) @gethostbyname($urlparts['host']);
-            if ($ips === [false] || $ips === [$urlparts['host']]) {
-                $valid = false;
-            } else {
-                foreach ($ips as $ip) {
-                    if (self::isPrivateIp($ip)) {
-                        $valid = false;
-                        break;
-                    }
-                }
+        $host = preg_replace('/^www\./', '', strtolower($urlparts['host']));
+        if (filter_var($host, FILTER_VALIDATE_IP) !== false) {
+            return false;
+        }
+
+        $url = $scheme.'://'.$host.'/';
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+            return false;
+        }
+
+        $ips = self::resolvePublicIps($host);
+        if ($ips === []) {
+            return false;
+        }
+
+        $port = $scheme === 'https' ? 443 : 80;
+
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_TIMEOUT => 5,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+            CURLOPT_RESOLVE => ["{$host}:{$port}:{$ips[0]}"],
+        ]);
+        $result = @curl_exec($ch);
+        curl_close($ch);
+
+        return $result !== false;
+    }
+
+    /**
+     * Resolve the host IPv4 addresses, returning none if any of them is private or reserved.
+     *
+     * @return list<string>
+     */
+    private static function resolvePublicIps(string $host): array
+    {
+        $ips = @gethostbynamel($host);
+        if ($ips === false || $ips === []) {
+            return [];
+        }
+
+        foreach ($ips as $ip) {
+            if (self::isPrivateIp($ip)) {
+                return [];
             }
         }
 
-        if ($valid) {
-            $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
-            $url = $urlparts['scheme'].'://'.$urlparts['host'].'/';
-
-            if (filter_var($url, FILTER_VALIDATE_URL) !== false) {
-                $ch = curl_init();
-                curl_setopt_array($ch, [
-                    CURLOPT_URL => $url,
-                    CURLOPT_TIMEOUT => 5,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_FOLLOWLOCATION => false,
-                    CURLOPT_RESOLVE_ONLY_PUBLIC_IPS => true,
-                ]);
-                $result = @curl_exec($ch);
-                curl_close($ch);
-
-                $valid = $result !== false;
-            } else {
-                $valid = false;
-            }
-        }
-
-        return $valid;
+        return array_values($ips);
     }
 
     private static function isPrivateIp(string $ip): bool
     {
-        $long = ip2long($ip);
-        if ($long === false) {
-            return true;
-        }
-
-        return
-            ($long >= ip2long('127.0.0.0') && $long <= ip2long('127.255.255.255')) ||
-            ($long >= ip2long('10.0.0.0') && $long <= ip2long('10.255.255.255')) ||
-            ($long >= ip2long('172.16.0.0') && $long <= ip2long('172.31.255.255')) ||
-            ($long >= ip2long('192.168.0.0') && $long <= ip2long('192.168.255.255')) ||
-            ($long >= ip2long('169.254.0.0') && $long <= ip2long('169.254.255.255')) ||
-            ($long >= ip2long('127.0.0.0') && $long <= ip2long('127.255.255.255'));
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false;
     }
 }

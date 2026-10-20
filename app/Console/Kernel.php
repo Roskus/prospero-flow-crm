@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\EmailValidatorCommand::class,
         Commands\ContactEmailPredictCommand::class,
         Commands\PhoneValidatorCommand::class,
+        Commands\WebsiteStatusChecker::class,
     ];
 
     /**

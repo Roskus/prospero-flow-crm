@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Helpers\Domain;
+use App\Models\Customer;
 use App\Models\Lead;
 use Illuminate\Console\Command;
 
@@ -22,30 +23,35 @@ class WebsiteStatusChecker extends Command
      *
      * @var string
      */
-    protected $description = 'Check the HTTP status of all lead websites';
+    protected $description = 'Check the HTTP status of all lead and customer websites';
 
     /**
      * Execute the console command.
      */
     public function handle(): int
     {
-        $leads = Lead::whereNotNull('website')->where('website', '!=', '')->whereNull('website_verified')->get();
         $ok = 0;
         $errors = 0;
 
-        $this->info("Checking {$leads->count()} unverified leads...");
+        foreach ([Lead::class => 'leads', Customer::class => 'customers'] as $model => $label) {
+            $query = $model::query()
+                ->whereNotNull('website')
+                ->where('website', '!=', '')
+                ->whereNull('website_verified');
 
-        foreach ($leads as $lead) {
-            if (Domain::isValid($lead->website)) {
-                $lead->website_verified = true;
-                $lead->save();
-                $this->info("OK: {$lead->website}");
-                $ok++;
-            } else {
-                $lead->website_verified = false;
-                $lead->save();
-                $this->error("Error: {$lead->website}");
-                $errors++;
+            $this->info("Checking {$query->count()} unverified {$label}...");
+
+            foreach ($query->lazyById() as $prospect) {
+                $prospect->website_verified = Domain::isValid($prospect->website);
+                $prospect->save();
+
+                if ($prospect->website_verified) {
+                    $this->info("OK: {$prospect->website}");
+                    $ok++;
+                } else {
+                    $this->error("Error: {$prospect->website}");
+                    $errors++;
+                }
             }
         }
 
