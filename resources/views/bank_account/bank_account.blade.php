@@ -35,15 +35,12 @@
                         @error('account_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-12 col-md-3">
-                        @include('components.country', ['country_id' => old('country_id', $bank_account->country_id)])
+                        @include('components.country', ['country_id' => old('country_id', $bank_account->country_id), 'class' => 'form-select-lg'])
                         @error('country_id') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-12 col-md-3">
-                        <label for="currency">{{ __('Currency') }} <span class="text-danger">*</span></label>
-                        <input type="text" name="currency" id="currency" maxlength="3"
-                               value="{{ old('currency', $bank_account->currency) }}"
-                               placeholder="EUR" required class="form-control form-control-lg text-uppercase @error('currency') is-invalid @enderror">
-                        @error('currency') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        @include('components.currency', ['currency' => old('currency', $bank_account->currency), 'required' => true, 'class' => 'form-select-lg'])
+                        @error('currency') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                     </div>
                 </div>
 
@@ -51,18 +48,8 @@
                 <div id="row-bank">
                     <div class="row mt-3">
                         <div class="col-12 col-md-8">
-                            <label for="bank_search">{{ __('Bank') }}</label>
-                            <input type="text" id="bank_search" placeholder="{{ __('Search bank...') }}"
-                                   class="form-control form-control-lg mb-1" autocomplete="off">
-                            <select name="bank_id" id="bank_id" class="form-select form-select-lg @error('bank_id') is-invalid @enderror" aria-label="{{ __('Bank') }}">
-                                <option value="">{{ __('Choose') }}</option>
-                                @foreach($banks as $bank)
-                                    <option value="{{ $bank->id }}" @selected(old('bank_id', $bank_account->bank_id) == $bank->id)>
-                                        {{ $bank->name }}@if($bank->country) ({{ $bank->country->flag }})@endif
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('bank_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @include('components.bank', ['bank_id' => old('bank_id', $bank_account->bank_id), 'country_id' => old('country_id', $bank_account->country_id), 'class' => 'form-select-lg'])
+                            @error('bank_id') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="swift">SWIFT</label>
@@ -223,16 +210,25 @@ function setVisible(id, visible) {
 
 document.getElementById('type').addEventListener('change', updateForm);
 document.getElementById('country_id').addEventListener('input', updateForm);
-document.getElementById('currency').addEventListener('input', () => {
+document.getElementById('country_id').addEventListener('change', function () {
+    const bankSelect = document.getElementById('bank_id');
+    const selectedBank = bankSelect.tomselect.options[bankSelect.tomselect.getValue()];
+    if (selectedBank && this.value !== '' && selectedBank.country !== this.value.toLowerCase()) {
+        bankSelect.tomselect.clear();
+    }
+    filterBanksByCountry(bankSelect, this.value);
+});
+document.getElementById('currency').addEventListener('change', () => {
     document.getElementById('currency-suffix').textContent =
         document.getElementById('currency').value || '€';
 });
 
-document.getElementById('bank_search').addEventListener('input', function () {
-    const search = this.value.toLowerCase();
-    Array.from(document.getElementById('bank_id').options).forEach(opt => {
-        opt.hidden = opt.value !== '' && !opt.text.toLowerCase().includes(search);
-    });
+document.getElementById('bank_id').addEventListener('change', function () {
+    const swift = document.getElementById('swift');
+    const bic = this.selectedOptions[0]?.dataset.bic;
+    if (bic && swift.value === '') {
+        swift.value = bic;
+    }
 });
 
 updateForm();
