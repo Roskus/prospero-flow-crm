@@ -43,4 +43,17 @@ class CustomerIndexControllerTest extends TestCase
         $response->assertSee($customer->name);
         $response->assertDontSee($customer2->name);
     }
+
+    #[Test]
+    public function it_filters_customers_by_industry_with_searchable_select(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->get('/customer?industry_id='.$customer->industry_id);
+
+        $response->assertOk();
+        $response->assertSee($customer->name);
+        $this->assertMatchesRegularExpression('/<select name="industry_id"[^>]*data-tom-select/', $response->getContent());
+        $this->assertMatchesRegularExpression('/<option value="'.$customer->industry_id.'"\\s+selected="selected"\\s*>/', $response->getContent());
+    }
 }

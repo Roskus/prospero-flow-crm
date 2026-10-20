@@ -60,4 +60,21 @@ class LeadUpdateControllerTest extends TestCase
         $response->assertOk();
         $this->assertSame(1, substr_count($response->getContent(), '/asset/js/Contact.js'));
     }
+
+    #[Test]
+    public function it_renders_translated_address_extra_and_selected_industry(): void
+    {
+        $this->user->update(['lang' => 'es']);
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+
+        $response = $this->get('/lead/update/'.$lead->id);
+
+        $response->assertOk();
+        $response->assertSee('Dirección adicional (ej: Piso / Depto)');
+        $response->assertDontSee('Address extra');
+        $this->assertMatchesRegularExpression('/<option value="'.$lead->industry_id.'"\\s+selected="selected"\\s*>/', $response->getContent());
+    }
 }

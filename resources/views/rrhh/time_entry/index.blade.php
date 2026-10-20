@@ -14,7 +14,7 @@
     </div>
     <div class="col text-end">
         <strong>{{ __('Estimated') }}: {{ number_format($weekly_estimated, 1) }}h</strong> |
-        <strong>{{ __('Actual') }}: {{ number_format($weekly_total, 1) }}h</strong>
+        <strong>{{ __('Actual worked') }}: {{ number_format($weekly_total, 1) }}h</strong>
     </div>
 </div>
 
@@ -26,7 +26,7 @@
             <th style="width:120px">{{ __('Day') }}</th>
             <th>{{ __('Entries') }}</th>
             <th style="width:80px">{{ __('Scheduled') }}</th>
-            <th style="width:80px">{{ __('Actual') }}</th>
+            <th style="width:80px">{{ __('Actual worked') }}</th>
         </tr>
         </thead>
         <tbody>

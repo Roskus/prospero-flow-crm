@@ -269,15 +269,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <label for="industry_id">{{ __('Industry') }}</label>
-                        <select name="industry_id" id="industry_id" class="form-select form-select-lg" data-tom-select>
-                            <option value=""></option>
-                            @foreach($industries as $industry)
-                            <option value="{{ $industry->id }}" @if($industry->id == old('industry_id', $lead->industry_id)) selected="selected" @endif>
-                                {{ __('industry.' . $industry->name) }}
-                            </option>
-                            @endforeach
-                        </select>
+                        @include('components.industry', ['industry_id' => old('industry_id', $lead->industry_id), 'class' => 'form-select-lg'])
                     </div><!--./col-->
                     <div class="col">
                         <label for="status">{{ __('Status') }}</label>
