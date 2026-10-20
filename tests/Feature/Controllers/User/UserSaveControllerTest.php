@@ -75,7 +75,7 @@ class UserSaveControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_rejects_a_password_conparent_companyation_that_does_not_match(): void
+    public function it_rejects_passwords_that_do_not_match(): void
     {
         $response = $this->from('/user/create')->post('/user/save', [
             'first_name' => 'Wrong',
@@ -118,7 +118,7 @@ class UserSaveControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_keeps_the_entered_data_when_the_password_conparent_companyation_fails(): void
+    public function it_keeps_the_entered_data_when_the_passwords_do_not_match(): void
     {
         $company = Company::factory()->create();
         Role::findOrCreate('CompanyAdmin', 'web');
