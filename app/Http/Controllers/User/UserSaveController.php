@@ -63,6 +63,10 @@ class UserSaveController extends MainController
         $user->updated_at = now();
         $user->save();
 
+        if ($user->wasChanged('default_company_id')) {
+            $companyAccessService->forgetCompanies($user);
+        }
+
         if (Auth::user()->hasRole('SuperAdmin') && $request->has('extra_companies')) {
             $companyAccessService->syncExtraCompanies($user, $request->input('extra_companies', []), Auth::user());
         }

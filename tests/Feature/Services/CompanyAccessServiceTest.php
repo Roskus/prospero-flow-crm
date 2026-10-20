@@ -113,6 +113,28 @@ class CompanyAccessServiceTest extends TestCase
     }
 
     #[Test]
+    public function making_the_only_extra_company_the_default_one_clears_the_multi_company_access(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->create();
+        $user = User::factory()->create(['company_id' => $parentCompany->id]);
+        $this->companyAccessService->grant($user, $clientCompany);
+        $this->companyAccessService->accessibleCompanies($user->fresh());
+        $user->refresh();
+        $user->default_company_id = $clientCompany->id;
+        $user->company_id = $clientCompany->id;
+        $user->save();
+
+        $this->companyAccessService->syncExtraCompanies($user->fresh(), []);
+
+        $user->refresh();
+        $this->assertNull($user->default_company_id);
+        $this->assertSame($clientCompany->id, $user->company_id);
+        $this->assertDatabaseMissing('user_company', ['user_id' => $user->id]);
+        $this->assertFalse(Cache::has(CompanyAccessService::cacheKey($user->id)));
+    }
+
+    #[Test]
     public function the_default_company_cannot_be_revoked(): void
     {
         $user = User::factory()->create();

@@ -128,7 +128,8 @@ class CompanyAccessService
     }
 
     /**
-     * Grant and revoke so the user's extra companies match the given ids (the default company is ignored).
+     * Grant and revoke so the user's extra companies match the given ids (the default company is ignored). A user
+     * left without extra companies, e.g. after making the only one their default, no longer has multi-company access.
      *
      * @param  array<int, int|string|null>  $companyIds
      */
@@ -147,6 +148,13 @@ class CompanyAccessService
 
         Company::withTrashed()->whereIn('id', $currentIds->diff($wantedIds))->get()
             ->each(fn (Company $company) => $this->revoke($user->refresh(), $company));
+
+        if ($user->refresh()->hasMultiCompanyAccess() && ! $user->extraCompanies()->exists()) {
+            $user->company_id = $user->defaultCompanyId();
+            $user->default_company_id = null;
+            $user->save();
+            $this->forgetCompanies($user);
+        }
     }
 
     /**

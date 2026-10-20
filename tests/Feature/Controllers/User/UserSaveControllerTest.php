@@ -228,6 +228,51 @@ class UserSaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function changing_the_default_company_refreshes_the_company_switcher(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->create();
+        $newParentCompany = Company::factory()->create();
+        $user = User::factory()->create(['company_id' => $parentCompany->id]);
+        $companyAccessService = app(CompanyAccessService::class);
+        $companyAccessService->grant($user, $clientCompany);
+        $companyAccessService->accessibleCompanies($user->fresh());
+
+        $this->post('/user/save', [
+            'id' => $user->id,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'lang' => 'es',
+            'company_id' => $newParentCompany->id,
+            'extra_companies' => ['', $clientCompany->id],
+        ])->assertRedirect('/user');
+
+        $this->assertSame(
+            [$newParentCompany->id, $clientCompany->id],
+            $companyAccessService->accessibleCompanies($user->fresh())->pluck('id')->all()
+        );
+    }
+
+    #[Test]
+    public function extra_companies_must_be_an_array_when_present(): void
+    {
+        $user = User::factory()->create();
+
+        $this->from('/user/update/'.$user->id)->post('/user/save', [
+            'id' => $user->id,
+            'first_name' => 'Unchanged',
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'lang' => 'es',
+            'company_id' => $user->company_id,
+            'extra_companies' => null,
+        ])->assertSessionHasErrors('extra_companies');
+
+        $this->assertNotSame('Unchanged', $user->fresh()->first_name);
+    }
+
+    #[Test]
     public function only_super_admin_can_change_the_companies_of_a_user(): void
     {
         $clientCompany = Company::factory()->create();
