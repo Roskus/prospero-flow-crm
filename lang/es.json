@@ -353,5 +353,7 @@
     "The status is not valid.": "El estado no es válido.",
     "The password is required for new users.": "La contraseña es obligatoria para los usuarios nuevos.",
     "The password confirmation does not match.": "La confirmación de la contraseña no coincide.",
-    "Unlock": "Desbloquear"
+    "Unlock": "Desbloquear",
+    "Not :name?": "¿No eres :name?",
+    "Sign in with another user": "Iniciar sesión con otro usuario"
 }

@@ -15,7 +15,8 @@ class UserCreateService
         $role = $data['role'] ?? null;
         unset($data['role']);
 
-        $data['password'] = Hash::make($data['password']);
+        $plainPassword = $data['password'];
+        $data['password'] = Hash::make($plainPassword);
         $data['must_change_password'] = true;
 
         $user = User::create($data);
@@ -27,7 +28,7 @@ class UserCreateService
         }
 
         if ($sendEmail) {
-            $this->sendWelcomeEmail($user, $data['password']);
+            $this->sendWelcomeEmail($user, $plainPassword);
         }
 
         return $user;

@@ -57,6 +57,19 @@ class PasswordToggleViewTest extends TestCase
     }
 
     #[Test]
+    public function change_password_screen_prevents_autofilling_the_new_password(): void
+    {
+        $this->user->update(['must_change_password' => true]);
+
+        $response = $this->get(route('password.change.form'));
+
+        $response->assertOk();
+        $response->assertSee('id="current_password" required autocomplete="current-password"', false);
+        $response->assertSee('id="password" minlength="8" required autocomplete="new-password"', false);
+        $response->assertSee('id="password_confirmation" minlength="8" required autocomplete="new-password"', false);
+    }
+
+    #[Test]
     public function profile_screen_uses_shared_password_toggle(): void
     {
         $response = $this->get('/profile');

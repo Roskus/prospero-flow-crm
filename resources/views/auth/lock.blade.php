@@ -81,6 +81,13 @@
                 </div>
             @endif
         </form>
+        <form action="{{ route('logout') }}" method="post" class="text-center mt-3">
+            @csrf
+            <small class="text-muted">{{ __('Not :name?', ['name' => Auth::user()->first_name]) }}</small>
+            <button type="submit" class="btn btn-link btn-sm p-0 align-baseline">
+                <i class="las la-sign-out-alt"></i> {{ __('Sign in with another user') }}
+            </button>
+        </form>
     </div>
 </div>
 @push('scripts')

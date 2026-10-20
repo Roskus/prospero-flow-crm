@@ -308,5 +308,7 @@
     "The status is not valid." : "The status is not valid.",
     "The password is required for new users." : "The password is required for new users.",
     "The password confirmation does not match." : "The password confirmation does not match.",
-    "Unlock" : "Unlock"
+    "Unlock" : "Unlock",
+    "Not :name?" : "Not :name?",
+    "Sign in with another user" : "Sign in with another user"
 }

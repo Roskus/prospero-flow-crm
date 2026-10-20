@@ -17,7 +17,7 @@
                 <div class="col-md-6">
                     <label for="current_password">{{ __('Current password') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
-                        <input type="password" name="current_password" id="current_password" required class="form-control">
+                        <input type="password" name="current_password" id="current_password" required autocomplete="current-password" class="form-control">
                         <button type="button" toggle="#current_password" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </div>
                     @error('current_password')
@@ -30,7 +30,7 @@
                 <div class="col-md-6">
                     <label for="password">{{ __('New password') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
-                        <input type="password" name="password" id="password" minlength="8" required class="form-control">
+                        <input type="password" name="password" id="password" minlength="8" required autocomplete="new-password" class="form-control">
                         <button type="button" toggle="#password" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </div>
                     @error('password')
@@ -40,7 +40,7 @@
                 <div class="col-md-6">
                     <label for="password_confirmation">{{ __('Confirm new password') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
-                        <input type="password" name="password_confirmation" id="password_confirmation" minlength="8" required class="form-control">
+                        <input type="password" name="password_confirmation" id="password_confirmation" minlength="8" required autocomplete="new-password" class="form-control">
                         <button type="button" toggle="#password_confirmation" class="toggle-password btn btn-outline-secondary" aria-label="{{ __('Toggle password visibility') }}"><i class="las la-eye"></i></button>
                     </div>
                 </div>
