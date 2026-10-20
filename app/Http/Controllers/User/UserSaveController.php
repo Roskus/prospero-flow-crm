@@ -7,12 +7,13 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Services\CompanyAccessService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserSaveController extends MainController
 {
-    public function save(UserRequest $request)
+    public function save(UserRequest $request, CompanyAccessService $companyAccessService)
     {
         if (empty($request->id)) {
             $user = new User;
@@ -26,7 +27,7 @@ class UserSaveController extends MainController
         }
 
         if (Auth::user()->hasRole('SuperAdmin')) {
-            $user->company_id = $request->company_id;
+            $this->setCompany($user, (int) $request->company_id);
         }
 
         $user->first_name = $request->first_name;
@@ -62,6 +63,28 @@ class UserSaveController extends MainController
         $user->updated_at = now();
         $user->save();
 
+        if (Auth::user()->hasRole('SuperAdmin') && $request->has('extra_companies')) {
+            $companyAccessService->syncExtraCompanies($user, $request->input('extra_companies', []), Auth::user());
+        }
+
         return redirect('/user');
+    }
+
+    /**
+     * For multi-company users the form edits their default company and leaves the active one untouched,
+     * unless the default company changes.
+     */
+    private function setCompany(User $user, int $companyId): void
+    {
+        if (! $user->hasMultiCompanyAccess()) {
+            $user->company_id = $companyId;
+
+            return;
+        }
+
+        if ($companyId !== $user->defaultCompanyId()) {
+            $user->default_company_id = $companyId;
+            $user->company_id = $companyId;
+        }
     }
 }

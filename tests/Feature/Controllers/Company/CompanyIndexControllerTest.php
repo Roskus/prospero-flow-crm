@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Company;
 
 use App\Models\Company;
+use App\Models\User;
+use App\Services\CompanyAccessService;
+use Database\Seeders\PermissionSeeder;
+use Database\Seeders\RoleSeeder;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -91,5 +95,88 @@ class CompanyIndexControllerTest extends TestCase
         $response = $this->get('/company?filter=invalid');
 
         $response->assertSessionHasErrors('filter');
+    }
+
+    #[Test]
+    public function super_admin_sees_the_companies_quota_with_used_client_companies(): void
+    {
+        $parentCompany = Company::factory()->withQuota(5)->create();
+        Company::factory()->clientOf($parentCompany)->count(2)->create();
+        Company::factory()->clientOf($parentCompany)->create()->delete();
+
+        $response = $this->get('/company');
+
+        $response->assertOk();
+        $response->assertSee(__('Companies quota'));
+        $response->assertSee('3 / 5');
+        $response->assertDontSee('0 / 0');
+    }
+
+    #[Test]
+    public function company_admin_only_sees_their_company(): void
+    {
+        $companyAdmin = $this->createCompanyAdmin();
+        $otherCompany = Company::factory()->create();
+
+        $this->actingAs($companyAdmin)->get('/company')
+            ->assertOk()
+            ->assertSee($companyAdmin->company->name)
+            ->assertDontSee($otherCompany->name)
+            ->assertSee(__('Companies quota'))
+            ->assertDontSee('name="filter"', false);
+    }
+
+    #[Test]
+    public function multi_company_user_sees_their_default_and_extra_companies(): void
+    {
+        $multiCompanyUser = $this->createCompanyAdmin();
+        $clientCompany = Company::factory()->clientOf($multiCompanyUser->company)->create();
+        $otherCompany = Company::factory()->create();
+        app(CompanyAccessService::class)->grant($multiCompanyUser, $clientCompany);
+
+        $this->actingAs($multiCompanyUser->fresh())->get('/company')
+            ->assertOk()
+            ->assertSee($multiCompanyUser->company->name)
+            ->assertSee($clientCompany->name)
+            ->assertDontSee($otherCompany->name)
+            ->assertSee('href="'.url('/company/update/'.$multiCompanyUser->company_id).'"', false)
+            ->assertDontSee('href="'.url('/company/update/'.$clientCompany->id).'"', false);
+    }
+
+    #[Test]
+    public function company_admin_cannot_filter_deleted_companies(): void
+    {
+        $this->actingAs($this->createCompanyAdmin())->get('/company?filter=all')
+            ->assertSessionHasErrors('filter');
+    }
+
+    #[Test]
+    public function other_roles_cannot_open_the_company_list(): void
+    {
+        $this->seed([RoleSeeder::class, PermissionSeeder::class]);
+        $support = User::factory()->create();
+        $support->assignRole('Support');
+
+        $this->actingAs($support)->get('/company')->assertForbidden();
+    }
+
+    #[Test]
+    public function company_admin_can_only_open_the_form_of_their_active_company(): void
+    {
+        $companyAdmin = $this->createCompanyAdmin();
+        $clientCompany = Company::factory()->create();
+        app(CompanyAccessService::class)->grant($companyAdmin, $clientCompany);
+
+        $this->actingAs($companyAdmin->fresh())->get('/company/update/'.$companyAdmin->company_id)->assertOk();
+        $this->actingAs($companyAdmin->fresh())->get('/company/update/'.$clientCompany->id)->assertForbidden();
+    }
+
+    private function createCompanyAdmin(): User
+    {
+        $this->seed([RoleSeeder::class, PermissionSeeder::class]);
+        $companyAdmin = User::factory()->create();
+        $companyAdmin->assignRole('CompanyAdmin');
+
+        return $companyAdmin;
     }
 }

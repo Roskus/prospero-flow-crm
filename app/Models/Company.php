@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OA;
@@ -70,6 +73,8 @@ class Company extends Model
         'weekly_hours_full_time',
         'personal_days_per_year',
         'dashboard_calendar_view',
+        'managed_companies_limit',
+        'parent_company_id',
     ];
 
     protected $hidden = [
@@ -80,14 +85,34 @@ class Company extends Model
 
     /**
      * @param  'active'|'deleted'|'all'|null  $filter  Active companies by default
+     * @param  User|null  $user  Limits the list to the companies the user can access, unless SuperAdmin
      */
-    public function getAllPaginated(int $limit = 50, ?string $filter = null)
+    public function getAllPaginated(int $limit = 50, ?string $filter = null, ?User $user = null)
     {
         return Company::query()
+            ->withCount(['clientCompanies' => fn ($query) => $query->withTrashed()])
+            ->when($user !== null && ! $user->hasRole('SuperAdmin'), fn ($query) => $query->where(
+                fn ($query) => $query->whereKey($user->defaultCompanyId())
+                    ->orWhereHas('grantedUsers', fn ($query) => $query->whereKey($user->id))
+            ))
             ->when($filter === 'deleted', fn ($query) => $query->onlyTrashed())
             ->when($filter === 'all', fn ($query) => $query->withTrashed())
             ->orderBy('name', 'asc')
             ->paginate($limit);
+    }
+
+    /**
+     * Companies that can be the parent of a client company: only one level of clients is allowed.
+     *
+     * @return Collection<int, Company>
+     */
+    public function getParentCandidates(?int $exceptCompanyId = null)
+    {
+        return Company::query()
+            ->whereNull('parent_company_id')
+            ->when($exceptCompanyId, fn ($query) => $query->whereKeyNot($exceptCompanyId))
+            ->orderBy('name')
+            ->get(['id', 'name']);
     }
 
     public function getAll()
@@ -103,6 +128,51 @@ class Company extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Users granted access to this company besides its own users.
+     */
+    public function grantedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_company', 'company_id', 'user_id')
+            ->withPivot('granted_by')
+            ->withTimestamps();
+    }
+
+    /**
+     * Parent company that created this client company.
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'parent_company_id');
+    }
+
+    public function clientCompanies(): HasMany
+    {
+        return $this->hasMany(Company::class, 'parent_company_id');
+    }
+
+    /**
+     * Deleted client companies still count, so the quota cannot be bypassed by deleting and recreating.
+     */
+    public function usedClientQuota(): int
+    {
+        return $this->clientCompanies()->withTrashed()->count();
+    }
+
+    /**
+     * Most companies have no quota (0), which is answered without counting client companies.
+     */
+    public function availableClientQuota(): int
+    {
+        $managedCompaniesLimit = (int) $this->managed_companies_limit;
+
+        if ($managedCompaniesLimit === 0) {
+            return 0;
+        }
+
+        return max(0, $managedCompaniesLimit - $this->usedClientQuota());
     }
 
     public function currencyRates(): HasMany

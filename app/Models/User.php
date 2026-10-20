@@ -6,8 +6,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -110,6 +114,87 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
+    /**
+     * Own company of a user with multi-company access; null for everyone else.
+     */
+    public function defaultCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'default_company_id');
+    }
+
+    /**
+     * Companies the user can access besides their default company.
+     */
+    public function extraCompanies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'user_company', 'user_id', 'company_id')
+            ->withPivot('granted_by')
+            ->withTimestamps();
+    }
+
+    /**
+     * The company the user belongs to: stored for multi-company users, otherwise the current one.
+     */
+    public function defaultCompanyId(): int
+    {
+        return (int) ($this->default_company_id ?? $this->company_id);
+    }
+
+    public function hasMultiCompanyAccess(): bool
+    {
+        return $this->default_company_id !== null;
+    }
+
+    /**
+     * The default company is answered in memory, so single company users never query the pivot.
+     */
+    public function canAccessCompany(int $companyId): bool
+    {
+        if ($companyId === $this->defaultCompanyId()) {
+            return true;
+        }
+
+        if (! $this->hasMultiCompanyAccess()) {
+            return false;
+        }
+
+        return $this->extraCompanies()->whereKey($companyId)->exists();
+    }
+
+    public function canCreateCompany(): bool
+    {
+        if ($this->hasRole('SuperAdmin')) {
+            return true;
+        }
+
+        if (! $this->hasRole(self::MULTI_COMPANY_ADMIN)) {
+            return false;
+        }
+
+        return (Company::query()->find($this->defaultCompanyId())?->availableClientQuota() ?? 0) > 0;
+    }
+
+    /**
+     * Outside SuperAdmin only the active company can be edited; a client company is edited after switching to it.
+     */
+    public function canUpdateCompany(int $companyId): bool
+    {
+        if (! $this->can('update company')) {
+            return false;
+        }
+
+        return $this->hasRole('SuperAdmin') || $companyId === (int) $this->company_id;
+    }
+
+    /**
+     * Users with access to more than one company.
+     */
+    #[Scope]
+    protected function multiCompany(Builder $query): void
+    {
+        $query->whereNotNull('default_company_id');
+    }
+
     public function manager()
     {
         return $this->belongsTo(User::class, 'manager_id');
@@ -146,6 +231,11 @@ class User extends Authenticatable implements JWTSubject
      * another CompanyAdmin of the same company. Other roles (e.g. HR) can neither assign nor manage them.
      */
     public const array ADMINISTRATOR_ROLES = ['SuperAdmin', 'CompanyAdmin'];
+
+    /**
+     * Added on top of CompanyAdmin to create client companies within the quota of their default company.
+     */
+    public const string MULTI_COMPANY_ADMIN = 'MultiCompanyAdmin';
 
     public function isAdministrator(): bool
     {

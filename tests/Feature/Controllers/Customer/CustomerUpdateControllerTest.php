@@ -47,4 +47,18 @@ class CustomerUpdateControllerTest extends TestCase
         $response->assertSee('id="search-address-feedback"', false);
         $response->assertSee(json_encode('No se encontró la dirección'), false);
     }
+
+    #[Test]
+    public function it_loads_the_contact_script_once(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+
+        $response = $this->get('/customer/update/'.$customer->id);
+
+        $response->assertOk();
+        $this->assertSame(1, substr_count($response->getContent(), '/asset/js/Contact.js'));
+    }
 }

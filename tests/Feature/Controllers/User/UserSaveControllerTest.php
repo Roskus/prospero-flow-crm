@@ -6,7 +6,9 @@ namespace Tests\Feature\Controllers\User;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Services\CompanyAccessService;
 use PHPUnit\Framework\Attributes\Test;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -73,7 +75,7 @@ class UserSaveControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_rejects_a_password_confirmation_that_does_not_match(): void
+    public function it_rejects_a_password_conparent_companyation_that_does_not_match(): void
     {
         $response = $this->from('/user/create')->post('/user/save', [
             'first_name' => 'Wrong',
@@ -116,7 +118,7 @@ class UserSaveControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_keeps_the_entered_data_when_the_password_confirmation_fails(): void
+    public function it_keeps_the_entered_data_when_the_password_conparent_companyation_fails(): void
     {
         $company = Company::factory()->create();
         Role::findOrCreate('CompanyAdmin', 'web');
@@ -145,5 +147,112 @@ class UserSaveControllerTest extends TestCase
         $response->assertDontSee('Owner-pass-123');
         $response->assertSee('autocomplete="new-password"', false);
         $this->assertDatabaseMissing('user', ['email' => 'kept.values@example.com']);
+    }
+
+    #[Test]
+    public function super_admin_grants_and_revokes_other_companies_from_the_user_form(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->create();
+        $user = User::factory()->create(['company_id' => $parentCompany->id]);
+        $payload = [
+            'id' => $user->id,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'lang' => 'es',
+            'company_id' => $parentCompany->id,
+        ];
+
+        $this->post('/user/save', $payload + ['extra_companies' => ['', $clientCompany->id]])->assertRedirect('/user');
+
+        $user->refresh();
+        $this->assertSame($parentCompany->id, $user->default_company_id);
+        $this->assertDatabaseHas('user_company', ['user_id' => $user->id, 'company_id' => $clientCompany->id, 'granted_by' => $this->user->id]);
+
+        $this->post('/user/save', $payload + ['extra_companies' => ['']])->assertRedirect('/user');
+
+        $user->refresh();
+        $this->assertNull($user->default_company_id);
+        $this->assertDatabaseMissing('user_company', ['user_id' => $user->id]);
+    }
+
+    #[Test]
+    public function editing_a_multi_company_user_keeps_their_active_company(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->create();
+        $user = User::factory()->create(['company_id' => $parentCompany->id]);
+        app(CompanyAccessService::class)->grant($user, $clientCompany);
+        $user->refresh()->update(['company_id' => $clientCompany->id]);
+
+        $this->post('/user/save', [
+            'id' => $user->id,
+            'first_name' => 'Renamed',
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'lang' => 'es',
+            'company_id' => $parentCompany->id,
+            'extra_companies' => ['', $clientCompany->id],
+        ])->assertRedirect('/user');
+
+        $user->refresh();
+        $this->assertSame('Renamed', $user->first_name);
+        $this->assertSame($clientCompany->id, $user->company_id);
+        $this->assertSame($parentCompany->id, $user->default_company_id);
+    }
+
+    #[Test]
+    public function changing_the_default_company_to_an_extra_one_removes_it_from_the_extras(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->create();
+        $other = Company::factory()->create();
+        $user = User::factory()->create(['company_id' => $parentCompany->id]);
+        app(CompanyAccessService::class)->grant($user, $clientCompany);
+
+        $this->post('/user/save', [
+            'id' => $user->id,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'lang' => 'es',
+            'company_id' => $clientCompany->id,
+            'extra_companies' => ['', $clientCompany->id, $other->id],
+        ])->assertRedirect('/user');
+
+        $user->refresh();
+        $this->assertSame($clientCompany->id, $user->default_company_id);
+        $this->assertSame($clientCompany->id, $user->company_id);
+        $this->assertSame([$other->id], $user->extraCompanies()->pluck('company.id')->map(fn ($id) => (int) $id)->all());
+    }
+
+    #[Test]
+    public function only_super_admin_can_change_the_companies_of_a_user(): void
+    {
+        $clientCompany = Company::factory()->create();
+        $companyAdmin = User::factory()->create();
+        $companyAdmin->assignRole(Role::findOrCreate('CompanyAdmin', 'web'));
+        $companyAdmin->givePermissionTo(Permission::findOrCreate('update user', 'web'));
+        $employee = User::factory()->create(['company_id' => $companyAdmin->company_id]);
+
+        $this->actingAs($companyAdmin)->post('/user/save', [
+            'id' => $employee->id,
+            'first_name' => $employee->first_name,
+            'last_name' => $employee->last_name,
+            'email' => $employee->email,
+            'lang' => 'es',
+            'extra_companies' => [$clientCompany->id],
+        ])->assertSessionHasErrors('extra_companies');
+
+        $this->assertDatabaseMissing('user_company', ['user_id' => $employee->id]);
+    }
+
+    #[Test]
+    public function the_user_form_shows_the_extra_companies_only_to_super_admin(): void
+    {
+        $user = User::factory()->create();
+
+        $this->get('/user/update/'.$user->id)->assertOk()->assertSee('name="extra_companies[]"', false);
     }
 }

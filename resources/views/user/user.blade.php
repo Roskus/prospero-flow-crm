@@ -82,9 +82,20 @@
                 <select name="company_id" id="company_id" required="required" class="form-select form-control-lg">
                     <option value=""></option>
                     @foreach($companies as $company)
-                        <option value="{{ $company->id }}" @selected(old('company_id', $user->company_id) == $company->id)>{{ $company->name }}</option>
+                        <option value="{{ $company->id }}" @selected(old('company_id', $user->exists ? $user->defaultCompanyId() : null) == $company->id)>{{ $company->name }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="col">
+                <label for="extra_companies">{{ __('Access to other companies') }}</label>
+                <input type="hidden" name="extra_companies[]" value="">
+                @php($extraCompanyIds = array_map('intval', old('extra_companies', $user->exists ? $user->extraCompanies()->pluck('company.id')->all() : [])))
+                <select name="extra_companies[]" id="extra_companies" multiple class="form-select form-control-lg">
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}" @selected(in_array($company->id, $extraCompanyIds, true))>{{ $company->name }}</option>
+                    @endforeach
+                </select>
+                <small class="form-text text-muted">{{ __('The user can switch to these companies from the top bar.') }}</small>
             </div>
             @endif
             <div class="col">

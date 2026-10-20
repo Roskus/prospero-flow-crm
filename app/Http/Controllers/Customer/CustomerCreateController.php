@@ -28,8 +28,7 @@ class CustomerCreateController extends MainController
         $user = new User;
         $data['customer'] = $customer;
         $data['countries'] = Country::orderBy('name')->get();
-        // Temporary fix get this from configuration
-        $data['industries'] = ((int) Auth::user()->company_id == 3) ? $industry->getAllByCompany((int) Auth::user()->company_id) : $industry->getAll();
+        $data['industries'] = $industry->getForCompany((int) Auth::user()->company_id);
         $data['sellers'] = $user->getAllActiveByCompany((int) Auth::user()->company_id);
         $data['sources'] = Source::all();
         $data['editorType'] = 'advanced';

@@ -360,5 +360,20 @@
     "This is an automatic reminder to contact :name at :time": "Este es un recordatorio automático para contactar a :name a las :time",
     "Reminder": "Recordatorio",
     "New notification": "Nueva notificación",
-    "You have no unread notifications": "No tienes notificaciones sin leer"
+    "You have no unread notifications": "No tienes notificaciones sin leer",
+    "Switch company": "Cambiar de compañía",
+    "Own company": "Compañía propia",
+    "Companies quota": "Cupo de compañías",
+    "How many client companies a MultiCompanyAdmin of this company can create.": "Cuántas compañías cliente puede crear un MultiCompanyAdmin de esta compañía.",
+    "Used: :used": "Usadas: :used",
+    "Managed by": "Gestionada por",
+    "Parent company of this client company; it counts against its quota.": "Compañía padre de esta compañía cliente; cuenta para su cupo.",
+    "You are not allowed to change the client companies quota.": "No tienes permiso para cambiar el cupo de compañías cliente.",
+    "You are not allowed to change the parent company.": "No tienes permiso para cambiar la compañía padre.",
+    "The parent company cannot be a client company.": "La compañía padre no puede ser una compañía cliente.",
+    "A company with client companies cannot be a client company.": "Una compañía con compañías cliente no puede ser una compañía cliente.",
+    "None": "Ninguna",
+    "Access to other companies": "Acceso a otras compañías",
+    "The user can switch to these companies from the top bar.": "El usuario puede cambiar a estas compañías desde la barra superior.",
+    "You are not allowed to change the companies of a user.": "No tienes permiso para cambiar las compañías de un usuario."
 }

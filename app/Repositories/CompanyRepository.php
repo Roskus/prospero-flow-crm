@@ -37,6 +37,12 @@ class CompanyRepository
         $company->personal_days_per_year = (int) ($data['personal_days_per_year'] ?? $company->personal_days_per_year ?? 2);
         $company->weekly_hours_full_time = (float) ($data['weekly_hours_full_time'] ?? $company->weekly_hours_full_time ?? 37.00);
         $company->dashboard_calendar_view = $data['dashboard_calendar_view'] ?? $company->dashboard_calendar_view ?? Company::CALENDAR_VIEW_MONTH;
+        if (array_key_exists('managed_companies_limit', $data)) {
+            $company->managed_companies_limit = (int) $data['managed_companies_limit'];
+        }
+        if (array_key_exists('parent_company_id', $data)) {
+            $company->parent_company_id = $data['parent_company_id'] ? (int) $data['parent_company_id'] : null;
+        }
         $company->status = isset($data['status']) ? (int) $data['status'] : ($company->status ?? Company::ACTIVE);
         $company->updated_at = now();
         $company->save();

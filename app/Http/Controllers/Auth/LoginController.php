@@ -72,8 +72,12 @@ class LoginController extends Controller implements HasMiddleware
         $this->sendTraitLockoutResponse($request);
     }
 
+    /**
+     * Every web session starts in the user's own company, never silently inside a client company.
+     */
     protected function authenticated(Request $request, $user): void
     {
+        $user->company_id = $user->defaultCompanyId();
         $user->update([
             'last_login_at' => Carbon::now()->toDateTimeString(),
             'last_login_ip' => $request->getClientIp(),

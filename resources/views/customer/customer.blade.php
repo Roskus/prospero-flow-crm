@@ -433,7 +433,6 @@
         });
     </script>
     @include('components.tom_select')
-    <script src="/asset/js/Contact.js"></script>
     <script src="/asset/js/Region.js"></script>
     @endpush
 @endsection

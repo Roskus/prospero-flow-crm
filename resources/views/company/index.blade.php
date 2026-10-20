@@ -11,6 +11,7 @@
         <a href="{{ url("/company/create") }}" class="btn btn-primary">{{ __('New') }}</a>
         @endcan
     </div>
+    @role('SuperAdmin')
     <form method="GET" action="{{ route('company.index') }}">
         <select name="filter" class="form-select" onchange="this.form.submit()" aria-label="{{ __('Status') }}">
             <option value="active" @selected(in_array(request('filter'), [null, 'active'], true))>{{ __('Active') }}</option>
@@ -18,6 +19,7 @@
             <option value="all" @selected(request('filter') === 'all')>{{ __('All') }}</option>
         </select>
     </form>
+    @endrole
 </div>
 
 <div class="card">
@@ -38,6 +40,9 @@
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Currency') }}</th>
                 <th>{{ __('Status') }}</th>
+                @hasanyrole('SuperAdmin|CompanyAdmin')
+                <th class="text-center">{{ __('Companies quota') }}</th>
+                @endhasanyrole
                 <th>{{ __('Created at') }}</th>
                 <th>{{ __('Updated at') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -54,13 +59,13 @@
                     @endif
                 </td>
                 <td>
-                    @can('update company')
+                    @if(Auth::user()->canUpdateCompany($company->id))
                         <a href="{{ url("/company/update/$company->id") }}">
                         {{ $company->name }}
                         </a>
                     @else
                         {{ $company->name }}
-                    @endcan
+                    @endif
                 </td>
                 <td>{{ $company->business_name }}</td>
                 <td>{{ $company->vat }}</td>
@@ -86,14 +91,23 @@
                         <span class="badge bg-secondary">{{ __('Inactive') }}</span>
                     @endif
                 </td>
+                @hasanyrole('SuperAdmin|CompanyAdmin')
+                <td class="text-center">
+                    @if($company->managed_companies_limit > 0 || $company->client_companies_count > 0)
+                        {{ $company->client_companies_count }} / {{ $company->managed_companies_limit }}
+                    @else
+                        0
+                    @endif
+                </td>
+                @endhasanyrole
                 <td>{{ ($company->created_at) ? $company->created_at->format('d/m/Y H:i') : '' }}</td>
                 <td>{{ ($company->updated_at) ? $company->updated_at->format('d/m/Y H:i') : '' }}</td>
                 <td class="text-nowrap">
-                @can('update company')
+                @if(Auth::user()->canUpdateCompany($company->id))
                 <a href="{{ url("/company/update/$company->id") }}" class="btn btn-warning" title="{{ __('Update') }}">
                     <i class="las la-edit"></i>
                 </a>
-                @endcan
+                @endif
 
                 @can('delete company')
                 @unless($company->trashed())

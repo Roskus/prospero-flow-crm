@@ -44,6 +44,8 @@ class UserRequest extends FormRequest
             'password' => ['required_without:id', 'nullable', 'string', 'min:8', 'confirmed'], // Required on create, optional on update
             'roles' => ['nullable', 'array'],
             'roles.*' => ['string', Rule::in(Auth::user()->assignableRoles()->pluck('name')->all())],
+            'extra_companies' => Auth::user()->hasRole('SuperAdmin') ? ['nullable', 'array'] : 'prohibited',
+            'extra_companies.*' => ['nullable', 'integer', Rule::exists('company', 'id')->whereNull('deleted_at')],
         ];
     }
 
@@ -56,6 +58,7 @@ class UserRequest extends FormRequest
             'roles.*.in' => __('You are not allowed to assign this role.'),
             'password.required_without' => __('The password is required for new users.'),
             'password.confirmed' => __('The password confirmation does not match.'),
+            'extra_companies.prohibited' => __('You are not allowed to change the companies of a user.'),
         ];
     }
 }

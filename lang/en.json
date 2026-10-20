@@ -315,5 +315,20 @@
     "This is an automatic reminder to contact :name at :time" : "This is an automatic reminder to contact :name at :time",
     "Reminder" : "Reminder",
     "New notification" : "New notification",
-    "You have no unread notifications" : "You have no unread notifications"
+    "You have no unread notifications" : "You have no unread notifications",
+    "Switch company" : "Switch company",
+    "Own company" : "Own company",
+    "Companies quota" : "Companies quota",
+    "How many client companies a MultiCompanyAdmin of this company can create." : "How many client companies a MultiCompanyAdmin of this company can create.",
+    "Used: :used" : "Used: :used",
+    "Managed by" : "Managed by",
+    "Parent company of this client company; it counts against its quota." : "Parent company of this client company; it counts against its quota.",
+    "You are not allowed to change the client companies quota." : "You are not allowed to change the client companies quota.",
+    "You are not allowed to change the parent company." : "You are not allowed to change the parent company.",
+    "The parent company cannot be a client company." : "The parent company cannot be a client company.",
+    "A company with client companies cannot be a client company." : "A company with client companies cannot be a client company.",
+    "None" : "None",
+    "Access to other companies" : "Access to other companies",
+    "The user can switch to these companies from the top bar." : "The user can switch to these companies from the top bar.",
+    "You are not allowed to change the companies of a user." : "You are not allowed to change the companies of a user."
 }
