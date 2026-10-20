@@ -330,5 +330,21 @@
     "None" : "None",
     "Access to other companies" : "Access to other companies",
     "The user can switch to these companies from the top bar." : "The user can switch to these companies from the top bar.",
-    "You are not allowed to change the companies of a user." : "You are not allowed to change the companies of a user."
+    "You are not allowed to change the companies of a user." : "You are not allowed to change the companies of a user.",
+    "The companies quota has been reached." : "The companies quota has been reached.",
+    "Available companies: :available" : "Available companies: :available",
+    "Users with access to several companies: :count" : "Users with access to several companies: :count",
+    "MultiCompanyAdmin: :count" : "MultiCompanyAdmin: :count",
+    "MultiCompanyAdmin" : "MultiCompanyAdmin",
+    "Customize" : "Customize",
+    "Dashboard" : "Dashboard",
+    "HR Settings" : "HR Settings",
+    "Last order number" : "Last order number",
+    "Personal days per year" : "Personal days per year",
+    "Tax identification" : "Tax identification",
+    "The next order will be assigned number" : "The next order will be assigned number",
+    "Vacation days per year" : "Vacation days per year",
+    "Weekly hours full time" : "Weekly hours full time",
+    "Are you sure you want to delete this company?" : "Are you sure you want to delete this company?",
+    "Company list" : "Company list"
 }

@@ -9,7 +9,7 @@ Some customers manage the CRM of several client companies. Today a user belongs 
 - A user can be granted access to additional companies through a new `user_company` pivot table (who granted it and when).
 - The user's current `company_id` becomes the **active company**. A company switcher in the navbar lets users with access to more than one company change it; every switch is validated against the pivot and logged in the security log.
 - The SuperAdmin sets on a company (for example the parent company) a quota (`managed_companies_limit`) of client companies it may create. Client companies are linked to the parent company that created them (`parent_company_id`). The SuperAdmin can also grant and revoke user access manually.
-- New `MultiCompanyAdmin` role, assigned only by SuperAdmin on top of `CompanyAdmin`: it only adds the ability to create client companies, so the user keeps every CompanyAdmin permission and these users are easy to identify and count.
+- New `MultiCompanyAdmin` role, assigned only by SuperAdmin: a CompanyAdmin with more permissions. It inherits every CompanyAdmin permission and adds accessing and creating client companies, so these users are easy to identify and count.
 - A MultiCompanyAdmin whose parent company has available quota can create client companies themselves; they count against the parent company's quota. The creator gets access to the new company automatically and keeps their roles there (roles stay global, no per-company roles).
 - The company list, today SuperAdmin only, shows the companies quota (used / limit).
 - No impersonation: actions are always recorded under the real user.

@@ -42,7 +42,7 @@ class MainController extends Controller implements HasMiddleware
         $data['leads'] = $lead->getLatestByCompany($companyId, 4);
         $data['customers'] = $customer->getRecentInteractionsByCompany($companyId, (int) Auth::id(), 4);
 
-        if (Auth::user()->hasAnyRole(['SuperAdmin', 'CompanyAdmin'])) {
+        if (Auth::user()->hasRole('SuperAdmin') || Auth::user()->isCompanyAdmin()) {
             $data['sales'] = $order->getSalesSummary($companyId);
         }
 

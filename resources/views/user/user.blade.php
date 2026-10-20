@@ -46,7 +46,7 @@
                   @endforeach
                 </select>
             </div>
-            @if($roles->isNotEmpty())
+            @if($roles->isNotEmpty() && Auth::user()->canChangeRolesOf($user))
             <div class="col">
                 <label for="roles">{{ __('Roles') }}</label>
                 <select name="roles[]" id="roles" multiple class="form-select form-control-lg">

@@ -14,17 +14,11 @@ class CompanySaveRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // SuperAdmin manages every company and is the only one who can create companies
-        // With ID = update own company (need update company permission + company_id match)
-        if (Auth::user()->hasRole('SuperAdmin')) {
-            return true;
-        }
-
         if (empty($this->companyId())) {
-            return false;
+            return Auth::user()->canCreateCompany();
         }
 
-        return Auth::user()->can('update company') && (int) $this->companyId() === (int) Auth::user()->company_id;
+        return Auth::user()->canUpdateCompany((int) $this->companyId());
     }
 
     /**

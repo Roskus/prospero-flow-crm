@@ -17,7 +17,7 @@ class CompanyCreateController extends MainController
     {
         $company = new Company;
         $data['company'] = $company;
-        $data['countries'] = Country::all();
+        $data['countries'] = Country::orderBy('name')->get();
         $data['currencies'] = Currency::all();
         $data['parentCompanies'] = Auth::user()->hasRole('SuperAdmin') ? $company->getParentCandidates(null) : collect();
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +14,7 @@ class CompanyIndexRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()?->hasAnyRole(['SuperAdmin', 'CompanyAdmin', User::MULTI_COMPANY_ADMIN]) ?? false;
+        return Auth::user()?->hasRole('SuperAdmin') || Auth::user()?->isCompanyAdmin();
     }
 
     public function rules(): array

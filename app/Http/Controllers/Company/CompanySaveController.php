@@ -7,17 +7,23 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\Company\CompanySaveRequest;
 use App\Repositories\CompanyRepository;
+use App\Services\CompanyAccessService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CompanySaveController extends MainController
 {
-    public function __construct(private CompanyRepository $companyRepository) {}
+    public function __construct(
+        private CompanyRepository $companyRepository,
+        private CompanyAccessService $companyAccessService,
+    ) {}
 
     public function save(CompanySaveRequest $request)
     {
-        // Authorization is now handled by FormRequest
-        $company = $this->companyRepository->save($request->validated());
+        $user = $request->user();
+        $company = empty($request->companyId()) && ! $user->hasRole('SuperAdmin')
+            ? $this->companyAccessService->createClientCompany($user, $request->validated())
+            : $this->companyRepository->save($request->validated());
 
         if ($request->hasFile('logo')) {
             $folder = 'company/'.Str::slug($company->name, '_');

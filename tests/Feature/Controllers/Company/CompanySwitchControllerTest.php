@@ -141,8 +141,11 @@ class CompanySwitchControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('id="company-switcher"', false);
-        $response->assertSee('action="'.route('company.switch', $this->parentCompany->id).'"', false);
-        $response->assertSee('action="'.route('company.switch', $this->clientCompany->id).'"', false);
+        $response->assertSeeInOrder([
+            'action="'.route('company.switch', $this->parentCompany->id).'"',
+            'class="dropdown-divider"',
+            'action="'.route('company.switch', $this->clientCompany->id).'"',
+        ], false);
         $response->assertSee(__('Own company'));
         $response->assertSee('aria-current="true"', false);
     }

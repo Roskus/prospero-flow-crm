@@ -22,7 +22,7 @@ class UserSaveController extends MainController
             $user->company_id = Auth::user()->company_id;
         } else {
             $user = User::query()
-                ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
+                ->manageableBy(Auth::user())
                 ->findOrFail($request->id);
         }
 
@@ -56,8 +56,8 @@ class UserSaveController extends MainController
             $user->password = Hash::make($request->password);
         }
 
-        if (! empty($request->roles)) {
-            $user->syncRoles($request->roles);
+        if (! empty($request->roles) && Auth::user()->canChangeRolesOf($user)) {
+            $user->syncRoles(Auth::user()->rolesToSync($user, $request->roles));
         }
 
         $user->updated_at = now();

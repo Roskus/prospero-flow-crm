@@ -17,7 +17,7 @@ class CompanyUpdateController extends MainController
     {
         $company = Company::withTrashed()->findOrFail($id);
         $data['company'] = $company;
-        $data['countries'] = Country::all();
+        $data['countries'] = Country::orderBy('name')->get();
         $data['currencies'] = Currency::all();
         $data['parentCompanies'] = Auth::user()->hasRole('SuperAdmin') ? $company->getParentCandidates($company->id) : collect();
 

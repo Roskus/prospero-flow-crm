@@ -14,10 +14,10 @@ class UserDeleteController extends MainController
     public function delete(UserDeleteRequest $request, int $id)
     {
         $user = User::query()
-            ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
+            ->manageableBy(Auth::user())
             ->findOrFail($id);
 
-        abort_if($user->hasRole('SuperAdmin') && ! Auth::user()->hasRole('SuperAdmin'), 403);
+        abort_unless(Auth::user()->canManageUser($user), 403);
 
         $user->delete();
 

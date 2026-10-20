@@ -12,6 +12,15 @@
 </div>
 @endcan
 
+@role('SuperAdmin')
+<p class="text-muted mb-2" id="multi-company-summary">
+    <i class="las la-building"></i>
+    {{ __('Users with access to several companies: :count', ['count' => $multiCompanyUsersCount]) }}
+    &middot;
+    {{ __('MultiCompanyAdmin: :count', ['count' => $multiCompanyAdminsCount]) }}
+</p>
+@endrole
+
 <div class="row mt-2">
     <div class="col">
         <form method="get" action="{{ url("/user") }}" class="form-inline mb-2">

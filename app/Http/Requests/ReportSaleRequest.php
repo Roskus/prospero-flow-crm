@@ -49,7 +49,7 @@ class ReportSaleRequest extends FormRequest
      */
     public function canSeeAllSellers(): bool
     {
-        return Auth::user()->hasAnyRole(['SuperAdmin', 'CompanyAdmin']);
+        return Auth::user()->hasRole('SuperAdmin') || Auth::user()->isCompanyAdmin();
     }
 
     public function periodFrom(): Carbon

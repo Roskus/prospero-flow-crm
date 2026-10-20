@@ -62,7 +62,7 @@ Every user SHALL have one default company: the company they belong to. For users
 - **THEN** the default company does not change
 
 ### Requirement: Client companies quota
-The system SHALL store, per company, the maximum number of client companies it may create. A client company SHALL belong to exactly one parent company, the one it was created for, and SHALL NOT have client companies of its own. Used quota SHALL be the number of client companies of the parent, including deleted ones. The default quota SHALL be 0. Only a SuperAdmin SHALL change it. Lowering the quota SHALL NOT delete or detach existing client companies; it only prevents creating new ones until the company is under the limit.
+The system SHALL store, per company, the maximum number of client companies it may create. A client company SHALL belong to exactly one parent company, the one it was created for, and SHALL NOT have client companies of its own. Used quota SHALL be the number of client companies of the parent, including deleted ones. Granting a user access to a company that has no parent company and no client companies SHALL make it a client company of the user's default company, unless that default company is a client company itself. The default quota SHALL be 0. Only a SuperAdmin SHALL change it. Lowering the quota SHALL NOT delete or detach existing client companies; it only prevents creating new ones until the company is under the limit.
 
 #### Scenario: SuperAdmin sets the quota
 - **WHEN** a SuperAdmin sets the quota of parent company F to 5
@@ -71,6 +71,16 @@ The system SHALL store, per company, the maximum number of client companies it m
 #### Scenario: Non SuperAdmin cannot change the quota
 - **WHEN** a CompanyAdmin saves a company form including a quota value, for their own company or any other
 - **THEN** the quota does not change
+
+#### Scenario: Granting access to a company without parent
+- **WHEN** a SuperAdmin grants a user of parent company F access to company C, which has no parent company and no client companies
+- **THEN** C becomes a client company of F
+- **AND** it counts against F's quota, even if the quota is exceeded
+
+#### Scenario: Granting access to a client company of another parent company
+- **WHEN** a user of parent company F is granted access to company D, a client company of parent company G
+- **THEN** D stays a client company of G
+- **AND** it does not count against F's quota
 
 #### Scenario: Quota lowered below current usage
 - **WHEN** parent company F has 3 client companies and a SuperAdmin lowers its quota to 1
@@ -83,16 +93,25 @@ The system SHALL store, per company, the maximum number of client companies it m
 - **AND** neither of them can create another client company for F
 
 ### Requirement: MultiCompanyAdmin role
-The system SHALL provide a MultiCompanyAdmin role that is assigned in addition to CompanyAdmin and only adds the ability to create client companies. A user with both roles SHALL keep every CompanyAdmin permission. Only a SuperAdmin SHALL assign or remove the MultiCompanyAdmin role. The SuperAdmin SHALL be able to tell how many users have the role.
+The system SHALL provide a MultiCompanyAdmin role that administrates the user's company exactly like CompanyAdmin, inheriting every CompanyAdmin permission and behavior, and additionally allows accessing and creating client companies. A user with only the MultiCompanyAdmin role SHALL be able to do everything a CompanyAdmin can. Only a SuperAdmin SHALL assign or remove the MultiCompanyAdmin role. The SuperAdmin SHALL be able to tell how many users have the role.
 
 #### Scenario: CompanyAdmin cannot assign the role
 - **WHEN** a CompanyAdmin tries to assign the MultiCompanyAdmin role to any user, including themselves
 - **THEN** the request is rejected
 - **AND** the role is not offered in the CompanyAdmin's role list
 
+#### Scenario: Editing their own data keeps their roles
+- **WHEN** a MultiCompanyAdmin edits their own user, wherever they are working, and submits other roles
+- **THEN** their data is updated and their roles do not change
+- **AND** the role selector is not shown on their own user
+
+#### Scenario: Roles the editor cannot assign are kept
+- **WHEN** a CompanyAdmin edits a user who has a role the CompanyAdmin cannot assign
+- **THEN** that role is kept
+
 #### Scenario: SuperAdmin assigns the role
-- **WHEN** a SuperAdmin assigns MultiCompanyAdmin to a CompanyAdmin
-- **THEN** the user has both roles and keeps every CompanyAdmin permission
+- **WHEN** a SuperAdmin assigns only the MultiCompanyAdmin role to a user
+- **THEN** the user has every CompanyAdmin permission, sees all leads and customers of their company and can create client companies
 
 ### Requirement: Creating client companies within the quota
 The parent company a MultiCompanyAdmin creates companies for SHALL be their default company, whatever company is active. A user with the MultiCompanyAdmin role SHALL be able to create a company when that parent company has available quota; the new company becomes a client company of the parent company. The creator SHALL automatically get access to the new company, keeping their roles. Creating a company SHALL be rejected when the parent company has no available quota. Users without the MultiCompanyAdmin or SuperAdmin role, including plain CompanyAdmins, SHALL NOT create companies. SuperAdmin company creation SHALL NOT be limited by any quota.
@@ -169,7 +188,7 @@ Users who can only access their default company SHALL NOT run additional databas
 - **THEN** the number of database queries is the same as before multi-company access existed
 
 ### Requirement: Company list scoped to accessible companies
-The SuperAdmin, CompanyAdmin and MultiCompanyAdmin roles SHALL be able to open the company list; any other role SHALL be rejected. CompanyAdmin and MultiCompanyAdmin SHALL only see the companies they can access, only active ones, and only edit their active company; editing the form of any other company SHALL be rejected. Only the SuperAdmin SHALL see every company, filter deleted companies and see the companies quota of every company.
+The SuperAdmin, CompanyAdmin and MultiCompanyAdmin roles SHALL be able to open the company list; any other role SHALL be rejected. CompanyAdmin and MultiCompanyAdmin SHALL only see the companies they can access, only active ones, and only edit those companies; editing any other company SHALL be rejected. Only the SuperAdmin SHALL see every company, filter deleted companies and see the companies quota of every company.
 
 #### Scenario: CompanyAdmin lists companies
 - **WHEN** a CompanyAdmin with access to companies A and B opens the company list
@@ -183,8 +202,12 @@ The SuperAdmin, CompanyAdmin and MultiCompanyAdmin roles SHALL be able to open t
 - **WHEN** a user with the Seller or Support role opens the company list
 - **THEN** the request is rejected with a forbidden error
 
-#### Scenario: Editing a company that is not active
-- **WHEN** a CompanyAdmin active in company A opens the edit form of company B, accessible or not
+#### Scenario: Editing an accessible company
+- **WHEN** a CompanyAdmin active in company A edits company B they can access
+- **THEN** company B is updated without switching to it
+
+#### Scenario: Editing a company without access
+- **WHEN** a CompanyAdmin opens or saves the edit form of a company they cannot access
 - **THEN** the request is rejected with a forbidden error
 
 #### Scenario: SuperAdmin lists companies

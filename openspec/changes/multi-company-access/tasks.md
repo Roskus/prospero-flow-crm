@@ -19,24 +19,26 @@
 
 ## 3. Company creation within quota
 
-- [ ] 3.1 Add the `MultiCompanyAdmin` role to `RoleSeeder` with only `create company` in `PermissionSeeder`, and make it assignable/manageable only by SuperAdmin (`assignableRoles()`, `canManageUser()`); verify seeders stay idempotent, a CompanyAdmin is not offered the role and gets an error assigning it, and a user with CompanyAdmin + MultiCompanyAdmin keeps CompanyAdmin permissions
-- [ ] 3.2 Use `canCreateCompany()` in the create route and in `CompanySaveRequest::authorize()` for new companies; verify MultiCompanyAdmin with quota can create, without quota gets 403, plain CompanyAdmin with quota gets 403, Seller gets 403 and SuperAdmin is never limited
-- [ ] 3.3 In `CompanySaveController`, for MultiCompanyAdmin creations set `parent_company_id` to the creator's `defaultCompanyId()` and grant the creator access through `CompanyAccessService` in one transaction locking the parent company row; verify the new company is a client of the parent company (also when created while active in a client company), the creator can switch to it and the parent company's quota decreases
-- [ ] 3.4 Hide the create company button when `canCreateCompany()` is false and show the parent company's available quota to MultiCompanyAdmin; verify with view tests
+- [x] 3.1 Add the `MultiCompanyAdmin` role to `RoleSeeder` with only `create company` in `PermissionSeeder`, and make it assignable/manageable only by SuperAdmin (`assignableRoles()`, `canManageUser()`); verify seeders stay idempotent, a CompanyAdmin is not offered the role and gets an error assigning it, and a user with CompanyAdmin + MultiCompanyAdmin keeps CompanyAdmin permissions
+- [x] 3.2 Use `canCreateCompany()` in the create route and in `CompanySaveRequest::authorize()` for new companies; verify MultiCompanyAdmin with quota can create, without quota gets 403, plain CompanyAdmin with quota gets 403, Seller gets 403 and SuperAdmin is never limited
+- [x] 3.3 In `CompanySaveController`, for MultiCompanyAdmin creations set `parent_company_id` to the creator's `defaultCompanyId()` and grant the creator access through `CompanyAccessService` in one transaction locking the parent company row; verify the new company is a client of the parent company (also when created while active in a client company), the creator can switch to it and the parent company's quota decreases
+- [x] 3.4 Hide the create company button when `canCreateCompany()` is false and show the parent company's available quota to MultiCompanyAdmin; verify with view tests
 - [x] 3.5 Add `managed_companies_limit` and parent company fields to the company form, accepted only from SuperAdmin in `CompanySaveRequest`, with translations; verify SuperAdmin can set them and a CompanyAdmin posting them changes nothing
 
 ## 4. Company list scoping
 
 - [x] 4.1 Open `CompanyIndexRequest` to CompanyAdmin and MultiCompanyAdmin (filter SuperAdmin only) and scope `Company::getAllPaginated()` to their accessible companies; verify CompanyAdmin with and without extra companies, Seller/Support 403 and SuperAdmin sees all
-- [x] 4.2 Restrict `CompanyUpdateRequest` to the active company for non SuperAdmin users and show the edit button only on that row; verify opening an accessible but inactive company form is rejected
+- [x] 4.2 Restrict `CompanyUpdateRequest`/`CompanySaveRequest` to companies the user can access (`canUpdateCompany()`) and show the edit link only on those rows; verify an accessible company is edited without switching and a non accessible one is rejected
+- [x] 4.3 Let users edit their own data without touching their roles, find themselves while working in a client company, keep roles the editor cannot assign and use `canManageUser()` to delete; verify with feature tests
+- [x] 4.4 Make a granted company without parent a client company of the user's default company (`CompanyAccessService::grant()`), keeping one level of client companies; verify with service tests
 
 ## 5. Access management by SuperAdmin
 
 - [x] 5.1 Add the accessible companies multi select to the user form, visible only to SuperAdmin, with translations; verify with view tests for SuperAdmin and CompanyAdmin
 - [x] 5.2 Validate and save it in `UserRequest`/`UserSaveController`: ignore the field for non SuperAdmin, exclude the default company, apply the changes through `CompanyAccessService` with `granted_by`, forget the user's switcher cache, log `company_access_granted`/`company_access_revoked`; verify with feature tests
-- [ ] 5.3 Show the SuperAdmin how many users have the MultiCompanyAdmin role and how many have extra companies (`multiCompany()`); verify with a feature test
+- [x] 5.3 Show the SuperAdmin how many users have the MultiCompanyAdmin role and how many have extra companies (`multiCompany()`); verify with a feature test; user management (list, edit, save, delete, `canManageUser()`) belongs to the default company through `User::belongingTo()`
 
 ## 6. Integration
 
-- [ ] 6.1 Run `vendor/bin/pint --dirty --format agent` and the full test suite (`php artisan test --compact`) and verify both pass
+- [x] 6.1 Run `vendor/bin/pint --dirty --format agent` and the full test suite (`php artisan test --compact`) and verify both pass
 - [ ] 6.2 Manually verify the multi-company flow in the browser: SuperAdmin assigns MultiCompanyAdmin and sets the parent company's quota, the user creates a client company, switches to it, works there and switches back

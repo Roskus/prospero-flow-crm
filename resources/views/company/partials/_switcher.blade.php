@@ -19,6 +19,9 @@
                     </button>
                 </form>
             </li>
+            @if($loop->first && ! $loop->last)
+                <li><hr class="dropdown-divider"></li>
+            @endif
         @endforeach
     </ul>
 </li>

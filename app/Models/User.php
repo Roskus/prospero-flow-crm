@@ -175,7 +175,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Outside SuperAdmin only the active company can be edited; a client company is edited after switching to it.
+     * Outside SuperAdmin only the companies the user can access can be edited.
      */
     public function canUpdateCompany(int $companyId): bool
     {
@@ -183,7 +183,7 @@ class User extends Authenticatable implements JWTSubject
             return false;
         }
 
-        return $this->hasRole('SuperAdmin') || $companyId === (int) $this->company_id;
+        return $this->hasRole('SuperAdmin') || $this->canAccessCompany($companyId);
     }
 
     /**
@@ -193,6 +193,29 @@ class User extends Authenticatable implements JWTSubject
     protected function multiCompany(Builder $query): void
     {
         $query->whereNotNull('default_company_id');
+    }
+
+    /**
+     * Users an administrator can find to manage: everyone for SuperAdmin, otherwise the users of the
+     * administrator's active company and the administrator themselves.
+     */
+    #[Scope]
+    protected function manageableBy(Builder $query, User $administrator): void
+    {
+        if ($administrator->hasRole('SuperAdmin')) {
+            return;
+        }
+
+        $query->where(fn (Builder $query) => $query->belongingTo((int) $administrator->company_id)->orWhereKey($administrator->id));
+    }
+
+    /**
+     * Users whose own (default) company is the given one, wherever they are working right now.
+     */
+    #[Scope]
+    protected function belongingTo(Builder $query, int $companyId): void
+    {
+        $query->whereRaw('COALESCE(default_company_id, company_id) = ?', [$companyId]);
     }
 
     public function manager()
@@ -227,36 +250,68 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Administrator roles: SuperAdmin is only assigned and managed by a SuperAdmin; CompanyAdmin also by
-     * another CompanyAdmin of the same company. Other roles (e.g. HR) can neither assign nor manage them.
-     */
-    public const array ADMINISTRATOR_ROLES = ['SuperAdmin', 'CompanyAdmin'];
-
-    /**
-     * Added on top of CompanyAdmin to create client companies within the quota of their default company.
+     * A CompanyAdmin that also accesses and creates client companies; it inherits every CompanyAdmin permission.
      */
     public const string MULTI_COMPANY_ADMIN = 'MultiCompanyAdmin';
+
+    /**
+     * Roles that administrate a company.
+     */
+    public const array COMPANY_ADMIN_ROLES = ['CompanyAdmin', self::MULTI_COMPANY_ADMIN];
+
+    /**
+     * Administrator roles: SuperAdmin and MultiCompanyAdmin are only assigned and managed by a SuperAdmin;
+     * CompanyAdmin also by another company admin of the same company. Other roles (e.g. HR) can neither
+     * assign nor manage them.
+     */
+    public const array ADMINISTRATOR_ROLES = ['SuperAdmin', ...self::COMPANY_ADMIN_ROLES];
 
     public function isAdministrator(): bool
     {
         return $this->hasAnyRole(self::ADMINISTRATOR_ROLES);
     }
 
+    public function isCompanyAdmin(): bool
+    {
+        return $this->hasAnyRole(self::COMPANY_ADMIN_ROLES);
+    }
+
     /**
-     * SuperAdmin manages everyone. A CompanyAdmin manages anyone of its company but SuperAdmins; any other
-     * role only the non-administrators of its company.
+     * SuperAdmin manages everyone and every user manages themselves. A company admin manages anyone of its
+     * company but SuperAdmins and MultiCompanyAdmins; any other role only the non-administrators of its company.
      */
     public function canManageUser(User $user): bool
     {
-        if ($this->hasRole('SuperAdmin')) {
+        if ($this->hasRole('SuperAdmin') || $user->is($this)) {
             return true;
         }
 
-        if ((int) $user->company_id !== (int) $this->company_id || $user->hasRole('SuperAdmin')) {
+        if ($user->defaultCompanyId() !== (int) $this->company_id || $user->hasAnyRole(['SuperAdmin', self::MULTI_COMPANY_ADMIN])) {
             return false;
         }
 
-        return $this->hasRole('CompanyAdmin') || ! $user->isAdministrator();
+        return $this->isCompanyAdmin() || ! $user->isAdministrator();
+    }
+
+    /**
+     * Users change their own data without touching their roles; only SuperAdmin changes their own roles.
+     */
+    public function canChangeRolesOf(User $user): bool
+    {
+        return $this->hasRole('SuperAdmin') || ! $user->is($this);
+    }
+
+    /**
+     * Roles the editor cannot assign are kept as they are, so editing a user never removes them.
+     *
+     * @param  array<int, string>  $roles
+     * @return array<int, string>
+     */
+    public function rolesToSync(User $user, array $roles): array
+    {
+        $notAssignableRoles = $user->getRoleNames()->diff($this->assignableRoles()->pluck('name'));
+
+        return array_values(array_unique([...$roles, ...$notAssignableRoles->all()]));
     }
 
     /**
@@ -266,7 +321,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $forbiddenRoles = match (true) {
             $this->hasRole('SuperAdmin') => [],
-            $this->hasRole('CompanyAdmin') => ['SuperAdmin'],
+            $this->isCompanyAdmin() => ['SuperAdmin', self::MULTI_COMPANY_ADMIN],
             default => self::ADMINISTRATOR_ROLES,
         };
 

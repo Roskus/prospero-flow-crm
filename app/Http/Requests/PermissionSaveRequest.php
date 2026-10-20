@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -20,10 +21,12 @@ class PermissionSaveRequest extends FormRequest
 
         $authorized = $user->hasRole('SuperAdmin');
 
-        if (! $authorized && $user->hasRole('CompanyAdmin')) {
+        if (! $authorized && $user->isCompanyAdmin()) {
             $roles = $this->input('roles', []);
-            $superAdminRole = Role::where('name', 'SuperAdmin')->first();
-            $authorized = ! ($superAdminRole && isset($roles[$superAdminRole->id]));
+            $authorized = Role::query()
+                ->whereIn('name', ['SuperAdmin', User::MULTI_COMPANY_ADMIN])
+                ->pluck('id')
+                ->every(fn (int $roleId): bool => ! isset($roles[$roleId]));
         }
 
         return $authorized;

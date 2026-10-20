@@ -90,6 +90,7 @@ class Company extends Model
     public function getAllPaginated(int $limit = 50, ?string $filter = null, ?User $user = null)
     {
         return Company::query()
+            ->with(['parent' => fn ($query) => $query->withTrashed()->select(['id', 'name'])])
             ->withCount(['clientCompanies' => fn ($query) => $query->withTrashed()])
             ->when($user !== null && ! $user->hasRole('SuperAdmin'), fn ($query) => $query->where(
                 fn ($query) => $query->whereKey($user->defaultCompanyId())

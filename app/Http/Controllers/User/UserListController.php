@@ -15,10 +15,17 @@ class UserListController extends MainController
     {
         $users = User::query()
             ->with(['company' => fn ($query) => $query->withTrashed()])
-            ->unless(Auth::user()->hasRole('SuperAdmin'), fn ($query) => $query->where('company_id', Auth::user()->company_id))
+            ->manageableBy(Auth::user())
             ->orderBy('company_id')
             ->paginate(10);
         $data['users'] = $users;
+
+        if (Auth::user()->hasRole('SuperAdmin')) {
+            $data['multiCompanyUsersCount'] = User::query()->multiCompany()->count();
+            $data['multiCompanyAdminsCount'] = User::query()
+                ->whereHas('roles', fn ($query) => $query->where('name', User::MULTI_COMPANY_ADMIN))
+                ->count();
+        }
 
         return view('user.index', $data);
     }

@@ -7,9 +7,12 @@
 
 <div class="d-flex justify-content-between align-items-center mb-2">
     <div>
-        @can('create company')
+        @if(Auth::user()->canCreateCompany())
         <a href="{{ url("/company/create") }}" class="btn btn-primary">{{ __('New') }}</a>
-        @endcan
+        @endif
+        @if($availableCompaniesQuota !== null)
+        <span class="ms-2 text-muted">{{ __('Available companies: :available', ['available' => $availableCompaniesQuota]) }}</span>
+        @endif
     </div>
     @role('SuperAdmin')
     <form method="GET" action="{{ route('company.index') }}">
@@ -40,7 +43,8 @@
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Currency') }}</th>
                 <th>{{ __('Status') }}</th>
-                @hasanyrole('SuperAdmin|CompanyAdmin')
+                @hasanyrole('SuperAdmin|CompanyAdmin|MultiCompanyAdmin')
+                <th>{{ __('Managed by') }}</th>
                 <th class="text-center">{{ __('Companies quota') }}</th>
                 @endhasanyrole
                 <th>{{ __('Created at') }}</th>
@@ -91,7 +95,8 @@
                         <span class="badge bg-secondary">{{ __('Inactive') }}</span>
                     @endif
                 </td>
-                @hasanyrole('SuperAdmin|CompanyAdmin')
+                @hasanyrole('SuperAdmin|CompanyAdmin|MultiCompanyAdmin')
+                <td>{{ $company->parent?->name }}</td>
                 <td class="text-center">
                     @if($company->managed_companies_limit > 0 || $company->client_companies_count > 0)
                         {{ $company->client_companies_count }} / {{ $company->managed_companies_limit }}

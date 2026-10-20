@@ -113,17 +113,10 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="country_id" class="label-control">{{ __('Country') }}
-                        <span class="text-danger">*</span>
-                    </label>
-                    <select name="country_id" id="country_id" required class="form-control">
-                        <option value=""></option>
-                        @foreach ($countries as $country)
-                        <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>
-                            {{ $country->name }} {{ $country->flag }}
-                        </option>
-                        @endforeach
-                    </select>
+                    @include('components.country', [
+                        'country_id' => old('country_id', $company->country_id),
+                        'required' => true,
+                    ])
                 </div>
                 <div class="col">
                     <label for="province" class="label-control">{{ __('Province') }}</label>

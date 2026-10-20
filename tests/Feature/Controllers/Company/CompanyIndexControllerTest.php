@@ -113,6 +113,22 @@ class CompanyIndexControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_company_list_shows_which_company_manages_each_client_company(): void
+    {
+        $parentCompany = Company::factory()->withQuota(2)->create(['name' => 'Parent company name']);
+        $clientCompany = Company::factory()->clientOf($parentCompany)->create();
+
+        $response = $this->get('/company');
+
+        $response->assertOk();
+        $response->assertSee(__('Managed by'));
+        $this->assertMatchesRegularExpression(
+            '/'.preg_quote(e($clientCompany->name), '/').'.*?<td>Parent company name<\/td>/s',
+            $response->getContent()
+        );
+    }
+
+    #[Test]
     public function company_admin_only_sees_their_company(): void
     {
         $companyAdmin = $this->createCompanyAdmin();
@@ -140,7 +156,8 @@ class CompanyIndexControllerTest extends TestCase
             ->assertSee($clientCompany->name)
             ->assertDontSee($otherCompany->name)
             ->assertSee('href="'.url('/company/update/'.$multiCompanyUser->company_id).'"', false)
-            ->assertDontSee('href="'.url('/company/update/'.$clientCompany->id).'"', false);
+            ->assertSee('href="'.url('/company/update/'.$clientCompany->id).'"', false)
+            ->assertDontSee('href="'.url('/company/update/'.$otherCompany->id).'"', false);
     }
 
     #[Test]
@@ -161,14 +178,25 @@ class CompanyIndexControllerTest extends TestCase
     }
 
     #[Test]
-    public function company_admin_can_only_open_the_form_of_their_active_company(): void
+    public function company_admin_can_only_edit_the_companies_they_can_access(): void
     {
         $companyAdmin = $this->createCompanyAdmin();
         $clientCompany = Company::factory()->create();
+        $otherCompany = Company::factory()->create();
         app(CompanyAccessService::class)->grant($companyAdmin, $clientCompany);
+        $companyAdmin->refresh();
 
-        $this->actingAs($companyAdmin->fresh())->get('/company/update/'.$companyAdmin->company_id)->assertOk();
-        $this->actingAs($companyAdmin->fresh())->get('/company/update/'.$clientCompany->id)->assertForbidden();
+        $this->actingAs($companyAdmin)->get('/company/update/'.$companyAdmin->company_id)->assertOk();
+        $this->actingAs($companyAdmin)->get('/company/update/'.$clientCompany->id)->assertOk();
+        $this->actingAs($companyAdmin)->get('/company/update/'.$otherCompany->id)->assertForbidden();
+
+        $this->actingAs($companyAdmin)->post('/company/save', ['id' => $clientCompany->id, 'name' => 'Client company renamed', 'currency' => 'USD'])
+            ->assertRedirect(route('company.index'));
+        $this->actingAs($companyAdmin)->post('/company/save', ['id' => $otherCompany->id, 'name' => 'Not allowed', 'currency' => 'USD'])
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('company', ['id' => $clientCompany->id, 'name' => 'Client company renamed']);
+        $this->assertDatabaseMissing('company', ['name' => 'Not allowed']);
     }
 
     private function createCompanyAdmin(): User

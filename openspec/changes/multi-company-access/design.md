@@ -53,6 +53,7 @@ The parent company is the user's default company (decision 3b), so creating a co
 
 The quota is part of the parent company's plan, so it lives on the company: it survives changes of staff, several CompanyAdmins of the parent company share it, and a future billing module only has to update one company row.
 
+- Granting access also sets the parent: `CompanyAccessService::grant()` makes a company without parent (and without client companies) a client of the user's default company, unless that default company is itself a client company. Companies a parent company's users manage therefore always count against its quota, whether they were created by a MultiCompanyAdmin or granted by a SuperAdmin; a SuperAdmin grant may exceed the quota (shown as e.g. `4 / 3`), which only blocks new creations.
 - *Alternative: quota on the user.* Rejected: harder to maintain (one number per employee instead of one per contract) and lost when the user leaves the parent company.
 - *Alternative: derive access from the hierarchy (every parent company user can access every client).* Rejected for now: access stays explicit in `user_company`, the hierarchy is only used for the quota. It can be added later without data changes.
 
@@ -74,11 +75,14 @@ The quota is part of the parent company's plan, so it lives on the company: it s
 - *Alternative: derive the parent company from the active company (`parent ?? self`).* Rejected: it needs a rule per use case (quota, revoke fallback, login) and gives no stable answer to "which company does this user belong to".
 - *Alternative: keep the last active company on login.* Rejected: starting every session in the user's own company is more predictable and avoids working in a client company by mistake.
 
-### 4. MultiCompanyAdmin role, added on top of CompanyAdmin
-- New role `MultiCompanyAdmin` in `RoleSeeder`, with only the `create company` permission in `PermissionSeeder`. A multi-company user has **both** `CompanyAdmin` and `MultiCompanyAdmin`.
-- Added to `User::ADMINISTRATOR_ROLES` handling so only a SuperAdmin can assign it or manage its holders: `assignableRoles()` for CompanyAdmin forbids `SuperAdmin` and `MultiCompanyAdmin`.
-- Counting holders: `User::role('MultiCompanyAdmin')->count()`.
-- *Alternative: a copy of CompanyAdmin with the same permissions.* Rejected: about 12 places check `hasRole('CompanyAdmin')`/`hasAnyRole([...'CompanyAdmin'])` directly (dashboard, reports, payroll, permissions, tickets, assigned seller scope...). A copy would have to be added to all of them and to every future check, and forgetting one silently removes a permission from the user.
+### 4. MultiCompanyAdmin role, a CompanyAdmin with more permissions
+A single role: the user is the admin of their company and can also access and create client companies.
+- New role `MultiCompanyAdmin` in `RoleSeeder`. `PermissionSeeder` gives it **every permission of CompanyAdmin automatically** (`withInheritedRoles()`), plus `create company`, so new CompanyAdmin permissions are inherited without being listed twice.
+- About 10 places checked the role name (`hasRole('CompanyAdmin')`: assigned seller scope, dashboard sales, sale report, payroll delete, permissions screens, tickets, negative transactions). They now use `User::isCompanyAdmin()`, backed by `User::COMPANY_ADMIN_ROLES = ['CompanyAdmin', 'MultiCompanyAdmin']`, so the role also inherits role-name checks.
+- `User::ADMINISTRATOR_ROLES` includes it: only a SuperAdmin assigns it or manages its holders, and a CompanyAdmin cannot change its permissions in the permissions screen.
+- Counting holders: `whereHas('roles', ...)`, which does not throw if the role is not seeded yet.
+- *Alternative: assign both CompanyAdmin and MultiCompanyAdmin.* Rejected: assigning only MultiCompanyAdmin from the user form left the user without any CompanyAdmin permission; one role is simpler to understand and to count.
+- *Alternative: copy CompanyAdmin permissions by hand.* Rejected: it misses the role-name checks and drifts as permissions are added.
 - *Alternative: give `create company` to every CompanyAdmin.* Rejected: creating companies is a paid capability; the role makes it explicit and auditable.
 
 ### 4b. Company creation by MultiCompanyAdmin
@@ -99,12 +103,19 @@ The navbar dropdown is rendered only when `default_company_id` is not null, a ch
 In the user form (only for SuperAdmin): a multi select of companies the user can access. The quota is edited in the company form. Saving syncs the pivot (`granted_by` = SuperAdmin for new rows) and logs `company_access_granted` / `company_access_revoked`. Validation rejects an empty list. If the active company is revoked, `company_id` moves back to `default_company_id`; revoking the default company is rejected.
 
 ### 7. Company list scoping
-`CompanyIndexRequest` opens the list to SuperAdmin, CompanyAdmin and MultiCompanyAdmin (today SuperAdmin only); the deleted/all filter stays SuperAdmin only. `Company::getAllPaginated()` gets an optional user: for non SuperAdmin users the query is limited to their default company plus their extra companies (`grantedUsers`), so a single company admin sees one row. `CompanyUpdateRequest` is aligned with `CompanySaveRequest`: non SuperAdmin users can only open the edit form of their active company (today it only checks the permission, so any company form could be opened), and the edit button is only shown on that row. A client company is edited by switching to it first.
+`CompanyIndexRequest` opens the list to SuperAdmin, CompanyAdmin and MultiCompanyAdmin (today SuperAdmin only); the deleted/all filter stays SuperAdmin only. `Company::getAllPaginated()` gets an optional user: for non SuperAdmin users the query is limited to their default company plus their extra companies (`grantedUsers`), so a single company admin sees one row. `CompanyUpdateRequest` and `CompanySaveRequest` share `User::canUpdateCompany()`: non SuperAdmin users can open and save any company they can access, without switching (today the form of any company could be opened, since only the permission was checked); the edit link is only shown on those rows.
+
+### 8. Self management and role safety
+- Every user can manage themselves (`canManageUser()`), and `User::manageableBy()` finds them even while working in a client company.
+- Users change their own data without touching their roles (`canChangeRolesOf()`): the role selector is hidden on their own user and submitted roles are ignored; only SuperAdmin changes their own roles.
+- When an administrator edits another user, roles the administrator cannot assign (SuperAdmin, MultiCompanyAdmin for a CompanyAdmin) are kept by `rolesToSync()`, so saving a form never strips them.
+- Deleting users uses `canManageUser()`, so a CompanyAdmin cannot delete a MultiCompanyAdmin.
 
 ## Risks / Trade-offs
 
 - [Switching in one tab changes the company in all tabs and devices] → Show the active company name in the navbar at all times; redirect to the dashboard after switching. Documented as a known limitation.
-- [The user appears in the user list, seller dropdowns and reports of their active company only] → Acceptable for a user managing client companies, who is usually not a seller. Revisit if a client company needs to see that user listed.
+- [A multi-company user working in client company B could be listed and managed (password, deactivation) by B's CompanyAdmin, since user management filtered by `company_id`] → User management (`/user` list, edit, save, delete and `canManageUser()`) uses the `belongingTo()` scope, `COALESCE(default_company_id, company_id)`, so only the admins of the user's default company manage them. Seller dropdowns and reports still use the active company, acceptable since these users are usually not sellers.
+- [Spatie `User::role()` throws when the role does not exist yet (seeders not run)] → Counts use `whereHas('roles', ...)` and checks use `hasRole()`, which never throw.
 - [A request already running when the user switches finishes with the old company] → Every request reads `company_id` once at the start; no mixed writes inside one request.
 - [`default_company_id` out of sync with the grants] → It is only written in one service (`CompanyAccessService`) used by every grant, revoke and client company creation, covered by tests for first grant, last revoke and creation.
 - [Stale switcher cache after a grant change] → Every write path (grant/revoke, company create, delete, restore) forgets the affected users' keys; the switch endpoint always re-checks access in the database, so a stale cache can only show or hide a menu entry, never grant access.

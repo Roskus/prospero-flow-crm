@@ -375,5 +375,21 @@
     "None": "Ninguna",
     "Access to other companies": "Acceso a otras compañías",
     "The user can switch to these companies from the top bar.": "El usuario puede cambiar a estas compañías desde la barra superior.",
-    "You are not allowed to change the companies of a user.": "No tienes permiso para cambiar las compañías de un usuario."
+    "You are not allowed to change the companies of a user.": "No tienes permiso para cambiar las compañías de un usuario.",
+    "The companies quota has been reached.": "Se ha alcanzado el cupo de compañías.",
+    "Available companies: :available": "Compañías disponibles: :available",
+    "Users with access to several companies: :count": "Usuarios con acceso a varias compañías: :count",
+    "MultiCompanyAdmin: :count": "MultiCompanyAdmin: :count",
+    "MultiCompanyAdmin": "MultiCompanyAdmin",
+    "Customize": "Personalizar",
+    "Dashboard": "Dashboard",
+    "HR Settings": "Configuración de RRHH",
+    "Last order number": "Último número de pedido",
+    "Personal days per year": "Días personales por año",
+    "Tax identification": "Identificación fiscal",
+    "The next order will be assigned number": "Al próximo pedido se le asignará el número",
+    "Vacation days per year": "Días de vacaciones por año",
+    "Weekly hours full time": "Horas semanales a tiempo completo",
+    "Are you sure you want to delete this company?": "¿Seguro que quieres eliminar esta compañía?",
+    "Company list": "Listado de compañías"
 }

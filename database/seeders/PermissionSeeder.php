@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -31,7 +32,7 @@ class PermissionSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         foreach ($this->permissions() as $permission) {
-            $roles = $permission['roles'];
+            $roles = $this->withInheritedRoles($permission['roles']);
             $name = $permission['name'];
             $guardName = $permission['guard_name'];
             $moduleId = $permission['module_id'] ?? null;
@@ -59,6 +60,21 @@ class PermissionSeeder extends Seeder
                 }
             }
         }
+    }
+
+    /**
+     * MultiCompanyAdmin inherits every CompanyAdmin permission.
+     *
+     * @param  array<int, string>  $roles
+     * @return array<int, string>
+     */
+    private function withInheritedRoles(array $roles): array
+    {
+        if (in_array('CompanyAdmin', $roles, true)) {
+            $roles[] = User::MULTI_COMPANY_ADMIN;
+        }
+
+        return array_values(array_unique($roles));
     }
 
     /**
@@ -189,7 +205,7 @@ class PermissionSeeder extends Seeder
             ],
             // Company
             [
-                'roles' => ['SuperAdmin'], // Only SuperAdmin can create company
+                'roles' => ['SuperAdmin', 'MultiCompanyAdmin'], // MultiCompanyAdmin creates client companies within the quota
                 'name' => 'create company',
                 'guard_name' => 'web',
                 'module_id' => 8,

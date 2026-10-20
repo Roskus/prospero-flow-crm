@@ -6,6 +6,8 @@ namespace App\Services;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Repositories\CompanyRepository;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +18,38 @@ use InvalidArgumentException;
  */
 class CompanyAccessService
 {
-    public function __construct(private SecurityLogger $securityLogger) {}
+    public function __construct(
+        private SecurityLogger $securityLogger,
+        private CompanyRepository $companyRepository,
+    ) {}
 
     /**
-     * The first extra company stores the user's current company as their default company.
+     * Create a client company of the user's default company and grant the user access to it. The parent company
+     * row is locked so concurrent creations cannot exceed its quota.
+     *
+     * @param  array<string, mixed>  $data
+     *
+     * @throws AuthorizationException
+     */
+    public function createClientCompany(User $user, array $data): Company
+    {
+        return DB::transaction(function () use ($user, $data): Company {
+            $parentCompany = Company::query()->lockForUpdate()->findOrFail($user->defaultCompanyId());
+
+            if ($parentCompany->availableClientQuota() === 0) {
+                throw new AuthorizationException(__('The companies quota has been reached.'));
+            }
+
+            $clientCompany = $this->companyRepository->save([...$data, 'parent_company_id' => $parentCompany->id]);
+            $this->grant($user, $clientCompany, $user);
+
+            return $clientCompany;
+        });
+    }
+
+    /**
+     * The first extra company stores the user's current company as their default company. A company without
+     * parent becomes a client company of the user's default company, so it counts against its quota.
      */
     public function grant(User $user, Company $company, ?User $grantedBy = null): void
     {
@@ -36,13 +66,34 @@ class CompanyAccessService
             $user->extraCompanies()->syncWithoutDetaching([
                 $company->id => ['granted_by' => $grantedBy?->id],
             ]);
+
+            $this->assignParentCompany($company, $user->defaultCompanyId());
         });
 
         $this->forgetCompanies($user);
         $this->securityLogger->log('company_access_granted', [
             'target_user_id' => $user->id,
             'company_id' => $company->id,
+            'parent_company_id' => $company->parent_company_id,
         ]);
+    }
+
+    /**
+     * Only one level of client companies: the company must have no parent nor client companies, and the
+     * parent must not be a client company itself.
+     */
+    private function assignParentCompany(Company $company, int $parentCompanyId): void
+    {
+        if ($company->parent_company_id !== null || $company->clientCompanies()->withTrashed()->exists()) {
+            return;
+        }
+
+        if (Company::query()->whereKey($parentCompanyId)->whereNotNull('parent_company_id')->exists()) {
+            return;
+        }
+
+        $company->parent_company_id = $parentCompanyId;
+        $company->save();
     }
 
     /**
@@ -99,7 +150,8 @@ class CompanyAccessService
     }
 
     /**
-     * Default and extra companies that are not deleted, cached for the navbar switcher.
+     * Default and extra companies that are not deleted, cached for the navbar switcher: the default company
+     * first and the rest by name.
      *
      * @return Collection<int, array{id: int, name: string}>
      */
@@ -110,10 +162,12 @@ class CompanyAccessService
         }
 
         return Cache::rememberForever(self::cacheKey($user->id), function () use ($user): Collection {
-            $companyIds = $user->extraCompanies()->pluck('company.id')->push($user->defaultCompanyId());
+            $defaultCompanyId = $user->defaultCompanyId();
+            $companyIds = $user->extraCompanies()->pluck('company.id')->push($defaultCompanyId);
 
             return Company::query()
                 ->whereIn('id', $companyIds)
+                ->orderByRaw('id = ? DESC', [$defaultCompanyId])
                 ->orderBy('name')
                 ->get(['id', 'name'])
                 ->map(fn (Company $company): array => ['id' => (int) $company->id, 'name' => $company->name]);
