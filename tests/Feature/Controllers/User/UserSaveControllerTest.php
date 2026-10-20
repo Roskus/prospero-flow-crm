@@ -273,6 +273,22 @@ class UserSaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_form_shows_the_error_when_extra_companies_is_not_an_array(): void
+    {
+        $user = User::factory()->create();
+
+        $this->from('/user/update/'.$user->id)->followingRedirects()->post('/user/save', [
+            'id' => $user->id,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'lang' => 'es',
+            'company_id' => $user->company_id,
+            'extra_companies' => (string) $user->company_id,
+        ])->assertOk()->assertSee('name="extra_companies[]"', false);
+    }
+
+    #[Test]
     public function only_super_admin_can_change_the_companies_of_a_user(): void
     {
         $clientCompany = Company::factory()->create();

@@ -89,7 +89,8 @@
             <div class="col">
                 <label for="extra_companies">{{ __('Access to other companies') }}</label>
                 <input type="hidden" name="extra_companies[]" value="">
-                @php($extraCompanyIds = array_map('intval', old('extra_companies', $user->exists ? $user->extraCompanies()->pluck('company.id')->all() : [])))
+                @php($extraCompanyIds = old('extra_companies', $user->exists ? $user->extraCompanies()->pluck('company.id')->all() : []))
+                @php($extraCompanyIds = is_array($extraCompanyIds) ? array_map('intval', $extraCompanyIds) : [])
                 <select name="extra_companies[]" id="extra_companies" multiple class="form-select form-control-lg">
                     @foreach($companies as $company)
                         <option value="{{ $company->id }}" @selected(in_array($company->id, $extraCompanyIds, true))>{{ $company->name }}</option>
