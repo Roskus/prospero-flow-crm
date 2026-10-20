@@ -223,12 +223,15 @@ document.getElementById('currency').addEventListener('change', () => {
         document.getElementById('currency').value || '€';
 });
 
+// SWIFT follows the selected bank unless the user typed a different one
+let selectedBankBic = document.getElementById('bank_id').selectedOptions[0]?.dataset.bic || '';
 document.getElementById('bank_id').addEventListener('change', function () {
     const swift = document.getElementById('swift');
-    const bic = this.selectedOptions[0]?.dataset.bic;
-    if (bic && swift.value === '') {
+    const bic = this.selectedOptions[0]?.dataset.bic || '';
+    if (swift.value === '' || swift.value.toUpperCase() === selectedBankBic.toUpperCase()) {
         swift.value = bic;
     }
+    selectedBankBic = bic;
 });
 
 updateForm();
