@@ -245,4 +245,72 @@ class CompanySaveControllerTest extends TestCase
 
         $response->assertSessionHasErrors('dashboard_calendar_view');
     }
+
+    #[Test]
+    public function super_admin_sets_the_client_quota_and_the_parent_company_of_a_company(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->create();
+
+        $this->post('/company/save', ['id' => $parentCompany->id, 'name' => $parentCompany->name, 'currency' => 'USD', 'managed_companies_limit' => 5])
+            ->assertRedirect('/company');
+        $this->post('/company/save', ['id' => $clientCompany->id, 'name' => $clientCompany->name, 'currency' => 'USD', 'parent_company_id' => $parentCompany->id])
+            ->assertRedirect('/company');
+
+        $this->assertDatabaseHas('company', ['id' => $parentCompany->id, 'managed_companies_limit' => 5, 'parent_company_id' => null]);
+        $this->assertDatabaseHas('company', ['id' => $clientCompany->id, 'parent_company_id' => $parentCompany->id]);
+    }
+
+    #[Test]
+    public function a_company_cannot_be_its_own_parent_company_nor_a_client_of_a_client(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->clientOf($parentCompany)->create();
+        $other = Company::factory()->create();
+
+        $this->post('/company/save', ['id' => $parentCompany->id, 'name' => $parentCompany->name, 'currency' => 'USD', 'parent_company_id' => $parentCompany->id])
+            ->assertSessionHasErrors('parent_company_id');
+        $this->post('/company/save', ['id' => $other->id, 'name' => $other->name, 'currency' => 'USD', 'parent_company_id' => $clientCompany->id])
+            ->assertSessionHasErrors('parent_company_id');
+        $this->post('/company/save', ['id' => $parentCompany->id, 'name' => $parentCompany->name, 'currency' => 'USD', 'parent_company_id' => $other->id])
+            ->assertSessionHasErrors('parent_company_id');
+    }
+
+    #[Test]
+    public function non_super_admin_cannot_change_the_quota_nor_the_parent_company(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $companyAdmin = User::factory()->create();
+        $companyAdmin->givePermissionTo(Permission::create(['name' => 'update company', 'guard_name' => 'web']));
+
+        $this->actingAs($companyAdmin)->post('/company/save', [
+            'id' => $companyAdmin->company_id,
+            'name' => 'Own Company',
+            'currency' => 'USD',
+            'managed_companies_limit' => 50,
+            'parent_company_id' => $parentCompany->id,
+        ])->assertSessionHasErrors(['managed_companies_limit', 'parent_company_id']);
+
+        $this->assertDatabaseHas('company', ['id' => $companyAdmin->company_id, 'managed_companies_limit' => 0, 'parent_company_id' => null]);
+    }
+
+    #[Test]
+    public function the_company_form_shows_the_quota_fields_only_to_super_admin(): void
+    {
+        $parentCompany = Company::factory()->withQuota(3)->create();
+        Company::factory()->clientOf($parentCompany)->create();
+
+        $this->get('/company/update/'.$parentCompany->id)
+            ->assertOk()
+            ->assertSee('name="managed_companies_limit"', false)
+            ->assertSee('name="parent_company_id"', false)
+            ->assertSee(__('Used: :used', ['used' => 1]));
+
+        $companyAdmin = User::factory()->create();
+        $companyAdmin->givePermissionTo(Permission::create(['name' => 'update company', 'guard_name' => 'web']));
+
+        $this->actingAs($companyAdmin)->get('/company/update/'.$companyAdmin->company_id)
+            ->assertOk()
+            ->assertDontSee('name="managed_companies_limit"', false);
+    }
 }

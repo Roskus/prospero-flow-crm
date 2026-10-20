@@ -11,7 +11,7 @@ class CompanyCreateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Auth::user()?->hasRole('SuperAdmin') ?? false;
+        return Auth::user()?->canCreateCompany() ?? false;
     }
 
     public function rules(): array

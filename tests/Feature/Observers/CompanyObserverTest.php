@@ -6,6 +6,7 @@ namespace Tests\Feature\Observers;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Services\CompanyAccessService;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Support\Carbon;
 use PHPUnit\Framework\Attributes\Test;
@@ -69,5 +70,53 @@ class CompanyObserverTest extends TestCase
         $response = $this->withSession(['login_web_'.sha1(SessionGuard::class) => $user->id])->get('/user');
 
         $response->assertRedirect(route('login'));
+    }
+
+    #[Test]
+    public function deleting_a_client_company_moves_working_multi_company_users_back_to_their_default_company_instead_of_deleting_them(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->clientOf($parentCompany)->create();
+        $clientCompanyUser = User::factory()->create(['company_id' => $clientCompany->id]);
+        $multiCompanyUser = User::factory()->create(['company_id' => $parentCompany->id]);
+        app(CompanyAccessService::class)->grant($multiCompanyUser, $clientCompany);
+        $multiCompanyUser->fresh()->update(['company_id' => $clientCompany->id]);
+
+        $clientCompany->delete();
+
+        $this->assertSoftDeleted('user', ['id' => $clientCompanyUser->id]);
+        $this->assertNotSoftDeleted('user', ['id' => $multiCompanyUser->id]);
+        $this->assertSame($parentCompany->id, $multiCompanyUser->fresh()->company_id);
+    }
+
+    #[Test]
+    public function deleting_and_restoring_a_parent_company_includes_multi_company_users_working_in_a_client_company(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->clientOf($parentCompany)->create();
+        $multiCompanyUser = User::factory()->create(['company_id' => $parentCompany->id]);
+        app(CompanyAccessService::class)->grant($multiCompanyUser, $clientCompany);
+        $multiCompanyUser->fresh()->update(['company_id' => $clientCompany->id]);
+
+        $parentCompany->delete();
+        $this->assertSoftDeleted('user', ['id' => $multiCompanyUser->id]);
+
+        $parentCompany->restore();
+        $this->assertNotSoftDeleted('user', ['id' => $multiCompanyUser->id]);
+    }
+
+    #[Test]
+    public function renaming_a_company_refreshes_the_company_switcher(): void
+    {
+        $parentCompany = Company::factory()->create();
+        $clientCompany = Company::factory()->create(['name' => 'Old name']);
+        $multiCompanyUser = User::factory()->create(['company_id' => $parentCompany->id]);
+        $companyAccessService = app(CompanyAccessService::class);
+        $companyAccessService->grant($multiCompanyUser, $clientCompany);
+        $companyAccessService->accessibleCompanies($multiCompanyUser->fresh());
+
+        $clientCompany->update(['name' => 'New name']);
+
+        $this->assertContains('New name', $companyAccessService->accessibleCompanies($multiCompanyUser->fresh())->pluck('name')->all());
     }
 }

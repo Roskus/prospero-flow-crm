@@ -35,10 +35,10 @@ class TransactionSaveRequest extends FormRequest
     {
         /*
          * Negative amounts (refunds, corrections) can corrupt the accounting balance.
-         * Only SuperAdmin and CompanyAdmin are trusted to enter negative values.
+         * Only SuperAdmin and company admins are trusted to enter negative values.
          * All other roles are restricted to positive amounts (min:0).
          */
-        $amountRule = Auth::user()?->hasRole(['SuperAdmin', 'CompanyAdmin'])
+        $amountRule = (Auth::user()?->hasRole('SuperAdmin') || Auth::user()?->isCompanyAdmin())
             ? ['required', 'numeric', 'min:-'.CurrencyHelper::MAX_AMOUNT, 'max:'.CurrencyHelper::MAX_AMOUNT]
             : ['required', 'numeric', 'min:0', 'max:'.CurrencyHelper::MAX_AMOUNT];
 

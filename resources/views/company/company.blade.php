@@ -71,6 +71,30 @@
                     </select>
                 </div>
             </div>
+            <div class="row">
+                <div class="col form-group">
+                    <label for="managed_companies_limit" class="label-control">{{ __('Companies quota') }}</label>
+                    <input type="number" name="managed_companies_limit" id="managed_companies_limit" min="0" max="65535"
+                           value="{{ old('managed_companies_limit', $company->managed_companies_limit ?? 0) }}"
+                           class="form-control">
+                    <small class="form-text text-muted">
+                        {{ __('How many client companies a MultiCompanyAdmin of this company can create.') }}
+                        @if($company->exists && $company->managed_companies_limit > 0)
+                            {{ __('Used: :used', ['used' => $company->usedClientQuota()]) }}
+                        @endif
+                    </small>
+                </div>
+                <div class="col form-group">
+                    <label for="parent_company_id" class="label-control">{{ __('Managed by') }}</label>
+                    <select name="parent_company_id" id="parent_company_id" class="form-select">
+                        <option value="">{{ __('None') }}</option>
+                        @foreach($parentCompanies as $parentCompany)
+                            <option value="{{ $parentCompany->id }}" @selected((int) old('parent_company_id', $company->parent_company_id) === $parentCompany->id)>{{ $parentCompany->name }}</option>
+                        @endforeach
+                    </select>
+                    <small class="form-text text-muted">{{ __('Parent company of this client company; it counts against its quota.') }}</small>
+                </div>
+            </div>
             @endrole
             <div class="row">
                 <div class="col form-group">
@@ -89,17 +113,10 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="country_id" class="label-control">{{ __('Country') }}
-                        <span class="text-danger">*</span>
-                    </label>
-                    <select name="country_id" id="country_id" required class="form-control">
-                        <option value=""></option>
-                        @foreach ($countries as $country)
-                        <option value="{{ $country->code_2 }}" @if($company->country_id == $country->code_2) selected="selected" @endif>
-                            {{ $country->name }} {{ $country->flag }}
-                        </option>
-                        @endforeach
-                    </select>
+                    @include('components.country', [
+                        'country_id' => old('country_id', $company->country_id),
+                        'required' => true,
+                    ])
                 </div>
                 <div class="col">
                     <label for="province" class="label-control">{{ __('Province') }}</label>

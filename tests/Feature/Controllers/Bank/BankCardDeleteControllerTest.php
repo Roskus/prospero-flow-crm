@@ -15,7 +15,7 @@ class BankCardDeleteControllerTest extends TestCase
     public function user_with_only_read_permission_cannot_delete_a_bank_card(): void
     {
         $user = User::factory()->create();
-        $user->givePermissionTo(Permission::findOrCreate('read bank', 'web'));
+        $user->givePermissionTo(Permission::findOrCreate('read accounting', 'web'));
 
         $response = $this->actingAs($user)->delete('/bank-card/delete/1');
 
@@ -26,7 +26,7 @@ class BankCardDeleteControllerTest extends TestCase
     public function user_with_delete_permission_passes_the_permission_gate(): void
     {
         $user = User::factory()->create();
-        $user->givePermissionTo(Permission::findOrCreate('delete bank', 'web'));
+        $user->givePermissionTo(Permission::findOrCreate('delete accounting', 'web'));
 
         $response = $this->actingAs($user)->delete('/bank-card/delete/999999');
 

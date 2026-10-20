@@ -73,4 +73,17 @@ class CompanyUpdateControllerTest extends TestCase
         $response->assertOk();
         $response->assertDontSee('name="status"', false);
     }
+
+    #[Test]
+    public function it_renders_the_searchable_country_select_with_the_company_country_selected(): void
+    {
+        $company = Company::factory()->create(['country_id' => 'pa']);
+
+        $response = $this->get('/company/update/'.$company->id);
+
+        $response->assertOk();
+        $this->assertMatchesRegularExpression('/<select name="country_id"[^>]*data-tom-select[^>]*required/', $response->getContent());
+        $this->assertMatchesRegularExpression('/<option value="pa"\s+selected="selected"\s*>/', $response->getContent());
+        $response->assertSee('tom-select@2.4.3', false);
+    }
 }

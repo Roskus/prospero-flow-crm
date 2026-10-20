@@ -8,22 +8,17 @@ use App\Models\Company;
 use App\Rules\ValidateSafeSvg;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CompanySaveRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // SuperAdmin manages every company and is the only one who can create companies
-        // With ID = update own company (need update company permission + company_id match)
-        if (Auth::user()->hasRole('SuperAdmin')) {
-            return true;
-        }
-
         if (empty($this->companyId())) {
-            return false;
+            return Auth::user()->canCreateCompany();
         }
 
-        return Auth::user()->can('update company') && (int) $this->companyId() === (int) Auth::user()->company_id;
+        return Auth::user()->canUpdateCompany((int) $this->companyId());
     }
 
     /**
@@ -69,6 +64,19 @@ class CompanySaveRequest extends FormRequest
             ? 'nullable|integer|in:'.Company::INACTIVE.','.Company::ACTIVE
             : 'prohibited';
 
+        $rules['managed_companies_limit'] = Auth::user()->hasRole('SuperAdmin')
+            ? 'nullable|integer|min:0|max:65535'
+            : 'prohibited';
+        $rules['parent_company_id'] = Auth::user()->hasRole('SuperAdmin')
+            ? [
+                'nullable',
+                'integer',
+                'different:id',
+                Rule::exists('company', 'id')->whereNull('parent_company_id')->whereNull('deleted_at'),
+                Rule::prohibitedIf(fn (): bool => ! empty($this->companyId()) && Company::query()->where('parent_company_id', $this->companyId())->exists()),
+            ]
+            : 'prohibited';
+
         return $rules;
     }
 
@@ -79,6 +87,10 @@ class CompanySaveRequest extends FormRequest
             'logo.mimes' => __('The logo must be a JPG, PNG, or WebP file.'),
             'logo.max' => __('The logo file size must not exceed 2 MB.'),
             'status.prohibited' => __('You are not allowed to change the company status.'),
+            'managed_companies_limit.prohibited' => __('You are not allowed to change the client companies quota.'),
+            'parent_company_id.prohibited' => __('You are not allowed to change the parent company.'),
+            'parent_company_id.prohibited_if' => __('A company with client companies cannot be a client company.'),
+            'parent_company_id.exists' => __('The parent company cannot be a client company.'),
         ];
     }
 }

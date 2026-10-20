@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
 use Squire\Models\Country;
 use Squire\Models\Currency;
 
@@ -16,8 +17,9 @@ class CompanyUpdateController extends MainController
     {
         $company = Company::withTrashed()->findOrFail($id);
         $data['company'] = $company;
-        $data['countries'] = Country::all();
+        $data['countries'] = Country::orderBy('name')->get();
         $data['currencies'] = Currency::all();
+        $data['parentCompanies'] = Auth::user()->hasRole('SuperAdmin') ? $company->getParentCandidates($company->id) : collect();
 
         return view('company/company', $data);
     }

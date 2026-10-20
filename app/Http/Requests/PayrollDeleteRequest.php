@@ -11,7 +11,7 @@ class PayrollDeleteRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Auth::user()?->hasRole(['SuperAdmin', 'CompanyAdmin']) ?? false;
+        return Auth::user()?->hasRole('SuperAdmin') || Auth::user()?->isCompanyAdmin();
     }
 
     public function rules(): array

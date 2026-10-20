@@ -89,8 +89,7 @@ class CustomerIndexController extends MainController
         $data['search'] = $search;
         $data['sellers'] = $user->getAllActiveByCompany((int) Auth::user()->company_id);
         $data['statuses'] = $customer->getStatus();
-        // Temporary fix get this from configuration
-        $data['industries'] = ((int) Auth::user()->company_id == 3) ? $industry->getAllByCompany((int) Auth::user()->company_id) : $industry->getAll();
+        $data['industries'] = $industry->getForCompany((int) Auth::user()->company_id);
 
         return view('customer.index', $data);
     }

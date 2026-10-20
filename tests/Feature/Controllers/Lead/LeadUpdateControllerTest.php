@@ -46,4 +46,18 @@ class LeadUpdateControllerTest extends TestCase
         $response->assertSee('id="search-address-feedback"', false);
         $response->assertSee(json_encode('No se encontró la dirección'), false);
     }
+
+    #[Test]
+    public function it_loads_the_contact_script_once(): void
+    {
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+
+        $response = $this->get('/lead/update/'.$lead->id);
+
+        $response->assertOk();
+        $this->assertSame(1, substr_count($response->getContent(), '/asset/js/Contact.js'));
+    }
 }

@@ -28,13 +28,7 @@ class LeadUpdateController extends MainController
         $user = new User;
         $data['lead'] = $lead;
         $data['countries'] = Country::orderBy('name')->get();
-        // Temporary fix get this from configuration
-        if (Auth::user()->company_id == 3) {
-            $industries = $industry->getAllByCompany((int) Auth::user()->company_id);
-        } else {
-            $industries = $industry->getAll();
-        }
-        $data['industries'] = $industries;
+        $data['industries'] = $industry->getForCompany((int) Auth::user()->company_id);
         $data['sellers'] = $user->getAllActiveByCompany(Auth::user()->company_id);
         $data['sources'] = Source::all();
         $data['editorType'] = 'advanced';

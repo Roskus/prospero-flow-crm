@@ -36,4 +36,14 @@ class CompanyFactory extends Factory
             'status' => Company::ACTIVE,
         ];
     }
+
+    public function withQuota(int $managedCompaniesLimit): static
+    {
+        return $this->state(fn () => ['managed_companies_limit' => $managedCompaniesLimit]);
+    }
+
+    public function clientOf(Company $parentCompany): static
+    {
+        return $this->state(fn () => ['parent_company_id' => $parentCompany->id]);
+    }
 }

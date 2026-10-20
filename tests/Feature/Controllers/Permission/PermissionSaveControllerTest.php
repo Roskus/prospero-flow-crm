@@ -144,6 +144,21 @@ class PermissionSaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_blocks_company_admin_from_modifying_multi_company_admin_role(): void
+    {
+        $companyAdmin = User::factory()->create();
+        $companyAdmin->assignRole(Role::findOrCreate('CompanyAdmin', 'web'));
+        $multiCompanyAdminRole = Role::findOrCreate(User::MULTI_COMPANY_ADMIN, 'web');
+        $permission = Permission::create(['name' => 'multi company admin permission', 'guard_name' => 'web']);
+
+        $this->actingAs($companyAdmin)->post('/permission', [
+            'roles' => [$multiCompanyAdminRole->id => [$permission->id => $permission->id]],
+        ])->assertStatus(403);
+
+        $this->assertFalse($multiCompanyAdminRole->fresh()->hasPermissionTo('multi company admin permission'));
+    }
+
+    #[Test]
     public function it_allows_company_admin_to_modify_non_super_admin_role(): void
     {
         $companyAdminRole = Role::findOrCreate('CompanyAdmin', 'web');

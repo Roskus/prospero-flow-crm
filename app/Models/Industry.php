@@ -35,6 +35,16 @@ class Industry extends Model
         });
     }
 
+    /**
+     * Industries of the company when it defines its own, otherwise the global ones.
+     */
+    public function getForCompany(int $companyId)
+    {
+        $companyIndustries = $this->getAllByCompany($companyId);
+
+        return $companyIndustries->isNotEmpty() ? $companyIndustries : $this->getAll();
+    }
+
     public function getAllByCompany(int $company_id)
     {
         return Industry::where('company_id', $company_id)->get()

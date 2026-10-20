@@ -78,6 +78,9 @@
                     @endguest
 
                     @auth
+                        @if(Auth::user()->hasMultiCompanyAccess())
+                            @include('company.partials._switcher')
+                        @endif
                         <li class="nav-item dropdown dropstart">
                             <a class="nav-link" href="#" id="notification-list" data-bs-toggle="dropdown" aria-expanded="false" onclick="ProspectFlow.Notification.getLatest()">
                                 <i class="fa-regular fa-bell"></i>

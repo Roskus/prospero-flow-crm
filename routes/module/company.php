@@ -7,6 +7,7 @@ use App\Http\Controllers\Company\CompanyDeleteController;
 use App\Http\Controllers\Company\CompanyIndexController;
 use App\Http\Controllers\Company\CompanyRestoreController;
 use App\Http\Controllers\Company\CompanySaveController;
+use App\Http\Controllers\Company\CompanySwitchController;
 use App\Http\Controllers\Company\CompanyUpdateController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,4 @@ Route::get('/company/update/{id}', [CompanyUpdateController::class, 'update'])->
 Route::post('/company/save', [CompanySaveController::class, 'save'])->can('update company');
 Route::delete('/company/delete/{id}', [CompanyDeleteController::class, 'delete'])->can('delete company');
 Route::patch('/company/restore/{id}', [CompanyRestoreController::class, 'restore'])->can('delete company');
+Route::post('/company/switch/{id}', [CompanySwitchController::class, 'switch'])->name('company.switch')->whereNumber('id');
