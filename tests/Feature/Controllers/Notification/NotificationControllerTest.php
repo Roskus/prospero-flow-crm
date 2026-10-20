@@ -110,4 +110,29 @@ class NotificationControllerTest extends TestCase
         $response->assertNotFound();
         $this->assertNull(Notification::withTrashed()->find($notification->id)->deleted_at);
     }
+
+    #[Test]
+    public function layout_passes_translated_notification_labels_to_javascript(): void
+    {
+        $this->user->update(['lang' => 'es']);
+
+        $response = $this->get('/notification');
+
+        $response->assertOk();
+        $response->assertSee('data-reminder="Recordatorio"', false);
+        $response->assertSee('data-new-notification="Nueva notificación"', false);
+        $response->assertSee('data-no-unread="No tienes notificaciones sin leer"', false);
+        $response->assertSee('No tienes notificaciones sin leer');
+    }
+
+    #[Test]
+    public function layout_scripts_include_the_app_version_to_bust_the_browser_cache(): void
+    {
+        $response = $this->get('/notification');
+
+        $response->assertOk();
+        $response->assertSee('<script src="/asset/js/ProsperoFlow.js?v='.config('app.version').'"></script>', false);
+        $response->assertSee('<script src="/asset/js/Notification.js?v='.config('app.version').'"></script>', false);
+        $response->assertSee('<link rel="stylesheet" href="/asset/css/prospero-flow.css?v='.config('app.version').'">', false);
+    }
 }

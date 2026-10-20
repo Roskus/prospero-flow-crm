@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js"
             integrity="sha512-2bMhOkE/ACz21dJT8zBOMgMecNxx0d37NND803ExktKiKdSzdwn+L7i9fdccw/3V06gM/DBWKbYmQvKMdAA9Nw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="{{ asset('/asset/css/prospect-flow.css') }}">
+    <link rel="stylesheet" href="{{ asset('/asset/css/prospero-flow.css') }}?v={{ config('app.version') }}">
     <link rel="stylesheet" href="{{ asset('/asset/theme/space/css/space.css') }}">
     @auth
         @if(is_file(public_path("/asset/upload/company/".\Illuminate\Support\Str::slug(Auth::user()->company->name, '_')."/".\Illuminate\Support\Str::slug(Auth::user()->company->name, '_').".css")))

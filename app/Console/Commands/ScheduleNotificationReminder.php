@@ -58,18 +58,19 @@ class ScheduleNotificationReminder extends Command
     {
         foreach ($recipients as $recipient) {
             $time = $recipient->schedule_contact->format('H:i');
-            $subject = __($subject, ['name' => $recipient->name]);
-            $this->info($subject);
+            $locale = $recipient->seller?->lang;
+            $translatedSubject = __($subject, ['name' => $recipient->name], $locale);
+            $this->info($translatedSubject);
 
-            $body = __($body, ['name' => $recipient->name, 'time' => $time]);
+            $translatedBody = __($body, ['name' => $recipient->name, 'time' => $time], $locale);
 
-            $emailTemplate = new InternalCRMEmail($recipient->company, $subject, ['body' => $body]);
+            $emailTemplate = new InternalCRMEmail($recipient->company, $translatedSubject, ['body' => $translatedBody]);
             $notification = new Notification;
             $notification->fill(
                 [
                     'company_id' => $recipient->company_id,
                     'user_id' => $recipient->seller_id,
-                    'message' => $subject,
+                    'message' => $translatedSubject,
                     'link' => url("/$type/update/$recipient->id"),
                 ]
             );

@@ -310,5 +310,10 @@
     "The password confirmation does not match." : "The password confirmation does not match.",
     "Unlock" : "Unlock",
     "Not :name?" : "Not :name?",
-    "Sign in with another user" : "Sign in with another user"
+    "Sign in with another user" : "Sign in with another user",
+    "Remember contact to: :name" : "Remember contact to: :name",
+    "This is an automatic reminder to contact :name at :time" : "This is an automatic reminder to contact :name at :time",
+    "Reminder" : "Reminder",
+    "New notification" : "New notification",
+    "You have no unread notifications" : "You have no unread notifications"
 }

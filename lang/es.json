@@ -355,5 +355,10 @@
     "The password confirmation does not match.": "La confirmación de la contraseña no coincide.",
     "Unlock": "Desbloquear",
     "Not :name?": "¿No eres :name?",
-    "Sign in with another user": "Iniciar sesión con otro usuario"
+    "Sign in with another user": "Iniciar sesión con otro usuario",
+    "Remember contact to: :name": "Recordar contactar a: :name",
+    "This is an automatic reminder to contact :name at :time": "Este es un recordatorio automático para contactar a :name a las :time",
+    "Reminder": "Recordatorio",
+    "New notification": "Nueva notificación",
+    "You have no unread notifications": "No tienes notificaciones sin leer"
 }

@@ -21,7 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
             integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="/asset/css/prospect-flow.css">
+    <link rel="stylesheet" href="/asset/css/prospero-flow.css?v={{ config('app.version') }}">
     <link rel="stylesheet" href="/asset/theme/space/css/space.css">
     @auth
         @if(Auth::user()->company && !empty(Auth::user()->company->name) && is_file(public_path("/asset/upload/company/" . \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') . "/" . \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') . ".css")))
@@ -156,13 +156,17 @@
     </div>
 </main>
 
-<div id="notifications-toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+<div id="notifications-toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"
+     data-reminder="{{ __('Reminder') }}"
+     data-new-notification="{{ __('New notification') }}"
+     data-no-unread="{{ __('You have no unread notifications') }}"
+     data-close="{{ __('Close') }}"></div>
 
 <!--JavaScript-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="/asset/js/ProsperoFlow.js"></script>
-<script src="/asset/js/Notification.js"></script>
+<script src="/asset/js/ProsperoFlow.js?v={{ config('app.version') }}"></script>
+<script src="/asset/js/Notification.js?v={{ config('app.version') }}"></script>
 @auth
 <script>
     let inactivityInterval;

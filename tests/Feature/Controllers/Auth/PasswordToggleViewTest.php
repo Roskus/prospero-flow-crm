@@ -24,6 +24,17 @@ class PasswordToggleViewTest extends TestCase
     }
 
     #[Test]
+    public function basic_and_print_layouts_load_the_versioned_stylesheet(): void
+    {
+        auth()->guard('web')->logout();
+
+        $stylesheet = '<link rel="stylesheet" href="'.asset('/asset/css/prospero-flow.css').'?v='.config('app.version').'">';
+
+        $this->get(route('login'))->assertSee($stylesheet, false);
+        $this->blade("@extends('layouts.print')")->assertSee($stylesheet, false);
+    }
+
+    #[Test]
     public function lock_screen_renders_password_toggle_inside_input_group_and_favicon(): void
     {
         $response = $this->get('/lock');
