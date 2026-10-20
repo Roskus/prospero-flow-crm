@@ -14,7 +14,11 @@ class UserListController extends MainController
     public function index(Request $request)
     {
         $users = User::query()
-            ->with(['company' => fn ($query) => $query->withTrashed()])
+            ->with([
+                'company' => fn ($query) => $query->withTrashed(),
+                'defaultCompany' => fn ($query) => $query->withTrashed(),
+                'extraCompanies' => fn ($query) => $query->orderBy('name'),
+            ])
             ->manageableBy(Auth::user())
             ->orderBy('company_id')
             ->paginate(10);

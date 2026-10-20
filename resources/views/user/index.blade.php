@@ -51,7 +51,7 @@
                 <th>E-mail</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Language') }}</th>
-                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
+                @if(Auth::user()->hasRole('SuperAdmin') || Auth::user()->isCompanyAdmin())
                 <th>
                     <a href="{{ url()->current() }}?sort=company">{{ __('Company') }}</a>
                 </th>
@@ -83,8 +83,15 @@
                     @endif
                 </td>
                 <td class="text-center">{{ $user->lang }}</td>
-                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('SuperAdmin'))
-                <td>{{ $user->company?->name }}</td>
+                @if(Auth::user()->hasRole('SuperAdmin') || Auth::user()->isCompanyAdmin())
+                <td>
+                    {{ ($user->defaultCompany ?? $user->company)?->name }}
+                    @if($user->extraCompanies->isNotEmpty())
+                        <small class="d-block text-muted user-extra-companies">
+                            {{ __('Also has access to: :companies', ['companies' => $user->extraCompanies->pluck('name')->implode(', ')]) }}
+                        </small>
+                    @endif
+                </td>
                 @endif
                 <td>
                     {{ $user->getRoleNames()->map(fn ($role) => __($role))->implode(', ') }}

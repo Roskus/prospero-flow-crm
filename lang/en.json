@@ -317,6 +317,7 @@
     "New notification" : "New notification",
     "You have no unread notifications" : "You have no unread notifications",
     "Switch company" : "Switch company",
+    "Also has access to: :companies" : "Also has access to: :companies",
     "Own company" : "Own company",
     "Companies quota" : "Companies quota",
     "How many client companies a MultiCompanyAdmin of this company can create." : "How many client companies a MultiCompanyAdmin of this company can create.",

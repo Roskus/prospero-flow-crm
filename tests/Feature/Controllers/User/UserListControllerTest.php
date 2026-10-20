@@ -137,4 +137,41 @@ class UserListControllerTest extends TestCase
         $this->assertFalse($clientCompanyAdmin->canManageUser($multiCompanyUser->fresh()));
         $this->actingAs($clientCompanyAdmin)->get('/user/update/'.$multiCompanyUser->id)->assertNotFound();
     }
+
+    #[Test]
+    public function the_list_shows_the_default_company_and_the_extra_companies_of_each_user(): void
+    {
+        $this->seed([RoleSeeder::class, PermissionSeeder::class]);
+        $parentCompany = Company::factory()->create(['name' => 'Parent company']);
+        $firstClientCompany = Company::factory()->create(['name' => 'Z Client company']);
+        $secondClientCompany = Company::factory()->create(['name' => 'A Client company']);
+        $multiCompanyUser = User::factory()->create(['company_id' => $parentCompany->id]);
+        app(CompanyAccessService::class)->grant($multiCompanyUser, $firstClientCompany);
+        app(CompanyAccessService::class)->grant($multiCompanyUser->fresh(), $secondClientCompany);
+        $multiCompanyUser->refresh();
+        $multiCompanyUser->company_id = $firstClientCompany->id;
+        $multiCompanyUser->save();
+        $parentCompanyAdmin = User::factory()->create(['company_id' => $parentCompany->id]);
+        $parentCompanyAdmin->assignRole('CompanyAdmin');
+        $expectedExtraCompanies = __('Also has access to: :companies', ['companies' => 'A Client company, Z Client company']);
+
+        $this->get('/user')
+            ->assertOk()
+            ->assertSee($expectedExtraCompanies);
+        $this->actingAs($parentCompanyAdmin)->get('/user')
+            ->assertOk()
+            ->assertSeeInOrder([$multiCompanyUser->email, 'Parent company', $expectedExtraCompanies]);
+    }
+
+    #[Test]
+    public function users_without_company_admin_role_do_not_see_the_company_column(): void
+    {
+        $this->seed([RoleSeeder::class, PermissionSeeder::class]);
+        $user = User::factory()->create();
+        $user->givePermissionTo('read user');
+
+        $this->actingAs($user)->get('/user')
+            ->assertOk()
+            ->assertDontSee('?sort=company', false);
+    }
 }

@@ -362,6 +362,7 @@
     "New notification": "Nueva notificación",
     "You have no unread notifications": "No tienes notificaciones sin leer",
     "Switch company": "Cambiar de compañía",
+    "Also has access to: :companies": "También accede a: :companies",
     "Own company": "Compañía propia",
     "Companies quota": "Cupo de compañías",
     "How many client companies a MultiCompanyAdmin of this company can create.": "Cuántas compañías cliente puede crear un MultiCompanyAdmin de esta compañía.",
