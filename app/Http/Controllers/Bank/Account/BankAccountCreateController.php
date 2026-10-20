@@ -8,6 +8,7 @@ use App\Http\Controllers\MainController;
 use App\Models\Bank;
 use App\Models\Bank\Account as BankAccount;
 use Squire\Models\Country;
+use Squire\Models\Currency;
 
 class BankAccountCreateController extends MainController
 {
@@ -16,6 +17,7 @@ class BankAccountCreateController extends MainController
         return view('bank_account.bank_account', [
             'banks' => Bank::orderBy('country_id')->orderBy('name')->with('country')->get(),
             'countries' => Country::all(),
+            'currencies' => Currency::all(),
             'bank_account' => new BankAccount,
         ]);
     }

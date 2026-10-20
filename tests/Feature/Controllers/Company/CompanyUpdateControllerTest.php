@@ -86,4 +86,17 @@ class CompanyUpdateControllerTest extends TestCase
         $this->assertMatchesRegularExpression('/<option value="pa"\s+selected="selected"\s*>/', $response->getContent());
         $response->assertSee('tom-select@2.4.3', false);
     }
+
+    #[Test]
+    public function it_renders_the_searchable_currency_select_with_the_company_currency_selected(): void
+    {
+        $company = Company::factory()->create(['currency' => 'eur']);
+
+        $response = $this->get('/company/update/'.$company->id);
+
+        $response->assertOk();
+        $this->assertMatchesRegularExpression('/<select name="currency"[^>]*data-tom-select[^>]*required/', $response->getContent());
+        $this->assertMatchesRegularExpression('/<option value="EUR"\s+selected>EUR - Euro/', $response->getContent());
+        $response->assertDontSee('id="currency-list"', false);
+    }
 }

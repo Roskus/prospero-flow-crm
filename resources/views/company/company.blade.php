@@ -46,19 +46,7 @@
                            class="form-control">
                 </div>
                 <div class="col form-group">
-                    <label for="currency" class="label-control">
-                        {{ __('Currency') }}
-                        <span class="text-danger">*</span>
-                    </label>
-                    <input type="text" name="currency" id="currency" list="currency-list" required="required"
-                           value="{{ old('currency', $company->currency) }}" class="form-control" maxlength="3">
-                    <datalist id="currency-list">
-                        @if(!empty($currencies))
-                            @foreach($currencies as $currency)
-                            <option value="{{ strtoupper($currency->id) }}">{{ strtoupper($currency->id) }} ({{ $currency->symbol }})</option>
-                            @endforeach
-                        @endif
-                    </datalist>
+                    @include('components.currency', ['currency' => old('currency', $company->currency), 'required' => true])
                 </div>
             </div>
             @role('SuperAdmin')
