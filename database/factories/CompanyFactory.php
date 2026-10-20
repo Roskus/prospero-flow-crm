@@ -42,8 +42,8 @@ class CompanyFactory extends Factory
         return $this->state(fn () => ['managed_companies_limit' => $managedCompaniesLimit]);
     }
 
-    public function clientOf(Company $firm): static
+    public function clientOf(Company $parentCompany): static
     {
-        return $this->state(fn () => ['parent_company_id' => $firm->id]);
+        return $this->state(fn () => ['parent_company_id' => $parentCompany->id]);
     }
 }

@@ -163,13 +163,14 @@ class Company extends Model
     }
 
     /**
-     * Most companies have no quota (0), which is answered without counting client companies.
+     * Most companies have no quota (0), which is answered without counting client companies. Client companies
+     * never have quota left, since there is only one level of client companies.
      */
     public function availableClientQuota(): int
     {
         $managedCompaniesLimit = (int) $this->managed_companies_limit;
 
-        if ($managedCompaniesLimit === 0) {
+        if ($managedCompaniesLimit === 0 || $this->parent_company_id !== null) {
             return 0;
         }
 

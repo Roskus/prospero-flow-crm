@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\CompanyAccessService;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Auth\Access\AuthorizationException;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -197,6 +198,24 @@ class ClientCompanyCreateTest extends TestCase
             ->assertForbidden();
 
         $this->assertDatabaseMissing('company', ['name' => 'Over quota company']);
+    }
+
+    #[Test]
+    public function a_multi_company_admin_of_a_client_company_with_quota_cannot_create_companies(): void
+    {
+        $clientCompany = Company::factory()->clientOf($this->parentCompany)->withQuota(2)->create();
+        $clientCompanyAdmin = User::factory()->create(['company_id' => $clientCompany->id]);
+        $clientCompanyAdmin->assignRole(User::MULTI_COMPANY_ADMIN);
+
+        $this->assertSame(0, $clientCompany->availableClientQuota());
+        $this->actingAs($clientCompanyAdmin)->post('/company/save', ['name' => 'Second level company', 'currency' => 'USD'])
+            ->assertForbidden();
+        $this->expectException(AuthorizationException::class);
+        try {
+            app(CompanyAccessService::class)->createClientCompany($clientCompanyAdmin, ['name' => 'Second level company', 'currency' => 'USD']);
+        } finally {
+            $this->assertDatabaseMissing('company', ['name' => 'Second level company']);
+        }
     }
 
     #[Test]
