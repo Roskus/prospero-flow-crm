@@ -1,7 +1,7 @@
 # company-order-sequence Specification
 
 ## Purpose
-TBD - created by archiving change per-company-order-numbering. Update Purpose after archive.
+Gives every company its own order number sequence (1, 2, 3...) kept in the company row, so numbers are consecutive per company, never reused and independent of other companies.
 
 ## Requirements
 
