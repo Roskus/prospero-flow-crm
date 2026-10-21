@@ -1,36 +1,5 @@
 @extends('layouts.app')
 
-@push('styles')
-<style>
-    .setting-group .card-header {
-        background: transparent;
-        font-weight: 600;
-    }
-    .setting-tile {
-        display: flex;
-        align-items: center;
-        gap: .75rem;
-        padding: .75rem 1rem;
-        border: 1px solid var(--bs-border-color);
-        border-radius: var(--bs-border-radius);
-        color: var(--bs-body-color);
-        text-decoration: none;
-        height: 100%;
-        transition: border-color .15s, background-color .15s;
-    }
-    .setting-tile:hover,
-    .setting-tile:focus {
-        border-color: var(--bs-primary);
-        background-color: var(--bs-primary-bg-subtle);
-        color: var(--bs-body-color);
-    }
-    .setting-tile i {
-        font-size: 1.75rem;
-        color: var(--bs-primary);
-    }
-</style>
-@endpush
-
 @section('content')
 @php
     $user = Auth::user();
@@ -83,8 +52,8 @@
         @php($visibleItems = array_filter($settingGroup['items'], fn (array $item): bool => $item['visible']))
         @continue(empty($visibleItems))
         <div class="col-12 col-lg-6">
-            <section class="card setting-group h-100">
-                <h2 class="card-header h5 mb-0">
+            <section class="card h-100">
+                <h2 class="card-header bg-transparent h5 fw-semibold mb-0">
                     <i class="{{ $settingGroup['icon'] }}"></i>
                     {{ $settingGroup['title'] }}
                 </h2>
@@ -92,8 +61,8 @@
                     <div class="row row-cols-1 row-cols-sm-2 g-2">
                         @foreach($visibleItems as $item)
                             <div class="col">
-                                <a href="{{ $item['url'] }}" class="setting-tile">
-                                    <i class="{{ $item['icon'] }}"></i>
+                                <a href="{{ $item['url'] }}" class="setting-tile d-flex align-items-center gap-3 h-100 px-3 py-2 border rounded text-body text-decoration-none">
+                                    <i class="{{ $item['icon'] }} fs-2 text-primary"></i>
                                     <span>{{ $item['label'] }}</span>
                                 </a>
                             </div>
