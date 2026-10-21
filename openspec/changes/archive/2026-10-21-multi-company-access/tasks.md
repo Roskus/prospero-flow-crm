@@ -41,4 +41,4 @@
 ## 6. Integration
 
 - [x] 6.1 Run `vendor/bin/pint --dirty --format agent` and the full test suite (`php artisan test --compact`) and verify both pass
-- [ ] 6.2 Manually verify the multi-company flow in the browser: SuperAdmin assigns MultiCompanyAdmin and sets the parent company's quota, the user creates a client company, switches to it, works there and switches back
+- [x] 6.2 Manually verify the multi-company flow in the browser: SuperAdmin assigns MultiCompanyAdmin and sets the parent company's quota, the user creates a client company, switches to it, works there and switches back

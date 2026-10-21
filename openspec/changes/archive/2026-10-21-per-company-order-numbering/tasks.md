@@ -17,10 +17,10 @@
 
 ## 4. Tests
 
-- [ ] 4.1 Feature test: first order for a company gets `order_number = 1` (starting from `last_order_number = 0`)
-- [ ] 4.2 Feature test: subsequent orders for the same company increment by 1 each time
-- [ ] 4.3 Feature test: two companies' sequences are independent (same number allowed on different companies)
-- [ ] 4.4 Feature test: updating an existing order does not change its `order_number` or the company's `last_order_number`
-- [ ] 4.5 Feature test: company backfilled with historical max — next order continues from max + 1
-- [ ] 4.6 Update `OrderRepository` tests to confirm order number is no longer assigned there
-- [ ] 4.7 Run full test suite to confirm no regressions
+- [x] 4.1 Feature test: first order for a company gets `order_number = 1` (starting from `last_order_number = 0`)
+- [x] 4.2 Feature test: subsequent orders for the same company increment by 1 each time
+- [x] 4.3 Feature test: two companies' sequences are independent (same number allowed on different companies)
+- [x] 4.4 Feature test: updating an existing order does not change its `order_number` or the company's `last_order_number`
+- [x] 4.5 Feature test: company backfilled with historical max — next order continues from max + 1
+- [x] 4.6 Update `OrderRepository` tests to confirm order number is no longer assigned there (covered through `OrderSaveControllerTest`: new orders and their items get the observer number, saving an existing order keeps it)
+- [x] 4.7 Run full test suite to confirm no regressions
