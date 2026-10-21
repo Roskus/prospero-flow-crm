@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\API;
 
+use App\Rules\AddressRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Squire\Rules\CountryRule;
 
 class SupplierRequest extends FormRequest
 {
@@ -31,6 +34,16 @@ class SupplierRequest extends FormRequest
     }
 
     /**
+     * The API receives the country as `country`, lowercased like the stored ISO codes.
+     */
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('country'))) {
+            $this->merge(['country' => strtolower(trim($this->input('country')))]);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
@@ -41,14 +54,11 @@ class SupplierRequest extends FormRequest
             'name' => ['required', 'max:50'],
             'email' => ['nullable', 'email:rfc,dns', 'max:254'],
             'phone' => ['nullable', 'max:15'],
-            'country' => ['required', 'max:2'],
+            'country' => ['required', 'string', 'max:2', new CountryRule('code_2')],
             'business_name' => ['nullable', 'max:255'],
             'vat' => ['nullable', 'max:50'],
             'website' => ['nullable', 'url', 'max:255'],
-            'province' => ['nullable', 'max:255'],
-            'city' => ['nullable', 'max:255'],
-            'street' => ['nullable', 'max:255'],
-            'zipcode' => ['nullable', 'max:10'],
+            ...Arr::except(AddressRules::rules(), 'country_id'),
         ];
     }
 

@@ -313,4 +313,52 @@ class CompanySaveControllerTest extends TestCase
             ->assertOk()
             ->assertDontSee('name="managed_companies_limit"', false);
     }
+
+    #[Test]
+    public function it_saves_the_full_address(): void
+    {
+        $company = Company::factory()->create();
+
+        $response = $this->post('/company/save', [
+            'id' => $company->id,
+            'name' => $company->name,
+            'currency' => 'ARS',
+            'country_id' => 'AR',
+            'province' => 'Buenos Aires',
+            'city' => 'CABA',
+            'locality' => 'Palermo',
+            'street' => 'Thames 100',
+            'address_extra' => 'Piso 3 B',
+            'zipcode' => 'C1414',
+            'latitude' => '-34.5889',
+            'longitude' => '-58.4306',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('company', [
+            'id' => $company->id,
+            'country_id' => 'ar',
+            'locality' => 'Palermo',
+            'address_extra' => 'Piso 3 B',
+            'latitude' => -34.5889,
+            'longitude' => -58.4306,
+        ]);
+        $this->assertSame('Thames 100, Piso 3 B, Palermo, C1414 CABA, Buenos Aires, Argentina', $company->fresh()->address->oneLine());
+    }
+
+    #[Test]
+    public function it_rejects_a_street_longer_than_80_characters(): void
+    {
+        $company = Company::factory()->create();
+
+        $response = $this->post('/company/save', [
+            'id' => $company->id,
+            'name' => $company->name,
+            'currency' => 'EUR',
+            'street' => Str::repeat('a', 81),
+        ]);
+
+        $response->assertSessionHasErrors('street');
+        $this->assertNotSame(Str::repeat('a', 81), $company->fresh()->street);
+    }
 }

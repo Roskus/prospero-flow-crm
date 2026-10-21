@@ -25,7 +25,7 @@ class LeadRepository
         $lead->business_name = ! empty($data['business_name']) ? $data['business_name'] : null;
         $lead->dob = ! empty($data['dob']) ? $data['dob'] : null;
         $lead->vat = ! empty($data['vat']) ? strtoupper($data['vat']) : null;
-        $lead->phone = $data['phone'];
+        $lead->phone = $data['phone'] ?? null;
         $lead->extension = $data['extension'] ?? null;
         $lead->phone2 = $data['phone2'] ?? null;
         $lead->mobile = $data['mobile'] ?? null;
@@ -42,16 +42,10 @@ class LeadRepository
         $lead->youtube = ! empty($data['youtube']) ? rtrim($data['youtube'], '/') : null;
         $lead->tiktok = ! empty($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
 
-        $lead->country_id = ! empty($data['country_id']) ? strtolower($data['country_id']) : Auth::user()->company->country_id;
-        $lead->province = ! empty($data['province']) ? $data['province'] : null;
-        $lead->city = ! empty($data['city']) ? $data['city'] : null;
-        $lead->locality = $data['locality'] ?? null;
-        $lead->street = $data['street'] ?? null;
-        $lead->zipcode = $data['zipcode'] ?? null;
+        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : ($lead->country_id ?? Auth::user()->company->country_id);
+        $lead->address = $lead->address->merge($data);
         $lead->schedule_contact = ! empty($data['schedule_contact']) ? $data['schedule_contact'] : null;
         $lead->industry_id = ! empty($data['industry_id']) ? $data['industry_id'] : null;
-        $lead->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
-        $lead->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
         $lead->opt_in = ! empty($data['opt_in']) ? $data['opt_in'] : null;
         $lead->tags = ! empty($data['tags']) ? explode(',', $data['tags']) : null;
 

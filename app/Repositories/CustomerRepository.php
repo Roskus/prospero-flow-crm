@@ -19,7 +19,7 @@ class CustomerRepository
             $customer = Customer::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
 
-        $customer->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
+        $customer->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $customer->company_id = Auth::user()->company_id;
         $customer->external_id = $data['external_id'] ?? null;
         $customer->name = $data['first_name'] ?? $data['name'] ?? null;
@@ -43,15 +43,9 @@ class CustomerRepository
         $customer->youtube = ($data['youtube'] ?? null) ? rtrim($data['youtube'], '/') : null;
         $customer->tiktok = ($data['tiktok'] ?? null) ? rtrim($data['tiktok'], '/') : null;
 
-        $customer->country_id = ($data['country_id'] ?? null) ? strtolower($data['country_id']) : Auth::user()->company->country_id;
-        $customer->province = $data['province'] ?? null;
-        $customer->city = $data['city'] ?? null;
-        $customer->locality = $data['locality'] ?? null;
-        $customer->street = $data['street'] ?? null;
-        $customer->zipcode = $data['zipcode'] ?? null;
+        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : ($customer->country_id ?? Auth::user()->company->country_id);
+        $customer->address = $customer->address->merge($data);
         $customer->industry_id = $data['industry_id'] ?? null;
-        $customer->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
-        $customer->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
         $customer->schedule_contact = ! empty($data['schedule_contact']) ? Carbon::parse($data['schedule_contact'])->setTimezone(Auth::user()->timezone) : null;
 
         $customer->tags = ($data['tags'] ?? null) ? explode(',', $data['tags']) : null;

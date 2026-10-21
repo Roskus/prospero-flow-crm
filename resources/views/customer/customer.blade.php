@@ -135,61 +135,7 @@
         <div class="card mt-2">
             <div class="card-header">{{ __('Address') }}</div>
             <div class="card-body">
-                <div class="row mb-1">
-                    <div class="col">
-                        @include('components.geolocalization.search')
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        @include('components.country', [
-                            'country_id' => old('country_id', $customer->country_id),
-                            'class' => 'form-select-lg',
-                            'required' => true,
-                        ])
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label for="province" class="">{{ __('Province') }}</label>
-                        <input type="text" name="province" id="province"
-                               value="{{ old('province', $customer->province) }}" class="form-control form-control-lg">
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label for="city" class="">{{ __('City') }}</label>
-                        <input type="text" name="city" id="city" value="{{ old('city', $customer->city) }}"
-                               class="form-control form-control-lg">
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label for="locality" class="">{{ __('Locality') }}</label>
-                        <input type="text" name="locality" id="locality"
-                               value="{{ old('locality', $customer->locality) }}"
-                               class="form-control form-control-lg">
-                    </div>
-                </div><!--./row-->
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <label for="street" class="">{{ __('Street') }}</label>
-                        <input type="text" name="street" id="street" value="{{ old('street', $customer->street) }}"
-                               class="form-control form-control-lg" maxlength="80">
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label for="address_extra" class="">{{ __('Address extra') }}</label>
-                        <input type="text" name="address_extra" id="address_extra" value="{{ old('address_extra', $customer->address_extra) }}"
-                               placeholder="{{ __('Floor, office, suite...') }}"
-                               class="form-control form-control-lg" maxlength="80">
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label for="zipcode" class="">{{ __('Zipcode') }}</label>
-                        <input type="text" name="zipcode" id="zipcode" value="{{ old('zipcode', $customer->zipcode) }}"
-                               class="form-control form-control-lg" maxlength="10">
-                    </div>
-                </div><!--./row-->
-                <div class="row">
-                    <input type="hidden" name="latitude" id="latitude" value="{{ $customer->latitude }}">
-                    <input type="hidden" name="longitude" id="longitude" value="{{ $customer->longitude }}">
-                    <div class="col mt-3">
-                        <x-geolocalization.map :latitude="$customer->latitude" :longitude="$customer->longitude" />
-                    </div><!--./row-->
-                </div>
+                @include('components.address.form', ['address' => $customer->address, 'required' => true, 'class' => 'form-control-lg'])
             </div><!--./card-body-->
         </div><!--./card-->
 

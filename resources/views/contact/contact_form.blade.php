@@ -86,6 +86,12 @@
                     </div>
                 </div>
             </div>
+            <div class="card mt-2 mb-2">
+                <div class="card-header">{{ __('Address') }}</div>
+                <div class="card-body">
+                    @include('components.address.form', ['address' => $contact->address, 'class' => 'form-control-lg'])
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <label for="contact_notes">{{ __('Notes') }}</label>

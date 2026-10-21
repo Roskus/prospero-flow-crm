@@ -5,20 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Requests\CustomerUpdateRequest;
-use App\Repositories\CustomerRepository;
+use App\Models\Customer;
+use App\ValueObjects\Address;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class CustomerUpdateController
 {
-    private CustomerRepository $customerSaveRepository;
-
-    public function __construct(CustomerRepository $customerSaveRepository)
-    {
-        $this->customerSaveRepository = $customerSaveRepository;
-    }
-
     #[OAT\Put(
         path: '/customer/{id}',
         summary: 'Update a Customer',
@@ -39,10 +34,18 @@ class CustomerUpdateController
     )]
     public function update(CustomerUpdateRequest $request, int $id): JsonResponse
     {
+        $customer = Customer::where('id', $id)
+            ->where('company_id', Auth::user()->company_id)
+            ->first();
+
+        if (! $customer) {
+            return response()->json(['message' => 'Customer not found'], 404);
+        }
+
         $data = $request->validated();
-        $data['id'] = $id;
-        $data['seller_id'] = Auth::user()->id;
-        $customer = $this->customerSaveRepository->save($data);
+        $customer->fill(Arr::except($data, Address::COLUMNS));
+        $customer->address = $customer->address->merge($data);
+        $customer->save();
 
         return response()->json(['customer' => $customer->toArray()], 200);
     }

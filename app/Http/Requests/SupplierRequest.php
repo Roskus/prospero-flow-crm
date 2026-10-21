@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Rules\AddressRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,6 +21,13 @@ class SupplierRequest extends FormRequest
         return Auth::check();
     }
 
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('country_id'))) {
+            $this->merge(['country_id' => strtolower(trim($this->input('country_id')))]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,9 +37,9 @@ class SupplierRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:50'],
-            'email' => ['email:rfc,dns', 'max:254'],
-            'phone' => ['max:15'],
-            'country_id' => ['required', 'max:2'],
+            'email' => ['nullable', 'email', 'max:254'],
+            'phone' => ['nullable', 'max:15'],
+            ...AddressRules::rules(true),
         ];
     }
 

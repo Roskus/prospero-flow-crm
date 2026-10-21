@@ -8,6 +8,7 @@ use App\Http\Controllers\MainController;
 use App\Models\Supplier\SupplierContact;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Squire\Models\Country;
 
 class ContactCreateController extends MainController
 {
@@ -16,6 +17,8 @@ class ContactCreateController extends MainController
         $contact = new SupplierContact;
         $contact->{$model.'_id'} = $id_model;
 
-        return view('supplier.contact.contact', compact('contact'));
+        $countries = Country::orderBy('name')->get();
+
+        return view('supplier.contact.contact', compact('contact', 'countries'));
     }
 }

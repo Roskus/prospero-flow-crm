@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Supplier\SupplierContact;
+use App\Traits\HasAddress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,6 +38,7 @@ use Squire\Models\Country;
 )]
 class Supplier extends Model
 {
+    use HasAddress;
     use HasFactory;
     use SoftDeletes;
 
@@ -53,8 +55,12 @@ class Supplier extends Model
         'country_id',
         'province',
         'city',
+        'locality',
         'street',
+        'address_extra',
         'zipcode',
+        'latitude',
+        'longitude',
         'notes',
         'account_number',
         'order_url',

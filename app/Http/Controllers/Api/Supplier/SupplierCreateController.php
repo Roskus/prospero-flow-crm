@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Supplier;
 
 use App\Http\Requests\API\SupplierRequest;
 use App\Models\Supplier;
+use App\ValueObjects\Address;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
@@ -25,14 +26,18 @@ class SupplierCreateController
                     new OAT\Property(property: 'name', type: 'string', example: 'Sony'),
                     new OAT\Property(property: 'email', type: 'string', format: 'email', example: 'supplier@sony.com'),
                     new OAT\Property(property: 'phone', type: 'string', example: '+1234567890'),
-                    new OAT\Property(property: 'country', type: 'string', example: 'UK'),
+                    new OAT\Property(property: 'country', description: 'ISO 3166-1 alpha-2 code', type: 'string', example: 'GB'),
                     new OAT\Property(property: 'business_name', type: 'string', example: 'Sony Corporation'),
                     new OAT\Property(property: 'vat', type: 'string', example: 'GB123456789'),
                     new OAT\Property(property: 'website', type: 'string', example: 'https://www.sony.com'),
                     new OAT\Property(property: 'province', type: 'string', example: 'London'),
                     new OAT\Property(property: 'city', type: 'string', example: 'London'),
+                    new OAT\Property(property: 'locality', type: 'string', example: 'Westminster'),
                     new OAT\Property(property: 'street', type: 'string', example: '123 Main St'),
+                    new OAT\Property(property: 'address_extra', type: 'string', example: 'Floor 2'),
                     new OAT\Property(property: 'zipcode', type: 'string', example: 'W1A 1AA'),
+                    new OAT\Property(property: 'latitude', type: 'number', format: 'float', example: 51.5072),
+                    new OAT\Property(property: 'longitude', type: 'number', format: 'float', example: -0.1276),
                 ]
             )
         ),
@@ -54,11 +59,7 @@ class SupplierCreateController
             $supplier->phone = $request->phone;
             $supplier->email = $request->email;
             $supplier->website = $request->website;
-            $supplier->country_id = $request->country;
-            $supplier->province = $request->province;
-            $supplier->city = $request->city;
-            $supplier->street = $request->street;
-            $supplier->zipcode = $request->zipcode;
+            $supplier->address = Address::fromArray([...$request->validated(), 'country_id' => $request->validated('country')]);
             $supplier->created_at = now();
             $supplier->save();
             $status = 201;

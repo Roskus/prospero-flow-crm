@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Contact;
 
 use App\Models\Contact;
+use App\Models\Customer;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -132,5 +133,86 @@ class ContactControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('Content-Disposition');
+    }
+
+    #[Test]
+    public function it_saves_a_contact_without_address(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_first_name' => 'Jane',
+            'contact_email' => 'jane@example.com',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $contact = Contact::where('customer_id', $customer->id)->firstOrFail();
+        $this->assertTrue($contact->address->isEmpty());
+    }
+
+    #[Test]
+    public function it_saves_a_contact_with_address(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_first_name' => 'Jane',
+            'contact_email' => 'jane@example.com',
+            'country_id' => 'ES',
+            'city' => 'Madrid',
+            'street' => 'Calle Mayor 1',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $contact = Contact::where('customer_id', $customer->id)->firstOrFail();
+        $this->assertSame('es', $contact->country_id);
+
+        $form = $this->get('/contact/update/'.$contact->id);
+
+        $form->assertOk();
+        $form->assertSee('value="Madrid"', false);
+        $form->assertSee('value="Calle Mayor 1"', false);
+        $form->assertSee('id="map"', false);
+    }
+
+    #[Test]
+    public function it_rejects_a_contact_street_longer_than_80_characters(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_first_name' => 'Jane',
+            'contact_email' => 'jane@example.com',
+            'street' => str_repeat('a', 81),
+        ]);
+
+        $response->assertSessionHasErrors('street');
+        $this->assertDatabaseMissing('contact', ['customer_id' => $customer->id]);
+    }
+
+    #[Test]
+    public function the_contact_list_shows_country_and_city(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->user->id]);
+        Contact::factory()->create([
+            'company_id' => $this->user->company_id,
+            'customer_id' => $customer->id,
+            'first_name' => 'Located',
+            'country_id' => 'es',
+            'city' => 'Alcobendas',
+        ]);
+        Contact::factory()->create([
+            'company_id' => $this->user->company_id,
+            'customer_id' => $customer->id,
+            'first_name' => 'Unlocated',
+        ]);
+
+        $response = $this->get('/customer/show/'.$customer->id);
+
+        $response->assertOk();
+        $response->assertSeeInOrder(['Located', 'Spain', 'Alcobendas', 'Unlocated']);
     }
 }

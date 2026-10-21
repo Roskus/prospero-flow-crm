@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Contact;
 use App\Http\Controllers\MainController;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
+use Squire\Models\Country;
 
 class ContactUpdateController extends MainController
 {
@@ -16,6 +17,8 @@ class ContactUpdateController extends MainController
             ->where('company_id', Auth::user()->company_id)
             ->firstOrFail();
 
-        return view('contact.contact', compact('contact'));
+        $countries = Country::orderBy('name')->get();
+
+        return view('contact.contact', compact('contact', 'countries'));
     }
 }

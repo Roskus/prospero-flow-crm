@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasAddress;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,8 +27,12 @@ use Squire\Models\Country;
         new OA\Property(property: 'country_id', description: 'Country ISO code of the company', type: 'string', example: 'ES'),
         new OA\Property(property: 'province', description: 'Province of the company', type: 'string', example: 'Barcelona'),
         new OA\Property(property: 'city', description: 'City of the company', type: 'string', example: 'Barcelona'),
+        new OA\Property(property: 'locality', description: 'Locality of the company', type: 'string', example: 'Castelldefels'),
         new OA\Property(property: 'street', description: 'Street of the company', type: 'string', example: 'Av. Constitución 123'),
+        new OA\Property(property: 'address_extra', description: 'Floor, office or suite', type: 'string', example: 'Piso 2'),
         new OA\Property(property: 'zipcode', description: 'Zipcode of the company', type: 'string', example: '08860'),
+        new OA\Property(property: 'latitude', description: 'Latitude of the company', type: 'number', format: 'float', example: 41.2792),
+        new OA\Property(property: 'longitude', description: 'Longitude of the company', type: 'number', format: 'float', example: 1.9766),
         new OA\Property(property: 'currency', description: 'Default currency of the company', type: 'string', example: 'USD'),
         new OA\Property(property: 'website', description: 'Website of the company', type: 'string', example: 'https://www.company.com'),
     ],
@@ -35,6 +40,7 @@ use Squire\Models\Country;
 )]
 class Company extends Model
 {
+    use HasAddress;
     use HasFactory;
     use SoftDeletes;
 
@@ -61,8 +67,12 @@ class Company extends Model
         'country_id',
         'province',
         'city',
+        'locality',
         'street',
+        'address_extra',
         'zipcode',
+        'latitude',
+        'longitude',
         'currency',
         'website',
         'updated_at',

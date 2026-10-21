@@ -136,4 +136,55 @@ class CustomerSaveControllerTest extends TestCase
 
         $response->assertSessionHasErrors('phone');
     }
+
+    #[Test]
+    public function it_saves_the_extra_address(): void
+    {
+        $customer = Customer::factory()->create([
+            'seller_id' => $this->user->id,
+            'company_id' => $this->user->company_id,
+        ]);
+        $data = $customer->toArray();
+        $data['tags'] = 'one, two';
+        $data['address_extra'] = 'Oficina 12';
+
+        $response = $this->post('customer/save', $data);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertSame('Oficina 12', $customer->fresh()->address_extra);
+    }
+
+    #[Test]
+    public function it_clears_an_address_field(): void
+    {
+        $customer = Customer::factory()->create([
+            'seller_id' => $this->user->id,
+            'company_id' => $this->user->company_id,
+            'locality' => 'Palermo',
+        ]);
+        $data = $customer->toArray();
+        $data['tags'] = 'one, two';
+        $data['locality'] = '';
+
+        $response = $this->post('customer/save', $data);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertNull($customer->fresh()->locality);
+    }
+
+    #[Test]
+    public function it_rejects_a_street_longer_than_80_characters(): void
+    {
+        $customer = Customer::factory()->create([
+            'seller_id' => $this->user->id,
+            'company_id' => $this->user->company_id,
+        ]);
+        $data = $customer->toArray();
+        $data['tags'] = 'one, two';
+        $data['street'] = str_repeat('a', 81);
+
+        $response = $this->post('customer/save', $data);
+
+        $response->assertSessionHasErrors('street');
+    }
 }

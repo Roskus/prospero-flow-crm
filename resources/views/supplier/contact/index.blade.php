@@ -7,6 +7,8 @@
     <th class="text-center">{{ __('Phone') }}</th>
     <th class="text-center">{{ __('Mobile') }}</th>
     <th class="text-center">E-mail</th>
+    <th>{{ __('Country') }}</th>
+    <th>{{ __('City') }}</th>
     <th>{{ __('Notes') }}</th>
     <th>Social</th>
     <th>{{ __('Created at') }}</th>
@@ -49,6 +51,8 @@
                 @endif
             @endif
         </td>
+        <td>{{ $contact->address->countryName() }}</td>
+        <td>{{ $contact->city }}</td>
         <td>{{ $contact->notes }}</td>
         <td>
             @if($contact->linkedin)
@@ -83,7 +87,7 @@
     @endforeach
 @else
     <tr>
-        <td colspan="8">{{ __('No contacts') }}</td>
+        <td colspan="13">{{ __('No contacts') }}</td>
     </tr>
 @endif
 </tbody>

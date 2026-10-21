@@ -67,10 +67,7 @@
             <div><span class="info-label">Web:</span> {{ $company->website }}</div>
         </td>
         <td width="50%">
-            <div><span class="info-label">{{ __('Address') }}:</span> {{ $company->street }}</div>
-            <div><span class="info-label">{{ __('Province') }}:</span> {{ $company->province }}</div>
-            <div><span class="info-label">{{ __('City') }}:</span> {{ $company->city }}</div>
-            <div><span class="info-label">{{ __('Zipcode') }}:</span> {{ $company->zipcode }}</div>
+            <div><span class="info-label">{{ __('Address') }}:</span> @include('components.address.display', ['address' => $company->address])</div>
             <div><span class="info-label">{{ __('Seller') }}:</span> {{ !empty($order->seller) ? $order->seller->first_name.' '.$order->seller->last_name : '' }}</div>
         </td>
     </tr>
@@ -84,18 +81,15 @@
         <td width="33%">
             <div><span class="info-label">{{ __('Customer') }}:</span> {{ $order->customer->name }}</div>
             <div><span class="info-label">{{ __('Phone') }}:</span> {{ $order->customer->phone }}</div>
-            <div><span class="info-label">{{ __('Province') }}:</span> {{ $order->customer->province }}</div>
-            <div><span class="info-label">{{ __('Street') }}:</span> {{ $order->customer->street }}</div>
+            <div><span class="info-label">{{ __('Address') }}:</span> @include('components.address.display', ['address' => $order->customer->address])</div>
         </td>
         <td width="33%">
             <div><span class="info-label">{{ __('Business name') }}:</span> {{ $order->customer->business_name }}</div>
             <div><span class="info-label">{{ __('Mobile') }}:</span> {{ $order->customer->mobile }}</div>
-            <div><span class="info-label">{{ __('City') }}:</span> {{ $order->customer->city }}</div>
         </td>
         <td width="33%">
             <div><span class="info-label">{{ __('Identity number') }}:</span> {{ $order->customer->vat }}</div>
             <div><span class="info-label">E-mail:</span> {{ $order->customer->email }}</div>
-            <div><span class="info-label">{{ __('Zipcode') }}:</span> {{ $order->customer->zipcode }}</div>
         </td>
     </tr>
 </table>

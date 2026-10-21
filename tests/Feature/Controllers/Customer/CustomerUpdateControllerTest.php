@@ -74,7 +74,7 @@ class CustomerUpdateControllerTest extends TestCase
         $response = $this->get('/customer/update/'.$customer->id);
 
         $response->assertOk();
-        $response->assertSee('Dirección adicional (ej: Piso / Depto)');
+        $response->assertSee('Dirección adicional');
         $response->assertDontSee('Address extra');
         $this->assertMatchesRegularExpression('/<option value="'.$customer->industry_id.'"\\s+selected="selected"\\s*>/', $response->getContent());
     }

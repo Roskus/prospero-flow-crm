@@ -24,11 +24,7 @@ class CompanyRepository
             : null;
         $company->phone = ! empty($data['phone']) ? $data['phone'] : null;
         $company->email = ! empty($data['email']) ? $data['email'] : null;
-        $company->country_id = ! empty($data['country_id']) ? $data['country_id'] : null;
-        $company->province = ! empty($data['province']) ? $data['province'] : null;
-        $company->city = ! empty($data['city']) ? $data['city'] : null;
-        $company->street = ! empty($data['street']) ? $data['street'] : null;
-        $company->zipcode = ! empty($data['zipcode']) ? $data['zipcode'] : null;
+        $company->address = $company->address->merge($data);
         $company->currency = ! empty($data['currency']) ? $data['currency'] : null;
         $company->website = ! empty($data['website']) ? $data['website'] : null;
         $company->last_order_number = (int) ($data['last_order_number'] ?? $company->last_order_number ?? 0);
