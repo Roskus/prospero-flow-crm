@@ -11,6 +11,7 @@ use App\Observers\OrderObserver;
 use App\Services\SecurityLogger;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\RateLimiter;
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         Order::observe(OrderObserver::class);
 
         $this->configureRateLimiting();
+        $this->configureSchemaMacros();
     }
 
     protected function configureRateLimiting(): void
@@ -65,6 +67,25 @@ class AppServiceProvider extends ServiceProvider
 
                     return response()->json(['error' => 'Too many login attempts. Please try again later.'], 429, $headers);
                 });
+        });
+    }
+
+    /**
+     * `$table->address()` creates the address columns read by `App\ValueObjects\Address`.
+     */
+    protected function configureSchemaMacros(): void
+    {
+        Blueprint::macro('address', function (): void {
+            /** @var Blueprint $this */
+            $this->string('country_id', 2)->nullable();
+            $this->string('province', 80)->nullable();
+            $this->string('city', 50)->nullable();
+            $this->string('locality', 80)->nullable();
+            $this->string('street', 80)->nullable();
+            $this->string('address_extra', 80)->nullable();
+            $this->string('zipcode', 10)->nullable();
+            $this->decimal('latitude', 10, 8)->nullable();
+            $this->decimal('longitude', 11, 8)->nullable();
         });
     }
 }

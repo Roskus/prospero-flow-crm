@@ -75,25 +75,9 @@ $url = isset($lead) ? 'lead' : 'customer';
             </div>
         </div><!--./row-->
         <div class="row mb-1">
-            <div class="col-md-2">
-                <div>{{ __('Country') }}:</div>
-                <strong>{{ ($item->country) ? $item->country->name : '' }}</strong>
-            </div>
-            <div class="col-md-2">
-                <div>{{ __('Province') }}:</div>
-                <strong>{{ $item->province }}</strong>
-            </div>
-            <div class="col-md-2">
-                <div>{{ __('City') }}:</div>
-                <strong>{{ $item->city }}</strong>
-            </div>
-            <div class="col-md-2">
-                <div>{{ __('Street') }}:</div>
-                <strong>{{ $item->street }}</strong>
-            </div>
-            <div class="col-md-2">
-                <div>{{ __('Zipcode') }}:</div>
-                <strong>{{ $item->zipcode }}</strong>
+            <div class="col-12">
+                <div>{{ __('Address') }}:</div>
+                <strong>@include('components.address.display', ['address' => $item->address])</strong>
             </div>
         </div><!--./row-->
         <div class="row mb-1">

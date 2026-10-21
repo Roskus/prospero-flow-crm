@@ -69,37 +69,7 @@
                     {{ __('Address') }}
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <label for="country_id">{{ __('Country') }}</label>
-                            <input name="country_id" id="country_id" list="countryOptions"
-                                   value="{{ $supplier->country_id }}" placeholder="{{ __('Type to search...') }}"
-                                   autocomplete="off"  class="form-control form-control-lg">
-                            <datalist id="countryOptions">
-                                <option value=""></option>
-                                @foreach ($countries as $country)
-                                <option value="{{ $country->code_2 }}"
-                                @if((!empty($supplier->country_id)) && $supplier->country_id == $country->code_2) selected="selected" @endif>
-                                {{ $country->name }} {{ $country->flag }}
-                                </option>
-                                @endforeach
-                            </datalist>
-                        </div>
-                        <div class="col">
-                            <label for="province">{{ __('Province') }}</label>
-                            <input type="text" name="province" id="province" value="{{ old('province', $supplier->province) }}" class="form-control form-control-lg">
-                        </div>
-                    </div><!--./row-->
-                    <div class="row">
-                        <div class="col">
-                            <label for="street">{{ __('Street') }}</label>
-                            <input type="text" name="street" id="street" value="{{ old('street', $supplier->street) }}" class="form-control form-control-lg">
-                        </div>
-                        <div class="col">
-                            <label for="zipcode">{{ __('Zipcode') }}</label>
-                            <input type="text" name="zipcode" id="zipcode" value="{{ old('zipcode', $supplier->zipcode) }}" maxlength="10" class="form-control form-control-lg">
-                        </div>
-                    </div><!--./row-->
+                    @include('components.address.form', ['address' => $supplier->address, 'required' => true, 'class' => 'form-control-lg'])
                 </div><!--./card-body-->
             </div><!--./card-->
             <div class="row">

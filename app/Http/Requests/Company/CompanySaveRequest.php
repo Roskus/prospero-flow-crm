@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Company;
 
 use App\Models\Company;
+use App\Rules\AddressRules;
 use App\Rules\ValidateSafeSvg;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,13 @@ class CompanySaveRequest extends FormRequest
         return $this->route('id') ?? $this->input('id');
     }
 
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('country_id'))) {
+            $this->merge(['country_id' => strtolower(trim($this->input('country_id')))]);
+        }
+    }
+
     public function rules(): array
     {
         $rules = [
@@ -39,11 +47,7 @@ class CompanySaveRequest extends FormRequest
             'signature_html' => 'nullable|string',
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|email',
-            'country_id' => 'nullable|string|max:2',
-            'province' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'street' => 'nullable|string|max:255',
-            'zipcode' => 'nullable|string|max:20',
+            ...AddressRules::rules(),
             'currency' => 'required|string|max:3',
             'website' => 'nullable|url',
             'last_order_number' => 'nullable|integer|min:0',

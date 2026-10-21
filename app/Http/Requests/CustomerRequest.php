@@ -6,11 +6,11 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Concerns\SanitizesInput;
 use App\Models\Customer;
+use App\Rules\AddressRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Squire\Models\Country;
-use Squire\Rules\CountryRule;
 
 class CustomerRequest extends FormRequest
 {
@@ -80,17 +80,9 @@ class CustomerRequest extends FormRequest
             'tiktok' => 'nullable|url|max:255',
             'notes' => 'nullable',
             'seller_id' => 'required|numeric',
-            'country_id' => ['required', 'max:2', new CountryRule('code_2')],
-            'province' => 'nullable|max:80',
-            'city' => 'nullable|max:50',
-            'locality' => 'nullable|max:80',
-            'street' => 'nullable|max:80',
-            'address_extra' => 'nullable|max:80',
-            'zipcode' => 'nullable|max:10',
+            ...AddressRules::rules(true),
             'schedule_contact' => 'nullable|date',
             'industry_id' => 'nullable|numeric',
-            'latitude' => 'nullable|numeric|gte:-90|lte:90|required_with:longitude',
-            'longitude' => 'nullable|numeric|gte:-180|lte:180|required_with:latitude',
             'opt_in' => 'nullable',
             'tags' => 'nullable',
             'status' => ['nullable', Rule::in([

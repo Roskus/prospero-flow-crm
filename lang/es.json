@@ -402,7 +402,7 @@
     "Finance": "Finanzas",
     "Catalog": "Catálogo",
     "Communication": "Comunicación",
-    "Address extra": "Dirección adicional (ej: Piso / Depto)",
+    "Address extra": "Dirección adicional",
     "A holiday already exists on this date.": "Ya existe un festivo en esta fecha.",
     "Actual worked": "Trabajado",
     "Add Holiday": "Añadir festivo",
@@ -477,5 +477,6 @@
     "You are not authorized to approve this request.": "No tienes autorización para aprobar esta solicitud.",
     "break deducted": "descanso descontado",
     "days available": "días disponibles",
-    "per year": "por año"
+    "per year": "por año",
+    "Floor, office, suite...": "Piso, oficina, depto..."
 }

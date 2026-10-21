@@ -138,4 +138,54 @@ class SupplierContactControllerTest extends TestCase
         $response->assertOk();
         $response->assertHeader('Content-Disposition');
     }
+
+    #[Test]
+    public function it_saves_a_supplier_contact_with_address(): void
+    {
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/supplier/contact/save', [
+            'supplier_id' => $supplier->id,
+            'contact_first_name' => 'Jane',
+            'contact_email' => 'jane@example.com',
+            'country_id' => 'ar',
+            'city' => 'Rosario',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $contact = SupplierContact::where('supplier_id', $supplier->id)->firstOrFail();
+        $this->assertSame('Rosario, Argentina', $contact->address->oneLine());
+    }
+
+    #[Test]
+    public function it_rejects_a_supplier_contact_with_an_unknown_country(): void
+    {
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/supplier/contact/save', [
+            'supplier_id' => $supplier->id,
+            'contact_first_name' => 'Jane',
+            'contact_email' => 'jane@example.com',
+            'country_id' => 'zz',
+        ]);
+
+        $response->assertSessionHasErrors('country_id');
+    }
+
+    #[Test]
+    public function the_supplier_contact_list_shows_country_and_city(): void
+    {
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id]);
+        SupplierContact::factory()->create([
+            'company_id' => $this->user->company_id,
+            'supplier_id' => $supplier->id,
+            'country_id' => 'ar',
+            'city' => 'Rosario',
+        ]);
+
+        $response = $this->get('/supplier/update/'.$supplier->id);
+
+        $response->assertOk();
+        $response->assertSeeInOrder(['Argentina', 'Rosario']);
+    }
 }

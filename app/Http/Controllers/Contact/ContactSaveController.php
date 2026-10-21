@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Contact;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\ContactSaveRequest;
 use App\Repositories\ContactRepository;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class ContactSaveController extends MainController
 {
@@ -18,7 +18,7 @@ class ContactSaveController extends MainController
         $this->contactRepository = $contactRepository;
     }
 
-    public function save(Request $request): RedirectResponse
+    public function save(ContactSaveRequest $request): RedirectResponse
     {
         $contact = $this->contactRepository->save($request->all());
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Supplier;
+use App\ValueObjects\Address;
 use Illuminate\Support\Facades\Auth;
 
 class SupplierRepository
@@ -19,10 +20,7 @@ class SupplierRepository
         $supplier->vat = (! empty($data['vat'])) ? $data['vat'] : null;
         $supplier->email = (! empty($data['email'])) ? $data['email'] : null;
         $supplier->website = (! empty($data['website'])) ? $data['website'] : null;
-        $supplier->country_id = $data['country_id'];
-        $supplier->province = (! empty($data['province'])) ? $data['province'] : null;
-        $supplier->street = (! empty($data['street'])) ? $data['street'] : null;
-        $supplier->zipcode = (! empty($data['zipcode'])) ? $data['zipcode'] : null;
+        $supplier->address = Address::fromArray($data);
         $supplier->notes = ! empty($data['notes']) ? $data['notes'] : null;
         $supplier->account_number = ! empty($data['account_number']) ? $data['account_number'] : null;
         $supplier->order_url = ! empty($data['order_url']) ? $data['order_url'] : null;

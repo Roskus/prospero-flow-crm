@@ -99,38 +99,7 @@
             <span class="card-title">{{ __('Address') }}</span>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    @include('components.country', [
-                        'country_id' => old('country_id', $company->country_id),
-                        'required' => true,
-                    ])
-                </div>
-                <div class="col">
-                    <label for="province" class="label-control">{{ __('Province') }}</label>
-                    <input type="text" name="province" id="province" value="{{ old('province', $company->province) }}"
-                           class="form form-control">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col form-group">
-                    <label for="city" class="label-control">{{ __('City') }}</label>
-                    <input type="text" name="city" id="city" value="{{ old('city', $company->city) }}"
-                           class="form form-control">
-                </div>
-                <div class="col form-group">
-                    <label for="street" class="label-control">{{ __('Street') }}</label>
-                    <input type="text" name="street" id="street" value="{{ old('street', $company->street) }}"
-                           class="form form-control">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col form-group">
-                    <label for="zipcode" class="label-control">{{ __('Zipcode') }}</label>
-                    <input type="text" name="zipcode" id="zipcode" value="{{ old('zipcode', $company->zipcode) }}"
-                           class="form form-control" maxlength="10">
-                </div>
-            </div>
+            @include('components.address.form', ['address' => $company->address, 'required' => true])
         </div>
     </div>
     <div class="card mb-2">

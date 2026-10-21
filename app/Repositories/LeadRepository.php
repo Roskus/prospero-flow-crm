@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Lead;
+use App\ValueObjects\Address;
 use Illuminate\Support\Facades\Auth;
 
 class LeadRepository
@@ -42,16 +43,10 @@ class LeadRepository
         $lead->youtube = ! empty($data['youtube']) ? rtrim($data['youtube'], '/') : null;
         $lead->tiktok = ! empty($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
 
-        $lead->country_id = ! empty($data['country_id']) ? strtolower($data['country_id']) : Auth::user()->company->country_id;
-        $lead->province = ! empty($data['province']) ? $data['province'] : null;
-        $lead->city = ! empty($data['city']) ? $data['city'] : null;
-        $lead->locality = $data['locality'] ?? null;
-        $lead->street = $data['street'] ?? null;
-        $lead->zipcode = $data['zipcode'] ?? null;
+        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
+        $lead->address = Address::fromArray($data);
         $lead->schedule_contact = ! empty($data['schedule_contact']) ? $data['schedule_contact'] : null;
         $lead->industry_id = ! empty($data['industry_id']) ? $data['industry_id'] : null;
-        $lead->latitude = ! empty($data['latitude']) ? $data['latitude'] : null;
-        $lead->longitude = ! empty($data['longitude']) ? $data['longitude'] : null;
         $lead->opt_in = ! empty($data['opt_in']) ? $data['opt_in'] : null;
         $lead->tags = ! empty($data['tags']) ? explode(',', $data['tags']) : null;
 

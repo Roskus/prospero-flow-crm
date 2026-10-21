@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Supplier;
 
 use App\Http\Controllers\MainController;
+use App\Http\Requests\SupplierRequest;
 use App\Repositories\SupplierRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SupplierSaveController extends MainController
@@ -18,7 +18,7 @@ class SupplierSaveController extends MainController
         $this->supplierRepository = $supplierRepository;
     }
 
-    public function save(Request $request)
+    public function save(SupplierRequest $request)
     {
         if (empty($request->id)) {
             if (Auth::user()->cannot('create supplier')) {

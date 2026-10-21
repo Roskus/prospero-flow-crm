@@ -36,5 +36,6 @@ class LeadImportSaveControllerTest extends TestCase
         $this->assertEquals('John Doe Corp.', $lead->name);
         $this->assertEquals('John Doe Corp.', $lead->business_name);
         $this->assertEquals('1111111111', $lead->phone);
+        $this->assertSame('us', $lead->country_id);
     }
 }

@@ -58,16 +58,7 @@
             </div>
             <div class="col">
                 <div>
-                    <label>{{ __('Address') }}:</label> {{ Auth::user()->company->street }}
-                </div>
-                <div>
-                    <label>{{ __('Province') }}:</label> {{ Auth::user()->company->province }}
-                </div>
-                <div>
-                    <label>{{ __('City') }}:</label> {{ Auth::user()->company->city }}
-                </div>
-                <div>
-                    <label>{{ __('Zipcode') }}:</label> {{ Auth::user()->company->zipcode }}
+                    <label>{{ __('Address') }}:</label> @include('components.address.display', ['address' => Auth::user()->company->address])
                 </div>
                 <div>
                     <label>{{ __('Seller') }}:</label>
@@ -103,18 +94,7 @@
         </div><!--./row-->
         <div class="row">
             <div class="col">
-                <label>{{ __('Province') }}:</label> {{ $order->customer->province }}
-            </div>
-            <div class="col">
-                <label>{{ __('City') }}:</label> {{ $order->customer->city }}
-            </div>
-            <div class="col">
-                <label>{{ __('Zipcode') }}:</label> {{ $order->customer->zipcode }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label>{{ __('Street') }}:</label> {{ $order->customer->street }}
+                <label>{{ __('Address') }}:</label> @include('components.address.display', ['address' => $order->customer->address])
             </div>
         </div>
     </div>

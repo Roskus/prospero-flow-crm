@@ -6,7 +6,9 @@ namespace App\Http\Controllers\Api\Supplier;
 
 use App\Http\Requests\API\SupplierRequest;
 use App\Models\Supplier;
+use App\ValueObjects\Address;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -39,7 +41,17 @@ class SupplierUpdateController
             return response()->json(['error' => 'Supplier not found'], 404);
         }
 
-        $supplier->update($request->validated());
+        $data = $request->validated();
+        if (array_key_exists('country', $data)) {
+            $data['country_id'] = $data['country'];
+        }
+        $addressData = Arr::only($data, Address::COLUMNS);
+
+        $supplier->fill(Arr::except($data, ['country', ...Address::COLUMNS]));
+        if ($addressData !== []) {
+            $supplier->address = Address::fromArray([...$supplier->address->toArray(), ...$addressData]);
+        }
+        $supplier->save();
 
         return response()->json(['message' => 'Supplier updated successfully', 'supplier' => $supplier], 200);
     }

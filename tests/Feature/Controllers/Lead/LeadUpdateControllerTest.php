@@ -73,7 +73,7 @@ class LeadUpdateControllerTest extends TestCase
         $response = $this->get('/lead/update/'.$lead->id);
 
         $response->assertOk();
-        $response->assertSee('Dirección adicional (ej: Piso / Depto)');
+        $response->assertSee('Dirección adicional');
         $response->assertDontSee('Address extra');
         $this->assertMatchesRegularExpression('/<option value="'.$lead->industry_id.'"\\s+selected="selected"\\s*>/', $response->getContent());
     }
