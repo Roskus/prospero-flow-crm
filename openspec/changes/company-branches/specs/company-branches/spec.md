@@ -46,6 +46,10 @@ Every company SHALL have exactly one main branch at all times. When a company is
 - **WHEN** a user tries to delete the main branch
 - **THEN** the branch is not deleted and an error message is shown
 
+#### Scenario: Deleted branch cannot become main
+- **WHEN** a user makes a branch the main branch after another user deleted it
+- **THEN** the main branch does not change and an error message is shown
+
 ### Requirement: Branch management
 Users with permission to read the company SHALL be able to list the branches of their active company. Users with permission to update the company SHALL be able to create, edit, delete and set as main its branches. Deleting a branch SHALL keep it for the records that reference it (soft delete), SHALL hide it from branch selects, and users whose default branch it was SHALL fall back to the main branch. When creating a branch the system SHALL suggest the next free numeric code of the company (`0002`, `0003`...), which the user can change.
 
@@ -84,6 +88,10 @@ Every user SHALL have a default branch, which SHALL be a branch of the user's de
 #### Scenario: User with another default branch
 - **WHEN** a user whose default branch is "Norte" of company A works in company A
 - **THEN** their current branch is "Norte"
+
+#### Scenario: User created before the main branch
+- **WHEN** a user of company A is created before A has a main branch
+- **THEN** the user's default branch is stored as the main branch of A once it is created
 
 #### Scenario: Main branch changed
 - **WHEN** a company makes "Centro" its main branch and user U has "Casa matriz" as default branch

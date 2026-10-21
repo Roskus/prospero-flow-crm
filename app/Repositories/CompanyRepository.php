@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Company;
-use App\ValueObjects\Address;
 
 class CompanyRepository
 {
@@ -25,7 +24,7 @@ class CompanyRepository
             : null;
         $company->phone = ! empty($data['phone']) ? $data['phone'] : null;
         $company->email = ! empty($data['email']) ? $data['email'] : null;
-        $company->address = Address::fromArray($data);
+        $company->address = $company->address->merge($data);
         $company->currency = ! empty($data['currency']) ? $data['currency'] : null;
         $company->website = ! empty($data['website']) ? $data['website'] : null;
         $company->last_order_number = (int) ($data['last_order_number'] ?? $company->last_order_number ?? 0);

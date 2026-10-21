@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Contact;
-use App\ValueObjects\Address;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -34,7 +33,7 @@ class ContactRepository
         $contact->job_title = ! empty($data['contact_job_title']) ? $data['contact_job_title'] : null;
         $contact->linkedin = ! empty($data['contact_linkedin']) ? $data['contact_linkedin'] : null;
         $contact->twitter = ! empty($data['contact_twitter']) ? $data['contact_twitter'] : null;
-        $contact->address = Address::fromArray($data);
+        $contact->address = $contact->address->merge($data);
         $contact->notes = ! empty($data['contact_notes']) ? $data['contact_notes'] : null;
         $contact->updated_at = now();
         try {

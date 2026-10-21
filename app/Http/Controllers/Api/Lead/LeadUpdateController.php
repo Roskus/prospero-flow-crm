@@ -6,20 +6,14 @@ namespace App\Http\Controllers\Api\Lead;
 
 use App\Http\Requests\LeadUpdateRequest;
 use App\Models\Lead;
-use App\Repositories\LeadRepository;
+use App\ValueObjects\Address;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class LeadUpdateController
 {
-    private LeadRepository $leadSaveRepository;
-
-    public function __construct(LeadRepository $leadRepository)
-    {
-        $this->leadSaveRepository = $leadRepository;
-    }
-
     #[OAT\Put(
         path: '/lead/{id}',
         summary: 'Update a Lead',
@@ -50,8 +44,9 @@ class LeadUpdateController
         }
 
         $data = $request->validated();
-        $data['id'] = $id;
-        $lead = $this->leadSaveRepository->save($data);
+        $lead->fill(Arr::except($data, Address::COLUMNS));
+        $lead->address = $lead->address->merge($data);
+        $lead->save();
 
         return response()->json(['lead' => $lead->toArray()], 200);
     }

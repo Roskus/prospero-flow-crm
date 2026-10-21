@@ -133,4 +133,25 @@ class CompanyUpdateControllerTest extends TestCase
 
         return $companyAdmin;
     }
+
+    #[Test]
+    public function updating_without_address_fields_keeps_the_address(): void
+    {
+        $company = $this->user->company;
+        $company->update(['city' => 'Rosario', 'street' => 'Córdoba 1234', 'address_extra' => 'Piso 3 B']);
+
+        $this->actingAs($this->user, 'api')
+            ->putJson("/api/company/{$company->id}", [
+                'name' => 'Updated Name',
+                'currency' => $company->currency,
+            ])
+            ->assertOk();
+
+        $this->assertDatabaseHas('company', [
+            'id' => $company->id,
+            'city' => 'Rosario',
+            'street' => 'Córdoba 1234',
+            'address_extra' => 'Piso 3 B',
+        ]);
+    }
 }

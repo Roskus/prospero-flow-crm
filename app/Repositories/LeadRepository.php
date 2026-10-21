@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Lead;
-use App\ValueObjects\Address;
 use Illuminate\Support\Facades\Auth;
 
 class LeadRepository
@@ -26,7 +25,7 @@ class LeadRepository
         $lead->business_name = ! empty($data['business_name']) ? $data['business_name'] : null;
         $lead->dob = ! empty($data['dob']) ? $data['dob'] : null;
         $lead->vat = ! empty($data['vat']) ? strtoupper($data['vat']) : null;
-        $lead->phone = $data['phone'];
+        $lead->phone = $data['phone'] ?? null;
         $lead->extension = $data['extension'] ?? null;
         $lead->phone2 = $data['phone2'] ?? null;
         $lead->mobile = $data['mobile'] ?? null;
@@ -43,8 +42,8 @@ class LeadRepository
         $lead->youtube = ! empty($data['youtube']) ? rtrim($data['youtube'], '/') : null;
         $lead->tiktok = ! empty($data['tiktok']) ? rtrim($data['tiktok'], '/') : null;
 
-        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
-        $lead->address = Address::fromArray($data);
+        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : ($lead->country_id ?? Auth::user()->company->country_id);
+        $lead->address = $lead->address->merge($data);
         $lead->schedule_contact = ! empty($data['schedule_contact']) ? $data['schedule_contact'] : null;
         $lead->industry_id = ! empty($data['industry_id']) ? $data['industry_id'] : null;
         $lead->opt_in = ! empty($data['opt_in']) ? $data['opt_in'] : null;

@@ -65,6 +65,16 @@ final readonly class Address implements Arrayable, Castable
     }
 
     /**
+     * Copy of this address with the given fields replaced; fields missing from the data keep their value.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function merge(array $data): self
+    {
+        return self::fromArray([...$this->toArray(), ...array_intersect_key($data, array_flip(self::COLUMNS))]);
+    }
+
+    /**
      * @return array{country_id: ?string, province: ?string, city: ?string, locality: ?string, street: ?string, address_extra: ?string, zipcode: ?string, latitude: ?float, longitude: ?float}
      */
     public function toArray(): array

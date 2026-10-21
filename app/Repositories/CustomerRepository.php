@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Customer;
-use App\ValueObjects\Address;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +19,7 @@ class CustomerRepository
             $customer = Customer::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
 
-        $customer->seller_id = ($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
+        $customer->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
         $customer->company_id = Auth::user()->company_id;
         $customer->external_id = $data['external_id'] ?? null;
         $customer->name = $data['first_name'] ?? $data['name'] ?? null;
@@ -44,8 +43,8 @@ class CustomerRepository
         $customer->youtube = ($data['youtube'] ?? null) ? rtrim($data['youtube'], '/') : null;
         $customer->tiktok = ($data['tiktok'] ?? null) ? rtrim($data['tiktok'], '/') : null;
 
-        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : Auth::user()->company->country_id;
-        $customer->address = Address::fromArray($data);
+        $data['country_id'] = ! empty($data['country_id']) ? $data['country_id'] : ($customer->country_id ?? Auth::user()->company->country_id);
+        $customer->address = $customer->address->merge($data);
         $customer->industry_id = $data['industry_id'] ?? null;
         $customer->schedule_contact = ! empty($data['schedule_contact']) ? Carbon::parse($data['schedule_contact'])->setTimezone(Auth::user()->timezone) : null;
 

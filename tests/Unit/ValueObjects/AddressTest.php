@@ -88,4 +88,18 @@ class AddressTest extends TestCase
         $this->assertTrue(Address::fromArray(['latitude' => '40.4167', 'longitude' => '-3.70325'])->hasCoordinates());
         $this->assertFalse(Address::fromArray(['latitude' => '40.4167'])->hasCoordinates());
     }
+
+    #[Test]
+    public function merge_keeps_the_fields_missing_from_the_data(): void
+    {
+        $address = Address::fromArray(['country_id' => 'es', 'city' => 'Madrid', 'street' => 'Calle Mayor 1', 'latitude' => '40.4167', 'longitude' => '-3.70325']);
+
+        $merged = $address->merge(['street' => 'Gran Vía 2', 'zipcode' => '', 'name' => 'ignored']);
+
+        $this->assertSame('Madrid', $merged->city);
+        $this->assertSame('Gran Vía 2', $merged->street);
+        $this->assertNull($merged->zipcode);
+        $this->assertSame(40.4167, $merged->latitude);
+        $this->assertNull($address->merge(['city' => ''])->city);
+    }
 }
