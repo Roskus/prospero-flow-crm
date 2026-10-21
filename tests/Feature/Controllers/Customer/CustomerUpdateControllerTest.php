@@ -61,4 +61,21 @@ class CustomerUpdateControllerTest extends TestCase
         $response->assertOk();
         $this->assertSame(1, substr_count($response->getContent(), '/asset/js/Contact.js'));
     }
+
+    #[Test]
+    public function it_renders_translated_address_extra_and_selected_industry(): void
+    {
+        $this->user->update(['lang' => 'es']);
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+        ]);
+
+        $response = $this->get('/customer/update/'.$customer->id);
+
+        $response->assertOk();
+        $response->assertSee('Dirección adicional (ej: Piso / Depto)');
+        $response->assertDontSee('Address extra');
+        $this->assertMatchesRegularExpression('/<option value="'.$customer->industry_id.'"\\s+selected="selected"\\s*>/', $response->getContent());
+    }
 }

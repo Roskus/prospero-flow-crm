@@ -60,4 +60,17 @@ class LeadIndexControllerTest extends TestCase
         $response->assertSee('tom-select@2.4.3', false);
         $response->assertSee('clear_button', false);
     }
+
+    #[Test]
+    public function it_filters_leads_by_industry_with_searchable_select(): void
+    {
+        $lead = Lead::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->get('/lead?industry_id='.$lead->industry_id);
+
+        $response->assertOk();
+        $response->assertSee($lead->name);
+        $this->assertMatchesRegularExpression('/<select name="industry_id"[^>]*data-tom-select/', $response->getContent());
+        $this->assertMatchesRegularExpression('/<option value="'.$lead->industry_id.'"\\s+selected="selected"\\s*>/', $response->getContent());
+    }
 }

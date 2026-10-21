@@ -22,13 +22,7 @@
                 @include('components.country')
             </div>
             <div class="col-sm-6 col-md-2">
-                <label for="industry_id">{{ __('Industry') }}</label>
-                <select name="industry_id" id="industry_id" class="form-select">
-                    <option value=""></option>
-                    @foreach($industries as $industry)
-                    <option value="{{ $industry->id }}">{{ __('industry.' . $industry->name) }}</option>
-                    @endforeach
-                </select>
+                @include('components.industry')
             </div>
             <div class="col-sm-6 col-md-2">
                 <label for="phone">{{ __('Phone') }}</label>

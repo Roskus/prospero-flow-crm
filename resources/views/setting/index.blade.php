@@ -1,147 +1,76 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $user = Auth::user();
+    $isSuperAdmin = $user->hasRole('SuperAdmin');
+    $settingGroups = [
+        [
+            'title' => __('Organization'),
+            'icon' => 'las la-sitemap',
+            'items' => [
+                ['url' => url('/company'), 'icon' => 'las la-industry', 'label' => __('Companies'), 'visible' => $user->can('read company')],
+                ['url' => url('/user'), 'icon' => 'las la-users', 'label' => __('Users'), 'visible' => $user->can('read user')],
+                ['url' => url('/permission'), 'icon' => 'las la-lock-open', 'label' => __('Permissions'), 'visible' => $isSuperAdmin],
+            ],
+        ],
+        [
+            'title' => __('Finance'),
+            'icon' => 'las la-coins',
+            'items' => [
+                ['url' => url('/bank-account'), 'icon' => 'las la-piggy-bank', 'label' => __('Bank accounts'), 'visible' => true],
+                ['url' => url('/bank'), 'icon' => 'las la-university', 'label' => __('Banks'), 'visible' => $isSuperAdmin],
+                ['url' => url('/currency'), 'icon' => 'las la-euro-sign', 'label' => __('Currencies'), 'visible' => true],
+                ['url' => url('/transaction/category'), 'icon' => 'las la-tags', 'label' => __('Transaction categories'), 'visible' => true],
+            ],
+        ],
+        [
+            'title' => __('Catalog'),
+            'icon' => 'las la-boxes',
+            'items' => [
+                ['url' => url('/brand'), 'icon' => 'las la-apple-alt', 'label' => __('Brands'), 'visible' => true],
+                ['url' => url('/category'), 'icon' => 'las la-archive', 'label' => __('Categories'), 'visible' => true],
+                ['url' => url('/product'), 'icon' => 'las la-box', 'label' => __('Products'), 'visible' => $user->can('read product')],
+            ],
+        ],
+        [
+            'title' => __('Communication'),
+            'icon' => 'las la-comments',
+            'items' => [
+                ['url' => url('/email-template'), 'icon' => 'las la-envelope-open-text', 'label' => __('Email templates'), 'visible' => true],
+            ],
+        ],
+    ];
+@endphp
+
 <header>
    <h1>{{ __('Settings') }}</h1>
 </header>
 
-<div class="row">
-    @can('read company')
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/company') }}">
-                    <div class="h1">
-                        <i class="las la-industry"></i>
+<div class="row g-3">
+    @foreach($settingGroups as $settingGroup)
+        @php($visibleItems = array_filter($settingGroup['items'], fn (array $item): bool => $item['visible']))
+        @continue(empty($visibleItems))
+        <div class="col-12 col-lg-6">
+            <section class="card h-100">
+                <h2 class="card-header bg-transparent h5 fw-semibold mb-0">
+                    <i class="{{ $settingGroup['icon'] }}"></i>
+                    {{ $settingGroup['title'] }}
+                </h2>
+                <div class="card-body">
+                    <div class="row row-cols-1 row-cols-sm-2 g-2">
+                        @foreach($visibleItems as $item)
+                            <div class="col">
+                                <a href="{{ $item['url'] }}" class="setting-tile d-flex align-items-center gap-3 h-100 px-3 py-2 border rounded text-body text-decoration-none">
+                                    <i class="{{ $item['icon'] }} fs-2 text-primary"></i>
+                                    <span>{{ $item['label'] }}</span>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
-                    {{ __('Companies') }}
-                </a>
-            </div>
+                </div>
+            </section>
         </div>
-    </div>
-    @endcan
-
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/category') }}">
-                    <div class="h1">
-                        <i class="las la-archive"></i>
-                    </div>
-                    {{ __('Categories') }}
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/brand') }}">
-                    <div class="h1">
-                        <i class="las la-apple-alt"></i>
-                    </div>
-                    {{ __('Brands') }}
-                </a>
-            </div>
-        </div>
-    </div>
-
-    @can('read user')
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/user') }}">
-                    <div class="h1">
-                        <i class="las la-users"></i>
-                    </div>
-                    {{ __('Users') }}
-                </a>
-            </div>
-        </div>
-    </div>
-    @endcan
-
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/currency') }}">
-                    <div class="h1">
-                        <i class="las la-euro-sign"></i>
-                    </div>
-                    {{ __('Currencies') }}
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/email-template') }}">
-                    <div class="h1">
-                        <i class="las la-envelope-open-text"></i>
-                    </div>
-                    {{ __('Email templates') }}
-                </a>
-            </div>
-        </div>
-    </div>
-
-    @role('SuperAdmin')
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/permission') }}">
-                    <div class="h1">
-                        <i class="las la-lock-open"></i>
-                    </div>
-                    {{ __('Permissions') }}
-                </a>
-            </div>
-        </div>
-    </div>
-    @endrole
-
-    @role('SuperAdmin')
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/bank') }}">
-                    <div class="h1">
-                        <i class="las la-university"></i>
-                    </div>
-                    {{ __('Banks') }}
-                </a>
-            </div>
-        </div>
-    </div>
-    @endrole
-
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/transaction/category') }}">
-                    <div class="h1">
-                        <i class="las la-tags"></i>
-                    </div>
-                    {{ __('Transaction categories') }}
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col text-center mb-1">
-        <div class="card">
-            <div class="card-body">
-                <a href="{{ url('/bank-account') }}">
-                    <div class="h1">
-                        <i class="las la-piggy-bank"></i>
-                    </div>
-                    {{ __('Bank accounts') }}
-                </a>
-            </div>
-        </div>
-    </div>
+    @endforeach
 </div>
 @endsection
