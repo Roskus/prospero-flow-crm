@@ -162,6 +162,23 @@ class OrderBranchTest extends TestCase
     }
 
     #[Test]
+    public function editing_an_order_of_a_deleted_branch_keeps_it_selected_until_another_one_is_chosen(): void
+    {
+        $north = $this->branch('Sucursal Norte');
+        $this->branch('Centro');
+        $order = Order::factory()->create(['company_id' => $this->user->company_id, 'branch_id' => $north->id]);
+        app(BranchService::class)->delete($north);
+
+        $this->get('/order/update/'.$order->order_number)
+            ->assertOk()
+            ->assertSee('<option value="" selected>'.$north->code.' - Sucursal Norte</option>', false);
+
+        $this->post('/order/save', ['id' => $order->id, 'customer_id' => $this->customer()->id, 'branch_id' => ''])->assertRedirect('order');
+
+        $this->assertSame($north->id, $order->fresh()->branch_id);
+    }
+
+    #[Test]
     public function the_order_page_and_pdf_show_the_branch_when_the_company_has_several(): void
     {
         $north = $this->branch('Sucursal Norte');

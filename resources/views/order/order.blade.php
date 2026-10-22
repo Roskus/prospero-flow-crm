@@ -21,6 +21,9 @@
             <label for="branch_id">{{ __('Branch') }}</label>
             @php($selectedBranchId = old('branch_id', $order->branch_id ?? Auth::user()->currentBranch()?->id))
             <select name="branch_id" id="branch_id" class="form-select form-select-lg @error('branch_id') is-invalid @enderror">
+                @if($order->branch?->trashed())
+                    <option value="" @selected($selectedBranchId === '' || $selectedBranchId == $order->branch_id)>{{ $order->branch->code }} - {{ $order->branch->name }}</option>
+                @endif
                 @foreach($branches as $branch)
                     <option value="{{ $branch->id }}" @selected($selectedBranchId == $branch->id)>{{ $branch->code }} - {{ $branch->name }}</option>
                 @endforeach

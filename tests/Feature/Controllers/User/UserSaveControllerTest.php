@@ -8,6 +8,7 @@ use App\Models\Branch;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\CompanyAccessService;
+use Illuminate\Support\Arr;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -327,6 +328,30 @@ class UserSaveControllerTest extends TestCase
         $this->post('/user/save', $this->branchPayload($user, $branch->id))->assertRedirect('/user');
 
         $this->assertSame($branch->id, $user->fresh()->default_branch_id);
+    }
+
+    #[Test]
+    public function an_update_without_a_branch_keeps_the_branch_of_the_user(): void
+    {
+        $branch = Branch::factory()->forCompany($this->user->company_id)->create();
+        $user = User::factory()->create(['company_id' => $this->user->company_id, 'default_branch_id' => $branch->id]);
+
+        $this->post('/user/save', Arr::except($this->branchPayload($user, $branch->id), 'default_branch_id'))->assertRedirect('/user');
+
+        $this->assertSame($branch->id, $user->fresh()->default_branch_id);
+    }
+
+    #[Test]
+    public function changing_the_company_without_a_branch_assigns_the_main_branch_of_the_new_company(): void
+    {
+        $branch = Branch::factory()->forCompany($this->user->company_id)->create();
+        $user = User::factory()->create(['company_id' => $this->user->company_id, 'default_branch_id' => $branch->id]);
+        $otherCompany = Company::factory()->create();
+
+        $this->post('/user/save', ['company_id' => $otherCompany->id] + Arr::except($this->branchPayload($user, $branch->id), 'default_branch_id'))
+            ->assertRedirect('/user');
+
+        $this->assertSame($otherCompany->mainBranch->id, $user->fresh()->default_branch_id);
     }
 
     #[Test]

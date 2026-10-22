@@ -40,7 +40,7 @@ class UserSaveController extends MainController
         $user->hire_date = $request->hire_date;
         $user->is_employee = $request->boolean('is_employee', true);
         $user->manager_id = $request->manager_id;
-        $user->default_branch_id = $request->integer('default_branch_id') ?: Branch::ofCompany($user->defaultCompanyId())->where('is_main', true)->value('id');
+        $user->default_branch_id = $request->integer('default_branch_id') ?: $this->currentOrMainBranchId($user);
         if ($request->has('iban') && Auth::user()->canSeeBankDetails()) {
             $user->iban = $request->iban;
         }
@@ -74,6 +74,20 @@ class UserSaveController extends MainController
         }
 
         return redirect('/user');
+    }
+
+    /**
+     * Keeps the branch of the user while it belongs to their default company, otherwise falls back to its main branch.
+     */
+    private function currentOrMainBranchId(User $user): ?int
+    {
+        $branches = Branch::query()->ofCompany((int) $user->defaultCompanyId());
+
+        if ($user->default_branch_id !== null && (clone $branches)->whereKey($user->default_branch_id)->exists()) {
+            return $user->default_branch_id;
+        }
+
+        return $branches->where('is_main', true)->value('id');
     }
 
     /**
