@@ -59,6 +59,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         'company_id',
+        'default_branch_id',
         'manager_id',
         'first_name',
         'last_name',
@@ -104,11 +105,23 @@ class User extends Authenticatable implements JWTSubject
 
     protected $with = ['company'];
 
+    protected static function booted(): void
+    {
+        static::creating(function (User $user): void {
+            if ($user->default_branch_id === null) {
+                $user->default_branch_id = Branch::ofCompany($user->defaultCompanyId())->where('is_main', true)->value('id');
+            }
+        });
+    }
+
     public function setPassword(string $password)
     {
         $this->password = $password;
     }
 
+    /**
+     * @return HasOne<Company, $this>
+     */
     public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
@@ -120,6 +133,28 @@ class User extends Authenticatable implements JWTSubject
     public function defaultCompany(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'default_company_id');
+    }
+
+    /**
+     * Branch of the user's default company the user works from; kept when the branch is deleted or the user switches company.
+     */
+    public function defaultBranch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class, 'default_branch_id');
+    }
+
+    /**
+     * The default branch when it is an active branch of the active company, otherwise the active company's main branch.
+     */
+    public function currentBranch(): ?Branch
+    {
+        return once(function (): ?Branch {
+            $branch = $this->default_branch_id !== null
+                ? Branch::ofCompany((int) $this->company_id)->find($this->default_branch_id)
+                : null;
+
+            return $branch ?? Branch::ofCompany((int) $this->company_id)->where('is_main', true)->first();
+        });
     }
 
     /**

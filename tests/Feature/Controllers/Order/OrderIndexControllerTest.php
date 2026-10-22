@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Order;
 
+use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Order;
@@ -153,6 +154,7 @@ class OrderIndexControllerTest extends TestCase
         return Order::withoutEvents(function () use ($customer) {
             $order = new Order;
             $order->company_id = $this->user->company_id;
+            $order->branch_id = $this->user->company->mainBranch->id;
             $order->customer_id = $customer->id;
             $order->status = Order::PENDING;
             $order->save();
@@ -170,6 +172,7 @@ class OrderIndexControllerTest extends TestCase
 
         return DB::table('order')->insertGetId(array_merge([
             'company_id' => $companyId,
+            'branch_id' => Branch::ofCompany($companyId)->where('is_main', true)->value('id'),
             'customer_id' => $customer->id,
             'status' => Order::PENDING,
             'amount' => 0,

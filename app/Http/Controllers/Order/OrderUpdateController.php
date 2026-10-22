@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\MainController;
+use App\Models\Branch;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -22,6 +23,10 @@ class OrderUpdateController extends MainController
         $company_id = Auth::user()->company_id;
         $data['customers'] = $order->customer->getAllByCompanyId($company_id);
         $data['products'] = $product->getAllByCompanyId($company_id);
+
+        $data['branches'] = Auth::user()->company->hasSeveralBranches()
+            ? Branch::ofCompany((int) Auth::user()->company_id)->orderByDesc('is_main')->orderBy('code')->get()
+            : collect();
 
         return view('order/order', $data);
     }

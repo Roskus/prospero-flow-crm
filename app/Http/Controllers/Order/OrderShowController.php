@@ -16,6 +16,7 @@ class OrderShowController extends MainController
             ->where('order_number', $order_number)
             ->firstOrFail();
         $data['order'] = $order;
+        $data['showBranch'] = $request->user()->company->hasSeveralBranches();
 
         return view('order.show', $data);
     }

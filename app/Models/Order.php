@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,6 +28,7 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
         new OAT\Property(property: 'seller_id', description: 'Seller ID', type: 'integer', example: 1),
         new OAT\Property(property: 'amount', description: 'Order amount', type: 'number', format: 'float', example: 72.30),
         new OAT\Property(property: 'currency', description: 'Order currency', type: 'string', example: 'EUR'),
+        new OAT\Property(property: 'branch_id', description: 'Branch of the order; defaults to the current branch of the user', type: 'integer', example: 1),
         new OAT\Property(property: 'status', description: 'Order status', type: 'integer', example: 1),
         new OAT\Property(property: 'items', description: 'Order items', type: 'array', items: new OAT\Items(type: 'object')),
     ],
@@ -50,6 +52,7 @@ final class Order extends Model
     protected $fillable = [
         'company_id',
         'order_number',
+        'branch_id',
         'customer_id',
         'seller_id',
         'amount',
@@ -118,6 +121,14 @@ final class Order extends Model
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');
+    }
+
+    /**
+     * Deleted branches keep their orders, so the branch is loaded even when soft deleted.
+     */
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class)->withTrashed();
     }
 
     public function seller(): HasOne
@@ -326,9 +337,13 @@ final class Order extends Model
         ];
     }
 
-    public function getAllActiveByCompany(int $company_id)
+    public function getAllActiveByCompany(int $company_id, ?int $branchId = null)
     {
-        return Order::where('company_id', $company_id)->paginate(10);
+        return Order::where('company_id', $company_id)
+            ->when($branchId !== null, fn (Builder $query) => $query->where('branch_id', $branchId))
+            ->with('branch')
+            ->paginate(10)
+            ->withQueryString();
     }
 
     public function getAmountFormated(): string

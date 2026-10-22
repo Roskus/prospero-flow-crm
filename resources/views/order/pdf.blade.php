@@ -69,6 +69,9 @@
         <td width="50%">
             <div><span class="info-label">{{ __('Address') }}:</span> @include('components.address.display', ['address' => $company->address])</div>
             <div><span class="info-label">{{ __('Seller') }}:</span> {{ !empty($order->seller) ? $order->seller->first_name.' '.$order->seller->last_name : '' }}</div>
+            @if($showBranch ?? false)
+            <div><span class="info-label">{{ __('Branch') }}:</span> {{ $order->branch->code }} - {{ $order->branch->name }}</div>
+            @endif
         </td>
     </tr>
 </table>

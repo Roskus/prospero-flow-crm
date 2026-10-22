@@ -6,12 +6,24 @@ namespace App\Observers;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Services\BranchService;
 use App\Services\CompanyAccessService;
 use Illuminate\Support\Facades\DB;
 
 class CompanyObserver
 {
-    public function __construct(private CompanyAccessService $companyAccessService) {}
+    public function __construct(
+        private CompanyAccessService $companyAccessService,
+        private BranchService $branchService,
+    ) {}
+
+    /**
+     * Every company has a main branch, whatever path creates the company.
+     */
+    public function created(Company $company): void
+    {
+        $this->branchService->createMainBranch($company);
+    }
 
     /**
      * The company switcher caches company names.

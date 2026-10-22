@@ -33,6 +33,9 @@ class OrderRepository
 
             $order->setCompanyId($companyId);
             $order->setCustomerId((int) $data['customer_id']);
+            if (! empty($data['branch_id'])) {
+                $order->branch_id = (int) $data['branch_id'];
+            }
             $order->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
 
             $order->setAmount((float) $order->getTotal());

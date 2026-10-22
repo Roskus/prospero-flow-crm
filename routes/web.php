@@ -80,6 +80,9 @@ require __DIR__.'/module/category.php';
 // Company
 require __DIR__.'/module/company.php';
 
+// Branch
+require __DIR__.'/module/branch.php';
+
 // Currency
 require __DIR__.'/module/currency.php';
 

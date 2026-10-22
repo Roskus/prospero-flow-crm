@@ -6,6 +6,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\MainController;
 use App\Http\Requests\UserRequest;
+use App\Models\Branch;
 use App\Models\User;
 use App\Services\CompanyAccessService;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,7 @@ class UserSaveController extends MainController
         $user->hire_date = $request->hire_date;
         $user->is_employee = $request->boolean('is_employee', true);
         $user->manager_id = $request->manager_id;
+        $user->default_branch_id = $request->integer('default_branch_id') ?: Branch::ofCompany($user->defaultCompanyId())->where('is_main', true)->value('id');
         if ($request->has('iban') && Auth::user()->canSeeBankDetails()) {
             $user->iban = $request->iban;
         }

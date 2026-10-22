@@ -16,6 +16,20 @@
             <input id="customer_name" required="required" class="form-control form-control-lg" value="{{ $order->customer->name ?? '' }}">
             <input type="hidden" name="customer_id" id="customer_id" value="{{ $order->getCustomerId() ?: '' }}">
         </div>
+        @if($branches->isNotEmpty())
+        <div class="col-md-4">
+            <label for="branch_id">{{ __('Branch') }}</label>
+            @php($selectedBranchId = old('branch_id', $order->branch_id ?? Auth::user()->currentBranch()?->id))
+            <select name="branch_id" id="branch_id" class="form-select form-select-lg @error('branch_id') is-invalid @enderror">
+                @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" @selected($selectedBranchId == $branch->id)>{{ $branch->code }} - {{ $branch->name }}</option>
+                @endforeach
+            </select>
+            @error('branch_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        @endif
 
     </div>
     <div class="row">
