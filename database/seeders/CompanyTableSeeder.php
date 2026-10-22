@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CompanyTableSeeder extends Seeder
 {
@@ -14,8 +14,8 @@ class CompanyTableSeeder extends Seeder
      */
     public function run(): void
     {
-        if (DB::table('company')->count() === 0) {
-            DB::table('company')->insert(['country_id' => 'ee', 'name' => 'Test company', 'email' => 'info@test.com', 'website' => 'https://test.com', 'status' => 1]);
+        if (Company::count() === 0) {
+            Company::create(['country_id' => 'ee', 'name' => 'Test company', 'email' => 'info@test.com', 'website' => 'https://test.com', 'status' => Company::ACTIVE]);
         }
     }
 }

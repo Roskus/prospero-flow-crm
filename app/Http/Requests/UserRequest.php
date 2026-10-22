@@ -46,7 +46,25 @@ class UserRequest extends FormRequest
             'roles.*' => ['string', Rule::in(Auth::user()->assignableRoles()->pluck('name')->all())],
             'extra_companies' => Auth::user()->hasRole('SuperAdmin') ? ['array'] : 'prohibited',
             'extra_companies.*' => ['nullable', 'integer', Rule::exists('company', 'id')->whereNull('deleted_at')],
+            'default_branch_id' => ['nullable', 'integer', Rule::exists('branch', 'id')->where('company_id', $this->defaultCompanyId())->whereNull('deleted_at')],
         ];
+    }
+
+    /**
+     * The company the saved user will belong to: the one chosen by a SuperAdmin, the edited user's default company
+     * or, for a new user, the creator's active company.
+     */
+    public function defaultCompanyId(): int
+    {
+        if (Auth::user()->hasRole('SuperAdmin') && $this->filled('company_id')) {
+            return $this->integer('company_id');
+        }
+
+        if ($this->filled('id')) {
+            return (int) User::query()->manageableBy(Auth::user())->find($this->integer('id'))?->defaultCompanyId();
+        }
+
+        return (int) Auth::user()->company_id;
     }
 
     /**

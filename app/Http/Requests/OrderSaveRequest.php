@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Helpers\CurrencyHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class OrderSaveRequest extends FormRequest
 {
@@ -20,6 +21,7 @@ class OrderSaveRequest extends FormRequest
         return [
             'id' => ['sometimes', 'integer'],
             'customer_id' => ['required', 'integer'],
+            'branch_id' => ['nullable', 'integer', Rule::exists('branch', 'id')->where('company_id', Auth::user()->company_id)->whereNull('deleted_at')],
             'seller_id' => ['sometimes', 'integer'],
             'currency' => ['sometimes', 'string', 'max:3'],
             'amount' => ['sometimes', 'numeric', 'min:0', 'max:'.CurrencyHelper::MAX_AMOUNT],

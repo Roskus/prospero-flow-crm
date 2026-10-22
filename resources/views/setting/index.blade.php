@@ -10,6 +10,7 @@
             'icon' => 'las la-sitemap',
             'items' => [
                 ['url' => url('/company'), 'icon' => 'las la-industry', 'label' => __('Companies'), 'visible' => $user->can('read company')],
+                ['url' => url('/branch'), 'icon' => 'las la-store-alt', 'label' => __('Branches'), 'visible' => $user->can('read company')],
                 ['url' => url('/user'), 'icon' => 'las la-users', 'label' => __('Users'), 'visible' => $user->can('read user')],
                 ['url' => url('/permission'), 'icon' => 'las la-lock-open', 'label' => __('Permissions'), 'visible' => $isSuperAdmin],
             ],

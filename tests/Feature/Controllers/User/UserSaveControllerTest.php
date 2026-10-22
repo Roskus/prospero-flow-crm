@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\User;
 
+use App\Models\Branch;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\CompanyAccessService;
+use Illuminate\Support\Arr;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -315,5 +317,115 @@ class UserSaveControllerTest extends TestCase
         $user = User::factory()->create();
 
         $this->get('/user/update/'.$user->id)->assertOk()->assertSee('name="extra_companies[]"', false);
+    }
+
+    #[Test]
+    public function it_saves_the_default_branch_of_the_user(): void
+    {
+        $user = User::factory()->create(['company_id' => $this->user->company_id]);
+        $branch = Branch::factory()->forCompany($this->user->company_id)->create();
+
+        $this->post('/user/save', $this->branchPayload($user, $branch->id))->assertRedirect('/user');
+
+        $this->assertSame($branch->id, $user->fresh()->default_branch_id);
+    }
+
+    #[Test]
+    public function an_update_without_a_branch_keeps_the_branch_of_the_user(): void
+    {
+        $branch = Branch::factory()->forCompany($this->user->company_id)->create();
+        $user = User::factory()->create(['company_id' => $this->user->company_id, 'default_branch_id' => $branch->id]);
+
+        $this->post('/user/save', Arr::except($this->branchPayload($user, $branch->id), 'default_branch_id'))->assertRedirect('/user');
+
+        $this->assertSame($branch->id, $user->fresh()->default_branch_id);
+    }
+
+    #[Test]
+    public function changing_the_company_without_a_branch_assigns_the_main_branch_of_the_new_company(): void
+    {
+        $branch = Branch::factory()->forCompany($this->user->company_id)->create();
+        $user = User::factory()->create(['company_id' => $this->user->company_id, 'default_branch_id' => $branch->id]);
+        $otherCompany = Company::factory()->create();
+
+        $this->post('/user/save', ['company_id' => $otherCompany->id] + Arr::except($this->branchPayload($user, $branch->id), 'default_branch_id'))
+            ->assertRedirect('/user');
+
+        $this->assertSame($otherCompany->mainBranch->id, $user->fresh()->default_branch_id);
+    }
+
+    #[Test]
+    public function it_rejects_a_default_branch_of_another_company(): void
+    {
+        $user = User::factory()->create(['company_id' => $this->user->company_id]);
+        $otherBranch = Branch::factory()->create();
+
+        $this->from('/user/update/'.$user->id)
+            ->post('/user/save', $this->branchPayload($user, $otherBranch->id))
+            ->assertSessionHasErrors('default_branch_id');
+
+        $this->assertSame($this->user->company->mainBranch->id, $user->fresh()->default_branch_id);
+    }
+
+    #[Test]
+    public function the_user_form_lists_the_branches_of_the_user_company(): void
+    {
+        $companyAdmin = User::factory()->create(['company_id' => $this->user->company_id]);
+        $companyAdmin->assignRole(Role::findOrCreate('CompanyAdmin', 'web'));
+        $companyAdmin->givePermissionTo(Permission::findOrCreate('update user', 'web'), Permission::findOrCreate('create user', 'web'));
+        $employee = User::factory()->create(['company_id' => $this->user->company_id]);
+        Branch::factory()->forCompany($this->user->company_id)->create(['name' => 'Sucursal Norte']);
+        Branch::factory()->create(['name' => 'Sucursal ajena']);
+
+        $this->actingAs($companyAdmin)->get('/user/update/'.$employee->id)
+            ->assertOk()
+            ->assertSee('Sucursal Norte')
+            ->assertDontSee('Sucursal ajena');
+        $this->actingAs($companyAdmin)->get('/user/create')
+            ->assertOk()
+            ->assertSee('Sucursal Norte')
+            ->assertDontSee('Sucursal ajena');
+    }
+
+    #[Test]
+    public function super_admin_gets_the_branches_of_every_company_to_filter_them_by_the_chosen_company(): void
+    {
+        $user = User::factory()->create(['company_id' => $this->user->company_id]);
+        $otherBranch = Branch::factory()->create(['name' => 'Sucursal ajena']);
+
+        $this->get('/user/update/'.$user->id)
+            ->assertOk()
+            ->assertSee('data-company-id="'.$this->user->company_id.'"', false)
+            ->assertSee('<option value="'.$otherBranch->id.'" data-company-id="'.$otherBranch->company_id.'"', false);
+    }
+
+    #[Test]
+    public function super_admin_moves_a_user_to_another_company_with_one_of_its_branches(): void
+    {
+        $user = User::factory()->create(['company_id' => $this->user->company_id]);
+        $otherBranch = Branch::factory()->create();
+
+        $this->post('/user/save', ['company_id' => $otherBranch->company_id] + $this->branchPayload($user, $otherBranch->id))
+            ->assertRedirect('/user');
+
+        $user->refresh();
+        $this->assertSame($otherBranch->company_id, $user->defaultCompanyId());
+        $this->assertSame($otherBranch->id, $user->default_branch_id);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function branchPayload(User $user, int $branchId): array
+    {
+        return [
+            'id' => $user->id,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'lang' => 'en',
+            'company_id' => $user->company_id,
+            'default_branch_id' => $branchId,
+        ];
     }
 }

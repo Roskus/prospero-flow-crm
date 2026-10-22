@@ -100,6 +100,17 @@
             </div>
             @endif
             <div class="col">
+                <label for="default_branch_id" class="control-label">{{ __('Default branch') }}</label>
+                <select name="default_branch_id" id="default_branch_id" class="form-select form-control-lg @error('default_branch_id') is-invalid @enderror">
+                    @foreach($branches as $branch)
+                        <option value="{{ $branch->id }}" data-company-id="{{ $branch->company_id }}" @selected(old('default_branch_id', $user->default_branch_id) == $branch->id)>{{ $branch->code }} - {{ $branch->name }}</option>
+                    @endforeach
+                </select>
+                @error('default_branch_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="col">
                 <label for="timezone" class="control-label">{{ __('Time zone') }}</label>
                 <input name="timezone" id="timezone" list="timezoneOptions" value="{{ old('timezone', $user->timezone) }}" placeholder="{{ __('Type to search') }}..." autocomplete="off"  class="form-control form-control-lg">
 
@@ -181,5 +192,23 @@
 document.getElementById('is_employee').addEventListener('change', function() {
     document.getElementById('employeeFields').style.display = this.checked ? '' : 'none';
 });
+
+const companySelect = document.getElementById('company_id');
+const branchSelect = document.getElementById('default_branch_id');
+function filterBranchesByCompany() {
+    for (const option of branchSelect.options) {
+        const otherCompany = option.dataset.companyId !== companySelect.value;
+        option.hidden = otherCompany;
+        option.disabled = otherCompany;
+    }
+    if (branchSelect.selectedOptions[0]?.disabled !== false) {
+        const firstBranch = [...branchSelect.options].find(option => !option.disabled);
+        branchSelect.value = firstBranch ? firstBranch.value : '';
+    }
+}
+if (companySelect) {
+    companySelect.addEventListener('change', filterBranchesByCompany);
+    filterBranchesByCompany();
+}
 </script>
 @endpush

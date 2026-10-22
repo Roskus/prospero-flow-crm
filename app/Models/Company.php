@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OA;
 use Squire\Models\Country;
@@ -190,6 +191,24 @@ class Company extends Model
     public function currencyRates(): HasMany
     {
         return $this->hasMany(CompanyCurrencyRate::class);
+    }
+
+    public function branches(): HasMany
+    {
+        return $this->hasMany(Branch::class);
+    }
+
+    public function mainBranch(): HasOne
+    {
+        return $this->hasOne(Branch::class)->where('is_main', true);
+    }
+
+    /**
+     * Branch selects, columns and filters are only shown to companies with more than one active branch.
+     */
+    public function hasSeveralBranches(): bool
+    {
+        return once(fn (): bool => $this->branches()->count() > 1);
     }
 
     public function leads()

@@ -17,6 +17,7 @@ class OrderPdfController extends MainController
             ->where('order_number', $order_number)
             ->firstOrFail();
         $data['order'] = $order;
+        $data['showBranch'] = Auth::user()->company->hasSeveralBranches();
         $html = view('order.pdf', $data)->render();
 
         $dompdf = new Dompdf;

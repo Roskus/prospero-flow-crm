@@ -100,6 +100,12 @@
         </div>
         <div class="card-body">
             @include('components.address.form', ['address' => $company->address, 'required' => true])
+            @if($company->exists && $company->id === (int) Auth::user()->company_id)
+                <small class="form-text text-muted">
+                    {{ __('Legal address of the company. The address of each location is managed in') }}
+                    <a href="{{ url('/branch') }}">{{ __('Branches') }}</a>.
+                </small>
+            @endif
         </div>
     </div>
     <div class="card mb-2">

@@ -64,6 +64,11 @@
                     <label>{{ __('Seller') }}:</label>
                     {{ !empty($order->seller) ? $order->seller->first_name.' '.$order->seller->last_name : '' }}
                 </div>
+                @if($showBranch ?? false)
+                <div>
+                    <label>{{ __('Branch') }}:</label> {{ $order->branch->code }} - {{ $order->branch->name }}
+                </div>
+                @endif
             </div>
         </div>
     </div>

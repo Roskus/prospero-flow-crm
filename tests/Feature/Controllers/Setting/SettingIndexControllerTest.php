@@ -18,7 +18,7 @@ class SettingIndexControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertSeeTextInOrder([
-            'Organization', 'Companies', 'Users', 'Permissions',
+            'Organization', 'Companies', 'Branches', 'Users', 'Permissions',
             'Finance', 'Bank accounts', 'Banks', 'Currencies', 'Transaction categories',
             'Catalog', 'Brands', 'Categories', 'Products',
             'Communication', 'Email templates',
@@ -35,6 +35,7 @@ class SettingIndexControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertDontSee('href="'.url('/company').'"', false);
+        $response->assertDontSee('href="'.url('/branch').'"', false);
         $response->assertDontSee('href="'.url('/user').'"', false);
         $response->assertDontSee('href="'.url('/permission').'"', false);
         $response->assertDontSee('href="'.url('/bank').'"', false);

@@ -3,8 +3,19 @@
 @section('content')
 @include('layouts.partials._header', ['title' =>  __('Orders')])
 
-<div class="mb-2">
+<div class="mb-2 d-flex flex-wrap gap-2 align-items-center">
     <a href="{{ url('order/create') }}" class="btn btn-primary">{{ __('New') }}</a>
+    @if($branches->isNotEmpty())
+    <form method="get" action="{{ url('order') }}" class="d-flex gap-2 align-items-center">
+        <label for="branch_id" class="visually-hidden">{{ __('Branch') }}</label>
+        <select name="branch_id" id="branch_id" class="form-select" onchange="this.form.submit()">
+            <option value="">{{ __('All branches') }}</option>
+            @foreach($branches as $branch)
+                <option value="{{ $branch->id }}" @selected($branchId === $branch->id)>{{ $branch->code }} - {{ $branch->name }}</option>
+            @endforeach
+        </select>
+    </form>
+    @endif
 </div>
 
 <div class="card">
@@ -15,6 +26,9 @@
             <thead>
             <tr>
                 <th>{{ __('Number') }}</th>
+                @if($branches->isNotEmpty())
+                <th>{{ __('Branch') }}</th>
+                @endif
                 <th>{{ __('Customer') }}</th>
                 <th>{{ __('Item count') }}</th>
                 <th>{{ __('Amount') }}</th>
@@ -34,6 +48,9 @@
                     <span class="text-muted">—</span>
                     @endif
                 </td>
+                @if($branches->isNotEmpty())
+                <td class="text-nowrap">{{ $order->branch?->name }}</td>
+                @endif
                 <td>{{ (!empty($order->customer)) ? $order->customer->name : '' }}</td>
                 <td class="text-center">
                     {{ (!empty($order->items)) ? $order->items->count() : 0 }}
