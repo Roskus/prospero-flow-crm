@@ -16,7 +16,7 @@
                                required="required" maxlength="120" class="form-control form-control-lg">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="business_name">{{ __('Business name') }}</label>
+                        <label for="business_name">{{ __('Business name') }} / {{ __('Last name') }}</label>
                         <input type="text" name="business_name" id="business_name"
                                value="{{ old('business_name', $customer->business_name) }}" maxlength="120"
                                class="form-control form-control-lg">

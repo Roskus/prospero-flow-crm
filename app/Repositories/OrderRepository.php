@@ -31,6 +31,8 @@ class OrderRepository
                 Customer::where('company_id', $companyId)->findOrFail($data['customer_id']);
             }
 
+            $order->order_date = $data['order_date'] ?? $order->order_date ?? now()->toDateString();
+
             $order->setCompanyId($companyId);
             $order->setCustomerId((int) $data['customer_id']);
             if (! empty($data['branch_id'])) {

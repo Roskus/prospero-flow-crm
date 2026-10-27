@@ -13,8 +13,17 @@
     <div class="row">
         <div class="col">
             <label for="customer_name">{{ __('Customer') }}</label>
-            <input id="customer_name" required="required" class="form-control form-control-lg" value="{{ $order->customer->name ?? '' }}">
+            <input id="customer_name" required="required" class="form-control form-control-lg" value="{{ $order->customer?->displayName() }}">
             <input type="hidden" name="customer_id" id="customer_id" value="{{ $order->getCustomerId() ?: '' }}">
+        </div>
+        <div class="col-md-3">
+            <label for="order_date">{{ __('Date') }}</label>
+            <input type="date" name="order_date" id="order_date" required="required"
+                   value="{{ old('order_date', ($order->order_date ?? now())->toDateString()) }}"
+                   class="form-control form-control-lg @error('order_date') is-invalid @enderror">
+            @error('order_date')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
         @if($branches->isNotEmpty())
         <div class="col-md-4">

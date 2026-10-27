@@ -30,6 +30,7 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
         new OAT\Property(property: 'currency', description: 'Order currency', type: 'string', example: 'EUR'),
         new OAT\Property(property: 'branch_id', description: 'Branch of the order; defaults to the current branch of the user', type: 'integer', example: 1),
         new OAT\Property(property: 'status', description: 'Order status', type: 'integer', example: 1),
+        new OAT\Property(property: 'order_date', description: 'Order date; defaults to the creation date', type: 'string', format: 'date', example: '2026-10-27'),
         new OAT\Property(property: 'items', description: 'Order items', type: 'array', items: new OAT\Items(type: 'object')),
     ],
     type: 'object'
@@ -58,6 +59,7 @@ final class Order extends Model
         'amount',
         'currency',
         'status',
+        'order_date',
         'updated_at',
         'created_by',
         'updated_by',
@@ -66,6 +68,7 @@ final class Order extends Model
 
     protected $casts = [
         'created_at' => 'date',
+        'order_date' => 'date',
     ];
 
     protected $hidden = [
@@ -83,7 +86,11 @@ final class Order extends Model
         parent::boot();
 
         self::addGlobalScope('orderCreated', function (Builder $builder): void {
-            $builder->orderby('created_at', 'DESC');
+            $builder->orderby('order_date', 'DESC')->orderby('created_at', 'DESC');
+        });
+
+        self::creating(function (Order $order): void {
+            $order->order_date ??= ($order->created_at ?? now())->toDateString();
         });
     }
 
@@ -254,7 +261,7 @@ final class Order extends Model
         $salesBetween = fn (Carbon $start, Carbon $end) => Order::withoutGlobalScope('orderCreated')
             ->where('company_id', $companyId)
             ->whereIn('status', [self::CONFIRMED, self::COMPLETED])
-            ->whereBetween('created_at', [$start, $end]);
+            ->whereBetween('order_date', [$start->toDateString(), $end->toDateString()]);
 
         $now = Carbon::now();
         $previousMonth = $now->copy()->subMonthNoOverflow();
@@ -284,7 +291,7 @@ final class Order extends Model
     {
         $orders = Order::withoutGlobalScope('orderCreated')
             ->where('company_id', $companyId)
-            ->whereBetween('created_at', [$from, $to])
+            ->whereBetween('order_date', [$from->toDateString(), $to->toDateString()])
             ->when($sellerId, fn (Builder $query) => $query->where('seller_id', $sellerId));
 
         $sales = $orders->clone()->whereIn('status', [self::CONFIRMED, self::COMPLETED]);

@@ -186,4 +186,23 @@ class OrderIndexControllerTest extends TestCase
         $migration = require database_path('migrations/2026_08_16_173916_backfill_order_number_for_null_orders.php');
         $migration->up();
     }
+
+    #[Test]
+    public function it_shows_the_customer_name_with_business_name(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'name' => 'David',
+            'business_name' => 'Rand',
+        ]);
+        Order::factory()->create([
+            'company_id' => $this->user->company_id,
+            'customer_id' => $customer->id,
+        ]);
+
+        $response = $this->get('/order');
+
+        $response->assertOk();
+        $response->assertSeeText('David Rand');
+    }
 }
