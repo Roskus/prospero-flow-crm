@@ -48,6 +48,7 @@ class OrderItemUpdateController
         }
 
         $item->update($request->validated());
+        $item->order->refreshAmount();
 
         return response()->json(['item' => $item], 200);
     }

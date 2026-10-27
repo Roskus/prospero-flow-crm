@@ -28,7 +28,7 @@ class OrderSaveRequest extends FormRequest
             'amount' => ['sometimes', 'numeric', 'min:0', 'max:'.CurrencyHelper::MAX_AMOUNT],
             'status' => ['sometimes', 'integer', 'in:0,1,2,3'],
             'items' => ['nullable', 'array'],
-            'items.*.product_id' => ['required_with:items', 'integer'],
+            'items.*.product_id' => ['required_with:items', 'integer', Rule::exists('product', 'id')->where('company_id', Auth::user()->company_id)],
             'items.*.quantity' => ['required_with:items', 'integer', 'min:1'],
             'items.*.price' => ['required_with:items', 'numeric', 'min:0', 'max:'.CurrencyHelper::MAX_AMOUNT],
             'items.*.discount' => ['sometimes', 'numeric', 'min:0'],

@@ -40,7 +40,6 @@ class OrderRepository
             }
             $order->seller_id = ! empty($data['seller_id']) ? $data['seller_id'] : Auth::user()->id;
 
-            $order->setAmount((float) $order->getTotal());
             $order->save();
 
             if (! empty($data['items'])) {
@@ -56,6 +55,8 @@ class OrderRepository
                     $order->items()->save($item);
                 }
             }
+
+            $order->refreshAmount();
 
             DB::commit();
 

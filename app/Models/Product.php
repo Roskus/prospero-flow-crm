@@ -110,7 +110,8 @@ class Product extends Model
         return Product::where('company_id', $company_id)
             ->when(! empty($search), fn (Builder $query) => $query->where(function (Builder $query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
-                    ->orWhere('sku', 'LIKE', "%$search%");
+                    ->orWhere('sku', 'LIKE', "%$search%")
+                    ->orWhere('barcode', 'LIKE', "%$search%");
             }));
     }
 
