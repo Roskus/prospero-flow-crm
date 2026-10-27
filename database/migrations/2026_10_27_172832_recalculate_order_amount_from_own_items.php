@@ -26,5 +26,9 @@ return new class extends Migration
             });
     }
 
+    /**
+     * Not reversible: the previous amounts included items of other companies and are not kept anywhere,
+     * so rolling back leaves the recalculated amounts in place.
+     */
     public function down(): void {}
 };
