@@ -220,4 +220,24 @@ class OrderSaveControllerTest extends TestCase
         $this->get('/order')->assertOk()->assertSeeText('15/03/2024');
         $this->assertStringContainsString('15/03/2024', view('order.pdf', ['order' => $order])->render());
     }
+
+    #[Test]
+    public function the_api_creates_and_updates_the_order_date_as_a_date_only_value(): void
+    {
+        $this->actingAs($this->user, 'api');
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $orderId = $this->postJson('/api/order', [
+            'customer_id' => $customer->id,
+            'amount' => 10,
+            'currency' => 'EUR',
+            'order_date' => '2024-03-15',
+        ])->assertCreated()
+            ->assertJsonPath('order.order_date', '2024-03-15')
+            ->json('order.id');
+
+        $this->putJson('/api/order/'.$orderId, ['order_date' => '2024-04-01'])
+            ->assertOk()
+            ->assertJsonPath('order.order_date', '2024-04-01');
+    }
 }

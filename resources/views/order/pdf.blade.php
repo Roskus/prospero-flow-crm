@@ -115,7 +115,7 @@
     <tbody>
         @forelse($order->items as $item)
         <tr>
-            <td>{!! collect([$item->product?->sku, $item->product?->barcode])->filter()->map(fn ($code) => e($code))->implode('<br>') !!}</td>
+            <td>{!! collect($item->product?->identifierCodes() ?? [])->map(fn (string $code) => e($code))->implode('<br>') !!}</td>
             <td>{{ $item->product->name ?? '' }}</td>
             <td>{{ $symbol }} {{ number_format($item->unit_price, 2, ',', '.') }}</td>
             <td>{{ $item->tax }}%</td>

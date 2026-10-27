@@ -68,7 +68,7 @@ final class Order extends Model
 
     protected $casts = [
         'created_at' => 'date',
-        'order_date' => 'date',
+        'order_date' => 'date:Y-m-d',
     ];
 
     protected $hidden = [

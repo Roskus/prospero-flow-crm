@@ -74,6 +74,21 @@ class CustomerIndexControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_autocomplete_matches_the_combined_name_and_business_name(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'name' => 'Zzdavid',
+            'business_name' => 'Zzrand',
+        ]);
+
+        $response = $this->getJson('/customer?term=Zzdavid Zzrand', ['X-Requested-With' => 'XMLHttpRequest']);
+
+        $response->assertOk();
+        $response->assertExactJson([['id' => $customer->id, 'label' => 'Zzdavid Zzrand']]);
+    }
+
+    #[Test]
     public function the_autocomplete_label_is_the_name_when_there_is_no_business_name(): void
     {
         $customer = Customer::factory()->create([

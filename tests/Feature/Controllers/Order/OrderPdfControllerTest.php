@@ -125,6 +125,25 @@ class OrderPdfControllerTest extends TestCase
         $this->assertStringContainsString('<td>8412345678905</td>', $html);
     }
 
+    #[Test]
+    public function a_zero_sku_or_barcode_is_shown_as_a_code(): void
+    {
+        $order = Order::factory()->create([
+            'company_id' => $this->user->company_id,
+            'customer_id' => Customer::factory()->create(['company_id' => $this->user->company_id])->id,
+            'seller_id' => $this->user->id,
+        ]);
+        $product = Product::factory()->create([
+            'company_id' => $this->user->company_id,
+            'sku' => '0',
+            'barcode' => '0',
+        ]);
+        Item::factory()->create(['order_id' => $order->id, 'order_number' => $order->order_number, 'product_id' => $product->id]);
+
+        $this->get("/order/show/{$order->order_number}")->assertOk()->assertSee('<td>0<br>0</td>', false);
+        $this->assertStringContainsString('<td>0<br>0</td>', view('order.pdf', ['order' => $order->fresh()])->render());
+    }
+
     private function createOrderWithProducts(): Order
     {
         $order = Order::factory()->create([

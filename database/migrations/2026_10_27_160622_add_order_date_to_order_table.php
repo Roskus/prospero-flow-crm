@@ -18,8 +18,8 @@ return new class extends Migration
             $table->date('order_date')->nullable()->after('status');
         });
 
-        DB::statement('UPDATE `order` SET order_date = DATE(created_at) WHERE order_date IS NULL');
-        DB::statement('UPDATE `order` SET order_date = CURRENT_DATE WHERE order_date IS NULL');
+        DB::table('order')->whereNull('order_date')->update(['order_date' => DB::raw('CAST(created_at AS DATE)')]);
+        DB::table('order')->whereNull('order_date')->update(['order_date' => now()->toDateString()]);
 
         Schema::table('order', function (Blueprint $table) {
             $table->date('order_date')->nullable(false)->default(DB::raw('(CURRENT_DATE)'))->change();

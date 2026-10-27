@@ -7,12 +7,32 @@ namespace Tests\Feature\Migrations;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Order;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
+/**
+ * Rolling the migration back and forth alters the table, which implicitly commits on MySQL,
+ * so these tests run without the RefreshDatabase transaction and the next test migrates a fresh database.
+ */
 class OrderDateMigrationTest extends TestCase
 {
+    /**
+     * @return list<string|null>
+     */
+    protected function connectionsToTransact(): array
+    {
+        return [];
+    }
+
+    protected function tearDown(): void
+    {
+        RefreshDatabaseState::$migrated = false;
+
+        parent::tearDown();
+    }
+
     #[Test]
     public function existing_orders_take_their_creation_date_as_order_date(): void
     {

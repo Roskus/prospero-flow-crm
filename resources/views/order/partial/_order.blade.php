@@ -126,7 +126,7 @@
             @else
                 @foreach($order->items as $item)
                     <tr>
-                        <td>{!! collect([$item->product?->sku, $item->product?->barcode])->filter()->map(fn ($code) => e($code))->implode('<br>') !!}</td>
+                        <td>{!! collect($item->product?->identifierCodes() ?? [])->map(fn (string $code) => e($code))->implode('<br>') !!}</td>
                         <td>
                             @if(!empty($item->product->photo))
                                 <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/product/'.$item->product->id.'/'.$item->product->photo)) }}"
