@@ -21,6 +21,7 @@ class OrderSaveRequest extends FormRequest
         return [
             'id' => ['sometimes', 'integer'],
             'customer_id' => ['required', 'integer'],
+            'order_date' => ['sometimes', 'date_format:Y-m-d'],
             'branch_id' => ['nullable', 'integer', Rule::exists('branch', 'id')->where('company_id', Auth::user()->company_id)->whereNull('deleted_at')],
             'seller_id' => ['sometimes', 'integer'],
             'currency' => ['sometimes', 'string', 'max:3'],

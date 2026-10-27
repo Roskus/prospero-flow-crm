@@ -18,7 +18,7 @@
             <div class="col">
                 <div class="mt-4">
                     <label>{{ __('Date') }}:</label>
-                    {{ ($order->created_at) ? $order->created_at->format('d/m/Y') : '' }}
+                    {{ $order->order_date?->format('d/m/Y') }}
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
         <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
-                <th>SKU</th>
+                <th>SKU/EAN</th>
                 <th width="60%">{{ __('Product') }}</th>
                 <th>{{ __('Price') }}</th>
                 <th>{{ __('Tax') }}</th>
@@ -126,7 +126,7 @@
             @else
                 @foreach($order->items as $item)
                     <tr>
-                        <td>{{ (!empty($item->product)) ? $item->product->sku : '' }}</td>
+                        <td>{!! collect($item->product?->identifierCodes() ?? [])->map(fn (string $code) => e($code))->implode('<br>') !!}</td>
                         <td>
                             @if(!empty($item->product->photo))
                                 <img src="{{ App\Helpers\ImageHelper::render(public_path('/asset/upload/product/'.$item->product->id.'/'.$item->product->photo)) }}"

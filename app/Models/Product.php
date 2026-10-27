@@ -87,6 +87,19 @@ class Product extends Model
         return $this->hasOne(Brand::class, 'id', 'brand_id');
     }
 
+    /**
+     * SKU and barcode (EAN) that are filled in; both are strings, so "0" is kept.
+     *
+     * @return list<string>
+     */
+    public function identifierCodes(): array
+    {
+        return array_values(array_filter(
+            [(string) $this->sku, (string) $this->barcode],
+            fn (string $code): bool => $code !== '',
+        ));
+    }
+
     public function getAll()
     {
         return Product::orderBy('name', 'asc')->get();

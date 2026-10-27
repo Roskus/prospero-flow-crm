@@ -26,8 +26,13 @@ class CustomerIndexController extends MainController
             $term = $request->term;
 
             $customers = Customer::where('company_id', (int) Auth::user()->company_id)
-                ->where('name', 'LIKE', "%$term%")
-                ->get(['id', 'name as label']);
+                ->where(function ($query) use ($term) {
+                    $query->where('name', 'LIKE', "%$term%")
+                        ->orWhere('business_name', 'LIKE', "%$term%")
+                        ->orWhereRaw("CONCAT_WS(' ', name, business_name) LIKE ?", ["%$term%"]);
+                })
+                ->get(['id', 'name', 'business_name'])
+                ->map(fn (Customer $customer) => ['id' => $customer->id, 'label' => $customer->displayName()]);
 
             return response()->json($customers);
         }

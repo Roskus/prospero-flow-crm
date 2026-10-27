@@ -23,6 +23,7 @@ class OrderUpdateRequest extends FormRequest
             'branch_id' => ['sometimes', 'integer', Rule::exists('branch', 'id')->where('company_id', Auth::user()->company_id)->whereNull('deleted_at')],
             'currency' => ['sometimes', 'string', 'max:3'],
             'status' => ['sometimes', 'integer', 'in:0,1,2,3'],
+            'order_date' => ['sometimes', 'date_format:Y-m-d'],
         ];
     }
 }

@@ -52,6 +52,14 @@ class Customer extends Prospect
 {
     protected $table = 'customer';
 
+    /**
+     * Name followed by the business name (or last name for individuals) when present.
+     */
+    public function displayName(): string
+    {
+        return trim($this->name.' '.$this->business_name);
+    }
+
     public function messages()
     {
         return $this->hasMany(Message::class);

@@ -58,6 +58,26 @@ class DashboardIndexControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_shows_create_customer_button_on_the_dashboard(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertSee('href="'.url('/customer/create').'"', false);
+    }
+
+    #[Test]
+    public function it_hides_create_customer_button_without_permission(): void
+    {
+        $this->user->syncRoles(['User']);
+
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertDontSee('href="'.url('/customer/create').'"', false);
+    }
+
+    #[Test]
     public function it_shows_lead_country_flag_on_the_dashboard(): void
     {
         Lead::factory()->create([
@@ -215,16 +235,15 @@ class DashboardIndexControllerTest extends TestCase
         $response->assertDontSeeText('Outside this week');
     }
 
-    private function createOrder(int $status, float $amount, string $createdAt): Order
+    private function createOrder(int $status, float $amount, string $orderDate): Order
     {
         $order = Order::factory()->create([
             'company_id' => $this->user->company_id,
             'customer_id' => Customer::factory()->create(['company_id' => $this->user->company_id])->id,
             'status' => $status,
             'amount' => $amount,
+            'order_date' => $orderDate,
         ]);
-        $order->created_at = Carbon::parse($createdAt);
-        $order->saveQuietly();
 
         return $order;
     }

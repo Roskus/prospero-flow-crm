@@ -47,7 +47,7 @@
             <div class="order-label">{{ __('Order') }}</div>
         </td>
         <td width="50%" class="barcode-cell">
-            <div><span class="info-label">{{ __('Date') }}:</span> {{ $order->created_at?->format('d/m/Y') }}</div>
+            <div><span class="info-label">{{ __('Date') }}:</span> {{ $order->order_date?->format('d/m/Y') }}</div>
             <div><span class="info-label">{{ __('Number') }}:</span> {{ $order->orderNumber() }}</div>
             <img src="data:image/png;base64,{{ $barcodePng }}" style="max-width:200px;" alt="{{ $order->orderNumber() }}">
         </td>
@@ -103,7 +103,7 @@
 <table class="items-table">
     <thead>
         <tr>
-            <th>SKU</th>
+            <th>SKU/EAN</th>
             <th>{{ __('Product') }}</th>
             <th>{{ __('Price') }}</th>
             <th>{{ __('Tax') }}</th>
@@ -115,7 +115,7 @@
     <tbody>
         @forelse($order->items as $item)
         <tr>
-            <td>{{ $item->product->sku ?? '' }}</td>
+            <td>{!! collect($item->product?->identifierCodes() ?? [])->map(fn (string $code) => e($code))->implode('<br>') !!}</td>
             <td>{{ $item->product->name ?? '' }}</td>
             <td>{{ $symbol }} {{ number_format($item->unit_price, 2, ',', '.') }}</td>
             <td>{{ $item->tax }}%</td>

@@ -60,6 +60,8 @@
                     'leads' => $customers,
                     'url' => url('/customer'),
                     'title' => __('Customers'),
+                    'createUrl' => url('/customer/create'),
+                    'createPermission' => 'create customer',
                 ])
                 <!-- Customers with the latest interactions -->
             </div>
