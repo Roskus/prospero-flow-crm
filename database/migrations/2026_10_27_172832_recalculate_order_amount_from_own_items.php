@@ -21,7 +21,7 @@ return new class extends Migration
             ->orderBy('order_id')
             ->chunk(500, function ($totals): void {
                 foreach ($totals as $total) {
-                    DB::table('order')->where('id', $total->order_id)->update(['amount' => round((float) $total->total, 2)]);
+                    DB::table('order')->where('id', $total->order_id)->update(['amount' => $total->total]);
                 }
             });
     }
