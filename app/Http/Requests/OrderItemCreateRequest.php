@@ -20,7 +20,7 @@ class OrderItemCreateRequest extends FormRequest
     {
         return [
             'order_number' => ['required', 'string', 'max:50'],
-            'product_id' => ['required', 'integer', Rule::exists('product', 'id')->where('company_id', Auth::user()->company_id)],
+            'product_id' => ['required', 'integer', Rule::exists('product', 'id')->where('company_id', Auth::user()->company_id)->whereNull('deleted_at')],
             'quantity' => ['required', 'integer', 'min:1'],
             'unit_price' => ['required', 'numeric', 'min:0.01', 'max:'.CurrencyHelper::MAX_AMOUNT],
             'discount' => ['sometimes', 'numeric', 'min:0', 'max:100'],

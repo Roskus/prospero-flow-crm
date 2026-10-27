@@ -101,6 +101,57 @@ class OrderCompanyIsolationTest extends TestCase
         ])->assertUnprocessable()->assertJsonValidationErrors('product_id');
     }
 
+    #[Test]
+    public function a_deleted_product_cannot_be_added_to_an_order(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+        $deletedProduct = Product::factory()->create(['company_id' => $this->user->company_id]);
+        $deletedProduct->delete();
+
+        $this->post('/order/save', [
+            'customer_id' => $customer->id,
+            'items' => [['product_id' => $deletedProduct->id, 'quantity' => 1, 'price' => 10]],
+        ])->assertSessionHasErrors('items.0.product_id');
+
+        $this->actingAs($this->user, 'api');
+        [$ownOrder] = $this->orderWithItem($this->user->company);
+        $this->postJson('/api/order-item', [
+            'order_number' => (string) $ownOrder->order_number,
+            'product_id' => $deletedProduct->id,
+            'quantity' => 1,
+            'unit_price' => 10,
+        ])->assertUnprocessable()->assertJsonValidationErrors('product_id');
+    }
+
+    #[Test]
+    public function an_order_keeps_a_product_deleted_after_it_was_added(): void
+    {
+        [$ownOrder, $ownProduct] = $this->orderWithItem($this->user->company);
+        $ownProduct->delete();
+
+        $this->post('/order/save', [
+            'id' => $ownOrder->id,
+            'customer_id' => $ownOrder->customer_id,
+            'items' => [['product_id' => $ownProduct->id, 'quantity' => 3, 'price' => 10]],
+        ])->assertSessionHasNoErrors()->assertRedirect('order');
+
+        $this->assertSame([3], $ownOrder->fresh()->items->pluck('quantity')->all());
+    }
+
+    #[Test]
+    public function a_deleted_product_of_another_order_cannot_be_reused_when_editing(): void
+    {
+        [$ownOrder] = $this->orderWithItem($this->user->company);
+        [, $productOfOtherOrder] = $this->orderWithItem($this->user->company);
+        $productOfOtherOrder->delete();
+
+        $this->post('/order/save', [
+            'id' => $ownOrder->id,
+            'customer_id' => $ownOrder->customer_id,
+            'items' => [['product_id' => $productOfOtherOrder->id, 'quantity' => 1, 'price' => 10]],
+        ])->assertSessionHasErrors('items.0.product_id');
+    }
+
     /**
      * @return array{0: Order, 1: Product}
      */
