@@ -35,6 +35,7 @@
                 <th>{{ __('Category') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>SKU</th>
+                <th>EAN</th>
                 <th class="d-none d-sm-table-cell">{{ __('Brand') }}</th>
                 <th class="text-center">{{ __('Quantity') }}</th>
                 <th>{{ __('Price') }}</th>
@@ -55,6 +56,7 @@
                 <td>{{ (!empty($product->category)) ? $product->category->name : '' }}</td>
                 <td><a href="{{ url("/product/update/$product->id") }}">{{ $product->name }}</a></td>
                 <td class="text-nowrap">{{ $product->sku }}</td>
+                <td class="text-nowrap">{{ $product->barcode }}</td>
                 <td class="text-nowrap d-none d-sm-table-cell">{{ (!empty($product->brand)) ? $product->brand->name : '' }}</td>
                 <td class="text-center">
                 <span class="@if($product->quantity < $product->min_stock_quantity) text-danger @else text-success @endif">

@@ -143,10 +143,12 @@ final class Order extends Model
         return $this->hasOne(User::class, 'id', 'seller_id');
     }
 
-    // #[OAT\Property()]
+    /**
+     * Order numbers are only unique per company, so items are linked by order id.
+     */
     public function items(): HasMany
     {
-        return $this->hasMany(Item::class, 'order_number', 'order_number');
+        return $this->hasMany(Item::class);
     }
 
     // Accessors and Mutators
@@ -238,6 +240,15 @@ final class Order extends Model
         return $this->items->sum(function ($item) {
             return $item->getSubTotal();
         });
+    }
+
+    /**
+     * Set the amount from the saved items.
+     */
+    public function refreshAmount(): void
+    {
+        $this->setAmount($this->load('items')->getTotal());
+        $this->save();
     }
 
     public function getAll(): Collection

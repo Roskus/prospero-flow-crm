@@ -43,6 +43,7 @@ class OrderItemDeleteController
         }
 
         $item->delete();
+        $item->order->refreshAmount();
 
         return response()->json(['message' => 'Item deleted'], 200);
     }

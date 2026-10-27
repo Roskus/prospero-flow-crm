@@ -39,7 +39,8 @@ class OrderItemCreateController
             return response()->json(['message' => 'Order not found'], 404);
         }
 
-        $item = Item::create($request->validated());
+        $item = Item::create(['order_id' => $order->id, 'order_number' => $order->order_number] + $request->validated());
+        $order->refreshAmount();
 
         return response()->json(['item' => $item], 201);
     }
