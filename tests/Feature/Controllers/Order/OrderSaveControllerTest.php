@@ -30,7 +30,6 @@ class OrderSaveControllerTest extends TestCase
 
         $response = $this->post('/order/save', [
             'customer_id' => $customer->id,
-            'currency' => 'USD',
         ]);
 
         $response->assertRedirect('order');
@@ -230,7 +229,6 @@ class OrderSaveControllerTest extends TestCase
         $orderId = $this->postJson('/api/order', [
             'customer_id' => $customer->id,
             'amount' => 10,
-            'currency' => 'EUR',
             'order_date' => '2024-03-15',
         ])->assertCreated()
             ->assertJsonPath('order.order_date', '2024-03-15')

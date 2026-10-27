@@ -28,6 +28,8 @@ class OrderUpdateController extends MainController
             ? Branch::ofCompany((int) Auth::user()->company_id)->orderByDesc('is_main')->orderBy('code')->get()
             : collect();
 
+        $data['currencies'] = Auth::user()->company->usableCurrencies([$order->currency]);
+
         return view('order/order', $data);
     }
 }

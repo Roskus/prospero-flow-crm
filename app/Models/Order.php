@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use OpenApi\Attributes as OAT;
 use Yajra\Auditable\AuditableWithDeletesTrait;
 
@@ -27,7 +28,8 @@ use Yajra\Auditable\AuditableWithDeletesTrait;
         new OAT\Property(property: 'customer_id', description: 'Customer ID', type: 'integer', example: 1),
         new OAT\Property(property: 'seller_id', description: 'Seller ID', type: 'integer', example: 1),
         new OAT\Property(property: 'amount', description: 'Order amount', type: 'number', format: 'float', example: 72.30),
-        new OAT\Property(property: 'currency', description: 'Order currency', type: 'string', example: 'EUR'),
+        new OAT\Property(property: 'currency', description: 'Order currency, the company currency when omitted', type: 'string', example: 'EUR'),
+        new OAT\Property(property: 'exchange_rate', description: 'Units of the company currency per unit of the order currency when the currency was set', type: 'string', example: '1.000000', readOnly: true),
         new OAT\Property(property: 'branch_id', description: 'Branch of the order; defaults to the current branch of the user', type: 'integer', example: 1),
         new OAT\Property(property: 'status', description: 'Order status', type: 'integer', example: 1),
         new OAT\Property(property: 'order_date', description: 'Order date; defaults to the creation date', type: 'string', format: 'date', example: '2026-10-27'),
@@ -69,6 +71,7 @@ final class Order extends Model
     protected $casts = [
         'created_at' => 'date',
         'order_date' => 'date:Y-m-d',
+        'exchange_rate' => 'decimal:6',
     ];
 
     protected $hidden = [
@@ -278,8 +281,8 @@ final class Order extends Model
         $previousMonth = $now->copy()->subMonthNoOverflow();
 
         $currentMonthSales = $salesBetween($now->copy()->startOfMonth(), $now->copy()->endOfMonth());
-        $currentMonthTotal = (float) $currentMonthSales->clone()->sum('amount');
-        $previousMonthTotal = (float) $salesBetween($previousMonth->copy()->startOfMonth(), $previousMonth->copy()->endOfMonth())->sum('amount');
+        $currentMonthTotal = (float) $currentMonthSales->clone()->sum(DB::raw('amount * exchange_rate'));
+        $previousMonthTotal = (float) $salesBetween($previousMonth->copy()->startOfMonth(), $previousMonth->copy()->endOfMonth())->sum(DB::raw('amount * exchange_rate'));
 
         return [
             'current_month_total' => $currentMonthTotal,
@@ -306,7 +309,7 @@ final class Order extends Model
             ->when($sellerId, fn (Builder $query) => $query->where('seller_id', $sellerId));
 
         $sales = $orders->clone()->whereIn('status', [self::CONFIRMED, self::COMPLETED]);
-        $total = (float) $sales->clone()->sum('amount');
+        $total = (float) $sales->clone()->sum(DB::raw('amount * exchange_rate'));
         $count = $sales->count();
 
         return [

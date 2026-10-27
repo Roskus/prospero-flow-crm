@@ -496,5 +496,13 @@
     "Default branch": "Sucursal por defecto",
     "Legal address of the company. The address of each location is managed in": "Dirección legal de la empresa. La dirección de cada local se gestiona en",
     "Branch": "Sucursal",
-    "All branches": "Todas las sucursales"
+    "All branches": "Todas las sucursales",
+    "Set the exchange rate of :currency in the currency settings first.": "Primero carga el tipo de cambio de :currency en la configuración de monedas.",
+    "Enter how many :currency one unit of each currency is worth.": "Indica cuántos :currency vale una unidad de cada moneda.",
+    "Exchange rate": "Tipo de cambio",
+    "Changing the currency does not convert the prices already added.": "Cambiar la moneda no convierte los precios ya agregados.",
+    "Cash": "Caja",
+    "Show on invoices": "Mostrar en facturas",
+    "Listed in the bank transfer details of invoices.": "Se incluye en los datos para transferencia de las facturas.",
+    "The cash account of a branch cannot be deleted": "La caja de una sucursal no se puede eliminar"
 }

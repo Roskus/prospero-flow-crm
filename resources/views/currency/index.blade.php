@@ -7,6 +7,7 @@
         <div class="card-body">
             <div class="mb-3">
                 <strong>{{ __('Current') }} {{ __('Currency') }}:</strong> {{ $baseCurrency }}
+                <div class="form-text">{{ __('Enter how many :currency one unit of each currency is worth.', ['currency' => $baseCurrency]) }}</div>
             </div>
 
             <form method="POST" action="{{ route('currency.save') }}">
@@ -19,7 +20,7 @@
                                 <th>{{ __('Code') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Symbol') }}</th>
-                                <th>{{ __('Amount') }}</th>
+                                <th>{{ __('Exchange rate') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,6 +36,8 @@
                                     <td>{{ $currency->name }}</td>
                                     <td class="text-nowrap">{{ $currency->symbol ?: '—' }}</td>
                                     <td>
+                                        <div class="input-group has-validation">
+                                        <span class="input-group-text font-monospace">1 {{ $currencyCode }} =</span>
                                         <input
                                             type="number"
                                             step="0.000001"
@@ -44,9 +47,11 @@
                                             class="form-control @error("conversion_rates.$currencyCode") is-invalid @enderror"
                                             @readonly($isBaseCurrency)
                                         >
+                                        <span class="input-group-text font-monospace">{{ $baseCurrency }}</span>
                                         @error("conversion_rates.$currencyCode")
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

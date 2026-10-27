@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Order;
+use App\Observers\BranchObserver;
 use App\Observers\CompanyObserver;
 use App\Observers\OrderObserver;
 use App\Services\SecurityLogger;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
 
+        Branch::observe(BranchObserver::class);
         Company::observe(CompanyObserver::class);
         Order::observe(OrderObserver::class);
 

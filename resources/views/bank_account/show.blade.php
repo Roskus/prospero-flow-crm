@@ -182,7 +182,6 @@
                             <th>{{ __('Type') }}</th>
                             <th>{{ __('Cardholder name') }}</th>
                             <th>{{ __('Number') }}</th>
-                            <th>CVV</th>
                             <th>{{ __('Expires') }}</th>
                             <th></th>
                         </tr>
@@ -216,23 +215,6 @@
                                     @else
                                         {{ $card->masked_number }}
                                     @endcan
-                                </td>
-                                <td class="font-monospace">
-                                    @if($card->cvv)
-                                        @can('bank card view cvv')
-                                            <span class="card-cvv-masked">***</span>
-                                            <span class="card-cvv-full d-none">{{ $card->cvv }}</span>
-                                            <button type="button" class="btn btn-xs btn-link p-0 ms-1"
-                                                    onclick="toggleCardData(this, 'card-cvv')"
-                                                    title="{{ __('Show') }}">
-                                                <i class="las la-eye"></i>
-                                            </button>
-                                        @else
-                                            ***
-                                        @endcan
-                                    @else
-                                        —
-                                    @endif
                                 </td>
                                 <td class="text-nowrap">{{ $card->expires_formatted }}</td>
                                 <td class="text-nowrap">

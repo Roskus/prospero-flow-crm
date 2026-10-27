@@ -6,6 +6,7 @@ namespace App\Models\Bank;
 
 use App\Models\Bank;
 use App\Models\BankCard;
+use App\Models\Branch;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,7 @@ use Squire\Models\Country;
     required: ['type', 'country_id', 'currency'],
     properties: [
         new OAT\Property(property: 'id', description: 'Bank account ID', type: 'integer', example: 1),
-        new OAT\Property(property: 'type', description: 'Account type', type: 'string', enum: ['bank', 'stripe', 'paypal', 'mercadopago', 'other'], example: 'bank'),
+        new OAT\Property(property: 'type', description: 'Account type', type: 'string', enum: ['bank', 'stripe', 'paypal', 'mercadopago', 'cash', 'other'], example: 'bank'),
         new OAT\Property(property: 'account_name', description: 'Account name', type: 'string', example: 'Main account'),
         new OAT\Property(property: 'bank_id', description: 'Bank ID', type: 'integer', example: 1),
         new OAT\Property(property: 'country_id', description: 'Country ISO code', type: 'string', example: 'ES'),
@@ -34,6 +35,8 @@ use Squire\Models\Country;
         new OAT\Property(property: 'bizum', description: 'Bizum enabled', type: 'boolean'),
         new OAT\Property(property: 'opening_balance', description: 'Opening balance', type: 'number', format: 'float', example: 0.00),
         new OAT\Property(property: 'notes', description: 'Account notes', type: 'string', example: 'Main operating account'),
+        new OAT\Property(property: 'show_on_invoice', description: 'Listed in the bank transfer details of invoices', type: 'boolean', example: false),
+        new OAT\Property(property: 'branch_id', description: 'Branch whose cash account this is', type: 'integer', example: 1, readOnly: true),
     ],
     type: 'object'
 )]
@@ -50,6 +53,8 @@ class Account extends Model
 
     const string TYPE_MERCADOPAGO = 'mercadopago';
 
+    const string TYPE_CASH = 'cash';
+
     const string TYPE_OTHER = 'other';
 
     const array TYPES = [
@@ -57,6 +62,7 @@ class Account extends Model
         self::TYPE_STRIPE => 'Stripe',
         self::TYPE_PAYPAL => 'PayPal',
         self::TYPE_MERCADOPAGO => 'MercadoPago',
+        self::TYPE_CASH => 'Cash',
         self::TYPE_OTHER => 'Other',
     ];
 
@@ -78,7 +84,33 @@ class Account extends Model
         'bizum',
         'opening_balance',
         'notes',
+        'show_on_invoice',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'show_on_invoice' => 'boolean',
+        ];
+    }
+
+    public function isCash(): bool
+    {
+        return $this->type === self::TYPE_CASH;
+    }
+
+    /**
+     * The cash account of a branch cannot be deleted while the branch exists.
+     */
+    public function isBranchCashAccount(): bool
+    {
+        return $this->isCash() && $this->branch_id !== null && Branch::whereKey($this->branch_id)->exists();
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class)->withTrashed();
+    }
 
     public function country(): BelongsTo
     {

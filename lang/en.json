@@ -473,5 +473,13 @@
     "Default branch" : "Default branch",
     "Legal address of the company. The address of each location is managed in" : "Legal address of the company. The address of each location is managed in",
     "Branch" : "Branch",
-    "All branches" : "All branches"
+    "All branches" : "All branches",
+    "Set the exchange rate of :currency in the currency settings first." : "Set the exchange rate of :currency in the currency settings first.",
+    "Enter how many :currency one unit of each currency is worth." : "Enter how many :currency one unit of each currency is worth.",
+    "Exchange rate" : "Exchange rate",
+    "Changing the currency does not convert the prices already added." : "Changing the currency does not convert the prices already added.",
+    "Cash" : "Cash",
+    "Show on invoices" : "Show on invoices",
+    "Listed in the bank transfer details of invoices." : "Listed in the bank transfer details of invoices.",
+    "The cash account of a branch cannot be deleted" : "The cash account of a branch cannot be deleted"
 }

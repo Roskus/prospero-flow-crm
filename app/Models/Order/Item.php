@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(
@@ -49,13 +51,18 @@ final class Item extends Model
 
     /**
      * Get the order that owns the item.
+     *
+     * @return BelongsTo<Order, $this>
      */
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function product()
+    /**
+     * @return HasOne<Product, $this>
+     */
+    public function product(): HasOne
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }

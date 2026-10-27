@@ -33,6 +33,10 @@ class BankAccountDeleteController
             return response()->json(['message' => 'Bank Account not found'], 404);
         }
 
+        if ($account->isBranchCashAccount()) {
+            return response()->json(['message' => __('The cash account of a branch cannot be deleted')], 409);
+        }
+
         $account->delete();
 
         return response()->json(['message' => 'Bank Account deleted successfully']);

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OA;
 use Squire\Models\Country;
+use Squire\Models\Currency;
 
 #[OA\Schema(
     schema: 'Company',
@@ -191,6 +192,23 @@ class Company extends Model
     public function currencyRates(): HasMany
     {
         return $this->hasMany(CompanyCurrencyRate::class);
+    }
+
+    /**
+     * The company currency plus every currency with an exchange rate, plus the extra codes given.
+     *
+     * @param  list<string>  $extraCodes
+     * @return Collection<int, Currency>
+     */
+    public function usableCurrencies(array $extraCodes = []): Collection
+    {
+        $codes = collect([$this->currency, ...$extraCodes])
+            ->merge($this->currencyRates()->pluck('currency'))
+            ->filter()
+            ->map(fn (string $code): string => strtolower($code))
+            ->unique();
+
+        return Currency::query()->whereIn('id', $codes)->orderBy('id')->get();
     }
 
     public function branches(): HasMany

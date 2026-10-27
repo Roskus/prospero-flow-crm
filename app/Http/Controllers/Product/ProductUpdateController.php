@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Squire\Models\Currency;
 
 class ProductUpdateController extends MainController
 {
@@ -21,6 +22,8 @@ class ProductUpdateController extends MainController
         $data['product'] = $product;
         $data['categories'] = $category->getAllActiveByCompany(Auth::user()->company_id);
         $data['brands'] = $brand->getAllActiveByCompany(Auth::user()->company_id);
+
+        $data['currencies'] = Currency::all();
 
         return view('product/product', $data);
     }

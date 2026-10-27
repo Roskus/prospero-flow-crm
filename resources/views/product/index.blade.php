@@ -65,7 +65,7 @@
                 </td>
                 <td class="text-nowrap">
                     {{ number_format($product->price, 2, ',', '.') }}
-                    {{ (auth()->user()->company->country) ? auth()->user()->company->country->currency?->symbol : null }}
+                    {{ $product->currency }}
                 </td><!--Money::format(-->
                 <td>{{ $product->tax }}%</td>
                 <td class="text-nowrap">{{ $product->created_at->format('d/m/Y H:i') }}</td>

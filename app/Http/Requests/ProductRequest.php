@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Helpers\CurrencyHelper;
+use App\Http\Requests\Concerns\ValidatesCurrency;
 use App\Rules\ExtensionMatchesContent;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 class ProductRequest extends FormRequest
 {
+    use ValidatesCurrency;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -32,6 +35,7 @@ class ProductRequest extends FormRequest
             'description' => 'nullable|string',
             'cost' => 'nullable|numeric|min:0|max:'.CurrencyHelper::MAX_AMOUNT,
             'price' => 'required|numeric|min:0|max:'.CurrencyHelper::MAX_AMOUNT,
+            'currency' => $this->currencyRules(),
             'tax' => 'nullable|numeric|min:0',
             'quantity' => 'required|numeric|min:0',
             'sku' => 'nullable',

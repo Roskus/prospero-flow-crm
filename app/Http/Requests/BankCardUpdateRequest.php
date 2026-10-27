@@ -22,7 +22,6 @@ class BankCardUpdateRequest extends FormRequest
             'network' => ['sometimes', 'string', 'in:visa,mastercard,amex,other'],
             'cardholder_name' => ['sometimes', 'string', 'max:80'],
             'number' => ['sometimes', 'string', 'regex:/^\d{13,19}$/'],
-            'cvv' => ['nullable', 'string', 'max:4'],
             'expires_month' => ['sometimes', 'integer', 'between:1,12'],
             'expires_year' => ['sometimes', 'integer', 'min:2020'],
             'notes' => ['nullable', 'string'],

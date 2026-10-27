@@ -7,11 +7,35 @@ namespace App\Observers;
 use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Order;
+use App\Services\ExchangeRateService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class OrderObserver
 {
+    public function __construct(private ExchangeRateService $exchangeRateService) {}
+
+    /**
+     * Orders default to the company currency and keep the rate of the moment their currency is set.
+     *
+     * @throws ValidationException when the company has no rate for the order currency
+     */
+    public function saving(Order $order): void
+    {
+        $company = Company::withTrashed()->find($order->getCompanyId());
+
+        if ($company === null) {
+            return;
+        }
+
+        $order->currency = strtoupper((string) ($order->currency ?: $company->currency));
+
+        if (! $order->exists || $order->isDirty('currency')) {
+            $order->exchange_rate = $this->exchangeRateService->rate($company, $order->currency);
+        }
+    }
+
     public function creating(Order $order): void
     {
         $order->branch_id ??= $this->defaultBranchId($order);

@@ -25,6 +25,15 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+        <div class="col-md-3">
+            @include('components.currency', ['currency' => old('currency', $order->currency ?: Auth::user()->company->currency), 'required' => true, 'class' => 'form-select-lg'])
+            @error('currency')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
+            @if($order->items->isNotEmpty())
+                <small class="form-text text-muted">{{ __('Changing the currency does not convert the prices already added.') }}</small>
+            @endif
+        </div>
         @if($branches->isNotEmpty())
         <div class="col-md-4">
             <label for="branch_id">{{ __('Branch') }}</label>
@@ -177,11 +186,13 @@
         });
 
         $('#product_name').autocomplete({
-            source: "{{ url('product') }}",
+            source: function (request, response) {
+                $.getJSON("{{ url('product') }}", { term: request.term, currency: document.getElementById('currency').value }, response);
+            },
             minLength: 2,
             select: function( event, ui ) {
                 document.getElementById('product_id').value = ui.item.id;
-                document.getElementById('price').value = ui.item.price;
+                document.getElementById('price').value = ui.item.price ?? '';
                 document.getElementById('product_tax').value = ui.item.tax ?? 0;
             },
             search: function(){

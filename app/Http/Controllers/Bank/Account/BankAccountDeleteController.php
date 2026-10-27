@@ -18,6 +18,10 @@ class BankAccountDeleteController extends MainController
             ->where('company_id', Auth::user()->company_id)
             ->firstOrFail();
 
+        if ($bankAccount->isBranchCashAccount()) {
+            return redirect('/bank-account')->with(['status' => 'error', 'message' => __('The cash account of a branch cannot be deleted')]);
+        }
+
         $bankAccount->delete();
 
         return redirect('/bank-account');

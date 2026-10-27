@@ -60,14 +60,6 @@
                                @if(!$card->id) required @endif>
                     </div>
                     <div class="col-12 col-md-2">
-                        <label for="cvv">CVV</label>
-                        <input type="text" name="cvv" id="cvv"
-                               maxlength="4" class="form-control form-control-lg font-monospace"
-                               value="{{ $card->id ? $card->cvv : old('cvv') }}"
-                               placeholder="***"
-                               inputmode="numeric">
-                    </div>
-                    <div class="col-12 col-md-2">
                         <label for="expires_month">{{ __('Exp. month') }} <span class="text-danger">*</span></label>
                         <select name="expires_month" id="expires_month" required class="form-select form-select-lg">
                             @for($m = 1; $m <= 12; $m++)
