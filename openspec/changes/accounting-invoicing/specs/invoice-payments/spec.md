@@ -40,7 +40,7 @@ A payment currency SHALL default to the invoice currency and MAY be any currency
 - **THEN** the payment settles 50 USD of the invoice
 
 ### Requirement: Registering payments
-Users with the `create payment` permission SHALL be able to register a payment from the invoice page and, optionally, while creating the invoice. The amount SHALL default to the outstanding balance. A payment SHALL NOT be registered on a cancelled invoice, and a payment SHALL NOT settle more than the outstanding balance of the invoice.
+Users with the `create payment` permission SHALL be able to register a payment from the invoice page, from a "Pay" action on the order list and order page shown for orders whose active invoice has an outstanding balance, and, optionally, while creating the invoice. The amount SHALL default to the outstanding balance. A payment SHALL NOT be registered on a cancelled invoice, and a payment SHALL NOT settle more than the outstanding balance of the invoice.
 
 #### Scenario: Paying at invoicing time
 - **WHEN** a user creates an invoice of 500 and fills the payment section with 500 in cash
@@ -49,6 +49,10 @@ Users with the `create payment` permission SHALL be able to register a payment f
 #### Scenario: Payment above the balance
 - **WHEN** an invoice of 500 with 300 already paid receives a payment of 300
 - **THEN** the payment is not saved and a validation error says the balance is 200
+
+#### Scenario: Pay action on an invoiced order
+- **WHEN** a user with `create payment` lists orders
+- **THEN** the "Pay" action is shown only on orders whose active invoice is not fully paid, and it opens the payment form of that invoice
 
 #### Scenario: Payment on a cancelled invoice
 - **WHEN** a user registers a payment on a cancelled invoice

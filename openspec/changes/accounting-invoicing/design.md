@@ -15,7 +15,8 @@ See proposal.md for the motivation. These are the parts of the current code that
   - `OrderRepository::save()` computes `amount` from `$order->items` before the new items are saved. On edit this is the old relation (already deleted rows still loaded), and on create it is 0.
   - `Order::getTotal()` returns the sum of line subtotals without tax, although its comment says it includes taxes.
   - `order_item.quantity` is `tinyint unsigned`.
-  - Order status changes only through `OrderConfirmController` (CONFIRMED). CANCELED is set nowhere in the web UI.
+  - Order status changes through `OrderConfirmController` (PENDING → CONFIRMED) `OrderPendingController` (CONFIRMED → PENDING) and `OrderCancelController` (PENDING or CONFIRMED → CANCELED).
+  - Issuing an invoice sets the order to COMPLETED and cancelling it sets the order back to CONFIRMED, so a completed order is an invoiced one and cannot go back to pending.
 - **Numbering**: order numbers use `company.last_order_number` with `lockForUpdate()` + `increment()` in `OrderObserver`. Branches (`branch`, `is_main`, `code`, soft deletes, `BranchService` with a company lock) were added by `company-branches`.
 - **Accounts and transactions**:
   - `bank_account` (model `App\Models\Bank\Account`) has types bank, stripe, paypal, mercadopago and other. Its `country_id` and `currency` are required, and `balance()` adds paid income minus paid expense to `opening_balance`.

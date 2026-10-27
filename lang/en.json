@@ -481,5 +481,15 @@
     "Cash" : "Cash",
     "Show on invoices" : "Show on invoices",
     "Listed in the bank transfer details of invoices." : "Listed in the bank transfer details of invoices.",
-    "The cash account of a branch cannot be deleted" : "The cash account of a branch cannot be deleted"
+    "The cash account of a branch cannot be deleted" : "The cash account of a branch cannot be deleted",
+    "Confirmed" : "Confirmed",
+    "Completed" : "Completed",
+    "Canceled" : "Canceled",
+    "Unknown" : "Unknown",
+    "Back to pending" : "Back to pending",
+    "Are you sure you want to confirm the order: :id?" : "Are you sure you want to confirm the order: :id?",
+    "Are you sure you want to set the order :id back to pending?" : "Are you sure you want to set the order :id back to pending?",
+    "Only confirmed orders can go back to pending" : "Only confirmed orders can go back to pending",
+    "Are you sure you want to cancel the order: :id?" : "Are you sure you want to cancel the order: :id?",
+    "Only pending or confirmed orders can be canceled" : "Only pending or confirmed orders can be canceled"
 }

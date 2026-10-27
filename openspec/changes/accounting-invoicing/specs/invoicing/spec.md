@@ -25,6 +25,21 @@ Users with permission to create invoices SHALL be able to create an invoice from
 - **WHEN** a user opens, downloads or cancels an invoice of another company by its id
 - **THEN** the request returns not found
 
+### Requirement: Order status follows its invoice
+Issuing an invoice SHALL set its order to COMPLETED in the same transaction. Cancelling the invoice SHALL set the order back to CONFIRMED. A CONFIRMED order SHALL be able to go back to PENDING; a COMPLETED order SHALL NOT.
+
+#### Scenario: Invoicing completes the order
+- **WHEN** a user creates an invoice from a confirmed order
+- **THEN** the order status is COMPLETED
+
+#### Scenario: Cancelling the invoice reopens the order
+- **WHEN** the invoice of a completed order is cancelled
+- **THEN** the order status is CONFIRMED
+
+#### Scenario: Completed order cannot go back to pending
+- **WHEN** a user tries to set a completed order back to pending
+- **THEN** the status is not changed and an error message is shown
+
 ### Requirement: Invoice totals
 Each invoice line SHALL store its subtotal (quantity × unit price minus the discount percentage), its tax amount (subtotal × tax percentage) and its total, each rounded to 2 decimals. The invoice subtotal, tax and total SHALL be the sums of the rounded line values, and the invoice total SHALL include taxes.
 

@@ -84,6 +84,24 @@
                     </form>
                     @endif
 
+                    @if($order->status == App\Models\Order::CONFIRMED)
+                    <form method="POST" action="{{ route('order.pending', $order->order_number) }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" title="{{ __('Back to pending') }}" class="btn btn-xs btn-warning text-white" onclick="return confirm('{{ __('Are you sure you want to set the order :id back to pending?', ['id' => $order->order_number]) }}')">
+                            <i class="las la-undo"></i>
+                        </button>
+                    </form>
+                    @endif
+
+                    @if(in_array($order->status, [App\Models\Order::PENDING, App\Models\Order::CONFIRMED]))
+                    <form method="POST" action="{{ route('order.cancel', $order->order_number) }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" title="{{ __('Cancel') }}" class="btn btn-xs btn-outline-danger" onclick="return confirm('{{ __('Are you sure you want to cancel the order: :id?', ['id' => $order->order_number]) }}')">
+                            <i class="las la-ban"></i>
+                        </button>
+                    </form>
+                    @endif
+
                     <a href="{{ url('/order/download/'.$order->order_number) }}" title="{{ __('Download') }}"
                        class="btn btn-xs btn-secondary">
                         <i class="las la-file-pdf"></i>

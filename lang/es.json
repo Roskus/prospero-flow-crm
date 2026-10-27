@@ -504,5 +504,15 @@
     "Cash": "Caja",
     "Show on invoices": "Mostrar en facturas",
     "Listed in the bank transfer details of invoices.": "Se incluye en los datos para transferencia de las facturas.",
-    "The cash account of a branch cannot be deleted": "La caja de una sucursal no se puede eliminar"
+    "The cash account of a branch cannot be deleted": "La caja de una sucursal no se puede eliminar",
+    "Confirmed": "Confirmado",
+    "Completed": "Completado",
+    "Canceled": "Cancelado",
+    "Unknown": "Desconocido",
+    "Back to pending": "Volver a pendiente",
+    "Are you sure you want to confirm the order: :id?": "¿Seguro que quieres confirmar el pedido: :id?",
+    "Are you sure you want to set the order :id back to pending?": "¿Seguro que quieres volver a poner el pedido :id en pendiente?",
+    "Only confirmed orders can go back to pending": "Solo los pedidos confirmados pueden volver a pendiente",
+    "Are you sure you want to cancel the order: :id?": "¿Seguro que quieres cancelar el pedido: :id?",
+    "Only pending or confirmed orders can be canceled": "Solo se pueden cancelar los pedidos pendientes o confirmados"
 }

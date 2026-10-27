@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Order\OrderCancelController;
 use App\Http\Controllers\Order\OrderConfirmController;
 use App\Http\Controllers\Order\OrderCreateController;
 use App\Http\Controllers\Order\OrderDeleteController;
 use App\Http\Controllers\Order\OrderIndexController;
 use App\Http\Controllers\Order\OrderPdfController;
+use App\Http\Controllers\Order\OrderPendingController;
 use App\Http\Controllers\Order\OrderSaveController;
 use App\Http\Controllers\Order\OrderShowController;
 use App\Http\Controllers\Order\OrderUpdateController;
@@ -22,4 +24,10 @@ Route::get('/order/download/{order_number}', [OrderPdfController::class, 'downlo
     ->name('order-download')->can('read order');
 Route::post('/order/confirm/{order_number}', [OrderConfirmController::class, 'confirm'])
     ->name('order.confirm')
+    ->can('update order');
+Route::post('/order/pending/{order_number}', [OrderPendingController::class, 'pending'])
+    ->name('order.pending')
+    ->can('update order');
+Route::post('/order/cancel/{order_number}', [OrderCancelController::class, 'cancel'])
+    ->name('order.cancel')
     ->can('update order');
