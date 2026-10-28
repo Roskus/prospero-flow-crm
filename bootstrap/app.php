@@ -46,7 +46,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('crm:phone:validate')->daily();
         $schedule->command('crm:website:checker')->daily();
         $schedule->command('crm:notification-reminder:send')->everyFiveMinutes();
-        $schedule->command('crm:campaign:send')->everyFifteenMinutes();
+        $schedule->command('crm:campaign:send')->everyFifteenMinutes()->withoutOverlapping();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

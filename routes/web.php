@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\LockController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\Auth\UnlockController;
+use App\Http\Controllers\Campaign\CampaignOpenController;
 use App\Http\Controllers\EmailTemplate\EmailTemplateIndexController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
@@ -50,6 +51,12 @@ Route::get('/', [MainController::class, 'dashboard']);
 // PWA - Progressive Web App
 Route::get('/manifest', [ManifestController::class, 'renderWebManifest'])
     ->name('manifest');
+
+// Campaign open tracking image, loaded by mail clients without a session
+Route::get('/campaign/open/{recipient}', [CampaignOpenController::class, 'open'])
+    ->whereNumber('recipient')
+    ->middleware('signed')
+    ->name('campaign.open');
 
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 

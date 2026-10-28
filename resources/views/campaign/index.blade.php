@@ -15,6 +15,7 @@
             <caption></caption>
             <thead>
             <tr>
+                <th>{{ __('Name') }}</th>
                 <th>{{ __('Subject') }}</th>
                 <th>{{ __('From') }}</th>
                 <th>{{ __('Tags') }}</th>
@@ -31,8 +32,9 @@
             @foreach($campaigns as $campaign)
             <tr>
                 <td>
-                    <a href="{{ url("campaign/update/$campaign->id") }}">{{ $campaign->subject }}</a>
+                    <a href="{{ url("campaign/update/$campaign->id") }}">{{ $campaign->name }}</a>
                 </td>
+                <td>{{ $campaign->subject }}</td>
                 <td>{{ $campaign->from }}</td>
                 <td>
                     @if($campaign->tags)
@@ -47,18 +49,28 @@
                 <td>{{ (isset($campaign->send_at)) ? $campaign->send_at : '-' }}</td>
                 <td>{{ (isset($campaign->emails_count)) ? $campaign->emails_count : '-'  }}</td>
                 <td>
-                    {{ (isset($campaign->status)) ? __($campaign->status) : __('Draft')  }}
+                    @if ($campaign->send_at)
+                        {{ __('Sent') }}
+                    @elseif ($campaign->schedule_send_date)
+                        {{ __('Scheduled') }}
+                    @else
+                        {{ __('Draft') }}
+                    @endif
                 </td>
                 <td>
                     <a href="{{ url("/campaign/update/$campaign->id") }}" title="{{ __('Update') }}" class="btn btn-xs btn-warning text-white">
                         <i class="las la-pen"></i>
                     </a>
-                    <a onclick="Campaign.delete({{ $campaign->id }}, '{{ addslashes($campaign->subject) }}');" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
-                        <i class="las la-trash-alt"></i>
-                    </a>
-                    <a onclick="Campaign.send({{ $campaign->id }}, '{{ addslashes($campaign->subject) }}')" title="{{ __('Send') }}" class="btn btn-primary">
-                        <i class="las la-play-circle"></i>
-                    </a>
+                    @can('delete campaign')
+                        <form method="post" action="{{ url("/campaign/$campaign->id") }}" class="d-inline"
+                              onsubmit="return confirm(@js(__('Are you sure you want to delete the campaign?')));">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" title="{{ __('Delete') }}" class="btn btn-xs btn-danger">
+                                <i class="las la-trash-alt"></i>
+                            </button>
+                        </form>
+                    @endcan
                 </td>
             </tr>
             @endforeach
@@ -66,13 +78,4 @@
             </table>
         </div>
     </div>
-    <script>
-        const Campaign = {
-            delete : function(id, name) {
-                let res = confirm("{{ __('Are you sure you want to delete the campaign?') }}");
-                if(res)
-                    window.location = '{{ url('/campaign/delete') }}/'+id;
-            }
-        };
-    </script>
 @endsection

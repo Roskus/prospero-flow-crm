@@ -12,10 +12,20 @@
             <input type="hidden" name="id" value="{{ (!empty($campaign->id)) ? $campaign->id : '' }}">
             <div class="row">
                 <div class="col">
+                    <label for="name">
+                        {{ __('Name') }} <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" name="name" id="name" value="{{ old('name', $campaign->name) }}" required maxlength="255" class="form-control form-control-lg @error('name') is-invalid @enderror">
+                    @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div><!--./row-->
+            <div class="row">
+                <div class="col">
                     <label for="subject">
                         {{ __('Subject') }} <span class="text-danger">*</span>
                     </label>
-                    <input type="text" name="subject" id="subject" value="{{ $campaign->subject }}" required class="form-control form-control-lg">
+                    <input type="text" name="subject" id="subject" value="{{ old('subject', $campaign->subject) }}" required maxlength="255" class="form-control form-control-lg @error('subject') is-invalid @enderror">
+                    @error('subject') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             </div><!--./row-->
             <div class="row">
@@ -23,16 +33,17 @@
                     <label for="from" class="">
                         {{ __('From') }} <span class="text-danger">*</span>
                     </label>
-                    <select name="from" id="from" required class="form-select">
+                    <select name="from" id="from" required class="form-select @error('from') is-invalid @enderror">
                         <option value=""></option>
                         @foreach ($froms as $from)
                             <option value="{{ $from['email'] }}"
-                                    @if ($campaign->from == $from['email'] ) selected="selected" @endif>
+                                    @selected(old('from', $campaign->from) === $from['email'])>
                                 {{ $from['email'] }}
                                 &lt;{{ $from['name'] }}&gt;
                             </option>
                         @endforeach
                     </select>
+                    @error('from') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             </div>
             <div class="row">
@@ -41,11 +52,15 @@
                         {{ __('Message') }} <span class="text-danger">*</span>
                     </label>
                     <div class="mb-1">
-                        <a onclick="addVariable2Editor('body', '$prospect->first_name')">
-                            <span class="btn btn-outline-secondary">&#123;&#123; $prospect->first_name &#125;&#125;</span>
+                        <a onclick="addVariable2Editor('body', ' name ')" title="{{ __('Name') }}">
+                            <span class="btn btn-outline-secondary">&#123;&#123; name &#125;&#125;</span>
+                        </a>
+                        <a onclick="addVariable2Editor('body', ' business_name ')" title="{{ __('Business name') }}">
+                            <span class="btn btn-outline-secondary">&#123;&#123; business_name &#125;&#125;</span>
                         </a>
                     </div>
                     <textarea name="body" id="body">{{ old('body', $campaign->body) }}</textarea>
+                    @error('body') <div class="text-danger small">{{ $message }}</div> @enderror
                 </div>
             </div>
             <div class="row">

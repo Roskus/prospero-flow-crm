@@ -502,6 +502,11 @@ class PermissionSeeder extends Seeder
                 'name' => 'update campaign',
                 'guard_name' => 'web',
             ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller'],
+                'name' => 'delete campaign',
+                'guard_name' => 'web',
+            ],
             // Contact
             [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support'],
