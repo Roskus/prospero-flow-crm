@@ -44,6 +44,16 @@ class CampaignOpenControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_open_counts_on_any_host(): void
+    {
+        $recipient = CampaignRecipient::factory()->create();
+
+        $this->get('http://127.0.0.1:8000'.$this->trackingUrl($recipient))->assertOk();
+
+        $this->assertSame(1, $recipient->fresh()->open_count);
+    }
+
+    #[Test]
     public function a_tampered_address_records_nothing(): void
     {
         $recipient = CampaignRecipient::factory()->create();
@@ -60,6 +70,6 @@ class CampaignOpenControllerTest extends TestCase
 
     private function trackingUrl(CampaignRecipient $recipient): string
     {
-        return URL::signedRoute('campaign.open', ['recipient' => $recipient->id]);
+        return URL::signedRoute('campaign.open', ['recipient' => $recipient->id], absolute: false);
     }
 }

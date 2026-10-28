@@ -120,7 +120,7 @@ class CampaignSender extends Command
 
         $email = new GenericEmail($company, $sender, Campaign::personalize($campaign->subject, $lead, isHtml: false), [
             'body' => Campaign::personalize($campaign->body, $lead),
-            'tracking_url' => URL::signedRoute('campaign.open', ['recipient' => $recipient->id]),
+            'tracking_url' => url(URL::signedRoute('campaign.open', ['recipient' => $recipient->id], absolute: false)),
         ]);
 
         try {

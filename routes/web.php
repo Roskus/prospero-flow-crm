@@ -52,10 +52,10 @@ Route::get('/', [MainController::class, 'dashboard']);
 Route::get('/manifest', [ManifestController::class, 'renderWebManifest'])
     ->name('manifest');
 
-// Campaign open tracking image, loaded by mail clients without a session
+// Campaign open tracking image, loaded by mail clients without a session; only the path is signed so it works behind any host
 Route::get('/campaign/open/{recipient}', [CampaignOpenController::class, 'open'])
     ->whereNumber('recipient')
-    ->middleware('signed')
+    ->middleware('signed:relative')
     ->name('campaign.open');
 
 Auth::routes(['register' => env('APP_ENV') != 'production']);
