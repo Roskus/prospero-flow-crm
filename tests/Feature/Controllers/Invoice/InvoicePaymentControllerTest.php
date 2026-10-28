@@ -117,6 +117,27 @@ class InvoicePaymentControllerTest extends TestCase
     }
 
     #[Test]
+    public function stripe_and_paypal_payments_are_registered_from_the_invoice_page(): void
+    {
+        $invoice = $this->issue(300);
+        $paypalAccount = Account::factory()->create(['company_id' => $this->user->company_id, 'currency' => 'EUR', 'type' => Account::TYPE_PAYPAL, 'account_name' => 'PayPal']);
+
+        $this->get(route('invoice.show', $invoice->id))
+            ->assertSee('<option value="stripe"', false)
+            ->assertSee('<option value="paypal"', false);
+
+        $this->post(route('invoice.payment', $invoice->id), ['payment_method' => Transaction::METHOD_STRIPE, 'amount' => 100, 'reference' => 'pi_123'])
+            ->assertSessionHas('status', 'success');
+        $this->post(route('invoice.payment', $invoice->id), ['payment_method' => Transaction::METHOD_PAYPAL, 'amount' => 200, 'bank_account_id' => $paypalAccount->id])
+            ->assertSessionHas('status', 'success');
+
+        $this->assertSame([Transaction::METHOD_STRIPE, Transaction::METHOD_PAYPAL], Transaction::orderBy('id')->pluck('payment_method')->all());
+        $this->assertSame($paypalAccount->id, Transaction::where('payment_method', Transaction::METHOD_PAYPAL)->value('bank_account_id'));
+        $this->assertSame(Invoice::PAID, $invoice->fresh()->status);
+        $this->get(route('invoice.show', $invoice->id))->assertSee('Stripe')->assertSee('PayPal');
+    }
+
+    #[Test]
     public function a_payment_above_the_balance_shows_the_balance(): void
     {
         $invoice = $this->issue(500);

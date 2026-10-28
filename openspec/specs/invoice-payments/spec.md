@@ -13,7 +13,7 @@ A payment of an invoice SHALL be an income transaction with status paid that ref
 - **THEN** the accounting list shows an income transaction for the invoice customer referencing the invoice number
 
 ### Requirement: Payment methods and accounts
-The payment methods SHALL be cash, card, transfer, MercadoPago, Bizum and other. A transfer or Bizum payment SHALL require the destination account of the company. A cash payment SHALL go to the cash account of the invoice branch when no account is chosen. A payment SHALL accept an optional reference and an optional attachment (image or PDF). The chosen account SHALL belong to the active company.
+The payment methods SHALL be cash, card, transfer, Stripe, PayPal, MercadoPago, Bizum and other. A transfer or Bizum payment SHALL require the destination account of the company. A cash payment SHALL go to the cash account of the invoice branch when no account is chosen. A payment SHALL accept an optional reference and an optional attachment (image or PDF). The chosen account SHALL belong to the active company.
 
 #### Scenario: Transfer without account
 - **WHEN** a user registers a transfer payment without a destination account
