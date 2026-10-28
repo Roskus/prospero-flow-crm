@@ -63,7 +63,7 @@ class PhoneValidatorCommand extends Command
             ->whereNotNull($field)
             ->where($field, '!=', '')
             ->where(fn (Builder $query) => $query->where($verificationField, false)->orWhereNull($verificationField))
-            ->get();
+            ->lazyById();
         $validated = 0;
 
         foreach ($prospects as $prospect) {
@@ -71,6 +71,7 @@ class PhoneValidatorCommand extends Command
                 $number = $phoneUtil->parse((string) $prospect->{$field}, strtoupper((string) $prospect->getAttribute('country_id')));
                 if ($phoneUtil->isValidNumber($number)) {
                     $prospect->{$verificationField} = true;
+                    $prospect->timestamps = false;
                     $prospect->save();
                     $validated++;
                 }

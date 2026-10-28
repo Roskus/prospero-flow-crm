@@ -24,6 +24,18 @@ class PhoneValidatorCommandTest extends TestCase
     }
 
     #[Test]
+    public function verifying_a_phone_keeps_the_last_update_date(): void
+    {
+        $customer = Customer::factory()->create(['country_id' => 'gb', 'phone' => '447847430288', 'phone_verified' => false, 'mobile' => null, 'phone2' => null, 'updated_at' => '2026-01-15 10:00:00']);
+        $this->travel(1)->days();
+
+        $this->artisan('crm:phone:validate')->assertSuccessful();
+
+        $this->assertTrue((bool) $customer->fresh()->phone_verified);
+        $this->assertSame('2026-01-15 10:00:00', $customer->fresh()->updated_at->format('Y-m-d H:i:s'));
+    }
+
+    #[Test]
     public function it_leaves_invalid_phones_unverified(): void
     {
         $customer = Customer::factory()->create(['country_id' => 'gb', 'phone' => '123', 'phone_verified' => false, 'mobile' => null, 'phone2' => null]);
