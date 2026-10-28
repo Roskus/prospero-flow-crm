@@ -600,5 +600,14 @@
     "Schedule date": "Schedule date",
     "Schedule time": "Schedule time",
     "Sent at": "Sent at",
-    "The from address must be the company or your own email.": "The from address must be the company or your own email."
+    "The from address must be the company or your own email.": "The from address must be the company or your own email.",
+    "Send to": "Send to",
+    "Everyone with opt in": "Everyone with opt in",
+    "Only those with any of these tags": "Only those with any of these tags",
+    "Add at least one tag to send the campaign only to the contacts with those tags.": "Add at least one tag to send the campaign only to the contacts with those tags.",
+    "Accepts marketing emails (opt in)": "Accepts marketing emails (opt in)",
+    "Copy of :name": "Copy of :name",
+    "Campaign duplicated as a draft, set a schedule date to send it": "Campaign duplicated as a draft, set a schedule date to send it",
+    "Recipients": "Recipients",
+    "Leads and customers": "Leads and customers"
 }

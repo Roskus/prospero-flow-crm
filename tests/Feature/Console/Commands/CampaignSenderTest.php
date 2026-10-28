@@ -7,6 +7,7 @@ namespace Tests\Feature\Console\Commands;
 use App\Mail\GenericEmail;
 use App\Models\Campaign;
 use App\Models\CampaignRecipient;
+use App\Models\Customer;
 use App\Models\Lead;
 use Illuminate\Mail\PendingMail;
 use Illuminate\Support\Carbon;
@@ -62,6 +63,74 @@ class CampaignSenderTest extends TestCase
     }
 
     #[Test]
+    public function a_tags_campaign_is_sent_only_to_the_leads_with_any_of_its_tags(): void
+    {
+        Mail::fake();
+        $this->campaign(['schedule_send_date' => '2026-10-15', 'audience' => Campaign::AUDIENCE_TAGS, 'tags' => ['Test', 'a_b']]);
+        $this->lead('tagged@example.com', ['tags' => ['test', 'vip']]);
+        $this->lead('underscore@example.com', ['tags' => ['a_b']]);
+        $this->lead('similar@example.com', ['tags' => ['testing', 'axb']]);
+        $this->lead('other@example.com', ['tags' => ['other']]);
+        $this->lead('untagged@example.com', ['tags' => null]);
+
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+
+        Mail::assertSentCount(2);
+        Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('tagged@example.com'));
+        Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('underscore@example.com'));
+    }
+
+    #[Test]
+    public function a_campaign_for_all_leads_ignores_its_tags(): void
+    {
+        Mail::fake();
+        $this->campaign(['schedule_send_date' => '2026-10-15', 'audience' => Campaign::AUDIENCE_ALL, 'tags' => ['test']]);
+        $this->lead('tagged@example.com', ['tags' => ['vip']]);
+        $this->lead('untagged@example.com', ['tags' => null]);
+
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+
+        Mail::assertSentCount(2);
+    }
+
+    #[Test]
+    public function a_campaign_for_customers_is_sent_only_to_opted_in_customers(): void
+    {
+        Mail::fake();
+        $campaign = $this->campaign(['schedule_send_date' => '2026-10-15', 'recipient_type' => Campaign::RECIPIENTS_CUSTOMERS]);
+        $this->lead('lead@example.com');
+        $customer = $this->customer('customer@example.com');
+        $this->customer('optout@example.com', ['opt_in' => false]);
+        Customer::factory()->create(['email' => 'foreign@example.com', 'opt_in' => true]);
+
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+
+        Mail::assertSentCount(1);
+        Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('customer@example.com'));
+        $recipient = $campaign->recipients()->sole();
+        $this->assertSame($customer->id, $recipient->customer_id);
+        $this->assertNull($recipient->lead_id);
+    }
+
+    #[Test]
+    public function a_campaign_for_leads_and_customers_mails_a_shared_email_once(): void
+    {
+        Mail::fake();
+        $campaign = $this->campaign(['schedule_send_date' => '2026-10-15', 'recipient_type' => Campaign::RECIPIENTS_BOTH, 'audience' => Campaign::AUDIENCE_TAGS, 'tags' => ['vip']]);
+        $this->lead('ana@example.com', ['tags' => ['vip']]);
+        $this->lead('untagged@example.com', ['tags' => ['other']]);
+        $this->customer('Ana@example.com', ['tags' => ['VIP']]);
+        $this->customer('bruno@example.com', ['tags' => ['vip'], 'name' => 'Bruno']);
+
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+
+        Mail::assertSentCount(2);
+        Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('ana@example.com'));
+        Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('bruno@example.com'));
+        $this->assertSame(2, $campaign->fresh()->emails_count);
+    }
+
+    #[Test]
     public function a_campaign_scheduled_for_later_is_not_sent(): void
     {
         Mail::fake();
@@ -102,6 +171,8 @@ class CampaignSenderTest extends TestCase
             'subject' => 'Hello',
             'from' => $this->user->email,
             'body' => '<p>Hello</p>',
+            'recipient_type' => Campaign::RECIPIENTS_LEADS,
+            'audience' => Campaign::AUDIENCE_ALL,
             'schedule_send_date' => '2026-10-15',
             'schedule_send_time' => '11:30',
         ])->assertRedirect('/campaign');
@@ -143,6 +214,23 @@ class CampaignSenderTest extends TestCase
 
         Mail::assertSentCount(1);
         Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('bruno@example.com'));
+        $this->assertSame(2, $campaign->fresh()->emails_count);
+    }
+
+    #[Test]
+    public function emails_differing_only_by_case_are_mailed_once(): void
+    {
+        Mail::fake();
+        $campaign = $this->campaign(['schedule_send_date' => '2026-10-15']);
+        $this->lead('Ana@Example.com');
+        $this->lead('ana@example.com');
+        $this->lead('bruno@example.com');
+
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+
+        Mail::assertSentCount(2);
+        $this->assertNotNull($campaign->fresh()->send_at);
         $this->assertSame(2, $campaign->fresh()->emails_count);
     }
 
@@ -303,6 +391,19 @@ class CampaignSenderTest extends TestCase
             'company_id' => $this->user->company_id,
             'from' => $this->user->email,
             'schedule_at' => Campaign::scheduleMoment($attributes['schedule_send_date'], $attributes['schedule_send_time'], 'UTC'),
+            ...$attributes,
+        ]);
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    private function customer(string $email, array $attributes = []): Customer
+    {
+        return Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'email' => $email,
+            'opt_in' => true,
             ...$attributes,
         ]);
     }

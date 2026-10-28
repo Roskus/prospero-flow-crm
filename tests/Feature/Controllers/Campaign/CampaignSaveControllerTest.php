@@ -26,15 +26,33 @@ class CampaignSaveControllerTest extends TestCase
             'subject' => 'New products',
             'from' => $this->user->email,
         ]);
-        $this->assertSame(['shoes', 'bags'], Campaign::firstWhere('name', 'Autumn newsletter')->tags);
+        $campaign = Campaign::firstWhere('name', 'Autumn newsletter');
+        $this->assertSame(['shoes', 'bags'], $campaign->tags);
+        $this->assertSame(Campaign::AUDIENCE_TAGS, $campaign->audience);
+        $this->assertSame(Campaign::RECIPIENTS_BOTH, $campaign->recipient_type);
     }
 
     #[Test]
     public function a_campaign_without_schedule_date_is_not_scheduled(): void
     {
-        $this->post('/campaign/save', $this->payload(['schedule_send_date' => '', 'schedule_send_time' => '']))->assertRedirect('/campaign');
+        $this->post('/campaign/save', $this->payload(['schedule_send_date' => '', 'schedule_send_time' => '', 'audience' => Campaign::AUDIENCE_ALL, 'tags' => '']))->assertRedirect('/campaign');
 
         $this->assertNull(Campaign::firstWhere('name', 'Autumn newsletter')->schedule_at);
+    }
+
+    #[Test]
+    public function sending_by_tags_requires_a_tag(): void
+    {
+        $this->post('/campaign/save', $this->payload(['audience' => Campaign::AUDIENCE_TAGS, 'tags' => '']))
+            ->assertSessionHasErrors('tags');
+
+        $this->post('/campaign/save', $this->payload(['audience' => 'everyone']))
+            ->assertSessionHasErrors('audience');
+
+        $this->post('/campaign/save', $this->payload(['recipient_type' => 'suppliers']))
+            ->assertSessionHasErrors('recipient_type');
+
+        $this->assertDatabaseCount('campaign', 0);
     }
 
     #[Test]
@@ -73,6 +91,24 @@ class CampaignSaveControllerTest extends TestCase
 
         $this->get('/campaign')->assertOk()->assertSee('Spring launch')->assertDontSee('Campaign.send');
         $this->get("/campaign/update/$campaign->id")->assertOk()->assertSee('name="name"', false)->assertSee('Spring launch');
+    }
+
+    #[Test]
+    public function the_list_shows_the_status_badge_and_the_recipients(): void
+    {
+        Campaign::factory()->sent()->create(['company_id' => $this->user->company_id, 'recipient_type' => Campaign::RECIPIENTS_CUSTOMERS]);
+        Campaign::factory()->create(['company_id' => $this->user->company_id, 'recipient_type' => Campaign::RECIPIENTS_BOTH, 'audience' => Campaign::AUDIENCE_TAGS, 'tags' => ['vip']]);
+        Campaign::factory()->create(['company_id' => $this->user->company_id, 'schedule_send_date' => null, 'schedule_at' => null]);
+
+        $this->get('/campaign')
+            ->assertOk()
+            ->assertSee('<span class="badge text-bg-success">'.__('Sent').'</span>', false)
+            ->assertSee('<span class="badge text-bg-primary">'.__('Scheduled').'</span>', false)
+            ->assertSee('<span class="badge text-bg-warning">'.__('Draft').'</span>', false)
+            ->assertSee(__('Recipients'))
+            ->assertSee(__('Customers'))
+            ->assertSee(__('Leads and customers'))
+            ->assertSee(__('Only those with any of these tags'));
     }
 
     #[Test]
@@ -121,6 +157,8 @@ class CampaignSaveControllerTest extends TestCase
             'subject' => 'New products',
             'from' => $this->user->email,
             'body' => '<p>Hello</p>',
+            'recipient_type' => Campaign::RECIPIENTS_BOTH,
+            'audience' => Campaign::AUDIENCE_TAGS,
             'tags' => 'shoes, bags',
             'schedule_send_date' => now()->addDay()->toDateString(),
             'schedule_send_time' => '10:30',

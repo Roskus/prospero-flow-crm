@@ -27,6 +27,8 @@ class CampaignFactory extends Factory
             'from' => fake()->safeEmail(),
             'body' => '<p>'.fake()->paragraph().'</p>',
             'tags' => null,
+            'audience' => Campaign::AUDIENCE_ALL,
+            'recipient_type' => Campaign::RECIPIENTS_LEADS,
             'schedule_send_date' => now()->toDateString(),
             'schedule_send_time' => null,
             'schedule_at' => now()->startOfDay(),

@@ -22,6 +22,11 @@ class CampaignIndexController extends MainController
             'text-bg-warning',
             'text-bg-info',
         ];
+        $data['recipient_labels'] = [
+            Campaign::RECIPIENTS_LEADS => __('Leads'),
+            Campaign::RECIPIENTS_CUSTOMERS => __('Customers'),
+            Campaign::RECIPIENTS_BOTH => __('Leads and customers'),
+        ];
         $data['campaigns'] = $campaign->getAllByCompany((int) Auth::user()->company_id);
 
         return view('campaign.index', $data);

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Campaign\CampaignCloneController;
 use App\Http\Controllers\Campaign\CampaignCreateController;
 use App\Http\Controllers\Campaign\CampaignDeleteController;
 use App\Http\Controllers\Campaign\CampaignIndexController;
@@ -14,3 +15,4 @@ Route::get('/campaign/create', [CampaignCreateController::class, 'create'])->can
 Route::get('/campaign/update/{id}', [CampaignUpdateController::class, 'update'])->can('update campaign');
 Route::post('/campaign/save', [CampaignSaveController::class, 'save'])->can('create campaign')->can('update campaign');
 Route::delete('/campaign/{id}', [CampaignDeleteController::class, 'delete'])->can('delete campaign');
+Route::post('/campaign/{id}/clone', [CampaignCloneController::class, 'clone'])->whereNumber('id')->can('create campaign');

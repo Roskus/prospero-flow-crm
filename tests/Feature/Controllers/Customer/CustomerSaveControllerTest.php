@@ -187,4 +187,71 @@ class CustomerSaveControllerTest extends TestCase
 
         $response->assertSessionHasErrors('street');
     }
+
+    #[Test]
+    public function the_opt_in_switch_is_saved(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+            'opt_in' => false,
+        ]);
+
+        $this->post('/customer/save', $this->customerForm($customer, ['opt_in' => '1']))->assertRedirect('/customer');
+        $this->assertTrue((bool) $customer->fresh()->opt_in);
+
+        $this->post('/customer/save', $this->customerForm($customer, ['opt_in' => '0']))->assertRedirect('/customer');
+        $this->assertFalse((bool) $customer->fresh()->opt_in);
+    }
+
+    #[Test]
+    public function saving_without_the_opt_in_field_keeps_it(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+            'opt_in' => true,
+        ]);
+        $data = $this->customerForm($customer);
+        unset($data['opt_in']);
+
+        $this->post('/customer/save', $data)->assertRedirect('/customer');
+
+        $this->assertTrue((bool) $customer->fresh()->opt_in);
+    }
+
+    #[Test]
+    public function the_opt_in_switch_is_checked_for_a_new_customer(): void
+    {
+        $html = $this->get('/customer/create')->assertOk()->assertSee(__('Accepts marketing emails (opt in)'))->getContent();
+
+        $this->assertMatchesRegularExpression('/<input type="checkbox" name="opt_in"[^>]*checked/', $html);
+    }
+
+    #[Test]
+    public function the_opt_in_switch_shows_the_saved_value_when_editing(): void
+    {
+        $customer = Customer::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+            'opt_in' => false,
+        ]);
+
+        $html = $this->get("/customer/update/$customer->id")->assertOk()->getContent();
+
+        $this->assertMatchesRegularExpression('/<input type="checkbox" name="opt_in"[^>]*role="switch"\s*>/', $html);
+    }
+
+    /**
+     * @param  array<string, mixed>  $overrides
+     * @return array<string, mixed>
+     */
+    private function customerForm(Customer $customer, array $overrides = []): array
+    {
+        return [
+            ...$customer->toArray(),
+            'tags' => 'one, two',
+            ...$overrides,
+        ];
+    }
 }

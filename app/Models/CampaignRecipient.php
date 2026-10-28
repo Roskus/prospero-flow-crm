@@ -26,6 +26,7 @@ class CampaignRecipient extends Model
     protected $fillable = [
         'campaign_id',
         'lead_id',
+        'customer_id',
         'email',
         'status',
         'error',
@@ -57,5 +58,13 @@ class CampaignRecipient extends Model
     public function lead(): BelongsTo
     {
         return $this->belongsTo(Lead::class);
+    }
+
+    /**
+     * @return BelongsTo<Customer, $this>
+     */
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

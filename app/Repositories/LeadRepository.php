@@ -46,7 +46,9 @@ class LeadRepository
         $lead->address = $lead->address->merge($data);
         $lead->schedule_contact = ! empty($data['schedule_contact']) ? $data['schedule_contact'] : null;
         $lead->industry_id = ! empty($data['industry_id']) ? $data['industry_id'] : null;
-        $lead->opt_in = ! empty($data['opt_in']) ? $data['opt_in'] : null;
+        if (array_key_exists('opt_in', $data)) {
+            $lead->opt_in = (bool) $data['opt_in'];
+        }
         $lead->tags = ! empty($data['tags']) ? explode(',', $data['tags']) : null;
 
         $lead->status = ! empty($data['status']) ? $data['status'] : Lead::OPEN;

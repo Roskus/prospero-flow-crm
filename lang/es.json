@@ -621,5 +621,14 @@
     "Schedule date": "Fecha programada",
     "Schedule time": "Hora programada",
     "Sent at": "Enviada el",
-    "The from address must be the company or your own email.": "El remitente debe ser el email de la compañía o el tuyo."
+    "The from address must be the company or your own email.": "El remitente debe ser el email de la compañía o el tuyo.",
+    "Send to": "Enviar a",
+    "Everyone with opt in": "Todos con opt-in",
+    "Only those with any of these tags": "Solo los que tengan alguno de estos tags",
+    "Add at least one tag to send the campaign only to the contacts with those tags.": "Añade al menos un tag para enviar la campaña solo a los contactos con esos tags.",
+    "Accepts marketing emails (opt in)": "Acepta emails de marketing (opt-in)",
+    "Copy of :name": "Copia de :name",
+    "Campaign duplicated as a draft, set a schedule date to send it": "Campaña duplicada como borrador, ponle una fecha programada para enviarla",
+    "Recipients": "Destinatarios",
+    "Leads and customers": "Prospectos y clientes"
 }

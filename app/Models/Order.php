@@ -533,8 +533,8 @@ final class Order extends Model
 
         $from = Carbon::create($year, 1, 1)->startOfDay();
         $to = Carbon::create($year, 12, 31)->startOfDay();
-        $isCurrentYear = $year === (int) now()->year;
-        $previousUntil = $isCurrentYear ? now()->subYearNoOverflow()->startOfDay() : Carbon::create($year - 1, 12, 31)->startOfDay();
+        $isCurrentYear = $year === Carbon::now()->year;
+        $previousUntil = $isCurrentYear ? Carbon::now()->subYearNoOverflow()->startOfDay() : Carbon::createStrict($year - 1, 12, 31)->startOfDay();
         $total = $this->getSalesTotal($companyId, $from, $to, $sellerId);
         $previousTotal = $this->getSalesTotal($companyId, Carbon::create($year - 1, 1, 1), $previousUntil, $sellerId);
 

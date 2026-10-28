@@ -86,6 +86,15 @@
                     </div>
                 </div><!--./row-->
                 <div class="row">
+                    <div class="col-12 mt-2">
+                        <input type="hidden" name="opt_in" value="0">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" name="opt_in" id="opt_in" value="1" class="form-check-input" role="switch" @checked(old('opt_in', $customer->exists ? $customer->opt_in : true))>
+                            <label for="opt_in" class="form-check-label">{{ __('Accepts marketing emails (opt in)') }}</label>
+                        </div>
+                    </div>
+                </div><!--./row-->
+                <div class="row">
                     <div class="col-12 col-md-6">
                         <label for="mobile" class="">{{ __('Mobile') }}</label>
                         <div class="input-group">

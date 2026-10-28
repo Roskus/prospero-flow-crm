@@ -8,8 +8,8 @@ use App\Mail\GenericEmail;
 use App\Models\Campaign;
 use App\Models\CampaignRecipient;
 use App\Models\Company;
+use App\Models\Customer;
 use App\Models\Lead;
-use App\Models\Scopes\AssignedSellerScope;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,7 +20,7 @@ use Symfony\Component\Mailer\Exception\UnexpectedResponseException;
 
 class CampaignSender extends Command
 {
-    private const int LEADS_PER_CHUNK = 200;
+    private const int CONTACTS_PER_CHUNK = 200;
 
     private const int PERMANENT_FAILURE_CODE = 500;
 
@@ -73,23 +73,24 @@ class CampaignSender extends Command
         $sender = User::where('company_id', $campaign->company_id)->where('email', $campaign->from)->first();
 
         try {
-            Lead::query()
-                ->withoutGlobalScope(AssignedSellerScope::class)
-                ->where('company_id', $campaign->company_id)
-                ->whereNotNull('email')
-                ->where('email', '!=', '')
-                ->where('opt_in', true)
-                ->chunkById(self::LEADS_PER_CHUNK, function (Collection $leads) use ($campaign, $company, $sender): void {
-                    $alreadySent = $campaign->recipients()->whereIn('email', $leads->pluck('email'))->pluck('email')->all();
+            foreach ($campaign->recipientQueries() as $contacts) {
+                $contacts->chunkById(self::CONTACTS_PER_CHUNK, function (Collection $contacts) use ($campaign, $company, $sender): void {
+                    $alreadySent = $campaign->recipients()
+                        ->whereIn('email', $contacts->pluck('email'))
+                        ->pluck('email')
+                        ->map(fn (string $email): string => mb_strtolower($email))
+                        ->all();
 
-                    foreach ($leads as $lead) {
-                        if (in_array($lead->email, $alreadySent, true)) {
+                    foreach ($contacts as $contact) {
+                        $emailKey = mb_strtolower($contact->email);
+                        if (in_array($emailKey, $alreadySent, true)) {
                             continue;
                         }
-                        $alreadySent[] = $lead->email;
-                        $this->sendTo($campaign, $company, $sender, $lead);
+                        $alreadySent[] = $emailKey;
+                        $this->sendTo($campaign, $company, $sender, $contact);
                     }
                 });
+            }
         } catch (\Throwable $t) {
             Log::error("Campaign $campaign->id stopped: {$t->getMessage()}");
             $this->error("Campaign stopped, it will be resumed on the next run: {$t->getMessage()}");
@@ -109,32 +110,33 @@ class CampaignSender extends Command
     /**
      * A permanent rejection of the recipient (5xx) is a bounce; any other failure means the mail server cannot take emails now.
      */
-    private function sendTo(Campaign $campaign, Company $company, ?User $sender, Lead $lead): void
+    private function sendTo(Campaign $campaign, Company $company, ?User $sender, Lead|Customer $contact): void
     {
         $recipient = $campaign->recipients()->create([
-            'lead_id' => $lead->id,
-            'email' => $lead->email,
+            'lead_id' => $contact instanceof Lead ? $contact->id : null,
+            'customer_id' => $contact instanceof Customer ? $contact->id : null,
+            'email' => $contact->email,
             'status' => CampaignRecipient::STATUS_SENT,
             'sent_at' => now(),
         ]);
 
-        $email = new GenericEmail($company, $sender, Campaign::personalize($campaign->subject, $lead, isHtml: false), [
-            'body' => Campaign::personalize($campaign->body, $lead),
+        $email = new GenericEmail($company, $sender, Campaign::personalize($campaign->subject, $contact, isHtml: false), [
+            'body' => Campaign::personalize($campaign->body, $contact),
             'tracking_url' => url(URL::signedRoute('campaign.open', ['recipient' => $recipient->id], absolute: false)),
         ]);
 
         try {
-            Mail::to($lead->email)->send($email);
-            $this->line("Sent: $lead->email");
+            Mail::to($contact->email)->send($email);
+            $this->line("Sent: $contact->email");
         } catch (UnexpectedResponseException $e) {
             if ($e->getCode() < self::PERMANENT_FAILURE_CODE) {
                 $recipient->delete();
 
                 throw $e;
             }
-            Log::warning("Campaign $campaign->id bounced $lead->email: {$e->getMessage()}");
+            Log::warning("Campaign $campaign->id bounced $contact->email: {$e->getMessage()}");
             $recipient->update(['status' => CampaignRecipient::STATUS_BOUNCED, 'error' => mb_substr($e->getMessage(), 0, 1000)]);
-            $this->warn("Bounced: $lead->email");
+            $this->warn("Bounced: $contact->email");
         } catch (\Throwable $t) {
             $recipient->delete();
 

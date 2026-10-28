@@ -65,11 +65,39 @@
             </div>
             <div class="row">
                 <div class="col mt-2">
+                    <span class="form-label d-block">{{ __('Recipients') }} <span class="text-danger">*</span></span>
+                    @php($recipientType = old('recipient_type', $campaign->recipient_type ?? \App\Models\Campaign::RECIPIENTS_LEADS))
+                    @foreach ([\App\Models\Campaign::RECIPIENTS_LEADS => __('Leads'), \App\Models\Campaign::RECIPIENTS_CUSTOMERS => __('Customers'), \App\Models\Campaign::RECIPIENTS_BOTH => __('Leads and customers')] as $value => $label)
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="recipient_type" id="recipient_type_{{ $value }}" value="{{ $value }}" class="form-check-input" @checked($recipientType === $value)>
+                            <label for="recipient_type_{{ $value }}" class="form-check-label">{{ $label }}</label>
+                        </div>
+                    @endforeach
+                    @error('recipient_type') <div class="text-danger small">{{ $message }}</div> @enderror
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-2">
+                    <span class="form-label d-block">{{ __('Send to') }} <span class="text-danger">*</span></span>
+                    @php($audience = old('audience', $campaign->audience ?? \App\Models\Campaign::AUDIENCE_ALL))
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="audience" id="audience_all" value="{{ \App\Models\Campaign::AUDIENCE_ALL }}" class="form-check-input" @checked($audience === \App\Models\Campaign::AUDIENCE_ALL)>
+                        <label for="audience_all" class="form-check-label">{{ __('Everyone with opt in') }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="audience" id="audience_tags" value="{{ \App\Models\Campaign::AUDIENCE_TAGS }}" class="form-check-input" @checked($audience === \App\Models\Campaign::AUDIENCE_TAGS)>
+                        <label for="audience_tags" class="form-check-label">{{ __('Only those with any of these tags') }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-2">
                     <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
                     <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2"
                               class="form-control form-control-lg">
                         {{ (!empty($campaign->tags)) ? implode(',', $campaign->tags) : '' }}
                     </textarea>
+                    @error('tags') <div class="text-danger small">{{ $message }}</div> @enderror
                 </div>
             </div>
             <div class="row">

@@ -29,7 +29,9 @@ class CampaignSaveRequest extends FormRequest
             'subject' => ['required', 'string', 'max:255'],
             'from' => ['required', 'email', Rule::in(array_column(Campaign::fromAddresses(Auth::user()), 'email'))],
             'body' => ['required', 'string'],
-            'tags' => ['nullable', 'string'],
+            'recipient_type' => ['required', Rule::in([Campaign::RECIPIENTS_LEADS, Campaign::RECIPIENTS_CUSTOMERS, Campaign::RECIPIENTS_BOTH])],
+            'audience' => ['required', Rule::in([Campaign::AUDIENCE_ALL, Campaign::AUDIENCE_TAGS])],
+            'tags' => ['nullable', 'string', 'required_if:audience,'.Campaign::AUDIENCE_TAGS],
             'schedule_send_date' => ['nullable', 'date_format:Y-m-d'],
             'schedule_send_time' => ['nullable', 'date_format:H:i,H:i:s'],
         ];
@@ -39,6 +41,7 @@ class CampaignSaveRequest extends FormRequest
     {
         return [
             'from.in' => __('The from address must be the company or your own email.'),
+            'tags.required_if' => __('Add at least one tag to send the campaign only to the contacts with those tags.'),
         ];
     }
 }

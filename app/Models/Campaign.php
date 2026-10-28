@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Scopes\AssignedSellerScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,6 +23,8 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'from', description: 'From email address', type: 'string', format: 'email', example: 'origin@mail.com'),
         new OAT\Property(property: 'body', description: 'Campaign body content', type: 'string', example: 'My awesome campaign content'),
         new OAT\Property(property: 'tags', description: 'Campaign tags', type: 'string', example: 'Tags'),
+        new OAT\Property(property: 'audience', description: 'Who receives the campaign: all (every lead with opt in) or tags (leads with any of the tags)', type: 'string', enum: ['all', 'tags'], example: 'all'),
+        new OAT\Property(property: 'recipient_type', description: 'Who the campaign is sent to: leads, customers or both', type: 'string', enum: ['leads', 'customers', 'both'], example: 'leads'),
         new OAT\Property(property: 'schedule_send_date', description: 'Scheduled send date', type: 'string', format: 'date', example: '2023-01-10'),
         new OAT\Property(property: 'schedule_send_time', description: 'Scheduled send time', type: 'string', format: 'time', example: '16:15:00'),
         new OAT\Property(property: 'schedule_at', description: 'Scheduled send date and time in UTC', type: 'string', format: 'date-time', example: '2023-01-10 15:15:00'),
@@ -34,6 +38,22 @@ class Campaign extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public const string AUDIENCE_ALL = 'all';
+
+    public const string AUDIENCE_TAGS = 'tags';
+
+    public const string STATUS_DRAFT = 'draft';
+
+    public const string STATUS_SCHEDULED = 'scheduled';
+
+    public const string STATUS_SENT = 'sent';
+
+    public const string RECIPIENTS_LEADS = 'leads';
+
+    public const string RECIPIENTS_CUSTOMERS = 'customers';
+
+    public const string RECIPIENTS_BOTH = 'both';
+
     protected $table = 'campaign';
 
     protected $fillable = [
@@ -42,6 +62,8 @@ class Campaign extends Model
         'from',
         'body',
         'tags',
+        'audience',
+        'recipient_type',
         'schedule_send_date',
         'schedule_send_time',
         'schedule_at',
@@ -85,16 +107,16 @@ class Campaign extends Model
     /**
      * Replaces the {{ name }} and {{ business_name }} variables with the values of the lead, escaped for HTML text; the text is never evaluated as Blade.
      */
-    public static function personalize(?string $text, Lead $lead, bool $isHtml = true): string
+    public static function personalize(?string $text, Prospect $contact, bool $isHtml = true): string
     {
         return (string) preg_replace_callback(
             '/\{\{\s*(?:\$prospect\s*-(?:>|&gt;)\s*)?(\w+)\s*\}\}/',
-            function (array $match) use ($lead, $isHtml): string {
+            function (array $match) use ($contact, $isHtml): string {
                 $field = self::RECIPIENT_VARIABLES[$match[1]] ?? null;
                 if ($field === null) {
                     return $match[0];
                 }
-                $value = (string) $lead->getAttribute($field);
+                $value = (string) $contact->getAttribute($field);
 
                 return $isHtml ? e($value) : $value;
             },
@@ -113,6 +135,78 @@ class Campaign extends Model
             ['email' => (string) $user->company?->email, 'name' => (string) $user->company?->name],
             ['email' => (string) $user->email, 'name' => trim($user->first_name.' '.$user->last_name)],
         ])->filter(fn (array $from): bool => $from['email'] !== '')->unique('email')->values()->all();
+    }
+
+    /**
+     * Sent once it has a send time, scheduled while it has a schedule date, otherwise a draft that is never sent.
+     */
+    public function status(): string
+    {
+        return match (true) {
+            $this->send_at !== null => self::STATUS_SENT,
+            $this->schedule_at !== null => self::STATUS_SCHEDULED,
+            default => self::STATUS_DRAFT,
+        };
+    }
+
+    /**
+     * One query per contact type the campaign is sent to (leads, customers or both).
+     *
+     * @return list<Builder<Lead>|Builder<Customer>>
+     */
+    public function recipientQueries(): array
+    {
+        return match ($this->recipient_type) {
+            self::RECIPIENTS_CUSTOMERS => [$this->contactQuery(Customer::query())],
+            self::RECIPIENTS_BOTH => [$this->contactQuery(Lead::query()->withoutGlobalScope(AssignedSellerScope::class)), $this->contactQuery(Customer::query())],
+            default => [$this->contactQuery(Lead::query()->withoutGlobalScope(AssignedSellerScope::class))],
+        };
+    }
+
+    /**
+     * Contacts of the campaign company with an email and opt in; for a tags audience, only those with any of the campaign tags (case insensitive).
+     *
+     * @template TContact of Prospect
+     *
+     * @param  Builder<TContact>  $query
+     * @return Builder<TContact>
+     */
+    private function contactQuery(Builder $query): Builder
+    {
+        $tags = collect($this->tags ?? [])
+            ->map(fn (mixed $tag): string => mb_strtolower(trim((string) $tag)))
+            ->filter()
+            ->unique()
+            ->values();
+
+        return $query
+            ->where('company_id', $this->company_id)
+            ->whereNotNull('email')
+            ->where('email', '!=', '')
+            ->where('opt_in', true)
+            ->when($this->audience === self::AUDIENCE_TAGS, fn (Builder $query) => $query->where(function (Builder $query) use ($tags): void {
+                $query->whereRaw('1 = 0');
+                foreach ($tags as $tag) {
+                    $query->orWhereRaw("LOWER(CAST(tags AS CHAR)) LIKE ? ESCAPE '!'", ['%'.self::escapeLike((string) json_encode($tag)).'%']);
+                }
+            }));
+    }
+
+    private static function escapeLike(string $value): string
+    {
+        return str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $value);
+    }
+
+    /**
+     * Copy with the same content and audience, without schedule or send data, so it is not sent until a date is set.
+     */
+    public function duplicateAsDraft(): self
+    {
+        $copy = $this->replicate(['send_at', 'emails_count', 'schedule_send_date', 'schedule_send_time', 'schedule_at']);
+        $copy->name = mb_substr(__('Copy of :name', ['name' => $this->name]), 0, 255);
+        $copy->save();
+
+        return $copy;
     }
 
     /**
