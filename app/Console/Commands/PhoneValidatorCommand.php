@@ -4,13 +4,25 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\Customer;
 use App\Models\Lead;
+use App\Models\Prospect;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 
 class PhoneValidatorCommand extends Command
 {
+    /**
+     * Phone fields and the flag that marks each one as verified.
+     */
+    private const array FIELDS = [
+        'phone' => 'phone_verified',
+        'mobile' => 'mobile_verified',
+        'phone2' => 'phone2_verified',
+    ];
+
     /**
      * The name and signature of the console command.
      *
@@ -23,47 +35,50 @@ class PhoneValidatorCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Validate phone numbers';
+    protected $description = 'Validate the phone numbers of leads and customers';
 
     /**
      * Execute the console command.
      */
-    public function handle(Lead $leadModel)
+    public function handle(): int
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
 
-        $leadsValidated = $this->validateField($leadModel, $phoneUtil, 'phone', 'phone_verified');
-        $this->info("Leads validated phones: {$leadsValidated}");
-        $leadsValidated = $this->validateField($leadModel, $phoneUtil, 'mobile', 'mobile_verified');
-        $this->info("Leads validated mobiles: {$leadsValidated}");
-        $leadsValidated = $this->validateField($leadModel, $phoneUtil, 'phone2', 'phone2_verified');
-        $this->info("Leads validated phone2: {$leadsValidated}");
-    }
-
-    private function validateField($leadModel, $phoneUtil, $field, $verificationField): int
-    {
-        $verifiedLeads = $leadModel->whereNotNull($field)
-            ->where($verificationField, 0)->get();
-        $leadsCount = $verifiedLeads->count();
-
-        $this->info("Leads to validate {$field}: {$leadsCount}");
-        $leadsValidated = 0;
-
-        foreach ($verifiedLeads as $lead) {
-            try {
-                $number = $phoneUtil->parse($lead->{$field}, $lead->country_id);
-                if ($phoneUtil->isValidNumber($number)) {
-                    $lead->{$verificationField} = true;
-                    $lead->updated_at = now();
-                    $lead->save();
-                    $leadsValidated++;
-                }
-            } catch (NumberParseException $e) {
-                // Log or print the error
-                $this->error("Error parsing $field for Lead ID {$lead->id}");
+        foreach (['Leads' => Lead::class, 'Customers' => Customer::class] as $label => $model) {
+            foreach (self::FIELDS as $field => $verificationField) {
+                $validated = $this->validateField($model, $phoneUtil, $field, $verificationField);
+                $this->info("{$label} validated {$field}: {$validated}");
             }
         }
 
-        return $leadsValidated;
+        return self::SUCCESS;
+    }
+
+    /**
+     * @param  class-string<Prospect>  $model
+     */
+    private function validateField(string $model, PhoneNumberUtil $phoneUtil, string $field, string $verificationField): int
+    {
+        $prospects = $model::query()
+            ->whereNotNull($field)
+            ->where($field, '!=', '')
+            ->where(fn (Builder $query) => $query->where($verificationField, false)->orWhereNull($verificationField))
+            ->get();
+        $validated = 0;
+
+        foreach ($prospects as $prospect) {
+            try {
+                $number = $phoneUtil->parse((string) $prospect->{$field}, strtoupper((string) $prospect->getAttribute('country_id')));
+                if ($phoneUtil->isValidNumber($number)) {
+                    $prospect->{$verificationField} = true;
+                    $prospect->save();
+                    $validated++;
+                }
+            } catch (NumberParseException) {
+                $this->error("Error parsing {$field} of ".class_basename($model)." ID {$prospect->getKey()}");
+            }
+        }
+
+        return $validated;
     }
 }

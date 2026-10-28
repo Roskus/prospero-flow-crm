@@ -206,7 +206,6 @@ class SalesAndExpensesDemoSeeder extends Seeder
                 'updated_at' => $createdAt,
             ]);
 
-            $amount = 0.0;
             foreach ($products->random(min($products->count(), fake()->numberBetween(1, 4))) as $product) {
                 $quantity = fake()->numberBetween(1, 10);
                 $unitPrice = $this->unitPrice($product);
@@ -223,12 +222,10 @@ class SalesAndExpensesDemoSeeder extends Seeder
                     'created_at' => $createdAt,
                     'updated_at' => $createdAt,
                 ]);
-
-                $amount += $unitPrice * $quantity * (1 - $discount / 100);
             }
 
-            $order->amount = round($amount, 2);
             $order->timestamps = false;
+            $order->setAmount($order->load('items')->getTotal());
             $order->save();
 
             $orders->push($order);
@@ -258,7 +255,7 @@ class SalesAndExpensesDemoSeeder extends Seeder
                 'reference' => 'INV-'.$order->order_number,
                 'transaction_category_id' => $salesCategory->id,
                 'customer_id' => $order->customer_id,
-                'amount' => round((float) $order->amount * (1 + self::TAX_PERCENTAGE / 100), 2),
+                'amount' => $order->amount,
                 'issue_date' => $issueDate,
                 'due_date' => $dueDate,
                 'payment_date' => $isPaid ? $issueDate->copy()->addDays(fake()->numberBetween(0, 20)) : null,

@@ -8,6 +8,10 @@ permissions:
   contents: read
   pull-requests: read
 
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   DB_CONNECTION: mysql
   DB_HOST: 127.0.0.1
@@ -35,12 +39,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup PHP with Xdebug (2.37.2)
+      - name: Setup PHP (2.37.2)
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath
-          coverage: xdebug
+          coverage: ${{ matrix.php == '8.5' && 'xdebug' || 'none' }}
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
@@ -73,9 +77,15 @@ jobs:
         run: |
           sudo systemctl start mysql.service
           mysql -e 'CREATE DATABASE pflow_crm_test;' -uroot -proot
+          mysql -e 'SET GLOBAL innodb_flush_log_at_trx_commit = 0; SET GLOBAL sync_binlog = 0;' -uroot -proot
 
       - name: Execute tests with coverage
-        run: vendor/bin/phpunit --coverage-clover=coverage.xml --log-junit=junit.xml
+        if: matrix.php == '8.5'
+        run: php artisan test --parallel --coverage-clover=coverage.xml --log-junit=junit.xml
+
+      - name: Execute tests
+        if: matrix.php != '8.5'
+        run: php artisan test --parallel
 
       - name: Upload coverage to Codecov (v4)
         if: matrix.php == '8.5'
