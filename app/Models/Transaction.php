@@ -29,7 +29,7 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'amount', description: 'Transaction amount', type: 'number', format: 'float', example: 999.75),
         new OAT\Property(property: 'currency', description: 'Currency of the amount; defaults to the account currency, or the company currency without account', type: 'string', example: 'EUR'),
         new OAT\Property(property: 'exchange_rate', description: 'Units of the company currency per unit of the transaction currency', type: 'string', example: '1.000000'),
-        new OAT\Property(property: 'payment_method', description: 'Payment method', type: 'string', enum: ['cash', 'card', 'transfer', 'mercadopago', 'bizum', 'other'], example: 'transfer'),
+        new OAT\Property(property: 'payment_method', description: 'Payment method', type: 'string', enum: ['cash', 'card', 'transfer', 'stripe', 'paypal', 'mercadopago', 'bizum', 'other'], example: 'transfer'),
         new OAT\Property(property: 'invoice_id', description: 'Invoice paid by this transaction', type: 'integer', example: 1, readOnly: true),
         new OAT\Property(property: 'invoice_amount', description: 'Amount settled in the invoice currency', type: 'number', format: 'float', example: 50.0, readOnly: true),
         new OAT\Property(property: 'status', description: 'Transaction status', type: 'string', enum: ['pending', 'paid', 'overdue'], example: 'pending'),
@@ -61,6 +61,10 @@ class Transaction extends Model
 
     const string METHOD_TRANSFER = 'transfer';
 
+    const string METHOD_STRIPE = 'stripe';
+
+    const string METHOD_PAYPAL = 'paypal';
+
     const string METHOD_MERCADOPAGO = 'mercadopago';
 
     const string METHOD_BIZUM = 'bizum';
@@ -74,6 +78,8 @@ class Transaction extends Model
         self::METHOD_CASH => 'In cash',
         self::METHOD_CARD => 'Card',
         self::METHOD_TRANSFER => 'Transfer',
+        self::METHOD_STRIPE => 'Stripe',
+        self::METHOD_PAYPAL => 'PayPal',
         self::METHOD_MERCADOPAGO => 'MercadoPago',
         self::METHOD_BIZUM => 'Bizum',
         self::METHOD_OTHER => 'Other',
