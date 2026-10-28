@@ -132,7 +132,7 @@
                     <tr>
                         <th colspan="4">&nbsp;</th>
                         <th class="text-right">{{ __('Taxes') }}</th>
-                        <th>{{ $order->getTax() }}</th>
+                        <th>{{ number_format($order->getTax(), 2, '.', '') }}</th>
                         <th></th>
                     </tr>
                     <tr>

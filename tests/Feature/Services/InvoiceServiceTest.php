@@ -85,6 +85,21 @@ class InvoiceServiceTest extends TestCase
     }
 
     #[Test]
+    public function the_order_amount_rounds_each_line_like_the_invoice(): void
+    {
+        $order = $this->createOrder(lines: [
+            ['quantity' => 1, 'unit_price' => 0.05, 'discount' => 10, 'tax' => 0],
+            ['quantity' => 1, 'unit_price' => 0.05, 'discount' => 10, 'tax' => 0],
+        ]);
+        $order->refreshAmount();
+
+        $invoice = $this->invoiceService->issue($order);
+
+        $this->assertSame('0.10', $invoice->total);
+        $this->assertSame(0.10, $order->fresh()->getAmount());
+    }
+
+    #[Test]
     public function a_line_without_tax_has_no_tax_amount(): void
     {
         $this->assertSame(['subtotal' => '15.00', 'tax_amount' => '0.00', 'total' => '15.00'], InvoiceService::lineTotals('3', '5', '0', '0'));

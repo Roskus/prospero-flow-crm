@@ -197,24 +197,39 @@ class InvoiceService
 
     /**
      * Paid amount and status of the invoice from its paid payments: issued, partially paid or paid.
-     * A cancelled invoice keeps its status.
+     * A cancelled invoice keeps its status. The invoice row is locked so concurrent payment changes
+     * refresh it one after the other and the last one sees every committed payment.
      */
     public function refreshPaymentStatus(Invoice $invoice): void
     {
-        $paid = (string) $invoice->payments()->where('status', Transaction::PAID)->sum('invoice_amount');
-        $paid = ExchangeRateService::round($paid);
+        DB::transaction(function () use ($invoice): void {
+            $locked = Invoice::query()->whereKey($invoice->getKey())->lockForUpdate()->firstOrFail();
+            $paid = ExchangeRateService::round((string) $locked->payments()->where('status', Transaction::PAID)->sum('invoice_amount'));
 
-        $invoice->paid_amount = $paid;
+            $locked->paid_amount = $paid;
 
-        if (! $invoice->isCancelled()) {
-            $invoice->status = match (true) {
-                bccomp($paid, '0', 2) <= 0 => Invoice::ISSUED,
-                bccomp($paid, (string) $invoice->total, 2) >= 0 => Invoice::PAID,
-                default => Invoice::PARTIALLY_PAID,
-            };
-        }
+            if (! $locked->isCancelled()) {
+                $locked->status = match (true) {
+                    bccomp($paid, '0', 2) <= 0 => Invoice::ISSUED,
+                    bccomp($paid, (string) $locked->total, 2) >= 0 => Invoice::PAID,
+                    default => Invoice::PARTIALLY_PAID,
+                };
+            }
 
-        $invoice->save();
+            $locked->save();
+            $invoice->setRawAttributes($locked->getAttributes(), true);
+        });
+    }
+
+    /**
+     * Deletes a payment with its invoice locked, so the paid amount and status are refreshed in the same transaction.
+     */
+    public function deletePayment(Transaction $payment): void
+    {
+        DB::transaction(function () use ($payment): void {
+            Invoice::query()->whereKey($payment->invoice_id)->lockForUpdate()->firstOrFail();
+            $payment->delete();
+        });
     }
 
     /**

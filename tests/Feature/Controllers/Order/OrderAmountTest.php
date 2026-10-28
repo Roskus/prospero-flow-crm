@@ -105,16 +105,17 @@ class OrderAmountTest extends TestCase
     }
 
     #[Test]
-    public function the_edit_form_prints_line_subtotals_without_thousands_separator(): void
+    public function the_edit_form_prints_line_subtotals_and_taxes_with_two_decimals(): void
     {
         $this->post('/order/save', [
             'customer_id' => $this->customer()->id,
-            'items' => [['product_id' => $this->product()->id, 'quantity' => 2, 'price' => 1000]],
+            'items' => [['product_id' => $this->product()->id, 'quantity' => 2, 'price' => 1000, 'tax' => 21]],
         ]);
 
         $this->get('/order/update/'.$this->latestOrder()->order_number)
             ->assertOk()
-            ->assertSee('<td class="item-subtotal">2000.00</td>', false);
+            ->assertSee('<td class="item-subtotal">2000.00</td>', false)
+            ->assertSee('<th>347.11</th>', false);
     }
 
     private function customer(): Customer
