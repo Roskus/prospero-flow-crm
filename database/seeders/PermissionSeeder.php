@@ -338,6 +338,12 @@ class PermissionSeeder extends Seeder
                 'module_id' => 9,
             ],
             [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'HR'],
+                'name' => 'read hours report',
+                'guard_name' => 'web',
+                'module_id' => 9,
+            ],
+            [
                 'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Support', 'Accountant'],
                 'name' => 'read sales report',
                 'guard_name' => 'web',

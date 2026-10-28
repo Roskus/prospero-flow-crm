@@ -14,7 +14,11 @@ use App\Http\Controllers\Permission\PermissionSaveController;
 use App\Http\Controllers\Profile\ProfileSaveController;
 use App\Http\Controllers\Profile\ProfileUpdateController;
 use App\Http\Controllers\Region\RegionGetAjaxController;
+use App\Http\Controllers\Report\ReportAnnualSaleController;
+use App\Http\Controllers\Report\ReportAnnualSalePdfController;
 use App\Http\Controllers\Report\ReportEmailController;
+use App\Http\Controllers\Report\ReportHoursController;
+use App\Http\Controllers\Report\ReportHoursCsvController;
 use App\Http\Controllers\Report\ReportIndexController;
 use App\Http\Controllers\Report\ReportSaleController;
 use App\Http\Controllers\Report\ReportSalePdfController;
@@ -135,10 +139,14 @@ require __DIR__.'/module/ticket.php';
 Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
 
 // Report
-Route::get('/report', [ReportIndexController::class, 'index'])->can('read report');
+Route::get('/report', [ReportIndexController::class, 'index'])->middleware('permission:read report|read hours report|manage own timesheet');
 Route::get('/report/sale', [ReportSaleController::class, 'index'])->can('read sales report');
 Route::get('/report/sale/pdf', [ReportSalePdfController::class, 'download'])->can('read sales report');
+Route::get('/report/sale/annual', [ReportAnnualSaleController::class, 'index'])->can('read sales report');
+Route::get('/report/sale/annual/pdf', [ReportAnnualSalePdfController::class, 'download'])->can('read sales report');
 Route::get('/report/email', [ReportEmailController::class, 'index'])->can('read report');
+Route::get('/report/hours', [ReportHoursController::class, 'index'])->middleware('permission:read hours report|manage own timesheet');
+Route::get('/report/hours/csv', [ReportHoursCsvController::class, 'download'])->middleware('permission:read hours report|manage own timesheet');
 
 // Web-form
 Route::get('/web-form', [WebFormIndexController::class, 'index']);
