@@ -21,7 +21,7 @@ class OrderPendingController extends MainController
             ->firstOrFail();
 
         if ((int) $order->status !== Order::CONFIRMED) {
-            return redirect('order')->with('error', __('Only confirmed orders can go back to pending'));
+            return redirect('order')->with(['status' => 'error', 'message' => __('Only confirmed orders can go back to pending')]);
         }
 
         $order->status = Order::PENDING;

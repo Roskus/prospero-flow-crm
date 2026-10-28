@@ -28,6 +28,12 @@ return [
         'permissions' => ['read order'],
     ],
     [
+        'url' => url('/invoice'),
+        'title' => __('Invoices'),
+        'icon_class' => 'las la-file-invoice-dollar',
+        'permissions' => ['read invoice'],
+    ],
+    [
         'url' => url('/product'),
         'title' => __('Products'),
         'icon_class' => 'las la-box',

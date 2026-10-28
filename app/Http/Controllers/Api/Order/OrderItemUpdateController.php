@@ -47,6 +47,10 @@ class OrderItemUpdateController
             return response()->json(['message' => 'Item not found'], 404);
         }
 
+        if ($invoicedMessage = $item->order->invoicedMessage()) {
+            return response()->json(['message' => $invoicedMessage], 409);
+        }
+
         $item->update($request->validated());
         $item->order->refreshAmount();
 

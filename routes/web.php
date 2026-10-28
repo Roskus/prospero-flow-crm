@@ -62,6 +62,9 @@ Route::middleware('auth')->group(function () {
 // Order
 require __DIR__.'/module/order.php';
 
+// Invoice
+require __DIR__.'/module/invoice.php';
+
 // Product
 require __DIR__.'/module/product.php';
 

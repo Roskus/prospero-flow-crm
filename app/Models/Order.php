@@ -148,10 +148,48 @@ final class Order extends Model
 
     /**
      * Order numbers are only unique per company, so items are linked by order id.
+     *
+     * @return HasMany<Item, $this>
      */
     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
+    }
+
+    /**
+     * The invoice of the order that is not cancelled; an order has at most one.
+     *
+     * @return HasOne<Invoice, $this>
+     */
+    public function activeInvoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class)->where('status', '!=', Invoice::CANCELLED);
+    }
+
+    public function isInvoiced(): bool
+    {
+        return $this->activeInvoice()->exists();
+    }
+
+    /**
+     * Error shown when an invoiced order is changed, naming its invoice; null when the order is not invoiced.
+     */
+    public function invoicedMessage(): ?string
+    {
+        $invoice = $this->activeInvoice()->first();
+
+        return $invoice !== null
+            ? __('The order is invoiced in :number. Cancel the invoice to change it.', ['number' => $invoice->fullNumber()])
+            : null;
+    }
+
+    /**
+     * Confirmed orders, and completed ones from before invoicing existed, can be invoiced while they have no active invoice.
+     */
+    public function canBeInvoiced(): bool
+    {
+        return in_array((int) $this->status, [self::CONFIRMED, self::COMPLETED], true)
+            && ($this->relationLoaded('activeInvoice') ? $this->activeInvoice === null : ! $this->isInvoiced());
     }
 
     // Accessors and Mutators
@@ -362,7 +400,7 @@ final class Order extends Model
     {
         return Order::where('company_id', $company_id)
             ->when($branchId !== null, fn (Builder $query) => $query->where('branch_id', $branchId))
-            ->with('branch')
+            ->with(['branch', 'activeInvoice'])
             ->paginate(10)
             ->withQueryString();
     }

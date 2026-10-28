@@ -102,16 +102,36 @@
                     </form>
                     @endif
 
+                    @can('create invoice')
+                    @if($order->canBeInvoiced())
+                    <a href="{{ route('invoice.create', $order->order_number) }}" title="{{ __('Create invoice') }}"
+                       class="btn btn-xs btn-info text-white">
+                        <i class="las la-file-invoice-dollar"></i>
+                    </a>
+                    @endif
+                    @endcan
+
                     <a href="{{ url('/order/download/'.$order->order_number) }}" title="{{ __('Download') }}"
                        class="btn btn-xs btn-secondary">
                         <i class="las la-file-pdf"></i>
                     </a>
 
+                    @if($order->activeInvoice)
+                    @can('read invoice')
+                    <a href="{{ route('invoice.show', $order->activeInvoice->id) }}" title="{{ __('Invoice') }}"
+                       class="btn btn-xs btn-outline-info">
+                        {{ $order->activeInvoice->fullNumber() }}
+                    </a>
+                    @endcan
+                    @endif
+
                     @can('delete order')
+                    @unless($order->activeInvoice)
                     <a href="#" onclick="Order.delete({{ $order->order_number }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->order_number]) }}')" title="{{ __('Delete') }}"
                        class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
+                    @endunless
                     @endcan
                     @else
                     <span class="text-muted">—</span>

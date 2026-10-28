@@ -45,6 +45,10 @@ class OrderUpdateController
             return response()->json(['message' => 'Order not found'], 404);
         }
 
+        if ($invoicedMessage = $order->invoicedMessage()) {
+            return response()->json(['message' => $invoicedMessage], 409);
+        }
+
         $data = $request->validated();
         $data['updated_by'] = Auth::user()->id;
 

@@ -39,6 +39,10 @@ class OrderItemCreateController
             return response()->json(['message' => 'Order not found'], 404);
         }
 
+        if ($invoicedMessage = $order->invoicedMessage()) {
+            return response()->json(['message' => $invoicedMessage], 409);
+        }
+
         $item = Item::create(['order_id' => $order->id, 'order_number' => $order->order_number] + $request->validated());
         $order->refreshAmount();
 

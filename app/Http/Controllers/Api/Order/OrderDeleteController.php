@@ -36,6 +36,10 @@ class OrderDeleteController
             return response()->json(['message' => 'Order not found'], 404);
         }
 
+        if ($invoicedMessage = $order->invoicedMessage()) {
+            return response()->json(['message' => $invoicedMessage], 409);
+        }
+
         $order->delete();
 
         return response()->json(['message' => 'Order deleted successfully']);

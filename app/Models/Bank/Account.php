@@ -8,6 +8,7 @@ use App\Models\Bank;
 use App\Models\BankCard;
 use App\Models\Branch;
 use App\Models\Transaction;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -92,6 +93,22 @@ class Account extends Model
         return [
             'show_on_invoice' => 'boolean',
         ];
+    }
+
+    /**
+     * Accounts of the company listed in the bank transfer details of its invoices.
+     *
+     * @return Collection<int, self>
+     */
+    public static function shownOnInvoicesOf(int $companyId): Collection
+    {
+        return self::query()
+            ->where('company_id', $companyId)
+            ->where('show_on_invoice', true)
+            ->where('type', '!=', self::TYPE_CASH)
+            ->with('bank')
+            ->orderBy('account_name')
+            ->get();
     }
 
     public function isCash(): bool

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
+use App\Exceptions\InvoicedOrderException;
 use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Order;
@@ -33,6 +34,36 @@ class OrderObserver
 
         if (! $order->exists || $order->isDirty('currency')) {
             $order->exchange_rate = $this->exchangeRateService->rate($company, $order->currency);
+        }
+    }
+
+    /**
+     * Safety net for code paths without their own check: an invoiced order only takes amount refreshes
+     * and being completed by its invoice.
+     *
+     * @throws InvoicedOrderException
+     */
+    public function updating(Order $order): void
+    {
+        $changed = array_keys($order->getDirty());
+        $allowed = ['amount', 'updated_at', 'updated_by'];
+
+        if ($order->isDirty('status') && (int) $order->status === Order::COMPLETED) {
+            $allowed[] = 'status';
+        }
+
+        if (array_diff($changed, $allowed) !== [] && $order->isInvoiced()) {
+            throw InvoicedOrderException::for($order);
+        }
+    }
+
+    /**
+     * @throws InvoicedOrderException
+     */
+    public function deleting(Order $order): void
+    {
+        if ($order->isInvoiced()) {
+            throw InvoicedOrderException::for($order);
         }
     }
 

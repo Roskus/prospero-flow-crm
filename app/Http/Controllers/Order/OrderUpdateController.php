@@ -18,6 +18,10 @@ class OrderUpdateController extends MainController
         $order = Order::where('company_id', Auth::user()->company_id)
             ->where('order_number', $order_number)
             ->firstOrFail();
+
+        if ($invoicedMessage = $order->invoicedMessage()) {
+            return redirect('order')->with(['status' => 'error', 'message' => $invoicedMessage]);
+        }
         $product = new Product;
         $data['order'] = $order;
         $company_id = Auth::user()->company_id;

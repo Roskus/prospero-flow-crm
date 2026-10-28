@@ -15,6 +15,10 @@ class OrderConfirmController extends MainController
         $order = Order::where('company_id', $request->user()->company_id)
             ->where('order_number', $order_number)
             ->firstOrFail();
+
+        if ($invoicedMessage = $order->invoicedMessage()) {
+            return redirect('order')->with(['status' => 'error', 'message' => $invoicedMessage]);
+        }
         $order->status = Order::CONFIRMED;
         $order->save();
 

@@ -7,7 +7,7 @@ Lets a company bill its confirmed orders with invoices numbered per branch, keep
 ## ADDED Requirements
 
 ### Requirement: Invoice from an order
-Users with permission to create invoices SHALL be able to create an invoice from an order whose status is CONFIRMED or COMPLETED and that has no active (not cancelled) invoice. The order list and the order page SHALL show a "Create invoice" action only for such orders. The invoice SHALL belong to the company and branch of the order, SHALL have the order currency and SHALL copy every order line (product, description, quantity, unit price, discount and tax) as it is at that moment. The invoice SHALL have an issue date (default today) and a due date (default the issue date, never earlier than the issue date). An order SHALL have at most one active invoice.
+Users with permission to create invoices SHALL be able to create an invoice from an order whose status is CONFIRMED or COMPLETED and that has no active (not cancelled) invoice. The order list and the order page SHALL show a "Create invoice" action only for such orders. The invoice SHALL belong to the company and branch of the order, SHALL have the order currency and SHALL copy every order line (product, description, quantity, unit price, discount and tax) as it is at that moment. The invoice SHALL have an issue date (default today) and a due date (default 30 days after the issue date, never earlier than the issue date). An order SHALL have at most one active invoice.
 
 #### Scenario: Invoicing a confirmed order
 - **WHEN** a user creates an invoice from a confirmed order with two lines
@@ -116,7 +116,7 @@ Users with permission to read invoices SHALL be able to list the invoices of the
 - **THEN** the request is rejected with a forbidden error
 
 ### Requirement: Invoice PDF
-The invoice PDF SHALL show the invoice number, issue and due dates, issuer (company and branch) data, customer data, lines, subtotal, tax, total with the invoice currency, the company-currency equivalent when it applies, and a "Bank transfer details" block listing the company bank accounts marked to be shown on invoices (holder, bank, IBAN or account number, SWIFT, CBU and alias when present). The block SHALL be omitted when no account is marked. The PDF SHALL state that it is not a fiscal invoice.
+The invoice PDF SHALL show the invoice number, issue and due dates, issuer (company and branch) data, customer data, lines, subtotal, tax, total with the invoice currency, the company-currency equivalent when it applies, and a "Bank transfer details" block listing the company bank accounts marked to be shown on invoices (holder, bank, IBAN or account number, SWIFT, CBU and alias when present). The block SHALL be omitted when no account is marked.
 
 #### Scenario: PDF with bank accounts
 - **WHEN** a company has one bank account marked to be shown on invoices and downloads an invoice PDF

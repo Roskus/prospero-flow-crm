@@ -35,7 +35,7 @@ class OrderStatusControllerTest extends TestCase
         $response = $this->post(route('order.pending', $order->order_number));
 
         $response->assertRedirect('order');
-        $response->assertSessionHas('error', __('Only confirmed orders can go back to pending'));
+        $response->assertSessionHas('message', __('Only confirmed orders can go back to pending'));
         $this->assertSame(Order::COMPLETED, (int) $order->fresh()->status);
     }
 
@@ -101,9 +101,9 @@ class OrderStatusControllerTest extends TestCase
         $canceled = $this->createOrder(Order::CANCELED);
 
         $this->post(route('order.cancel', $completed->order_number))
-            ->assertSessionHas('error', __('Only pending or confirmed orders can be canceled'));
+            ->assertSessionHas('message', __('Only pending or confirmed orders can be canceled'));
         $this->post(route('order.cancel', $canceled->order_number))
-            ->assertSessionHas('error', __('Only pending or confirmed orders can be canceled'));
+            ->assertSessionHas('message', __('Only pending or confirmed orders can be canceled'));
 
         $this->assertSame(Order::COMPLETED, (int) $completed->fresh()->status);
         $this->assertSame(Order::CANCELED, (int) $canceled->fresh()->status);

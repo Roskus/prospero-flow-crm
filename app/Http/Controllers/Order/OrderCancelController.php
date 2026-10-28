@@ -21,7 +21,7 @@ class OrderCancelController extends MainController
             ->firstOrFail();
 
         if (! in_array((int) $order->status, [Order::PENDING, Order::CONFIRMED], true)) {
-            return redirect('order')->with('error', __('Only pending or confirmed orders can be canceled'));
+            return redirect('order')->with(['status' => 'error', 'message' => __('Only pending or confirmed orders can be canceled')]);
         }
 
         $order->status = Order::CANCELED;

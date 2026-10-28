@@ -203,6 +203,27 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'module_id' => 4,
             ],
+            // Invoice
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Accountant'],
+                'name' => 'create invoice',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Accountant'],
+                'name' => 'read invoice',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Accountant'],
+                'name' => 'delete invoice',
+                'guard_name' => 'web',
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin', 'Seller', 'Accountant'],
+                'name' => 'create payment',
+                'guard_name' => 'web',
+            ],
             // Company
             [
                 'roles' => ['SuperAdmin', 'MultiCompanyAdmin'], // MultiCompanyAdmin creates client companies within the quota
