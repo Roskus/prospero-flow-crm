@@ -5,7 +5,7 @@
 
 <div class="card">
     <div class="card-body">
-    <form method="post" action="{{ route('invoice.save') }}">
+    <form method="post" action="{{ route('invoice.save') }}" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="order_id" value="{{ $order->id }}">
 
@@ -86,6 +86,20 @@
             </tbody>
         </table>
     </div>
+
+    @can('create payment')
+    <section class="border rounded p-3 mb-3" id="payment-section">
+        <div class="form-check mb-2">
+            <input type="hidden" name="register_payment" value="0">
+            <input type="checkbox" name="register_payment" id="register_payment" value="1" class="form-check-input" @checked(old('register_payment'))
+                   onchange="document.getElementById('payment-fields').classList.toggle('d-none', ! this.checked)">
+            <label for="register_payment" class="form-check-label fw-semibold">{{ __('Register a payment now') }}</label>
+        </div>
+        <div id="payment-fields" @class(['d-none' => ! old('register_payment')])>
+            @include('invoice.partial._payment_fields', ['prefix' => 'payment', 'currency' => $order->currency, 'amount' => $invoiceTotal, 'accounts' => $accounts, 'currencies' => $currencies])
+        </div>
+    </section>
+    @endcan
 
     <div>
         <a href="{{ url('/order') }}" class="btn btn-lg btn-outline-secondary">{{ __('Cancel') }}</a>

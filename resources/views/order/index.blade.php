@@ -116,6 +116,15 @@
                         <i class="las la-file-pdf"></i>
                     </a>
 
+                    @if($order->activeInvoice && ! $order->activeInvoice->isPaid())
+                    @can('create payment')
+                    <a href="{{ route('invoice.show', $order->activeInvoice->id) }}#payment-form" title="{{ __('Pay') }}"
+                       class="btn btn-xs btn-success text-white">
+                        <i class="las la-money-bill-wave"></i>
+                    </a>
+                    @endcan
+                    @endif
+
                     @if($order->activeInvoice)
                     @can('read invoice')
                     <a href="{{ route('invoice.show', $order->activeInvoice->id) }}" title="{{ __('Invoice') }}"

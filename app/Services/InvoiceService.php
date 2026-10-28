@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Helpers\CurrencyHelper;
+use App\Models\Bank\Account;
 use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Transaction;
 use App\ValueObjects\Address;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +25,10 @@ class InvoiceService
 {
     public const int DEFAULT_DUE_DAYS = 30;
 
-    public function __construct(private ExchangeRateService $exchangeRateService) {}
+    public function __construct(
+        private ExchangeRateService $exchangeRateService,
+        private CashAccountService $cashAccountService,
+    ) {}
 
     /**
      * Issues the invoice of a confirmed order: copies its lines, numbers it in the order branch,
@@ -41,7 +49,9 @@ class InvoiceService
             $number = (int) Branch::withTrashed()->whereKey($branch->id)->value('last_invoice_number');
 
             $company = Company::withTrashed()->findOrFail($order->getCompanyId());
-            $customer = Customer::query()->where('company_id', $order->getCompanyId())->findOrFail($order->getCustomerId());
+            $customer = Customer::withTrashed()
+                ->where('company_id', $order->getCompanyId())
+                ->findOrFail($order->getCustomerId());
             $issueDate = $data['issue_date'] ?? today()->toDateString();
 
             $invoice = Invoice::create([
@@ -116,6 +126,132 @@ class InvoiceService
 
             return $invoice;
         });
+    }
+
+    /**
+     * Registers a payment of the invoice as a paid income transaction and refreshes its payment status.
+     *
+     * @param  array{amount: string|float|int, payment_method: string, bank_account_id?: int|string|null, currency?: string|null, exchange_rate?: string|float|int|null, payment_date?: string|null, reference?: string|null, attachment?: UploadedFile|null}  $data
+     *
+     * @throws ValidationException when the payment breaks a payment rule
+     * @throws ModelNotFoundException when the account does not belong to the invoice company
+     */
+    public function registerPayment(Invoice $invoice, array $data): Transaction
+    {
+        return DB::transaction(function () use ($invoice, $data): Transaction {
+            $invoice = Invoice::query()->whereKey($invoice->getKey())->lockForUpdate()->firstOrFail();
+
+            if ($invoice->isCancelled()) {
+                throw ValidationException::withMessages(['invoice' => __('A cancelled invoice cannot receive payments')]);
+            }
+
+            $method = (string) $data['payment_method'];
+            if (! array_key_exists($method, Transaction::PAYMENT_METHODS)) {
+                throw ValidationException::withMessages(['payment_method' => __('The payment method is not valid')]);
+            }
+
+            $account = $this->paymentAccount($invoice, $method, $data['bank_account_id'] ?? null);
+            $company = Company::withTrashed()->findOrFail($invoice->company_id);
+            $currency = strtoupper((string) ($data['currency'] ?? '') ?: $invoice->currency);
+            $exchangeRate = $this->exchangeRate($company, $currency, $data['exchange_rate'] ?? null);
+            $amount = ExchangeRateService::round((string) $data['amount']);
+            $settled = self::settledAmount($invoice, $amount, $currency, $exchangeRate);
+
+            if (bccomp($settled, '0', 2) <= 0) {
+                throw ValidationException::withMessages(['amount' => __('The payment amount must be greater than zero')]);
+            }
+
+            $balance = $invoice->balance();
+            if (bccomp($settled, $balance, 2) > 0) {
+                throw ValidationException::withMessages(['amount' => __('The payment exceeds the balance of the invoice, which is :balance', ['balance' => CurrencyHelper::formatIn($balance, $invoice->currency)])]);
+            }
+
+            $paymentDate = $data['payment_date'] ?? today()->toDateString();
+            $transaction = new Transaction([
+                'company_id' => $invoice->company_id,
+                'issue_date' => $paymentDate,
+                'payment_date' => $paymentDate,
+                'name' => mb_substr(__('Payment of invoice :number', ['number' => $invoice->fullNumber()]), 0, 80),
+                'type' => Transaction::INCOME,
+                'status' => Transaction::PAID,
+                'bank_account_id' => $account?->id,
+                'customer_id' => $invoice->customer_id,
+                'amount' => $amount,
+                'currency' => $currency,
+                'exchange_rate' => $exchangeRate,
+                'payment_method' => $method,
+                'reference' => $data['reference'] ?? null,
+            ]);
+            $transaction->invoice_id = $invoice->id;
+
+            if (($data['attachment'] ?? null) instanceof UploadedFile) {
+                $transaction->attachment = $data['attachment']->store('accounting/'.$invoice->company_id, 'public');
+            }
+
+            $transaction->save();
+
+            return $transaction;
+        });
+    }
+
+    /**
+     * Paid amount and status of the invoice from its paid payments: issued, partially paid or paid.
+     * A cancelled invoice keeps its status.
+     */
+    public function refreshPaymentStatus(Invoice $invoice): void
+    {
+        $paid = (string) $invoice->payments()->where('status', Transaction::PAID)->sum('invoice_amount');
+        $paid = ExchangeRateService::round($paid);
+
+        $invoice->paid_amount = $paid;
+
+        if (! $invoice->isCancelled()) {
+            $invoice->status = match (true) {
+                bccomp($paid, '0', 2) <= 0 => Invoice::ISSUED,
+                bccomp($paid, (string) $invoice->total, 2) >= 0 => Invoice::PAID,
+                default => Invoice::PARTIALLY_PAID,
+            };
+        }
+
+        $invoice->save();
+    }
+
+    /**
+     * Transfers and Bizum go to a chosen account; cash goes to the branch cash account when none is chosen.
+     *
+     * @throws ValidationException
+     * @throws ModelNotFoundException
+     */
+    private function paymentAccount(Invoice $invoice, string $method, int|string|null $accountId): ?Account
+    {
+        if (! empty($accountId)) {
+            return Account::query()->where('company_id', $invoice->company_id)->findOrFail((int) $accountId);
+        }
+
+        if (in_array($method, Transaction::METHODS_REQUIRING_ACCOUNT, true)) {
+            throw ValidationException::withMessages(['bank_account_id' => __('Choose the account that receives the payment')]);
+        }
+
+        if ($method === Transaction::METHOD_CASH) {
+            return $this->cashAccountService->createForBranch(Branch::withTrashed()->findOrFail($invoice->branch_id));
+        }
+
+        return null;
+    }
+
+    /**
+     * Amount of a payment in the invoice currency: converted through the company currency with the payment
+     * rate and the invoice rate, rounded to 2 decimals.
+     */
+    public static function settledAmount(Invoice $invoice, string $amount, string $currency, string $exchangeRate): string
+    {
+        if (strtoupper($currency) === strtoupper($invoice->currency)) {
+            return ExchangeRateService::round($amount);
+        }
+
+        $inCompanyCurrency = bcmul($amount, $exchangeRate, 10);
+
+        return ExchangeRateService::round(bcdiv($inCompanyCurrency, (string) $invoice->exchange_rate, 10));
     }
 
     /**

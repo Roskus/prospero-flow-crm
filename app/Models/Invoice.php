@@ -126,9 +126,12 @@ class Invoice extends Model
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * The printed customer data is the snapshot; the relation is for filters and links.
+     */
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class)->withTrashed();
     }
 
     public function createdBy(): BelongsTo
@@ -174,9 +177,24 @@ class Invoice extends Model
         return $this->status === self::CANCELLED;
     }
 
+    /**
+     * Payments are the income transactions that reference the invoice.
+     *
+     * @return HasMany<Transaction, $this>
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function hasPayments(): bool
     {
-        return bccomp((string) $this->paid_amount, '0', 2) > 0;
+        return $this->payments()->exists();
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->status === self::PAID;
     }
 
     /**

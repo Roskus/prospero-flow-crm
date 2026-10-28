@@ -61,10 +61,6 @@ class CustomerIndexController extends MainController
             $filters['industry_id'] = $request->industry_id;
         }
 
-        if (Auth::user()->hasRole('Seller')) {
-            $filters['seller_id'] = Auth::user()->id;
-        }
-
         if ($request->filled('phone')) {
             $filters['phone'] = $request->phone;
         }

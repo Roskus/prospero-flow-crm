@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Lead\Message;
+use App\Models\Scopes\AssignedSellerScope;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(
@@ -110,5 +111,13 @@ class Lead extends Prospect
         }
 
         return $score;
+    }
+
+    /**
+     * Sellers only see the leads assigned to them; customers are visible to every seller of the company.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new AssignedSellerScope);
     }
 }

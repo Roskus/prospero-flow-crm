@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Invoice\InvoiceCancelController;
 use App\Http\Controllers\Invoice\InvoiceCreateController;
 use App\Http\Controllers\Invoice\InvoiceIndexController;
+use App\Http\Controllers\Invoice\InvoicePaymentController;
 use App\Http\Controllers\Invoice\InvoicePdfController;
 use App\Http\Controllers\Invoice\InvoiceSaveController;
 use App\Http\Controllers\Invoice\InvoiceShowController;
@@ -28,3 +29,6 @@ Route::post('/invoice/cancel/{id}', [InvoiceCancelController::class, 'cancel'])
 Route::get('/invoice/download/{id}', [InvoicePdfController::class, 'download'])
     ->name('invoice.download')
     ->can('read invoice');
+Route::post('/invoice/payment/{id}', [InvoicePaymentController::class, 'store'])
+    ->name('invoice.payment')
+    ->can('create payment');

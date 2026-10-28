@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Order\Item;
 use App\Models\Product;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Services\InvoiceService;
 use Database\Seeders\PermissionSeeder;
@@ -263,6 +264,9 @@ class InvoiceControllerTest extends TestCase
     public function an_invoice_with_payments_cannot_be_cancelled(): void
     {
         $invoice = $this->createInvoice(['status' => Invoice::PARTIALLY_PAID, 'paid_amount' => 50]);
+        $payment = Transaction::factory()->create(['company_id' => $this->user->company_id, 'type' => Transaction::INCOME, 'status' => Transaction::PAID, 'amount' => 50, 'currency' => 'EUR']);
+        $payment->invoice_id = $invoice->id;
+        $payment->saveQuietly();
 
         $this->post(route('invoice.cancel', $invoice->id))
             ->assertSessionHas('message', __('Delete the payments of the invoice before cancelling it'));
@@ -377,7 +381,7 @@ class InvoiceControllerTest extends TestCase
 
                 return $matches[2];
             })
-            ->push('Invoices', 'Issued', 'Partially paid', 'Paid', 'Cancelled', 'Overdue', 'Pending payment', 'Paid in full')
+            ->push('Invoices', 'Issued', 'Partially paid', 'Paid', 'Cancelled', 'Overdue', 'Pending payment', 'Paid in full', ...array_values(Transaction::PAYMENT_METHODS))
             ->unique();
 
         foreach (['en', 'es'] as $locale) {

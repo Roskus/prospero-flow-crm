@@ -113,6 +113,44 @@
 
                 <div class="row mt-3">
                     <div class="col-12 col-md-3">
+                        <label for="payment_method">{{ __('Payment method') }}</label>
+                        <select name="payment_method" id="payment_method" class="form-select form-select-lg @error('payment_method') is-invalid @enderror">
+                            <option value=""></option>
+                            @foreach(\App\Models\Transaction::PAYMENT_METHODS as $method => $label)
+                                <option value="{{ $method }}" @selected(old('payment_method', $transaction->payment_method) === $method)>{{ __($label) }}</option>
+                            @endforeach
+                        </select>
+                        @error('payment_method') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @include('components.currency', ['currency' => old('currency', $transaction->currency), 'class' => 'form-select-lg'])
+                        <small class="form-text text-muted">{{ __('Defaults to the currency of the account.') }}</small>
+                        @error('currency') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="exchange_rate">{{ __('Exchange rate') }}</label>
+                        <input type="number" name="exchange_rate" id="exchange_rate" step="0.000001" min="0.000001"
+                               value="{{ old('exchange_rate', $transaction->exists ? $transaction->exchange_rate : '') }}"
+                               class="form-control form-control-lg @error('exchange_rate') is-invalid @enderror">
+                        <small class="form-text text-muted">{{ __('Units of the company currency per unit of the currency; empty uses the current rate.') }}</small>
+                        @error('exchange_rate') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    @if($transaction->invoice_id)
+                    <div class="col-12 col-md-3">
+                        <label>{{ __('Invoice') }}</label>
+                        <div class="form-control-plaintext">
+                            @can('read invoice')
+                                <a href="{{ route('invoice.show', $transaction->invoice_id) }}">{{ $transaction->invoice?->fullNumber() }}</a>
+                            @else
+                                {{ $transaction->invoice?->fullNumber() }}
+                            @endcan
+                        </div>
+                    </div>
+                    @endif
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-md-3">
                         <label for="due_date">{{ __('Due date') }}</label>
                         <input type="date" name="due_date" id="due_date"
                                value="{{ old('due_date', $transaction->due_date?->format('Y-m-d')) }}"

@@ -6,6 +6,8 @@ namespace App\Http\Requests;
 
 use App\Helpers\CurrencyHelper;
 use App\Http\Requests\Concerns\SanitizesInput;
+use App\Http\Requests\Concerns\ValidatesCurrency;
+use App\Models\Transaction;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -13,6 +15,7 @@ use Illuminate\Validation\Rule;
 class TransactionSaveRequest extends FormRequest
 {
     use SanitizesInput;
+    use ValidatesCurrency;
 
     public function authorize(): bool
     {
@@ -69,6 +72,9 @@ class TransactionSaveRequest extends FormRequest
                     ->where('company_id', $this->user()?->company_id)
                     ->whereNull('bank_card.deleted_at'),
             ],
+            'payment_method' => ['nullable', 'string', Rule::in(array_keys(Transaction::PAYMENT_METHODS))],
+            'currency' => $this->currencyRules(),
+            'exchange_rate' => ['nullable', 'numeric', 'gt:0', 'max:9999999999'],
             'reference' => ['nullable', 'string', 'max:80'],
             'customer_id' => [
                 'nullable',

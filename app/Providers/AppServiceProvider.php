@@ -7,9 +7,11 @@ namespace App\Providers;
 use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Order;
+use App\Models\Transaction;
 use App\Observers\BranchObserver;
 use App\Observers\CompanyObserver;
 use App\Observers\OrderObserver;
+use App\Observers\TransactionObserver;
 use App\Services\SecurityLogger;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
         Branch::observe(BranchObserver::class);
         Company::observe(CompanyObserver::class);
         Order::observe(OrderObserver::class);
+        Transaction::observe(TransactionObserver::class);
 
         $this->configureRateLimiting();
         $this->configureSchemaMacros();

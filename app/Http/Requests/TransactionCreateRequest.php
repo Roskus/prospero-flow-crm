@@ -6,12 +6,16 @@ namespace App\Http\Requests;
 
 use App\Helpers\CurrencyHelper;
 use App\Http\Requests\Concerns\SanitizesInput;
+use App\Http\Requests\Concerns\ValidatesCurrency;
+use App\Models\Transaction;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class TransactionCreateRequest extends FormRequest
 {
     use SanitizesInput;
+    use ValidatesCurrency;
 
     public function authorize(): bool
     {
@@ -26,10 +30,13 @@ class TransactionCreateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'in:income,expense'],
             'transaction_category_id' => ['sometimes', 'integer'],
-            'bank_account_id' => ['sometimes', 'integer'],
+            'bank_account_id' => ['sometimes', 'integer', Rule::exists('bank_account', 'id')->where('company_id', Auth::user()->company_id)->whereNull('deleted_at')],
             'bank_card_id' => ['sometimes', 'integer'],
             'amount' => ['required', 'numeric', 'min:0.01', 'max:'.CurrencyHelper::MAX_AMOUNT],
             'status' => ['sometimes', 'string', 'in:pending,paid,overdue'],
+            'payment_method' => ['sometimes', 'nullable', 'string', Rule::in(array_keys(Transaction::PAYMENT_METHODS))],
+            'currency' => $this->currencyRules('sometimes'),
+            'exchange_rate' => ['sometimes', 'numeric', 'gt:0', 'max:9999999999'],
             'reference' => ['sometimes', 'string', 'max:255'],
             'customer_id' => ['sometimes', 'integer'],
             'supplier_id' => ['sometimes', 'integer'],

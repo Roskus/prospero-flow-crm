@@ -153,8 +153,8 @@ class Account extends Model
     {
         $paid = $this->transactions()->where('status', Transaction::PAID);
 
-        $income = (float) $paid->where('type', Transaction::INCOME)->sum('amount');
-        $expense = (float) $paid->where('type', Transaction::EXPENSE)->sum('amount');
+        $income = (float) $paid->clone()->where('type', Transaction::INCOME)->sum('amount');
+        $expense = (float) $paid->clone()->where('type', Transaction::EXPENSE)->sum('amount');
 
         return (float) ($this->opening_balance ?? 0) + $income - $expense;
     }

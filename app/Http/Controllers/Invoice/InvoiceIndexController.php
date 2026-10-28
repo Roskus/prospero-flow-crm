@@ -32,7 +32,7 @@ class InvoiceIndexController extends MainController
                 ->paginate(20)
                 ->withQueryString(),
             'branches' => $branches,
-            'customers' => Customer::query()
+            'customers' => Customer::withTrashed()
                 ->where('company_id', $company->id)
                 ->whereIn('id', Invoice::query()->ofCompany($company->id)->select('customer_id'))
                 ->orderBy('name')
