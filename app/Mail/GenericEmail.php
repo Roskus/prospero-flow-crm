@@ -52,8 +52,8 @@ class GenericEmail extends Mailable
      */
     public function build()
     {
-        $from = $this->user->email;
-        $name = '';
+        $from = isset($this->user) ? $this->user->email : $this->company->email;
+        $name = isset($this->user) ? '' : $this->company->name;
         if (isset($data['from_email'])) {
             if ($data['from_email'] == $this->user->email) {
                 $name = $this->user->name;

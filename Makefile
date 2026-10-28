@@ -38,6 +38,12 @@ up-pg: ## Start docker container with Postgres
 up-ms: ## Start docker container with MS SQL Server
 	docker compose -f docker-compose.yml -f docker-compose.mssql.yml up -d
 
+up-mail: ## Start Mailpit to catch outgoing emails (inbox at http://localhost:8025)
+	docker compose -f docker-compose.mailpit.yml up -d
+
+down-mail: ## Stop Mailpit
+	docker compose -f docker-compose.mailpit.yml rm -sf mailpit
+
 permissions: ## Fix directory permissions for www-data
 	docker exec -u root ${DOCKER_PHP} mkdir -p /var/www/.composer/cache
 	docker exec -u root ${DOCKER_PHP} chown -R www-data:www-data /var/www/crm /var/www/.composer
@@ -72,6 +78,9 @@ test: ## Run Laravel phpunit tests
 
 test-coverage: ## Run tests with HTML coverage report (requires Xdebug)
 	docker exec -e XDEBUG_MODE=coverage -it ${DOCKER_PHP} vendor/bin/phpunit --coverage-html=storage/coverage
+
+schedule: ## Run the Laravel scheduler in the foreground (campaigns, reminders, validations)
+	docker exec -it ${DOCKER_PHP} php artisan schedule:work
 
 clear: ## Clear all Laravel caches (views, config, cache)
 	docker exec -it ${DOCKER_PHP} php artisan cache:clear

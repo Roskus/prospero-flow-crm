@@ -396,6 +396,161 @@ final class Order extends Model
         ];
     }
 
+    /**
+     * Sales and orders of each month of a year (1 to 12), in the company currency.
+     *
+     * @return array<int, array{total: float, orders: int}>
+     */
+    public function getMonthlySales(int $companyId, int $year, ?int $sellerId = null): array
+    {
+        $months = Order::withoutGlobalScope('orderCreated')
+            ->where('company_id', $companyId)
+            ->whereIn('status', [self::CONFIRMED, self::COMPLETED])
+            ->whereBetween('order_date', ["{$year}-01-01", "{$year}-12-31"])
+            ->when($sellerId, fn (Builder $query) => $query->where('seller_id', $sellerId))
+            ->selectRaw('MONTH(order_date) AS month, SUM(amount * exchange_rate) AS total, COUNT(*) AS orders')
+            ->groupByRaw('MONTH(order_date)')
+            ->toBase()
+            ->get()
+            ->keyBy('month');
+
+        $sales = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $row = $months->get($month);
+            $sales[$month] = [
+                'total' => round((float) ($row->total ?? 0), 2),
+                'orders' => (int) ($row->orders ?? 0),
+            ];
+        }
+
+        return $sales;
+    }
+
+    /**
+     * Total sales between two dates in the company currency.
+     */
+    public function getSalesTotal(int $companyId, Carbon $from, Carbon $to, ?int $sellerId = null): float
+    {
+        return round((float) Order::withoutGlobalScope('orderCreated')
+            ->where('company_id', $companyId)
+            ->whereIn('status', [self::CONFIRMED, self::COMPLETED])
+            ->whereBetween('order_date', [$from->toDateString(), $to->toDateString()])
+            ->when($sellerId, fn (Builder $query) => $query->where('seller_id', $sellerId))
+            ->sum(DB::raw('amount * exchange_rate')), 2);
+    }
+
+    /**
+     * Products with the highest sales between two dates, with the quantity sold. Lines are joined to their
+     * order by id, and deleted products keep their name.
+     *
+     * @return list<array{name: string, quantity: int, total: float}>
+     */
+    public function getTopProducts(int $companyId, Carbon $from, Carbon $to, ?int $sellerId = null, int $limit = 10): array
+    {
+        return DB::table('order_item')
+            ->join('order', 'order.id', '=', 'order_item.order_id')
+            ->leftJoin('product', 'product.id', '=', 'order_item.product_id')
+            ->where('order.company_id', $companyId)
+            ->whereNull('order.deleted_at')
+            ->whereIn('order.status', [self::CONFIRMED, self::COMPLETED])
+            ->whereBetween('order.order_date', [$from->toDateString(), $to->toDateString()])
+            ->when($sellerId, fn ($query) => $query->where('order.seller_id', $sellerId))
+            ->groupBy('order_item.product_id', 'product.name')
+            ->selectRaw('product.name AS name, SUM(order_item.quantity) AS quantity, SUM(order_item.unit_price * order_item.quantity * (1 - COALESCE(order_item.discount, 0) / 100) * order.exchange_rate) AS total')
+            ->orderByDesc('total')
+            ->limit($limit)
+            ->get()
+            ->map(fn (object $row): array => ['name' => (string) ($row->name ?? '—'), 'quantity' => (int) $row->quantity, 'total' => round((float) $row->total, 2)])
+            ->all();
+    }
+
+    /**
+     * Customers with the highest sales between two dates, with their number of orders.
+     *
+     * @return list<array{name: string, orders: int, total: float}>
+     */
+    public function getTopCustomers(int $companyId, Carbon $from, Carbon $to, ?int $sellerId = null, int $limit = 10): array
+    {
+        return DB::table('order')
+            ->leftJoin('customer', 'customer.id', '=', 'order.customer_id')
+            ->where('order.company_id', $companyId)
+            ->whereNull('order.deleted_at')
+            ->whereIn('order.status', [self::CONFIRMED, self::COMPLETED])
+            ->whereBetween('order.order_date', [$from->toDateString(), $to->toDateString()])
+            ->when($sellerId, fn ($query) => $query->where('order.seller_id', $sellerId))
+            ->groupBy('order.customer_id', 'customer.name', 'customer.business_name')
+            ->selectRaw('customer.name AS name, customer.business_name AS business_name, COUNT(*) AS orders, SUM(order.amount * order.exchange_rate) AS total')
+            ->orderByDesc('total')
+            ->limit($limit)
+            ->get()
+            ->map(fn (object $row): array => ['name' => trim(($row->name ?? '—').' '.($row->business_name ?? '')), 'orders' => (int) $row->orders, 'total' => round((float) $row->total, 2)])
+            ->all();
+    }
+
+    /**
+     * Sales of each seller between two dates, highest first.
+     *
+     * @return list<array{name: string, orders: int, total: float}>
+     */
+    public function getSalesBySeller(int $companyId, Carbon $from, Carbon $to, ?int $sellerId = null): array
+    {
+        return DB::table('order')
+            ->leftJoin('user', 'user.id', '=', 'order.seller_id')
+            ->where('order.company_id', $companyId)
+            ->whereNull('order.deleted_at')
+            ->whereIn('order.status', [self::CONFIRMED, self::COMPLETED])
+            ->whereBetween('order.order_date', [$from->toDateString(), $to->toDateString()])
+            ->when($sellerId, fn ($query) => $query->where('order.seller_id', $sellerId))
+            ->groupBy('order.seller_id', 'user.first_name', 'user.last_name')
+            ->selectRaw('user.first_name AS first_name, user.last_name AS last_name, COUNT(*) AS orders, SUM(order.amount * order.exchange_rate) AS total')
+            ->orderByDesc('total')
+            ->get()
+            ->map(fn (object $row): array => ['name' => trim(($row->first_name ?? '').' '.($row->last_name ?? '')) ?: '—', 'orders' => (int) $row->orders, 'total' => round((float) $row->total, 2)])
+            ->all();
+    }
+
+    /**
+     * Annual sales report: months of the year against the previous year, totals (year to date for the
+     * current year) and rankings.
+     *
+     * @return array{year: int, months: array<int, array{total: float, orders: int, previous_total: float, previous_orders: int, change: float|null}>, total: float, previous_total: float, change: float|null, previous_until: Carbon, top_products: list<array{name: string, quantity: int, total: float}>, top_customers: list<array{name: string, orders: int, total: float}>, sellers: list<array{name: string, orders: int, total: float}>}
+     */
+    public function getAnnualSalesReport(int $companyId, int $year, ?int $sellerId = null): array
+    {
+        $current = $this->getMonthlySales($companyId, $year, $sellerId);
+        $previous = $this->getMonthlySales($companyId, $year - 1, $sellerId);
+        $change = fn (float $value, float $base): ?float => $base > 0 ? round(($value - $base) / $base * 100, 1) : null;
+
+        $months = [];
+        foreach ($current as $month => $sales) {
+            $months[$month] = [
+                ...$sales,
+                'previous_total' => $previous[$month]['total'],
+                'previous_orders' => $previous[$month]['orders'],
+                'change' => $change($sales['total'], $previous[$month]['total']),
+            ];
+        }
+
+        $from = Carbon::create($year, 1, 1)->startOfDay();
+        $to = Carbon::create($year, 12, 31)->startOfDay();
+        $isCurrentYear = $year === Carbon::now()->year;
+        $previousUntil = $isCurrentYear ? Carbon::now()->subYearNoOverflow()->startOfDay() : Carbon::createStrict($year - 1, 12, 31)->startOfDay();
+        $total = $this->getSalesTotal($companyId, $from, $to, $sellerId);
+        $previousTotal = $this->getSalesTotal($companyId, Carbon::create($year - 1, 1, 1), $previousUntil, $sellerId);
+
+        return [
+            'year' => $year,
+            'months' => $months,
+            'total' => $total,
+            'previous_total' => $previousTotal,
+            'change' => $change($total, $previousTotal),
+            'previous_until' => $previousUntil,
+            'top_products' => $this->getTopProducts($companyId, $from, $to, $sellerId),
+            'top_customers' => $this->getTopCustomers($companyId, $from, $to, $sellerId),
+            'sellers' => $this->getSalesBySeller($companyId, $from, $to, $sellerId),
+        ];
+    }
+
     public function getAllActiveByCompany(int $company_id, ?int $branchId = null)
     {
         return Order::where('company_id', $company_id)

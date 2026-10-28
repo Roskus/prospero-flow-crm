@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+reviews:
+  # OpenSpec documents are validated with `openspec validate --strict`; leaving them out keeps large PRs within the review limit.
+  path_filters:
+    - "!openspec/**"

@@ -49,6 +49,9 @@ class CustomerRepository
         $customer->schedule_contact = ! empty($data['schedule_contact']) ? Carbon::parse($data['schedule_contact'])->setTimezone(Auth::user()->timezone) : null;
 
         $customer->tags = ($data['tags'] ?? null) ? explode(',', $data['tags']) : null;
+        if (array_key_exists('opt_in', $data)) {
+            $customer->opt_in = (bool) $data['opt_in'];
+        }
 
         if (! empty($data['status'])) {
             $customer->status = $data['status'];

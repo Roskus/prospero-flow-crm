@@ -46,7 +46,7 @@ Employees are `User::where('company_id', active)->where('is_employee', true)`; e
 - Colors: the year in the primary color and the previous year in a muted grey; the table is always rendered, so the page works if the CDN is blocked.
 - Alternative: hand drawn SVG bars in Blade. Rejected: no tooltips or responsive axes, more code to maintain.
 - Alternative: npm/Vite bundle. Rejected: the layout loads every library from CDNs today.
-- **Needs approval** as a new front-end dependency.
+- Approved as a new front-end dependency (Chart.js 4.4.1).
 
 ### Routes and permissions
 - `/report/hours` and `/report/hours/csv` use `permission:read hours report|manage own timesheet`; the request decides the scope.

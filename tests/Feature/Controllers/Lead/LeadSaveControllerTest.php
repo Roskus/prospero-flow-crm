@@ -181,4 +181,71 @@ class LeadSaveControllerTest extends TestCase
 
         $response->assertSessionHasErrors('street');
     }
+
+    #[Test]
+    public function the_opt_in_switch_is_saved(): void
+    {
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+            'opt_in' => false,
+        ]);
+
+        $this->post('/lead/save', $this->leadForm($lead, ['opt_in' => '1']))->assertRedirect('/lead');
+        $this->assertTrue((bool) $lead->fresh()->opt_in);
+
+        $this->post('/lead/save', $this->leadForm($lead, ['opt_in' => '0']))->assertRedirect('/lead');
+        $this->assertFalse((bool) $lead->fresh()->opt_in);
+    }
+
+    #[Test]
+    public function saving_without_the_opt_in_field_keeps_it(): void
+    {
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+            'opt_in' => true,
+        ]);
+        $data = $this->leadForm($lead);
+        unset($data['opt_in']);
+
+        $this->post('/lead/save', $data)->assertRedirect('/lead');
+
+        $this->assertTrue((bool) $lead->fresh()->opt_in);
+    }
+
+    #[Test]
+    public function the_opt_in_switch_is_checked_for_a_new_lead(): void
+    {
+        $html = $this->get('/lead/create')->assertOk()->assertSee(__('Accepts marketing emails (opt in)'))->getContent();
+
+        $this->assertMatchesRegularExpression('/<input type="checkbox" name="opt_in"[^>]*checked/', $html);
+    }
+
+    #[Test]
+    public function the_opt_in_switch_shows_the_saved_value_when_editing(): void
+    {
+        $lead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $this->user->id,
+            'opt_in' => false,
+        ]);
+
+        $html = $this->get("/lead/update/$lead->id")->assertOk()->getContent();
+
+        $this->assertMatchesRegularExpression('/<input type="checkbox" name="opt_in"[^>]*role="switch"\s*>/', $html);
+    }
+
+    /**
+     * @param  array<string, mixed>  $overrides
+     * @return array<string, mixed>
+     */
+    private function leadForm(Lead $lead, array $overrides = []): array
+    {
+        return [
+            ...$lead->toArray(),
+            'tags' => 'one, two',
+            ...$overrides,
+        ];
+    }
 }

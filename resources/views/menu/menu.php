@@ -87,7 +87,7 @@ return [
         'url' => url('/report'),
         'title' => __('Reports'),
         'icon_class' => 'las la-chart-pie',
-        'permissions' => ['read report'],
+        'permissions' => ['read report', 'read hours report', 'manage own timesheet'],
     ],
     [
         'is_drop_down' => true,

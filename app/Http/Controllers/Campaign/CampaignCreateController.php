@@ -15,10 +15,7 @@ class CampaignCreateController extends MainController
     {
         $campaign = new Campaign;
         $data['campaign'] = $campaign;
-        $data['froms'] = [
-            ['email' => Auth::user()->company->email, 'name' => Auth::user()->company->name],
-            ['email' => Auth::user()->email, 'name' => Auth::user()->first_name.' '.Auth::user()->last_name],
-        ];
+        $data['froms'] = Campaign::fromAddresses(Auth::user());
 
         return view('campaign.campaign', $data);
     }

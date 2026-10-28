@@ -379,6 +379,9 @@ class User extends Authenticatable implements JWTSubject
         return User::where('company_id', $company_id)->get();
     }
 
+    /**
+     * @return Attribute<string, never>
+     */
     protected function timezone(): Attribute
     {
         return Attribute::make(

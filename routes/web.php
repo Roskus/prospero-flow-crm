@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\LockController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\Auth\UnlockController;
+use App\Http\Controllers\Campaign\CampaignOpenController;
 use App\Http\Controllers\EmailTemplate\EmailTemplateIndexController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
@@ -14,7 +15,11 @@ use App\Http\Controllers\Permission\PermissionSaveController;
 use App\Http\Controllers\Profile\ProfileSaveController;
 use App\Http\Controllers\Profile\ProfileUpdateController;
 use App\Http\Controllers\Region\RegionGetAjaxController;
+use App\Http\Controllers\Report\ReportAnnualSaleController;
+use App\Http\Controllers\Report\ReportAnnualSalePdfController;
 use App\Http\Controllers\Report\ReportEmailController;
+use App\Http\Controllers\Report\ReportHoursController;
+use App\Http\Controllers\Report\ReportHoursCsvController;
 use App\Http\Controllers\Report\ReportIndexController;
 use App\Http\Controllers\Report\ReportSaleController;
 use App\Http\Controllers\Report\ReportSalePdfController;
@@ -46,6 +51,12 @@ Route::get('/', [MainController::class, 'dashboard']);
 // PWA - Progressive Web App
 Route::get('/manifest', [ManifestController::class, 'renderWebManifest'])
     ->name('manifest');
+
+// Campaign open tracking image, loaded by mail clients without a session; only the path is signed so it works behind any host
+Route::get('/campaign/open/{recipient}', [CampaignOpenController::class, 'open'])
+    ->whereNumber('recipient')
+    ->middleware('signed:relative')
+    ->name('campaign.open');
 
 Auth::routes(['register' => env('APP_ENV') != 'production']);
 
@@ -135,10 +146,14 @@ require __DIR__.'/module/ticket.php';
 Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
 
 // Report
-Route::get('/report', [ReportIndexController::class, 'index'])->can('read report');
+Route::get('/report', [ReportIndexController::class, 'index'])->middleware('permission:read report|read hours report|manage own timesheet');
 Route::get('/report/sale', [ReportSaleController::class, 'index'])->can('read sales report');
 Route::get('/report/sale/pdf', [ReportSalePdfController::class, 'download'])->can('read sales report');
+Route::get('/report/sale/annual', [ReportAnnualSaleController::class, 'index'])->can('read sales report');
+Route::get('/report/sale/annual/pdf', [ReportAnnualSalePdfController::class, 'download'])->can('read sales report');
 Route::get('/report/email', [ReportEmailController::class, 'index'])->can('read report');
+Route::get('/report/hours', [ReportHoursController::class, 'index'])->middleware('permission:read hours report|manage own timesheet');
+Route::get('/report/hours/csv', [ReportHoursCsvController::class, 'download'])->middleware('permission:read hours report|manage own timesheet');
 
 // Web-form
 Route::get('/web-form', [WebFormIndexController::class, 'index']);
