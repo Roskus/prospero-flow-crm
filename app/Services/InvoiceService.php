@@ -79,6 +79,7 @@ class InvoiceService
                     'product_id' => $orderItem->product_id,
                     'description' => (string) ($orderItem->product->name ?? ''),
                     'sku' => $orderItem->product->sku ?? null,
+                    'barcode' => $orderItem->product->barcode ?? null,
                     'quantity' => $orderItem->quantity,
                     'unit_price' => $orderItem->unit_price,
                     'discount' => $orderItem->discount ?? 0,
@@ -196,24 +197,39 @@ class InvoiceService
 
     /**
      * Paid amount and status of the invoice from its paid payments: issued, partially paid or paid.
-     * A cancelled invoice keeps its status.
+     * A cancelled invoice keeps its status. The invoice row is locked so concurrent payment changes
+     * refresh it one after the other and the last one sees every committed payment.
      */
     public function refreshPaymentStatus(Invoice $invoice): void
     {
-        $paid = (string) $invoice->payments()->where('status', Transaction::PAID)->sum('invoice_amount');
-        $paid = ExchangeRateService::round($paid);
+        DB::transaction(function () use ($invoice): void {
+            $locked = Invoice::query()->whereKey($invoice->getKey())->lockForUpdate()->firstOrFail();
+            $paid = ExchangeRateService::round((string) $locked->payments()->where('status', Transaction::PAID)->sum('invoice_amount'));
 
-        $invoice->paid_amount = $paid;
+            $locked->paid_amount = $paid;
 
-        if (! $invoice->isCancelled()) {
-            $invoice->status = match (true) {
-                bccomp($paid, '0', 2) <= 0 => Invoice::ISSUED,
-                bccomp($paid, (string) $invoice->total, 2) >= 0 => Invoice::PAID,
-                default => Invoice::PARTIALLY_PAID,
-            };
-        }
+            if (! $locked->isCancelled()) {
+                $locked->status = match (true) {
+                    bccomp($paid, '0', 2) <= 0 => Invoice::ISSUED,
+                    bccomp($paid, (string) $locked->total, 2) >= 0 => Invoice::PAID,
+                    default => Invoice::PARTIALLY_PAID,
+                };
+            }
 
-        $invoice->save();
+            $locked->save();
+            $invoice->setRawAttributes($locked->getAttributes(), true);
+        });
+    }
+
+    /**
+     * Deletes a payment with its invoice locked, so the paid amount and status are refreshed in the same transaction.
+     */
+    public function deletePayment(Transaction $payment): void
+    {
+        DB::transaction(function () use ($payment): void {
+            Invoice::query()->whereKey($payment->invoice_id)->lockForUpdate()->firstOrFail();
+            $payment->delete();
+        });
     }
 
     /**
@@ -255,20 +271,21 @@ class InvoiceService
     }
 
     /**
-     * Subtotal (quantity × unit price minus the discount), tax and total of a line, each rounded to 2 decimals.
+     * Unit prices include taxes, so the total of a line is quantity × unit price minus the discount and the tax is
+     * broken down from it: subtotal = total / (1 + tax%), tax = total - subtotal. Each amount is rounded to 2 decimals.
      *
      * @return array{subtotal: string, tax_amount: string, total: string}
      */
     public static function lineTotals(string $quantity, string $unitPrice, string $discount, string $taxPercentage): array
     {
         $gross = bcmul($quantity, $unitPrice, 10);
-        $subtotal = ExchangeRateService::round(bcsub($gross, bcdiv(bcmul($gross, $discount, 10), '100', 10), 10));
-        $taxAmount = ExchangeRateService::round(bcdiv(bcmul($subtotal, $taxPercentage, 10), '100', 10));
+        $total = ExchangeRateService::round(bcsub($gross, bcdiv(bcmul($gross, $discount, 10), '100', 10), 10));
+        $subtotal = ExchangeRateService::round(bcdiv(bcmul($total, '100', 10), bcadd('100', $taxPercentage, 10), 10));
 
         return [
             'subtotal' => $subtotal,
-            'tax_amount' => $taxAmount,
-            'total' => bcadd($subtotal, $taxAmount, 2),
+            'tax_amount' => bcsub($total, $subtotal, 2),
+            'total' => $total,
         ];
     }
 
@@ -328,6 +345,7 @@ class InvoiceService
                 'name' => $company->name,
                 'business_name' => $company->business_name,
                 'vat' => $company->vat,
+                'registration_number' => $company->registration_number,
                 'phone' => $company->phone,
                 'email' => $company->email,
                 'website' => $company->website,

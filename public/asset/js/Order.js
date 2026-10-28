@@ -37,7 +37,7 @@ var Order =
             item.price = price.value;
             item.discount = discount.value || 0;
             item.tax = Number.parseFloat(product_tax.value) || 0;
-            item.subtotal = quantity.value * price.value;
+            item.subtotal = quantity.value * price.value * (1 - item.discount / 100);
             this.total += Number.parseFloat(item.subtotal);
             let total_field = document.getElementById('total')
             total_field.value = this.total;
@@ -77,7 +77,7 @@ var Order =
             inputTax.setAttribute("type", "hidden");
             inputTax.setAttribute("name", "items["+index+"][tax]");
             inputTax.setAttribute("value", item.tax);
-            let taxAmount = ((item.tax / 100) * item.subtotal).toFixed(2);
+            let taxAmount = (item.subtotal - item.subtotal / (1 + item.tax / 100)).toFixed(2);
             tds[2].appendChild(inputTax);
             tds[2].appendChild(document.createTextNode(taxAmount + ' (' + item.tax + '%)'));
 
@@ -104,11 +104,23 @@ var Order =
             let table_body = document.querySelector('#order-items');
             let row_clone = document.importNode(product_row.content, true);
             table_body.appendChild(row_clone);
+            this.recalculateTotal();
+            this.resetNewItem();
         } else {
             if(!product_id.value) product_id.classList.add("is-invalid");
             if(quantity.value <= 0) quantity.classList.add("is-invalid");
             if(price.value === "" || price.value < 0) price.classList.add("is-invalid");
         }
+    },
+    resetNewItem: function() {
+        document.getElementById('product_id').value = '';
+        document.getElementById('product_tax').value = 0;
+        document.getElementById('quantity').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('discount').value = 0;
+        let product_name = document.getElementById('product_name');
+        product_name.value = '';
+        product_name.focus();
     },
     removeRow: function(button) {
         let row = button.closest('tr');
@@ -129,7 +141,7 @@ var Order =
         let discount = Number.parseFloat(row.querySelector('[name*="[discount]"]').value) || 0;
         let tax = Number.parseFloat(row.dataset.tax) || 0;
         let subtotal = price * quantity * (1 - discount / 100);
-        let taxAmount = (tax / 100) * subtotal;
+        let taxAmount = subtotal - subtotal / (1 + tax / 100);
         let subtotalCell = row.querySelector('.item-subtotal');
         if (subtotalCell) subtotalCell.textContent = subtotal.toFixed(2);
         let taxDisplay = row.querySelector('.tax-display');

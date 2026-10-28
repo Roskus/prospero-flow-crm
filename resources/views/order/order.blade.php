@@ -118,7 +118,7 @@
                         <td>
                             <input type="number" name="items[{{ $i }}][discount]" value="{{ $item->discount }}" step="0.01" min="0" class="form-control form-control-sm" oninput="Order.recalculateRow(this)">
                         </td>
-                        <td class="item-subtotal">{{ number_format($item->getSubtotal(), 2) }}</td>
+                        <td class="item-subtotal">{{ number_format($item->getSubtotal(), 2, '.', '') }}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger" onclick="Order.removeRow(this)">
                                 <i class="las la-trash"></i>
@@ -132,7 +132,7 @@
                     <tr>
                         <th colspan="4">&nbsp;</th>
                         <th class="text-right">{{ __('Taxes') }}</th>
-                        <th>{{ $order->getTax() }}</th>
+                        <th>{{ number_format($order->getTax(), 2, '.', '') }}</th>
                         <th></th>
                     </tr>
                     <tr>

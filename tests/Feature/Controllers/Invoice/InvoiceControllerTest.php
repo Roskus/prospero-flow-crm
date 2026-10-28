@@ -81,6 +81,23 @@ class InvoiceControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_invoice_form_shows_the_order_date_and_breaks_down_the_taxes_included(): void
+    {
+        $order = $this->createOrder(Order::CONFIRMED);
+        $order->update(['order_date' => '2024-12-02']);
+        $order->items()->sole()->product->update(['sku' => 'PB-01', 'barcode' => '5012345678900']);
+
+        $response = $this->get(route('invoice.create', $order->order_number));
+
+        $response->assertOk();
+        $response->assertSee('02/12/2024');
+        $response->assertSee('data-date="2024-12-02"', false);
+        $response->assertSee('PB-01<br>5012345678900', false);
+        $response->assertSeeInOrder([__('Subtotal (without taxes)'), '82.64', __('Taxes included'), '17.36', __('Total'), '100.00']);
+        $response->assertSee('value="100.00"', false);
+    }
+
+    #[Test]
     public function the_invoice_form_prefills_the_company_rate_for_a_foreign_currency(): void
     {
         $this->user->company->currencyRates()->create(['currency' => 'USD', 'conversion_rate' => 1.1]);

@@ -104,6 +104,20 @@ class OrderAmountTest extends TestCase
         ])->assertUnprocessable()->assertJsonValidationErrors('unit_price');
     }
 
+    #[Test]
+    public function the_edit_form_prints_line_subtotals_and_taxes_with_two_decimals(): void
+    {
+        $this->post('/order/save', [
+            'customer_id' => $this->customer()->id,
+            'items' => [['product_id' => $this->product()->id, 'quantity' => 2, 'price' => 1000, 'tax' => 21]],
+        ]);
+
+        $this->get('/order/update/'.$this->latestOrder()->order_number)
+            ->assertOk()
+            ->assertSee('<td class="item-subtotal">2000.00</td>', false)
+            ->assertSee('<th>347.11</th>', false);
+    }
+
     private function customer(): Customer
     {
         return Customer::factory()->create(['company_id' => $this->user->company_id]);

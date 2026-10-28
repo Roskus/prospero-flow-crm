@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Helpers\CurrencyHelper;
 use App\Models\Order\Item;
+use App\Services\InvoiceService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -258,29 +259,22 @@ final class Order extends Model
     }
 
     /**
-     * Return taxes
+     * Taxes included in the order total.
      */
     public function getTax(): float
     {
-        return $this->items->sum(function ($item) {
-            $tax = 0.0;
-            $price = $item->getSubTotal();
-            if (isset($item['tax'])) {
-                $tax = $price * ($item['tax'] / 100);
-            }
-
-            return $tax;
-        });
+        return $this->items->sum(fn (Item $item): float => $item->getTaxAmount());
     }
 
     /**
-     * Return amount - discounts + taxes
+     * Return amount - discounts, taxes included. Each line is rounded like the invoice lines, so both totals match.
      */
     public function getTotal(): float
     {
-        return $this->items->sum(function ($item) {
-            return $item->getSubTotal();
-        });
+        return (float) $this->items->reduce(
+            fn (string $total, Item $item): string => bcadd($total, InvoiceService::lineTotals((string) $item->quantity, (string) $item->unit_price, (string) ($item->discount ?? 0), (string) ($item->tax ?? 0))['total'], 2),
+            '0'
+        );
     }
 
     /**

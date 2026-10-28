@@ -40,6 +40,7 @@
                             <th class="text-end">{{ __('Amount') }}</th>
                             <th class="text-end">{{ __('Settled') }}</th>
                             <th>{{ __('Receipt') }}</th>
+                            @can('delete transaction')<th></th>@endcan
                         </tr>
                         </thead>
                         <tbody>
@@ -58,6 +59,18 @@
                                         </a>
                                     @endif
                                 </td>
+                                @can('delete transaction')
+                                <td class="text-end">
+                                    <form method="POST" action="{{ route('payment.delete', $payment->id) }}" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="{{ __('Delete payment') }}"
+                                                onclick="return confirm('{{ __('Are you sure you want to delete this payment?') }}')">
+                                            <i class="las la-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                                @endcan
                             </tr>
                         @endforeach
                         </tbody>

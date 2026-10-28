@@ -34,13 +34,17 @@ class InvoiceCreateController extends MainController
             $exchangeRate = '';
         }
 
-        $invoiceTotal = $order->items->reduce(
-            fn (string $total, $item): string => bcadd($total, InvoiceService::lineTotals((string) $item->quantity, (string) $item->unit_price, (string) ($item->discount ?? 0), (string) ($item->tax ?? 0))['total'], 2),
-            '0'
-        );
+        $order->load('items.product');
+        $lines = $order->items->mapWithKeys(fn ($item): array => [
+            $item->id => InvoiceService::lineTotals((string) $item->quantity, (string) $item->unit_price, (string) ($item->discount ?? 0), (string) ($item->tax ?? 0)),
+        ]);
+        $sum = fn (string $key): string => $lines->reduce(fn (string $total, array $line): string => bcadd($total, $line[$key], 2), '0');
 
         return view('invoice.invoice', [
-            'invoiceTotal' => $invoiceTotal,
+            'lines' => $lines,
+            'invoiceSubtotal' => $sum('subtotal'),
+            'invoiceTax' => $sum('tax_amount'),
+            'invoiceTotal' => $sum('total'),
             'accounts' => Account::query()->where('company_id', $company->id)->orderBy('account_name')->get(),
             'currencies' => $company->usableCurrencies([$order->currency]),
             'order' => $order,

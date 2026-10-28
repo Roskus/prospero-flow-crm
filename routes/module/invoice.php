@@ -9,6 +9,7 @@ use App\Http\Controllers\Invoice\InvoicePaymentController;
 use App\Http\Controllers\Invoice\InvoicePdfController;
 use App\Http\Controllers\Invoice\InvoiceSaveController;
 use App\Http\Controllers\Invoice\InvoiceShowController;
+use App\Http\Controllers\Payment\PaymentDeleteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/invoice', [InvoiceIndexController::class, 'index'])
@@ -32,3 +33,6 @@ Route::get('/invoice/download/{id}', [InvoicePdfController::class, 'download'])
 Route::post('/invoice/payment/{id}', [InvoicePaymentController::class, 'store'])
     ->name('invoice.payment')
     ->can('create payment');
+Route::delete('/payment/{id}', [PaymentDeleteController::class, 'delete'])
+    ->name('payment.delete')
+    ->can('delete transaction');

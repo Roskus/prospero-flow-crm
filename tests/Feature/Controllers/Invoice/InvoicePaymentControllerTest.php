@@ -157,6 +157,60 @@ class InvoicePaymentControllerTest extends TestCase
     }
 
     #[Test]
+    public function deleting_the_payment_from_the_invoice_page_lets_the_invoice_be_cancelled(): void
+    {
+        $invoice = $this->issue(100);
+        $payment = app(InvoiceService::class)->registerPayment($invoice, ['payment_method' => Transaction::METHOD_CASH, 'amount' => 100]);
+
+        $this->get(route('invoice.show', $invoice->id))->assertSee(route('payment.delete', $payment->id));
+
+        $this->delete(route('payment.delete', $payment->id))
+            ->assertRedirect(route('invoice.show', $invoice->id))
+            ->assertSessionHas('status', 'success');
+
+        $invoice->refresh();
+        $this->assertSame(Invoice::ISSUED, $invoice->status);
+        $this->assertSame('0.00', $invoice->paid_amount);
+        $this->assertFalse($invoice->hasPayments());
+
+        $this->post(route('invoice.cancel', $invoice->id))->assertSessionHas('status', 'success');
+        $this->assertSame(Invoice::CANCELLED, $invoice->fresh()->status);
+    }
+
+    #[Test]
+    public function a_payment_of_another_company_returns_not_found(): void
+    {
+        $otherCompany = Company::factory()->create();
+        $invoice = Invoice::factory()->create(['company_id' => $otherCompany->id]);
+        $payment = Transaction::factory()->create(['company_id' => $otherCompany->id, 'invoice_id' => $invoice->id]);
+
+        $this->delete(route('payment.delete', $payment->id))->assertNotFound();
+        $this->assertNotSoftDeleted($payment);
+    }
+
+    #[Test]
+    public function a_transaction_that_is_not_a_payment_cannot_be_deleted_as_a_payment(): void
+    {
+        $transaction = Transaction::factory()->create(['company_id' => $this->user->company_id, 'invoice_id' => null]);
+
+        $this->delete(route('payment.delete', $transaction->id))->assertNotFound();
+        $this->assertNotSoftDeleted($transaction);
+    }
+
+    #[Test]
+    public function a_seller_cannot_delete_payments(): void
+    {
+        $this->seed([RoleSeeder::class, PermissionSeeder::class]);
+        $seller = User::factory()->create(['company_id' => $this->user->company_id]);
+        $seller->assignRole('Seller');
+        $invoice = $this->issue(100);
+        $payment = app(InvoiceService::class)->registerPayment($invoice, ['payment_method' => Transaction::METHOD_CASH, 'amount' => 100]);
+
+        $this->actingAs($seller)->get(route('invoice.show', $invoice->id))->assertDontSee(route('payment.delete', $payment->id));
+        $this->actingAs($seller)->delete(route('payment.delete', $payment->id))->assertForbidden();
+    }
+
+    #[Test]
     public function the_pay_action_is_shown_only_for_orders_with_an_unpaid_invoice(): void
     {
         $unpaid = $this->issue(100);

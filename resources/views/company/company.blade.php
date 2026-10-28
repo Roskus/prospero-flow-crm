@@ -45,6 +45,11 @@
                     <input type="text" name="vat" id="vat" value="{{ old('vat', $company->vat) }}" maxlength="20"
                            class="form-control">
                 </div>
+                <div class="col">
+                    <label for="registration_number" class="label-control">{{ __('Company registration number') }}</label>
+                    <input type="text" name="registration_number" id="registration_number" value="{{ old('registration_number', $company->registration_number) }}" maxlength="30"
+                           class="form-control">
+                </div>
                 <div class="col form-group">
                     @include('components.currency', ['currency' => old('currency', $company->currency), 'required' => true])
                 </div>
