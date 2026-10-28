@@ -13,8 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use OpenApi\Attributes as OA;
 use Squire\Models\Country;
+use Squire\Models\Currency;
 
 #[OA\Schema(
     schema: 'Company',
@@ -193,6 +195,23 @@ class Company extends Model
         return $this->hasMany(CompanyCurrencyRate::class);
     }
 
+    /**
+     * The company currency plus every currency with an exchange rate, plus the extra codes given.
+     *
+     * @param  list<string>  $extraCodes
+     * @return Collection<int, Currency>
+     */
+    public function usableCurrencies(array $extraCodes = []): Collection
+    {
+        $codes = collect([$this->currency, ...$extraCodes])
+            ->merge($this->currencyRates()->pluck('currency'))
+            ->filter()
+            ->map(fn (string $code): string => strtolower($code))
+            ->unique();
+
+        return Currency::query()->whereIn('id', $codes)->orderBy('id')->get();
+    }
+
     public function branches(): HasMany
     {
         return $this->hasMany(Branch::class);
@@ -206,6 +225,24 @@ class Company extends Model
     /**
      * Branch selects, columns and filters are only shown to companies with more than one active branch.
      */
+    /**
+     * The logo as a data URI, so it renders the same on pages and in dompdf PDFs; null without a logo file.
+     */
+    public function logoDataUri(): ?string
+    {
+        if (empty($this->logo)) {
+            return null;
+        }
+
+        $path = storage_path('app/public/company/'.Str::slug((string) $this->name, '_').'/'.$this->logo);
+
+        if (! is_file($path)) {
+            return null;
+        }
+
+        return 'data:'.mime_content_type($path).';base64,'.base64_encode((string) file_get_contents($path));
+    }
+
     public function hasSeveralBranches(): bool
     {
         return once(fn (): bool => $this->branches()->count() > 1);

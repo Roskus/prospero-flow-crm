@@ -42,13 +42,6 @@
                     <div class="text-muted small mt-1" id="card_number_hint"></div>
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="card_cvv">CVV</label>
-                    <input type="password" name="cvv" id="card_cvv"
-                           maxlength="4" class="form-control font-monospace"
-                           placeholder="***"
-                           inputmode="numeric">
-                </div>
-                <div class="col-12 col-md-2">
                     <label for="card_expires_month">{{ __('Exp. month') }} <span class="text-danger">*</span></label>
                     <select name="expires_month" id="card_expires_month" required class="form-select">
                         @for($m = 1; $m <= 12; $m++)

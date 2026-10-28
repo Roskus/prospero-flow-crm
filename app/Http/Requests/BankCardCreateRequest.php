@@ -22,7 +22,6 @@ class BankCardCreateRequest extends FormRequest
             'network' => ['required', 'string', 'in:visa,mastercard,amex,other'],
             'cardholder_name' => ['required', 'string', 'max:80'],
             'number' => ['required', 'string', 'regex:/^\d{13,19}$/'],
-            'cvv' => ['nullable', 'string', 'max:4'],
             'expires_month' => ['required', 'integer', 'between:1,12'],
             'expires_year' => ['required', 'integer', 'min:2020'],
             'notes' => ['nullable', 'string'],

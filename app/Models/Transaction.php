@@ -27,6 +27,11 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'bank_account_id', description: 'Bank account ID', type: 'integer', example: 1),
         new OAT\Property(property: 'bank_card_id', description: 'Bank card ID', type: 'integer', example: 1),
         new OAT\Property(property: 'amount', description: 'Transaction amount', type: 'number', format: 'float', example: 999.75),
+        new OAT\Property(property: 'currency', description: 'Currency of the amount; defaults to the account currency, or the company currency without account', type: 'string', example: 'EUR'),
+        new OAT\Property(property: 'exchange_rate', description: 'Units of the company currency per unit of the transaction currency', type: 'string', example: '1.000000'),
+        new OAT\Property(property: 'payment_method', description: 'Payment method', type: 'string', enum: ['cash', 'card', 'transfer', 'mercadopago', 'bizum', 'other'], example: 'transfer'),
+        new OAT\Property(property: 'invoice_id', description: 'Invoice paid by this transaction', type: 'integer', example: 1, readOnly: true),
+        new OAT\Property(property: 'invoice_amount', description: 'Amount settled in the invoice currency', type: 'number', format: 'float', example: 50.0, readOnly: true),
         new OAT\Property(property: 'status', description: 'Transaction status', type: 'string', enum: ['pending', 'paid', 'overdue'], example: 'pending'),
         new OAT\Property(property: 'reference', description: 'Reference number', type: 'string', example: 'INV-2025-001'),
         new OAT\Property(property: 'customer_id', description: 'Customer ID', type: 'integer', example: 1),
@@ -50,6 +55,35 @@ class Transaction extends Model
 
     const string OVERDUE = 'overdue';
 
+    const string METHOD_CASH = 'cash';
+
+    const string METHOD_CARD = 'card';
+
+    const string METHOD_TRANSFER = 'transfer';
+
+    const string METHOD_MERCADOPAGO = 'mercadopago';
+
+    const string METHOD_BIZUM = 'bizum';
+
+    const string METHOD_OTHER = 'other';
+
+    /**
+     * Payment methods and their labels.
+     */
+    const array PAYMENT_METHODS = [
+        self::METHOD_CASH => 'In cash',
+        self::METHOD_CARD => 'Card',
+        self::METHOD_TRANSFER => 'Transfer',
+        self::METHOD_MERCADOPAGO => 'MercadoPago',
+        self::METHOD_BIZUM => 'Bizum',
+        self::METHOD_OTHER => 'Other',
+    ];
+
+    /**
+     * Methods that need the destination account of the company.
+     */
+    const array METHODS_REQUIRING_ACCOUNT = [self::METHOD_TRANSFER, self::METHOD_BIZUM];
+
     protected $table = 'transaction';
 
     protected $fillable = [
@@ -63,6 +97,9 @@ class Transaction extends Model
         'bank_account_id',
         'bank_card_id',
         'amount',
+        'currency',
+        'exchange_rate',
+        'payment_method',
         'status',
         'reference',
         'customer_id',
@@ -72,6 +109,8 @@ class Transaction extends Model
     ];
 
     protected $casts = [
+        'exchange_rate' => 'decimal:6',
+        'invoice_amount' => 'decimal:5',
         'issue_date' => 'date:Y-m-d',
         'due_date' => 'date:Y-m-d',
         'payment_date' => 'date:Y-m-d',
@@ -105,6 +144,14 @@ class Transaction extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    /**
+     * @return BelongsTo<Invoice, $this>
+     */
+    public function invoice(): BelongsTo
+    {
+        return $this->belongsTo(Invoice::class);
     }
 
     /**

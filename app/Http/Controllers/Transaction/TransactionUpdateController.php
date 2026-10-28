@@ -28,6 +28,7 @@ class TransactionUpdateController extends MainController
             'bank_cards' => BankCard::where('company_id', $companyId)->orderBy('cardholder_name')->get(),
             'customers' => Customer::where('company_id', $companyId)->orderBy('name')->get(),
             'suppliers' => Supplier::where('company_id', $companyId)->orderBy('name')->get(),
+            'currencies' => Auth::user()->company->usableCurrencies(array_filter([$transaction->currency])),
         ]);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\MainController;
 use App\Http\Requests\OrderSaveRequest;
+use App\Models\Order;
 use App\Repositories\OrderRepository;
 
 class OrderSaveController extends MainController
@@ -14,7 +15,17 @@ class OrderSaveController extends MainController
 
     public function save(OrderSaveRequest $request)
     {
-        $order = $this->orderRepository->save($request->validated());
+        if ($request->filled('id')) {
+            $invoicedMessage = Order::where('company_id', $request->user()->company_id)
+                ->find($request->integer('id'))
+                ?->invoicedMessage();
+
+            if ($invoicedMessage !== null) {
+                return redirect('order')->with(['status' => 'error', 'message' => $invoicedMessage]);
+            }
+        }
+
+        $this->orderRepository->save($request->validated());
 
         return redirect('order');
     }

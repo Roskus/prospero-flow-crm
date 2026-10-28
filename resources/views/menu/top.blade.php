@@ -27,6 +27,13 @@
         </a>
     </li>
     @endcan
+    @can('read invoice')
+    <li>
+        <a href="{{ url('/invoice') }}" class="nav-link fs-6 @if(Request::is('invoice*')) active @endif">
+            <i class="las la-file-invoice-dollar"></i> {{ __('Invoices') }}
+        </a>
+    </li>
+    @endcan
     @can('read product')
     <li>
         <a href="{{ url('/product') }}" class="nav-link fs-6 @if(Request::path() == 'product') active @endif">

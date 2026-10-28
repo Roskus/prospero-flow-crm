@@ -24,6 +24,7 @@ class BankAccountCreateRequest extends FormRequest
             'iban' => ['required', 'string', 'max:34'],
             'opening_balance' => ['nullable', 'numeric', 'min:-'.CurrencyHelper::MAX_AMOUNT, 'max:'.CurrencyHelper::MAX_AMOUNT],
             'notes' => ['nullable', 'string'],
+            'show_on_invoice' => ['sometimes', 'boolean'],
         ];
     }
 }

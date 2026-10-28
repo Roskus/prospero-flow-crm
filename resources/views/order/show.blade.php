@@ -8,5 +8,26 @@
         <a href="{{ route('order-download', ['order_number' => $order->order_number]) }}" download="file" class="btn btn-lg btn-success">
             <i class="las la-file-pdf"></i> {{ __('Download') }}
         </a>
+        @if($order->activeInvoice && ! $order->activeInvoice->isPaid())
+            @can('create payment')
+            <a href="{{ route('invoice.show', $order->activeInvoice->id) }}#payment-form" class="btn btn-lg btn-success">
+                <i class="las la-money-bill-wave"></i> {{ __('Pay') }}
+            </a>
+            @endcan
+        @endif
+        @if($order->activeInvoice)
+            @can('read invoice')
+            <a href="{{ route('invoice.show', $order->activeInvoice->id) }}" class="btn btn-lg btn-outline-info">
+                <i class="las la-file-invoice-dollar"></i> {{ __('Invoice') }} {{ $order->activeInvoice->fullNumber() }}
+            </a>
+            @endcan
+        @endif
+        @can('create invoice')
+            @if($order->canBeInvoiced())
+            <a href="{{ route('invoice.create', $order->order_number) }}" class="btn btn-lg btn-info text-white">
+                <i class="las la-file-invoice-dollar"></i> {{ __('Create invoice') }}
+            </a>
+            @endif
+        @endcan
     </div>
 @endsection

@@ -33,4 +33,24 @@ class CurrencyHelper
 
         return $symbol !== '' ? "{$symbol} {$formatted}" : $formatted;
     }
+
+    /**
+     * Formats an amount with the symbol of the given currency, or its code when it has no symbol.
+     */
+    public static function formatIn(float|int|string $amount, string $currency): string
+    {
+        $symbol = Currency::find(strtolower($currency))?->getAttribute('symbol') ?: strtoupper($currency);
+
+        return $symbol.' '.number_format((float) $amount, 2);
+    }
+
+    /**
+     * Upper case ISO codes of every known currency, to validate currency inputs.
+     *
+     * @return list<string>
+     */
+    public static function codes(): array
+    {
+        return once(fn (): array => Currency::query()->pluck('id')->map(fn (string $code): string => strtoupper($code))->values()->all());
+    }
 }

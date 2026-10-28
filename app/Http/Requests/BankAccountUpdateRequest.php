@@ -24,6 +24,7 @@ class BankAccountUpdateRequest extends FormRequest
             'iban' => ['sometimes', 'string', 'max:34'],
             'amount' => ['sometimes', 'numeric', 'min:-'.CurrencyHelper::MAX_AMOUNT, 'max:'.CurrencyHelper::MAX_AMOUNT],
             'notes' => ['nullable', 'string'],
+            'show_on_invoice' => ['sometimes', 'boolean'],
         ];
     }
 }

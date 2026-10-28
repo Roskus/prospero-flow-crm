@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Attributes as OAT;
 
@@ -78,6 +79,19 @@ class Branch extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
+     * The code of a branch with invoices is their series, so it can no longer change.
+     */
+    public function hasInvoices(): bool
+    {
+        return $this->exists && $this->invoices()->exists();
     }
 
     #[Scope]

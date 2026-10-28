@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Scopes\AssignedSellerScope;
 use App\Traits\HasAddress;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -161,9 +160,4 @@ abstract class Prospect extends Model
     abstract public function contacts();
 
     abstract public function getAllByCompanyId(int $company_id, ?string $search, ?array $filters, ?string $order_by): mixed;
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new AssignedSellerScope);
-    }
 }

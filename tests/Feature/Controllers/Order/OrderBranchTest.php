@@ -81,7 +81,7 @@ class OrderBranchTest extends TestCase
     {
         $this->actingAs($this->user, 'api');
         $center = $this->branch('Centro');
-        $payload = ['customer_id' => $this->customer()->id, 'amount' => 10, 'currency' => 'EUR'];
+        $payload = ['customer_id' => $this->customer()->id, 'amount' => 10];
 
         $this->postJson('/api/order', $payload)
             ->assertCreated()
@@ -99,7 +99,7 @@ class OrderBranchTest extends TestCase
         $otherBranch = Branch::factory()->create();
         $order = Order::factory()->create(['company_id' => $this->user->company_id]);
 
-        $this->postJson('/api/order', ['customer_id' => $this->customer()->id, 'amount' => 10, 'currency' => 'EUR', 'branch_id' => $otherBranch->id])
+        $this->postJson('/api/order', ['customer_id' => $this->customer()->id, 'amount' => 10, 'branch_id' => $otherBranch->id])
             ->assertUnprocessable()
             ->assertJsonValidationErrors('branch_id');
         $this->putJson('/api/order/'.$order->id, ['branch_id' => $otherBranch->id])

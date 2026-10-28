@@ -84,16 +84,63 @@
                     </form>
                     @endif
 
+                    @if($order->status == App\Models\Order::CONFIRMED)
+                    <form method="POST" action="{{ route('order.pending', $order->order_number) }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" title="{{ __('Back to pending') }}" class="btn btn-xs btn-warning text-white" onclick="return confirm('{{ __('Are you sure you want to set the order :id back to pending?', ['id' => $order->order_number]) }}')">
+                            <i class="las la-undo"></i>
+                        </button>
+                    </form>
+                    @endif
+
+                    @if(in_array($order->status, [App\Models\Order::PENDING, App\Models\Order::CONFIRMED]))
+                    <form method="POST" action="{{ route('order.cancel', $order->order_number) }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" title="{{ __('Cancel') }}" class="btn btn-xs btn-outline-danger" onclick="return confirm('{{ __('Are you sure you want to cancel the order: :id?', ['id' => $order->order_number]) }}')">
+                            <i class="las la-ban"></i>
+                        </button>
+                    </form>
+                    @endif
+
+                    @can('create invoice')
+                    @if($order->canBeInvoiced())
+                    <a href="{{ route('invoice.create', $order->order_number) }}" title="{{ __('Create invoice') }}"
+                       class="btn btn-xs btn-info text-white">
+                        <i class="las la-file-invoice-dollar"></i>
+                    </a>
+                    @endif
+                    @endcan
+
                     <a href="{{ url('/order/download/'.$order->order_number) }}" title="{{ __('Download') }}"
                        class="btn btn-xs btn-secondary">
                         <i class="las la-file-pdf"></i>
                     </a>
 
+                    @if($order->activeInvoice && ! $order->activeInvoice->isPaid())
+                    @can('create payment')
+                    <a href="{{ route('invoice.show', $order->activeInvoice->id) }}#payment-form" title="{{ __('Pay') }}"
+                       class="btn btn-xs btn-success text-white">
+                        <i class="las la-money-bill-wave"></i>
+                    </a>
+                    @endcan
+                    @endif
+
+                    @if($order->activeInvoice)
+                    @can('read invoice')
+                    <a href="{{ route('invoice.show', $order->activeInvoice->id) }}" title="{{ __('Invoice') }}"
+                       class="btn btn-xs btn-outline-info">
+                        {{ $order->activeInvoice->fullNumber() }}
+                    </a>
+                    @endcan
+                    @endif
+
                     @can('delete order')
+                    @unless($order->activeInvoice)
                     <a href="#" onclick="Order.delete({{ $order->order_number }},'{{ __('Are you sure you want to delete the order: :id?', ['id' => $order->order_number]) }}')" title="{{ __('Delete') }}"
                        class="btn bt-xs btn-danger">
                         <i class="las la-trash-alt"></i>
                     </a>
+                    @endunless
                     @endcan
                     @else
                     <span class="text-muted">—</span>

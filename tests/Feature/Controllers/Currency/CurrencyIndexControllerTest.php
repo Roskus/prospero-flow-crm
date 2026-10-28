@@ -28,4 +28,16 @@ class CurrencyIndexControllerTest extends TestCase
         $response->assertSee('value="1.120000"', false);
         $response->assertSee('action="'.route('currency.save').'"', false);
     }
+
+    #[Test]
+    public function each_rate_shows_its_direction_to_the_company_currency(): void
+    {
+        $this->user->company->update(['currency' => 'ARS']);
+
+        $this->get('/currency')
+            ->assertOk()
+            ->assertSeeText('Exchange rate')
+            ->assertSeeInOrder(['1 USD =', 'name="conversion_rates[USD]"', 'ARS'], false)
+            ->assertSeeText('Enter how many ARS one unit of each currency is worth.');
+    }
 }

@@ -60,9 +60,9 @@ class BankCard extends Model
         'type',
         'network',
         'cardholder_name',
+        'number',
         'number_encrypted',
         'last_four',
-        'cvv_encrypted',
         'expires_month',
         'expires_year',
         'notes',
@@ -70,7 +70,6 @@ class BankCard extends Model
 
     protected $hidden = [
         'number_encrypted',
-        'cvv_encrypted',
     ];
 
     public function bankAccount(): BelongsTo
@@ -103,20 +102,6 @@ class BankCard extends Model
         return $this->network === self::NETWORK_AMEX
             ? $first4.' ****** '.$this->last_four
             : $first4.' **** **** '.$this->last_four;
-    }
-
-    public function setCvvAttribute(?string $cvv): void
-    {
-        $this->attributes['cvv_encrypted'] = $cvv ? Crypt::encryptString($cvv) : null;
-    }
-
-    public function getCvvAttribute(): ?string
-    {
-        if (empty($this->attributes['cvv_encrypted'])) {
-            return null;
-        }
-
-        return Crypt::decryptString($this->attributes['cvv_encrypted']);
     }
 
     public function getExpiresFormattedAttribute(): string

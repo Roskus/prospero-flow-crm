@@ -6,6 +6,7 @@ namespace Tests\Feature\Controllers\Branch;
 
 use App\Models\Branch;
 use App\Models\Company;
+use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
@@ -103,6 +104,35 @@ class BranchControllerTest extends TestCase
         $branch->refresh();
         $this->assertSame('Renamed', $branch->name);
         $this->assertSame('Madrid', $branch->city);
+    }
+
+    #[Test]
+    public function the_code_of_a_branch_with_invoices_cannot_be_changed(): void
+    {
+        $branch = Branch::factory()->forCompany($this->user->company_id)->create(['code' => '0002']);
+        Invoice::factory()->create(['company_id' => $this->user->company_id, 'branch_id' => $branch->id, 'series' => '0002']);
+
+        $this->post('/branch/save', ['id' => $branch->id, 'name' => 'Renamed', 'code' => '0009'])
+            ->assertSessionHasErrors(['code' => __('The code cannot be changed because it is the series of the branch invoices.')]);
+        $this->post('/branch/save', ['id' => $branch->id, 'name' => 'Renamed', 'code' => '0002'])->assertSessionHasNoErrors();
+
+        $this->assertSame('0002', $branch->fresh()->code);
+        $this->assertSame('Renamed', $branch->fresh()->name);
+    }
+
+    #[Test]
+    public function the_code_field_is_read_only_only_for_branches_with_invoices(): void
+    {
+        $invoiced = Branch::factory()->forCompany($this->user->company_id)->create(['code' => '0002']);
+        Invoice::factory()->create(['company_id' => $this->user->company_id, 'branch_id' => $invoiced->id]);
+        $free = Branch::factory()->forCompany($this->user->company_id)->create(['code' => '0003']);
+
+        $this->get('/branch/update/'.$invoiced->id)
+            ->assertSee('readonly', false)
+            ->assertSee(__('It is the series of its invoices'));
+        $this->get('/branch/update/'.$free->id)
+            ->assertDontSee('readonly', false)
+            ->assertSee(__('It will be the invoice series of the branch.'));
     }
 
     #[Test]

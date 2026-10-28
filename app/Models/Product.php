@@ -105,6 +105,9 @@ class Product extends Model
         return Product::orderBy('name', 'asc')->get();
     }
 
+    /**
+     * @return Builder<Product>
+     */
     public function searchByCompany(int $company_id, ?string $search = null): Builder
     {
         return Product::where('company_id', $company_id)

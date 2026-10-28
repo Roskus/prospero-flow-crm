@@ -19,7 +19,7 @@
                         <label for="type">{{ __('Type') }} <span class="text-danger">*</span></label>
                         <select name="type" id="type" required class="form-select form-select-lg @error('type') is-invalid @enderror">
                             @foreach(\App\Models\Bank\Account::TYPES as $value => $label)
-                                <option value="{{ $value }}" @selected(old('type', $bank_account->type ?? 'bank') === $value)>
+                                <option value="{{ $value }}" @selected(old('type', $bank_account->type ?? 'bank') === $value) @disabled($bank_account->isBranchCashAccount() && $value !== \App\Models\Bank\Account::TYPE_CASH)>
                                     {{ __($label) }}
                                 </option>
                             @endforeach
@@ -34,7 +34,7 @@
                                class="form-control form-control-lg @error('account_name') is-invalid @enderror">
                         @error('account_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-3" id="col-country">
                         @include('components.country', ['country_id' => old('country_id', $bank_account->country_id), 'class' => 'form-select-lg'])
                         @error('country_id') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                     </div>
@@ -141,6 +141,17 @@
                     </div>
                 </div>
 
+                <div class="row mt-3" id="row-invoice">
+                    <div class="col-12">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" name="show_on_invoice" id="show_on_invoice" value="1" class="form-check-input" role="switch"
+                                   @checked(old('show_on_invoice', $bank_account->show_on_invoice))>
+                            <label for="show_on_invoice" class="form-check-label">{{ __('Show on invoices') }}</label>
+                        </div>
+                        <small class="form-text text-muted">{{ __('Listed in the bank transfer details of invoices.') }}</small>
+                    </div>
+                </div>
+
                 {{-- Balance + Notes (always visible) --}}
                 <div class="row mt-3">
                     <div class="col-12 col-md-3">
@@ -184,6 +195,7 @@ function updateForm() {
     const type    = document.getElementById('type').value;
     const country = document.getElementById('country_id').value.toLowerCase();
     const isBank  = type === 'bank';
+    const isCash  = type === 'cash';
     const isUK    = isBank && country === COUNTRY_UK;
     const isAR    = isBank && country === COUNTRY_AR;
     const isES    = isBank && country === COUNTRY_ES;
@@ -193,7 +205,9 @@ function updateForm() {
     setVisible('row-sortcode', isUK);
     setVisible('row-cbu',      isAR);
     setVisible('row-bizum',    isES);
-    setVisible('row-provider', !isBank);
+    setVisible('row-provider', !isBank && !isCash);
+    setVisible('col-country',  !isCash);
+    setVisible('row-invoice',  !isCash);
 
     document.getElementById('currency-suffix').textContent =
         document.getElementById('currency').value || '€';

@@ -18,7 +18,6 @@ class BankCardSaveController
             'network' => ['required', 'in:visa,mastercard,amex,other'],
             'cardholder_name' => ['required', 'string', 'max:80'],
             'number' => ['required_without:id', 'nullable', 'string', 'min:12', 'max:19'],
-            'cvv' => ['nullable', 'string', 'min:3', 'max:4'],
             'expires_month' => ['required', 'integer', 'min:1', 'max:12'],
             'expires_year' => ['required', 'integer', 'min:'.date('Y')],
             'notes' => ['nullable', 'string'],
@@ -39,10 +38,6 @@ class BankCardSaveController
 
         if ($request->filled('number')) {
             $card->number = $request->number;
-        }
-
-        if ($request->filled('cvv')) {
-            $card->cvv = $request->cvv;
         }
 
         $card->save();

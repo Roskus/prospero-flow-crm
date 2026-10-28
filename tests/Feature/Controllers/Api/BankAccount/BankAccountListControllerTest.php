@@ -20,7 +20,8 @@ class BankAccountListControllerTest extends TestCase
         $response = $this->getJson('/api/bank-account');
 
         $response->assertOk();
-        $response->assertJsonCount(1, 'bank_accounts');
+        $response->assertJsonCount(2, 'bank_accounts');
+        $this->assertSame(['bank', 'cash'], collect($response->json('bank_accounts'))->pluck('type')->sort()->values()->all());
     }
 
     #[Test]

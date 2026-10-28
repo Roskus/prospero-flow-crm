@@ -18,6 +18,10 @@ class OrderUpdateController extends MainController
         $order = Order::where('company_id', Auth::user()->company_id)
             ->where('order_number', $order_number)
             ->firstOrFail();
+
+        if ($invoicedMessage = $order->invoicedMessage()) {
+            return redirect('order')->with(['status' => 'error', 'message' => $invoicedMessage]);
+        }
         $product = new Product;
         $data['order'] = $order;
         $company_id = Auth::user()->company_id;
@@ -27,6 +31,8 @@ class OrderUpdateController extends MainController
         $data['branches'] = Auth::user()->company->hasSeveralBranches()
             ? Branch::ofCompany((int) Auth::user()->company_id)->orderByDesc('is_main')->orderBy('code')->get()
             : collect();
+
+        $data['currencies'] = Auth::user()->company->usableCurrencies([$order->currency]);
 
         return view('order/order', $data);
     }

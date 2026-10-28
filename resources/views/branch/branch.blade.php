@@ -18,12 +18,13 @@
                 <div class="row">
                     <div class="col-md-2 form-group">
                         <label for="code" class="label-control">{{ __('Code') }} <span class="text-danger">*</span></label>
-                        <input type="text" name="code" id="code" value="{{ old('code', $branch->code) }}" maxlength="10" required
+                        @php($codeLocked = $branch->hasInvoices())
+                        <input type="text" name="code" id="code" value="{{ old('code', $branch->code) }}" maxlength="10" required @readonly($codeLocked)
                                class="form-control form-control-lg font-monospace @error('code') is-invalid @enderror">
                         @error('code')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <small class="form-text text-muted">{{ __('It will be the invoice series of the branch.') }}</small>
+                        <small class="form-text text-muted">{{ $codeLocked ? __('It is the series of its invoices') : __('It will be the invoice series of the branch.') }}</small>
                     </div>
                     <div class="col form-group">
                         <label for="name" class="label-control">{{ __('Name') }} <span class="text-danger">*</span></label>
