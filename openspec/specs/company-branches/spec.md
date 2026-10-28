@@ -50,7 +50,7 @@ Every company SHALL have exactly one main branch at all times. When a company is
 - **THEN** the main branch does not change and an error message is shown
 
 ### Requirement: Branch management
-Users with permission to read the company SHALL be able to list the branches of their active company. Users with permission to update the company SHALL be able to create, edit, delete and set as main its branches. Deleting a branch SHALL keep it for the records that reference it (soft delete), SHALL hide it from branch selects, and users whose default branch it was SHALL fall back to the main branch. When creating a branch the system SHALL suggest the next free numeric code of the company (`0002`, `0003`...), which the user can change.
+Users with permission to read the company SHALL be able to list the branches of their active company. Users with permission to update the company SHALL be able to create, edit, delete and set as main its branches. Deleting a branch SHALL keep it for the records that reference it (soft delete), SHALL hide it from branch selects, and users whose default branch it was SHALL fall back to the main branch. When creating a branch the system SHALL suggest the next free numeric code of the company (`0002`, `0003`...), which the user can change. The code of a branch that has issued invoices SHALL NOT be changed, because it is the series of its invoices.
 
 #### Scenario: User without update permission
 - **WHEN** a user with only read company permission tries to create, edit or delete a branch
@@ -72,6 +72,11 @@ Users with permission to read the company SHALL be able to list the branches of 
 #### Scenario: Branches in settings
 - **WHEN** a user with read company permission opens the settings screen
 - **THEN** a Branches entry is shown in the Organization group
+
+#### Scenario: Code of a branch with invoices
+- **WHEN** a user changes the code of a branch that has issued invoices
+- **THEN** the branch is not saved and a validation error on the code says it is the invoice series
+- **AND** the code field is read only in the branch form
 
 ### Requirement: User default branch
 Every user SHALL have a default branch, which SHALL be a branch of the user's default company. When a user is created, their default branch SHALL be the main branch of their company unless another branch of that company is chosen. Users that existed before branches SHALL get the main branch of their company. Changing the main branch later SHALL NOT change the default branch of existing users. A user's current branch SHALL be their default branch when it belongs to the active company and is not deleted; otherwise it SHALL be the main branch of the active company. Users who can manage users SHALL be able to change a user's default branch in the user form.
