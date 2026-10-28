@@ -44,5 +44,5 @@
 
 ## 7. Integration checks
 
-- [ ] 7.1 Run `php artisan migrate:fresh --seed` on the test database and `php artisan migrate` on a copy of existing data; verify every branch has one cash account, products and orders have the company currency and no CVV column remains
-- [ ] 7.2 Run the full suite, `vendor/bin/pint --dirty --format agent`, Larastan on the changed files and `openspec validate accounting-invoicing --strict`; verify everything passes
+- [x] 7.1 Run `php artisan migrate:fresh --seed` on the test database and `php artisan migrate` on a copy of existing data; verify every branch has one cash account, products and orders have the company currency and no CVV column remains
+- [x] 7.2 Run the full suite, `vendor/bin/pint --dirty --format agent`, Larastan on the changed files and `openspec validate accounting-invoicing --strict`; verify everything passes
