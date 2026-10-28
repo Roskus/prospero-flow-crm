@@ -19,6 +19,7 @@ class CompanyRepository
         $company->name = $data['name'];
         $company->business_name = ! empty($data['business_name']) ? $data['business_name'] : null;
         $company->vat = ! empty($data['vat']) ? $data['vat'] : null;
+        $company->registration_number = ! empty($data['registration_number']) ? $data['registration_number'] : null;
         $company->signature_html = ! empty($data['signature_html'])
             ? strip_tags($data['signature_html'], '<a><b><strong><i><em><u><br><p><div><span><ul><ol><li><img>')
             : null;

@@ -609,5 +609,14 @@
     "Copy of :name": "Copy of :name",
     "Campaign duplicated as a draft, set a schedule date to send it": "Campaign duplicated as a draft, set a schedule date to send it",
     "Recipients": "Recipients",
-    "Leads and customers": "Leads and customers"
+    "Leads and customers": "Leads and customers",
+    "Order date": "Order date",
+    "Use the order date": "Use the order date",
+    "Company registration number": "Company registration number",
+    "Price (taxes included)": "Price (taxes included)",
+    "Subtotal (without taxes)": "Subtotal (without taxes)",
+    "Taxes included": "Taxes included",
+    "Payment deleted": "Payment deleted",
+    "Delete payment": "Delete payment",
+    "Are you sure you want to delete this payment?": "Are you sure you want to delete this payment?"
 }

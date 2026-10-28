@@ -14,7 +14,7 @@
     @enderror
 
     <p class="lead">
-        {{ __('Order') }} #{{ $order->orderNumber() }} · {{ $order->customer?->displayName() }} · {{ $order->currency }}
+        {{ __('Order') }} #{{ $order->orderNumber() }}@if($order->order_date) · {{ __('Order date') }}: {{ $order->order_date->format('d/m/Y') }}@endif · {{ $order->customer?->displayName() }} · {{ $order->currency }}
     </p>
 
     <div class="row">
@@ -26,6 +26,10 @@
             @error('issue_date')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+            @if($order->order_date)
+                <button type="button" class="btn btn-link btn-sm px-0" id="use-order-date" data-date="{{ $order->order_date->toDateString() }}"
+                        onclick="document.getElementById('issue_date').value = this.dataset.date">{{ __('Use the order date') }} ({{ $order->order_date->format('d/m/Y') }})</button>
+            @endif
         </div>
         <div class="col-md-3">
             <label for="due_date">{{ __('Due date') }}</label>
@@ -63,27 +67,47 @@
         <table class="table table-sm">
             <thead>
             <tr>
+                <th>SKU/EAN</th>
                 <th>{{ __('Product') }}</th>
                 <th class="text-end">{{ __('Quantity') }}</th>
-                <th class="text-end">{{ __('Price') }}</th>
+                <th class="text-end">{{ __('Price (taxes included)') }}</th>
                 <th class="text-end">{{ __('Discount') }}</th>
+                <th class="text-end">{{ __('Subtotal') }}</th>
                 <th class="text-end">{{ __('Tax') }}</th>
+                <th class="text-end">{{ __('Taxes') }}</th>
                 <th class="text-end">{{ __('Total') }}</th>
             </tr>
             </thead>
             <tbody>
             @foreach($order->items as $item)
-                @php($line = \App\Services\InvoiceService::lineTotals((string) $item->quantity, (string) $item->unit_price, (string) ($item->discount ?? 0), (string) ($item->tax ?? 0)))
+                @php($line = $lines[$item->id])
                 <tr>
+                    <td>{!! collect($item->product?->identifierCodes() ?? [])->map(fn (string $code) => e($code))->implode('<br>') !!}</td>
                     <td>{{ $item->product?->name }}</td>
                     <td class="text-end">{{ $item->quantity }}</td>
                     <td class="text-end">{{ \App\Helpers\CurrencyHelper::formatIn($item->unit_price, $order->currency) }}</td>
                     <td class="text-end">{{ (float) $item->discount }}%</td>
+                    <td class="text-end">{{ \App\Helpers\CurrencyHelper::formatIn($line['subtotal'], $order->currency) }}</td>
                     <td class="text-end">{{ (float) $item->tax }}%</td>
+                    <td class="text-end">{{ \App\Helpers\CurrencyHelper::formatIn($line['tax_amount'], $order->currency) }}</td>
                     <td class="text-end">{{ \App\Helpers\CurrencyHelper::formatIn($line['total'], $order->currency) }}</td>
                 </tr>
             @endforeach
             </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="8" class="text-end">{{ __('Subtotal (without taxes)') }}</th>
+                <th class="text-end">{{ \App\Helpers\CurrencyHelper::formatIn($invoiceSubtotal, $order->currency) }}</th>
+            </tr>
+            <tr>
+                <th colspan="8" class="text-end">{{ __('Taxes included') }}</th>
+                <th class="text-end">{{ \App\Helpers\CurrencyHelper::formatIn($invoiceTax, $order->currency) }}</th>
+            </tr>
+            <tr>
+                <th colspan="8" class="text-end">{{ __('Total') }}</th>
+                <th class="text-end">{{ \App\Helpers\CurrencyHelper::formatIn($invoiceTotal, $order->currency) }}</th>
+            </tr>
+            </tfoot>
         </table>
     </div>
 

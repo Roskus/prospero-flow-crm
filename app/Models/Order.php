@@ -258,23 +258,15 @@ final class Order extends Model
     }
 
     /**
-     * Return taxes
+     * Taxes included in the order total.
      */
     public function getTax(): float
     {
-        return $this->items->sum(function ($item) {
-            $tax = 0.0;
-            $price = $item->getSubTotal();
-            if (isset($item['tax'])) {
-                $tax = $price * ($item['tax'] / 100);
-            }
-
-            return $tax;
-        });
+        return $this->items->sum(fn (Item $item): float => $item->getTaxAmount());
     }
 
     /**
-     * Return amount - discounts + taxes
+     * Return amount - discounts, taxes included
      */
     public function getTotal(): float
     {

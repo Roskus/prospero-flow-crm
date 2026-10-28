@@ -34,7 +34,7 @@ class InvoiceServiceTest extends TestCase
         parent::setUp();
 
         $this->invoiceService = app(InvoiceService::class);
-        $this->company = Company::factory()->create(['currency' => 'EUR', 'business_name' => 'Issuer S.L.', 'vat' => 'B12345678']);
+        $this->company = Company::factory()->create(['currency' => 'EUR', 'business_name' => 'Issuer S.L.', 'vat' => 'B12345678', 'registration_number' => '12345678']);
         $this->branch = Branch::factory()->forCompany($this->company)->create(['code' => '0007', 'name' => 'Centro']);
         $this->customer = Customer::factory()->create([
             'company_id' => $this->company->id,
@@ -46,16 +46,16 @@ class InvoiceServiceTest extends TestCase
     }
 
     #[Test]
-    public function it_copies_the_lines_with_rounded_totals(): void
+    public function it_copies_the_lines_breaking_down_the_taxes_included_in_the_price(): void
     {
-        $product = Product::factory()->create(['company_id' => $this->company->id, 'name' => 'Coffee', 'sku' => 'CF-01']);
+        $product = Product::factory()->create(['company_id' => $this->company->id, 'name' => 'Coffee', 'sku' => 'CF-01', 'barcode' => '4008496982943']);
         $order = $this->createOrder(lines: [['product_id' => $product->id, 'quantity' => 3, 'unit_price' => 10, 'discount' => 10, 'tax' => 21]]);
 
         $invoice = $this->invoiceService->issue($order);
 
-        $this->assertSame('27.00', $invoice->subtotal);
-        $this->assertSame('5.67', $invoice->tax);
-        $this->assertSame('32.67', $invoice->total);
+        $this->assertSame('22.31', $invoice->subtotal);
+        $this->assertSame('4.69', $invoice->tax);
+        $this->assertSame('27.00', $invoice->total);
         $this->assertSame(Invoice::ISSUED, $invoice->status);
         $this->assertSame('EUR', $invoice->currency);
         $this->assertSame('1.000000', $invoice->fresh()->exchange_rate);
@@ -63,10 +63,31 @@ class InvoiceServiceTest extends TestCase
         $line = $invoice->items()->sole();
         $this->assertSame('Coffee', $line->description);
         $this->assertSame('CF-01', $line->sku);
+        $this->assertSame('4008496982943', $line->barcode);
         $this->assertSame('3.000', $line->quantity);
-        $this->assertSame('27.00', $line->subtotal);
-        $this->assertSame('5.67', $line->tax_amount);
-        $this->assertSame('32.67', $line->total);
+        $this->assertSame('22.31', $line->subtotal);
+        $this->assertSame('4.69', $line->tax_amount);
+        $this->assertSame('27.00', $line->total);
+    }
+
+    #[Test]
+    public function the_invoice_total_matches_the_order_amount_with_taxes_included(): void
+    {
+        $order = $this->createOrder(lines: [['quantity' => 1, 'unit_price' => 18.99, 'discount' => 0, 'tax' => 4]]);
+        $order->refreshAmount();
+
+        $invoice = $this->invoiceService->issue($order);
+
+        $this->assertSame('18.26', $invoice->subtotal);
+        $this->assertSame('0.73', $invoice->tax);
+        $this->assertSame('18.99', $invoice->total);
+        $this->assertSame((float) $invoice->total, $order->fresh()->getAmount());
+    }
+
+    #[Test]
+    public function a_line_without_tax_has_no_tax_amount(): void
+    {
+        $this->assertSame(['subtotal' => '15.00', 'tax_amount' => '0.00', 'total' => '15.00'], InvoiceService::lineTotals('3', '5', '0', '0'));
     }
 
     #[Test]
@@ -83,7 +104,7 @@ class InvoiceServiceTest extends TestCase
         $this->assertSame($this->customer->id, $invoice->customer_id);
         $this->assertSame($this->branch->id, $invoice->branch_id);
         $this->assertSame($order->id, $invoice->order_id);
-        $this->assertSame('131.00', $invoice->total);
+        $this->assertSame('110.00', $invoice->total);
     }
 
     #[Test]
@@ -181,6 +202,7 @@ class InvoiceServiceTest extends TestCase
         $this->assertSame('García', $invoice->customer_data['business_name']);
         $this->assertSame('Issuer S.L.', $invoice->issuer_data['company']['business_name']);
         $this->assertSame('B12345678', $invoice->issuer_data['company']['vat']);
+        $this->assertSame('12345678', $invoice->issuer_data['company']['registration_number']);
         $this->assertSame('0007', $invoice->issuer_data['branch']['code']);
         $this->assertSame('Centro', $invoice->issuer_data['branch']['name']);
     }

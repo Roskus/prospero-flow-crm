@@ -46,13 +46,26 @@ class InvoicePdfControllerTest extends TestCase
     public function the_pdf_shows_the_invoice_data(): void
     {
         $invoice = $this->createInvoice();
-        Item::factory()->create(['invoice_id' => $invoice->id, 'description' => 'Coffee beans', 'sku' => 'CF-01']);
+        Item::factory()->create(['invoice_id' => $invoice->id, 'description' => 'Coffee beans', 'sku' => 'CF-01', 'barcode' => '4008496982943']);
 
         $html = $this->renderPdf($invoice->fresh());
 
         $this->assertStringContainsString($invoice->fullNumber(), $html);
         $this->assertStringContainsString('Coffee beans', $html);
+        $this->assertStringContainsString('CF-01<br>4008496982943', $html);
         $this->assertStringContainsString('Ana García', $html);
+    }
+
+    #[Test]
+    public function the_pdf_shows_the_registration_number_apart_from_the_vat(): void
+    {
+        $invoice = $this->createInvoice();
+        $invoice->update(['issuer_data' => [...$invoice->issuer_data, 'company' => [...$invoice->issuer_data['company'], 'registration_number' => '12345678']]]);
+
+        $html = $this->renderPdf($invoice->fresh());
+
+        $this->assertStringContainsString(__('Company registration number').': 12345678', $html);
+        $this->assertStringNotContainsString(__('VAT').':', $html);
     }
 
     #[Test]

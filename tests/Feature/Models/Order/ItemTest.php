@@ -50,7 +50,7 @@ final class ItemTest extends TestCase
     }
 
     #[Test]
-    public function it_calculates_tax_amount(): void
+    public function it_breaks_down_the_tax_included_in_the_subtotal(): void
     {
         $item = Item::factory()->create([
             'unit_price' => 100.00,
@@ -59,6 +59,6 @@ final class ItemTest extends TestCase
             'tax' => 21,
         ]);
 
-        $this->assertEqualsWithDelta(56.7, $item->getTaxAmount(), 0.00001);
+        $this->assertEqualsWithDelta(46.8595, $item->getTaxAmount(), 0.0001);
     }
 }

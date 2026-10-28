@@ -74,8 +74,13 @@ final class Item extends Model
         return $amount - (($this->getAttribute('discount') / 100) * $amount);
     }
 
+    /**
+     * Unit prices include taxes, so the tax is the part of the subtotal above subtotal / (1 + tax%).
+     */
     public function getTaxAmount(): float
     {
-        return ($this->getAttribute('tax') / 100) * $this->getSubTotal();
+        $subtotal = $this->getSubTotal();
+
+        return $subtotal - $subtotal / (1 + ((float) $this->getAttribute('tax') / 100));
     }
 }

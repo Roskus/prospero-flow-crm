@@ -79,6 +79,7 @@ class InvoiceService
                     'product_id' => $orderItem->product_id,
                     'description' => (string) ($orderItem->product->name ?? ''),
                     'sku' => $orderItem->product->sku ?? null,
+                    'barcode' => $orderItem->product->barcode ?? null,
                     'quantity' => $orderItem->quantity,
                     'unit_price' => $orderItem->unit_price,
                     'discount' => $orderItem->discount ?? 0,
@@ -255,20 +256,21 @@ class InvoiceService
     }
 
     /**
-     * Subtotal (quantity × unit price minus the discount), tax and total of a line, each rounded to 2 decimals.
+     * Unit prices include taxes, so the total of a line is quantity × unit price minus the discount and the tax is
+     * broken down from it: subtotal = total / (1 + tax%), tax = total - subtotal. Each amount is rounded to 2 decimals.
      *
      * @return array{subtotal: string, tax_amount: string, total: string}
      */
     public static function lineTotals(string $quantity, string $unitPrice, string $discount, string $taxPercentage): array
     {
         $gross = bcmul($quantity, $unitPrice, 10);
-        $subtotal = ExchangeRateService::round(bcsub($gross, bcdiv(bcmul($gross, $discount, 10), '100', 10), 10));
-        $taxAmount = ExchangeRateService::round(bcdiv(bcmul($subtotal, $taxPercentage, 10), '100', 10));
+        $total = ExchangeRateService::round(bcsub($gross, bcdiv(bcmul($gross, $discount, 10), '100', 10), 10));
+        $subtotal = ExchangeRateService::round(bcdiv(bcmul($total, '100', 10), bcadd('100', $taxPercentage, 10), 10));
 
         return [
             'subtotal' => $subtotal,
-            'tax_amount' => $taxAmount,
-            'total' => bcadd($subtotal, $taxAmount, 2),
+            'tax_amount' => bcsub($total, $subtotal, 2),
+            'total' => $total,
         ];
     }
 
@@ -328,6 +330,7 @@ class InvoiceService
                 'name' => $company->name,
                 'business_name' => $company->business_name,
                 'vat' => $company->vat,
+                'registration_number' => $company->registration_number,
                 'phone' => $company->phone,
                 'email' => $company->email,
                 'website' => $company->website,

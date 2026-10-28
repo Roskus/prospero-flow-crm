@@ -630,5 +630,14 @@
     "Copy of :name": "Copia de :name",
     "Campaign duplicated as a draft, set a schedule date to send it": "Campaña duplicada como borrador, ponle una fecha programada para enviarla",
     "Recipients": "Destinatarios",
-    "Leads and customers": "Prospectos y clientes"
+    "Leads and customers": "Prospectos y clientes",
+    "Order date": "Fecha del pedido",
+    "Use the order date": "Usar la fecha del pedido",
+    "Company registration number": "Número de registro de la empresa",
+    "Price (taxes included)": "Precio (impuestos incluidos)",
+    "Subtotal (without taxes)": "Subtotal (sin impuestos)",
+    "Taxes included": "Impuestos incluidos",
+    "Payment deleted": "Pago eliminado",
+    "Delete payment": "Eliminar pago",
+    "Are you sure you want to delete this payment?": "¿Seguro que quieres eliminar este pago?"
 }

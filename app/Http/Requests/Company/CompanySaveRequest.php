@@ -44,6 +44,7 @@ class CompanySaveRequest extends FormRequest
             'name' => 'required|string|max:255',
             'business_name' => 'nullable|string|max:255',
             'vat' => 'nullable|string|max:30',
+            'registration_number' => 'nullable|string|max:30',
             'signature_html' => 'nullable|string',
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|email',

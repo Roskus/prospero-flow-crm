@@ -19,13 +19,14 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'product_id', description: 'Product ID at the moment of issue', type: 'integer', example: 1),
         new OAT\Property(property: 'description', description: 'Product name at the moment of issue', type: 'string', example: 'Coffee'),
         new OAT\Property(property: 'sku', description: 'Product SKU at the moment of issue', type: 'string', example: 'CF-01'),
+        new OAT\Property(property: 'barcode', description: 'Product barcode (EAN) at the moment of issue', type: 'string', example: '4008496982943'),
         new OAT\Property(property: 'quantity', description: 'Quantity', type: 'number', format: 'float', example: 3),
-        new OAT\Property(property: 'unit_price', description: 'Unit price', type: 'number', format: 'float', example: 10.0),
+        new OAT\Property(property: 'unit_price', description: 'Unit price, taxes included', type: 'number', format: 'float', example: 10.0),
         new OAT\Property(property: 'discount', description: 'Discount percentage', type: 'number', format: 'float', example: 10.0),
         new OAT\Property(property: 'tax', description: 'Tax percentage', type: 'number', format: 'float', example: 21.0),
-        new OAT\Property(property: 'subtotal', description: 'Quantity × unit price minus the discount, rounded', type: 'number', format: 'float', example: 27.0),
-        new OAT\Property(property: 'tax_amount', description: 'Subtotal × tax percentage, rounded', type: 'number', format: 'float', example: 5.67),
-        new OAT\Property(property: 'total', description: 'Subtotal plus tax', type: 'number', format: 'float', example: 32.67),
+        new OAT\Property(property: 'subtotal', description: 'Total without taxes: total / (1 + tax percentage), rounded', type: 'number', format: 'float', example: 22.31),
+        new OAT\Property(property: 'tax_amount', description: 'Taxes included in the total: total minus subtotal', type: 'number', format: 'float', example: 4.69),
+        new OAT\Property(property: 'total', description: 'Quantity × unit price minus the discount, taxes included, rounded', type: 'number', format: 'float', example: 27.0),
     ],
     type: 'object'
 )]
@@ -40,6 +41,7 @@ final class Item extends Model
         'product_id',
         'description',
         'sku',
+        'barcode',
         'quantity',
         'unit_price',
         'discount',
@@ -60,6 +62,19 @@ final class Item extends Model
             'tax_amount' => 'decimal:2',
             'total' => 'decimal:2',
         ];
+    }
+
+    /**
+     * SKU and barcode (EAN) that are filled in, as printed on the invoice; both are strings, so "0" is kept.
+     *
+     * @return list<string>
+     */
+    public function identifierCodes(): array
+    {
+        return array_values(array_filter(
+            [(string) $this->sku, (string) $this->barcode],
+            fn (string $code): bool => $code !== '',
+        ));
     }
 
     public function invoice(): BelongsTo
