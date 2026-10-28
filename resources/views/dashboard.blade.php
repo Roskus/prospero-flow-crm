@@ -154,7 +154,7 @@
         @include('calendar.modal._quick_event')
 
         @push('scripts')
-            <script src="{{ url('/asset/js/QuickEvent.js') }}"></script>
+            <script src="{{ url('/asset/js/QuickEvent.js') }}?v={{ config('app.version') }}"></script>
         @endpush
     @endcan
 @endsection

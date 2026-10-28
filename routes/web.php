@@ -7,7 +7,6 @@ use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\Auth\UnlockController;
 use App\Http\Controllers\Campaign\CampaignOpenController;
 use App\Http\Controllers\EmailTemplate\EmailTemplateIndexController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ManifestController;
 use App\Http\Controllers\Permission\PermissionIndexController;
@@ -121,7 +120,7 @@ Route::get('/profile', [ProfileUpdateController::class, 'update']);
 Route::post('/profile/save', [ProfileSaveController::class, 'save']);
 
 Route::get('/setting', [SettingController::class, 'index'])->middleware('permission:read company|update company');
-Route::get('/home', [HomeController::class, 'index']);
+Route::redirect('/home', '/');
 
 // Calendar
 require __DIR__.'/module/calendar.php';

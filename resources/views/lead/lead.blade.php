@@ -374,6 +374,6 @@
         });
     </script>
     @include('components.tom_select')
-    <script src="/asset/js/Region.js"></script>
+    <script src="/asset/js/Region.js?v={{ config('app.version') }}"></script>
     @endpush
 @endsection

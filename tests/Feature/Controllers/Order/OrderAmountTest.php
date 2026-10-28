@@ -65,6 +65,45 @@ class OrderAmountTest extends TestCase
         $this->assertEquals(0, $order->fresh()->amount);
     }
 
+    #[Test]
+    public function a_free_line_can_be_added_to_an_order(): void
+    {
+        $freeShipping = Product::factory()->create(['company_id' => $this->user->company_id, 'price' => 0]);
+
+        $this->post('/order/save', [
+            'customer_id' => $this->customer()->id,
+            'items' => [
+                ['product_id' => $this->product()->id, 'quantity' => 1, 'price' => 30],
+                ['product_id' => $freeShipping->id, 'quantity' => 1, 'price' => 0],
+            ],
+        ])->assertRedirect('order');
+
+        $order = $this->latestOrder();
+        $this->assertEquals(30, $order->amount);
+        $this->assertDatabaseHas('order_item', ['order_id' => $order->id, 'product_id' => $freeShipping->id, 'unit_price' => 0]);
+    }
+
+    #[Test]
+    public function the_api_accepts_a_free_line(): void
+    {
+        $this->actingAs($this->user, 'api');
+        $order = Order::factory()->create(['company_id' => $this->user->company_id]);
+
+        $this->postJson('/api/order-item', [
+            'order_number' => (string) $order->order_number,
+            'product_id' => $this->product()->id,
+            'quantity' => 1,
+            'unit_price' => 0,
+        ])->assertCreated();
+
+        $this->postJson('/api/order-item', [
+            'order_number' => (string) $order->order_number,
+            'product_id' => $this->product()->id,
+            'quantity' => 1,
+            'unit_price' => -1,
+        ])->assertUnprocessable()->assertJsonValidationErrors('unit_price');
+    }
+
     private function customer(): Customer
     {
         return Customer::factory()->create(['company_id' => $this->user->company_id]);

@@ -141,7 +141,7 @@
     {{ $users->appends(request()->query())->links() }}
 </div>
 @push('scripts')
-    <script src="{{ asset('/asset/js/User.js') }}"></script>
+    <script src="{{ asset('/asset/js/User.js') }}?v={{ config('app.version') }}"></script>
 @endpush
 @endsection
 

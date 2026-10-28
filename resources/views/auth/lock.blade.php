@@ -91,6 +91,6 @@
     </div>
 </div>
 @push('scripts')
-    <script src="{{ url('/asset/js/Password.js') }}"></script>
+    <script src="{{ url('/asset/js/Password.js') }}?v={{ config('app.version') }}"></script>
 @endpush
 @endsection

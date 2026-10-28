@@ -93,5 +93,5 @@
 </tbody>
 </table>
 @push('scripts')
-<script src="/asset/js/Contact.js"></script>
+<script src="/asset/js/Contact.js?v={{ config('app.version') }}"></script>
 @endpush

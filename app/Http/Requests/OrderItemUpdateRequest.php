@@ -19,7 +19,7 @@ class OrderItemUpdateRequest extends FormRequest
     {
         return [
             'quantity' => ['sometimes', 'integer', 'min:1'],
-            'unit_price' => ['sometimes', 'numeric', 'min:0.01', 'max:'.CurrencyHelper::MAX_AMOUNT],
+            'unit_price' => ['sometimes', 'numeric', 'min:0', 'max:'.CurrencyHelper::MAX_AMOUNT],
             'discount' => ['sometimes', 'numeric', 'min:0', 'max:100'],
             'tax' => ['sometimes', 'numeric', 'min:0', 'max:100'],
         ];

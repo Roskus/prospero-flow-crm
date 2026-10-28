@@ -28,12 +28,6 @@ We made a free open source CRM. Our Community Edition (CE)
 git clone git@github.com:Roskus/prospero-flow-crm.git
 ```
 
-### Migrate from hammer to prospero-flow-crm repo
-
-```bash
-git remote set-url origin git@github.com:Roskus/prospero-flow-crm.git
-```
-
 ### Docker Setup in 1 command
 
 ```bash

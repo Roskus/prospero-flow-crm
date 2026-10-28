@@ -24,7 +24,7 @@ var Order =
         let price = document.getElementById('price');
         let discount = document.getElementById('discount');
         let product_tax = document.getElementById('product_tax');
-        if (product_id.value && quantity.value > 0 && price.value > 0.0)
+        if (product_id.value && quantity.value > 0 && price.value !== "" && price.value >= 0)
         {
             if (rowNoData) rowNoData.remove();
             product_id.classList.remove('is-invalid');
@@ -107,7 +107,7 @@ var Order =
         } else {
             if(!product_id.value) product_id.classList.add("is-invalid");
             if(quantity.value <= 0) quantity.classList.add("is-invalid");
-            if(!price.value) price.classList.add("is-invalid");
+            if(price.value === "" || price.value < 0) price.classList.add("is-invalid");
         }
     },
     removeRow: function(button) {
