@@ -158,7 +158,7 @@
     </div><!--./card-body-->
 </div><!--./card-->
 @push('scripts')
-    <script src="{{ asset('/asset/js/Order.js') }}"></script>
+    <script src="{{ asset('/asset/js/Order.js') }}?v={{ config('app.version') }}"></script>
 @endpush
 @endsection
 

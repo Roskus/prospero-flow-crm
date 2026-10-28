@@ -98,6 +98,6 @@
     </div>
     @include('email.popup.duplicate')
     @push('scripts')
-        <script src="/asset/js/Email.js"></script>
+        <script src="/asset/js/Email.js?v={{ config('app.version') }}"></script>
     @endpush
 @endsection

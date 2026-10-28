@@ -78,7 +78,7 @@
 
     @push('scripts')
         <script> const route_calendar_controller = "{{ url(path:'calendar', secure: app()->environment('production')) }}"; </script>
-        <script src="{{ url('/asset/js/Calendar.js') }}"></script>
+        <script src="{{ url('/asset/js/Calendar.js') }}?v={{ config('app.version') }}"></script>
         @if(request()->integer('event') > 0)
             <script>Calendar.read({{ request()->integer('event') }});</script>
         @endif

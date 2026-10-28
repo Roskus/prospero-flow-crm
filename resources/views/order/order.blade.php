@@ -202,7 +202,7 @@
             }
         });
     </script>
-    <script src="{{ asset('/asset/js/Order.js') }}"></script>
+    <script src="{{ asset('/asset/js/Order.js') }}?v={{ config('app.version') }}"></script>
     <script>
         Order.items = new Array({{ $order->items->count() }});
         Order.total = {{ $order->getTotal() }};

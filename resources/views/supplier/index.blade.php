@@ -67,6 +67,6 @@
         </div>
     </div>
     @push('scripts')
-        <script src="{{ asset('/asset/js/Supplier.js') }}"></script>
+        <script src="{{ asset('/asset/js/Supplier.js') }}?v={{ config('app.version') }}"></script>
     @endpush
 @endsection

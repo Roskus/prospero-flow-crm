@@ -142,7 +142,7 @@
         </div><!--./card-body-->
     </div><!--./card-->
     @push('scripts')
-    <script src="{{ url('/asset/js/Password.js') }}"></script>
+    <script src="{{ url('/asset/js/Password.js') }}?v={{ config('app.version') }}"></script>
     @include('html_editor', ['id' => 'signature_html', 'placeholder' => 'Email signature'])
     @endpush
 @endsection

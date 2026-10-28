@@ -11,5 +11,7 @@ return [
     ['country_id' => 'gb', 'name' => 'HSBC UK BANK PLC', 'phone' => '+', 'email' => '', 'website' => 'https://www.hsbc.co.uk/', 'bic' => 'HBUKGB4BXXX'],
     ['country_id' => 'gb', 'name' => 'BANK OF SCOTLAND PLC', 'phone' => '+', 'email' => '', 'website' => 'https://www.bankofscotland.co.uk/', 'bic' => 'BOFSGB2SXXX'],
     ['country_id' => 'gb', 'name' => 'TSB BANK PLC', 'phone' => '+', 'email' => '', 'website' => 'https://www.tsb.co.uk/', 'bic' => 'TSBSGB2AXXX'],
+    ['country_id' => 'gb', 'name' => 'WORLD FIRST UK LTD', 'phone' => '+', 'email' => '', 'website' => 'https://www.worldfirst.com/uk/', 'bic' => 'WFSTGB2LXXX'],
+
     // ['country_id' => 'gb', 'name' => '', 'phone' => '+', 'email' => '', 'website' => '', 'bic' => ''],
 ];

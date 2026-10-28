@@ -89,6 +89,6 @@
         <div class="col-md-9 d-none d-sm-block" style="background: url('/asset/img/bg-auth.jpg') center/cover no-repeat; min-height: 100vh;"></div>
     </div>
     @push('scripts')
-    <script src="{{ url('/asset/js/Password.js') }}"></script>
+    <script src="{{ url('/asset/js/Password.js') }}?v={{ config('app.version') }}"></script>
     @endpush
 @endsection
