@@ -82,6 +82,32 @@ class OrderStatusControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_order_page_shows_the_edit_button_only_for_pending_orders(): void
+    {
+        $pending = $this->createOrder(Order::PENDING);
+        $confirmed = $this->createOrder(Order::CONFIRMED);
+
+        $this->get('/order/show/'.$pending->order_number)
+            ->assertOk()
+            ->assertSee(url('/order/update/'.$pending->order_number));
+        $this->get('/order/show/'.$confirmed->order_number)
+            ->assertOk()
+            ->assertDontSee(url('/order/update/'.$confirmed->order_number));
+    }
+
+    #[Test]
+    public function the_order_page_hides_the_edit_button_without_update_order(): void
+    {
+        $user = User::factory()->create(['company_id' => $this->user->company_id]);
+        $user->givePermissionTo(Permission::findOrCreate('read order', 'web'));
+        $order = $this->createOrder(Order::PENDING);
+
+        $this->actingAs($user)->get('/order/show/'.$order->order_number)
+            ->assertOk()
+            ->assertDontSee(url('/order/update/'.$order->order_number));
+    }
+
+    #[Test]
     public function pending_and_confirmed_orders_can_be_canceled(): void
     {
         $pending = $this->createOrder(Order::PENDING);
