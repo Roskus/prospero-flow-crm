@@ -473,6 +473,7 @@
     "Time Off Requests": "Solicitudes de ausencia",
     "Time entry saved successfully": "Fichaje guardado correctamente",
     "Time entry updated successfully": "Fichaje actualizado correctamente",
+    "The time entry overlaps another one of the same person (:date :start — :end).": "El fichaje se solapa con otro de la misma persona (:date :start — :end).",
     "Time off request submitted successfully": "Solicitud de ausencia enviada correctamente",
     "Vacation": "Vacaciones",
     "Vacation days": "Días de vacaciones",

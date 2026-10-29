@@ -428,6 +428,7 @@
     "Time Off Requests" : "Time Off Requests",
     "Time entry saved successfully" : "Time entry saved successfully",
     "Time entry updated successfully" : "Time entry updated successfully",
+    "The time entry overlaps another one of the same person (:date :start — :end)." : "The time entry overlaps another one of the same person (:date :start — :end).",
     "Time off request submitted successfully" : "Time off request submitted successfully",
     "Vacation" : "Vacation",
     "Vacation days" : "Vacation days",
