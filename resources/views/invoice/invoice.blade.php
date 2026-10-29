@@ -120,7 +120,7 @@
             <label for="register_payment" class="form-check-label fw-semibold">{{ __('Register a payment now') }}</label>
         </div>
         <div id="payment-fields" @class(['d-none' => ! old('register_payment')])>
-            @include('invoice.partial._payment_fields', ['prefix' => 'payment', 'currency' => $order->currency, 'amount' => $invoiceTotal, 'accounts' => $accounts, 'currencies' => $currencies])
+            @include('invoice.partial._payment_fields', ['prefix' => 'payment', 'currency' => $order->currency, 'amount' => $invoiceTotal, 'accounts' => $accounts, 'currencies' => $currencies, 'orderDate' => $order->order_date])
         </div>
     </section>
     @endcan

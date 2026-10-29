@@ -1,9 +1,11 @@
 {{--
     Payment fields shared by the invoice payment form and the payment section of the invoice form.
-    Params: currency (invoice currency), amount (default amount), accounts, currencies, prefix ('' or 'payment').
+    Params: currency (invoice currency), amount (default amount), accounts, currencies, prefix ('' or 'payment'),
+    orderDate (optional order date offered as payment date).
 --}}
 @php
     $prefix = $prefix ?? '';
+    $orderDate = $orderDate ?? null;
     $field = fn (string $name): string => $prefix === '' ? $name : $prefix.'['.$name.']';
     $key = fn (string $name): string => $prefix === '' ? $name : $prefix.'.'.$name;
     $id = fn (string $name): string => ($prefix === '' ? 'payment_' : $prefix.'_').$name;
@@ -58,6 +60,10 @@
                value="{{ old($key('payment_date'), today()->toDateString()) }}"
                class="form-control @error($key('payment_date')) is-invalid @enderror">
         @error($key('payment_date')) <div class="invalid-feedback">{{ $message }}</div> @enderror
+        @if($orderDate)
+            <button type="button" class="btn btn-link btn-sm px-0" id="{{ $id('use_order_date') }}" data-date="{{ $orderDate->toDateString() }}"
+                    onclick="document.getElementById('{{ $id('payment_date') }}').value = this.dataset.date">{{ __('Use the order date') }} ({{ $orderDate->format('d/m/Y') }})</button>
+        @endif
     </div>
     <div class="col-12 col-md-3">
         <label for="{{ $id('reference') }}">{{ __('Reference') }}</label>
