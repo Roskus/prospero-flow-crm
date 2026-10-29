@@ -86,7 +86,7 @@
                         @error('invoice')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                        @include('invoice.partial._payment_fields', ['currency' => $invoice->currency, 'amount' => $invoice->balance(), 'accounts' => $accounts, 'currencies' => $currencies])
+                        @include('invoice.partial._payment_fields', ['currency' => $invoice->currency, 'amount' => $invoice->balance(), 'accounts' => $accounts, 'currencies' => $currencies, 'orderDate' => $invoice->order?->order_date])
                         <button type="submit" class="btn btn-success mt-2">
                             <i class="las la-check"></i> {{ __('Register payment') }}
                         </button>

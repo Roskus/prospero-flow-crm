@@ -117,6 +117,32 @@ class InvoicePaymentControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_invoice_page_offers_the_order_date_as_payment_date(): void
+    {
+        $order = $this->createOrder(500);
+        $order->update(['order_date' => '2024-12-02']);
+        $invoice = app(InvoiceService::class)->issue($order);
+
+        $this->get(route('invoice.show', $invoice->id))
+            ->assertOk()
+            ->assertSee('id="payment_use_order_date" data-date="2024-12-02"', false)
+            ->assertSee("document.getElementById('payment_payment_date')", false)
+            ->assertSee(__('Use the order date').' (02/12/2024)');
+    }
+
+    #[Test]
+    public function the_invoice_form_offers_the_order_date_as_payment_date(): void
+    {
+        $order = $this->createOrder(500);
+        $order->update(['order_date' => '2024-12-02']);
+
+        $this->get(route('invoice.create', $order->order_number))
+            ->assertOk()
+            ->assertSee('id="payment_use_order_date" data-date="2024-12-02"', false)
+            ->assertSee("document.getElementById('payment_payment_date')", false);
+    }
+
+    #[Test]
     public function stripe_and_paypal_payments_are_registered_from_the_invoice_page(): void
     {
         $invoice = $this->issue(300);
