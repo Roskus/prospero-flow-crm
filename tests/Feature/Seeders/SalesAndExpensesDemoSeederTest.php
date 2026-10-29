@@ -55,6 +55,28 @@ class SalesAndExpensesDemoSeederTest extends TestCase
     }
 
     #[Test]
+    public function the_invoice_income_is_the_order_amount_with_taxes_included(): void
+    {
+        fake()->seed(1);
+        mt_srand(1);
+        $companyId = (int) $this->user->company_id;
+
+        (new SalesAndExpensesDemoSeeder)->run($companyId);
+
+        $invoicedOrders = Order::withoutGlobalScope('orderCreated')
+            ->with('items')
+            ->where('company_id', $companyId)
+            ->whereIn('status', [Order::CONFIRMED, Order::COMPLETED])
+            ->get();
+
+        $this->assertTrue($invoicedOrders->contains(fn (Order $order) => $order->items->contains(fn ($item) => (float) $item->discount > 0 && (float) $item->tax > 0)));
+        $invoicedOrders->each(function (Order $order) use ($companyId): void {
+            $income = Transaction::where('company_id', $companyId)->where('reference', 'INV-'.$order->order_number)->sole();
+            $this->assertSame((string) $order->amount, (string) $income->amount);
+        });
+    }
+
+    #[Test]
     public function only_confirmed_and_completed_orders_are_invoiced(): void
     {
         $companyId = (int) $this->user->company_id;

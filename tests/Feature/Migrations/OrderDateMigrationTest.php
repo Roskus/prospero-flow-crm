@@ -65,6 +65,6 @@ class OrderDateMigrationTest extends TestCase
             'amount' => 0,
         ]);
 
-        $this->assertSame(now()->toDateString(), DB::table('order')->where('id', $orderId)->value('order_date'));
+        $this->assertSame(DB::selectOne('SELECT CURRENT_DATE AS today')->today, DB::table('order')->where('id', $orderId)->value('order_date'));
     }
 }

@@ -33,7 +33,7 @@ class RecalculateOrderAmountMigrationTest extends TestCase
     }
 
     #[Test]
-    public function the_amount_keeps_the_precision_of_the_items_like_refresh_amount(): void
+    public function the_migration_keeps_the_precision_of_the_items_and_refresh_amount_rounds_each_line(): void
     {
         $order = $this->order($this->user->company, 0);
         $this->item($order, 1, 1.004, 0);
@@ -43,7 +43,7 @@ class RecalculateOrderAmountMigrationTest extends TestCase
         $order->fresh()->refreshAmount();
 
         $this->assertEqualsWithDelta(1.004, $migrated, 0.000001);
-        $this->assertEqualsWithDelta((float) $order->fresh()->amount, $migrated, 0.000001);
+        $this->assertEqualsWithDelta(1.0, (float) $order->fresh()->amount, 0.000001);
     }
 
     #[Test]
