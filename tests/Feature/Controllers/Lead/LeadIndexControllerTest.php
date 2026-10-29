@@ -6,6 +6,7 @@ namespace Tests\Feature\Controllers\Lead;
 
 use App\Models\Lead;
 use PHPUnit\Framework\Attributes\Test;
+use Squire\Models\Country;
 use Tests\TestCase;
 
 class LeadIndexControllerTest extends TestCase
@@ -13,8 +14,9 @@ class LeadIndexControllerTest extends TestCase
     #[Test]
     public function it_can_view_index_leads()
     {
-        $lead = Lead::factory()->create(['company_id' => $this->user->company_id, 'status' => Lead::OPEN]);
-        $lead2 = Lead::factory()->create(['company_id' => $this->user->company_id, 'status' => Lead::CLOSED]);
+        [$country, $otherCountry] = Country::query()->limit(2)->pluck('id')->all();
+        $lead = Lead::factory()->create(['company_id' => $this->user->company_id, 'status' => Lead::OPEN, 'country_id' => $country]);
+        $lead2 = Lead::factory()->create(['company_id' => $this->user->company_id, 'status' => Lead::CLOSED, 'country_id' => $otherCountry]);
 
         $response = $this->get('/lead');
         $response->assertOk();

@@ -6,6 +6,7 @@ namespace App\Http\Requests\Company;
 
 use App\Models\Company;
 use App\Rules\AddressRules;
+use App\Rules\ExtensionMatchesContent;
 use App\Rules\ValidateSafeSvg;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +62,7 @@ class CompanySaveRequest extends FormRequest
             // - Explicit MIME type allow-list (jpg, jpeg, png, webp, svg)
             // - Maximum file size of 2MB
             // - Custom validation to prevent embedded scripts in SVG
-            'logo' => ['nullable', 'mimes:jpeg,jpg,png,webp,svg', 'max:2048', new ValidateSafeSvg],
+            'logo' => ['nullable', 'mimes:jpeg,jpg,png,webp,svg', 'max:2048', new ExtensionMatchesContent, new ValidateSafeSvg],
         ];
 
         // Only SuperAdmin can change the status; a tampered request from any other user is rejected

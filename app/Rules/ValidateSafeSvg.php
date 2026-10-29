@@ -12,8 +12,7 @@ class ValidateSafeSvg implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // Only validate if it's an SVG file
-        if (! $value instanceof UploadedFile || ! str_ends_with(strtolower($value->getClientOriginalName()), '.svg')) {
+        if (! $value instanceof UploadedFile) {
             return;
         }
 
@@ -25,6 +24,14 @@ class ValidateSafeSvg implements ValidationRule
             return;
         }
 
+        // Inspect by content, not by file name: an SVG renamed to .png is still an SVG
+        if (stripos($content, '<svg') === false) {
+            return;
+        }
+
+        // Decode entities so payloads such as &#106;avascript: are caught
+        $content = html_entity_decode($content, ENT_QUOTES | ENT_HTML5 | ENT_XML1, 'UTF-8');
+
         // Detect dangerous patterns that could execute scripts
         $dangerousPatterns = [
             // Script tags
@@ -32,7 +39,10 @@ class ValidateSafeSvg implements ValidationRule
             // Event handlers
             '/on\w+\s*=/i',
             // JavaScript protocol
-            '/javascript:/i',
+            '/j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:/i',
+            // HTML embedded in SVG and data: URIs in links
+            '/<foreignObject[^>]*>/i',
+            '/href\s*=\s*["\']?\s*data:/i',
             // iframe or object tags that could load content
             '/<iframe[^>]*>/i',
             '/<object[^>]*>/i',

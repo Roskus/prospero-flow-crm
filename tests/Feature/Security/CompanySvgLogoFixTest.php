@@ -47,6 +47,73 @@ SVG;
         echo "  Validation prevents XSS attack vector\n";
     }
 
+    public function test_svg_with_script_renamed_to_png_is_rejected(): void
+    {
+        $company = Company::factory()->create(['name' => 'Renamed Corp']);
+        $user = User::factory()->create(['company_id' => $company->id]);
+        $user->assignRole('SuperAdmin');
+
+        $path = tempnam(sys_get_temp_dir(), 'logo');
+        file_put_contents($path, '<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>');
+        $file = new UploadedFile($path, 'logo.png', null, null, true);
+
+        $this->actingAs($user);
+        $response = $this->post('/company/save', [
+            'id' => $company->id,
+            'name' => $company->name,
+            'currency' => 'EUR',
+            'slug' => $company->slug,
+            'logo' => $file,
+        ]);
+
+        $response->assertSessionHasErrors('logo');
+        $this->assertNull($company->fresh()->logo);
+    }
+
+    public function test_svg_with_entity_encoded_javascript_link_is_rejected(): void
+    {
+        $company = Company::factory()->create(['name' => 'Encoded Corp']);
+        $user = User::factory()->create(['company_id' => $company->id]);
+        $user->assignRole('SuperAdmin');
+
+        $encodedSvg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
+            .'<a xlink:href="&#106;avascript:alert(1)"><text y="20">x</text></a></svg>';
+        $file = UploadedFile::fake()->createWithContent('logo.svg', $encodedSvg);
+
+        $this->actingAs($user);
+        $response = $this->post('/company/save', [
+            'id' => $company->id,
+            'name' => $company->name,
+            'currency' => 'EUR',
+            'slug' => $company->slug,
+            'logo' => $file,
+        ]);
+
+        $response->assertSessionHasErrors('logo');
+    }
+
+    public function test_svg_with_foreign_object_is_rejected(): void
+    {
+        $company = Company::factory()->create(['name' => 'Foreign Corp']);
+        $user = User::factory()->create(['company_id' => $company->id]);
+        $user->assignRole('SuperAdmin');
+
+        $foreignSvg = '<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="100" height="100">'
+            .'<body xmlns="http://www.w3.org/1999/xhtml"><p>x</p></body></foreignObject></svg>';
+        $file = UploadedFile::fake()->createWithContent('logo.svg', $foreignSvg);
+
+        $this->actingAs($user);
+        $response = $this->post('/company/save', [
+            'id' => $company->id,
+            'name' => $company->name,
+            'currency' => 'EUR',
+            'slug' => $company->slug,
+            'logo' => $file,
+        ]);
+
+        $response->assertSessionHasErrors('logo');
+    }
+
     public function test_safe_svg_logo_upload_is_accepted(): void
     {
         $company = Company::factory()->create(['name' => 'Safe SVG Corp']);
