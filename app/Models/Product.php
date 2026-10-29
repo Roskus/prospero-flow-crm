@@ -37,10 +37,10 @@ class Product extends Model
         'quantity',
         'weight',
         'weight_unit',
+        'volume',
+        'volume_unit',
         'dimensions',
         'dimension_unit',
-        'capacity',
-        'capacity_measure',
         'description',
         'elaboration_date',
         'expiration_date',
@@ -72,10 +72,12 @@ class Product extends Model
     #[OAT\Property(property: 'currency', type: 'string', example: 'USD')]
     #[OAT\Property(property: 'min_stock_quantity', type: 'integer', example: 10)]
     #[OAT\Property(property: 'quantity', type: 'integer', example: 33)]
-    #[OAT\Property(property: 'weight', type: 'number', format: 'float', example: 1.25)]
-    #[OAT\Property(property: 'weight_unit', type: 'string', enum: ['g', 'kg', 'lb', 'oz'], example: 'kg')]
-    #[OAT\Property(property: 'dimensions', type: 'string', example: '200 x 150 x 100')]
-    #[OAT\Property(property: 'dimension_unit', type: 'string', enum: ['mm', 'cm', 'm', 'in'], example: 'mm')]
+    #[OAT\Property(property: 'weight', type: 'number', nullable: true, format: 'float', example: 1.25)]
+    #[OAT\Property(property: 'weight_unit', type: 'string', nullable: true, enum: ['mg', 'g', 'kg', 'lb', 'oz'], example: 'kg')]
+    #[OAT\Property(property: 'volume', type: 'number', nullable: true, format: 'float', example: 750)]
+    #[OAT\Property(property: 'volume_unit', type: 'string', nullable: true, enum: ['ml', 'cl', 'l', 'fl oz'], example: 'ml')]
+    #[OAT\Property(property: 'dimensions', type: 'string', nullable: true, example: '200 x 150 x 100')]
+    #[OAT\Property(property: 'dimension_unit', type: 'string', nullable: true, enum: ['mm', 'cm', 'm', 'in'], example: 'mm')]
     #[OAT\Property(property: 'description', type: 'string', example: 'This is a product description')]
     #[OAT\Property(property: 'elaboration_date', type: 'string', format: 'date', example: '2023-01-01')]
     #[OAT\Property(property: 'expiration_date', type: 'string', format: 'date', example: '2023-12-01')]

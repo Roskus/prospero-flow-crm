@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\DimensionUnit;
+use App\Enums\VolumeUnit;
 use App\Enums\WeightUnit;
 use App\Helpers\CurrencyHelper;
 use App\Http\Requests\Concerns\ValidatesCurrency;
@@ -43,8 +44,10 @@ class ProductRequest extends FormRequest
             'quantity' => 'required|numeric|min:0',
             'sku' => 'nullable',
             'min_stock_quantity' => 'nullable|numeric|min:0',
-            'weight' => 'nullable|numeric|min:0|max:9999999',
+            'weight' => 'nullable|numeric|decimal:0,3|min:0|max:9999999',
             'weight_unit' => ['nullable', Rule::enum(WeightUnit::class)],
+            'volume' => 'nullable|numeric|decimal:0,3|min:0|max:9999999',
+            'volume_unit' => ['nullable', Rule::enum(VolumeUnit::class)],
             'dimensions' => 'nullable|string|max:100',
             'dimension_unit' => ['nullable', Rule::enum(DimensionUnit::class)],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:3072', new ExtensionMatchesContent],

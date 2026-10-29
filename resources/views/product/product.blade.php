@@ -69,6 +69,17 @@
                     </div>
                 </div>
                 <div class="col">
+                    <label for="volume" class="label-control">{{ __('Volume') }}</label>
+                    <div class="input-group">
+                        <input type="number" name="volume" id="volume" value="{{ old('volume', $product->volume) }}" step="0.001" min="0" class="form-control">
+                        <select name="volume_unit" id="volume_unit" class="form-select" aria-label="{{ __('Volume unit') }}" style="max-width: 6rem;">
+                            @foreach(\App\Enums\VolumeUnit::cases() as $volumeUnit)
+                                <option value="{{ $volumeUnit->value }}" @selected(old('volume_unit', $product->volume_unit ?? \App\Enums\VolumeUnit::Milliliter->value) === $volumeUnit->value)>{{ $volumeUnit->value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
                     <label for="dimensions" class="label-control">{{ __('Dimensions') }}</label>
                     <div class="input-group">
                         <input type="text" name="dimensions" id="dimensions" value="{{ old('dimensions', $product->dimensions) }}" maxlength="100" placeholder="{{ __('L x W x H') }}" class="form-control">

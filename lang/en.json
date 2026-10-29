@@ -104,6 +104,8 @@
     "Minimum stock quantity" : "Minimum stock quantity",
     "Weight" : "Weight",
     "Weight unit" : "Weight unit",
+    "Volume" : "Volume",
+    "Volume unit" : "Volume unit",
     "Dimensions" : "Dimensions",
     "Dimension unit" : "Dimension unit",
     "L x W x H" : "L x W x H",

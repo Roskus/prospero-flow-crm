@@ -105,6 +105,145 @@ class ProductSaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_saves_volume_with_its_unit(): void
+    {
+        $product = $this->validProductData(['volume' => 1.5, 'volume_unit' => 'l']);
+
+        $this->post('product/save', $product)->assertRedirect('/product');
+
+        $this->assertDatabaseHas('product', [
+            'name' => $product['name'],
+            'volume' => 1.5,
+            'volume_unit' => 'l',
+        ]);
+    }
+
+    #[Test]
+    public function it_saves_a_product_without_volume_defaulting_the_unit_to_milliliters(): void
+    {
+        $product = $this->validProductData();
+        unset($product['volume'], $product['volume_unit']);
+
+        $this->post('product/save', $product)->assertRedirect('/product');
+
+        $this->assertDatabaseHas('product', [
+            'name' => $product['name'],
+            'volume' => null,
+            'volume_unit' => 'ml',
+        ]);
+    }
+
+    #[Test]
+    public function it_accepts_milligrams_as_weight_unit(): void
+    {
+        $product = $this->validProductData(['weight' => 250, 'weight_unit' => 'mg']);
+
+        $this->post('product/save', $product)->assertRedirect('/product');
+
+        $this->assertDatabaseHas('product', ['name' => $product['name'], 'weight_unit' => 'mg']);
+    }
+
+    #[Test]
+    public function it_rejects_an_invalid_volume_unit(): void
+    {
+        $this->post('product/save', $this->validProductData(['volume_unit' => 'gal']))
+            ->assertSessionHasErrors('volume_unit');
+    }
+
+    #[Test]
+    public function it_rejects_a_negative_volume(): void
+    {
+        $this->post('product/save', $this->validProductData(['volume' => -1]))
+            ->assertSessionHasErrors('volume');
+    }
+
+    #[Test]
+    public function it_rejects_weight_and_volume_with_more_than_three_decimals(): void
+    {
+        $this->post('product/save', $this->validProductData(['weight' => 1.2345, 'volume' => 0.0001]))
+            ->assertSessionHasErrors(['weight', 'volume']);
+    }
+
+    #[Test]
+    public function it_accepts_integer_and_three_decimal_weight_and_volume(): void
+    {
+        $product = $this->validProductData(['weight' => 2, 'volume' => 0.125]);
+
+        $this->post('product/save', $product)->assertRedirect('/product');
+
+        $this->assertDatabaseHas('product', ['name' => $product['name'], 'weight' => 2, 'volume' => 0.125]);
+    }
+
+    #[Test]
+    public function it_keeps_existing_measurements_when_an_update_omits_them(): void
+    {
+        $product = Product::factory()->create([
+            'company_id' => $this->user->company_id,
+            'weight' => 1.5,
+            'weight_unit' => 'kg',
+            'volume' => 750,
+            'volume_unit' => 'ml',
+            'dimensions' => '20 x 15 x 10',
+            'dimension_unit' => 'cm',
+        ]);
+
+        $this->post('product/save', [
+            'id' => $product->id,
+            'category_id' => $product->category_id,
+            'brand_id' => $product->brand_id,
+            'name' => 'Renamed product',
+            'cost' => 10,
+            'price' => 20,
+            'quantity' => 5,
+        ])->assertRedirect('/product');
+
+        $this->assertDatabaseHas('product', [
+            'id' => $product->id,
+            'name' => 'Renamed product',
+            'weight' => 1.5,
+            'weight_unit' => 'kg',
+            'volume' => 750,
+            'volume_unit' => 'ml',
+            'dimensions' => '20 x 15 x 10',
+            'dimension_unit' => 'cm',
+        ]);
+    }
+
+    #[Test]
+    public function it_clears_measurements_when_an_update_sends_them_empty(): void
+    {
+        $product = Product::factory()->create([
+            'company_id' => $this->user->company_id,
+            'weight' => 1.5,
+            'weight_unit' => 'kg',
+            'dimensions' => '20 x 15 x 10',
+            'dimension_unit' => 'cm',
+        ]);
+
+        $this->post('product/save', [
+            'id' => $product->id,
+            'category_id' => $product->category_id,
+            'brand_id' => $product->brand_id,
+            'name' => $product->name,
+            'cost' => 10,
+            'price' => 20,
+            'quantity' => 5,
+            'weight' => '',
+            'weight_unit' => '',
+            'dimensions' => '',
+            'dimension_unit' => '',
+        ])->assertRedirect('/product');
+
+        $this->assertDatabaseHas('product', [
+            'id' => $product->id,
+            'weight' => null,
+            'weight_unit' => 'g',
+            'dimensions' => null,
+            'dimension_unit' => 'mm',
+        ]);
+    }
+
+    #[Test]
     public function it_rejects_an_invalid_dimension_unit(): void
     {
         $this->post('product/save', $this->validProductData(['dimension_unit' => 'km']))
@@ -132,10 +271,13 @@ class ProductSaveControllerTest extends TestCase
             ->assertOk()
             ->assertSee('name="weight"', false)
             ->assertSee('name="dimensions"', false)
-            ->assertSee('name="dimension_unit"', false);
+            ->assertSee('name="dimension_unit"', false)
+            ->assertSee('name="volume"', false)
+            ->assertSee('name="volume_unit"', false);
 
         $this->assertMatchesRegularExpression('/<option value="g"\s+selected/', $response->getContent());
         $this->assertMatchesRegularExpression('/<option value="mm"\s+selected/', $response->getContent());
+        $this->assertMatchesRegularExpression('/<option value="ml"\s+selected/', $response->getContent());
     }
 
     /**
