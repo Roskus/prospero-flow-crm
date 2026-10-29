@@ -28,6 +28,17 @@ class ProductIndexControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_lists_the_most_recently_updated_products_first(): void
+    {
+        Product::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Zzolder product', 'updated_at' => now()->subDays(2)]);
+        Product::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Zznewer product', 'updated_at' => now()]);
+
+        $this->get('/product')
+            ->assertOk()
+            ->assertSeeInOrder(['Zznewer product', 'Zzolder product']);
+    }
+
+    #[Test]
     public function the_autocomplete_finds_products_by_name_sku_or_ean_of_the_company_only(): void
     {
         $product = Product::factory()->create([

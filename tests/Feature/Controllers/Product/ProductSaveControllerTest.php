@@ -158,6 +158,36 @@ class ProductSaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_saves_a_product_with_a_webp_photo(): void
+    {
+        $product = $this->validProductData();
+        $product['photo'] = UploadedFile::fake()->image('photo.webp');
+
+        $this->post('product/save', $product)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/product');
+
+        $this->assertStringEndsWith('.webp', Product::where('name', $product['name'])->firstOrFail()->photo);
+    }
+
+    #[Test]
+    public function it_rejects_a_bmp_photo(): void
+    {
+        $product = $this->validProductData();
+        $product['photo'] = UploadedFile::fake()->image('photo.bmp');
+
+        $this->post('product/save', $product)->assertSessionHasErrors('photo');
+    }
+
+    #[Test]
+    public function the_product_form_photo_input_accepts_webp(): void
+    {
+        $this->get('/product/create')
+            ->assertOk()
+            ->assertSee('accept="image/jpeg,image/png,image/gif,image/webp"', false);
+    }
+
+    #[Test]
     public function it_rejects_weight_and_volume_with_more_than_three_decimals(): void
     {
         $this->post('product/save', $this->validProductData(['weight' => 1.2345, 'volume' => 0.0001]))

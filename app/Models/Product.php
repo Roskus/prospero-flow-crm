@@ -132,6 +132,7 @@ class Product extends Model
     {
         return $this->searchByCompany($company_id, $search)
             ->with('category', 'brand')
+            ->orderByDesc('updated_at')
             ->orderBy('name', 'asc')
             ->paginate(10);
     }
