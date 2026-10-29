@@ -5,6 +5,13 @@
     @include('order.partial._order', ['order' =>  $order])
 
     <div class="mt-2 text-center d-print-none">
+        @if((int) $order->status === \App\Models\Order::PENDING)
+            @can('update order')
+            <a href="{{ url('/order/update/'.$order->order_number) }}" class="btn btn-lg btn-warning text-white">
+                <i class="las la-pen"></i> {{ __('Edit') }}
+            </a>
+            @endcan
+        @endif
         <a href="{{ route('order-download', ['order_number' => $order->order_number]) }}" download="file" class="btn btn-lg btn-success">
             <i class="las la-file-pdf"></i> {{ __('Download') }}
         </a>
