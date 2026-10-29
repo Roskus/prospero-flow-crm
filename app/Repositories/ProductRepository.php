@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Enums\DimensionUnit;
+use App\Enums\VolumeUnit;
+use App\Enums\WeightUnit;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +26,7 @@ class ProductRepository
         $product->name = $data['name'];
         $product->quantity = ! empty($data['quantity']) ? $data['quantity'] : 0;
         $product->min_stock_quantity = ! empty($data['min_stock_quantity']) ? $data['min_stock_quantity'] : 0;
+        $this->fillMeasurements($product, $data);
         $product->cost = $data['cost'];
         $product->price = $data['price'];
         $product->currency = ! empty($data['currency']) ? $data['currency'] : ($product->exists ? $product->currency : Auth::user()->company->currency);
@@ -36,5 +40,31 @@ class ProductRepository
         $product->save();
 
         return $product;
+    }
+
+    /**
+     * Sets weight, volume and dimensions with their units. On updates, keys absent
+     * from the payload keep their stored value; an explicit empty value clears the
+     * measurement and resets its unit to the default.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    private function fillMeasurements(Product $product, array $data): void
+    {
+        $defaults = [
+            'weight' => null,
+            'weight_unit' => WeightUnit::Gram->value,
+            'volume' => null,
+            'volume_unit' => VolumeUnit::Milliliter->value,
+            'dimensions' => null,
+            'dimension_unit' => DimensionUnit::Millimeter->value,
+        ];
+
+        foreach ($defaults as $field => $default) {
+            if ($product->exists && ! array_key_exists($field, $data)) {
+                continue;
+            }
+            $product->{$field} = isset($data[$field]) && $data[$field] !== '' ? $data[$field] : $default;
+        }
     }
 }

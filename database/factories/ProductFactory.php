@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\DimensionUnit;
+use App\Enums\VolumeUnit;
+use App\Enums\WeightUnit;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Company;
@@ -37,6 +40,12 @@ class ProductFactory extends Factory
             'currency' => 'EUR',
             'min_stock_quantity' => $this->faker->randomNumber(),
             'quantity' => $this->faker->randomNumber(),
+            'weight' => $this->faker->randomFloat(3, 0, 1000),
+            'weight_unit' => $this->faker->randomElement(WeightUnit::cases())->value,
+            'volume' => $this->faker->randomFloat(3, 0, 5000),
+            'volume_unit' => $this->faker->randomElement(VolumeUnit::cases())->value,
+            'dimensions' => $this->faker->numberBetween(1, 100).' x '.$this->faker->numberBetween(1, 100).' x '.$this->faker->numberBetween(1, 100),
+            'dimension_unit' => $this->faker->randomElement(DimensionUnit::cases())->value,
             'description' => $this->faker->sentence(2),
             'elaboration_date' => $this->faker->date(),
             'expiration_date' => $this->faker->date(),
