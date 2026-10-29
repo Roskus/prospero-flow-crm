@@ -53,7 +53,31 @@
                 </div>
                 <div class="col">
                     <label for="min_stock_quantity">{{ __('Minimum stock quantity') }}</label>
-                    <input type="number" name="min_stock_quantity" id="min_stock_quantity" value="{{ $product->min_stock_quantity }}" min="0" step="1" class="form-control">
+                    <input type="number" name="min_stock_quantity" id="min_stock_quantity" value="{{ old('min_stock_quantity', $product->min_stock_quantity ?? 0) }}" min="0" step="1" class="form-control">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col">
+                    <label for="weight" class="label-control">{{ __('Weight') }}</label>
+                    <div class="input-group">
+                        <input type="number" name="weight" id="weight" value="{{ old('weight', $product->weight) }}" step="0.001" min="0" class="form-control">
+                        <select name="weight_unit" id="weight_unit" class="form-select" aria-label="{{ __('Weight unit') }}" style="max-width: 6rem;">
+                            @foreach(\App\Enums\WeightUnit::cases() as $weightUnit)
+                                <option value="{{ $weightUnit->value }}" @selected(old('weight_unit', $product->weight_unit ?? \App\Enums\WeightUnit::Gram->value) === $weightUnit->value)>{{ $weightUnit->value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="dimensions" class="label-control">{{ __('Dimensions') }}</label>
+                    <div class="input-group">
+                        <input type="text" name="dimensions" id="dimensions" value="{{ old('dimensions', $product->dimensions) }}" maxlength="100" placeholder="{{ __('L x W x H') }}" class="form-control">
+                        <select name="dimension_unit" id="dimension_unit" class="form-select" aria-label="{{ __('Dimension unit') }}" style="max-width: 6rem;">
+                            @foreach(\App\Enums\DimensionUnit::cases() as $dimensionUnit)
+                                <option value="{{ $dimensionUnit->value }}" @selected(old('dimension_unit', $product->dimension_unit ?? \App\Enums\DimensionUnit::Millimeter->value) === $dimensionUnit->value)>{{ $dimensionUnit->value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="row form-group">

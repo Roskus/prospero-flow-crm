@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Enums\DimensionUnit;
+use App\Enums\WeightUnit;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +25,10 @@ class ProductRepository
         $product->name = $data['name'];
         $product->quantity = ! empty($data['quantity']) ? $data['quantity'] : 0;
         $product->min_stock_quantity = ! empty($data['min_stock_quantity']) ? $data['min_stock_quantity'] : 0;
+        $product->weight = isset($data['weight']) && $data['weight'] !== '' ? $data['weight'] : null;
+        $product->weight_unit = ! empty($data['weight_unit']) ? $data['weight_unit'] : WeightUnit::Gram->value;
+        $product->dimensions = ! empty($data['dimensions']) ? $data['dimensions'] : null;
+        $product->dimension_unit = ! empty($data['dimension_unit']) ? $data['dimension_unit'] : DimensionUnit::Millimeter->value;
         $product->cost = $data['cost'];
         $product->price = $data['price'];
         $product->currency = ! empty($data['currency']) ? $data['currency'] : ($product->exists ? $product->currency : Auth::user()->company->currency);
