@@ -50,7 +50,7 @@ class ProductRequest extends FormRequest
             'volume_unit' => ['nullable', Rule::enum(VolumeUnit::class)],
             'dimensions' => 'nullable|string|max:100',
             'dimension_unit' => ['nullable', Rule::enum(DimensionUnit::class)],
-            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:3072', new ExtensionMatchesContent],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:3072', new ExtensionMatchesContent],
             'barcode' => 'nullable|numeric|digits_between:1,48',
             'elaboration_date' => ['nullable', 'date', 'before_or_equal:today'],
             'expiration_date' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:today'],

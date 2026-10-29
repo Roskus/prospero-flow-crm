@@ -40,6 +40,20 @@ class ProfileSaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_can_save_a_webp_profile_photo(): void
+    {
+        $this->post('profile/save', [
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'email' => fake()->unique()->safeEmail(),
+            'lang' => 'en',
+            'photo' => UploadedFile::fake()->image('avatar.webp'),
+        ])->assertSessionHasNoErrors()->assertRedirect('/profile');
+
+        $this->assertStringEndsWith('.webp', (string) $this->user->fresh()->photo);
+    }
+
+    #[Test]
     public function it_blocks_polyglot_photo_upload_and_logs_security_incident(): void
     {
         Event::fake([MessageLogged::class]);
