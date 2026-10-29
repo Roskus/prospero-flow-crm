@@ -124,7 +124,7 @@
             <div class="row form-group">
                 <div class="col">
                     <label class="label-control">{{ __('Photo') }}</label>
-                    <input type="file" name="photo" class="form-control">
+                    <input type="file" name="photo" accept="image/jpeg,image/png,image/gif,image/webp" class="form-control">
                 </div>
                 <div class="col pt-4">
                     @if($product->photo)

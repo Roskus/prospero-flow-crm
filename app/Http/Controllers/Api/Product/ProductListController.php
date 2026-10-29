@@ -27,7 +27,9 @@ class ProductListController
     public function index(Request $request)
     {
         $count = Product::where('company_id', Auth::user()->company_id)->count();
-        $products = Product::where('company_id', Auth::user()->company_id)->get();
+        $products = Product::where('company_id', Auth::user()->company_id)
+            ->orderByDesc('updated_at')
+            ->get();
 
         return response()->json(['count' => $count, 'products' => $products]);
     }

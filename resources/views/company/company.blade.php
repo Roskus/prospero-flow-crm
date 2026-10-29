@@ -201,7 +201,7 @@
             <div class="row">
                 <div class="col form-group">
                     <label for="logo" class="label-control">Logo</label>
-                    <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/svg" class="form-control">
+                    <input type="file" name="logo" id="logo" accept="image/png, image/gif, image/jpeg, image/webp, image/svg+xml" class="form-control">
                     @if($company->logo)
                         <img src="/storage/company/{{ \Illuminate\Support\Str::slug($company->name, '_') }}/{{ $company->logo }}"
                              alt="{{ config('app.name') }}" class="logo">
