@@ -27,17 +27,17 @@ class TimeEntryUpdateController extends MainController
         $start = Carbon::parse($validated['entry_date'].' '.$validated['start_time']);
         $end = Carbon::parse($validated['entry_date'].' '.$validated['end_time']);
 
-        $overlapping = WorkHour::overlapping($entry->user_id, $start, $end, $entry->id)->first();
-        if ($overlapping !== null) {
-            return redirect('/rrhh/time-entries?week='.WorkHour::weekOffset($start))
-                ->with(['status' => 'error', 'message' => $overlapping->overlapMessage()]);
-        }
-
-        $entry->update([
+        $entry->fill([
             'start_time' => $start,
             'end_time' => $end,
             'notes' => $validated['notes'] ?? null,
         ]);
+
+        $overlapping = $entry->saveWithoutOverlap();
+        if ($overlapping !== null) {
+            return redirect('/rrhh/time-entries?week='.WorkHour::weekOffset($start))
+                ->with(['status' => 'error', 'message' => $overlapping->overlapMessage()]);
+        }
 
         return redirect('/rrhh/time-entries?week='.WorkHour::weekOffset($start))
             ->with(['status' => 'success', 'message' => __('Time entry updated successfully')]);

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class WorkHour extends Model
 {
@@ -49,6 +50,24 @@ class WorkHour extends Model
             ->when($exceptId !== null, fn (Builder $query) => $query->whereKeyNot($exceptId))
             ->where('start_time', '<', $end)
             ->where(fn (Builder $query) => $query->whereNull('end_time')->orWhere('end_time', '>', $start));
+    }
+
+    /**
+     * Saves the entry unless it overlaps another one of its user and returns the overlapping entry in that case.
+     * The user row is locked so concurrent saves for the same person cannot both pass the check.
+     */
+    public function saveWithoutOverlap(): ?self
+    {
+        return DB::transaction(function (): ?self {
+            User::query()->whereKey($this->user_id)->lockForUpdate()->first();
+
+            $overlapping = self::query()->overlapping((int) $this->user_id, $this->start_time, $this->end_time, $this->id)->first();
+            if ($overlapping === null) {
+                $this->save();
+            }
+
+            return $overlapping;
+        });
     }
 
     /**

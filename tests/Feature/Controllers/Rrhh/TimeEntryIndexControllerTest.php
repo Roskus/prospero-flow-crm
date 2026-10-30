@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\WorkHour;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
@@ -131,6 +132,22 @@ class TimeEntryIndexControllerTest extends TestCase
             'start_time' => '10:00',
             'end_time' => '12:00',
         ])->assertSessionHas('status', 'error');
+    }
+
+    #[Test]
+    public function saving_an_entry_locks_the_user_row_while_checking_overlaps(): void
+    {
+        DB::enableQueryLog();
+
+        $this->post('/rrhh/time-entries/save', [
+            'user_id' => $this->user->id,
+            'entry_date' => Carbon::now()->startOfWeek()->toDateString(),
+            'start_time' => '09:00',
+            'end_time' => '13:00',
+        ])->assertSessionHas('status', 'success');
+
+        $lockQueries = array_filter(DB::getQueryLog(), fn (array $query): bool => str_contains($query['query'], 'from `user`') && str_contains($query['query'], 'for update'));
+        $this->assertNotEmpty($lockQueries);
     }
 
     #[Test]
