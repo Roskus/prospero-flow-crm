@@ -38,7 +38,7 @@
                         <tbody>
                             @forelse($categories as $category)
                                 <tr>
-                                    <td>{{ $category->name }}</td>
+                                    <td>{{ __($category->name) }}</td>
                                     <td class="text-center text-nowrap">
                                         <button onclick="TransactionCategory.edit({{ $category->id }}, '{{ addslashes($category->name) }}')"
                                                 class="btn btn-xs btn-warning" title="{{ __('Edit') }}">

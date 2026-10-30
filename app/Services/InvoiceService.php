@@ -12,6 +12,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Transaction;
+use App\Models\Transaction\Category;
 use App\ValueObjects\Address;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -130,7 +131,7 @@ class InvoiceService
     }
 
     /**
-     * Registers a payment of the invoice as a paid income transaction and refreshes its payment status.
+     * Registers a payment of the invoice as a paid income transaction in the sales category and refreshes its payment status.
      *
      * @param  array{amount: string|float|int, payment_method: string, bank_account_id?: int|string|null, currency?: string|null, exchange_rate?: string|float|int|null, payment_date?: string|null, reference?: string|null, attachment?: UploadedFile|null}  $data
      *
@@ -175,6 +176,7 @@ class InvoiceService
                 'name' => mb_substr(__('Payment of invoice :number', ['number' => $invoice->fullNumber()]), 0, 80),
                 'type' => Transaction::INCOME,
                 'status' => Transaction::PAID,
+                'transaction_category_id' => Category::firstOrCreate(['company_id' => $invoice->company_id, 'name' => Category::SALES])->id,
                 'bank_account_id' => $account?->id,
                 'customer_id' => $invoice->customer_id,
                 'amount' => $amount,

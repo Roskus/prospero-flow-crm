@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Transaction;
+use App\Models\Transaction\Category;
 use App\Services\InvoiceService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -53,6 +54,29 @@ class InvoicePaymentTest extends TestCase
         $this->assertSame('200.00000', (string) $payment->fresh()->invoice_amount);
         $this->assertStringContainsString($invoice->fullNumber(), $payment->name);
         $this->assertSame('TPV-1', $payment->reference);
+    }
+
+    #[Test]
+    public function a_payment_is_categorized_as_sales(): void
+    {
+        $sales = Category::create(['company_id' => $this->company->id, 'name' => Category::SALES]);
+
+        $payment = $this->invoiceService->registerPayment($this->createInvoice(500), ['amount' => 200, 'payment_method' => Transaction::METHOD_CARD]);
+
+        $this->assertSame($sales->id, $payment->transaction_category_id);
+        $this->assertSame(1, Category::query()->where('company_id', $this->company->id)->count());
+    }
+
+    #[Test]
+    public function a_payment_creates_the_sales_category_when_the_company_has_none(): void
+    {
+        $otherCompanySales = Category::create(['company_id' => Company::factory()->create()->id, 'name' => Category::SALES]);
+
+        $payment = $this->invoiceService->registerPayment($this->createInvoice(500), ['amount' => 200, 'payment_method' => Transaction::METHOD_CARD]);
+
+        $this->assertNotSame($otherCompanySales->id, $payment->transaction_category_id);
+        $this->assertSame($this->company->id, $payment->category->company_id);
+        $this->assertSame(Category::SALES, $payment->category->name);
     }
 
     #[Test]

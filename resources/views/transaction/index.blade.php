@@ -129,7 +129,7 @@
                                         </a>
                                     @endif
                                     @if($transaction->customer)
-                                        <div class="text-muted small">{{ $transaction->customer->name }}</div>
+                                        <div class="text-muted small">{{ $transaction->customer->displayName() }}</div>
                                     @elseif($transaction->supplier)
                                         <div class="text-muted small">{{ $transaction->supplier->name }}</div>
                                     @endif

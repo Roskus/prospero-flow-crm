@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Transaction;
 
 use App\Models\Company;
+use App\Models\Customer;
 use App\Models\Transaction;
 use App\Models\Transaction\Category;
 use App\Models\User;
@@ -129,6 +130,23 @@ class TransactionIndexControllerTest extends TestCase
             'transaction_category_id' => __('The selected category is not valid.'),
             'to' => __('The end date must be on or after the start date.'),
         ]);
+    }
+
+    #[Test]
+    public function it_shows_the_full_name_of_the_customer(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Zzmaria', 'business_name' => 'Zzgarcia Lopez']);
+        $this->createTransactions(1, ['customer_id' => $customer->id]);
+
+        $this->get('/accounting')->assertOk()->assertSee('Zzmaria Zzgarcia Lopez');
+    }
+
+    #[Test]
+    public function the_category_list_shows_the_sales_category_translated(): void
+    {
+        Category::create(['company_id' => $this->user->company_id, 'name' => Category::SALES]);
+
+        $this->withSession(['locale' => 'es'])->get('/transaction/category')->assertOk()->assertSee('<td>Ventas</td>', false);
     }
 
     #[Test]
