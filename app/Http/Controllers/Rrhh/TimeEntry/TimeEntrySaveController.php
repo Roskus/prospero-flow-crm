@@ -39,16 +39,21 @@ class TimeEntrySaveController extends MainController
         $start = Carbon::parse($validated['entry_date'].' '.$validated['start_time']);
         $end = Carbon::parse($validated['entry_date'].' '.$validated['end_time']);
 
-        WorkHour::create([
+        $overlapping = (new WorkHour([
             'user_id' => $userId,
             'start_time' => $start,
             'end_time' => $end,
             'type' => 'work',
             'is_manual' => true,
             'notes' => $validated['notes'] ?? null,
-        ]);
+        ]))->saveWithoutOverlap();
 
-        return redirect('/rrhh/time-entries?user_id='.$userId)
+        if ($overlapping !== null) {
+            return redirect('/rrhh/time-entries?user_id='.$userId.'&week='.WorkHour::weekOffset($start))
+                ->with(['status' => 'error', 'message' => $overlapping->overlapMessage()]);
+        }
+
+        return redirect('/rrhh/time-entries?user_id='.$userId.'&week='.WorkHour::weekOffset($start))
             ->with(['status' => 'success', 'message' => __('Time entry saved successfully')]);
     }
 }

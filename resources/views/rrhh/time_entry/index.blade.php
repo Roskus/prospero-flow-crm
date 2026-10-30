@@ -2,6 +2,13 @@
 
 @section('content')
 @include('layouts.partials._header', ['title' => __('Time Entries')])
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
 
 <div class="row mb-2">
     <div class="col d-flex align-items-center gap-2">
