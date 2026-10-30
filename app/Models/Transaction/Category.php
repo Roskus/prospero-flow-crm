@@ -15,6 +15,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    public const string SALES = 'Sales';
+
     protected $table = 'transaction_category';
 
     protected $fillable = [
