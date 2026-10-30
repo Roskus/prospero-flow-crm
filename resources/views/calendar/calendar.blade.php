@@ -38,9 +38,28 @@
                 <div class="row" style="height: 14vh;">
 
                     @while ($startOfCalendar <= $endOfCalendar)
-                        <div class="col text-center border p-1" onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')" role="button" tabindex="3">
+                        @php
+                            $holiday = $holidays->get($startOfCalendar->toDateString());
+                        @endphp
+                        <div @class(['col text-center border p-1', 'bg-danger-subtle' => $holiday]) onclick="Calendar.scheduleEvent('{{ $startOfCalendar->toDateString() }}')" role="button" tabindex="3">
                             <span class="mb-1 @if($startOfCalendar->isToday()) badge rounded-pill text-bg-primary @endif">{{ $startOfCalendar->format('j') }}</span>
                             <div class="d-flex flex-column">
+                            @if($holiday)
+                                <div class="badge text-bg-danger mb-1 text-wrap calendar-holiday" title="{{ __('Holiday') }}">
+                                    <i class="las la-star"></i> {{ $holiday->name }}
+                                </div>
+                            @endif
+                            @foreach($vacations->filter(fn ($vacation) => $startOfCalendar->betweenIncluded($vacation->start_date, $vacation->end_date)) as $vacation)
+                                @if($vacation->type === 'personal')
+                                    <div class="badge text-bg-warning mb-1 text-wrap calendar-personal-day" title="{{ __('Personal') }}">
+                                        <i class="las la-user-clock"></i> {{ $vacation->user?->getFullName() }}
+                                    </div>
+                                @else
+                                    <div class="badge text-bg-info mb-1 text-wrap calendar-vacation" title="{{ __('Vacation') }}">
+                                        <i class="las la-umbrella-beach"></i> {{ $vacation->user?->getFullName() }}
+                                    </div>
+                                @endif
+                            @endforeach
                             @foreach ( $events->whereBetween('start_date', [$startOfCalendar->copy()->startOfDay(), $startOfCalendar->copy()->endOfDay()]) as $event)
                                 <div class="badge text-bg-secondary mb-1 text-wrap">
                                     <span role="button" tabindex="" onclick="Calendar.read('{{ $event->id }}')">
