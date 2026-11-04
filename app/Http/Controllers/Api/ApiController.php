@@ -6,12 +6,29 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OAT;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\UserNotDefinedException;
 
+#[OAT\Parameter(
+    parameter: 'Page',
+    name: 'page',
+    description: 'Page of results to return',
+    in: 'query',
+    required: false,
+    schema: new OAT\Schema(type: 'integer', default: 1, minimum: 1)
+)]
+#[OAT\Parameter(
+    parameter: 'PerPage',
+    name: 'per_page',
+    description: 'Number of results per page, at most '.self::MAX_ITEMS_PER_PAGE,
+    in: 'query',
+    required: false,
+    schema: new OAT\Schema(type: 'integer', default: self::DEFAULT_ITEMS_PER_PAGE, maximum: self::MAX_ITEMS_PER_PAGE, minimum: 1)
+)]
 class ApiController extends Controller
 {
     /**
@@ -45,13 +62,14 @@ class ApiController extends Controller
 
     /**
      * Keeps the list response of the API, `count` (total results) and the results under `$resultsKey`,
-     * and adds the pagination fields next to them.
+     * and adds the pagination fields next to them. The page links keep the query of the request
+     * (`per_page`, filters...), so following them does not change the page size.
      *
      * @param  LengthAwarePaginator<int, mixed>  $paginator
      */
     protected function paginatedListResponse(string $resultsKey, LengthAwarePaginator $paginator): JsonResponse
     {
-        $pagination = $paginator->toArray();
+        $pagination = $paginator->appends(request()->query())->toArray();
         unset($pagination['data']);
 
         return response()->json([

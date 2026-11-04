@@ -48,6 +48,19 @@ class LeadListControllerTest extends TestCase
     }
 
     #[Test]
+    public function the_lead_page_links_keep_per_page(): void
+    {
+        $this->actingAs($this->user, 'api');
+        Industry::factory()->create();
+        Lead::factory()->count(3)->create(['company_id' => $this->user->company_id, 'seller_id' => $this->user->id]);
+
+        $response = $this->getJson('/api/lead?per_page=2');
+
+        $this->assertStringContainsString('per_page=2', $response->json('next_page_url'));
+        $this->assertStringContainsString('page=2', $response->json('next_page_url'));
+    }
+
+    #[Test]
     public function it_caps_leads_per_page_at_the_maximum(): void
     {
         $this->actingAs($this->user, 'api');

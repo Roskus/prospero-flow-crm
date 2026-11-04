@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Api\Doc;
 
+use App\Http\Controllers\Api\ApiController;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -72,5 +73,29 @@ class DocGeneratorControllerTest extends TestCase
 
         $response->assertOk();
         $this->assertEqualsCanonicalizing(array_keys($properties), array_keys($response->json()), $path);
+    }
+
+    #[Test]
+    #[DataProvider('paginatedListPaths')]
+    public function a_paginated_list_documents_the_page_and_per_page_parameters(string $path): void
+    {
+        $document = json_decode($this->get('/api/resource.json')->json(), true);
+
+        $this->assertEqualsCanonicalizing(
+            [['$ref' => '#/components/parameters/Page'], ['$ref' => '#/components/parameters/PerPage']],
+            $document['paths'][$path]['get']['parameters'],
+            $path
+        );
+        $this->assertSame('page', $document['components']['parameters']['Page']['name']);
+        $this->assertSame('per_page', $document['components']['parameters']['PerPage']['name']);
+        $this->assertSame(ApiController::MAX_ITEMS_PER_PAGE, $document['components']['parameters']['PerPage']['schema']['maximum']);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function paginatedListPaths(): array
+    {
+        return ['customer' => ['/customer'], 'lead' => ['/lead'], 'order' => ['/order']];
     }
 }

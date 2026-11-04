@@ -19,7 +19,8 @@ class OrderListController extends ApiController
         security: [['bearerAuth' => []]],
         tags: ['Order'],
         parameters: [
-            new OAT\Parameter(name: 'per_page', description: 'Number of results per page, at most '.self::MAX_ITEMS_PER_PAGE, in: 'query', required: false, schema: new OAT\Schema(type: 'integer', default: self::DEFAULT_ITEMS_PER_PAGE, maximum: self::MAX_ITEMS_PER_PAGE, minimum: 1)),
+            new OAT\Parameter(ref: '#/components/parameters/Page'),
+            new OAT\Parameter(ref: '#/components/parameters/PerPage'),
         ],
         responses: [
             new OAT\Response(
