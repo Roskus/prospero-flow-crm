@@ -22,11 +22,13 @@ class LeadListControllerTest extends TestCase
         $response = $this->getJson('/api/lead');
 
         $response->assertOk();
-        $response->assertJsonStructure(['data', 'total', 'per_page', 'current_page', 'last_page']);
+        $response->assertJsonStructure(['count', 'leads', 'total', 'per_page', 'current_page', 'last_page']);
+        $response->assertJsonMissingPath('data');
+        $this->assertSame(2, $response->json('count'));
         $this->assertSame(ApiController::DEFAULT_ITEMS_PER_PAGE, $response->json('per_page'));
         $this->assertSame(2, $response->json('total'));
-        $this->assertSame($leads[1]->id, $response->json('data.0.id'));
-        $this->assertSame($leads[0]->id, $response->json('data.1.id'));
+        $this->assertSame($leads[1]->id, $response->json('leads.0.id'));
+        $this->assertSame($leads[0]->id, $response->json('leads.1.id'));
     }
 
     #[Test]
@@ -41,7 +43,8 @@ class LeadListControllerTest extends TestCase
         $response->assertOk();
         $this->assertSame(2, $response->json('per_page'));
         $this->assertSame(3, $response->json('total'));
-        $this->assertCount(1, $response->json('data'));
+        $this->assertSame(3, $response->json('count'));
+        $this->assertCount(1, $response->json('leads'));
     }
 
     #[Test]
@@ -60,6 +63,6 @@ class LeadListControllerTest extends TestCase
         Industry::factory()->create();
         Lead::factory()->create(['company_id' => $this->user->company_id + 1]);
 
-        $this->getJson('/api/lead')->assertOk()->assertJsonPath('total', 0);
+        $this->getJson('/api/lead')->assertOk()->assertJsonPath('count', 0);
     }
 }

@@ -27,7 +27,8 @@ class LeadListController extends ApiController
                 description: 'Lead list retrieved successfully',
                 content: new OAT\JsonContent(
                     properties: [
-                        new OAT\Property(property: 'data', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Lead')),
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'leads', description: 'Results of the page', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Lead')),
                     ],
                     type: 'object',
                     allOf: [new OAT\Schema(ref: '#/components/schemas/Pagination')]
@@ -41,6 +42,6 @@ class LeadListController extends ApiController
             ->orderByDesc('id')
             ->paginate($this->itemsPerPage($request));
 
-        return response()->json($leads);
+        return $this->paginatedListResponse('leads', $leads);
     }
 }

@@ -22,11 +22,13 @@ class OrderListControllerTest extends TestCase
         $response = $this->getJson('/api/order');
 
         $response->assertOk();
-        $response->assertJsonStructure(['data', 'total', 'per_page', 'current_page', 'last_page']);
+        $response->assertJsonStructure(['count', 'orders', 'total', 'per_page', 'current_page', 'last_page']);
+        $response->assertJsonMissingPath('data');
+        $this->assertSame(2, $response->json('count'));
         $this->assertSame(ApiController::DEFAULT_ITEMS_PER_PAGE, $response->json('per_page'));
         $this->assertSame(2, $response->json('total'));
-        $this->assertSame($orders[1]->id, $response->json('data.0.id'));
-        $this->assertSame($orders[0]->id, $response->json('data.1.id'));
+        $this->assertSame($orders[1]->id, $response->json('orders.0.id'));
+        $this->assertSame($orders[0]->id, $response->json('orders.1.id'));
     }
 
     #[Test]
@@ -41,7 +43,8 @@ class OrderListControllerTest extends TestCase
         $response->assertOk();
         $this->assertSame(2, $response->json('per_page'));
         $this->assertSame(3, $response->json('total'));
-        $this->assertCount(1, $response->json('data'));
+        $this->assertSame(3, $response->json('count'));
+        $this->assertCount(1, $response->json('orders'));
     }
 
     #[Test]
@@ -60,6 +63,6 @@ class OrderListControllerTest extends TestCase
         $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
         Order::factory()->create(['company_id' => $this->user->company_id + 1, 'customer_id' => $customer->id, 'seller_id' => $this->user->id]);
 
-        $this->getJson('/api/order')->assertOk()->assertJsonPath('total', 0);
+        $this->getJson('/api/order')->assertOk()->assertJsonPath('count', 0);
     }
 }

@@ -32,7 +32,7 @@ define('API_HOST', env('APP_API_URL'));
 )]
 #[OAT\Schema(
     schema: 'Pagination',
-    description: 'Pagination fields of a paginated list; the results are in `data`',
+    description: 'Pagination fields added to a paginated list',
     properties: [
         new OAT\Property(property: 'current_page', type: 'integer', example: 1),
         new OAT\Property(property: 'first_page_url', type: 'string', format: 'uri', example: 'https://crm.example.com/api/customer?page=1'),

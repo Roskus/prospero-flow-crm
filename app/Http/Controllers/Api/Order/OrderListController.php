@@ -27,7 +27,8 @@ class OrderListController extends ApiController
                 description: 'Orders list retrieved successfully',
                 content: new OAT\JsonContent(
                     properties: [
-                        new OAT\Property(property: 'data', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Order')),
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'orders', description: 'Results of the page', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Order')),
                     ],
                     type: 'object',
                     allOf: [new OAT\Schema(ref: '#/components/schemas/Pagination')]
@@ -41,6 +42,6 @@ class OrderListController extends ApiController
             ->orderByDesc('id')
             ->paginate($this->itemsPerPage($request));
 
-        return response()->json($orders);
+        return $this->paginatedListResponse('orders', $orders);
     }
 }
