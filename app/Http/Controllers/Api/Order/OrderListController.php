@@ -4,31 +4,43 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Order;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Order;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
-class OrderListController
+class OrderListController extends ApiController
 {
     #[OAT\Get(
         path: '/order',
         summary: 'Orders list by company',
         security: [['bearerAuth' => []]],
         tags: ['Order'],
+        parameters: [
+            new OAT\Parameter(name: 'per_page', description: 'Number of results per page, at most '.self::MAX_ITEMS_PER_PAGE, in: 'query', required: false, schema: new OAT\Schema(type: 'integer', default: self::DEFAULT_ITEMS_PER_PAGE, maximum: self::MAX_ITEMS_PER_PAGE, minimum: 1)),
+        ],
         responses: [
             new OAT\Response(
                 response: 200,
                 description: 'Orders list retrieved successfully',
-                content: new OAT\JsonContent(ref: '#/components/schemas/Order')
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(property: 'data', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Order')),
+                    ],
+                    type: 'object',
+                    allOf: [new OAT\Schema(ref: '#/components/schemas/Pagination')]
+                )
             ),
         ]
     )]
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        $count = Order::where('company_id', Auth::user()->company_id)->count();
-        $orders = Order::where('company_id', Auth::user()->company_id)->get();
+        $orders = Order::where('company_id', Auth::user()->company_id)
+            ->orderByDesc('id')
+            ->paginate($this->itemsPerPage($request));
 
-        return response()->json(['count' => $count, 'orders' => $orders]);
+        return response()->json($orders);
     }
 }

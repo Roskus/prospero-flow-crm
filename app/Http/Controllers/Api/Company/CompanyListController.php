@@ -21,7 +21,13 @@ class CompanyListController
             new OAT\Response(
                 response: 200,
                 description: 'Company list retrieved successfully',
-                content: new OAT\JsonContent(ref: '#/components/schemas/Company')
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'companies', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Company')),
+                    ],
+                    type: 'object'
+                )
             ),
         ]
     )]

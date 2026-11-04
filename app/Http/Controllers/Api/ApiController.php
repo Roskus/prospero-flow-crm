@@ -6,12 +6,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\UserNotDefinedException;
 
 class ApiController extends Controller
 {
-    protected const int DEFAULT_ITEMS_PER_PAGE = 20;
+    /**
+     * Results per page of a paginated list when the request does not send `per_page`.
+     */
+    public const int DEFAULT_ITEMS_PER_PAGE = 20;
+
+    /**
+     * Most results per page a paginated list returns, whatever `per_page` asks for.
+     */
+    public const int MAX_ITEMS_PER_PAGE = 500;
 
     protected ?User $user = null;
 
@@ -22,5 +31,13 @@ class ApiController extends Controller
         } catch (UserNotDefinedException $e) {
             return response()->json(['error' => $e->getMessage()], 403);
         }
+    }
+
+    /**
+     * Results per page of a paginated list from the `per_page` query, between 1 and the maximum.
+     */
+    protected function itemsPerPage(Request $request): int
+    {
+        return max(1, min($request->integer('per_page', self::DEFAULT_ITEMS_PER_PAGE), self::MAX_ITEMS_PER_PAGE));
     }
 }

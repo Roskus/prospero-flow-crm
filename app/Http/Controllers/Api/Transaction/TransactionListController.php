@@ -17,7 +17,17 @@ class TransactionListController
         security: [['bearerAuth' => []]],
         tags: ['Transaction'],
         responses: [
-            new OAT\Response(response: 200, description: 'List of transactions'),
+            new OAT\Response(
+                response: 200,
+                description: 'List of transactions, 20 per page',
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(property: 'data', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Transaction')),
+                    ],
+                    type: 'object',
+                    allOf: [new OAT\Schema(ref: '#/components/schemas/Pagination')]
+                )
+            ),
         ]
     )]
     public function index(): JsonResponse
