@@ -20,11 +20,13 @@ class CustomerListControllerTest extends TestCase
         $response = $this->getJson('/api/customer');
 
         $response->assertOk();
-        $response->assertJsonStructure(['data', 'total', 'per_page', 'current_page', 'last_page']);
+        $response->assertJsonStructure(['count', 'customers', 'total', 'per_page', 'current_page', 'last_page']);
+        $response->assertJsonMissingPath('data');
+        $this->assertEquals(2, $response->json('count'));
         $this->assertEquals(ApiController::DEFAULT_ITEMS_PER_PAGE, $response->json('per_page'));
         $this->assertEquals(2, $response->json('total'));
-        $this->assertEquals($customers[0]->id, $response->json('data.0.id'));
-        $this->assertEquals($customers[1]->id, $response->json('data.1.id'));
+        $this->assertEquals($customers[0]->id, $response->json('customers.0.id'));
+        $this->assertEquals($customers[1]->id, $response->json('customers.1.id'));
     }
 
     #[Test]
@@ -38,7 +40,7 @@ class CustomerListControllerTest extends TestCase
         $response->assertOk();
         $this->assertEquals(2, $response->json('per_page'));
         $this->assertEquals(5, $response->json('total'));
-        $this->assertCount(2, $response->json('data'));
+        $this->assertCount(2, $response->json('customers'));
     }
 
     #[Test]

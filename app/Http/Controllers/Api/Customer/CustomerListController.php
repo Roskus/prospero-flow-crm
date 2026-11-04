@@ -26,7 +26,8 @@ class CustomerListController extends ApiController
                 description: 'Customer list retrieved successfully',
                 content: new OAT\JsonContent(
                     properties: [
-                        new OAT\Property(property: 'data', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Customer')),
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'customers', description: 'Results of the page', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Customer')),
                     ],
                     type: 'object',
                     allOf: [new OAT\Schema(ref: '#/components/schemas/Pagination')]
@@ -39,6 +40,6 @@ class CustomerListController extends ApiController
         $customers = Customer::where('company_id', $this->user->company_id)
             ->paginate($this->itemsPerPage($request));
 
-        return response()->json($customers);
+        return $this->paginatedListResponse('customers', $customers);
     }
 }
