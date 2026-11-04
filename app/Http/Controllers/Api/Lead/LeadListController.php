@@ -18,19 +18,31 @@ class LeadListController extends ApiController
         summary: 'Lead list by company',
         security: [['bearerAuth' => []]],
         tags: ['Lead'],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/Page'),
+            new OAT\Parameter(ref: '#/components/parameters/PerPage'),
+        ],
         responses: [
             new OAT\Response(
                 response: 200,
                 description: 'Lead list retrieved successfully',
-                content: new OAT\JsonContent(ref: '#/components/schemas/Lead')
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'leads', description: 'Results of the page', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Lead')),
+                    ],
+                    type: 'object',
+                    allOf: [new OAT\Schema(ref: '#/components/schemas/Pagination')]
+                )
             ),
         ]
     )]
     public function index(Request $request): JsonResponse
     {
-        $count = Lead::where('company_id', Auth::user()->company_id)->count();
-        $leads = Lead::where('company_id', Auth::user()->company_id)->get();
+        $leads = Lead::where('company_id', Auth::user()->company_id)
+            ->orderByDesc('id')
+            ->paginate($this->itemsPerPage($request));
 
-        return response()->json(['count' => $count, 'leads' => $leads]);
+        return $this->paginatedListResponse('leads', $leads);
     }
 }

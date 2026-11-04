@@ -21,7 +21,13 @@ class BankCardListController
             new OAT\Response(
                 response: 200,
                 description: 'Bank card list retrieved successfully',
-                content: new OAT\JsonContent(ref: '#/components/schemas/BankCard')
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'bank_cards', type: 'array', items: new OAT\Items(ref: '#/components/schemas/BankCard')),
+                    ],
+                    type: 'object'
+                )
             ),
         ]
     )]

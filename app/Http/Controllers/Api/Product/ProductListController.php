@@ -19,8 +19,14 @@ class ProductListController
         responses: [
             new OAT\Response(
                 response: 200,
-                description: 'Products list retrived successfully',
-                content: new OAT\JsonContent(ref: '#/components/schemas/Product')
+                description: 'Products list retrieved successfully',
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'products', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Product')),
+                    ],
+                    type: 'object'
+                )
             ),
         ]
     )]

@@ -21,7 +21,13 @@ class BrandListController
             new OAT\Response(
                 response: 200,
                 description: 'Brand list retrieved successfully',
-                content: new OAT\JsonContent(ref: '#/components/schemas/Brand')
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(property: 'count', description: 'Total number of results', type: 'integer', example: 1),
+                        new OAT\Property(property: 'brands', type: 'array', items: new OAT\Items(ref: '#/components/schemas/Brand')),
+                    ],
+                    type: 'object'
+                )
             ),
         ]
     )]

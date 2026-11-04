@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Api\Customer;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Customer;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -19,11 +20,13 @@ class CustomerListControllerTest extends TestCase
         $response = $this->getJson('/api/customer');
 
         $response->assertOk();
-        $response->assertJsonStructure(['data', 'total', 'per_page', 'current_page', 'last_page']);
-        $this->assertEquals(20, $response->json('per_page'));
+        $response->assertJsonStructure(['count', 'customers', 'total', 'per_page', 'current_page', 'last_page']);
+        $response->assertJsonMissingPath('data');
+        $this->assertEquals(2, $response->json('count'));
+        $this->assertEquals(ApiController::DEFAULT_ITEMS_PER_PAGE, $response->json('per_page'));
         $this->assertEquals(2, $response->json('total'));
-        $this->assertEquals($customers[0]->id, $response->json('data.0.id'));
-        $this->assertEquals($customers[1]->id, $response->json('data.1.id'));
+        $this->assertEquals($customers[0]->id, $response->json('customers.0.id'));
+        $this->assertEquals($customers[1]->id, $response->json('customers.1.id'));
     }
 
     #[Test]
@@ -37,7 +40,27 @@ class CustomerListControllerTest extends TestCase
         $response->assertOk();
         $this->assertEquals(2, $response->json('per_page'));
         $this->assertEquals(5, $response->json('total'));
-        $this->assertCount(2, $response->json('data'));
+        $this->assertCount(2, $response->json('customers'));
+    }
+
+    #[Test]
+    public function the_customer_page_links_keep_per_page(): void
+    {
+        $this->actingAs($this->user, 'api');
+        Customer::factory()->count(3)->create(['company_id' => $this->user->company_id, 'seller_id' => $this->user->id]);
+
+        $response = $this->getJson('/api/customer?per_page=2');
+
+        $this->assertStringContainsString('per_page=2', $response->json('next_page_url'));
+        $this->assertStringContainsString('page=2', $response->json('next_page_url'));
+    }
+
+    #[Test]
+    public function it_caps_customers_per_page_at_the_maximum(): void
+    {
+        $this->actingAs($this->user, 'api');
+
+        $this->getJson('/api/customer?per_page='.(ApiController::MAX_ITEMS_PER_PAGE + 1))->assertOk()->assertJsonPath('per_page', ApiController::MAX_ITEMS_PER_PAGE);
     }
 
     #[Test]
