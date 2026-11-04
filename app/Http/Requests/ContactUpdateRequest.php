@@ -15,6 +15,10 @@ class ContactUpdateRequest extends ContactRequest
     }
 
     /**
+     * Business rule: the lead only has to belong to the user's company. Any seller can add
+     * contacts to any company lead, whoever generated it or is assigned to it, so sales can
+     * close every lead. Do not restrict it by seller (AssignedSellerScope).
+     *
      * @return array<string, mixed>
      */
     public function rules(): array

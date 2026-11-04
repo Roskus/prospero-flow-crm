@@ -8,7 +8,9 @@ use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Industry;
 use App\Models\Lead;
+use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class ContactCreateControllerTest extends TestCase
@@ -249,5 +251,54 @@ class ContactCreateControllerTest extends TestCase
         ])->assertStatus(422)->assertJsonValidationErrors(['lead_id']);
 
         $this->assertDatabaseHas('contact', ['id' => $contact->id, 'lead_id' => $lead->id]);
+    }
+
+    /**
+     * Business rule: sellers can add contacts to any lead of their company, not only their own.
+     */
+    #[Test]
+    public function seller_can_create_contact_for_a_lead_assigned_to_another_seller(): void
+    {
+        Industry::factory()->create();
+        $seller = $this->sellerOfUserCompany();
+        $otherSeller = User::factory()->create(['company_id' => $this->user->company_id]);
+        $otherSellersLead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $otherSeller->id,
+        ]);
+
+        $this->actingAs($seller, 'api')->json('POST', '/api/contact/', [
+            'lead_id' => $otherSellersLead->id,
+            'contact_first_name' => 'Not Mine',
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('contact', ['lead_id' => $otherSellersLead->id, 'first_name' => 'Not Mine']);
+    }
+
+    #[Test]
+    public function seller_can_create_contact_for_own_lead(): void
+    {
+        Industry::factory()->create();
+        $seller = $this->sellerOfUserCompany();
+        $ownLead = Lead::factory()->create([
+            'company_id' => $this->user->company_id,
+            'seller_id' => $seller->id,
+        ]);
+
+        $this->actingAs($seller, 'api')->json('POST', '/api/contact/', [
+            'lead_id' => $ownLead->id,
+            'contact_first_name' => 'Mine',
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('contact', ['lead_id' => $ownLead->id, 'first_name' => 'Mine']);
+    }
+
+    private function sellerOfUserCompany(): User
+    {
+        $seller = User::factory()->create(['company_id' => $this->user->company_id]);
+        $seller->assignRole('User');
+        $seller->givePermissionTo(Permission::findOrCreate('create contact', 'web'));
+
+        return $seller;
     }
 }

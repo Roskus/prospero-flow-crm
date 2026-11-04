@@ -226,7 +226,21 @@ class ContactControllerTest extends TestCase
             'contact_first_name' => 'Intruder',
         ]);
 
-        $response->assertNotFound();
+        $response->assertSessionHasErrors(['customer_id']);
         $this->assertDatabaseMissing('contact', ['customer_id' => $foreignCustomer->id]);
+    }
+
+    #[Test]
+    public function it_rejects_a_malformed_customer_id(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => [$customer->id],
+            'contact_first_name' => 'Array Id',
+        ]);
+
+        $response->assertSessionHasErrors(['customer_id']);
+        $this->assertDatabaseMissing('contact', ['first_name' => 'Array Id']);
     }
 }
