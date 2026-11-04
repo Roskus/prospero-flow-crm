@@ -17,7 +17,7 @@ class ContactUpdateRequest extends ContactRequest
     /**
      * Business rule: the lead only has to belong to the user's company. Any seller can add
      * contacts to any company lead, whoever generated it or is assigned to it, so sales can
-     * close every lead. Do not restrict it by seller (AssignedSellerScope).
+     * close every lead. Do not restrict it by seller.
      *
      * @return array<string, mixed>
      */
@@ -25,7 +25,7 @@ class ContactUpdateRequest extends ContactRequest
     {
         return [
             ...parent::rules(),
-            'lead_id' => ['sometimes', 'nullable', 'integer', Rule::exists('lead', 'id')->where('company_id', Auth::user()->company_id)],
+            'lead_id' => ['sometimes', 'nullable', 'integer', Rule::exists('lead', 'id')->where('company_id', Auth::user()->company_id)->withoutTrashed()],
         ];
     }
 }

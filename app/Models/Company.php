@@ -28,19 +28,11 @@ use Squire\Models\Currency;
         new OA\Property(property: 'registration_number', description: 'Company registration number, e.g. the UK Companies House number', type: 'string', example: '12345678'),
         new OA\Property(property: 'phone', description: 'Phone of the company', type: 'string', example: '+34645600000'),
         new OA\Property(property: 'email', description: 'Email of the company', type: 'string', format: 'email', example: 'info@company.com'),
-        new OA\Property(property: 'country_id', description: 'Country ISO code of the company', type: 'string', example: 'ES'),
-        new OA\Property(property: 'province', description: 'Province of the company', type: 'string', example: 'Barcelona'),
-        new OA\Property(property: 'city', description: 'City of the company', type: 'string', example: 'Barcelona'),
-        new OA\Property(property: 'locality', description: 'Locality of the company', type: 'string', example: 'Castelldefels'),
-        new OA\Property(property: 'street', description: 'Street of the company', type: 'string', example: 'Av. Constitución 123'),
-        new OA\Property(property: 'address_extra', description: 'Floor, office or suite', type: 'string', example: 'Piso 2'),
-        new OA\Property(property: 'zipcode', description: 'Zipcode of the company', type: 'string', example: '08860'),
-        new OA\Property(property: 'latitude', description: 'Latitude of the company', type: 'number', format: 'float', example: 41.2792),
-        new OA\Property(property: 'longitude', description: 'Longitude of the company', type: 'number', format: 'float', example: 1.9766),
         new OA\Property(property: 'currency', description: 'Default currency of the company', type: 'string', example: 'USD'),
         new OA\Property(property: 'website', description: 'Website of the company', type: 'string', example: 'https://www.company.com'),
     ],
-    type: 'object'
+    type: 'object',
+    allOf: [new OA\Schema(ref: '#/components/schemas/Address')],
 )]
 class Company extends Model
 {

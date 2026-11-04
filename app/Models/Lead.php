@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Lead\Message;
-use App\Models\Scopes\AssignedSellerScope;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(
@@ -33,17 +32,11 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'tiktok', description: 'TikTok profile', type: 'string', format: 'uri', example: 'https://www.tiktok.com/@mycompany'),
         new OAT\Property(property: 'notes', description: 'Notes about the lead', type: 'string', example: 'Some notes about the lead'),
         new OAT\Property(property: 'seller_id', description: 'Seller ID', type: 'integer', example: 1),
-        new OAT\Property(property: 'country_id', description: 'Country ISO code', type: 'string', example: 'ES'),
-        new OAT\Property(property: 'province', description: 'Province', type: 'string', example: 'Buenos Aires'),
-        new OAT\Property(property: 'city', description: 'City', type: 'string', example: 'Buenos Aires'),
-        new OAT\Property(property: 'locality', description: 'Locality', type: 'string', example: 'Palermo'),
-        new OAT\Property(property: 'street', description: 'Street address', type: 'string', example: 'Av. Santa Fe 1234'),
-        new OAT\Property(property: 'address_extra', description: 'Additional address info', type: 'string', example: 'Piso 3, Dpto B'),
-        new OAT\Property(property: 'zipcode', description: 'Postal code', type: 'string', example: '1425'),
         new OAT\Property(property: 'industry_id', description: 'Industry ID', type: 'integer', example: 1),
         new OAT\Property(property: 'status', description: 'Lead status', type: 'string', example: 'open'),
     ],
-    type: 'object'
+    type: 'object',
+    allOf: [new OAT\Schema(ref: '#/components/schemas/Address')],
 )]
 class Lead extends Prospect
 {
@@ -111,13 +104,5 @@ class Lead extends Prospect
         }
 
         return $score;
-    }
-
-    /**
-     * Sellers only see the leads assigned to them; customers are visible to every seller of the company.
-     */
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new AssignedSellerScope);
     }
 }

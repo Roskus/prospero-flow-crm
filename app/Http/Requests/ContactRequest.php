@@ -31,7 +31,7 @@ class ContactRequest extends FormRequest
      *
      * Business rule: the lead only has to belong to the user's company. Any seller can add
      * contacts to any company lead, whoever generated it or is assigned to it, so sales can
-     * close every lead. Do not restrict it by seller (AssignedSellerScope).
+     * close every lead. Do not restrict it by seller.
      *
      * @return array<string, mixed>
      */
@@ -40,8 +40,8 @@ class ContactRequest extends FormRequest
         return [
             ...AddressRules::rules(),
             'contact_first_name' => ['required', 'max:50'],
-            'lead_id' => ['required_without:customer_id', 'nullable', 'integer', Rule::exists('lead', 'id')->where('company_id', Auth::user()->company_id)],
-            'customer_id' => ['nullable', 'integer', Rule::exists('customer', 'id')->where('company_id', Auth::user()->company_id)],
+            'lead_id' => ['required_without:customer_id', 'nullable', 'integer', Rule::exists('lead', 'id')->where('company_id', Auth::user()->company_id)->withoutTrashed()],
+            'customer_id' => ['nullable', 'integer', Rule::exists('customer', 'id')->where('company_id', Auth::user()->company_id)->withoutTrashed()],
             'contact_email' => ['nullable', 'email', 'max:254'],
             'contact_phone' => ['nullable', 'max:15'],
             'contact_last_name' => ['nullable', 'max:255'],

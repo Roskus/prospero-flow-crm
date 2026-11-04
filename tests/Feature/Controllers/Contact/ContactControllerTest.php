@@ -243,4 +243,19 @@ class ContactControllerTest extends TestCase
         $response->assertSessionHasErrors(['customer_id']);
         $this->assertDatabaseMissing('contact', ['first_name' => 'Array Id']);
     }
+
+    #[Test]
+    public function it_rejects_a_deleted_customer(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+        $customer->delete();
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_first_name' => 'Deleted Customer Contact',
+        ]);
+
+        $response->assertSessionHasErrors(['customer_id']);
+        $this->assertDatabaseMissing('contact', ['first_name' => 'Deleted Customer Contact']);
+    }
 }

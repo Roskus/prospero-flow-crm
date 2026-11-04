@@ -7,7 +7,6 @@ namespace App\Repositories;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
-use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -15,8 +14,8 @@ class ContactRepository
 {
     /**
      * Business rule: any user of the company can add contacts to any of its leads, whoever
-     * generated it or is assigned to it, so sales can close every lead. The lead lookup skips
-     * AssignedSellerScope on purpose; keep it scoped only by company.
+     * generated it or is assigned to it, so sales can close every lead. Keep the lead lookup
+     * scoped only by company, never by seller.
      */
     public function save(array $data): ?Contact
     {
@@ -31,7 +30,7 @@ class ContactRepository
         }
 
         $contact->lead_id = ! empty($data['lead_id'])
-            ? Lead::query()->withoutGlobalScope(AssignedSellerScope::class)->where('company_id', Auth::user()->company_id)->findOrFail($data['lead_id'])->id
+            ? Lead::query()->where('company_id', Auth::user()->company_id)->findOrFail($data['lead_id'])->id
             : null;
         $contact->customer_id = ! empty($data['customer_id'])
             ? Customer::query()->where('company_id', Auth::user()->company_id)->findOrFail($data['customer_id'])->id

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LeadRepository
 {
+    /**
+     * Business rule: any seller can see and work every lead of the company, but saving a lead
+     * without a seller keeps its assigned seller instead of reassigning it to the current user.
+     */
     public function save(array $data): ?Lead
     {
         if (empty($data['id'])) {
@@ -18,7 +22,7 @@ class LeadRepository
             $lead = Lead::where('company_id', Auth::user()->company_id)->findOrFail($data['id']);
         }
 
-        $lead->seller_id = (isset($data['seller_id'])) ? $data['seller_id'] : Auth::user()->id;
+        $lead->seller_id = $data['seller_id'] ?? $lead->seller_id ?? Auth::user()->id;
         $lead->company_id = Auth::user()->company_id;
         $lead->external_id = ! empty($data['external_id']) ? $data['external_id'] : null;
         $lead->name = $data['name'] ?? $lead->name;

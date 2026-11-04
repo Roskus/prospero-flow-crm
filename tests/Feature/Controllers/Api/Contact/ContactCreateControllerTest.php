@@ -253,6 +253,21 @@ class ContactCreateControllerTest extends TestCase
         $this->assertDatabaseHas('contact', ['id' => $contact->id, 'lead_id' => $lead->id]);
     }
 
+    #[Test]
+    public function cannot_create_contact_for_a_deleted_lead(): void
+    {
+        $this->actingAs($this->user, 'api');
+
+        Industry::factory()->create();
+        $lead = Lead::factory()->create(['company_id' => $this->user->company_id]);
+        $lead->delete();
+
+        $this->json('POST', '/api/contact/', [
+            'lead_id' => $lead->id,
+            'contact_first_name' => 'Deleted Lead Contact',
+        ])->assertStatus(422)->assertJsonValidationErrors(['lead_id']);
+    }
+
     /**
      * Business rule: sellers can add contacts to any lead of their company, not only their own.
      */

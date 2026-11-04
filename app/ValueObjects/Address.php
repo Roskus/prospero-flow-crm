@@ -9,8 +9,25 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use OpenApi\Attributes as OAT;
 use Squire\Models\Country;
 
+#[OAT\Schema(
+    schema: 'Address',
+    description: 'Postal address fields shared by every entity with an address',
+    properties: [
+        new OAT\Property(property: 'country_id', description: 'Country ISO 3166-1 alpha-2 code', type: 'string', example: 'es', maxLength: 2),
+        new OAT\Property(property: 'province', description: 'Province or state', type: 'string', example: 'Madrid', maxLength: 80),
+        new OAT\Property(property: 'city', description: 'City', type: 'string', example: 'Madrid', maxLength: 50),
+        new OAT\Property(property: 'locality', description: 'Locality or neighbourhood', type: 'string', example: 'Chamberí', maxLength: 80),
+        new OAT\Property(property: 'street', description: 'Street and number', type: 'string', example: 'Calle de Alcalá 42', maxLength: 80),
+        new OAT\Property(property: 'address_extra', description: 'Floor, office or suite', type: 'string', example: 'Piso 3, Puerta B', maxLength: 80),
+        new OAT\Property(property: 'zipcode', description: 'Postal code', type: 'string', example: '28014', maxLength: 10),
+        new OAT\Property(property: 'latitude', description: 'Latitude', type: 'number', format: 'float', example: 40.4168, maximum: 90, minimum: -90),
+        new OAT\Property(property: 'longitude', description: 'Longitude', type: 'number', format: 'float', example: -3.7038, maximum: 180, minimum: -180),
+    ],
+    type: 'object'
+)]
 /**
  * Postal address stored in the address columns of an entity (lead, customer, company, supplier...).
  *
