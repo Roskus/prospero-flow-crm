@@ -215,4 +215,18 @@ class ContactControllerTest extends TestCase
         $response->assertOk();
         $response->assertSeeInOrder(['Located', 'Spain', 'Alcobendas', 'Unlocated']);
     }
+
+    #[Test]
+    public function it_prevents_attaching_a_contact_to_another_companys_customer(): void
+    {
+        $foreignCustomer = Customer::factory()->create(['company_id' => $this->user->company_id + 1]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $foreignCustomer->id,
+            'contact_first_name' => 'Intruder',
+        ]);
+
+        $response->assertNotFound();
+        $this->assertDatabaseMissing('contact', ['customer_id' => $foreignCustomer->id]);
+    }
 }
