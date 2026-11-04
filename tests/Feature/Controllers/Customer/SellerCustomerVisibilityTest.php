@@ -6,8 +6,10 @@ namespace Tests\Feature\Controllers\Customer;
 
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\Industry;
 use App\Models\Lead;
 use App\Models\User;
+use App\Repositories\LeadRepository;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,15 +73,43 @@ class SellerCustomerVisibilityTest extends TestCase
         $this->actingAs($this->seller)->get('/customer')->assertOk()->assertDontSee('Foreign customer');
     }
 
+    /**
+     * Business rule: a seller can see and work any lead of the company; the lead list is filtered by seller.
+     */
     #[Test]
-    public function leads_stay_limited_to_the_assigned_seller(): void
+    public function a_seller_opens_leads_of_other_sellers(): void
     {
-        $own = Lead::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->seller->id]);
+        Industry::factory()->create();
         $other = Lead::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->otherSeller->id]);
 
         $this->actingAs($this->seller);
 
-        $this->assertTrue(Lead::query()->whereKey($own->id)->exists());
-        $this->assertFalse(Lead::query()->whereKey($other->id)->exists());
+        $this->assertTrue(Lead::query()->whereKey($other->id)->exists());
+        $this->get('/lead/show/'.$other->id)->assertOk();
+    }
+
+    #[Test]
+    public function the_lead_list_shows_a_seller_only_their_own_leads(): void
+    {
+        Industry::factory()->create();
+        Lead::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->seller->id, 'name' => 'My own lead']);
+        Lead::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->otherSeller->id, 'name' => 'Lead of another seller']);
+
+        $this->actingAs($this->seller)->get('/lead')
+            ->assertOk()
+            ->assertSee('My own lead')
+            ->assertDontSee('Lead of another seller');
+    }
+
+    #[Test]
+    public function saving_a_lead_without_seller_keeps_its_assigned_seller(): void
+    {
+        Industry::factory()->create();
+        $lead = Lead::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->otherSeller->id]);
+
+        $this->actingAs($this->seller);
+        app(LeadRepository::class)->save(['id' => $lead->id, 'name' => 'Renamed']);
+
+        $this->assertDatabaseHas('lead', ['id' => $lead->id, 'name' => 'Renamed', 'seller_id' => $this->otherSeller->id]);
     }
 }

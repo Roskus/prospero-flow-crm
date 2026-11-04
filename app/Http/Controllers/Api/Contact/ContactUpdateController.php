@@ -45,7 +45,7 @@ class ContactUpdateController
     {
         $status = 400;
         $params['id'] = $id;
-        $params = array_merge($params, $request->all());
+        $params = array_merge($params, $request->validated());
         $contact = $this->contactRepository->save($params);
         if ($contact) {
             $status = 200;

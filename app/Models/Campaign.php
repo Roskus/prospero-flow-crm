@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Scopes\AssignedSellerScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -158,8 +157,8 @@ class Campaign extends Model
     {
         return match ($this->recipient_type) {
             self::RECIPIENTS_CUSTOMERS => [$this->contactQuery(Customer::query())],
-            self::RECIPIENTS_BOTH => [$this->contactQuery(Lead::query()->withoutGlobalScope(AssignedSellerScope::class)), $this->contactQuery(Customer::query())],
-            default => [$this->contactQuery(Lead::query()->withoutGlobalScope(AssignedSellerScope::class))],
+            self::RECIPIENTS_BOTH => [$this->contactQuery(Lead::query()), $this->contactQuery(Customer::query())],
+            default => [$this->contactQuery(Lead::query())],
         };
     }
 

@@ -23,18 +23,14 @@ use Squire\Models\Country;
         new OAT\Property(property: 'phone', description: 'Phone of the supplier', type: 'string', example: '+34000000000'),
         new OAT\Property(property: 'email', description: 'Email of the supplier', type: 'string', format: 'email', example: 'info@suppliername.com'),
         new OAT\Property(property: 'website', description: 'Website of the supplier', type: 'string', format: 'url', example: 'https://suppliername.com'),
-        new OAT\Property(property: 'country_id', description: 'Country ISO Code 2', type: 'string', example: 'UK'),
-        new OAT\Property(property: 'province', description: 'Province of the supplier', type: 'string', example: 'London'),
-        new OAT\Property(property: 'city', description: 'City of the supplier', type: 'string', example: 'London'),
-        new OAT\Property(property: 'street', description: 'Street address of the supplier', type: 'string', example: 'Street name, 5'),
-        new OAT\Property(property: 'zipcode', description: 'Zipcode of the supplier', type: 'string', example: 'EC4N 1SA'),
         new OAT\Property(property: 'notes', description: 'Notes about the supplier', type: 'string', example: 'This is a note'),
         new OAT\Property(property: 'account_number', description: 'Account number of the supplier', type: 'string', example: '1234567890'),
         new OAT\Property(property: 'order_url', description: 'URL for ordering from supplier', type: 'string', format: 'url', example: 'https://supplier.com/order'),
         new OAT\Property(property: 'order_user', description: 'Username for supplier ordering system', type: 'string', example: 'username123'),
         new OAT\Property(property: 'order_password', description: 'Password for supplier ordering system', type: 'string', example: 'password123'),
     ],
-    type: 'object'
+    type: 'object',
+    allOf: [new OAT\Schema(ref: '#/components/schemas/Address')],
 )]
 class Supplier extends Model
 {

@@ -36,18 +36,11 @@ class DocGeneratorController
 {
     public function render(): JsonResponse
     {
-        $app_path = app_path();
-        $exclude = [];
-        $pattern = '*.php';
-
-        $openapi = Generator::scan([
-            $app_path.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'Api',
-            $app_path.DIRECTORY_SEPARATOR.'Models',
-        ],
-            [
-                'exclude' => $exclude,
-                'pattern' => $pattern,
-            ]);
+        $openapi = (new Generator)->generate([
+            app_path('Http/Controllers/Api'),
+            app_path('Models'),
+            app_path('ValueObjects'),
+        ]);
 
         return response()->json($openapi->toJson());
     }

@@ -215,4 +215,47 @@ class ContactControllerTest extends TestCase
         $response->assertOk();
         $response->assertSeeInOrder(['Located', 'Spain', 'Alcobendas', 'Unlocated']);
     }
+
+    #[Test]
+    public function it_prevents_attaching_a_contact_to_another_companys_customer(): void
+    {
+        $foreignCustomer = Customer::factory()->create(['company_id' => $this->user->company_id + 1]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $foreignCustomer->id,
+            'contact_first_name' => 'Intruder',
+        ]);
+
+        $response->assertSessionHasErrors(['customer_id']);
+        $this->assertDatabaseMissing('contact', ['customer_id' => $foreignCustomer->id]);
+    }
+
+    #[Test]
+    public function it_rejects_a_malformed_customer_id(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => [$customer->id],
+            'contact_first_name' => 'Array Id',
+        ]);
+
+        $response->assertSessionHasErrors(['customer_id']);
+        $this->assertDatabaseMissing('contact', ['first_name' => 'Array Id']);
+    }
+
+    #[Test]
+    public function it_rejects_a_deleted_customer(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+        $customer->delete();
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_first_name' => 'Deleted Customer Contact',
+        ]);
+
+        $response->assertSessionHasErrors(['customer_id']);
+        $this->assertDatabaseMissing('contact', ['first_name' => 'Deleted Customer Contact']);
+    }
 }
