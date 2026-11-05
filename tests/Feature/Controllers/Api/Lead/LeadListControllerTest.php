@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Api\Lead;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\ProspectListRequest;
 use App\Models\Industry;
 use App\Models\Lead;
+use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class LeadListControllerTest extends TestCase
@@ -77,5 +80,61 @@ class LeadListControllerTest extends TestCase
         Lead::factory()->create(['company_id' => $this->user->company_id + 1]);
 
         $this->getJson('/api/lead')->assertOk()->assertJsonPath('count', 0);
+    }
+
+    #[Test]
+    public function it_searches_leads_by_name_and_business_name(): void
+    {
+        $this->actingAs($this->user, 'api');
+        Industry::factory()->create();
+        $byName = Lead::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Acme Robotics', 'business_name' => null]);
+        $byBusinessName = Lead::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Coyote', 'business_name' => 'Acme Industrial S.L.']);
+        Lead::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Globex', 'business_name' => null]);
+
+        $response = $this->getJson('/api/lead?search=acme');
+
+        $response->assertOk()->assertJsonPath('count', 2);
+        $this->assertEqualsCanonicalizing([$byName->id, $byBusinessName->id], array_column($response->json('leads'), 'id'));
+    }
+
+    /**
+     * Business rule: any seller finds every lead of the company, whoever its assigned seller is.
+     */
+    #[Test]
+    public function a_seller_finds_leads_of_other_sellers_but_not_of_other_companies(): void
+    {
+        Industry::factory()->create();
+        $seller = User::factory()->create(['company_id' => $this->user->company_id]);
+        $seller->assignRole('User');
+        $seller->givePermissionTo(Permission::findOrCreate('read lead', 'web'));
+        $otherSellersLead = Lead::factory()->create(['company_id' => $this->user->company_id, 'seller_id' => $this->user->id, 'name' => 'Acme']);
+        Lead::factory()->create(['company_id' => $this->user->company_id + 1, 'name' => 'Acme']);
+
+        $response = $this->actingAs($seller, 'api')->getJson('/api/lead?search=acme');
+
+        $response->assertOk()->assertJsonPath('count', 1)->assertJsonPath('leads.0.id', $otherSellersLead->id);
+    }
+
+    #[Test]
+    public function the_lead_page_links_keep_the_search(): void
+    {
+        $this->actingAs($this->user, 'api');
+        Industry::factory()->create();
+        Lead::factory()->count(3)->create(['company_id' => $this->user->company_id, 'name' => 'Acme']);
+
+        $next = $this->getJson('/api/lead?search=acme&per_page=2')->json('next_page_url');
+
+        $this->assertStringContainsString('search=acme', $next);
+        $this->assertStringContainsString('per_page=2', $next);
+    }
+
+    #[Test]
+    public function a_too_long_lead_search_is_rejected(): void
+    {
+        $this->actingAs($this->user, 'api');
+
+        $this->getJson('/api/lead?search='.str_repeat('a', ProspectListRequest::SEARCH_MAX_LENGTH + 1))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['search']);
     }
 }

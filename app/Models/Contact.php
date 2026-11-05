@@ -6,6 +6,9 @@ namespace App\Models;
 
 use App\Traits\HasAddress;
 use App\Traits\VCard;
+use App\ValueObjects\LinkedinProfileUrl;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -65,6 +68,21 @@ class Contact extends Model
     protected $casts = [
         'updated_at' => 'date',
     ];
+
+    /**
+     * Contacts whose LinkedIn URL points to the profile, however the stored URL is written.
+     */
+    #[Scope]
+    protected function linkedinProfile(Builder $query, LinkedinProfileUrl $profile): void
+    {
+        $path = addcslashes($profile->path, '\\%_');
+        $query->where(function (Builder $query) use ($path): void {
+            $query->whereLike('linkedin', '%'.$path)
+                ->orWhereLike('linkedin', '%'.$path.'/%')
+                ->orWhereLike('linkedin', '%'.$path.'?%')
+                ->orWhereLike('linkedin', '%'.$path.'#%');
+        });
+    }
 
     public function lead()
     {

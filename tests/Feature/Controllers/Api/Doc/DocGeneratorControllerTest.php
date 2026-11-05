@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Api\Doc;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\ProspectListRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -81,11 +82,9 @@ class DocGeneratorControllerTest extends TestCase
     {
         $document = json_decode($this->get('/api/resource.json')->json(), true);
 
-        $this->assertEqualsCanonicalizing(
-            [['$ref' => '#/components/parameters/Page'], ['$ref' => '#/components/parameters/PerPage']],
-            $document['paths'][$path]['get']['parameters'],
-            $path
-        );
+        $parameters = $document['paths'][$path]['get']['parameters'];
+        $this->assertContains(['$ref' => '#/components/parameters/Page'], $parameters, $path);
+        $this->assertContains(['$ref' => '#/components/parameters/PerPage'], $parameters, $path);
         $this->assertSame('page', $document['components']['parameters']['Page']['name']);
         $this->assertSame('per_page', $document['components']['parameters']['PerPage']['name']);
         $this->assertSame(ApiController::MAX_ITEMS_PER_PAGE, $document['components']['parameters']['PerPage']['schema']['maximum']);
@@ -97,5 +96,27 @@ class DocGeneratorControllerTest extends TestCase
     public static function paginatedListPaths(): array
     {
         return ['customer' => ['/customer'], 'lead' => ['/lead'], 'order' => ['/order']];
+    }
+
+    #[Test]
+    public function the_lead_and_customer_lists_document_the_search_parameter(): void
+    {
+        $document = json_decode($this->get('/api/resource.json')->json(), true);
+
+        foreach (['/lead', '/customer'] as $path) {
+            $this->assertContains(['$ref' => '#/components/parameters/Search'], $document['paths'][$path]['get']['parameters'], $path);
+        }
+        $this->assertSame('search', $document['components']['parameters']['Search']['name']);
+        $this->assertSame(ProspectListRequest::SEARCH_MAX_LENGTH, $document['components']['parameters']['Search']['schema']['maxLength']);
+    }
+
+    #[Test]
+    public function the_contact_list_documents_the_linkedin_parameter(): void
+    {
+        $document = json_decode($this->get('/api/resource.json')->json(), true);
+
+        $names = array_column($document['paths']['/contact']['get']['parameters'], 'name');
+
+        $this->assertContains('linkedin', $names);
     }
 }

@@ -647,5 +647,11 @@
     "Taxes included": "Impuestos incluidos",
     "Payment deleted": "Pago eliminado",
     "Delete payment": "Eliminar pago",
-    "Are you sure you want to delete this payment?": "¿Seguro que quieres eliminar este pago?"
+    "Are you sure you want to delete this payment?": "¿Seguro que quieres eliminar este pago?",
+    "The search text is not valid.": "El texto de búsqueda no es válido.",
+    "The search text may not be longer than :max characters.": "El texto de búsqueda no puede tener más de :max caracteres.",
+    "The number of results per page must be a number.": "La cantidad de resultados por página debe ser un número.",
+    "The page must be a number.": "La página debe ser un número.",
+    "The LinkedIn URL must be a LinkedIn profile URL.": "La URL de LinkedIn debe ser la de un perfil de LinkedIn.",
+    "The LinkedIn URL may not be longer than :max characters.": "La URL de LinkedIn no puede tener más de :max caracteres."
 }

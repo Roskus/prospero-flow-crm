@@ -2,19 +2,19 @@
 
 ## 1. API: token lifetime
 
-- [ ] 1.1 Make `jwt.ttl` fall back to the 60 minutes default when `JWT_TTL` is missing or empty (`(int) env('JWT_TTL', 60) ?: 60`, so tokens always expire) and fix `LoginController::respondWithToken()` so `expires_in` is that TTL × 60 seconds; verify with feature tests on `POST /api/auth/login` and `POST /api/auth/refresh` for the default (3600) and a custom `jwt.ttl` of 15 (900)
+- [x] 1.1 Make `jwt.ttl` fall back to the 60 minutes default when `JWT_TTL` is missing or empty (`(int) env('JWT_TTL', 60) ?: 60`, so tokens always expire) and fix `LoginController::respondWithToken()` so `expires_in` is that TTL × 60 seconds; verify with feature tests on `POST /api/auth/login` and `POST /api/auth/refresh` for the default (3600) and a custom `jwt.ttl` of 15 (900)
 
 ## 2. API: search leads and customers
 
-- [ ] 2.1 Add a `search()` scope on `Prospect` (name or business name contains the text, `%`/`_` escaped, no-op when empty) and verify with a model test for name, business name, case insensitivity and a literal `%`
-- [ ] 2.2 Add `LeadListRequest` and `CustomerListRequest` (optional `search` string max 120, `per_page`, `page` integers) and apply `search()` before pagination in `LeadListController` and `CustomerListController`; verify with feature tests: matching by name and business name, `count` equals the matches, no search returns every lead, a lead of another seller is found, a lead/customer of another company is not, `next_page_url` keeps `search` and `per_page`, and a 121 character search returns 422
-- [ ] 2.3 Add a shared `Search` OpenAPI query parameter and reference it from both lists; verify by extending `DocGeneratorControllerTest` so `/lead` and `/customer` document `search`
+- [x] 2.1 Add a `search()` scope on `Prospect` (name or business name contains the text, `%`/`_` escaped, no-op when empty) and verify with a model test for name, business name, case insensitivity and a literal `%`
+- [x] 2.2 Add `ProspectListRequest`, shared by both lists (optional `search` string max 120, `per_page`, `page` integers) and apply `search()` before pagination in `LeadListController` and `CustomerListController`; verify with feature tests: matching by name and business name, `count` equals the matches, no search returns every lead, a lead of another seller is found, a lead/customer of another company is not, `next_page_url` keeps `search` and `per_page`, and a 121 character search returns 422
+- [x] 2.3 Add a shared `Search` OpenAPI query parameter and reference it from both lists; verify by extending `DocGeneratorControllerTest` so `/lead` and `/customer` document `search`
 
 ## 3. API: contact lookup by LinkedIn URL
 
-- [ ] 3.1 Add a LinkedIn profile URL normalizer (profile slug `/in/<slug>`, lower case, without scheme, `www.`, query or trailing slash; null when not a profile URL) and verify with a unit test covering `https://www.linkedin.com/in/Jane-Doe/`, `linkedin.com/in/jane-doe?trk=x`, `http://es.linkedin.com/in/jane-doe` and a company URL returning null
-- [ ] 3.2 Add `ContactListRequest` (optional `linkedin` string max 255) and filter `ContactListController` by the normalized slug (end, `/` or `?` after it, escaped `LIKE`), keeping `{count, contacts}`; verify with feature tests: different URL forms find the same contact, `jane-doe` does not match `jane-doe-2`, no match returns `count` 0, a contact of another company is not listed, and the response carries `lead_id`/`customer_id`
-- [ ] 3.3 Document the `linkedin` query parameter on `GET /contact`; verify by extending `DocGeneratorControllerTest`
+- [x] 3.1 Add a LinkedIn profile URL normalizer (profile slug `/in/<slug>`, lower case, without scheme, `www.`, query or trailing slash; null when not a profile URL) and verify with a unit test covering `https://www.linkedin.com/in/Jane-Doe/`, `linkedin.com/in/jane-doe?trk=x`, `http://es.linkedin.com/in/jane-doe` and a company URL returning null
+- [x] 3.2 Add `ContactListRequest` (optional `linkedin` string max 255) and filter `ContactListController` by the normalized slug (end, `/` or `?` after it, escaped `LIKE`), keeping `{count, contacts}`; verify with feature tests: different URL forms find the same contact, `jane-doe` does not match `jane-doe-2`, no match returns `count` 0, a contact of another company is not listed, and the response carries `lead_id`/`customer_id`
+- [x] 3.3 Document the `linkedin` query parameter on `GET /contact`; verify by extending `DocGeneratorControllerTest`
 
 ## 4. Extension scaffold and session
 
