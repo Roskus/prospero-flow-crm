@@ -50,6 +50,10 @@ class BrowserExtensionPackageTest extends TestCase
             json_decode((string) file_get_contents(base_path('browser-extension/manifest.json')), true)['content_scripts'],
             $manifest['content_scripts'],
         );
+        $this->assertSame(
+            ['personallyIdentifyingInfo', 'authenticationInfo', 'browsingActivity', 'websiteContent'],
+            $manifest['browser_specific_settings']['gecko']['data_collection_permissions']['required'],
+        );
         foreach (['background.js', 'content.js', 'linkedin.js', 'panel.html', 'popup.html', '_locales/en/messages.json', '_locales/es/messages.json', 'icons/icon-128.png'] as $file) {
             $this->assertContains($file, $names);
         }

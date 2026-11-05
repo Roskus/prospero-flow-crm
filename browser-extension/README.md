@@ -38,8 +38,12 @@ The same zip installs in the three browsers and is the file the browser stores a
 
 ### Firefox
 
-Firefox 128 or newer. Firefox only installs signed extensions for good, so until the
+Firefox 140 or newer. Firefox only installs signed extensions for good, so until the
 extension is signed it is loaded as a temporary add-on, which Firefox removes when it closes.
+
+On install Firefox asks to accept the data the extension sends to your CRM, as declared in
+`data_collection_permissions`: personal data of the profile (name, job title, email, phone),
+the CRM login, the profile URL and the profile page content.
 
 #### Install locally, step by step
 
