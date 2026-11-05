@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 use SplFileInfo;
 use ZipArchive;
 
@@ -46,37 +47,33 @@ class BrowserExtensionPackage extends Command
      */
     public function handle(): int
     {
-        $source = base_path('browser-extension');
-        $manifest = json_decode((string) @file_get_contents($source.'/manifest.json'), true);
-        if (! is_array($manifest)) {
-            $this->error('browser-extension/manifest.json is missing or is not valid JSON.');
-
-            return Command::FAILURE;
-        }
-        $manifest['version'] = (string) config('app.version');
-
-        $missingKeys = $this->missingLocaleKeys($source);
-        if ($missingKeys !== []) {
-            foreach ($missingKeys as $locale => $keys) {
-                $this->error("_locales/{$locale}/messages.json is missing: ".implode(', ', $keys));
-            }
+        try {
+            $package = $this->package(base_path('browser-extension'));
+        } catch (RuntimeException $exception) {
+            $this->error($exception->getMessage());
 
             return Command::FAILURE;
         }
 
-        $output = $this->option('output') ?: storage_path('app/browser-extension');
-        if (! is_dir($output) && ! mkdir($output, 0755, true) && ! is_dir($output)) {
-            $this->error("Cannot create {$output}.");
+        $this->info('Extension '.config('app.version')." packaged in {$package}");
 
-            return Command::FAILURE;
-        }
+        return Command::SUCCESS;
+    }
 
-        $package = rtrim($output, '/').'/'.self::PACKAGE_PREFIX.$manifest['version'].'.zip';
+    /**
+     * Writes the zip and returns its path.
+     *
+     * @throws RuntimeException when the extension is incomplete or the zip cannot be written
+     */
+    private function package(string $source): string
+    {
+        $manifest = $this->manifest($source);
+        $this->ensureLocalesComplete($source);
+
+        $package = $this->outputDirectory().'/'.self::PACKAGE_PREFIX.$manifest['version'].'.zip';
         $zip = new ZipArchive;
         if ($zip->open($package, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            $this->error("Cannot write {$package}.");
-
-            return Command::FAILURE;
+            throw new RuntimeException("Cannot write {$package}.");
         }
 
         foreach ($this->packagedFiles($source) as $relativePath => $file) {
@@ -88,13 +85,60 @@ class BrowserExtensionPackage extends Command
         }
         $zip->close();
 
-        $this->info("Extension {$manifest['version']} packaged in {$package}");
-
-        return Command::SUCCESS;
+        return $package;
     }
 
     /**
-     * Files to package by their path inside the zip, sorted, without hidden or excluded files.
+     * The extension manifest with the CRM version.
+     *
+     * @return array<string, mixed>
+     *
+     * @throws RuntimeException when manifest.json is missing or invalid
+     */
+    private function manifest(string $source): array
+    {
+        $manifest = json_decode((string) @file_get_contents($source.'/manifest.json'), true);
+        if (! is_array($manifest)) {
+            throw new RuntimeException('browser-extension/manifest.json is missing or is not valid JSON.');
+        }
+        $manifest['version'] = (string) config('app.version');
+
+        return $manifest;
+    }
+
+    /**
+     * @throws RuntimeException when a locale lacks English messages
+     */
+    private function ensureLocalesComplete(string $source): void
+    {
+        $missingKeys = $this->missingLocaleKeys($source);
+        if ($missingKeys !== []) {
+            $lines = array_map(
+                fn (string $locale, array $keys): string => "_locales/{$locale}/messages.json is missing: ".implode(', ', $keys),
+                array_keys($missingKeys),
+                $missingKeys,
+            );
+
+            throw new RuntimeException(implode(PHP_EOL, $lines));
+        }
+    }
+
+    /**
+     * @throws RuntimeException when the directory cannot be created
+     */
+    private function outputDirectory(): string
+    {
+        $output = $this->option('output') ?: storage_path('app/browser-extension');
+        if (! is_dir($output) && ! mkdir($output, 0755, true) && ! is_dir($output)) {
+            throw new RuntimeException("Cannot create {$output}.");
+        }
+
+        return rtrim($output, '/');
+    }
+
+    /**
+     * Files to package by their path inside the zip, sorted, without hidden or excluded files
+     * nor earlier packages written inside the folder.
      *
      * @return array<string, SplFileInfo>
      */
@@ -115,7 +159,7 @@ class BrowserExtensionPackage extends Command
 
     private function isExcluded(string $relativePath): bool
     {
-        if (preg_match('#(^|/)\.#', $relativePath) === 1) {
+        if (preg_match('#(^|/)\.#', $relativePath) === 1 || str_ends_with($relativePath, '.zip')) {
             return true;
         }
 

@@ -55,6 +55,28 @@ class BrowserExtensionPackageTest extends TestCase
         }
         $this->assertEmpty(array_filter($names, fn (string $name): bool => str_starts_with($name, 'tests/')));
         $this->assertNotContains('README.md', $names);
+        $this->assertNotContains('.jshintrc', $names);
+    }
+
+    #[Test]
+    public function it_leaves_earlier_packages_out_when_the_output_is_inside_the_extension(): void
+    {
+        $this->output = base_path('browser-extension/package-test-'.uniqid());
+        $package = $this->output.'/prospero-flow-crm-extension-'.config('app.version').'.zip';
+
+        $this->artisan('crm:extension:package', ['--output' => $this->output])->assertSuccessful();
+        $this->artisan('crm:extension:package', ['--output' => $this->output])->assertSuccessful();
+
+        $zip = new ZipArchive;
+        $this->assertTrue($zip->open($package));
+        $names = [];
+        for ($index = 0; $index < $zip->numFiles; $index++) {
+            $names[] = $zip->getNameIndex($index);
+        }
+        $zip->close();
+
+        $this->assertContains('manifest.json', $names);
+        $this->assertEmpty(array_filter($names, fn (string $name): bool => str_ends_with($name, '.zip')));
     }
 
     #[Test]
