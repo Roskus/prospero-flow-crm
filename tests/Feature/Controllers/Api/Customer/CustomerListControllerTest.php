@@ -64,6 +64,19 @@ class CustomerListControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_searches_customers_of_the_company_only(): void
+    {
+        $this->actingAs($this->user, 'api');
+        $initech = Customer::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Initech', 'business_name' => null]);
+        Customer::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Umbrella', 'business_name' => null]);
+        Customer::factory()->create(['company_id' => $this->user->company_id + 1, 'name' => 'Initech', 'business_name' => null]);
+
+        $response = $this->getJson('/api/customer?search=init');
+
+        $response->assertOk()->assertJsonPath('count', 1)->assertJsonPath('customers.0.id', $initech->id);
+    }
+
+    #[Test]
     public function it_requires_authentication(): void
     {
         $response = $this->getJson('/api/customer');

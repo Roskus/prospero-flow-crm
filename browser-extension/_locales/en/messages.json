@@ -1,0 +1,174 @@
+{
+  "extName": {
+    "message": "Prospero Flow CRM"
+  },
+  "extDescription": {
+    "message": "Save the LinkedIn profile you are viewing as a contact of a lead or customer in your CRM."
+  },
+  "crmUrl": {
+    "message": "CRM URL"
+  },
+  "email": {
+    "message": "Email"
+  },
+  "password": {
+    "message": "Password"
+  },
+  "login": {
+    "message": "Log in"
+  },
+  "logout": {
+    "message": "Log out"
+  },
+  "loggedInAs": {
+    "message": "Logged in as"
+  },
+  "popupHint": {
+    "message": "Open a LinkedIn profile and use \"Add to CRM\"."
+  },
+  "httpWarning": {
+    "message": "This URL is not secure (http). It only works for a CRM on this computer (localhost or .test)."
+  },
+  "errorInsecureUrl": {
+    "message": "Use an https URL. http only works for a CRM on this computer (localhost or .test)."
+  },
+  "errorInvalidUrl": {
+    "message": "Enter a valid CRM URL."
+  },
+  "errorInvalidCredentials": {
+    "message": "Invalid email or password."
+  },
+  "errorUnreachable": {
+    "message": "Cannot connect to the CRM at that URL."
+  },
+  "errorPermissionDenied": {
+    "message": "The extension needs access to the CRM URL to log in."
+  },
+  "errorTooManyAttempts": {
+    "message": "Too many attempts. Try again in a minute."
+  },
+  "errorLoggedOut": {
+    "message": "Log in to the CRM from the extension icon first."
+  },
+  "errorSessionExpired": {
+    "message": "Your session expired. Log in again from the extension icon."
+  },
+  "errorInactive": {
+    "message": "Your CRM user is inactive."
+  },
+  "errorForbidden": {
+    "message": "Your CRM user is not allowed to do this."
+  },
+  "errorValidation": {
+    "message": "Check the highlighted fields."
+  },
+  "errorUnexpected": {
+    "message": "Something went wrong. Try again."
+  },
+  "addToCrm": {
+    "message": "Add to CRM"
+  },
+  "panelTitle": {
+    "message": "Add contact to the CRM"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "loading": {
+    "message": "Loading…"
+  },
+  "openInCrm": {
+    "message": "Open in the CRM"
+  },
+  "owner": {
+    "message": "Lead or customer"
+  },
+  "ownerSearch": {
+    "message": "Search a lead or customer"
+  },
+  "ownerLead": {
+    "message": "Lead · $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "ownerCustomer": {
+    "message": "Customer · $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "moreResults": {
+    "message": "More results"
+  },
+  "createLead": {
+    "message": "Create lead \"$NAME$\"",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "ownerSelected": {
+    "message": "Saving in: $OWNER$",
+    "placeholders": {
+      "owner": {
+        "content": "$1"
+      }
+    }
+  },
+  "ownerRequired": {
+    "message": "Pick a lead or customer, or create a lead."
+  },
+  "contact": {
+    "message": "Contact"
+  },
+  "firstName": {
+    "message": "First name"
+  },
+  "firstNameRequired": {
+    "message": "The first name is required."
+  },
+  "lastName": {
+    "message": "Last name"
+  },
+  "jobTitle": {
+    "message": "Job title"
+  },
+  "phone": {
+    "message": "Phone"
+  },
+  "linkedinUrl": {
+    "message": "LinkedIn URL"
+  },
+  "location": {
+    "message": "Location"
+  },
+  "country": {
+    "message": "Country"
+  },
+  "province": {
+    "message": "Province"
+  },
+  "city": {
+    "message": "City"
+  },
+  "save": {
+    "message": "Save contact"
+  },
+  "saved": {
+    "message": "Contact saved in the CRM."
+  },
+  "duplicateWarning": {
+    "message": "This profile is already a contact of \"$OWNER$\" in the CRM. You can still save a new contact.",
+    "placeholders": {
+      "owner": {
+        "content": "$1"
+      }
+    }
+  }
+}

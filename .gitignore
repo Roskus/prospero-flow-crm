@@ -27,3 +27,4 @@ yarn-error.log
 /storage/api-docs/api-docs.json
 docker-compose.override.yml
 *:Zone.Identifier
+/.playwright-mcp

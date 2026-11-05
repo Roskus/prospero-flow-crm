@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>linkedin.js tests</title>
+  <style>
+    body { font: 14px/1.4 system-ui, sans-serif; margin: 16px; }
+    .pass { color: #1a7f37; }
+    .fail { color: #b42318; font-weight: 600; }
+    #fixtures { display: none; }
+  </style>
+</head>
+<body>
+  <h1>linkedin.js</h1>
+  <p id="summary"></p>
+  <ul id="results"></ul>
+
+  <!--
+    Anonymised fixtures: fictitious people, LinkedIn-like markup, images removed.
+    Open this page from the loaded extension (chrome-extension://<id>/tests/tests.html,
+    moz-extension://<id>/tests/tests.html) or directly from disk; no tooling needed.
+  -->
+  <div id="fixtures">
+    <template id="full-profile">
+      <main>
+        <section>
+          <div class="pv-text-details__left-panel">
+            <h1>Jane Doe</h1>
+            <div class="text-body-medium break-words">Head of Sales at Acme Robotics</div>
+            <span class="text-body-small inline t-black--light break-words">Madrid, Community of Madrid, Spain</span>
+          </div>
+          <ul>
+            <li>
+              <a href="https://www.linkedin.com/company/acme-robotics/?trk=x">
+                <button aria-label="Current company: Acme Robotics. Click to skip to experience card"><div>Acme Robotics</div></button>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </template>
+
+    <template id="no-location">
+      <main>
+        <section>
+          <h1>John Roe</h1>
+          <div class="text-body-medium break-words">CTO @ Initech</div>
+        </section>
+      </main>
+    </template>
+
+    <template id="headline-without-company">
+      <main>
+        <section>
+          <h1>Mary Major Smith</h1>
+          <div class="text-body-medium break-words">Helping teams sell better</div>
+          <span class="text-body-small inline t-black--light break-words">Buenos Aires, Argentina</span>
+        </section>
+        <section>
+          <div id="experience"></div>
+          <div>
+            <ul>
+              <li>
+                <a href="https://www.linkedin.com/company/globex/"></a>
+                <span class="t-bold"><span aria-hidden="true">Sales Director</span></span>
+                <span class="t-14 t-normal"><span aria-hidden="true">Globex · Full-time</span></span>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </template>
+    <template id="obfuscated-classes">
+      <main>
+        <div class="fa4ayq fa4l42" data-display-contents="true">
+          <a tabindex="0" class="fa4ht3 fa4iaf" href="https://www.linkedin.com/in/jos%C3%A9-p%C3%A9rez-pmp%C2%AE-1a2b3c4d/" aria-haspopup="dialog">
+            <div class="fa4ivr fa4a2a"><div class="fa4ayy fa4iu3"><h2 class="fa4lje fa4lo5">José PÉREZ, PMP®</h2></div></div>
+          </a>
+        </div>
+        <div class="fa4az2"><p class="fa4lje fa4lox">· 1st</p></div>
+        <p class="fa4lje fa4lox">· 2nd</p>
+        <div class="fa4ayq"><p class="fa4lje fa4loz">Jefe de Implementación de Proyectos en Globex</p></div>
+        <div class="fa4ayy fa4iu3">
+          <p class="fa4lje fa4lox">Greater Buenos Aires</p>
+          <p class="fa4lje fa4loy">·</p>
+          <p class="fa4lje fa4loy"><a class="fa4gm6" href="https://www.linkedin.com/in/jos%C3%A9-p%C3%A9rez-pmp%C2%AE-1a2b3c4d/overlay/contact-info/">Contact info</a></p>
+        </div>
+        <a href="https://www.linkedin.com/in/someone-else/"><h2>Someone Else</h2></a>
+      </main>
+    </template>
+  </div>
+
+  <script src="../linkedin.js"></script>
+  <script>
+    const results = document.getElementById('results');
+    let passed = 0;
+    let failed = 0;
+
+    function check(name, actual, expected) {
+      const ok = JSON.stringify(actual) === JSON.stringify(expected);
+      const item = document.createElement('li');
+      item.className = ok ? 'pass' : 'fail';
+      item.textContent = (ok ? '✔ ' : '✘ ') + name +
+        (ok ? '' : ' — expected ' + JSON.stringify(expected) + ', got ' + JSON.stringify(actual));
+      results.appendChild(item);
+      ok ? passed++ : failed++;
+    }
+
+    function fixture(id) {
+      return document.getElementById(id).content.cloneNode(true);
+    }
+
+    // Same cases as tests/Unit/ValueObjects/LinkedinProfileUrlTest.php in the CRM.
+    [
+      ['canonical', 'https://www.linkedin.com/in/jane-doe', '/in/jane-doe'],
+      ['trailing slash and capitals', 'https://www.linkedin.com/in/Jane-Doe/', '/in/jane-doe'],
+      ['no scheme and query', 'linkedin.com/in/jane-doe?trk=public_profile', '/in/jane-doe'],
+      ['country subdomain', 'https://es.linkedin.com/in/jane-doe', '/in/jane-doe'],
+      ['fragment', 'https://www.linkedin.com/in/jane-doe#experience', '/in/jane-doe'],
+      ['encoded characters', 'https://www.linkedin.com/in/jos%C3%A9-p%C3%A9rez/', '/in/josé-pérez'],
+      ['profile subpage', 'https://www.linkedin.com/in/jane-doe/details/experience/', null],
+      ['company page', 'https://www.linkedin.com/company/acme', null],
+      ['other site', 'https://example.com/in/jane-doe', null],
+      ['look-alike domain', 'https://notlinkedin.com/in/jane-doe', null],
+      ['empty', '', null],
+    ].forEach(([name, url, expected]) => check('profile path: ' + name, linkedinProfilePath(url), expected));
+
+    check('profile url: canonical form', linkedinProfileUrl('linkedin.com/in/Jane-Doe/?trk=x'), 'https://www.linkedin.com/in/jane-doe');
+    check('profile url: encoded like LinkedIn links', linkedinProfileUrl('https://www.linkedin.com/in/martín-gómez-pmp®-1a2b3c4d'), 'https://www.linkedin.com/in/mart%C3%ADn-g%C3%B3mez-pmp%C2%AE-1a2b3c4d');
+    check('profile url: not a profile', linkedinProfileUrl('https://www.linkedin.com/feed/'), '');
+
+    // A few countries as GET /api/country returns them (from the CRM countries library).
+    const countries = countryIndex({
+      en: [{ id: 'es', name: 'Spain' }, { id: 'ar', name: 'Argentina' }, { id: 'us', name: 'United States' }, { id: 'de', name: 'Germany' }],
+      es: [{ id: 'es', name: 'España' }, { id: 'ar', name: 'Argentina' }, { id: 'us', name: 'Estados Unidos' }, { id: 'de', name: 'Alemania' }],
+    });
+
+    [
+      ['city, province, country', 'Madrid, Community of Madrid, Spain', { city: 'Madrid', province: 'Community of Madrid', countryId: 'es' }],
+      ['spanish names and accents', 'Málaga, Andalucía, España', { city: 'Málaga', province: 'Andalucía', countryId: 'es' }],
+      ['city, country', 'Buenos Aires, Argentina', { city: 'Buenos Aires', province: '', countryId: 'ar' }],
+      ['country only', 'Germany', { city: '', province: '', countryId: 'de' }],
+      ['case and spaces', '  berlin ,  ALEMANIA ', { city: 'berlin', province: '', countryId: 'de' }],
+      ['alias', 'Austin, Texas, United States of America', { city: 'Austin', province: 'Texas', countryId: 'us' }],
+      ['unknown country left empty', 'Springfield, Atlantis', { city: 'Springfield', province: 'Atlantis', countryId: '' }],
+      ['empty', '', { city: '', province: '', countryId: '' }],
+    ].forEach(([name, text, expected]) => check('location: ' + name, splitLocation(text, countries), expected));
+
+    [
+      ['at', 'Head of Sales at Acme', '', { jobTitle: 'Head of Sales', company: 'Acme' }],
+      ['spanish en', 'Ingeniero en sistemas en Acme', '', { jobTitle: 'Ingeniero en sistemas', company: 'Acme' }],
+      ['@', 'CTO @ Initech', '', { jobTitle: 'CTO', company: 'Initech' }],
+      ['pipe', 'CTO | Initech', '', { jobTitle: 'CTO', company: 'Initech' }],
+      ['extra segments', 'CTO at Acme | Mentor at Foo', '', { jobTitle: 'CTO', company: 'Acme' }],
+      ['known company', 'Director of Data at Scale at Acme', 'Acme', { jobTitle: 'Director of Data at Scale', company: 'Acme' }],
+      ['no company', 'Helping teams sell better', '', { jobTitle: 'Helping teams sell better', company: '' }],
+    ].forEach(([name, text, known, expected]) => check('headline: ' + name, splitHeadline(text, known), expected));
+
+    check('name: two words', splitName('Jane Doe'), { firstName: 'Jane', lastName: 'Doe' });
+    check('name: compound last name', splitName(' Mary  Major Smith '), { firstName: 'Mary', lastName: 'Major Smith' });
+    check('name: empty', splitName(''), { firstName: '', lastName: '' });
+
+    check('name: credentials and capitals', cleanName('Martín GÓMEZ, PMP®'), 'Martín Gómez');
+    check('name: keeps hyphen and apostrophe', cleanName("Anne-Marie O'Neil"), "Anne-Marie O'Neil");
+    check('name: from url', nameFromProfileUrl('https://www.linkedin.com/in/mart%C3%ADn-g%C3%B3mez-pmp%C2%AE-1a2b3c4d/'), 'Martín Gómez');
+    check('name: from url without id', nameFromProfileUrl('https://www.linkedin.com/in/jane-doe'), 'Jane Doe');
+    check('name: from non profile url', nameFromProfileUrl('https://www.linkedin.com/feed/'), '');
+
+    const fields = (profile) => Object.keys(profile).sort();
+    const expectedFields = ['company', 'companyLinkedin', 'firstName', 'jobTitle', 'lastName', 'linkedin', 'location'];
+
+    check('profile: full', readLinkedinProfile(fixture('full-profile'), 'https://www.linkedin.com/in/jane-doe/'), {
+      firstName: 'Jane',
+      lastName: 'Doe',
+      jobTitle: 'Head of Sales',
+      company: 'Acme Robotics',
+      companyLinkedin: 'https://www.linkedin.com/company/acme-robotics/',
+      location: 'Madrid, Community of Madrid, Spain',
+      linkedin: 'https://www.linkedin.com/in/jane-doe',
+    });
+
+    check('profile: no location', readLinkedinProfile(fixture('no-location'), 'https://www.linkedin.com/in/john-roe'), {
+      firstName: 'John',
+      lastName: 'Roe',
+      jobTitle: 'CTO',
+      company: 'Initech',
+      companyLinkedin: '',
+      location: '',
+      linkedin: 'https://www.linkedin.com/in/john-roe',
+    });
+
+    check('profile: headline without company', readLinkedinProfile(fixture('headline-without-company'), 'https://www.linkedin.com/in/mary-major'), {
+      firstName: 'Mary',
+      lastName: 'Major Smith',
+      jobTitle: 'Helping teams sell better',
+      company: 'Globex',
+      companyLinkedin: 'https://www.linkedin.com/company/globex/',
+      location: 'Buenos Aires, Argentina',
+      linkedin: 'https://www.linkedin.com/in/mary-major',
+    });
+
+    const obfuscatedUrl = 'https://www.linkedin.com/in/jos%C3%A9-p%C3%A9rez-pmp%C2%AE-1a2b3c4d/';
+    const obfuscated = readLinkedinProfile(fixture('obfuscated-classes'), obfuscatedUrl);
+    check('profile: name from the heading of the link to the profile', [obfuscated.firstName, obfuscated.lastName], ['José', 'Pérez']);
+    check('name decoration: degrees and separators', ['· 1st', '• 2nd', '3rd+', '2º', '·'].every(isNameDecoration), true);
+    check('name decoration: a headline is not one', isNameDecoration('Jefe de Implementación de Proyectos en Globex'), false);
+    check('profile: location from the block of the contact info link', obfuscated.location, 'Greater Buenos Aires');
+    check('profile: separator only is not a location', locationBeforeContactInfo(document.createRange().createContextualFragment(
+      '<div><p>·</p><p><a href="https://www.linkedin.com/in/jane-doe/overlay/contact-info/">Contact info</a></p></div>')), '');
+    check('profile: headline from the paragraph after the name', [obfuscated.jobTitle, obfuscated.company], ['Jefe de Implementación de Proyectos', 'Globex']);
+
+    const nameless = readLinkedinProfile(document.createDocumentFragment(), 'https://www.linkedin.com/in/mart%C3%ADn-g%C3%B3mez-pmp%C2%AE-1a2b3c4d/');
+    check('profile: name from the url when the page shows none', [nameless.firstName, nameless.lastName], ['Martín', 'Gómez']);
+
+    const empty = readLinkedinProfile(document.createDocumentFragment(), 'https://www.linkedin.com/feed/');
+    check('profile: empty page has every field empty', fields(empty), expectedFields);
+    check('profile: empty page values', Object.values(empty).every((value) => value === ''), true);
+
+    check('profile: no photo or image field', fields(readLinkedinProfile(fixture('full-profile'), '')).some((key) => /photo|image|avatar|picture/i.test(key)), false);
+
+    document.getElementById('summary').textContent = passed + ' passed, ' + failed + ' failed';
+    document.getElementById('summary').className = failed ? 'fail' : 'pass';
+    document.title = (failed ? 'FAIL ' : 'PASS ') + document.title;
+  </script>
+</body>
+</html>

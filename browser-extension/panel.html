@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title data-i18n="extName">Prospero Flow CRM</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header>
+    <h1 data-i18n="panelTitle">Add contact to the CRM</h1>
+    <button id="close" class="link" type="button" data-i18n="close">Close</button>
+  </header>
+
+  <p id="loading" data-i18n="loading">Loading…</p>
+
+  <form id="contact-form" novalidate hidden>
+    <div id="duplicate" class="warning" hidden>
+      <p id="duplicate-text"></p>
+      <p><a id="duplicate-link" target="_blank" rel="noopener" data-i18n="openInCrm">Open in the CRM</a></p>
+    </div>
+
+    <fieldset>
+      <legend id="owner-legend" data-i18n="owner">Lead or customer</legend>
+      <input id="owner-search" type="search" aria-labelledby="owner-legend" autocomplete="off" data-i18n-placeholder="ownerSearch">
+      <ul id="owner-results" class="results"></ul>
+      <button id="owner-more" class="link" type="button" data-i18n="moreResults" hidden>More results</button>
+      <p id="owner-selected" class="selected" hidden></p>
+      <p class="field-error" data-error-for="owner" hidden></p>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="contact">Contact</legend>
+      <label><span data-i18n="firstName">First name</span> *
+        <input name="contact_first_name" required maxlength="50"></label>
+      <label><span data-i18n="lastName">Last name</span>
+        <input name="contact_last_name" maxlength="255"></label>
+      <label><span data-i18n="jobTitle">Job title</span>
+        <input name="contact_job_title" maxlength="80"></label>
+      <label><span data-i18n="email">Email</span>
+        <input name="contact_email" type="email" maxlength="254"></label>
+      <label><span data-i18n="phone">Phone</span>
+        <input name="contact_phone" type="tel" maxlength="15"></label>
+      <label><span data-i18n="linkedinUrl">LinkedIn URL</span>
+        <input name="contact_linkedin" type="url" maxlength="255"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="location">Location</legend>
+      <label><span data-i18n="country">Country</span>
+        <select name="country_id"><option value=""></option></select></label>
+      <label><span data-i18n="province">Province</span>
+        <input name="province"></label>
+      <label><span data-i18n="city">City</span>
+        <input name="city"></label>
+    </fieldset>
+
+    <p id="form-error" class="error" role="alert" hidden></p>
+    <button id="save" type="submit" data-i18n="save">Save contact</button>
+  </form>
+
+  <section id="saved" hidden>
+    <p data-i18n="saved">Contact saved in the CRM.</p>
+    <p><a id="saved-link" target="_blank" rel="noopener" data-i18n="openInCrm">Open in the CRM</a></p>
+  </section>
+
+  <p id="fatal" class="error" role="alert" hidden></p>
+
+  <template id="field-error-template"><span class="field-error"></span></template>
+
+  <script src="i18n.js"></script>
+  <script src="linkedin.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

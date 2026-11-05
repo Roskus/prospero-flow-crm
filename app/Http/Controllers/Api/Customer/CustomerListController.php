@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\ProspectListRequest;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OAT;
 
 class CustomerListController extends ApiController
@@ -18,6 +18,7 @@ class CustomerListController extends ApiController
         security: [['bearerAuth' => []]],
         tags: ['Customer'],
         parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/Search'),
             new OAT\Parameter(ref: '#/components/parameters/Page'),
             new OAT\Parameter(ref: '#/components/parameters/PerPage'),
         ],
@@ -36,9 +37,10 @@ class CustomerListController extends ApiController
             ),
         ]
     )]
-    public function index(Request $request): JsonResponse
+    public function index(ProspectListRequest $request): JsonResponse
     {
         $customers = Customer::where('company_id', $this->user->company_id)
+            ->search($request->validated('search'))
             ->paginate($this->itemsPerPage($request));
 
         return $this->paginatedListResponse('customers', $customers);

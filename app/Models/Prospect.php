@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\HasAddress;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -153,6 +155,24 @@ abstract class Prospect extends Model
             self::CONVERTED => 'Converted',
             self::CLOSED => 'Closed',
         ];
+    }
+
+    /**
+     * Name or business name containing the text, case insensitive; `%` and `_` are matched literally.
+     * An empty text leaves the query unchanged.
+     */
+    #[Scope]
+    protected function search(Builder $query, ?string $text): void
+    {
+        $text = trim((string) $text);
+        if ($text === '') {
+            return;
+        }
+
+        $pattern = '%'.addcslashes($text, '\\%_').'%';
+        $query->where(function (Builder $query) use ($pattern): void {
+            $query->whereLike('name', $pattern)->orWhereLike('business_name', $pattern);
+        });
     }
 
     abstract public function messages();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProspectListRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\UserNotDefinedException;
 
+#[OAT\Parameter(
+    parameter: 'Search',
+    name: 'search',
+    description: 'Text contained in the name or business name, case insensitive',
+    in: 'query',
+    required: false,
+    schema: new OAT\Schema(type: 'string', example: 'acme', maxLength: ProspectListRequest::SEARCH_MAX_LENGTH)
+)]
 #[OAT\Parameter(
     parameter: 'Page',
     name: 'page',

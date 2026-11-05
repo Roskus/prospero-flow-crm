@@ -83,17 +83,13 @@ return [
     |--------------------------------------------------------------------------
     |
     | Specify the length of time (in minutes) that the token will be valid for.
-    | Defaults to 1 hour.
-    |
-    | You can also set this to null, to yield a never expiring token.
-    | Some people may want this behaviour for e.g. a mobile app.
-    | This is not particularly recommended, so make sure you have appropriate
-    | systems in place to revoke the token if necessary.
-    | Notice: If you set this to null you should remove 'exp' element from 'required_claims' list.
+    | Defaults to 1 hour when JWT_TTL is missing or empty. Tokens always
+    | expire: never expiring tokens are not supported. The login and refresh
+    | responses report this lifetime in seconds as `expires_in`.
     |
     */
 
-    'ttl' => env('JWT_TTL', 60),
+    'ttl' => (int) env('JWT_TTL', 60) ?: 60,
 
     /*
     |--------------------------------------------------------------------------

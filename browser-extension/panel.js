@@ -1,0 +1,324 @@
+/*
+ * Contact form shown on the LinkedIn profile. Every field is editable before saving and the
+ * CRM is only called through background.js. No photo field and no image anywhere.
+ */
+
+const form = document.getElementById('contact-form');
+const ownerSearch = document.getElementById('owner-search');
+const ownerResults = document.getElementById('owner-results');
+const ownerSelected = document.getElementById('owner-selected');
+const ownerMore = document.getElementById('owner-more');
+const LINKEDIN_ORIGIN = 'https://www.linkedin.com';
+const SEARCH_DELAY_MS = 300;
+
+/** { type: 'lead' | 'customer', id, name } or { type: 'newLead', name }. */
+let owner = null;
+let profile = null;
+let searchTimer = null;
+let searchRun = 0;
+/** Leads and customers loaded for the current search text, page after page. */
+let ownerCandidates = [];
+let ownerPage = 1;
+/** Errors after which the panel cannot work until the user logs in again. */
+const SESSION_ERRORS = new Set(['logged_out', 'session_expired', 'inactive']);
+
+function field(name) {
+  return form.elements.namedItem(name);
+}
+
+function show(id, visible) {
+  document.getElementById(id).hidden = !visible;
+}
+
+function fatal(error) {
+  const element = document.getElementById('fatal');
+  element.textContent = errorMessage(error);
+  element.hidden = false;
+  show('loading', false);
+  form.hidden = true;
+}
+
+function clearErrors() {
+  form.querySelectorAll('.invalid').forEach((element) => element.classList.remove('invalid'));
+  form.querySelectorAll('label .field-error').forEach((element) => element.remove());
+  form.querySelectorAll('[data-error-for]').forEach((element) => {
+    element.hidden = true;
+  });
+  show('form-error', false);
+}
+
+/** Shows an error under its field without touching what the user typed. */
+function fieldError(name, message) {
+  if (name === 'owner') {
+    const element = form.querySelector('[data-error-for="owner"]');
+    element.textContent = message;
+    element.hidden = false;
+    return;
+  }
+  const input = field(name);
+  if (!input) {
+    return;
+  }
+  input.classList.add('invalid');
+  const error = document.getElementById('field-error-template').content.firstElementChild.cloneNode(true);
+  error.textContent = message;
+  input.closest('label').appendChild(error);
+}
+
+function formError(message) {
+  const element = document.getElementById('form-error');
+  element.textContent = message;
+  element.hidden = false;
+}
+
+function ownerLabel(candidate) {
+  if (candidate.type === 'newLead') {
+    return t('createLead', [candidate.name]);
+  }
+  return t(candidate.type === 'lead' ? 'ownerLead' : 'ownerCustomer', [candidate.name]);
+}
+
+function selectOwner(candidate) {
+  owner = candidate;
+  ownerSelected.textContent = candidate ? t('ownerSelected', [ownerLabel(candidate)]) : '';
+  ownerSelected.hidden = !candidate;
+  ownerResults.querySelectorAll('button').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.ownerCandidate === candidate));
+  });
+}
+
+function renderOwners(candidates) {
+  ownerResults.replaceChildren(...candidates.map((candidate) => {
+    const item = document.createElement('li');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'result';
+    button.textContent = ownerLabel(candidate);
+    button.ownerCandidate = candidate;
+    button.setAttribute('aria-pressed', String(candidate === owner));
+    button.addEventListener('click', () => selectOwner(candidate));
+    item.appendChild(button);
+    return item;
+  }));
+}
+
+/**
+ * Leads and customers of the company matching the text, plus creating a lead with that name.
+ * Page 1 starts a new list; later pages are added to it.
+ */
+async function searchOwners(text, preselect, page = 1) {
+  const run = ++searchRun;
+  const name = text.trim();
+  let result = { owners: [], hasMore: false };
+  if (name) {
+    try {
+      result = await callBackground('searchOwners', { text: name, page });
+    } catch (error) {
+      if (run === searchRun) {
+        fieldError('owner', errorMessage(error));
+      }
+      return;
+    }
+  }
+  if (run !== searchRun) {
+    return;
+  }
+  ownerCandidates = page === 1 ? result.owners : [...ownerCandidates, ...result.owners];
+  ownerPage = page;
+  const sameNewLead = owner?.type === 'newLead' && owner.name === name;
+  const newLead = name ? [sameNewLead ? owner : { type: 'newLead', name }] : [];
+  renderOwners([...ownerCandidates, ...newLead]);
+  ownerMore.hidden = !result.hasMore;
+
+  if (preselect) {
+    const sameName = ownerCandidates.find((candidate) => normalizeText(candidate.name) === normalizeText(name));
+    selectOwner(sameName || null);
+  }
+}
+
+ownerSearch.addEventListener('input', () => {
+  searchRun += 1;
+  selectOwner(null);
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => searchOwners(ownerSearch.value, false), SEARCH_DELAY_MS);
+});
+
+ownerMore.addEventListener('click', () => searchOwners(ownerSearch.value, false, ownerPage + 1));
+
+function fillCountries(lists) {
+  const language = chrome.i18n.getUILanguage().toLowerCase().startsWith('es') ? 'es' : 'en';
+  const select = field('country_id');
+  (lists[language] || lists.en || []).forEach((country) => {
+    select.add(new Option(country.name, country.id));
+  });
+}
+
+async function checkDuplicate(url) {
+  if (!url) {
+    return;
+  }
+  try {
+    const contacts = await callBackground('findContactByLinkedin', { url });
+    if (contacts.length === 0) {
+      return;
+    }
+    const existing = contacts[0];
+    document.getElementById('duplicate-text').textContent =
+      t('duplicateWarning', [existing.owner.name || ownerLabel(existing.owner)]);
+    document.getElementById('duplicate-link').href = existing.owner.url;
+    show('duplicate', true);
+  } catch (error) {
+    // The warning is a help; the form still works without it.
+  }
+}
+
+async function start(receivedProfile) {
+  profile = receivedProfile;
+  let countryLists;
+  try {
+    countryLists = await callBackground('countries');
+  } catch (error) {
+    if (SESSION_ERRORS.has(error.code)) {
+      fatal(error);
+      return;
+    }
+    // Country is optional: the form still saves contacts without the list.
+    countryLists = {};
+  }
+
+  fillCountries(countryLists);
+  const location = splitLocation(profile.location, countryIndex(countryLists));
+  const values = {
+    contact_first_name: profile.firstName,
+    contact_last_name: profile.lastName,
+    contact_job_title: profile.jobTitle,
+    contact_linkedin: profile.linkedin,
+    country_id: location.countryId,
+    province: location.province,
+    city: location.city,
+  };
+  Object.entries(values).forEach(([name, value]) => {
+    field(name).value = value || '';
+  });
+
+  show('loading', false);
+  form.hidden = false;
+  field('contact_first_name').focus();
+
+  ownerSearch.value = profile.company || '';
+  await Promise.all([searchOwners(ownerSearch.value, true), checkDuplicate(profile.linkedin)]);
+}
+
+function contactPayload(ownerId) {
+  const payload = {
+    [owner.type === 'customer' ? 'customer_id' : 'lead_id']: ownerId,
+  };
+  ['contact_first_name', 'contact_last_name', 'contact_job_title', 'contact_email', 'contact_phone',
+    'contact_linkedin', 'country_id', 'province', 'city'].forEach((name) => {
+    let value = field(name).value.trim();
+    if (name === 'contact_linkedin') {
+      value = linkedinProfileUrl(value) || value;
+    }
+    if (value) {
+      payload[name] = value;
+    }
+  });
+  return payload;
+}
+
+function showValidationErrors(error, fieldMap) {
+  const errors = error?.errors || {};
+  let shown = false;
+  Object.entries(errors).forEach(([name, messages]) => {
+    const target = fieldMap[name] || name;
+    if (target === 'owner' || field(target)) {
+      fieldError(target, [messages].flat()[0]);
+      shown = true;
+    }
+  });
+  formError(shown ? errorMessage(error) : error?.message || errorMessage(error));
+}
+
+/** Shows a save error under its fields when the CRM rejected them, or above the button. */
+function showSaveError(error, fieldMap) {
+  if (error.code === 'validation') {
+    showValidationErrors(error, fieldMap);
+  } else {
+    formError(errorMessage(error));
+  }
+}
+
+/** Required fields filled in the form; marks the missing ones. */
+function formIsComplete() {
+  let complete = true;
+  if (!field('contact_first_name').value.trim()) {
+    fieldError('contact_first_name', t('firstNameRequired'));
+    complete = false;
+  }
+  if (!owner) {
+    fieldError('owner', t('ownerRequired'));
+    complete = false;
+  }
+  return complete;
+}
+
+/** Creates the lead when the user chose a new one; false when the CRM rejected it. */
+async function saveNewLead() {
+  if (owner.type !== 'newLead') {
+    return true;
+  }
+  try {
+    const lead = await callBackground('createLead', {
+      name: owner.name,
+      countryId: field('country_id').value,
+      linkedin: normalizeText(owner.name) === normalizeText(profile.company) ? profile.companyLinkedin : '',
+    });
+    selectOwner({ type: 'lead', id: lead.id, name: lead.name });
+    return true;
+  } catch (error) {
+    showSaveError(error, { name: 'owner', seller_id: 'owner', country_id: 'country_id' });
+    return false;
+  }
+}
+
+async function saveContact() {
+  try {
+    const saved = await callBackground('createContact', { contact: contactPayload(owner.id) });
+    document.getElementById('saved-link').href = saved.owner.url;
+    form.hidden = true;
+    show('saved', true);
+  } catch (error) {
+    showSaveError(error, { lead_id: 'owner', customer_id: 'owner' });
+  }
+}
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  clearErrors();
+  if (!formIsComplete()) {
+    return;
+  }
+
+  const save = document.getElementById('save');
+  save.disabled = true;
+  try {
+    if (await saveNewLead()) {
+      await saveContact();
+    }
+  } finally {
+    save.disabled = false;
+  }
+});
+
+document.getElementById('close').addEventListener('click', () => {
+  window.parent.postMessage({ type: 'close' }, LINKEDIN_ORIGIN);
+});
+
+window.addEventListener('message', (event) => {
+  if (event.source !== window.parent || event.origin !== LINKEDIN_ORIGIN || profile) {
+    return;
+  }
+  if (event.data?.type === 'profile' && event.data.profile) {
+    start(event.data.profile).catch(fatal);
+  }
+});

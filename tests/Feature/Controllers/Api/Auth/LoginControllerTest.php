@@ -10,13 +10,15 @@ use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
 {
+    private const string LOGIN_URL = '/api/auth/login';
+
     #[Test]
     // #[CoversMethod('App\Http\Controllers\Api\Auth\LoginController', 'login')]
     public function it_can_login()
     {
         $credentials = ['email' => $this->user->email, 'password' => 'password'];
 
-        $response = $this->post('/api/auth/login', $credentials);
+        $response = $this->post(self::LOGIN_URL, $credentials);
 
         $response
             ->assertStatus(200)
@@ -31,7 +33,7 @@ class LoginControllerTest extends TestCase
     {
         $credentials = ['email' => $this->user->email, 'password' => 'wrong_password'];
 
-        $response = $this->post('/api/auth/login', $credentials);
+        $response = $this->post(self::LOGIN_URL, $credentials);
 
         $response
             ->assertStatus(401)
@@ -48,7 +50,8 @@ class LoginControllerTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($this->user->toArray());
+            ->assertExactJson($this->user->makeVisible('company_id')->toArray())
+            ->assertJsonPath('company_id', $this->user->company_id);
     }
 
     #[Test]
@@ -84,5 +87,38 @@ class LoginControllerTest extends TestCase
             ]);
 
         $this->assertNotEquals($user_token, $refresh_user_token);
+    }
+
+    #[Test]
+    public function login_reports_the_default_token_lifetime_in_seconds(): void
+    {
+        $response = $this->post(self::LOGIN_URL, ['email' => $this->user->email, 'password' => 'password']);
+
+        $response->assertOk()->assertJsonPath('expires_in', 3600);
+    }
+
+    #[Test]
+    public function login_and_refresh_report_the_configured_token_lifetime_in_seconds(): void
+    {
+        auth('api')->factory()->setTTL(15);
+
+        $login = $this->post(self::LOGIN_URL, ['email' => $this->user->email, 'password' => 'password']);
+        $login->assertOk()->assertJsonPath('expires_in', 900);
+
+        $refresh = $this->withToken($login->json('access_token'))->post('/api/auth/refresh');
+        $refresh->assertOk()->assertJsonPath('expires_in', 900);
+    }
+
+    #[Test]
+    public function the_token_lifetime_falls_back_to_60_minutes_when_not_configured(): void
+    {
+        foreach ([false, ''] as $configuredTtl) {
+            $configuredTtl === false ? putenv('JWT_TTL') : putenv('JWT_TTL='.$configuredTtl);
+            $config = require config_path('jwt.php');
+
+            $this->assertSame(60, $config['ttl']);
+        }
+
+        putenv('JWT_TTL');
     }
 }

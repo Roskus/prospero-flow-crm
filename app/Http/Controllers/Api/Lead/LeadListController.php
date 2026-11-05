@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Lead;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\ProspectListRequest;
 use App\Models\Lead;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
@@ -19,6 +19,7 @@ class LeadListController extends ApiController
         security: [['bearerAuth' => []]],
         tags: ['Lead'],
         parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/Search'),
             new OAT\Parameter(ref: '#/components/parameters/Page'),
             new OAT\Parameter(ref: '#/components/parameters/PerPage'),
         ],
@@ -37,9 +38,10 @@ class LeadListController extends ApiController
             ),
         ]
     )]
-    public function index(Request $request): JsonResponse
+    public function index(ProspectListRequest $request): JsonResponse
     {
         $leads = Lead::where('company_id', Auth::user()->company_id)
+            ->search($request->validated('search'))
             ->orderByDesc('id')
             ->paginate($this->itemsPerPage($request));
 
