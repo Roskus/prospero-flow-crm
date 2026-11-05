@@ -10,13 +10,15 @@ use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
 {
+    private const string LOGIN_URL = '/api/auth/login';
+
     #[Test]
     // #[CoversMethod('App\Http\Controllers\Api\Auth\LoginController', 'login')]
     public function it_can_login()
     {
         $credentials = ['email' => $this->user->email, 'password' => 'password'];
 
-        $response = $this->post('/api/auth/login', $credentials);
+        $response = $this->post(self::LOGIN_URL, $credentials);
 
         $response
             ->assertStatus(200)
@@ -31,7 +33,7 @@ class LoginControllerTest extends TestCase
     {
         $credentials = ['email' => $this->user->email, 'password' => 'wrong_password'];
 
-        $response = $this->post('/api/auth/login', $credentials);
+        $response = $this->post(self::LOGIN_URL, $credentials);
 
         $response
             ->assertStatus(401)
@@ -90,7 +92,7 @@ class LoginControllerTest extends TestCase
     #[Test]
     public function login_reports_the_default_token_lifetime_in_seconds(): void
     {
-        $response = $this->post('/api/auth/login', ['email' => $this->user->email, 'password' => 'password']);
+        $response = $this->post(self::LOGIN_URL, ['email' => $this->user->email, 'password' => 'password']);
 
         $response->assertOk()->assertJsonPath('expires_in', 3600);
     }
@@ -100,7 +102,7 @@ class LoginControllerTest extends TestCase
     {
         auth('api')->factory()->setTTL(15);
 
-        $login = $this->post('/api/auth/login', ['email' => $this->user->email, 'password' => 'password']);
+        $login = $this->post(self::LOGIN_URL, ['email' => $this->user->email, 'password' => 'password']);
         $login->assertOk()->assertJsonPath('expires_in', 900);
 
         $refresh = $this->withToken($login->json('access_token'))->post('/api/auth/refresh');

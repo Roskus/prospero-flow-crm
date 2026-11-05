@@ -1,36 +1,37 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <title data-i18n="extName">Prospero Flow CRM</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h1 data-i18n="extName"></h1>
+  <h1 data-i18n="extName">Prospero Flow CRM</h1>
 
   <form id="login-form" hidden novalidate>
     <label>
-      <span data-i18n="crmUrl"></span>
+      <span data-i18n="crmUrl">CRM URL</span>
       <input id="crm-url" type="url" required placeholder="https://crm.example.com" autocomplete="url">
     </label>
-    <p id="http-warning" class="warning" data-i18n="httpWarning" hidden></p>
+    <p id="http-warning" class="warning" data-i18n="httpWarning" hidden>This URL is not secure (http). It only works for a CRM on this computer (localhost or .test).</p>
     <label>
-      <span data-i18n="email"></span>
+      <span data-i18n="email">Email</span>
       <input id="email" type="email" required autocomplete="username">
     </label>
     <label>
-      <span data-i18n="password"></span>
+      <span data-i18n="password">Password</span>
       <input id="password" type="password" required autocomplete="current-password">
     </label>
     <p id="login-error" class="error" role="alert" hidden></p>
-    <button type="submit" data-i18n="login"></button>
+    <button type="submit" data-i18n="login">Log in</button>
   </form>
 
   <section id="account" hidden>
-    <p data-i18n="loggedInAs"></p>
+    <p data-i18n="loggedInAs">Logged in as</p>
     <p><strong id="user-name"></strong><br><span id="company-name"></span></p>
-    <p><a id="crm-link" target="_blank" rel="noopener"></a></p>
-    <p class="hint" data-i18n="popupHint"></p>
-    <button id="logout" type="button" data-i18n="logout"></button>
+    <p><a id="crm-link" target="_blank" rel="noopener">CRM</a></p>
+    <p class="hint" data-i18n="popupHint">Open a LinkedIn profile and use "Add to CRM".</p>
+    <button id="logout" type="button" data-i18n="logout">Log out</button>
   </section>
 
   <script src="i18n.js"></script>

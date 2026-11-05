@@ -48,9 +48,13 @@ class DocGeneratorControllerTest extends TestCase
         return array_combine(self::LIST_PATHS, array_map(fn (string $path): array => [$path], self::LIST_PATHS));
     }
 
+    private const string CUSTOMER_PATH = '/customer';
+
+    private const string LEAD_PATH = '/lead';
+
     private const array LIST_PATHS = [
-        '/bank-account', '/bank-card', '/brand', '/calendar', '/company', '/contact', '/customer',
-        '/email', '/lead', '/order', '/product', '/supplier', '/ticket', '/transaction', '/user',
+        '/bank-account', '/bank-card', '/brand', '/calendar', '/company', '/contact', self::CUSTOMER_PATH,
+        '/email', self::LEAD_PATH, '/order', '/product', '/supplier', '/ticket', '/transaction', '/user',
     ];
 
     #[Test]
@@ -95,7 +99,7 @@ class DocGeneratorControllerTest extends TestCase
      */
     public static function paginatedListPaths(): array
     {
-        return ['customer' => ['/customer'], 'lead' => ['/lead'], 'order' => ['/order']];
+        return ['customer' => [self::CUSTOMER_PATH], 'lead' => [self::LEAD_PATH], 'order' => ['/order']];
     }
 
     #[Test]
@@ -103,7 +107,7 @@ class DocGeneratorControllerTest extends TestCase
     {
         $document = json_decode($this->get('/api/resource.json')->json(), true);
 
-        foreach (['/lead', '/customer'] as $path) {
+        foreach ([self::LEAD_PATH, self::CUSTOMER_PATH] as $path) {
             $this->assertContains(['$ref' => '#/components/parameters/Search'], $document['paths'][$path]['get']['parameters'], $path);
         }
         $this->assertSame('search', $document['components']['parameters']['Search']['name']);

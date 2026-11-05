@@ -20,7 +20,7 @@ let searchRun = 0;
 let ownerCandidates = [];
 let ownerPage = 1;
 /** Errors after which the panel cannot work until the user logs in again. */
-const SESSION_ERRORS = ['logged_out', 'session_expired', 'inactive'];
+const SESSION_ERRORS = new Set(['logged_out', 'session_expired', 'inactive']);
 
 function field(name) {
   return form.elements.namedItem(name);
@@ -125,7 +125,7 @@ async function searchOwners(text, preselect, page = 1) {
   }
   ownerCandidates = page === 1 ? result.owners : [...ownerCandidates, ...result.owners];
   ownerPage = page;
-  const sameNewLead = owner && owner.type === 'newLead' && owner.name === name;
+  const sameNewLead = owner?.type === 'newLead' && owner.name === name;
   const newLead = name ? [sameNewLead ? owner : { type: 'newLead', name }] : [];
   renderOwners([...ownerCandidates, ...newLead]);
   ownerMore.hidden = !result.hasMore;
@@ -178,7 +178,7 @@ async function start(receivedProfile) {
   try {
     countryLists = await callBackground('countries');
   } catch (error) {
-    if (SESSION_ERRORS.includes(error.code)) {
+    if (SESSION_ERRORS.has(error.code)) {
       fatal(error);
       return;
     }
@@ -227,67 +227,83 @@ function contactPayload(ownerId) {
 }
 
 function showValidationErrors(error, fieldMap) {
-  const errors = (error && error.errors) || {};
+  const errors = error?.errors || {};
   let shown = false;
   Object.entries(errors).forEach(([name, messages]) => {
     const target = fieldMap[name] || name;
     if (target === 'owner' || field(target)) {
-      fieldError(target, [].concat(messages)[0]);
+      fieldError(target, [messages].flat()[0]);
       shown = true;
     }
   });
-  formError(shown ? errorMessage(error) : (error && error.message) || errorMessage(error));
+  formError(shown ? errorMessage(error) : error?.message || errorMessage(error));
+}
+
+/** Shows a save error under its fields when the CRM rejected them, or above the button. */
+function showSaveError(error, fieldMap) {
+  if (error.code === 'validation') {
+    showValidationErrors(error, fieldMap);
+  } else {
+    formError(errorMessage(error));
+  }
+}
+
+/** Required fields filled in the form; marks the missing ones. */
+function formIsComplete() {
+  let complete = true;
+  if (!field('contact_first_name').value.trim()) {
+    fieldError('contact_first_name', t('firstNameRequired'));
+    complete = false;
+  }
+  if (!owner) {
+    fieldError('owner', t('ownerRequired'));
+    complete = false;
+  }
+  return complete;
+}
+
+/** Creates the lead when the user chose a new one; false when the CRM rejected it. */
+async function saveNewLead() {
+  if (owner.type !== 'newLead') {
+    return true;
+  }
+  try {
+    const lead = await callBackground('createLead', {
+      name: owner.name,
+      countryId: field('country_id').value,
+      linkedin: normalizeText(owner.name) === normalizeText(profile.company) ? profile.companyLinkedin : '',
+    });
+    selectOwner({ type: 'lead', id: lead.id, name: lead.name });
+    return true;
+  } catch (error) {
+    showSaveError(error, { name: 'owner', seller_id: 'owner', country_id: 'country_id' });
+    return false;
+  }
+}
+
+async function saveContact() {
+  try {
+    const saved = await callBackground('createContact', { contact: contactPayload(owner.id) });
+    document.getElementById('saved-link').href = saved.owner.url;
+    form.hidden = true;
+    show('saved', true);
+  } catch (error) {
+    showSaveError(error, { lead_id: 'owner', customer_id: 'owner' });
+  }
 }
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   clearErrors();
-
-  let valid = true;
-  if (!field('contact_first_name').value.trim()) {
-    fieldError('contact_first_name', t('firstNameRequired'));
-    valid = false;
-  }
-  if (!owner) {
-    fieldError('owner', t('ownerRequired'));
-    valid = false;
-  }
-  if (!valid) {
+  if (!formIsComplete()) {
     return;
   }
 
   const save = document.getElementById('save');
   save.disabled = true;
   try {
-    if (owner.type === 'newLead') {
-      try {
-        const lead = await callBackground('createLead', {
-          name: owner.name,
-          countryId: field('country_id').value,
-          linkedin: normalizeText(owner.name) === normalizeText(profile.company) ? profile.companyLinkedin : '',
-        });
-        selectOwner({ type: 'lead', id: lead.id, name: lead.name });
-      } catch (error) {
-        if (error.code === 'validation') {
-          showValidationErrors(error, { name: 'owner', seller_id: 'owner', country_id: 'country_id' });
-        } else {
-          formError(errorMessage(error));
-        }
-        return;
-      }
-    }
-
-    try {
-      const saved = await callBackground('createContact', { contact: contactPayload(owner.id) });
-      document.getElementById('saved-link').href = saved.owner.url;
-      form.hidden = true;
-      show('saved', true);
-    } catch (error) {
-      if (error.code === 'validation') {
-        showValidationErrors(error, { lead_id: 'owner', customer_id: 'owner' });
-      } else {
-        formError(errorMessage(error));
-      }
+    if (await saveNewLead()) {
+      await saveContact();
     }
   } finally {
     save.disabled = false;
@@ -302,7 +318,7 @@ window.addEventListener('message', (event) => {
   if (event.source !== window.parent || event.origin !== LINKEDIN_ORIGIN || profile) {
     return;
   }
-  if (event.data && event.data.type === 'profile' && event.data.profile) {
-    start(event.data.profile);
+  if (event.data?.type === 'profile' && event.data.profile) {
+    start(event.data.profile).catch(fatal);
   }
 });

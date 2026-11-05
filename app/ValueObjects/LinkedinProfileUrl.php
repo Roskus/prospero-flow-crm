@@ -14,26 +14,25 @@ final readonly class LinkedinProfileUrl
 
     public static function fromString(?string $url): ?self
     {
-        $url = trim((string) $url);
-        if ($url === '') {
-            return null;
-        }
+        $slug = self::profileSlug(trim((string) $url));
 
-        if (! preg_match('#^[a-z][a-z0-9+.-]*://#i', $url)) {
+        return $slug === null ? null : new self('/in/'.mb_strtolower($slug));
+    }
+
+    /**
+     * The `<slug>` of a LinkedIn member URL, or null for any other URL.
+     */
+    private static function profileSlug(string $url): ?string
+    {
+        if ($url !== '' && ! preg_match('#^[a-z][a-z0-9+.-]*://#i', $url)) {
             $url = 'https://'.$url;
         }
 
         $host = strtolower((string) parse_url($url, PHP_URL_HOST));
-        if ($host !== 'linkedin.com' && ! str_ends_with($host, '.linkedin.com')) {
-            return null;
-        }
-
+        $isLinkedin = $host === 'linkedin.com' || str_ends_with($host, '.linkedin.com');
         $path = rawurldecode((string) parse_url($url, PHP_URL_PATH));
-        if (! preg_match('#^/in/([^/]+)/?$#u', $path, $matches)) {
-            return null;
-        }
 
-        return new self('/in/'.mb_strtolower($matches[1]));
+        return $isLinkedin && preg_match('#^/in/([^/]+)/?$#u', $path, $matches) === 1 ? $matches[1] : null;
     }
 
     /**

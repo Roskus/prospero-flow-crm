@@ -70,8 +70,10 @@
     let session = null;
     try {
       const response = await chrome.runtime.sendMessage({ type: 'session' });
-      session = response && response.ok ? response.data : null;
+      session = response?.ok ? response.data : null;
     } catch (error) {
+      // The extension was reloaded or updated: the page keeps the old script until refreshed.
+      console.debug('Extension not reachable', error);
       session = null;
     }
     if (!session) {
@@ -94,7 +96,7 @@
     if (!panel || event.source !== panel.contentWindow || event.origin !== EXTENSION_ORIGIN) {
       return;
     }
-    if (event.data && event.data.type === 'close') {
+    if (event.data?.type === 'close') {
       closePanel();
     }
   });

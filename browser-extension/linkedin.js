@@ -93,7 +93,7 @@ function splitLocation(text, index) {
     return location;
   }
 
-  const code = (index && index.get(normalizeText(parts[parts.length - 1]))) || '';
+  const code = index?.get(normalizeText(parts.at(-1))) || '';
   if (code) {
     location.countryId = code;
     parts.pop();
@@ -138,7 +138,7 @@ function linkedinProfilePath(value) {
   } catch (error) {
     return null;
   }
-  const match = path.match(/^\/in\/([^/]+)\/?$/u);
+  const match = /^\/in\/([^/]+)\/?$/u.exec(path);
   return match ? '/in/' + match[1].toLowerCase() : null;
 }
 
@@ -175,8 +175,8 @@ function firstCompanyUrl(root) {
     } catch (error) {
       element = null;
     }
-    const link = element && (element.matches('a') ? element : element.closest('a'));
-    const match = link && link.href && link.href.match(/^https:\/\/www\.linkedin\.com\/company\/[^/?#]+/);
+    const link = element?.closest('a');
+    const match = link?.href ? /^https:\/\/www\.linkedin\.com\/company\/[^/?#]+/.exec(link.href) : null;
     if (match) {
       return match[0] + '/';
     }
@@ -230,7 +230,7 @@ function profileHeading(root, pageUrl) {
   }
   for (const link of root.querySelectorAll('a[href*="/in/"]')) {
     const heading = link.querySelector('h1, h2');
-    if (heading && heading.textContent.trim() && linkedinProfilePath(link.href) === path) {
+    if (heading?.textContent.trim() && linkedinProfilePath(link.href) === path) {
       return heading;
     }
   }
@@ -271,18 +271,23 @@ function paragraphsAfter(root, element, limit) {
 function locationBeforeContactInfo(root) {
   for (const link of root.querySelectorAll('a[href*="/overlay/contact-info"]')) {
     const linkParagraph = link.closest('p');
-    const block = linkParagraph && linkParagraph.parentElement;
-    if (!block) {
-      continue;
+    const text = linkParagraph?.parentElement ? firstParagraphBefore(linkParagraph) : '';
+    if (text) {
+      return text;
     }
-    for (const paragraph of block.children) {
-      if (paragraph === linkParagraph) {
-        break;
-      }
-      const text = paragraph.tagName === 'P' ? paragraph.textContent.replace(/\s+/g, ' ').trim() : '';
-      if (text && !/^[·•|-]+$/.test(text)) {
-        return text;
-      }
+  }
+  return '';
+}
+
+/** Text of the first paragraph before this one in its block that is not a separator. */
+function firstParagraphBefore(paragraph) {
+  for (const sibling of paragraph.parentElement.children) {
+    if (sibling === paragraph) {
+      break;
+    }
+    const text = sibling.tagName === 'P' ? sibling.textContent.replace(/\s+/g, ' ').trim() : '';
+    if (text && !/^[·•|-]+$/.test(text)) {
+      return text;
     }
   }
   return '';
@@ -303,7 +308,8 @@ function splitHeadline(headline, knownCompany) {
   const text = String(headline || '').replace(/\s+/g, ' ').trim();
   const company = String(knownCompany || '').trim();
   if (company) {
-    const suffix = new RegExp('\\s*(?:\\s(?:at|en)\\s|@|\\|)\\s*' + company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$', 'i');
+    const escaped = company.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
+    const suffix = new RegExp(String.raw`(?:\s+(?:at|en)\s+|\s*[@|]\s*)` + escaped + String.raw`\s*$`, 'i');
     if (suffix.test(text)) {
       return { jobTitle: text.replace(suffix, '').trim(), company };
     }
@@ -311,14 +317,34 @@ function splitHeadline(headline, knownCompany) {
 
   const segments = text.split('|').map((segment) => segment.trim()).filter(Boolean);
   const first = segments[0] || '';
-  const match = first.match(/^(.+)\s+(?:at|en)\s+(.+)$/i) || first.match(/^(.+?)\s*@\s*(.+)$/);
-  if (match) {
-    return { jobTitle: match[1].trim(), company: match[2].trim() };
+  const split = splitAtLastWord(first) || splitAtFirstAt(first);
+  if (split) {
+    return split;
   }
   if (segments.length > 1) {
     return { jobTitle: first, company: segments[1] };
   }
   return { jobTitle: text, company: '' };
+}
+
+/** "Head of Sales at Acme" → split at the last " at " or " en ", without backtracking regexes. */
+function splitAtLastWord(text) {
+  const separators = [...text.matchAll(/\s(?:at|en)\s/gi)];
+  const last = separators.at(-1);
+  if (!last) {
+    return null;
+  }
+  const jobTitle = text.slice(0, last.index).trim();
+  const company = text.slice(last.index + last[0].length).trim();
+  return jobTitle && company ? { jobTitle, company } : null;
+}
+
+/** "CTO @ Acme" → split at the first "@". */
+function splitAtFirstAt(text) {
+  const at = text.indexOf('@');
+  const jobTitle = at > 0 ? text.slice(0, at).trim() : '';
+  const company = at > 0 ? text.slice(at + 1).trim() : '';
+  return jobTitle && company ? { jobTitle, company } : null;
 }
 
 function cleanCompany(text) {
@@ -345,6 +371,8 @@ function readLinkedinProfile(root, pageUrl) {
     heading = profileHeading(root, pageUrl);
     following = heading ? paragraphsAfter(root, heading, 1) : [];
   } catch (error) {
+    // A markup change must not break the form: fall back to the selectors below.
+    console.debug('LinkedIn profile heading not read', error);
     heading = null;
     following = [];
   }

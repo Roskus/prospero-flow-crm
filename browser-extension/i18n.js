@@ -32,17 +32,17 @@ const ERROR_MESSAGES = {
 };
 
 function errorMessage(error) {
-  return t(ERROR_MESSAGES[error && error.code] || 'errorUnexpected');
+  return t(ERROR_MESSAGES[error?.code] || 'errorUnexpected');
 }
 
 /** Sends a message to background.js and resolves with its data or rejects with its error. */
 async function callBackground(type, payload) {
   const response = await chrome.runtime.sendMessage({ type, payload });
   if (!response) {
-    throw { code: 'unexpected' };
+    throw Object.assign(new Error('unexpected'), { code: 'unexpected' });
   }
   if (!response.ok) {
-    throw response.error;
+    throw Object.assign(new Error(response.error.code), response.error);
   }
   return response.data;
 }

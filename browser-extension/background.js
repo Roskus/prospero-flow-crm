@@ -99,22 +99,24 @@ async function request(crmUrl, method, path, { token, body, query } = {}) {
   if (response.ok) {
     return data;
   }
-  if (response.status === 401) {
-    throw new CrmError('unauthorized');
+  throw responseError(response.status, data);
+}
+
+/** CrmError for a failed CRM response. */
+function responseError(status, data) {
+  if (status === 401) {
+    return new CrmError('unauthorized');
   }
-  if (response.status === 403 && data && data.error === 'Inactive user') {
-    throw new CrmError('inactive');
+  if (status === 403) {
+    return new CrmError(data?.error === 'Inactive user' ? 'inactive' : 'forbidden');
   }
-  if (response.status === 403) {
-    throw new CrmError('forbidden');
+  if (status === 422) {
+    return new CrmError('validation', { message: data?.message, errors: data?.errors || {} });
   }
-  if (response.status === 422) {
-    throw new CrmError('validation', { message: data && data.message, errors: (data && data.errors) || {} });
+  if (status === 429) {
+    return new CrmError('too_many_attempts');
   }
-  if (response.status === 429) {
-    throw new CrmError('too_many_attempts');
-  }
-  throw new CrmError('http', { status: response.status });
+  return new CrmError('http', { status });
 }
 
 /** Refresh in progress, shared by every call that needs it. */
@@ -227,6 +229,8 @@ async function sessionCompany(session) {
     }
     return company;
   } catch (error) {
+    // Without the company the lead needs the country from the form; the CRM says so.
+    console.debug('Company not read', error);
     return null;
   }
 }
@@ -239,7 +243,7 @@ async function login({ crmUrl, email, password }) {
   } catch (error) {
     throw new CrmError(error.code === 'unauthorized' ? 'invalid_credentials' : error.code, error.details);
   }
-  if (!body || !body.access_token) {
+  if (!body?.access_token) {
     throw new CrmError('unreachable');
   }
 
@@ -306,8 +310,10 @@ async function searchOwners({ text, page }) {
 async function ownerName(type, id) {
   try {
     const body = await api('GET', '/' + type + '/' + id);
-    return (body[type] && body[type].name) || '';
+    return body[type]?.name || '';
   } catch (error) {
+    // The name only labels the duplicate warning, which still links to the owner.
+    console.debug('Owner name not read', error);
     return '';
   }
 }
@@ -341,7 +347,7 @@ async function createLead({ name, countryId, linkedin }) {
   const body = {
     name,
     seller_id: session.user.id,
-    country_id: countryId || (company && company.countryId) || undefined,
+    country_id: countryId || company?.countryId || undefined,
   };
   if (linkedin) {
     body.linkedin = linkedin;
@@ -405,7 +411,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     .then((data) => sendResponse({ ok: true, data }))
     .catch((error) => sendResponse({
       ok: false,
-      error: { code: error.code || 'unexpected', ...(error.details || {}) },
+      error: { code: error.code || 'unexpected', ...error.details },
     }));
   return true;
 });

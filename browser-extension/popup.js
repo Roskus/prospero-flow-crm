@@ -95,10 +95,13 @@ document.getElementById('logout').addEventListener('click', async () => {
   render(null);
 });
 
-(async () => {
+/** Fills the last CRM URL and shows the current session; classic scripts have no top-level await. */
+async function init() {
   const { lastCrmUrl } = await chrome.storage.local.get('lastCrmUrl');
   if (lastCrmUrl) {
     crmUrlInput.value = lastCrmUrl;
   }
   render(await callBackground('session'));
-})();
+}
+
+init().catch((error) => showError(errorMessage(error)));
