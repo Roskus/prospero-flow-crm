@@ -43,7 +43,7 @@ extension is signed it is loaded as a temporary add-on, which Firefox removes wh
 
 On install Firefox asks to accept the data the extension sends to your CRM, as declared in
 `data_collection_permissions`: personal data of the profile (name, job title, email, phone),
-the CRM login and the profile page content.
+the CRM login, the profile URL and the profile page content.
 
 #### Install locally, step by step
 

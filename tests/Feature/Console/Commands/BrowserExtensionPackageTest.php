@@ -51,7 +51,7 @@ class BrowserExtensionPackageTest extends TestCase
             $manifest['content_scripts'],
         );
         $this->assertSame(
-            ['personallyIdentifyingInfo', 'authenticationInfo', 'websiteContent'],
+            ['personallyIdentifyingInfo', 'authenticationInfo', 'browsingActivity', 'websiteContent'],
             $manifest['browser_specific_settings']['gecko']['data_collection_permissions']['required'],
         );
         foreach (['background.js', 'content.js', 'linkedin.js', 'panel.html', 'popup.html', '_locales/en/messages.json', '_locales/es/messages.json', 'icons/icon-128.png'] as $file) {
