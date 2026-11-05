@@ -14,13 +14,27 @@ function showError(message) {
   loginError.hidden = !message;
 }
 
+/** http is only accepted for a CRM on this computer: loopback, .localhost or the reserved .test domain. */
+function isLocalHost(hostname) {
+  return hostname === 'localhost' || hostname === '[::1]' || hostname.startsWith('127.') ||
+    hostname.endsWith('.localhost') || hostname.endsWith('.test');
+}
+
+/** The CRM origin, or the error code that keeps the password from being sent. */
 function originOf(value) {
+  let url;
   try {
-    const url = new URL(value.includes('://') ? value : 'https://' + value);
-    return ['https:', 'http:'].includes(url.protocol) ? url.origin : null;
+    url = new URL(value.includes('://') ? value : 'https://' + value);
   } catch (error) {
-    return null;
+    return { error: 'invalid_url' };
   }
+  if (!['https:', 'http:'].includes(url.protocol)) {
+    return { error: 'invalid_url' };
+  }
+  if (url.protocol === 'http:' && !isLocalHost(url.hostname)) {
+    return { error: 'insecure_url' };
+  }
+  return { origin: url.origin };
 }
 
 function render(session) {
@@ -45,9 +59,9 @@ loginForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   showError('');
 
-  const origin = originOf(crmUrlInput.value.trim());
-  if (!origin) {
-    showError(errorMessage({ code: 'invalid_url' }));
+  const { origin, error } = originOf(crmUrlInput.value.trim());
+  if (error) {
+    showError(errorMessage({ code: error }));
     return;
   }
 

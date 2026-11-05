@@ -19,6 +19,7 @@ function translatePage() {
 
 const ERROR_MESSAGES = {
   invalid_url: 'errorInvalidUrl',
+  insecure_url: 'errorInsecureUrl',
   invalid_credentials: 'errorInvalidCredentials',
   unreachable: 'errorUnreachable',
   permission_denied: 'errorPermissionDenied',

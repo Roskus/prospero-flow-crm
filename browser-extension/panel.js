@@ -7,6 +7,7 @@ const form = document.getElementById('contact-form');
 const ownerSearch = document.getElementById('owner-search');
 const ownerResults = document.getElementById('owner-results');
 const ownerSelected = document.getElementById('owner-selected');
+const ownerMore = document.getElementById('owner-more');
 const LINKEDIN_ORIGIN = 'https://www.linkedin.com';
 const SEARCH_DELAY_MS = 300;
 
@@ -15,6 +16,11 @@ let owner = null;
 let profile = null;
 let searchTimer = null;
 let searchRun = 0;
+/** Leads and customers loaded for the current search text, page after page. */
+let ownerCandidates = [];
+let ownerPage = 1;
+/** Errors after which the panel cannot work until the user logs in again. */
+const SESSION_ERRORS = ['logged_out', 'session_expired', 'inactive'];
 
 function field(name) {
   return form.elements.namedItem(name);
@@ -89,20 +95,24 @@ function renderOwners(candidates) {
     button.className = 'result';
     button.textContent = ownerLabel(candidate);
     button.ownerCandidate = candidate;
+    button.setAttribute('aria-pressed', String(candidate === owner));
     button.addEventListener('click', () => selectOwner(candidate));
     item.appendChild(button);
     return item;
   }));
 }
 
-/** Leads and customers of the company matching the text, plus creating a lead with that name. */
-async function searchOwners(text, preselect) {
+/**
+ * Leads and customers of the company matching the text, plus creating a lead with that name.
+ * Page 1 starts a new list; later pages are added to it.
+ */
+async function searchOwners(text, preselect, page = 1) {
   const run = ++searchRun;
   const name = text.trim();
-  let candidates = [];
+  let result = { owners: [], hasMore: false };
   if (name) {
     try {
-      candidates = await callBackground('searchOwners', { text: name });
+      result = await callBackground('searchOwners', { text: name, page });
     } catch (error) {
       if (run === searchRun) {
         fieldError('owner', errorMessage(error));
@@ -113,19 +123,27 @@ async function searchOwners(text, preselect) {
   if (run !== searchRun) {
     return;
   }
-  const newLead = name ? [{ type: 'newLead', name }] : [];
-  renderOwners([...candidates, ...newLead]);
+  ownerCandidates = page === 1 ? result.owners : [...ownerCandidates, ...result.owners];
+  ownerPage = page;
+  const sameNewLead = owner && owner.type === 'newLead' && owner.name === name;
+  const newLead = name ? [sameNewLead ? owner : { type: 'newLead', name }] : [];
+  renderOwners([...ownerCandidates, ...newLead]);
+  ownerMore.hidden = !result.hasMore;
 
   if (preselect) {
-    const sameName = candidates.find((candidate) => normalizeText(candidate.name) === normalizeText(name));
+    const sameName = ownerCandidates.find((candidate) => normalizeText(candidate.name) === normalizeText(name));
     selectOwner(sameName || null);
   }
 }
 
 ownerSearch.addEventListener('input', () => {
+  searchRun += 1;
+  selectOwner(null);
   clearTimeout(searchTimer);
   searchTimer = setTimeout(() => searchOwners(ownerSearch.value, false), SEARCH_DELAY_MS);
 });
+
+ownerMore.addEventListener('click', () => searchOwners(ownerSearch.value, false, ownerPage + 1));
 
 function fillCountries(lists) {
   const language = chrome.i18n.getUILanguage().toLowerCase().startsWith('es') ? 'es' : 'en';
@@ -160,8 +178,12 @@ async function start(receivedProfile) {
   try {
     countryLists = await callBackground('countries');
   } catch (error) {
-    fatal(error);
-    return;
+    if (SESSION_ERRORS.includes(error.code)) {
+      fatal(error);
+      return;
+    }
+    // Country is optional: the form still saves contacts without the list.
+    countryLists = {};
   }
 
   fillCountries(countryLists);

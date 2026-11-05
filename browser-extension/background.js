@@ -11,6 +11,7 @@ const SESSION_KEY = 'session';
 const COUNTRIES_KEY = 'countries';
 const COUNTRY_LANGUAGES = ['en', 'es'];
 const REFRESH_MARGIN_MS = 5 * 60 * 1000;
+const OWNER_PAGE_SIZE = 10;
 
 class CrmError extends Error {
   constructor(code, details) {
@@ -33,10 +34,19 @@ async function clearSession() {
   await chrome.storage.local.remove([SESSION_KEY, COUNTRIES_KEY]);
 }
 
+/** http is only accepted for a CRM on this computer: loopback, .localhost or the reserved .test domain. */
+function isLocalHost(hostname) {
+  return hostname === 'localhost' || hostname === '[::1]' || hostname.startsWith('127.') ||
+    hostname.endsWith('.localhost') || hostname.endsWith('.test');
+}
+
 function crmOrigin(url) {
   const parsed = new URL(url.includes('://') ? url : 'https://' + url);
   if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
     throw new CrmError('invalid_url');
+  }
+  if (parsed.protocol === 'http:' && !isLocalHost(parsed.hostname)) {
+    throw new CrmError('insecure_url');
   }
   return parsed.origin;
 }
@@ -107,7 +117,36 @@ async function request(crmUrl, method, path, { token, body, query } = {}) {
   throw new CrmError('http', { status: response.status });
 }
 
-async function refresh(session) {
+/** Refresh in progress, shared by every call that needs it. */
+let refreshing = null;
+
+/**
+ * Renews the token once for all concurrent calls: the CRM blacklists a token as soon as it
+ * is refreshed, so a second refresh with it would fail and log the user out.
+ */
+function refresh(session) {
+  if (!refreshing) {
+    refreshing = renewToken(session).finally(() => {
+      refreshing = null;
+    });
+  }
+  return refreshing;
+}
+
+/** The stored session when another call already renewed the token, otherwise null. */
+async function renewedElsewhere(session) {
+  const stored = await loadSession();
+  if (!stored) {
+    throw new CrmError('logged_out');
+  }
+  return stored.token !== session.token ? stored : null;
+}
+
+async function renewToken(session) {
+  const current = await renewedElsewhere(session);
+  if (current) {
+    return current;
+  }
   try {
     const body = await request(session.crmUrl, 'POST', '/auth/refresh', { token: session.token });
     const renewed = { ...session, ...tokenFields(body) };
@@ -116,6 +155,10 @@ async function refresh(session) {
   } catch (error) {
     if (error.code === 'unreachable') {
       throw error;
+    }
+    const newer = await renewedElsewhere(session);
+    if (newer) {
+      return newer;
     }
     await clearSession();
     throw new CrmError('session_expired');
@@ -167,6 +210,27 @@ function publicSession(session) {
   return { crmUrl: session.crmUrl, user: session.user, company: session.company };
 }
 
+function companyFields(company) {
+  return { id: company.id, name: company.name, countryId: company.country_id };
+}
+
+/** The company of the user, read again and kept in the session when login could not get it. */
+async function sessionCompany(session) {
+  if (session.company || !session.user.companyId) {
+    return session.company;
+  }
+  try {
+    const company = companyFields(await api('GET', '/company/' + session.user.companyId));
+    const current = await loadSession();
+    if (current) {
+      await saveSession({ ...current, company });
+    }
+    return company;
+  } catch (error) {
+    return null;
+  }
+}
+
 async function login({ crmUrl, email, password }) {
   const origin = crmOrigin(crmUrl);
   let body;
@@ -183,7 +247,7 @@ async function login({ crmUrl, email, password }) {
   const me = await request(origin, 'POST', '/auth/me', { token: token.token });
   let company = null;
   try {
-    company = await request(origin, 'GET', '/company/' + me.company_id, { token: token.token });
+    company = companyFields(await request(origin, 'GET', '/company/' + me.company_id, { token: token.token }));
   } catch (error) {
     company = null;
   }
@@ -191,8 +255,8 @@ async function login({ crmUrl, email, password }) {
   const session = {
     crmUrl: origin,
     ...token,
-    user: { id: me.id, firstName: me.first_name, lastName: me.last_name, email: me.email },
-    company: company ? { id: company.id, name: company.name, countryId: company.country_id } : null,
+    user: { id: me.id, firstName: me.first_name, lastName: me.last_name, email: me.email, companyId: me.company_id },
+    company,
   };
   await saveSession(session);
   return publicSession(session);
@@ -208,23 +272,35 @@ async function logout() {
   return null;
 }
 
-/** Leads and customers of the company whose name or business name contains the text. */
-async function searchOwners({ text }) {
-  const query = { search: text, per_page: 10 };
-  const [leads, customers] = await Promise.all([
+/**
+ * One page of the leads and customers of the company whose name or business name contains
+ * the text; a list the user cannot read is left out. hasMore tells whether a next page exists.
+ */
+async function searchOwners({ text, page }) {
+  const query = { search: text, per_page: OWNER_PAGE_SIZE, page: page || 1 };
+  const [leadSearch, customerSearch] = await Promise.allSettled([
     api('GET', '/lead', { query }),
     api('GET', '/customer', { query }),
   ]);
+  if (leadSearch.status === 'rejected' && customerSearch.status === 'rejected') {
+    throw leadSearch.reason;
+  }
+  const leads = leadSearch.value || {};
+  const customers = customerSearch.value || {};
   const owner = (type) => (record) => ({
     type,
     id: record.id,
     name: record.name,
     businessName: record.business_name || '',
   });
-  return [
-    ...(leads.leads || []).map(owner('lead')),
-    ...(customers.customers || []).map(owner('customer')),
-  ];
+  const hasNextPage = (list) => Number(list.current_page || 1) < Number(list.last_page || 1);
+  return {
+    owners: [
+      ...(leads.leads || []).map(owner('lead')),
+      ...(customers.customers || []).map(owner('customer')),
+    ],
+    hasMore: hasNextPage(leads) || hasNextPage(customers),
+  };
 }
 
 async function ownerName(type, id) {
@@ -261,10 +337,11 @@ async function createLead({ name, countryId, linkedin }) {
   if (!session) {
     throw new CrmError('logged_out');
   }
+  const company = countryId ? null : await sessionCompany(session);
   const body = {
     name,
     seller_id: session.user.id,
-    country_id: countryId || (session.company && session.company.countryId) || undefined,
+    country_id: countryId || (company && company.countryId) || undefined,
   };
   if (linkedin) {
     body.linkedin = linkedin;

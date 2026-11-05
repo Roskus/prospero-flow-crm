@@ -61,8 +61,9 @@ extension is signed it is loaded as a temporary add-on, which Firefox removes wh
    not appear.
 6. Log in: click the extension icon and enter the CRM URL, your email and password.
    - For a local CRM use its URL as you open it in the browser, for example
-     `http://localhost:8000` or `https://prospero-flow-crm.test`; `http://` shows a warning
-     and is meant only for local development.
+     `http://localhost:8000` or `https://prospero-flow-crm.test`. `http://` is only accepted
+     for a CRM on this computer (`localhost`, `127.x`, `*.localhost` or `*.test`), so the
+     password never travels unencrypted; any other CRM needs `https://`.
    - Firefox asks to allow access to that URL: click **Allow**. If the popup closes when the
      request appears, click the icon again and log in again; access is already granted.
 7. Open a LinkedIn profile (`https://www.linkedin.com/in/...`), click **Add to CRM**, check

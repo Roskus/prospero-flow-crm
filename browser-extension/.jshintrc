@@ -1,0 +1,8 @@
+{
+    "esversion": 11,
+    "browser": true,
+    "globals": {
+        "chrome": false,
+        "browser": false
+    }
+}

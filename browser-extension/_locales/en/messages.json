@@ -27,7 +27,10 @@
     "message": "Open a LinkedIn profile and use \"Add to CRM\"."
   },
   "httpWarning": {
-    "message": "This URL is not secure (http). Use it only for local development."
+    "message": "This URL is not secure (http). It only works for a CRM on this computer (localhost or .test)."
+  },
+  "errorInsecureUrl": {
+    "message": "Use an https URL. http only works for a CRM on this computer (localhost or .test)."
   },
   "errorInvalidUrl": {
     "message": "Enter a valid CRM URL."
@@ -98,6 +101,9 @@
         "content": "$1"
       }
     }
+  },
+  "moreResults": {
+    "message": "More results"
   },
   "createLead": {
     "message": "Create lead \"$NAME$\"",
