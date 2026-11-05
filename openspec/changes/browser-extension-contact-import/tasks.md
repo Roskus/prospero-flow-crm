@@ -40,6 +40,8 @@
 - [ ] 7.1 Run the end-to-end flow in Chrome, Edge and Firefox against a local CRM (login, capture, duplicate warning, save to lead, customer and new lead, logout) and verify in the CRM that each contact has the LinkedIn URL, job title and location and no photo; confirm with the browser network panel that captured data is only sent to the CRM origin and no image is requested by the extension
 - [ ] 7.2 Run `php artisan test --compact tests/Feature/Controllers/Api`, open `tests/tests.html` from the loaded extension, run `vendor/bin/pint --dirty --format agent` and bump `version.php`; verify everything passes
 
+- [x] 7.3 Add `php artisan crm:extension:package` (PHP `ZipArchive`, no Node or zip binary) that checks every locale has the English messages and writes `storage/app/browser-extension/prospero-flow-crm-extension-<version>.zip` with `manifest.json` at the root, without `tests/` or the README; document packaging, installing in Chrome, Edge and Firefox, updating and developing in `browser-extension/README.md`; verify with a feature test on the zip contents
+
 ## Workflow follow-up
 
 - Archive the change after the pull request is reviewed and merged.
