@@ -26,9 +26,9 @@ class BrowserExtensionPackageTest extends TestCase
     }
 
     #[Test]
-    public function it_packages_the_extension_with_the_manifest_at_the_root(): void
+    public function it_packages_the_extension_with_the_crm_version_and_the_manifest_at_the_root(): void
     {
-        $version = json_decode((string) file_get_contents(base_path('browser-extension/manifest.json')), true)['version'];
+        $version = (string) config('app.version');
         $package = $this->output.'/prospero-flow-crm-extension-'.$version.'.zip';
 
         $this->artisan('crm:extension:package', ['--output' => $this->output])
@@ -45,6 +45,11 @@ class BrowserExtensionPackageTest extends TestCase
         $zip->close();
 
         $this->assertSame($version, $manifest['version']);
+        $this->assertSame('__MSG_extName__', $manifest['name']);
+        $this->assertSame(
+            json_decode((string) file_get_contents(base_path('browser-extension/manifest.json')), true)['content_scripts'],
+            $manifest['content_scripts'],
+        );
         foreach (['background.js', 'content.js', 'linkedin.js', 'panel.html', 'popup.html', '_locales/en/messages.json', '_locales/es/messages.json', 'icons/icon-128.png'] as $file) {
             $this->assertContains($file, $names);
         }

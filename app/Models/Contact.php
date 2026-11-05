@@ -70,17 +70,21 @@ class Contact extends Model
     ];
 
     /**
-     * Contacts whose LinkedIn URL points to the profile, however the stored URL is written.
+     * Contacts whose LinkedIn URL points to the profile, however the stored URL is written,
+     * with the profile name decoded (`martín`) or percent-encoded (`mart%C3%ADn`).
      */
     #[Scope]
     protected function linkedinProfile(Builder $query, LinkedinProfileUrl $profile): void
     {
-        $path = addcslashes($profile->path, '\\%_');
-        $query->where(function (Builder $query) use ($path): void {
-            $query->whereLike('linkedin', '%'.$path)
-                ->orWhereLike('linkedin', '%'.$path.'/%')
-                ->orWhereLike('linkedin', '%'.$path.'?%')
-                ->orWhereLike('linkedin', '%'.$path.'#%');
+        $paths = array_unique([$profile->path, $profile->encodedPath()]);
+        $query->where(function (Builder $query) use ($paths): void {
+            foreach ($paths as $path) {
+                $path = addcslashes($path, '\\%_');
+                $query->orWhereLike('linkedin', '%'.$path)
+                    ->orWhereLike('linkedin', '%'.$path.'/%')
+                    ->orWhereLike('linkedin', '%'.$path.'?%')
+                    ->orWhereLike('linkedin', '%'.$path.'#%');
+            }
         });
     }
 

@@ -72,12 +72,13 @@ On a LinkedIn profile page (`linkedin.com/in/...`) the extension SHALL offer an 
 - **THEN** the extension asks them to log in first
 
 ### Requirement: Editable contact form
-The extension SHALL show a form prefilled with the captured first name, last name, job title, company, country, province, city and profile URL. Every field SHALL be editable, first name SHALL be required, and fields the page did not provide SHALL be left empty instead of failing. Email and phone SHALL be optional fields.
+The extension SHALL show a form prefilled with the captured first name, last name, job title, country, province, city and profile URL. The captured company is not a contact field: it starts the lead or customer search and names a new lead, so the contact's company is always the chosen lead or customer. Every field SHALL be editable, first name SHALL be required, and fields the page did not provide SHALL be left empty instead of failing. Email and phone SHALL be optional fields.
 
 #### Scenario: Prefilled form
 - **GIVEN** the profile shows "Jane Doe", "Head of Sales at Acme" and "Madrid, Community of Madrid, Spain"
 - **WHEN** the user uses "Add to CRM"
-- **THEN** the form shows first name "Jane", last name "Doe", job title "Head of Sales", company "Acme", country Spain, province "Community of Madrid" and city "Madrid"
+- **THEN** the form shows first name "Jane", last name "Doe", job title "Head of Sales", country Spain, province "Community of Madrid" and city "Madrid"
+- **AND** the lead or customer search starts with "Acme"
 
 #### Scenario: Missing data
 - **GIVEN** the profile shows no location

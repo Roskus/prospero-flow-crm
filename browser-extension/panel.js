@@ -170,7 +170,6 @@ async function start(receivedProfile) {
     contact_first_name: profile.firstName,
     contact_last_name: profile.lastName,
     contact_job_title: profile.jobTitle,
-    company: profile.company,
     contact_linkedin: profile.linkedin,
     country_id: location.countryId,
     province: location.province,
@@ -194,7 +193,10 @@ function contactPayload(ownerId) {
   };
   ['contact_first_name', 'contact_last_name', 'contact_job_title', 'contact_email', 'contact_phone',
     'contact_linkedin', 'country_id', 'province', 'city'].forEach((name) => {
-    const value = field(name).value.trim();
+    let value = field(name).value.trim();
+    if (name === 'contact_linkedin') {
+      value = linkedinProfileUrl(value) || value;
+    }
     if (value) {
       payload[name] = value;
     }

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class LinkedinProfileUrlTest extends TestCase
 {
     /**
-     * Same cases as browser-extension/tests/tests.js.
+     * Same cases as browser-extension/tests/tests.html.
      *
      * @return array<string, array{string, ?string}>
      */
@@ -38,5 +38,14 @@ class LinkedinProfileUrlTest extends TestCase
     public function it_normalizes_profile_urls(string $url, ?string $expectedPath): void
     {
         $this->assertSame($expectedPath, LinkedinProfileUrl::fromString($url)?->path);
+    }
+
+    #[Test]
+    public function it_gives_the_percent_encoded_path_linkedin_uses_in_its_links(): void
+    {
+        $profile = LinkedinProfileUrl::fromString('https://www.linkedin.com/in/martín-gómez-pmp®-1a2b3c4d');
+
+        $this->assertSame('/in/mart%C3%ADn-g%C3%B3mez-pmp%C2%AE-1a2b3c4d', $profile?->encodedPath());
+        $this->assertSame('/in/jane-doe', LinkedinProfileUrl::fromString('linkedin.com/in/Jane-Doe')?->encodedPath());
     }
 }

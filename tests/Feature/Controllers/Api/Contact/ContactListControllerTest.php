@@ -69,6 +69,34 @@ class ContactListControllerTest extends TestCase
         $this->getJson('/api/contact?linkedin='.urlencode('https://www.linkedin.com/in/jane-doe'))->assertOk()->assertJsonPath('count', 2);
     }
 
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function decodedAndEncodedUrls(): array
+    {
+        $decoded = 'https://www.linkedin.com/in/martín-gómez-pmp®-1a2b3c4d';
+        $encoded = 'https://www.linkedin.com/in/mart%C3%ADn-g%C3%B3mez-pmp%C2%AE-1a2b3c4d/';
+
+        return [
+            'stored encoded, searched decoded' => [$encoded, $decoded],
+            'stored encoded, searched encoded' => [$encoded, $encoded],
+            'stored decoded, searched encoded' => [$decoded, $encoded],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('decodedAndEncodedUrls')]
+    public function profile_names_with_accents_or_symbols_are_found_encoded_or_not(string $storedUrl, string $searchedUrl): void
+    {
+        $this->actingAs($this->user, 'api');
+        $contact = Contact::factory()->create(['company_id' => $this->user->company_id, 'linkedin' => $storedUrl]);
+
+        $this->getJson('/api/contact?linkedin='.urlencode($searchedUrl))
+            ->assertOk()
+            ->assertJsonPath('count', 1)
+            ->assertJsonPath('contacts.0.id', $contact->id);
+    }
+
     #[Test]
     public function no_contact_with_that_profile_returns_an_empty_list(): void
     {

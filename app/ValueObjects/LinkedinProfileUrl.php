@@ -35,4 +35,13 @@ final readonly class LinkedinProfileUrl
 
         return new self('/in/'.mb_strtolower($matches[1]));
     }
+
+    /**
+     * The path percent-encoded, as LinkedIn writes it in its links and as the `url` validation
+     * accepts it: `/in/martín-gómez-pmp®` → `/in/mart%C3%ADn-g%C3%B3mez-pmp%C2%AE`.
+     */
+    public function encodedPath(): string
+    {
+        return '/in/'.rawurlencode(substr($this->path, strlen('/in/')));
+    }
 }

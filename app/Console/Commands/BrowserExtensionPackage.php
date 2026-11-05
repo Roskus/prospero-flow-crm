@@ -14,6 +14,10 @@ use ZipArchive;
  * Packages browser-extension/ as the zip that Chrome, Edge and Firefox install and their
  * stores accept: manifest.json at the root, without the test page. Uses PHP only, so it
  * runs wherever the CRM runs, without Node or a zip binary.
+ *
+ * The package takes the CRM version (APP_VERSION, bumped on every commit) as extension
+ * version, written only in the zip's manifest: browsers and stores need a higher version on
+ * every update, and the repository file is not modified, so a deploy leaves no changes.
  */
 class BrowserExtensionPackage extends Command
 {
@@ -44,11 +48,12 @@ class BrowserExtensionPackage extends Command
     {
         $source = base_path('browser-extension');
         $manifest = json_decode((string) @file_get_contents($source.'/manifest.json'), true);
-        if (! is_array($manifest) || empty($manifest['version'])) {
-            $this->error('browser-extension/manifest.json is missing or has no version.');
+        if (! is_array($manifest)) {
+            $this->error('browser-extension/manifest.json is missing or is not valid JSON.');
 
             return Command::FAILURE;
         }
+        $manifest['version'] = (string) config('app.version');
 
         $missingKeys = $this->missingLocaleKeys($source);
         if ($missingKeys !== []) {
@@ -75,7 +80,11 @@ class BrowserExtensionPackage extends Command
         }
 
         foreach ($this->packagedFiles($source) as $relativePath => $file) {
-            $zip->addFile($file->getPathname(), $relativePath);
+            if ($relativePath === 'manifest.json') {
+                $zip->addFromString($relativePath, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."\n");
+            } else {
+                $zip->addFile($file->getPathname(), $relativePath);
+            }
         }
         $zip->close();
 

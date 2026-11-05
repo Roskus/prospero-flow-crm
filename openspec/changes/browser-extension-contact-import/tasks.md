@@ -31,7 +31,7 @@
 
 ## 6. Contact panel
 
-- [ ] 6.1 Build the panel (form with first name required, last name, job title, company, country select, province, city, LinkedIn URL, optional email and phone, owner search over leads and customers prefilled with the company, "Create lead" option; no photo anywhere) translated with `_locales`; verify manually that the form opens prefilled from a profile, missing fields stay empty and every field is editable
+- [ ] 6.1 Build the panel (form with first name required, last name, job title, country select, province, city, LinkedIn URL, optional email and phone, owner search over leads and customers prefilled with the captured company (no company field: the contact's company is the chosen lead or customer), "Create lead" option; no photo anywhere) translated with `_locales`; verify manually that the form opens prefilled from a profile, missing fields stay empty and every field is editable
 - [ ] 6.2 Show the duplicate warning from `findContactByLinkedin` with the owner name and a link to the lead or customer in the CRM, still allowing a new contact; verify manually with a profile already saved and with a new one
 - [ ] 6.3 Save: create the lead first when chosen (`name`, `seller_id` from `me`, form or company country), then `POST /api/contact`; show a confirmation with a link to the owner; show CRM validation errors on their fields keeping the typed values; verify manually: contact saved to an existing lead, to a customer, to a new lead, and a too long job title shows the field error
 
@@ -40,7 +40,7 @@
 - [ ] 7.1 Run the end-to-end flow in Chrome, Edge and Firefox against a local CRM (login, capture, duplicate warning, save to lead, customer and new lead, logout) and verify in the CRM that each contact has the LinkedIn URL, job title and location and no photo; confirm with the browser network panel that captured data is only sent to the CRM origin and no image is requested by the extension
 - [ ] 7.2 Run `php artisan test --compact tests/Feature/Controllers/Api`, open `tests/tests.html` from the loaded extension, run `vendor/bin/pint --dirty --format agent` and bump `version.php`; verify everything passes
 
-- [x] 7.3 Add `php artisan crm:extension:package` (PHP `ZipArchive`, no Node or zip binary) that checks every locale has the English messages and writes `storage/app/browser-extension/prospero-flow-crm-extension-<version>.zip` with `manifest.json` at the root, without `tests/` or the README; document packaging, installing in Chrome, Edge and Firefox, updating and developing in `browser-extension/README.md`; verify with a feature test on the zip contents
+- [x] 7.3 Add `php artisan crm:extension:package` (PHP `ZipArchive`, no Node or zip binary) that checks every locale has the English messages and writes `storage/app/browser-extension/prospero-flow-crm-extension-<version>.zip` with `manifest.json` at the root and the CRM `APP_VERSION` as extension version (only in the zip, the repository manifest is not modified), without `tests/` or the README; document packaging, installing in Chrome, Edge and Firefox, updating and developing in `browser-extension/README.md`; verify with a feature test on the zip contents
 
 ## Workflow follow-up
 

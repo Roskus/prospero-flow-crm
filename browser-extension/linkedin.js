@@ -8,6 +8,9 @@
  */
 
 const LINKEDIN_SELECTORS = {
+  // The name is first read from the heading of the link to the profile (profileHeading())
+  // the headline from the paragraph after it (paragraphsAfter()) and the location from the
+  // block of the "Contact info" link (locationBeforeContactInfo()); these are fallbacks.
   name: ['main h1'],
   headline: [
     'main .pv-text-details__left-panel .text-body-medium',
@@ -139,10 +142,13 @@ function linkedinProfilePath(value) {
   return match ? '/in/' + match[1].toLowerCase() : null;
 }
 
-/** Canonical URL saved in the CRM for a profile. */
+/**
+ * Canonical URL saved in the CRM for a profile, percent-encoded as LinkedIn writes it in its
+ * links: the CRM `url` validation rejects symbols such as "®" unencoded.
+ */
 function linkedinProfileUrl(value) {
   const path = linkedinProfilePath(value);
-  return path ? 'https://www.linkedin.com' + path : '';
+  return path ? 'https://www.linkedin.com/in/' + encodeURIComponent(path.slice('/in/'.length)) : '';
 }
 
 function firstText(root, selectors) {
@@ -173,6 +179,110 @@ function firstCompanyUrl(root) {
     const match = link && link.href && link.href.match(/^https:\/\/www\.linkedin\.com\/company\/[^/?#]+/);
     if (match) {
       return match[0] + '/';
+    }
+  }
+  return '';
+}
+
+function capitalize(word) {
+  return word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase();
+}
+
+/**
+ * Display name without credentials or symbols: "Martín GÓMEZ, PMP®" → "Martín Gómez".
+ * Drops what follows the first comma, keeps letters, spaces, hyphens, apostrophes and dots,
+ * and capitalizes words written in capitals.
+ */
+function cleanName(text) {
+  return String(text || '')
+    .split(',')[0]
+    .replace(/[^\p{L}\p{M}\s'.-]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .filter(Boolean)
+    .map((word) => (word.length > 1 && word === word.toLocaleUpperCase() ? capitalize(word) : word))
+    .join(' ');
+}
+
+/**
+ * Name from the profile URL when the page does not show it, like the CRM contact form:
+ * "/in/martín-gómez-pmp®-1a2b3c4d" → "Martín Gómez". Words with digits (the LinkedIn id) or
+ * symbols (credentials such as "pmp®") are dropped.
+ */
+function nameFromProfileUrl(url) {
+  const path = linkedinProfilePath(url);
+  if (!path) {
+    return '';
+  }
+  return path.slice('/in/'.length)
+    .split('-')
+    .filter((word) => /^[\p{L}\p{M}']+$/u.test(word))
+    .map(capitalize)
+    .join(' ');
+}
+
+/** Heading of the link to the profile itself, where LinkedIn shows the member name. */
+function profileHeading(root, pageUrl) {
+  const path = linkedinProfilePath(pageUrl);
+  if (!path) {
+    return null;
+  }
+  for (const link of root.querySelectorAll('a[href*="/in/"]')) {
+    const heading = link.querySelector('h1, h2');
+    if (heading && heading.textContent.trim() && linkedinProfilePath(link.href) === path) {
+      return heading;
+    }
+  }
+  return null;
+}
+
+/** Connection degree or separator shown next to the name: "· 1st", "• 2nd", "3rd+", "2º", "·". */
+function isNameDecoration(text) {
+  return /^[·•|-]/.test(text) || /^(?:\d+(?:st|nd|rd|th|º|er|do|ro)\+?)$/i.test(text);
+}
+
+/**
+ * Texts of the paragraphs that follow the name heading in the page, in order, skipping the
+ * connection degree. LinkedIn shows the headline (job title and company) in the first one;
+ * its class names change, the order does not.
+ */
+function paragraphsAfter(root, element, limit) {
+  const texts = [];
+  for (const paragraph of root.querySelectorAll('p')) {
+    if (!(element.compareDocumentPosition(paragraph) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+      continue;
+    }
+    const text = paragraph.textContent.replace(/\s+/g, ' ').trim();
+    if (text && !isNameDecoration(text)) {
+      texts.push(text);
+    }
+    if (texts.length >= limit) {
+      break;
+    }
+  }
+  return texts;
+}
+
+/**
+ * Location shown next to the "Contact info" link: the first paragraph of the block that holds
+ * the link, skipping separators such as "·". The link keeps its URL when class names change.
+ */
+function locationBeforeContactInfo(root) {
+  for (const link of root.querySelectorAll('a[href*="/overlay/contact-info"]')) {
+    const linkParagraph = link.closest('p');
+    const block = linkParagraph && linkParagraph.parentElement;
+    if (!block) {
+      continue;
+    }
+    for (const paragraph of block.children) {
+      if (paragraph === linkParagraph) {
+        break;
+      }
+      const text = paragraph.tagName === 'P' ? paragraph.textContent.replace(/\s+/g, ' ').trim() : '';
+      if (text && !/^[·•|-]+$/.test(text)) {
+        return text;
+      }
     }
   }
   return '';
@@ -229,9 +339,19 @@ function readLinkedinProfile(root, pageUrl) {
     }
   };
 
-  const name = splitName(field('name'));
+  let heading = null;
+  let following = [];
+  try {
+    heading = profileHeading(root, pageUrl);
+    following = heading ? paragraphsAfter(root, heading, 1) : [];
+  } catch (error) {
+    heading = null;
+    following = [];
+  }
+  const shownName = heading ? heading.textContent.replace(/\s+/g, ' ').trim() : field('name');
+  const name = splitName(cleanName(shownName) || nameFromProfileUrl(pageUrl));
   const currentCompany = cleanCompany(field('currentCompany'));
-  const headline = splitHeadline(field('headline'), currentCompany);
+  const headline = splitHeadline(following[0] || field('headline'), currentCompany);
   const company = currentCompany ||
     headline.company ||
     cleanCompany(field('firstExperienceCompany'));
@@ -242,7 +362,13 @@ function readLinkedinProfile(root, pageUrl) {
     jobTitle: headline.jobTitle,
     company,
     companyLinkedin: firstCompanyUrl(root),
-    location: field('location'),
+    location: (() => {
+      try {
+        return locationBeforeContactInfo(root);
+      } catch (error) {
+        return '';
+      }
+    })() || field('location'),
     linkedin: linkedinProfileUrl(pageUrl),
   };
 }
