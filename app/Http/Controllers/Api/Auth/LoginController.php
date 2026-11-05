@@ -70,11 +70,11 @@ class LoginController extends Controller
     }
 
     /**
-     * Get the authenticated User.
+     * Get the authenticated User, with its `company_id` so API clients can read their company.
      */
     public function me(): JsonResponse
     {
-        return response()->json(auth('api')->user());
+        return response()->json(auth('api')->user()->makeVisible('company_id'));
     }
 
     /**

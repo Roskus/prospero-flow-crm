@@ -119,4 +119,15 @@ class DocGeneratorControllerTest extends TestCase
 
         $this->assertContains('linkedin', $names);
     }
+
+    #[Test]
+    public function the_country_list_is_documented_with_its_language_parameter(): void
+    {
+        $document = json_decode($this->get('/api/resource.json')->json(), true);
+
+        $countryList = $document['paths']['/country']['get'];
+
+        $this->assertContains('lang', array_column($countryList['parameters'], 'name'));
+        $this->assertArrayHasKey('countries', $countryList['responses']['200']['content']['application/json']['schema']['properties']);
+    }
 }

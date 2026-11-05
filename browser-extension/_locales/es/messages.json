@@ -1,0 +1,171 @@
+{
+  "extName": {
+    "message": "Prospero Flow CRM"
+  },
+  "extDescription": {
+    "message": "Guarda el perfil de LinkedIn que estás viendo como contacto de un lead o cliente en tu CRM."
+  },
+  "crmUrl": {
+    "message": "URL del CRM"
+  },
+  "email": {
+    "message": "Email"
+  },
+  "password": {
+    "message": "Contraseña"
+  },
+  "login": {
+    "message": "Iniciar sesión"
+  },
+  "logout": {
+    "message": "Cerrar sesión"
+  },
+  "loggedInAs": {
+    "message": "Sesión iniciada como"
+  },
+  "popupHint": {
+    "message": "Abre un perfil de LinkedIn y usa \"Añadir al CRM\"."
+  },
+  "httpWarning": {
+    "message": "Esta URL no es segura (http). Úsala solo para desarrollo local."
+  },
+  "errorInvalidUrl": {
+    "message": "Introduce una URL del CRM válida."
+  },
+  "errorInvalidCredentials": {
+    "message": "Email o contraseña incorrectos."
+  },
+  "errorUnreachable": {
+    "message": "No se puede conectar con el CRM en esa URL."
+  },
+  "errorPermissionDenied": {
+    "message": "La extensión necesita acceso a la URL del CRM para iniciar sesión."
+  },
+  "errorTooManyAttempts": {
+    "message": "Demasiados intentos. Vuelve a intentarlo en un minuto."
+  },
+  "errorLoggedOut": {
+    "message": "Primero inicia sesión en el CRM desde el icono de la extensión."
+  },
+  "errorSessionExpired": {
+    "message": "Tu sesión expiró. Vuelve a iniciar sesión desde el icono de la extensión."
+  },
+  "errorInactive": {
+    "message": "Tu usuario del CRM está inactivo."
+  },
+  "errorForbidden": {
+    "message": "Tu usuario del CRM no tiene permiso para hacer esto."
+  },
+  "errorValidation": {
+    "message": "Revisa los campos marcados."
+  },
+  "errorUnexpected": {
+    "message": "Algo salió mal. Vuelve a intentarlo."
+  },
+  "addToCrm": {
+    "message": "Añadir al CRM"
+  },
+  "panelTitle": {
+    "message": "Añadir contacto al CRM"
+  },
+  "close": {
+    "message": "Cerrar"
+  },
+  "loading": {
+    "message": "Cargando…"
+  },
+  "openInCrm": {
+    "message": "Abrir en el CRM"
+  },
+  "owner": {
+    "message": "Lead o cliente"
+  },
+  "ownerSearch": {
+    "message": "Buscar un lead o cliente"
+  },
+  "ownerLead": {
+    "message": "Lead · $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "ownerCustomer": {
+    "message": "Cliente · $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "createLead": {
+    "message": "Crear lead \"$NAME$\"",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "ownerSelected": {
+    "message": "Se guarda en: $OWNER$",
+    "placeholders": {
+      "owner": {
+        "content": "$1"
+      }
+    }
+  },
+  "ownerRequired": {
+    "message": "Elige un lead o cliente, o crea un lead."
+  },
+  "contact": {
+    "message": "Contacto"
+  },
+  "firstName": {
+    "message": "Nombre"
+  },
+  "firstNameRequired": {
+    "message": "El nombre es obligatorio."
+  },
+  "lastName": {
+    "message": "Apellido"
+  },
+  "jobTitle": {
+    "message": "Cargo"
+  },
+  "company": {
+    "message": "Empresa"
+  },
+  "phone": {
+    "message": "Teléfono"
+  },
+  "linkedinUrl": {
+    "message": "URL de LinkedIn"
+  },
+  "location": {
+    "message": "Ubicación"
+  },
+  "country": {
+    "message": "País"
+  },
+  "province": {
+    "message": "Provincia"
+  },
+  "city": {
+    "message": "Ciudad"
+  },
+  "save": {
+    "message": "Guardar contacto"
+  },
+  "saved": {
+    "message": "Contacto guardado en el CRM."
+  },
+  "duplicateWarning": {
+    "message": "Este perfil ya es contacto de \"$OWNER$\" en el CRM. Igual puedes guardar un contacto nuevo.",
+    "placeholders": {
+      "owner": {
+        "content": "$1"
+      }
+    }
+  }
+}

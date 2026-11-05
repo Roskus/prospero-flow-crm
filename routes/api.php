@@ -32,6 +32,7 @@ use App\Http\Controllers\Api\Contact\ContactCreateController;
 use App\Http\Controllers\Api\Contact\ContactDeleteController;
 use App\Http\Controllers\Api\Contact\ContactListController;
 use App\Http\Controllers\Api\Contact\ContactUpdateController;
+use App\Http\Controllers\Api\Country\CountryListController;
 use App\Http\Controllers\Api\Customer\CustomerCreateController;
 use App\Http\Controllers\Api\Customer\CustomerDeleteController;
 use App\Http\Controllers\Api\Customer\CustomerListController;
@@ -197,6 +198,9 @@ Route::middleware(['api'])->group(function () {
     Route::post('/calendar', [CalendarCreateController::class, 'create'])->middleware(['auth:api'])->can('create calendar');
     Route::put('/calendar/{id}', [CalendarUpdateController::class, 'update'])->middleware(['auth:api'])->can('update calendar');
     Route::delete('/calendar/{id}', [CalendarDeleteController::class, 'delete'])->middleware(['auth:api'])->can('delete calendar');
+
+    // Country
+    Route::get('/country', [CountryListController::class, 'index'])->middleware(['auth:api']);
 
     // Email
     Route::get('/email', [EmailListController::class, 'index'])->middleware(['auth:api'])->can('read email');

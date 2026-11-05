@@ -72,6 +72,17 @@ The lead search SHALL include every lead of the user's company whoever its assig
 - **WHEN** the user requests `GET /api/contact?linkedin=...` with that URL
 - **THEN** that contact is not listed
 
+### Requirement: Country list
+`GET /api/country` SHALL list the countries the CRM accepts as `country_id`, from its countries library, with their name in the requested language (`lang`, English or Spanish) or in the application language by default, sorted by name, as `count` and `countries` with `id` and `name`. An unsupported language SHALL return a validation error.
+
+#### Scenario: Countries in Spanish
+- **WHEN** the user requests `GET /api/country?lang=es`
+- **THEN** the response lists Spain as `{"id": "es", "name": "España"}`
+
+#### Scenario: Unsupported language
+- **WHEN** the user requests `GET /api/country?lang=xx`
+- **THEN** the response is a validation error on `lang`
+
 ### Requirement: Search parameters are documented
 The OpenAPI document SHALL describe the `search` query of the lead and customer lists and the `linkedin` query of the contact list as optional string parameters.
 

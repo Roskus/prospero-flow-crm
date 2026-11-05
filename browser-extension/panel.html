@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header>
+    <h1 data-i18n="panelTitle"></h1>
+    <button id="close" class="link" type="button" data-i18n="close"></button>
+  </header>
+
+  <p id="loading" data-i18n="loading"></p>
+
+  <form id="contact-form" novalidate hidden>
+    <div id="duplicate" class="warning" hidden>
+      <p id="duplicate-text"></p>
+      <p><a id="duplicate-link" target="_blank" rel="noopener" data-i18n="openInCrm"></a></p>
+    </div>
+
+    <fieldset>
+      <legend data-i18n="owner"></legend>
+      <input id="owner-search" type="search" autocomplete="off" data-i18n-placeholder="ownerSearch">
+      <ul id="owner-results" class="results"></ul>
+      <p id="owner-selected" class="selected" hidden></p>
+      <p class="field-error" data-error-for="owner" hidden></p>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="contact"></legend>
+      <label><span data-i18n="firstName"></span> *
+        <input name="contact_first_name" required maxlength="50"></label>
+      <label><span data-i18n="lastName"></span>
+        <input name="contact_last_name" maxlength="255"></label>
+      <label><span data-i18n="jobTitle"></span>
+        <input name="contact_job_title" maxlength="80"></label>
+      <label><span data-i18n="company"></span>
+        <input name="company" maxlength="120"></label>
+      <label><span data-i18n="email"></span>
+        <input name="contact_email" type="email" maxlength="254"></label>
+      <label><span data-i18n="phone"></span>
+        <input name="contact_phone" type="tel" maxlength="15"></label>
+      <label><span data-i18n="linkedinUrl"></span>
+        <input name="contact_linkedin" type="url" maxlength="255"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="location"></legend>
+      <label><span data-i18n="country"></span>
+        <select name="country_id"><option value=""></option></select></label>
+      <label><span data-i18n="province"></span>
+        <input name="province"></label>
+      <label><span data-i18n="city"></span>
+        <input name="city"></label>
+    </fieldset>
+
+    <p id="form-error" class="error" role="alert" hidden></p>
+    <button id="save" type="submit" data-i18n="save"></button>
+  </form>
+
+  <section id="saved" hidden>
+    <p data-i18n="saved"></p>
+    <p><a id="saved-link" target="_blank" rel="noopener" data-i18n="openInCrm"></a></p>
+  </section>
+
+  <p id="fatal" class="error" role="alert" hidden></p>
+
+  <template id="field-error-template"><span class="field-error"></span></template>
+
+  <script src="i18n.js"></script>
+  <script src="linkedin.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

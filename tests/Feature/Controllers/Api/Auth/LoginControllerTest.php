@@ -48,7 +48,8 @@ class LoginControllerTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($this->user->toArray());
+            ->assertExactJson($this->user->makeVisible('company_id')->toArray())
+            ->assertJsonPath('company_id', $this->user->company_id);
     }
 
     #[Test]

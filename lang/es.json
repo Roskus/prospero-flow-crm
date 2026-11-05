@@ -653,5 +653,6 @@
     "The number of results per page must be a number.": "La cantidad de resultados por página debe ser un número.",
     "The page must be a number.": "La página debe ser un número.",
     "The LinkedIn URL must be a LinkedIn profile URL.": "La URL de LinkedIn debe ser la de un perfil de LinkedIn.",
-    "The LinkedIn URL may not be longer than :max characters.": "La URL de LinkedIn no puede tener más de :max caracteres."
+    "The LinkedIn URL may not be longer than :max characters.": "La URL de LinkedIn no puede tener más de :max caracteres.",
+    "The language must be one of: :languages.": "El idioma debe ser uno de: :languages."
 }

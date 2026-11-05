@@ -15,6 +15,7 @@
 - [x] 3.1 Add a LinkedIn profile URL normalizer (profile slug `/in/<slug>`, lower case, without scheme, `www.`, query or trailing slash; null when not a profile URL) and verify with a unit test covering `https://www.linkedin.com/in/Jane-Doe/`, `linkedin.com/in/jane-doe?trk=x`, `http://es.linkedin.com/in/jane-doe` and a company URL returning null
 - [x] 3.2 Add `ContactListRequest` (optional `linkedin` string max 255) and filter `ContactListController` by the normalized slug (end, `/` or `?` after it, escaped `LIKE`), keeping `{count, contacts}`; verify with feature tests: different URL forms find the same contact, `jane-doe` does not match `jane-doe-2`, no match returns `count` 0, a contact of another company is not listed, and the response carries `lead_id`/`customer_id`
 - [x] 3.3 Document the `linkedin` query parameter on `GET /contact`; verify by extending `DocGeneratorControllerTest`
+- [x] 3.4 Add `GET /api/country` with the countries of the CRM countries library (Squire) and their name in `lang` (`en`, `es`; application locale by default), read from the library source of that language, sorted by name, as `{count, countries: [{id, name}]}`; return `company_id` from `POST /api/auth/me`; verify with feature tests (both languages, sorting, default locale, unsupported language 422, authentication, OpenAPI document, `me` with `company_id`)
 
 ## 4. Extension scaffold and session
 
@@ -24,8 +25,8 @@
 
 ## 5. LinkedIn capture
 
-- [ ] 5.1 Implement in `linkedin.js` the profile URL normalization (same rules and cases as 3.1) and the location split (`City, Province, Country`, `City, Country`, `Country` → city, province, ISO country, English and Spanish country names); add the cases to `tests/tests.html` and verify they all pass when the page is opened from the loaded extension, including an unknown country left empty
-- [ ] 5.2 Implement the profile reader in `linkedin.js` with the selector table and per-field fallbacks (name split, headline `at`/`|`/`@` company, location, current company from the top card or first experience), never reading images; add anonymised fixtures without images (full profile, no location, headline without company) to `tests/tests.html` and verify they pass
+- [x] 5.1 Implement in `linkedin.js` the profile URL normalization (same rules and cases as 3.1) and the location split (`City, Province, Country`, `City, Country`, `Country` → city, province, country code, matched against the CRM countries from `GET /api/country` in English and Spanish plus a few LinkedIn aliases); add the cases to `tests/tests.html` and verify they all pass when the page is opened from the loaded extension, including an unknown country left empty
+- [x] 5.2 Implement the profile reader in `linkedin.js` with the selector table and per-field fallbacks (name split, headline `at`/`|`/`@` company, location, current company from the top card or first experience), never reading images; add anonymised fixtures without images (full profile, no location, headline without company) to `tests/tests.html` and verify they pass
 - [ ] 5.3 Implement `content.js`: detect `/in/<slug>` on load and on SPA navigation, show the "Add to CRM" button only there, read the profile on click and open the panel iframe with it; ask to log in when there is no session; verify manually: button on a profile, not on feed/search/company pages, appears after navigating from the feed to a profile without reload, nothing is read before the click
 
 ## 6. Contact panel
