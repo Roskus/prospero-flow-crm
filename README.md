@@ -17,7 +17,7 @@ We made a free open source CRM. Our Community Edition (CE)
 - Multi company (White label)
 - Multi-language
 - REST API
-- Browser extension to save LinkedIn profiles as contacts (Chrome, Edge and Firefox)
+- Browser extension to save LinkedIn profiles as contacts ([Chrome, Edge](https://chromewebstore.google.com/detail/prospero-flow-crm/ajlkbekglpnciljjoionckmjhcmgopbo) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/prospero-flow-crm/))
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Roskus_prospero-flow-crm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Roskus_prospero-flow-crm)
 
@@ -194,7 +194,12 @@ Some API Endpoint for the full list check the doc:
 Saves the LinkedIn profile you are viewing as a contact of a lead or customer, or of a new
 lead, through the REST API. Plain JavaScript in `browser-extension/`, no build step.
 
-Package it from the CRM root; the zip takes the CRM version:
+Install it from the stores:
+
+- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/prospero-flow-crm/)
+- [Chrome Web Store](https://chromewebstore.google.com/detail/prospero-flow-crm/ajlkbekglpnciljjoionckmjhcmgopbo) (also for Edge)
+
+To build it yourself, package it from the CRM root; the zip takes the CRM version:
 
 ```bash
 php artisan crm:extension:package
