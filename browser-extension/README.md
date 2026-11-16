@@ -27,6 +27,18 @@ The same zip installs in the three browsers and is the file the browser stores a
 
 ## Install
 
+### From the stores
+
+- Firefox: [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/prospero-flow-crm/).
+- Chrome and Edge: [Chrome Web Store](https://chromewebstore.google.com/detail/prospero-flow-crm/ajlkbekglpnciljjoionckmjhcmgopbo).
+  In Edge, accept **Allow extensions from other stores** when asked.
+
+Click **Add to Firefox** / **Add to Chrome**, pin the extension to the toolbar and follow
+[Use](#use). Store installs update automatically.
+
+The steps below install a package you build yourself, for development or to try changes
+before they reach the stores.
+
 ### Chrome and Edge
 
 1. Unzip the package into a folder you keep: the browser loads the extension from it, so
@@ -38,8 +50,10 @@ The same zip installs in the three browsers and is the file the browser stores a
 
 ### Firefox
 
-Firefox 140 or newer. Firefox only installs signed extensions for good, so until the
-extension is signed it is loaded as a temporary add-on, which Firefox removes when it closes.
+Firefox 140 or newer. Firefox only installs signed extensions for good, so a package you
+build yourself is loaded as a temporary add-on, which Firefox removes when it closes. The
+[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/prospero-flow-crm/) version
+is signed and stays installed.
 
 On install Firefox asks to accept the data the extension sends to your CRM, as declared in
 `data_collection_permissions`: personal data of the profile (name, job title, email, phone),
@@ -96,6 +110,8 @@ Steps 4 to 7 above still apply.
 3. Check the form, pick the lead or customer (or create a lead) and save.
 
 ## Update
+
+Store installs update on their own. For a package you build yourself:
 
 1. Package again: the zip takes the current CRM version.
 2. Replace the unzipped folder with the new one.
