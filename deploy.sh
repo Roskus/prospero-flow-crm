@@ -3,7 +3,7 @@
 set -euo pipefail
 
 if [ "$(id -u)" -eq 0 ]; then
-    echo "Do not run deploy.sh as root, run it as the project owner (e.g. ubuntu)." >&2
+    echo "Do not run deploy.sh as root, run it as the user that owns the code (deploy, in the www-data group)." >&2
     exit 1
 fi
 
@@ -66,9 +66,16 @@ php artisan db:seed --class=BankSeeder --force
 # Generate updated api doc
 php artisan l5-swagger:generate
 
+# Files created by PHP-FPM belong to www-data and can only be chmod-ed by their owner. By hand
+# they are fixed with sudo; the CI deploy only warns, so the deploy user needs no root shell
+# (the setgid directories and 0664 logs already give the www-data group write access).
 if ! fix_writable_permissions "${WRITABLE_PATHS[@]}" 2>/dev/null; then
-    echo "Some files in ${WRITABLE_PATHS[*]} belong to another user, fixing them with sudo..."
-    "${SUDO[@]}" bash -c "WEB_GROUP=$WEB_GROUP; $(declare -f fix_writable_permissions); fix_writable_permissions ${WRITABLE_PATHS[*]}"
+    if [ -t 0 ]; then
+        echo "Some files in ${WRITABLE_PATHS[*]} belong to another user, fixing them with sudo..."
+        sudo bash -c "WEB_GROUP=$WEB_GROUP; $(declare -f fix_writable_permissions); fix_writable_permissions ${WRITABLE_PATHS[*]}"
+    else
+        echo "Warning: some files in ${WRITABLE_PATHS[*]} belong to another user and keep their permissions." >&2
+    fi
 fi
 
 # Compiled views must be owned by the web server user: Blade touch()es them with

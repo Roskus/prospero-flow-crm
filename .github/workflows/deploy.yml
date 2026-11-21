@@ -1,18 +1,14 @@
 name: Deploy to production
 
-# Deploys main after the "Tests" workflow passes on it (a merged pull request is a push
-# to main too), so tests run once and a red build never reaches production.
-# It can also be launched by hand from the Actions tab.
+# Manual only: Actions > Deploy to production > Run workflow, on the main branch.
+# It deploys the commit main points to at that moment, once its "Tests" run passed.
 on:
-  workflow_run:
-    workflows: [Tests]
-    types: [completed]
-    branches: [main]
   workflow_dispatch:
 
-# The job token only needs to read the code.
+# Read the code and the result of the Tests workflow, nothing else.
 permissions:
   contents: read
+  actions: read
 
 # Never run two deploys at once; a newer one waits for the running one.
 concurrency:
@@ -22,25 +18,38 @@ concurrency:
 jobs:
   deploy:
     name: Deploy
-    # Only pushes to main whose tests passed; manual runs deploy the current main.
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
-    # Self-hosted runner installed on the production VPS. It runs as the user that
-    # owns the code, which deploy.sh requires (it refuses to run as root).
+    if: github.ref == 'refs/heads/main'
+    # Self-hosted runner on the production VPS (obi-wan), running as the user "deploy":
+    # it owns the code and shares the www-data group with PHP-FPM. deploy.sh refuses root.
     runs-on: self-hosted
     timeout-minutes: 20
     environment: production
     defaults:
       run:
-        # Directory of the site on the VPS. Override it with a repository
-        # variable named APP_PATH (Settings > Secrets and variables > Actions).
-        working-directory: ${{ vars.APP_PATH || '/var/www/prospero-flow-crm' }}
+        # Directory of the site on the VPS: the APP_PATH variable of the "production"
+        # environment (Settings > Environments), with the current path as fallback.
+        working-directory: ${{ vars.APP_PATH || '/var/www/crm.prosperoflow.com' }}
     env:
-      # The commit the Tests workflow checked, or the latest main on a manual run.
-      DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      DEPLOY_SHA: ${{ github.sha }}
     steps:
-      - name: Update code to the tested commit
+      - name: Check the tests of this commit passed
+        # Looks up the "Tests" runs of the commit through the API with the job token;
+        # PHP parses the JSON because it is always installed on the server.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          runs=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/tests.yml/runs?head_sha=$DEPLOY_SHA&per_page=20")
+          conclusion=$(printf '%s' "$runs" | php -r '
+            $runs = json_decode(stream_get_contents(STDIN), true)["workflow_runs"] ?? [];
+            echo $runs[0]["conclusion"] ?? "missing";')
+          if [ "$conclusion" != "success" ]; then
+            echo "::error::Tests for ${DEPLOY_SHA} are '${conclusion}', not 'success'. Wait for them to pass before deploying."
+            exit 1
+          fi
+          echo "Tests passed for ${DEPLOY_SHA}"
+
+      - name: Update code to that commit
         # Authenticates with the job's temporary token instead of an SSH key. The token
         # is passed as a header for this command only, so it is never written to
         # .git/config, and it expires when the job ends. --ff-only refuses to deploy if
@@ -55,7 +64,7 @@ jobs:
 
       - name: Run deploy script
         # deploy.sh holds every deploy step (dependencies, migrations, seeders, API docs,
-        # permissions, binaries, Sentry release); the code is already updated above.
+        # permissions, binaries, Sentry release, queue restart); the code is already updated.
         env:
           SKIP_GIT_PULL: '1'
         run: ./deploy.sh
