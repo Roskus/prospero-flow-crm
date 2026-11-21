@@ -15,7 +15,8 @@
         <div class="col">
             <form method="get" action="{{ route('asset.index', $category->value) }}" class="row g-2 justify-content-end">
                 <div class="col-md-3">
-                    <input type="search" name="search" value="{{ request('search') }}" placeholder="{{ $isVehicle ? __('Code, name, plate...') : __('Code, name, hostname, IMEI, number...') }}" class="form-control">
+                    <label for="search" class="visually-hidden">{{ __('Search') }}</label>
+                    <input type="search" name="search" id="search" value="{{ request('search') }}" placeholder="{{ $isVehicle ? __('Code, name, plate...') : __('Code, name, hostname, IMEI, number...') }}" class="form-control">
                 </div>
                 <div class="col-md-2">
                     <select name="type" class="form-select" aria-label="{{ __('Type') }}">

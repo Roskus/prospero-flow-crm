@@ -41,8 +41,8 @@ class AssetTest extends TestCase
 
         $this->assertSame($luis->id, $asset->currentAssignment->user_id);
         $this->assertCount(2, $asset->assignments);
-        $this->assertSame([$asset->id], Asset::assignedTo($luis->id)->pluck('id')->all());
-        $this->assertSame([], Asset::assignedTo($ana->id)->pluck('id')->all());
+        $this->assertSame([$asset->id], Asset::query()->assignedTo($luis->id)->pluck('id')->all());
+        $this->assertSame([], Asset::query()->assignedTo($ana->id)->pluck('id')->all());
     }
 
     #[Test]

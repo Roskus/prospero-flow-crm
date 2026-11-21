@@ -247,7 +247,8 @@
                                     @error('end_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="mb-2">
-                                    <textarea name="notes" rows="2" maxlength="2000" placeholder="{{ __('Notes') }}" class="form-control form-control-sm"></textarea>
+                                    <label for="return_notes" class="visually-hidden">{{ __('Notes') }}</label>
+                                    <textarea name="notes" id="return_notes" rows="2" maxlength="2000" placeholder="{{ __('Notes') }}" class="form-control form-control-sm"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-outline-primary"><i class="las la-undo"></i> {{ __('Return') }}</button>
                             </form>
@@ -273,7 +274,8 @@
                                         <input type="date" name="start_date" id="start_date" value="{{ old('start_date', today()->toDateString()) }}" class="form-control form-control-sm">
                                     </div>
                                     <div class="mb-2">
-                                        <textarea name="notes" rows="2" maxlength="2000" placeholder="{{ __('Notes') }}" class="form-control form-control-sm"></textarea>
+                                        <label for="assign_notes" class="visually-hidden">{{ __('Notes') }}</label>
+                                        <textarea name="notes" id="assign_notes" rows="2" maxlength="2000" placeholder="{{ __('Notes') }}" class="form-control form-control-sm"></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-sm btn-primary"><i class="las la-user-check"></i> {{ __('Assign') }}</button>
                                 </form>
