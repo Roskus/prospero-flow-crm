@@ -13,7 +13,7 @@ class CarrierIndexController extends MainController
 {
     public function index(): View
     {
-        $carriers = Carrier::ofCompany((int) Auth::user()->company_id)
+        $carriers = Carrier::query()->ofCompany((int) Auth::user()->company_id)
             ->with('country')
             ->withCount('devices')
             ->orderBy('country_id')

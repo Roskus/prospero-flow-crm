@@ -14,7 +14,7 @@ class AssetUpdateController extends MainController
 {
     public function update(int $id, AssetService $assetService): View
     {
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->with('vehicle', 'device')->findOrFail($id);
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->with('vehicle', 'device')->findOrFail($id);
 
         return view('asset.asset', $assetService->formData($asset));
     }

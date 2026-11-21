@@ -6,8 +6,10 @@ namespace Database\Seeders;
 
 use App\Models\Carrier;
 use App\Models\Company;
+use App\Services\AssetService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Loads the mobile carriers of each company's country into its catalog.
@@ -81,7 +83,19 @@ class CarrierSeeder extends Seeder
             ->each(fn (Company $company) => $this->seedCompany($company));
     }
 
+    /**
+     * Runs under the same company lock as the carrier form, so a deploy seeding while a user
+     * saves a carrier cannot create the same carrier twice.
+     */
     public function seedCompany(Company $company): void
+    {
+        DB::transaction(function () use ($company): void {
+            app(AssetService::class)->lockCompany($company->id);
+            $this->seedLockedCompany($company);
+        });
+    }
+
+    private function seedLockedCompany(Company $company): void
     {
         $countryId = strtolower((string) $company->country_id);
         $existing = Carrier::withTrashed()

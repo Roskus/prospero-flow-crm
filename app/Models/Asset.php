@@ -264,6 +264,14 @@ class Asset extends Model
     }
 
     /**
+     * Cache-busting version of the photo URL: every upload is stored under a new file name.
+     */
+    public function photoVersion(): string
+    {
+        return substr(md5((string) $this->photo_path), 0, 12);
+    }
+
+    /**
      * Due dates that feed the expiry indicators, keyed by their label.
      *
      * @return array<string, Carbon>

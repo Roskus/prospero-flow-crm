@@ -25,16 +25,16 @@ class CarrierSeederTest extends TestCase
         $this->seed(CarrierSeeder::class);
         $this->seed(CarrierSeeder::class);
 
-        $carriers = Carrier::ofCompany($spanish->id)->get();
+        $carriers = Carrier::query()->ofCompany($spanish->id)->get();
         $this->assertCount(count(CarrierSeeder::CARRIERS['es']), $carriers);
         $this->assertTrue($carriers->every(fn (Carrier $carrier): bool => $carrier->country_id === 'es'));
         $this->assertTrue($carriers->contains('name', 'Movistar'));
-        $this->assertEqualsCanonicalizing(['Claro', 'Personal', 'Movistar', 'Tuenti'], Carrier::ofCompany($argentine->id)->pluck('name')->all());
-        $this->assertSame(['ar'], Carrier::ofCompany($argentine->id)->distinct()->pluck('country_id')->all());
-        $this->assertEqualsCanonicalizing(['Telcel', 'AT&T', 'Movistar'], Carrier::ofCompany($mexican->id)->pluck('name')->all());
-        $this->assertSame(count(CarrierSeeder::CARRIERS['gb']), Carrier::ofCompany($british->id)->where('country_id', 'gb')->count());
-        $this->assertEqualsCanonicalizing(['+Móvil', 'Tigo'], Carrier::ofCompany($panamanian->id)->pluck('name')->all());
-        $this->assertSame(0, Carrier::ofCompany($french->id)->count());
+        $this->assertEqualsCanonicalizing(['Claro', 'Personal', 'Movistar', 'Tuenti'], Carrier::query()->ofCompany($argentine->id)->pluck('name')->all());
+        $this->assertSame(['ar'], Carrier::query()->ofCompany($argentine->id)->distinct()->pluck('country_id')->all());
+        $this->assertEqualsCanonicalizing(['Telcel', 'AT&T', 'Movistar'], Carrier::query()->ofCompany($mexican->id)->pluck('name')->all());
+        $this->assertSame(count(CarrierSeeder::CARRIERS['gb']), Carrier::query()->ofCompany($british->id)->where('country_id', 'gb')->count());
+        $this->assertEqualsCanonicalizing(['+Móvil', 'Tigo'], Carrier::query()->ofCompany($panamanian->id)->pluck('name')->all());
+        $this->assertSame(0, Carrier::query()->ofCompany($french->id)->count());
     }
 
     #[Test]
@@ -46,10 +46,10 @@ class CarrierSeederTest extends TestCase
 
         (new CarrierSeeder)->seedCompany($company);
 
-        $this->assertSame(1, Carrier::ofCompany($company->id)->whereIn('name', ['Movistar', 'MOVISTAR'])->count());
-        $this->assertSame('1004', Carrier::ofCompany($company->id)->where('name', 'MOVISTAR')->value('phone'));
-        $this->assertFalse(Carrier::ofCompany($company->id)->where('name', 'Vodafone')->exists());
-        $this->assertSame(count(CarrierSeeder::CARRIERS['es']) - 2, Carrier::ofCompany($company->id)->whereNotIn('name', ['MOVISTAR'])->count());
+        $this->assertSame(1, Carrier::query()->ofCompany($company->id)->whereIn('name', ['Movistar', 'MOVISTAR'])->count());
+        $this->assertSame('1004', Carrier::query()->ofCompany($company->id)->where('name', 'MOVISTAR')->value('phone'));
+        $this->assertFalse(Carrier::query()->ofCompany($company->id)->where('name', 'Vodafone')->exists());
+        $this->assertSame(count(CarrierSeeder::CARRIERS['es']) - 2, Carrier::query()->ofCompany($company->id)->whereNotIn('name', ['MOVISTAR'])->count());
     }
 
     #[Test]
@@ -60,7 +60,7 @@ class CarrierSeederTest extends TestCase
 
         (new CarrierSeeder)->seedCompany($company);
 
-        $this->assertTrue(Carrier::ofCompany($company->id)->where('name', 'Movistar')->where('country_id', 'es')->exists());
-        $this->assertSame(2, Carrier::ofCompany($company->id)->where('name', 'Movistar')->count());
+        $this->assertTrue(Carrier::query()->ofCompany($company->id)->where('name', 'Movistar')->where('country_id', 'es')->exists());
+        $this->assertSame(2, Carrier::query()->ofCompany($company->id)->where('name', 'Movistar')->count());
     }
 }

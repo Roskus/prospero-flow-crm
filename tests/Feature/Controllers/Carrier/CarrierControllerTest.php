@@ -96,7 +96,7 @@ class CarrierControllerTest extends TestCase
         $this->post('/carrier/save', ['id' => $spanish->id, 'name' => 'Movistar', 'country_id' => 'ar'])->assertSessionHasErrors('name');
         $this->post('/carrier/save', ['id' => $spanish->id, 'name' => 'Movistar', 'country_id' => 'es', 'phone' => '1004'])->assertSessionHasNoErrors();
 
-        $this->assertSame(3, Carrier::ofCompany($this->user->company_id)->where('name', 'Movistar')->count());
+        $this->assertSame(3, Carrier::query()->ofCompany($this->user->company_id)->where('name', 'Movistar')->count());
     }
 
     #[Test]

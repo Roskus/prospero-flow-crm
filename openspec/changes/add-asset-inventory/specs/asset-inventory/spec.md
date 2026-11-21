@@ -29,7 +29,7 @@ Every asset SHALL store a name and an internal code, and MAY store brand, model,
 - **THEN** the save is rejected with a validation error on the missing field
 
 ### Requirement: Asset code unique per company
-The internal code SHALL be unique among the non-deleted assets of the same company and SHALL only contain uppercase letters, digits and hyphens, so it can be printed as a Code 128 barcode and a QR code. Different companies MAY reuse the same code.
+The internal code SHALL be unique among all the assets of the same company, deleted ones included, and SHALL only contain uppercase letters, digits and hyphens, so it can be printed as a Code 128 barcode and a QR code. Different companies MAY reuse the same code.
 
 #### Scenario: Duplicate code in the same company
 - **WHEN** a user saves an asset with a code already used by another asset of their company
@@ -291,7 +291,7 @@ A user with `delete asset` permission SHALL be able to delete an asset. Deletion
 
 #### Scenario: Delete
 - **WHEN** a user with `delete asset` permission deletes an asset
-- **THEN** the asset disappears from the listings and its code becomes available for reuse
+- **THEN** the asset disappears from the listings and its code stays reserved, so its label never opens another asset
 
 ### Requirement: Permissions
 Inventory actions SHALL require permissions: `read asset` to view, `create asset` to create, `update asset` to edit, assign and log maintenance, `delete asset` to delete. The Inventory menu SHALL be shown only to users with `read asset`.

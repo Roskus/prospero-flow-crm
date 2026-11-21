@@ -16,7 +16,7 @@ class CarrierDeleteController extends MainController
      */
     public function delete(int $id): RedirectResponse
     {
-        Carrier::ofCompany((int) Auth::user()->company_id)->findOrFail($id)->delete();
+        Carrier::query()->ofCompany((int) Auth::user()->company_id)->findOrFail($id)->delete();
 
         return redirect('/carrier')->with(['status' => 'success', 'message' => __('Carrier deleted successfully')]);
     }

@@ -38,7 +38,8 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->index(['company_id', 'category', 'status']);
-            $table->index(['company_id', 'code']);
+            // Codes are never reused, not even after a soft delete: they may be printed on labels.
+            $table->unique(['company_id', 'code']);
         });
     }
 

@@ -62,9 +62,9 @@ class AssetService
 
         return [
             'asset' => $asset,
-            'branches' => Branch::ofCompany($company->id)->orderBy('name')->get(['id', 'name']),
+            'branches' => Branch::query()->ofCompany($company->id)->orderBy('name')->get(['id', 'name']),
             'suppliers' => Supplier::where('company_id', $company->id)->orderBy('name')->get(['id', 'name']),
-            'carriers' => Carrier::ofCompany($company->id)->orderBy('name')->get(['id', 'name']),
+            'carriers' => Carrier::query()->ofCompany($company->id)->orderBy('name')->get(['id', 'name']),
             'users' => User::where('company_id', $company->id)->where('active', true)->orderBy('first_name')->orderBy('last_name')->get(['id', 'first_name', 'last_name']),
             'currencies' => $company->usableCurrencies(array_filter([$asset->currency])),
         ];
@@ -252,6 +252,11 @@ class AssetService
             Asset::query()->whereKey($assignment->asset_id)->lockForUpdate()->first();
             $assignment = AssetAssignment::query()->findOrFail($assignment->id);
 
+            // The asset may have been returned after the form was validated as an open assignment.
+            if (! $assignment->isOpen() && empty($data['end_date'])) {
+                throw ValidationException::withMessages(['end_date' => __('The assignment changed meanwhile. Reload the page and try again.')]);
+            }
+
             $start = Carbon::parse((string) $data['start_date'])->startOfDay();
             $end = $assignment->isOpen() ? null : Carbon::parse((string) $data['end_date'])->startOfDay();
 
@@ -282,19 +287,20 @@ class AssetService
 
     /**
      * Repeats the code and IMEI uniqueness checks under the company lock: the form request checks
-     * them first, but two concurrent saves (a double submit) could both pass that check.
+     * them first, but two concurrent saves (a double submit) could both pass that check. Codes of
+     * deleted assets stay taken, so an old label never opens another asset.
      *
      * @param  array<string, mixed>  $data
      */
     private function ensureUniqueIdentifiers(Asset $asset, array $data, int $companyId): void
     {
-        $codeTaken = Asset::ofCompany($companyId)
+        $codeTaken = Asset::withTrashed()->ofCompany($companyId)
             ->where('code', $data['code'] ?? $asset->code)
             ->when($asset->exists, fn (Builder $query) => $query->whereKeyNot($asset->id))
             ->exists();
 
         if ($codeTaken) {
-            throw ValidationException::withMessages(['code' => __('An asset with this code already exists.')]);
+            throw ValidationException::withMessages(['code' => __('This code is already used by another asset, or was used by a deleted one.')]);
         }
 
         if (empty($data['imei'])) {

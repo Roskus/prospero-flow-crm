@@ -15,7 +15,7 @@ class AssetAssignController extends MainController
 {
     public function assign(AssetAssignRequest $request, int $id, AssetService $assetService): RedirectResponse
     {
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->findOrFail($id);
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->findOrFail($id);
         $data = $request->validated();
 
         $assetService->assign($asset, (int) $data['user_id'], $data['start_date'] ?? null, $data['notes'] ?? null, (int) Auth::id());

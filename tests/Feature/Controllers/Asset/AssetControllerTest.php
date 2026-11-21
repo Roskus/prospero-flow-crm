@@ -129,14 +129,14 @@ class AssetControllerTest extends TestCase
     }
 
     #[Test]
-    public function the_code_is_unique_among_the_non_deleted_assets_of_the_company(): void
+    public function the_code_is_never_reused_in_the_company_even_after_a_delete(): void
     {
         Asset::factory()->forCompany($this->user->company_id)->create(['code' => 'DUP-1']);
         Asset::factory()->forCompany($this->user->company_id)->create(['code' => 'DEL-1'])->delete();
         Asset::factory()->create(['code' => 'OTHER-1']);
 
         $this->post('/inventory/save', $this->vehicleData(['code' => 'DUP-1']))->assertSessionHasErrors('code');
-        $this->post('/inventory/save', $this->vehicleData(['code' => 'DEL-1']))->assertSessionHasNoErrors();
+        $this->post('/inventory/save', $this->vehicleData(['code' => 'DEL-1']))->assertSessionHasErrors('code');
         $this->post('/inventory/save', $this->vehicleData(['code' => 'OTHER-1']))->assertSessionHasNoErrors();
     }
 
@@ -186,7 +186,7 @@ class AssetControllerTest extends TestCase
         Asset::factory()->device(AssetType::Mobile, ['imei' => '356938035643809'])->create();
 
         $this->post('/inventory/save', $this->mobileData())->assertSessionHasNoErrors();
-        $mine = Asset::ofCompany($this->user->company_id)->firstOrFail();
+        $mine = Asset::query()->ofCompany($this->user->company_id)->firstOrFail();
         $this->post('/inventory/save', $this->mobileData(['id' => $mine->id, 'name' => 'Renamed']))->assertSessionHasNoErrors();
     }
 
@@ -478,14 +478,15 @@ class AssetControllerTest extends TestCase
     }
 
     #[Test]
-    public function deleting_is_soft_and_frees_the_code(): void
+    public function deleting_is_soft_and_keeps_the_code_reserved(): void
     {
         $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create(['code' => 'CAR-1']);
 
         $this->delete('/inventory/delete/'.$asset->id)->assertRedirect(route('asset.index', 'vehicle'));
 
         $this->assertSoftDeleted($asset);
-        $this->post('/inventory/save', $this->vehicleData(['code' => 'CAR-1']))->assertSessionHasNoErrors();
+        $this->get(route('asset.code', 'CAR-1'))->assertNotFound();
+        $this->post('/inventory/save', $this->vehicleData(['code' => 'CAR-1']))->assertSessionHasErrors('code');
     }
 
     #[Test]
@@ -573,6 +574,9 @@ class AssetControllerTest extends TestCase
     {
         $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create(['photo_path' => 'asset/1/photo.jpg']);
 
-        $this->get(route('asset.show', $asset->id))->assertSee(route('asset.photo', $asset->id).'?v='.$asset->updated_at->timestamp.'" target="_blank"', false);
+        $this->get(route('asset.show', $asset->id))->assertSee(route('asset.photo', $asset->id).'?v='.$asset->photoVersion().'" target="_blank"', false);
+
+        $asset->photo_path = 'asset/1/other.jpg';
+        $this->assertNotSame(substr(md5('asset/1/photo.jpg'), 0, 12), $asset->photoVersion());
     }
 }

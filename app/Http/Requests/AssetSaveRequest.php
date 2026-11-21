@@ -45,7 +45,7 @@ class AssetSaveRequest extends FormRequest
         $this->prepareCurrency();
 
         if ($this->filled('id')) {
-            $this->editedAsset = Asset::ofCompany($this->companyId())->with('vehicle', 'device', 'currentAssignment')->findOrFail($this->integer('id'));
+            $this->editedAsset = Asset::query()->ofCompany($this->companyId())->with('vehicle', 'device', 'currentAssignment')->findOrFail($this->integer('id'));
             $this->merge(['category' => $this->editedAsset->category->value]);
         }
 
@@ -100,7 +100,6 @@ class AssetSaveRequest extends FormRequest
                 $this->unchangedCodeRule(),
                 Rule::unique('asset', 'code')
                     ->where('company_id', $this->companyId())
-                    ->whereNull('deleted_at')
                     ->ignore($this->editedAsset?->id),
             ],
             'name' => ['required', 'string', 'max:255'],
@@ -199,7 +198,7 @@ class AssetSaveRequest extends FormRequest
                 return;
             }
 
-            if (! Carrier::ofCompany($this->companyId())->whereKey((int) $value)->exists()) {
+            if (! Carrier::query()->ofCompany($this->companyId())->whereKey((int) $value)->exists()) {
                 $fail(__('The selected carrier is not valid.'));
             }
         };
@@ -255,7 +254,7 @@ class AssetSaveRequest extends FormRequest
             'type.in' => __('The type is not valid for this category.'),
             'assigned_user_id.required_if' => __('Select the user who receives the asset.'),
             'rental_ends_at.after_or_equal' => __('The renting end date cannot be earlier than its start date.'),
-            'code.unique' => __('An asset with this code already exists.'),
+            'code.unique' => __('This code is already used by another asset, or was used by a deleted one.'),
             'code.regex' => __('The code can only have letters, numbers and hyphens.'),
             'mac_address.regex' => __('The MAC address format is not valid.'),
             'ip_address.ip' => __('The IP address is not valid.'),

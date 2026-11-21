@@ -31,9 +31,9 @@ class CarrierSaveController extends MainController
 
             $carrier = empty($data['id'])
                 ? new Carrier
-                : Carrier::ofCompany($companyId)->findOrFail($data['id']);
+                : Carrier::query()->ofCompany($companyId)->findOrFail($data['id']);
 
-            $nameTaken = Carrier::ofCompany($companyId)
+            $nameTaken = Carrier::query()->ofCompany($companyId)
                 ->where('name', $data['name'])
                 ->where(fn (Builder $query) => empty($data['country_id'])
                     ? $query->whereNull('country_id')

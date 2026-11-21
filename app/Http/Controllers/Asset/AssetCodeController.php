@@ -16,7 +16,7 @@ class AssetCodeController extends MainController
      */
     public function show(string $code): RedirectResponse
     {
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->where('code', strtoupper($code))->firstOrFail();
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->where('code', strtoupper($code))->firstOrFail();
 
         return redirect()->route('asset.show', $asset->id);
     }

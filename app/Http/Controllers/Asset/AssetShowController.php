@@ -15,7 +15,7 @@ class AssetShowController extends MainController
     public function show(int $id): View
     {
         $companyId = (int) Auth::user()->company_id;
-        $asset = Asset::ofCompany($companyId)
+        $asset = Asset::query()->ofCompany($companyId)
             ->with([
                 'vehicle',
                 'device.carrier',

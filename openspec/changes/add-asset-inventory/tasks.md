@@ -25,7 +25,7 @@
 - [x] 4.4 Add optional photo: `photo`/`remove_photo` validation (image, jpg/png/webp, max 5 MB, `ExtensionMatchesContent`), storage on private disk under `asset/{company_id}/`, replace/remove deleting the old file, `AssetPhotoController` serving it company-scoped, thumbnail with category placeholder in listings and detail; verify with `Storage::fake()` feature tests for upload, replace, remove, invalid file and cross-company 404
 - [x] 4.5 Implement `AssetIndexController` per category with filters (type, status, branch, assigned user, expiring soon, search incl. plate/hostname/IMEI/carrier/mobile number), default exclusion of retired, eager loading, pagination and expiry badges; verify feature tests for each listing/filter scenario
 - [x] 4.6 Implement `expiringSoon()` scope and `expiryState()` helper on `Asset` (30-day window, expired vs expiring); verify unit/feature tests for expired, expiring and fine dates
-- [x] 4.7 Implement `AssetShowController` (detail with category data, current holder, assignment and maintenance history) and `AssetDeleteController` (soft delete); verify feature tests for show, delete and code reuse after delete
+- [x] 4.7 Implement `AssetShowController` (detail with category data, current holder, assignment and maintenance history) and `AssetDeleteController` (soft delete); verify feature tests for show, delete and that a deleted asset's code stays reserved
 - [x] 4.8 Verify permission tests: forbidden responses for each route without the matching permission
 
 ## 5. Assignment

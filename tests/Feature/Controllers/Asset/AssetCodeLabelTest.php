@@ -118,12 +118,16 @@ class AssetCodeLabelTest extends TestCase
     }
 
     #[Test]
-    public function hand_typed_huge_sequences_do_not_break_the_generator(): void
+    public function long_sequences_keep_counting_without_overflow_or_repeats(): void
     {
-        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-9223372036854775807']);
-        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-00041']);
+        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-999999999']);
+        $this->getJson('/inventory/code/next?type=mobile')->assertExactJson(['code' => 'MOB-1000000000']);
 
-        $this->getJson('/inventory/code/next?type=mobile')->assertExactJson(['code' => 'MOB-00042']);
+        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-1000000000']);
+        $this->getJson('/inventory/code/next?type=mobile')->assertExactJson(['code' => 'MOB-1000000001']);
+
+        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-9223372036854775807']);
+        $this->getJson('/inventory/code/next?type=mobile')->assertExactJson(['code' => 'MOB-9223372036854775808']);
     }
 
     #[Test]

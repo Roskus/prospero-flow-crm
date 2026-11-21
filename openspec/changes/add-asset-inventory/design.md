@@ -52,7 +52,7 @@ The edit form offers every status. `assigned` requires a holder (`assigned_user_
 "Expiring soon" window = 30 days, constant on the model. Computed in a query scope `expiringSoon()` over `asset_vehicle.insurance_expires_at`, `asset_vehicle.inspection_expires_at`, `asset.warranty_until` and `asset.next_maintenance_at`. `next_maintenance_at` is denormalized on `asset` and recalculated whenever a maintenance record is created, updated or deleted (latest record by date), so the scope stays a simple indexed query.
 
 ### D7: Code uniqueness
-Unique index `(company_id, code, deleted_at)` is unreliable with NULLs in MySQL, so uniqueness is enforced in the Form Request (`Rule::unique('asset')->where(company_id)->whereNull('deleted_at')->ignore($id)`), plus a non-unique index on `(company_id, code)`.
+Codes are never reused, not even after a soft delete, because they may be printed on labels. That makes a plain unique index `(company_id, code)` possible. The Form Request checks it first for a friendly error, the save repeats the check under the company lock, and the index is the last guard.
 
 ### D12: Codes, barcodes and labels
 Codes match `^[A-Z0-9-]+$`, readable by any scanner keyboard layout and valid in Code 128 and in a URL. `AssetCodeService` generates `PREFIX-00001` per type (max numeric suffix including soft-deleted assets), resolves scans (plain code or `/inventory/code/{code}` URL) and renders SVGs: Code 128 with the existing `picqer/php-barcode-generator`, QR with `bacon/bacon-qr-code` (added, approved by the user). The QR holds the absolute `asset.code` URL so a phone opens the asset after login; it depends on `APP_URL`. Labels are a standalone printable page at 62 × 29 mm, the common thermal roll size.

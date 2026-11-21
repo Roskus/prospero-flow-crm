@@ -16,7 +16,7 @@ class AssetDeleteController extends MainController
      */
     public function delete(int $id): RedirectResponse
     {
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->findOrFail($id);
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->findOrFail($id);
         $asset->delete();
 
         return redirect()->route('asset.index', $asset->category->value)

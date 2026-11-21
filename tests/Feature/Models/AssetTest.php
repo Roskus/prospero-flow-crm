@@ -77,7 +77,7 @@ class AssetTest extends TestCase
 
         $this->assertSame(Asset::EXPIRING, $endingSoon->expiryState());
         $this->assertNull($endingLater->expiryState());
-        $this->assertSame([$endingSoon->id], Asset::ofCompany($this->user->company_id)->expiringSoon()->pluck('id')->all());
+        $this->assertSame([$endingSoon->id], Asset::query()->ofCompany($this->user->company_id)->expiringSoon()->pluck('id')->all());
     }
 
     #[Test]

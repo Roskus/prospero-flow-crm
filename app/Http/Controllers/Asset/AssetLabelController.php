@@ -22,7 +22,7 @@ class AssetLabelController extends MainController
      */
     public function show(Request $request, int $id, AssetCodeService $assetCodeService): View
     {
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->with('company')->findOrFail($id);
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->with('company')->findOrFail($id);
         $format = $request->query('format') === self::QR ? self::QR : self::BARCODE;
 
         return view('asset.label', [

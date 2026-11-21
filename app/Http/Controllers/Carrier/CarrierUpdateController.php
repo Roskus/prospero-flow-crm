@@ -14,7 +14,7 @@ class CarrierUpdateController extends MainController
 {
     public function update(int $id): View
     {
-        $carrier = Carrier::ofCompany((int) Auth::user()->company_id)->findOrFail($id);
+        $carrier = Carrier::query()->ofCompany((int) Auth::user()->company_id)->findOrFail($id);
 
         return view('carrier.carrier', [
             'carrier' => $carrier,

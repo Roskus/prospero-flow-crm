@@ -808,5 +808,7 @@
     "A carrier with this name already exists in this country." : "A carrier with this name already exists in this country.",
     "The code cannot be changed once the asset is created." : "The code cannot be changed once the asset is created.",
     "Fixed: it may be printed on labels." : "Fixed: it may be printed on labels.",
-    "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later." : "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later."
+    "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later." : "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later.",
+    "The assignment changed meanwhile. Reload the page and try again." : "The assignment changed meanwhile. Reload the page and try again.",
+    "This code is already used by another asset, or was used by a deleted one." : "This code is already used by another asset, or was used by a deleted one."
 }

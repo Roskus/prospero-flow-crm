@@ -17,7 +17,7 @@ class AssetMaintenanceSaveController extends MainController
     public function save(AssetMaintenanceSaveRequest $request, AssetService $assetService): RedirectResponse
     {
         $data = $request->validated();
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->with('vehicle')->findOrFail($data['asset_id']);
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->with('vehicle')->findOrFail($data['asset_id']);
         $maintenance = empty($data['id'])
             ? new AssetMaintenance
             : $asset->maintenances()->findOrFail($data['id']);

@@ -15,7 +15,7 @@ class AssetReturnController extends MainController
 {
     public function return(AssetReturnRequest $request, int $id, AssetService $assetService): RedirectResponse
     {
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->findOrFail($id);
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->findOrFail($id);
         $data = $request->validated();
 
         $assetService->return($asset, $data['end_date'] ?? null, $data['notes'] ?? null);

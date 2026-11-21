@@ -29,7 +29,7 @@ class AssetIndexController extends MainController
         $assetCategory = AssetCategory::from($category);
 
         if ($request->filled('search')) {
-            $scanned = Asset::ofCompany($companyId)->where('code', $assetCodeService->codeFromScan((string) $request->query('search')))->first(['id']);
+            $scanned = Asset::query()->ofCompany($companyId)->where('code', $assetCodeService->codeFromScan((string) $request->query('search')))->first(['id']);
 
             if ($scanned !== null) {
                 return redirect()->route('asset.show', $scanned->id);
@@ -37,7 +37,7 @@ class AssetIndexController extends MainController
         }
         $status = AssetStatus::tryFrom((string) $request->query('status'));
 
-        $query = Asset::ofCompany($companyId)
+        $query = Asset::query()->ofCompany($companyId)
             ->ofCategory($assetCategory)
             ->with(['branch', 'currentAssignment.user', $assetCategory === AssetCategory::Vehicle ? 'vehicle' : 'device.carrier']);
 
@@ -70,7 +70,7 @@ class AssetIndexController extends MainController
         return view('asset.index', [
             'category' => $assetCategory,
             'assets' => $query->orderBy('code')->paginate(25)->withQueryString(),
-            'branches' => Branch::ofCompany($companyId)->orderBy('name')->get(['id', 'name']),
+            'branches' => Branch::query()->ofCompany($companyId)->orderBy('name')->get(['id', 'name']),
             'users' => User::where('company_id', $companyId)->orderBy('first_name')->orderBy('last_name')->get(['id', 'first_name', 'last_name']),
         ]);
     }

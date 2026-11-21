@@ -18,7 +18,7 @@ class AssetPhotoController extends MainController
      */
     public function show(int $id): StreamedResponse
     {
-        $asset = Asset::ofCompany((int) Auth::user()->company_id)->findOrFail($id);
+        $asset = Asset::query()->ofCompany((int) Auth::user()->company_id)->findOrFail($id);
         $disk = Storage::disk(AssetService::PHOTO_DISK);
 
         abort_unless($asset->hasPhoto() && $disk->exists($asset->photo_path), 404);

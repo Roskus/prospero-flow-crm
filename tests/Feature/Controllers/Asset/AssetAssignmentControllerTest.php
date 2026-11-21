@@ -8,6 +8,8 @@ use App\Enums\AssetStatus;
 use App\Models\Asset;
 use App\Models\AssetAssignment;
 use App\Models\User;
+use App\Services\AssetService;
+use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -267,5 +269,21 @@ class AssetAssignmentControllerTest extends TestCase
         $this->assertSame('2026-11-25', $assignments[0]->end_date->toDateString());
         $this->assertSame('2026-11-25', $assignments[1]->start_date->toDateString());
         $this->assertSame($newHolder->id, $assignments[1]->user_id);
+    }
+
+    #[Test]
+    public function an_edit_validated_while_open_fails_cleanly_if_the_asset_was_returned_meanwhile(): void
+    {
+        $holder = $this->colleague();
+        $asset = Asset::factory()->forCompany($this->user->company_id)->device()->assignedTo($holder)->create();
+        $assignment = $asset->currentAssignment()->firstOrFail();
+        $assignment->update(['end_date' => today()]);
+
+        try {
+            app(AssetService::class)->updateAssignment($assignment->fresh(), ['user_id' => $holder->id, 'start_date' => $assignment->start_date->toDateString()]);
+            $this->fail('A stale edit was saved.');
+        } catch (ValidationException $exception) {
+            $this->assertArrayHasKey('end_date', $exception->errors());
+        }
     }
 }

@@ -16,7 +16,7 @@ class AssetMaintenanceCreateController extends MainController
     public function create(int $assetId): View
     {
         $company = Auth::user()->company;
-        $asset = Asset::ofCompany($company->id)->with('vehicle')->findOrFail($assetId);
+        $asset = Asset::query()->ofCompany($company->id)->with('vehicle')->findOrFail($assetId);
 
         return view('asset.maintenance', [
             'asset' => $asset,
