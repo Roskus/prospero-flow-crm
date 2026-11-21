@@ -1,0 +1,82 @@
+name: Deploy to production
+
+# Manual only: Actions > Deploy to production > Run workflow, on the main branch.
+# It deploys the commit main points to at that moment, once its "Tests" run passed.
+on:
+  workflow_dispatch:
+
+# Read the code and the result of the Tests workflow, nothing else.
+permissions:
+  contents: read
+  actions: read
+
+# Never run two deploys at once; a newer one waits for the running one.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    if: github.ref == 'refs/heads/main'
+    # Self-hosted runner on the production VPS (obi-wan), running as the user "deploy":
+    # it owns the code and shares the www-data group with PHP-FPM. deploy.sh refuses root.
+    runs-on: self-hosted
+    timeout-minutes: 20
+    environment: production
+    defaults:
+      run:
+        # Directory of the site on the VPS: the APP_PATH variable of the "production"
+        # environment (Settings > Environments), with the current path as fallback.
+        working-directory: ${{ vars.APP_PATH || '/var/www/crm.prosperoflow.com' }}
+    env:
+      DEPLOY_SHA: ${{ github.sha }}
+    steps:
+      - name: Check the tests of this commit passed
+        # Looks up the "Tests" runs of the commit through the API with the job token;
+        # PHP parses the JSON because it is always installed on the server.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          runs=$(curl -fsSL --proto '=https' --tlsv1.2 -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/tests.yml/runs?head_sha=$DEPLOY_SHA&per_page=20")
+          conclusion=$(printf '%s' "$runs" | php -r '
+            $runs = json_decode(stream_get_contents(STDIN), true)["workflow_runs"] ?? [];
+            echo $runs[0]["conclusion"] ?? "missing";')
+          if [ "$conclusion" != "success" ]; then
+            echo "::error::Tests for ${DEPLOY_SHA} are '${conclusion}', not 'success'. Wait for them to pass before deploying."
+            exit 1
+          fi
+          echo "Tests passed for ${DEPLOY_SHA}"
+
+      - name: Update code to that commit
+        # Authenticates with the job's temporary token instead of an SSH key. The token
+        # is passed as a header for this command only, so it is never written to
+        # .git/config, and it expires when the job ends. --ff-only refuses to deploy if
+        # the server has local commits or the commit is not ahead of what is deployed.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Untested edits made on the server would survive the merge: refuse them.
+          # Ignored files such as .env are not tracked, so they are never checked or touched.
+          if ! git diff --quiet || ! git diff --cached --quiet; then
+            echo "::error::The server has uncommitted changes in tracked files. Commit or discard them first."
+            git status --short --untracked-files=no
+            exit 1
+          fi
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git -c http.extraheader="AUTHORIZATION: basic $auth" \
+            fetch "https://github.com/${{ github.repository }}.git" main
+          git merge --ff-only "$DEPLOY_SHA"
+          # A server checkout ahead of the commit would merge as "already up to date": refuse it.
+          if [ "$(git rev-parse HEAD)" != "$DEPLOY_SHA" ]; then
+            echo "::error::The server is at $(git rev-parse --short HEAD), not ${DEPLOY_SHA}. It has local commits."
+            exit 1
+          fi
+
+      - name: Run deploy script
+        # deploy.sh holds every deploy step (dependencies, migrations, seeders, API docs,
+        # permissions, binaries, Sentry release, queue restart); the code is already updated.
+        env:
+          SKIP_GIT_PULL: '1'
+        run: ./deploy.sh

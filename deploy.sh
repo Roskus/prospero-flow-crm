@@ -3,7 +3,7 @@
 set -euo pipefail
 
 if [ "$(id -u)" -eq 0 ]; then
-    echo "Do not run deploy.sh as root, run it as the project owner (e.g. ubuntu)." >&2
+    echo "Do not run deploy.sh as root, run it as the user that owns the code (deploy, in the www-data group)." >&2
     exit 1
 fi
 
@@ -39,9 +39,12 @@ install_binary() {
     "${SUDO[@]}" install -m 755 "$source" "$target"
 }
 
-git fetch
-# Update branch
-git pull origin main
+# Update branch. The GitHub Actions deploy updates the code itself, with a temporary
+# token and to the exact commit that passed the tests, and sets SKIP_GIT_PULL=1.
+if [ "${SKIP_GIT_PULL:-0}" != "1" ]; then
+    git fetch
+    git pull origin main
+fi
 
 # Install dependencies as the project owner (never as root)
 composer install --no-dev --optimize-autoloader --no-interaction
@@ -52,22 +55,37 @@ php artisan migrate --force
 # Sync roles and permissions (idempotent — safe to run on every deploy).
 # Roles first: PermissionSeeder assigns permissions to roles and fails if a role is missing.
 php artisan db:seed --class=RoleSeeder --force
+# Modules: upserted by unique name, so permissions keep pointing to the same module ids
+php artisan db:seed --class=ModuleSeeder --force
 php artisan db:seed --class=PermissionSeeder --force
+# Mobile carriers of each company country: only adds the missing ones, deleted carriers are not recreated
+php artisan db:seed --class=CarrierSeeder --force
 # Bank catalogue: upserted by a BIC-derived UUID, so existing bank accounts keep their bank
 php artisan db:seed --class=BankSeeder --force
 
 # Generate updated api doc
 php artisan l5-swagger:generate
 
+# Files created by PHP-FPM belong to www-data and can only be chmod-ed by their owner. By hand
+# they are fixed with sudo; the CI deploy only warns, so the deploy user needs no root shell
+# (the setgid directories and 0664 logs already give the www-data group write access).
 if ! fix_writable_permissions "${WRITABLE_PATHS[@]}" 2>/dev/null; then
-    echo "Some files in ${WRITABLE_PATHS[*]} belong to another user, fixing them with sudo..."
-    "${SUDO[@]}" bash -c "WEB_GROUP=$WEB_GROUP; $(declare -f fix_writable_permissions); fix_writable_permissions ${WRITABLE_PATHS[*]}"
+    if [ -t 0 ]; then
+        echo "Some files in ${WRITABLE_PATHS[*]} belong to another user, fixing them with sudo..."
+        sudo bash -c "WEB_GROUP=$WEB_GROUP; $(declare -f fix_writable_permissions); fix_writable_permissions ${WRITABLE_PATHS[*]}"
+    else
+        echo "Warning: some files in ${WRITABLE_PATHS[*]} belong to another user and keep their permissions." >&2
+    fi
 fi
 
 # Compiled views must be owned by the web server user: Blade touch()es them with
 # an explicit mtime, which only the file owner is allowed to do. Clear them so
 # www-data recompiles them on the next request.
 php artisan view:clear
+
+# Queue workers (MailSender is queued) keep the old code in memory: ask them to restart
+# after their current job. Harmless when no worker is running.
+php artisan queue:restart
 
 install_binary vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64
 install_binary vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
