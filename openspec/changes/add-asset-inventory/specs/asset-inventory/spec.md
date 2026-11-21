@@ -29,7 +29,7 @@ Every asset SHALL store a name and an internal code, and MAY store brand, model,
 - **THEN** the save is rejected with a validation error on the missing field
 
 ### Requirement: Asset code unique per company
-The internal code SHALL be unique among the non-deleted assets of the same company and SHALL only contain uppercase letters, digits and hyphens, so it can be printed as a Code 128 barcode and a QR code. Different companies MAY reuse the same code. The form SHALL offer a button that generates the next code of the selected type (type prefix plus a 5-digit sequence, e.g. `MOB-00001`), counting deleted assets so a printed label never points to another asset.
+The internal code SHALL be unique among the non-deleted assets of the same company and SHALL only contain uppercase letters, digits and hyphens, so it can be printed as a Code 128 barcode and a QR code. Different companies MAY reuse the same code.
 
 #### Scenario: Duplicate code in the same company
 - **WHEN** a user saves an asset with a code already used by another asset of their company
@@ -39,13 +39,20 @@ The internal code SHALL be unique among the non-deleted assets of the same compa
 - **WHEN** a user saves an asset with a code that only exists in a different company
 - **THEN** the asset is saved
 
+#### Scenario: Code with spaces
+- **WHEN** a user saves an asset with code `CAR 1`
+- **THEN** the save is rejected with a validation error on the code field
+
+### Requirement: Code generation and fixed codes
+The asset form SHALL offer a button that generates the next code of the selected type (type prefix plus a 5-digit sequence, e.g. `MOB-00001`), counting deleted assets. The code SHALL NOT change once the asset exists, so a printed label never points to another asset.
+
 #### Scenario: Generate code
 - **WHEN** a user picks type `mobile` and presses Generate, and the company already has `MOB-00007` (even deleted)
 - **THEN** the code field is filled with `MOB-00008`
 
-#### Scenario: Code with spaces
-- **WHEN** a user saves an asset with code `CAR 1`
-- **THEN** the save is rejected with a validation error on the code field
+#### Scenario: Code is fixed after creation
+- **WHEN** a user edits asset `CAR-00001` and changes its code to `CUSTOM`
+- **THEN** the save is rejected with a validation error on the code field, since the code may be printed on labels
 
 ### Requirement: Search by code and printed labels
 Searching an exact code in any asset listing, typed, read by a barcode scanner or as the URL of a label QR, SHALL open that asset of the company. The asset detail SHALL offer printing a 62 × 29 mm label with the code, name and company, either as a Code 128 barcode of the code or as a QR with the URL that opens the asset. The QR URL SHALL only resolve assets of the user's company.
@@ -162,14 +169,14 @@ A mobile or tablet line SHALL optionally store the SIM PIN (4 to 8 digits) and P
 - **THEN** the PIN and PUK are not shown
 
 ### Requirement: Carrier catalog
-Each company SHALL manage its own list of mobile carriers (name required and unique among the company's non-deleted carriers, optional ISO 3166-1 alpha-2 country defaulting to the company country, optional phone and website) from the Settings page. Listing requires `read asset`, creating and editing require `update asset`, deleting requires `delete asset`.
+Each company SHALL manage its own list of mobile carriers (name required, the name and country pair unique among the company's non-deleted carriers, optional ISO 3166-1 alpha-2 country defaulting to the company country, optional phone and website) from the Settings page. Listing requires `read asset`, creating and editing require `update asset`, deleting requires `delete asset`.
 
 #### Scenario: Create carrier
 - **WHEN** a user with `update asset` permission creates carrier `Movistar` in Settings
 - **THEN** `Movistar` appears in the carrier list and in the carrier selector of mobile devices
 
 #### Scenario: Duplicate carrier name
-- **WHEN** a user creates a carrier with a name already used by another carrier of their company
+- **WHEN** a user creates a carrier with a name already used by another carrier of their company in the same country
 - **THEN** the save is rejected with a validation error on the name field
 
 #### Scenario: Carriers of another company

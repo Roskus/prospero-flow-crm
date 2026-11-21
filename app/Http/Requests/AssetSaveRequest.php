@@ -12,6 +12,7 @@ use App\Enums\FuelType;
 use App\Http\Requests\Concerns\ValidatesCurrency;
 use App\Models\Asset;
 use App\Models\AssetDevice;
+use App\Models\Carrier;
 use App\Models\User;
 use App\Rules\ExtensionMatchesContent;
 use App\Services\AssetCodeService;
@@ -96,6 +97,7 @@ class AssetSaveRequest extends FormRequest
                 'string',
                 'max:50',
                 'regex:'.AssetCodeService::CODE_PATTERN,
+                $this->unchangedCodeRule(),
                 Rule::unique('asset', 'code')
                     ->where('company_id', $this->companyId())
                     ->whereNull('deleted_at')
@@ -165,13 +167,42 @@ class AssetSaveRequest extends FormRequest
 
         if ($type?->hasPhoneLine()) {
             $rules['imei'] = [$type->requiresImei() ? 'required' : 'nullable', 'digits:15', $this->uniqueImeiRule()];
-            $rules['carrier_id'] = ['nullable', 'integer', Rule::exists('carrier', 'id')->where('company_id', $this->companyId())->whereNull('deleted_at')];
+            $rules['carrier_id'] = ['nullable', 'integer', $this->carrierRule()];
             $rules['phone_number'] = ['nullable', 'string', 'max:30', 'regex:/^\+?[0-9]{3,20}$/'];
             $rules['sim_pin'] = ['nullable', 'digits_between:4,8'];
             $rules['sim_puk'] = ['nullable', 'digits:8'];
         }
 
         return $rules;
+    }
+
+    /**
+     * The code is fixed once the asset exists: it may be printed on a barcode or QR label, and a
+     * changed code could later be generated again for another asset.
+     */
+    private function unchangedCodeRule(): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail): void {
+            if ($this->editedAsset !== null && $value !== $this->editedAsset->code) {
+                $fail(__('The code cannot be changed once the asset is created.'));
+            }
+        };
+    }
+
+    /**
+     * An active carrier of the company, or the one the device already has even if deleted since.
+     */
+    private function carrierRule(): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail): void {
+            if ($this->editedAsset?->device?->carrier_id !== null && (int) $value === $this->editedAsset->device->carrier_id) {
+                return;
+            }
+
+            if (! Carrier::ofCompany($this->companyId())->whereKey((int) $value)->exists()) {
+                $fail(__('The selected carrier is not valid.'));
+            }
+        };
     }
 
     private function uniqueImeiRule(): Closure

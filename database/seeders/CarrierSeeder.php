@@ -6,11 +6,12 @@ namespace Database\Seeders;
 
 use App\Models\Carrier;
 use App\Models\Company;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 
 /**
  * Loads the mobile carriers of each company's country into its catalog.
- * Carriers the company already has, or deleted, are left as they are.
+ * Carriers the company already has in that country (or without country), or deleted, are left as they are.
  *
  * php artisan db:seed --class=CarrierSeeder
  */
@@ -85,6 +86,7 @@ class CarrierSeeder extends Seeder
         $countryId = strtolower((string) $company->country_id);
         $existing = Carrier::withTrashed()
             ->ofCompany($company->id)
+            ->where(fn (Builder $query) => $query->where('country_id', $countryId)->orWhereNull('country_id'))
             ->pluck('name')
             ->map(fn (string $name): string => mb_strtolower($name))
             ->all();

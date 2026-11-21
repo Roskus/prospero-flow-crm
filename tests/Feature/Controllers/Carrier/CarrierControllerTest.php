@@ -78,10 +78,25 @@ class CarrierControllerTest extends TestCase
         Carrier::factory()->create(['name' => 'Digi']);
 
         $this->post('/carrier/save', ['name' => ''])->assertSessionHasErrors('name');
-        $this->post('/carrier/save', ['name' => 'Movistar'])->assertSessionHasErrors('name');
-        $this->post('/carrier/save', ['name' => 'Yoigo'])->assertSessionHasNoErrors();
-        $this->post('/carrier/save', ['name' => 'Digi'])->assertSessionHasNoErrors();
+        $this->post('/carrier/save', ['name' => 'Movistar', 'country_id' => 'es'])->assertSessionHasErrors('name');
+        $this->post('/carrier/save', ['name' => 'Yoigo', 'country_id' => 'es'])->assertSessionHasNoErrors();
+        $this->post('/carrier/save', ['name' => 'Digi', 'country_id' => 'es'])->assertSessionHasNoErrors();
         $this->post('/carrier/save', ['name' => 'Bad', 'website' => 'not a url'])->assertSessionHasErrors('website');
+    }
+
+    #[Test]
+    public function the_same_name_is_allowed_in_another_country_but_not_twice_in_one(): void
+    {
+        $spanish = Carrier::factory()->forCompany($this->user->company_id)->create(['name' => 'Movistar', 'country_id' => 'es']);
+
+        $this->post('/carrier/save', ['name' => 'Movistar', 'country_id' => 'ar'])->assertSessionHasNoErrors();
+        $this->post('/carrier/save', ['name' => 'Movistar', 'country_id' => 'AR'])->assertSessionHasErrors('name');
+        $this->post('/carrier/save', ['name' => 'Movistar'])->assertSessionHasNoErrors();
+        $this->post('/carrier/save', ['name' => 'Movistar'])->assertSessionHasErrors('name');
+        $this->post('/carrier/save', ['id' => $spanish->id, 'name' => 'Movistar', 'country_id' => 'ar'])->assertSessionHasErrors('name');
+        $this->post('/carrier/save', ['id' => $spanish->id, 'name' => 'Movistar', 'country_id' => 'es', 'phone' => '1004'])->assertSessionHasNoErrors();
+
+        $this->assertSame(3, Carrier::ofCompany($this->user->company_id)->where('name', 'Movistar')->count());
     }
 
     #[Test]

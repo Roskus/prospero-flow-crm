@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\AssetCategory;
+use App\Enums\AssetType;
 use App\Enums\FuelType;
 use App\Models\Asset;
 use App\Models\AssetVehicle;
@@ -17,7 +19,7 @@ class AssetVehicleFactory extends Factory
     public function definition(): array
     {
         return [
-            'asset_id' => Asset::factory(),
+            'asset_id' => Asset::factory()->state(['category' => AssetCategory::Vehicle, 'type' => AssetType::Car]),
             'license_plate' => fake()->unique()->bothify('####???'),
             'vin' => strtoupper(fake()->bothify('?????????????????')),
             'manufacturing_year' => fake()->numberBetween(2010, 2026),

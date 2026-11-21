@@ -6,6 +6,10 @@ namespace App\Http\Requests;
 
 use App\Enums\MaintenanceType;
 use App\Http\Requests\Concerns\ValidatesCurrency;
+use App\Models\AssetMaintenance;
+use App\Models\Supplier;
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -32,11 +36,37 @@ class AssetMaintenanceSaveRequest extends FormRequest
             'description' => ['required', 'string', 'max:2000'],
             'cost' => ['nullable', 'numeric', 'min:0', 'max:9999999999'],
             'currency' => $this->currencyRules(),
-            'supplier_id' => ['nullable', 'integer', Rule::exists('supplier', 'id')->where('company_id', Auth::user()->company_id)->whereNull('deleted_at')],
+            'supplier_id' => ['nullable', 'integer', $this->supplierRule()],
             'odometer_km' => ['nullable', 'integer', 'min:0', 'max:4294967295'],
             'usage_hours' => ['nullable', 'integer', 'min:0', 'max:4294967295'],
             'next_due_at' => ['nullable', 'date', 'after_or_equal:date'],
         ];
+    }
+
+    /**
+     * An active supplier of the company, or the one the record already has even if deleted since,
+     * so editing other fields keeps the history.
+     */
+    private function supplierRule(): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail): void {
+            $companyId = (int) Auth::user()->company_id;
+
+            $recordedSupplierId = $this->filled('id')
+                ? AssetMaintenance::query()
+                    ->whereKey($this->integer('id'))
+                    ->whereHas('asset', fn (Builder $query) => $query->where('company_id', $companyId))
+                    ->value('supplier_id')
+                : null;
+
+            if ($recordedSupplierId !== null && (int) $value === (int) $recordedSupplierId) {
+                return;
+            }
+
+            if (! Supplier::query()->whereKey((int) $value)->where('company_id', $companyId)->exists()) {
+                $fail(__('The selected supplier is not valid.'));
+            }
+        };
     }
 
     /**

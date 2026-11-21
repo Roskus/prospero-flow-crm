@@ -8,7 +8,9 @@ use App\Enums\AssetCategory;
 use App\Enums\AssetType;
 use App\Models\Asset;
 use App\Models\AssetAssignment;
+use App\Models\AssetDevice;
 use App\Models\AssetMaintenance;
+use App\Models\AssetVehicle;
 use App\Models\Carrier;
 use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
@@ -111,5 +113,15 @@ class AssetTest extends TestCase
         $this->assertSame('7 years 1 month', $carWithoutYear->age());
         $this->assertNull($device->age());
         $this->assertNull($future->age());
+    }
+
+    #[Test]
+    public function the_factories_build_valid_fixtures(): void
+    {
+        $line = AssetDevice::factory()->mobileLine()->make();
+        $vehicle = AssetVehicle::factory()->create();
+
+        $this->assertMatchesRegularExpression('/^\d{15}$/', $line->imei);
+        $this->assertSame(AssetCategory::Vehicle, $vehicle->asset->category);
     }
 }

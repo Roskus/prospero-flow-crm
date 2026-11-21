@@ -30,7 +30,7 @@ class AssetDeviceFactory extends Factory
     public function mobileLine(): static
     {
         return $this->state([
-            'imei' => fake()->unique()->numerify('35##############'),
+            'imei' => fake()->unique()->numerify('35#############'),
             'phone_number' => fake()->numerify('+346########'),
         ]);
     }

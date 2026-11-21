@@ -825,5 +825,9 @@
     "Less than a month": "Menos de un mes",
     "Unknown, add the purchase date": "Desconocida, añade la fecha de compra",
     "manufactured in": "fabricado en",
-    "Unknown, add the manufacturing year": "Desconocida, añade el año de fabricación"
+    "Unknown, add the manufacturing year": "Desconocida, añade el año de fabricación",
+    "A carrier with this name already exists in this country.": "Ya existe una compañía con este nombre en este país.",
+    "The code cannot be changed once the asset is created.": "El código no se puede cambiar una vez creado el activo.",
+    "Fixed: it may be printed on labels.": "Fijo: puede estar impreso en etiquetas.",
+    "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later.": "Letras, números y guiones; se imprime como código de barras y QR. No se puede cambiar después."
 }

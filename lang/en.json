@@ -804,5 +804,9 @@
     "Less than a month" : "Less than a month",
     "Unknown, add the purchase date" : "Unknown, add the purchase date",
     "manufactured in" : "manufactured in",
-    "Unknown, add the manufacturing year" : "Unknown, add the manufacturing year"
+    "Unknown, add the manufacturing year" : "Unknown, add the manufacturing year",
+    "A carrier with this name already exists in this country." : "A carrier with this name already exists in this country.",
+    "The code cannot be changed once the asset is created." : "The code cannot be changed once the asset is created.",
+    "Fixed: it may be printed on labels." : "Fixed: it may be printed on labels.",
+    "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later." : "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later."
 }

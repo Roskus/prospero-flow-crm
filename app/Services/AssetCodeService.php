@@ -25,6 +25,11 @@ class AssetCodeService
     const int SEQUENCE_DIGITS = 5;
 
     /**
+     * Longer numeric suffixes are typed by hand, not generated, and could overflow an integer.
+     */
+    const int MAX_SEQUENCE_DIGITS = 9;
+
+    /**
      * Next free code for the type, e.g. MOB-00012. Deleted assets count too, so a code
      * printed on an old label never points to a different asset.
      */
@@ -37,7 +42,7 @@ class AssetCodeService
             ->where('code', 'like', $prefix.'%')
             ->pluck('code')
             ->map(fn (string $code): string => substr($code, strlen($prefix)))
-            ->filter(fn (string $sequence): bool => ctype_digit($sequence))
+            ->filter(fn (string $sequence): bool => ctype_digit($sequence) && strlen($sequence) <= self::MAX_SEQUENCE_DIGITS)
             ->map(fn (string $sequence): int => (int) $sequence)
             ->max() ?? 0;
 

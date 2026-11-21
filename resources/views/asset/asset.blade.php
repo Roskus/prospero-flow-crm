@@ -26,14 +26,16 @@
                     <div class="col-md-3 form-group mb-2">
                         <label for="code" class="label-control">{{ __('Code') }} <span class="text-danger">*</span></label>
                         <div class="input-group has-validation">
-                            <input type="text" name="code" id="code" value="{{ old('code', $asset->code) }}" maxlength="50" required pattern="[A-Za-z0-9\-]+"
+                            <input type="text" name="code" id="code" value="{{ old('code', $asset->code) }}" maxlength="50" required pattern="[A-Za-z0-9\-]+" @readonly($asset->exists)
                                    class="form-control text-uppercase font-monospace @error('code') is-invalid @enderror">
+                            @unless($asset->exists)
                             <button type="button" id="generate-code" class="btn btn-outline-secondary" data-url="{{ url('/inventory/code/next') }}" title="{{ __('Generate code') }}">
                                 <i class="las la-magic"></i> {{ __('Generate') }}
                             </button>
+                            @endunless
                             @error('code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
-                        <small class="form-text text-muted">{{ __('Letters, numbers and hyphens; printed as barcode and QR.') }}</small>
+                        <small class="form-text text-muted">{{ $asset->exists ? __('Fixed: it may be printed on labels.') : __('Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later.') }}</small>
                     </div>
                     @include('asset._field', ['name' => 'name', 'label' => __('Name'), 'value' => $asset->name, 'required' => true, 'col' => 'col-md-3', 'attributes' => 'maxlength="255"'])
                     <div class="col-md-3 form-group mb-2">
@@ -146,6 +148,7 @@
                 <div class="d-flex align-items-start gap-3">
                     @include('asset._thumbnail', ['asset' => $asset, 'size' => 120])
                     <div class="flex-grow-1">
+                        <label for="photo" class="visually-hidden">{{ __('Photo') }}</label>
                         <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp" class="form-control @error('photo') is-invalid @enderror">
                         @error('photo')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         <small class="form-text text-muted">{{ __('JPG, PNG or WebP, up to 5 MB.') }}</small>
@@ -202,7 +205,7 @@
         }
 
         const generateCode = document.getElementById('generate-code');
-        generateCode.addEventListener('click', async () => {
+        generateCode?.addEventListener('click', async () => {
             const type = document.getElementById('type');
             if (!type.value) {
                 type.reportValidity();

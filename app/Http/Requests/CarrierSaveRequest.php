@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -37,6 +38,9 @@ class CarrierSaveRequest extends FormRequest
                 'max:100',
                 Rule::unique('carrier', 'name')
                     ->where('company_id', Auth::user()->company_id)
+                    ->where(fn (Builder $query) => $this->filled('country_id')
+                        ? $query->where('country_id', $this->input('country_id'))
+                        : $query->whereNull('country_id'))
                     ->whereNull('deleted_at')
                     ->ignore($this->integer('id') ?: null),
             ],
@@ -53,7 +57,7 @@ class CarrierSaveRequest extends FormRequest
     {
         return [
             'name.required' => __('The name is required.'),
-            'name.unique' => __('A carrier with this name already exists.'),
+            'name.unique' => __('A carrier with this name already exists in this country.'),
             'website.url' => __('The website must be a valid URL.'),
         ];
     }

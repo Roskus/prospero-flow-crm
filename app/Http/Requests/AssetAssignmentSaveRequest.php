@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use App\Models\AssetAssignment;
 use App\Models\User;
+use App\Services\AssetService;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
@@ -74,27 +75,32 @@ class AssetAssignmentSaveRequest extends FormRequest
 
     /**
      * The asset can only have one holder at a time. Handing it over on the same day is allowed:
-     * one assignment may end the day the next one starts.
+     * one assignment may end the day the next one starts. Unparseable dates are left to their
+     * own date rules; the save repeats this check under the asset lock.
      */
     private function noOverlapRule(AssetAssignment $assignment): Closure
     {
         return function (string $attribute, mixed $value, Closure $fail) use ($assignment): void {
-            $start = Carbon::parse((string) $value)->startOfDay();
-            $end = $assignment->isOpen() || ! $this->filled('end_date')
-                ? null
-                : Carbon::parse((string) $this->input('end_date'))->startOfDay();
+            $start = $this->parseDate($value);
+            $end = $assignment->isOpen() ? null : $this->parseDate($this->input('end_date'));
 
-            $overlaps = AssetAssignment::query()
-                ->where('asset_id', $assignment->asset_id)
-                ->whereKeyNot($assignment->id)
-                ->where(fn (Builder $query) => $query->whereNull('end_date')->orWhere('end_date', '>', $start->toDateString()))
-                ->when($end !== null, fn (Builder $query) => $query->where('start_date', '<', $end->toDateString()))
-                ->exists();
+            if ($start === null || (! $assignment->isOpen() && $end === null)) {
+                return;
+            }
 
-            if ($overlaps) {
+            if (app(AssetService::class)->assignmentOverlaps($assignment->asset_id, $start, $end, $assignment->id)) {
                 $fail(__('The dates overlap with another assignment of this asset.'));
             }
         };
+    }
+
+    private function parseDate(mixed $value): ?Carbon
+    {
+        if (! is_string($value) || strtotime($value) === false) {
+            return null;
+        }
+
+        return Carbon::parse($value)->startOfDay();
     }
 
     /**

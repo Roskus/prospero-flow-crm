@@ -51,4 +51,16 @@ class CarrierSeederTest extends TestCase
         $this->assertFalse(Carrier::ofCompany($company->id)->where('name', 'Vodafone')->exists());
         $this->assertSame(count(CarrierSeeder::CARRIERS['es']) - 2, Carrier::ofCompany($company->id)->whereNotIn('name', ['MOVISTAR'])->count());
     }
+
+    #[Test]
+    public function a_carrier_of_another_country_does_not_block_the_seed(): void
+    {
+        $company = Company::factory()->create(['country_id' => 'es']);
+        Carrier::factory()->forCompany($company)->create(['name' => 'Movistar', 'country_id' => 'ar']);
+
+        (new CarrierSeeder)->seedCompany($company);
+
+        $this->assertTrue(Carrier::ofCompany($company->id)->where('name', 'Movistar')->where('country_id', 'es')->exists());
+        $this->assertSame(2, Carrier::ofCompany($company->id)->where('name', 'Movistar')->count());
+    }
 }

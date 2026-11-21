@@ -10,8 +10,10 @@ use App\Models\Asset;
 use App\Models\Branch;
 use App\Models\Carrier;
 use App\Models\User;
+use App\Services\AssetService;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
@@ -523,5 +525,54 @@ class AssetControllerTest extends TestCase
 
         $usedCar = Asset::factory()->forCompany($this->user->company_id)->vehicle(AssetType::Car, ['manufacturing_year' => 2006])->create(['purchase_date' => '2019-10-01']);
         $this->get(route('asset.show', $usedCar->id))->assertOk()->assertSeeText('20 years 10 months')->assertSeeText(__('manufactured in').' 2006');
+    }
+
+    #[Test]
+    public function saving_a_mobile_keeps_its_deleted_carrier(): void
+    {
+        $carrier = Carrier::factory()->forCompany($this->user->company_id)->create(['name' => 'Orange']);
+        $asset = Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile, ['imei' => '356938035643809', 'carrier_id' => $carrier->id])->create();
+        $carrier->delete();
+
+        $this->get('/inventory/update/'.$asset->id)->assertOk()->assertSee('value="'.$carrier->id.'" selected', false);
+        $this->post('/inventory/save', $this->mobileData(['id' => $asset->id, 'code' => $asset->code, 'name' => 'Renombrado', 'carrier_id' => $carrier->id]))
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame($carrier->id, $asset->fresh()->device->carrier_id);
+
+        $other = Carrier::factory()->forCompany($this->user->company_id)->create();
+        $other->delete();
+        $this->post('/inventory/save', $this->mobileData(['id' => $asset->id, 'code' => $asset->code, 'carrier_id' => $other->id]))->assertSessionHasErrors('carrier_id');
+    }
+
+    #[Test]
+    public function the_save_rechecks_code_and_imei_under_the_company_lock(): void
+    {
+        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile, ['imei' => '356938035643809'])->create(['code' => 'MOB-00001']);
+        $service = app(AssetService::class);
+
+        try {
+            $service->save(new Asset, ['category' => 'device', 'type' => 'notebook', 'code' => 'MOB-00001', 'name' => 'Duplicado'], $this->user->company_id);
+            $this->fail('A duplicated code was saved.');
+        } catch (ValidationException $exception) {
+            $this->assertArrayHasKey('code', $exception->errors());
+        }
+
+        try {
+            $service->save(new Asset, ['category' => 'device', 'type' => 'mobile', 'code' => 'MOB-00002', 'name' => 'Duplicado', 'imei' => '356938035643809'], $this->user->company_id);
+            $this->fail('A duplicated IMEI was saved.');
+        } catch (ValidationException $exception) {
+            $this->assertArrayHasKey('imei', $exception->errors());
+        }
+
+        $this->assertSame(1, Asset::count());
+    }
+
+    #[Test]
+    public function the_full_size_photo_link_is_versioned(): void
+    {
+        $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create(['photo_path' => 'asset/1/photo.jpg']);
+
+        $this->get(route('asset.show', $asset->id))->assertSee(route('asset.photo', $asset->id).'?v='.$asset->updated_at->timestamp.'" target="_blank"', false);
     }
 }

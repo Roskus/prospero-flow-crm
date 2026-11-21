@@ -161,4 +161,23 @@ class AssetMaintenanceControllerTest extends TestCase
 
         $this->assertModelExists($record);
     }
+
+    #[Test]
+    public function editing_a_maintenance_keeps_its_deleted_supplier(): void
+    {
+        $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create();
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Taller viejo']);
+        $maintenance = AssetMaintenance::factory()->create(['asset_id' => $asset->id, 'supplier_id' => $supplier->id]);
+        $supplier->delete();
+
+        $this->get('/inventory/maintenance/update/'.$maintenance->id)->assertOk()->assertSeeText('Taller viejo ('.__('deleted').')');
+
+        $data = ['id' => $maintenance->id, 'asset_id' => $asset->id, 'type' => 'corrective', 'date' => '2026-11-01', 'description' => 'Corregido'];
+        $this->post('/inventory/maintenance/save', [...$data, 'supplier_id' => $supplier->id])->assertSessionHasNoErrors();
+        $this->assertSame($supplier->id, $maintenance->fresh()->supplier_id);
+
+        $otherDeleted = Supplier::factory()->create(['company_id' => $this->user->company_id]);
+        $otherDeleted->delete();
+        $this->post('/inventory/maintenance/save', [...$data, 'supplier_id' => $otherDeleted->id])->assertSessionHasErrors('supplier_id');
+    }
 }

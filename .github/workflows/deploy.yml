@@ -57,10 +57,22 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # Untested edits made on the server would survive the merge: refuse them.
+          # Ignored files such as .env are not tracked, so they are never checked or touched.
+          if ! git diff --quiet || ! git diff --cached --quiet; then
+            echo "::error::The server has uncommitted changes in tracked files. Commit or discard them first."
+            git status --short --untracked-files=no
+            exit 1
+          fi
           auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
           git -c http.extraheader="AUTHORIZATION: basic $auth" \
             fetch "https://github.com/${{ github.repository }}.git" main
           git merge --ff-only "$DEPLOY_SHA"
+          # A server checkout ahead of the commit would merge as "already up to date": refuse it.
+          if [ "$(git rev-parse HEAD)" != "$DEPLOY_SHA" ]; then
+            echo "::error::The server is at $(git rev-parse --short HEAD), not ${DEPLOY_SHA}. It has local commits."
+            exit 1
+          fi
 
       - name: Run deploy script
         # deploy.sh holds every deploy step (dependencies, migrations, seeders, API docs,

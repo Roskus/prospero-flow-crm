@@ -220,4 +220,52 @@ class AssetAssignmentControllerTest extends TestCase
         $this->get('/inventory/assignment/update/'.$other->id)->assertNotFound();
         $this->post('/inventory/assignment/save', ['id' => $other->id, 'user_id' => $this->user->id, 'start_date' => '2026-11-01'])->assertNotFound();
     }
+
+    #[Test]
+    public function a_backdated_assignment_cannot_overlap_the_previous_holder(): void
+    {
+        $asset = Asset::factory()->forCompany($this->user->company_id)->device()->create();
+        AssetAssignment::factory()->create(['asset_id' => $asset->id, 'user_id' => $this->colleague()->id, 'start_date' => '2026-11-01', 'end_date' => '2026-11-20']);
+        $holder = $this->colleague();
+
+        $this->post('/inventory/assign/'.$asset->id, ['user_id' => $holder->id, 'start_date' => '2026-11-10'])->assertSessionHasErrors('start_date');
+        $this->post('/inventory/assign/'.$asset->id, ['user_id' => $holder->id, 'start_date' => '2026-11-20'])->assertSessionHasNoErrors();
+
+        $this->assertSame(AssetStatus::Assigned, $asset->fresh()->status);
+    }
+
+    #[Test]
+    public function an_invalid_return_date_is_a_validation_error_not_a_crash(): void
+    {
+        $holder = $this->colleague();
+        $assignment = AssetAssignment::factory()->create([
+            'asset_id' => Asset::factory()->forCompany($this->user->company_id)->device()->create()->id,
+            'user_id' => $holder->id,
+            'start_date' => '2026-10-01',
+            'end_date' => '2026-10-20',
+        ]);
+
+        $this->post('/inventory/assignment/save', ['id' => $assignment->id, 'user_id' => $holder->id, 'start_date' => '2026-10-01', 'end_date' => 'not-a-date'])
+            ->assertSessionHasErrors('end_date');
+        $this->post('/inventory/assignment/save', ['id' => $assignment->id, 'user_id' => $holder->id, 'start_date' => 'nope', 'end_date' => '2026-10-20'])
+            ->assertSessionHasErrors('start_date');
+    }
+
+    #[Test]
+    public function changing_the_holder_of_an_assignment_scheduled_ahead_hands_over_on_its_start(): void
+    {
+        $this->travelTo('2026-11-21');
+        $holder = $this->colleague();
+        $newHolder = $this->colleague();
+        $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create(['status' => AssetStatus::Assigned]);
+        AssetAssignment::factory()->create(['asset_id' => $asset->id, 'user_id' => $holder->id, 'start_date' => '2026-11-25', 'end_date' => null]);
+
+        $this->post('/inventory/save', ['id' => $asset->id, 'category' => 'vehicle', 'type' => 'car', 'code' => $asset->code, 'name' => $asset->name, 'status' => 'assigned', 'assigned_user_id' => $newHolder->id])
+            ->assertSessionHasNoErrors();
+
+        $assignments = $asset->assignments()->orderBy('id')->get();
+        $this->assertSame('2026-11-25', $assignments[0]->end_date->toDateString());
+        $this->assertSame('2026-11-25', $assignments[1]->start_date->toDateString());
+        $this->assertSame($newHolder->id, $assignments[1]->user_id);
+    }
 }

@@ -116,4 +116,30 @@ class AssetCodeLabelTest extends TestCase
         $this->assertSame('NB-00001', $service->codeFromScan('https://crm.example.com/inventory/code/NB-00001'));
         $this->assertSame('NOTEBOOK', $service->codeFromScan('notebook'));
     }
+
+    #[Test]
+    public function hand_typed_huge_sequences_do_not_break_the_generator(): void
+    {
+        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-9223372036854775807']);
+        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-00041']);
+
+        $this->getJson('/inventory/code/next?type=mobile')->assertExactJson(['code' => 'MOB-00042']);
+    }
+
+    #[Test]
+    public function the_code_cannot_change_once_the_asset_exists(): void
+    {
+        $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create(['code' => 'CAR-00001', 'name' => 'Coche']);
+        $data = ['id' => $asset->id, 'category' => 'vehicle', 'type' => 'car', 'name' => 'Coche renombrado'];
+
+        $this->get('/inventory/update/'.$asset->id)->assertOk()->assertSee('readonly', false)->assertDontSee('id="generate-code"', false);
+        $this->get('/inventory/vehicle/create')->assertOk()->assertSee('id="generate-code"', false);
+
+        $this->post('/inventory/save', [...$data, 'code' => 'CUSTOM'])->assertSessionHasErrors('code');
+        $this->post('/inventory/save', [...$data, 'code' => 'car-00001'])->assertSessionHasNoErrors();
+
+        $asset->refresh();
+        $this->assertSame('CAR-00001', $asset->code);
+        $this->assertSame('Coche renombrado', $asset->name);
+    }
 }

@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <div class="d-flex gap-3">
                         @if($asset->hasPhoto())
-                            <a href="{{ route('asset.photo', $asset->id) }}" target="_blank">@include('asset._thumbnail', ['asset' => $asset, 'size' => 220])</a>
+                            <a href="{{ route('asset.photo', $asset->id) }}?v={{ $asset->updated_at?->timestamp }}" target="_blank">@include('asset._thumbnail', ['asset' => $asset, 'size' => 220])</a>
                         @else
                             @include('asset._thumbnail', ['asset' => $asset, 'size' => 220])
                         @endif

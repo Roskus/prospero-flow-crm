@@ -13,7 +13,7 @@
                         <option value="{{ $carrier->id }}" @selected($selectedCarrier === $carrier->id)>{{ $carrier->name }}</option>
                     @endforeach
                     @if($device?->carrier?->trashed())
-                        <option value="" disabled @selected($selectedCarrier === $device->carrier_id)>{{ $device->carrier->name }} ({{ __('deleted') }})</option>
+                        <option value="{{ $device->carrier_id }}" @selected($selectedCarrier === $device->carrier_id)>{{ $device->carrier->name }} ({{ __('deleted') }})</option>
                     @endif
                 </select>
                 @error('carrier_id')<div class="invalid-feedback">{{ $message }}</div>@enderror

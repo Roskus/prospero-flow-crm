@@ -28,7 +28,7 @@
                         <select name="supplier_id" id="supplier_id" class="form-select @error('supplier_id') is-invalid @enderror">
                             <option value=""></option>
                             @foreach($suppliers as $supplier)
-                                <option value="{{ $supplier->id }}" @selected((int) old('supplier_id', $maintenance->supplier_id) === $supplier->id)>{{ $supplier->name }}</option>
+                                <option value="{{ $supplier->id }}" @selected((int) old('supplier_id', $maintenance->supplier_id) === $supplier->id)>{{ $supplier->name }}@if(isset($supplier->deleted_at)) ({{ __('deleted') }})@endif</option>
                             @endforeach
                         </select>
                         @error('supplier_id')<div class="invalid-feedback">{{ $message }}</div>@enderror

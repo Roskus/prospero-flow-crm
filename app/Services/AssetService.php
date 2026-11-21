@@ -9,11 +9,15 @@ use App\Enums\AssetCategory;
 use App\Enums\AssetStatus;
 use App\Models\Asset;
 use App\Models\AssetAssignment;
+use App\Models\AssetDevice;
 use App\Models\AssetMaintenance;
+use App\Models\AssetVehicle;
 use App\Models\Branch;
 use App\Models\Carrier;
+use App\Models\Company;
 use App\Models\Supplier;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -79,6 +83,8 @@ class AssetService
 
         try {
             DB::transaction(function () use ($asset, $data, $companyId, $newPhotoPath): void {
+                $this->lockCompany($companyId);
+                $this->ensureUniqueIdentifiers($asset, $data, $companyId);
                 $isNew = ! $asset->exists;
                 $asset->company_id = $companyId;
                 $asset->category = $isNew ? $data['category'] : $asset->category;
@@ -133,16 +139,23 @@ class AssetService
             return;
         }
 
+        // The handover happens on one date: today, or the start of an assignment scheduled ahead.
+        $handoverDate = $current?->start_date->max(today()) ?? today();
+
         if ($current !== null) {
-            $current->end_date = $current->start_date->max(today());
+            $current->end_date = $handoverDate;
             $current->save();
         }
 
         if ($holderId !== null) {
+            if ($this->assignmentOverlaps($asset->id, $handoverDate, null)) {
+                throw ValidationException::withMessages(['assigned_user_id' => __('The dates overlap with another assignment of this asset.')]);
+            }
+
             $asset->assignments()->create([
                 'user_id' => $holderId,
                 'assigned_by' => Auth::id(),
-                'start_date' => today(),
+                'start_date' => $handoverDate,
             ]);
         }
 
@@ -182,10 +195,15 @@ class AssetService
                 ]);
             }
 
+            $start = $startDate !== null ? Carbon::parse($startDate)->startOfDay() : today();
+            if ($this->assignmentOverlaps($asset->id, $start, null)) {
+                throw ValidationException::withMessages(['start_date' => __('The dates overlap with another assignment of this asset.')]);
+            }
+
             $assignment = $asset->assignments()->create([
                 'user_id' => $userId,
                 'assigned_by' => $assignedBy,
-                'start_date' => $startDate ?? today()->toDateString(),
+                'start_date' => $start,
                 'notes' => $notes,
             ]);
 
@@ -223,11 +241,88 @@ class AssetService
     }
 
     /**
+     * Corrects a recorded assignment. The overlap check is repeated under the asset lock, so two
+     * concurrent corrections of the same asset cannot both pass it.
+     *
+     * @param  array<string, mixed>  $data  validated data
+     */
+    public function updateAssignment(AssetAssignment $assignment, array $data): AssetAssignment
+    {
+        return DB::transaction(function () use ($assignment, $data): AssetAssignment {
+            Asset::query()->whereKey($assignment->asset_id)->lockForUpdate()->first();
+            $assignment = AssetAssignment::query()->findOrFail($assignment->id);
+
+            $start = Carbon::parse((string) $data['start_date'])->startOfDay();
+            $end = $assignment->isOpen() ? null : Carbon::parse((string) $data['end_date'])->startOfDay();
+
+            if ($this->assignmentOverlaps($assignment->asset_id, $start, $end, $assignment->id)) {
+                throw ValidationException::withMessages(['start_date' => __('The dates overlap with another assignment of this asset.')]);
+            }
+
+            $assignment->fill(Arr::only($data, ['user_id', 'start_date', 'end_date', 'notes']));
+            $assignment->save();
+
+            return $assignment;
+        });
+    }
+
+    /**
+     * Whether the period overlaps another assignment of the asset. A null end means still open.
+     * Periods may touch: one assignment can end the day the next one starts.
+     */
+    public function assignmentOverlaps(int $assetId, Carbon $start, ?Carbon $end, ?int $ignoreAssignmentId = null): bool
+    {
+        return AssetAssignment::query()
+            ->where('asset_id', $assetId)
+            ->when($ignoreAssignmentId !== null, fn (Builder $query) => $query->whereKeyNot($ignoreAssignmentId))
+            ->where(fn (Builder $query) => $query->whereNull('end_date')->orWhere('end_date', '>', $start->toDateString()))
+            ->when($end !== null, fn (Builder $query) => $query->where('start_date', '<', $end->toDateString()))
+            ->exists();
+    }
+
+    /**
+     * Repeats the code and IMEI uniqueness checks under the company lock: the form request checks
+     * them first, but two concurrent saves (a double submit) could both pass that check.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    private function ensureUniqueIdentifiers(Asset $asset, array $data, int $companyId): void
+    {
+        $codeTaken = Asset::ofCompany($companyId)
+            ->where('code', $data['code'] ?? $asset->code)
+            ->when($asset->exists, fn (Builder $query) => $query->whereKeyNot($asset->id))
+            ->exists();
+
+        if ($codeTaken) {
+            throw ValidationException::withMessages(['code' => __('An asset with this code already exists.')]);
+        }
+
+        if (empty($data['imei'])) {
+            return;
+        }
+
+        $imeiTaken = AssetDevice::query()
+            ->where('imei', $data['imei'])
+            ->whereHas('asset', fn (Builder $query) => $query->where('company_id', $companyId)->when($asset->exists, fn (Builder $query) => $query->whereKeyNot($asset->id)))
+            ->exists();
+
+        if ($imeiTaken) {
+            throw ValidationException::withMessages(['imei' => __('This IMEI is already registered on another asset.')]);
+        }
+    }
+
+    public function lockCompany(int $companyId): void
+    {
+        Company::withTrashed()->whereKey($companyId)->lockForUpdate()->first();
+    }
+
+    /**
      * @param  array<string, mixed>  $data  validated data
      */
     public function saveMaintenance(Asset $asset, AssetMaintenance $maintenance, array $data, int $userId): AssetMaintenance
     {
         return DB::transaction(function () use ($asset, $maintenance, $data, $userId): AssetMaintenance {
+            Asset::query()->whereKey($asset->id)->lockForUpdate()->first();
             $maintenance->fill(Arr::only($data, ['type', 'date', 'description', 'cost', 'currency', 'supplier_id', 'odometer_km', 'usage_hours', 'next_due_at']));
             $maintenance->asset_id = $asset->id;
             $maintenance->created_by ??= $userId;
@@ -247,7 +342,7 @@ class AssetService
     public function deleteMaintenance(AssetMaintenance $maintenance): void
     {
         DB::transaction(function () use ($maintenance): void {
-            $asset = $maintenance->asset;
+            $asset = Asset::query()->lockForUpdate()->findOrFail($maintenance->asset_id);
             $maintenance->delete();
             $this->refreshNextMaintenance($asset);
         });
@@ -258,7 +353,7 @@ class AssetService
      */
     private function raiseUsageReadings(Asset $asset, AssetMaintenance $maintenance): void
     {
-        $vehicle = $asset->vehicle;
+        $vehicle = AssetVehicle::query()->whereKey($asset->id)->lockForUpdate()->first();
 
         if ($vehicle === null) {
             return;
