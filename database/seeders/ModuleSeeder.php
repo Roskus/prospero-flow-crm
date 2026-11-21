@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
  */
 class ModuleSeeder extends Seeder
 {
+    const int INVENTORY_MODULE_ID = 15;
+
     /**
      * Run the database seeds.
      */
@@ -28,5 +30,9 @@ class ModuleSeeder extends Seeder
             ['name' => 'Company'], // 8
             ['name' => 'Report'], // 9
         ], ['name'], ['name']);
+
+        DB::table('module')->upsert([
+            ['id' => self::INVENTORY_MODULE_ID, 'name' => 'Inventory'],
+        ], ['id'], ['name']);
     }
 }

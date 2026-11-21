@@ -141,6 +141,12 @@ require __DIR__.'/module/supplier.php';
 // Ticket
 require __DIR__.'/module/ticket.php';
 
+// Inventory: vehicles, machinery and devices
+require __DIR__.'/module/asset.php';
+
+// Mobile carriers (inventory catalog)
+require __DIR__.'/module/carrier.php';
+
 // Regions
 Route::get('ajax/region/{country}', [RegionGetAjaxController::class, 'index']);
 

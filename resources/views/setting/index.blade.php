@@ -35,6 +35,13 @@
             ],
         ],
         [
+            'title' => __('Inventory'),
+            'icon' => 'las la-warehouse',
+            'items' => [
+                ['url' => url('/carrier'), 'icon' => 'las la-signal', 'label' => __('Carriers'), 'visible' => $user->can('read asset')],
+            ],
+        ],
+        [
             'title' => __('Communication'),
             'icon' => 'las la-comments',
             'items' => [
