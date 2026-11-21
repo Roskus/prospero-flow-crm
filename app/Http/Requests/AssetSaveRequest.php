@@ -13,6 +13,7 @@ use App\Http\Requests\Concerns\ValidatesCurrency;
 use App\Models\Asset;
 use App\Models\AssetDevice;
 use App\Models\Carrier;
+use App\Models\Supplier;
 use App\Models\User;
 use App\Rules\ExtensionMatchesContent;
 use App\Services\AssetCodeService;
@@ -95,7 +96,7 @@ class AssetSaveRequest extends FormRequest
             'code' => [
                 'required',
                 'string',
-                'max:50',
+                'max:'.AssetCodeService::MAX_CODE_LENGTH,
                 'regex:'.AssetCodeService::CODE_PATTERN,
                 $this->unchangedCodeRule(),
                 Rule::unique('asset', 'code')
@@ -107,7 +108,7 @@ class AssetSaveRequest extends FormRequest
             'model' => ['nullable', 'string', 'max:100'],
             'serial_number' => ['nullable', 'string', 'max:100'],
             'branch_id' => ['nullable', 'integer', Rule::exists('branch', 'id')->where('company_id', $this->companyId())->whereNull('deleted_at')],
-            'supplier_id' => ['nullable', 'integer', Rule::exists('supplier', 'id')->where('company_id', $this->companyId())->whereNull('deleted_at')],
+            'supplier_id' => ['nullable', 'integer', $this->supplierRule()],
             'acquisition_type' => ['nullable', Rule::enum(AcquisitionType::class)],
             'purchase_date' => ['nullable', 'date'],
             'purchase_price' => ['nullable', 'numeric', 'min:0', 'max:9999999999'],
@@ -184,6 +185,22 @@ class AssetSaveRequest extends FormRequest
         return function (string $attribute, mixed $value, Closure $fail): void {
             if ($this->editedAsset !== null && $value !== $this->editedAsset->code) {
                 $fail(__('The code cannot be changed once the asset is created.'));
+            }
+        };
+    }
+
+    /**
+     * An active supplier of the company, or the one the asset already has even if deleted since.
+     */
+    private function supplierRule(): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail): void {
+            if ($this->editedAsset?->supplier_id !== null && (int) $value === $this->editedAsset->supplier_id) {
+                return;
+            }
+
+            if (! Supplier::query()->whereKey((int) $value)->where('company_id', $this->companyId())->exists()) {
+                $fail(__('The selected supplier is not valid.'));
             }
         };
     }

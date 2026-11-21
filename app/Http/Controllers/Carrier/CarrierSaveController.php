@@ -46,7 +46,9 @@ class CarrierSaveController extends MainController
             }
 
             $carrier->company_id = $companyId;
-            $carrier->fill(Arr::only($data, ['name', 'country_id', 'phone', 'website']));
+            $carrier->fill(Arr::only($data, ['name', 'phone', 'website']));
+            // An omitted country means none, the same group the uniqueness checks searched.
+            $carrier->country_id = $data['country_id'] ?? null;
             $carrier->save();
         });
 

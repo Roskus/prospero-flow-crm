@@ -10,6 +10,7 @@ use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Illuminate\Validation\ValidationException;
 use Picqer\Barcode\BarcodeGeneratorSVG;
 
 /**
@@ -23,6 +24,8 @@ class AssetCodeService
     const string CODE_PATTERN = '/^[A-Z0-9-]+$/';
 
     const int SEQUENCE_DIGITS = 5;
+
+    const int MAX_CODE_LENGTH = 50;
 
     /**
      * Next free code for the type, e.g. MOB-00012. Deleted assets count too, so a code
@@ -41,7 +44,13 @@ class AssetCodeService
             ->filter(fn (string $sequence): bool => ctype_digit($sequence))
             ->reduce(fn (string $max, string $sequence): string => bccomp($sequence, $max) > 0 ? $sequence : $max, '0');
 
-        return $prefix.str_pad(bcadd($max, '1'), self::SEQUENCE_DIGITS, '0', STR_PAD_LEFT);
+        $code = $prefix.str_pad(bcadd($max, '1'), self::SEQUENCE_DIGITS, '0', STR_PAD_LEFT);
+
+        if (strlen($code) > self::MAX_CODE_LENGTH) {
+            throw ValidationException::withMessages(['type' => __('No more codes can be generated for this type. Type one by hand.')]);
+        }
+
+        return $code;
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Enums\AssetType;
 use App\Models\Asset;
 use App\Models\Branch;
 use App\Models\Carrier;
+use App\Models\Supplier;
 use App\Models\User;
 use App\Services\AssetService;
 use Illuminate\Support\Facades\Crypt;
@@ -578,5 +579,37 @@ class AssetControllerTest extends TestCase
 
         $asset->photo_path = 'asset/1/other.jpg';
         $this->assertNotSame(substr(md5('asset/1/photo.jpg'), 0, 12), $asset->photoVersion());
+    }
+
+    #[Test]
+    public function saving_an_asset_keeps_its_deleted_supplier(): void
+    {
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id, 'name' => 'Proveedor viejo']);
+        $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create(['supplier_id' => $supplier->id]);
+        $supplier->delete();
+
+        $this->get('/inventory/update/'.$asset->id)->assertOk()->assertSeeText('Proveedor viejo ('.__('deleted').')');
+        $this->post('/inventory/save', $this->vehicleData(['id' => $asset->id, 'code' => $asset->code, 'supplier_id' => $supplier->id]))->assertSessionHasNoErrors();
+        $this->assertSame($supplier->id, $asset->fresh()->supplier_id);
+
+        $otherDeleted = Supplier::factory()->create(['company_id' => $this->user->company_id]);
+        $otherDeleted->delete();
+        $this->post('/inventory/save', $this->vehicleData(['id' => $asset->id, 'code' => $asset->code, 'supplier_id' => $otherDeleted->id]))->assertSessionHasErrors('supplier_id');
+    }
+
+    #[Test]
+    public function saving_a_stale_asset_reloads_it_and_keeps_status_and_assignment_consistent(): void
+    {
+        $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create();
+        $stale = Asset::query()->findOrFail($asset->id);
+        $holder = User::factory()->create(['company_id' => $this->user->company_id]);
+        app(AssetService::class)->assign($asset, $holder->id, null, null, $this->user->id);
+
+        $saved = app(AssetService::class)->save($stale, ['type' => 'car', 'code' => $asset->code, 'name' => 'Editado', 'status' => 'available'], $this->user->company_id);
+
+        $fresh = $asset->fresh();
+        $this->assertSame(AssetStatus::Available, $fresh->status);
+        $this->assertNull($fresh->currentAssignment);
+        $this->assertSame('Editado', $saved->name);
     }
 }

@@ -150,4 +150,17 @@ class CarrierControllerTest extends TestCase
 
         $this->actingAs($companyReader)->get('/setting')->assertOk()->assertDontSee(url('/carrier'));
     }
+
+    #[Test]
+    public function an_edit_without_country_is_checked_and_saved_without_country(): void
+    {
+        $orange = Carrier::factory()->forCompany($this->user->company_id)->create(['name' => 'Orange', 'country_id' => 'es']);
+        Carrier::factory()->forCompany($this->user->company_id)->create(['name' => 'Movistar', 'country_id' => 'es']);
+
+        $this->post('/carrier/save', ['id' => $orange->id, 'name' => 'Movistar'])->assertSessionHasNoErrors();
+
+        $orange->refresh();
+        $this->assertNull($orange->country_id);
+        $this->assertSame(1, Carrier::query()->ofCompany($this->user->company_id)->where('name', 'Movistar')->where('country_id', 'es')->count());
+    }
 }

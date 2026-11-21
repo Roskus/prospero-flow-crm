@@ -63,7 +63,12 @@ class AssetService
         return [
             'asset' => $asset,
             'branches' => Branch::query()->ofCompany($company->id)->orderBy('name')->get(['id', 'name']),
-            'suppliers' => Supplier::where('company_id', $company->id)->orderBy('name')->get(['id', 'name']),
+            // Active suppliers plus the recorded one, even if deleted since, so saving keeps it.
+            'suppliers' => Supplier::withTrashed()
+                ->where('company_id', $company->id)
+                ->where(fn (Builder $query) => $query->whereNull('deleted_at')->orWhere('id', $asset->supplier_id))
+                ->orderBy('name')
+                ->get(['id', 'name', 'deleted_at']),
             'carriers' => Carrier::query()->ofCompany($company->id)->orderBy('name')->get(['id', 'name']),
             'users' => User::where('company_id', $company->id)->where('active', true)->orderBy('first_name')->orderBy('last_name')->get(['id', 'first_name', 'last_name']),
             'currencies' => $company->usableCurrencies(array_filter([$asset->currency])),
@@ -78,12 +83,20 @@ class AssetService
      */
     public function save(Asset $asset, array $data, int $companyId, ?UploadedFile $photo = null): Asset
     {
-        $oldPhotoPath = $asset->photo_path;
+        $oldPhotoPath = null;
         $newPhotoPath = $photo?->store('asset/'.$companyId, self::PHOTO_DISK);
 
         try {
-            DB::transaction(function () use ($asset, $data, $companyId, $newPhotoPath): void {
+            $asset = DB::transaction(function () use ($asset, $data, $companyId, $newPhotoPath, &$oldPhotoPath): Asset {
                 $this->lockCompany($companyId);
+
+                // Reload under its row lock: a concurrent assign or return may have changed it
+                // after the form request loaded it.
+                if ($asset->exists) {
+                    $asset = Asset::query()->with('vehicle', 'device')->lockForUpdate()->findOrFail($asset->id);
+                }
+                $oldPhotoPath = $asset->photo_path;
+
                 $this->ensureUniqueIdentifiers($asset, $data, $companyId);
                 $isNew = ! $asset->exists;
                 $asset->company_id = $companyId;
@@ -112,6 +125,8 @@ class AssetService
                 }
 
                 $this->saveDetail($asset, $data);
+
+                return $asset;
             });
         } catch (Throwable $throwable) {
             if ($newPhotoPath !== null) {
@@ -328,7 +343,7 @@ class AssetService
     public function saveMaintenance(Asset $asset, AssetMaintenance $maintenance, array $data, int $userId): AssetMaintenance
     {
         return DB::transaction(function () use ($asset, $maintenance, $data, $userId): AssetMaintenance {
-            Asset::query()->whereKey($asset->id)->lockForUpdate()->first();
+            $asset = Asset::query()->lockForUpdate()->findOrFail($asset->id);
             $maintenance->fill(Arr::only($data, ['type', 'date', 'description', 'cost', 'currency', 'supplier_id', 'odometer_km', 'usage_hours', 'next_due_at']));
             $maintenance->asset_id = $asset->id;
             $maintenance->created_by ??= $userId;

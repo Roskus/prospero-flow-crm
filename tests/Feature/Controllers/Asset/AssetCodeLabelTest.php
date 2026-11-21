@@ -146,4 +146,12 @@ class AssetCodeLabelTest extends TestCase
         $this->assertSame('CAR-00001', $asset->code);
         $this->assertSame('Coche renombrado', $asset->name);
     }
+
+    #[Test]
+    public function the_generator_refuses_a_code_longer_than_the_limit(): void
+    {
+        Asset::factory()->forCompany($this->user->company_id)->device(AssetType::Mobile)->create(['code' => 'MOB-'.str_repeat('9', 46)]);
+
+        $this->getJson('/inventory/code/next?type=mobile')->assertUnprocessable()->assertJsonValidationErrors('type');
+    }
 }

@@ -9,6 +9,7 @@ use App\Enums\AssetType;
 use App\Models\Asset;
 use App\Models\AssetMaintenance;
 use App\Models\Supplier;
+use App\Services\AssetService;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -179,5 +180,19 @@ class AssetMaintenanceControllerTest extends TestCase
         $otherDeleted = Supplier::factory()->create(['company_id' => $this->user->company_id]);
         $otherDeleted->delete();
         $this->post('/inventory/maintenance/save', [...$data, 'supplier_id' => $otherDeleted->id])->assertSessionHasErrors('supplier_id');
+    }
+
+    #[Test]
+    public function a_maintenance_saved_with_a_stale_asset_still_writes_the_next_due_date(): void
+    {
+        $service = app(AssetService::class);
+        $asset = Asset::factory()->forCompany($this->user->company_id)->vehicle()->create();
+        $service->saveMaintenance($asset, new AssetMaintenance, ['type' => 'preventive', 'date' => '2026-11-01', 'description' => 'C', 'next_due_at' => '2026-12-01'], $this->user->id);
+        $stale = Asset::query()->with('vehicle')->findOrFail($asset->id);
+
+        $service->saveMaintenance(Asset::query()->with('vehicle')->findOrFail($asset->id), new AssetMaintenance, ['type' => 'preventive', 'date' => '2026-11-10', 'description' => 'A', 'next_due_at' => '2026-12-15'], $this->user->id);
+        $service->saveMaintenance($stale, new AssetMaintenance, ['type' => 'preventive', 'date' => '2026-11-20', 'description' => 'B', 'next_due_at' => '2026-12-01'], $this->user->id);
+
+        $this->assertSame('2026-12-01', $asset->fresh()->next_maintenance_at->toDateString());
     }
 }
