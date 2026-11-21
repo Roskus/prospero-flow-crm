@@ -626,6 +626,31 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete transaction',
                 'guard_name' => 'web',
             ],
+            // Inventory (vehicles, machinery and devices; also the carrier catalog)
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'create asset',
+                'guard_name' => 'web',
+                'module_id' => ModuleSeeder::INVENTORY_MODULE_ID,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'read asset',
+                'guard_name' => 'web',
+                'module_id' => ModuleSeeder::INVENTORY_MODULE_ID,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'update asset',
+                'guard_name' => 'web',
+                'module_id' => ModuleSeeder::INVENTORY_MODULE_ID,
+            ],
+            [
+                'roles' => ['SuperAdmin', 'CompanyAdmin'],
+                'name' => 'delete asset',
+                'guard_name' => 'web',
+                'module_id' => ModuleSeeder::INVENTORY_MODULE_ID,
+            ],
         ];
     }
 }

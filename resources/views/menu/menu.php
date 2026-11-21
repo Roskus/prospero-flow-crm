@@ -78,6 +78,26 @@ return [
         'permissions' => ['read supplier'],
     ],
     [
+        'is_drop_down' => true,
+        'title' => __('Inventory'),
+        'icon_class' => 'las la-warehouse',
+        'permissions' => ['read asset'],
+        'children' => [
+            [
+                'url' => url('/inventory/vehicle'),
+                'title' => __('Vehicles & machinery'),
+                'icon_class' => 'las la-truck',
+                'permissions' => ['read asset'],
+            ],
+            [
+                'url' => url('/inventory/device'),
+                'title' => __('Devices'),
+                'icon_class' => 'las la-laptop',
+                'permissions' => ['read asset'],
+            ],
+        ],
+    ],
+    [
         'url' => url('/ticket'),
         'title' => __('Tickets'),
         'icon_class' => 'las la-tools',

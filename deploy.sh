@@ -39,9 +39,12 @@ install_binary() {
     "${SUDO[@]}" install -m 755 "$source" "$target"
 }
 
-git fetch
-# Update branch
-git pull origin main
+# Update branch. The GitHub Actions deploy updates the code itself, with a temporary
+# token and to the exact commit that passed the tests, and sets SKIP_GIT_PULL=1.
+if [ "${SKIP_GIT_PULL:-0}" != "1" ]; then
+    git fetch
+    git pull origin main
+fi
 
 # Install dependencies as the project owner (never as root)
 composer install --no-dev --optimize-autoloader --no-interaction
@@ -52,7 +55,11 @@ php artisan migrate --force
 # Sync roles and permissions (idempotent — safe to run on every deploy).
 # Roles first: PermissionSeeder assigns permissions to roles and fails if a role is missing.
 php artisan db:seed --class=RoleSeeder --force
+# Modules: upserted by unique name, so permissions keep pointing to the same module ids
+php artisan db:seed --class=ModuleSeeder --force
 php artisan db:seed --class=PermissionSeeder --force
+# Mobile carriers of each company country: only adds the missing ones, deleted carriers are not recreated
+php artisan db:seed --class=CarrierSeeder --force
 # Bank catalogue: upserted by a BIC-derived UUID, so existing bank accounts keep their bank
 php artisan db:seed --class=BankSeeder --force
 
@@ -68,6 +75,10 @@ fi
 # an explicit mtime, which only the file owner is allowed to do. Clear them so
 # www-data recompiles them on the next request.
 php artisan view:clear
+
+# Queue workers (MailSender is queued) keep the old code in memory: ask them to restart
+# after their current job. Harmless when no worker is running.
+php artisan queue:restart
 
 install_binary vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64
 install_binary vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64

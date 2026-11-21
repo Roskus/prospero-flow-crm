@@ -1,0 +1,61 @@
+name: Deploy to production
+
+# Deploys main after the "Tests" workflow passes on it (a merged pull request is a push
+# to main too), so tests run once and a red build never reaches production.
+# It can also be launched by hand from the Actions tab.
+on:
+  workflow_run:
+    workflows: [Tests]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+# The job token only needs to read the code.
+permissions:
+  contents: read
+
+# Never run two deploys at once; a newer one waits for the running one.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    # Only pushes to main whose tests passed; manual runs deploy the current main.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    # Self-hosted runner installed on the production VPS. It runs as the user that
+    # owns the code, which deploy.sh requires (it refuses to run as root).
+    runs-on: self-hosted
+    timeout-minutes: 20
+    environment: production
+    defaults:
+      run:
+        # Directory of the site on the VPS. Override it with a repository
+        # variable named APP_PATH (Settings > Secrets and variables > Actions).
+        working-directory: ${{ vars.APP_PATH || '/var/www/prospero-flow-crm' }}
+    env:
+      # The commit the Tests workflow checked, or the latest main on a manual run.
+      DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+    steps:
+      - name: Update code to the tested commit
+        # Authenticates with the job's temporary token instead of an SSH key. The token
+        # is passed as a header for this command only, so it is never written to
+        # .git/config, and it expires when the job ends. --ff-only refuses to deploy if
+        # the server has local commits or the commit is not ahead of what is deployed.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git -c http.extraheader="AUTHORIZATION: basic $auth" \
+            fetch "https://github.com/${{ github.repository }}.git" main
+          git merge --ff-only "$DEPLOY_SHA"
+
+      - name: Run deploy script
+        # deploy.sh holds every deploy step (dependencies, migrations, seeders, API docs,
+        # permissions, binaries, Sentry release); the code is already updated above.
+        env:
+          SKIP_GIT_PULL: '1'
+        run: ./deploy.sh
