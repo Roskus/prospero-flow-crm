@@ -11,9 +11,11 @@
         .label { width: 62mm; height: 29mm; padding: 1.5mm 2mm; overflow: hidden; display: flex; gap: 2mm; align-items: center; }
         .label--barcode { flex-direction: column; justify-content: center; gap: .8mm; }
         .label--barcode .symbol svg { width: 58mm; height: 13mm; display: block; }
-        .label--qr .symbol svg { width: 25mm; height: 25mm; display: block; }
+        .label--qr { padding: 5mm; }
+        .label--qr .symbol svg { width: 19mm; height: 19mm; display: block; }
         .text { min-width: 0; text-align: center; }
         .label--qr .text { text-align: left; }
+        .label--qr .code { overflow-wrap: anywhere; }
         .code { font-family: "Courier New", monospace; font-weight: bold; font-size: 11pt; letter-spacing: .5pt; }
         .name, .company { font-size: 7pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 58mm; }
         .label--qr .name, .label--qr .company { max-width: 31mm; white-space: normal; }

@@ -92,6 +92,9 @@ class AssetCodeLabelTest extends TestCase
             ->assertOk()
             ->assertSee('<svg', false)
             ->assertSee('label--qr', false)
+            ->assertSee('.label--qr { padding: 5mm; }', false)
+            ->assertSee('.label--qr .symbol svg { width: 19mm; height: 19mm; display: block; }', false)
+            ->assertSee('.label--qr .code { overflow-wrap: anywhere; }', false)
             ->assertDontSee('<?xml', false);
 
         $reader = User::factory()->create(['company_id' => $this->user->company_id]);
