@@ -41,7 +41,7 @@ class AssetPhotoTest extends TestCase
 
         $this->get('/inventory/photo/'.$crane->id)->assertOk()->assertHeader('Cache-Control', 'max-age=86400, private');
         $this->get('/inventory/vehicle')->assertSee(route('asset.photo', $crane->id), false);
-        $this->get(route('asset.show', $crane->id))->assertSee(route('asset.photo', $crane->id), false);
+        $this->get(route('asset.show', $crane->id))->assertSee(route('asset.photo', $crane->id), false)->assertSee('object-fit-contain', false);
     }
 
     #[Test]
