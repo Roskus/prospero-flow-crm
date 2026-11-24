@@ -15,6 +15,7 @@
         .label--qr .symbol svg { width: 19mm; height: 19mm; display: block; }
         .text { min-width: 0; text-align: center; }
         .label--qr .text { text-align: left; }
+        .label--qr .code { overflow-wrap: anywhere; }
         .code { font-family: "Courier New", monospace; font-weight: bold; font-size: 11pt; letter-spacing: .5pt; }
         .name, .company { font-size: 7pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 58mm; }
         .label--qr .name, .label--qr .company { max-width: 31mm; white-space: normal; }
