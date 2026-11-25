@@ -10,7 +10,9 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -109,6 +111,32 @@ class ProfileSaveControllerTest extends TestCase
 
         Storage::disk('public')->assertMissing($previousPath);
         Storage::disk('public')->assertExists('user/'.$this->user->id.'/'.$this->user->fresh()->photo);
+    }
+
+    #[Test]
+    public function a_new_photo_deletes_the_previous_legacy_photo(): void
+    {
+        Storage::fake('public');
+        $company = Company::factory()->create(['name' => 'Legacy Photo '.Str::random(8)]);
+        $this->user->forceFill(['company_id' => $company->id, 'default_company_id' => null, 'photo' => 'legacy.jpg'])->save();
+        $legacyFolder = public_path('asset/upload/company/'.Str::slug($company->name, '_'));
+        File::ensureDirectoryExists($legacyFolder);
+        File::put($legacyFolder.'/legacy.jpg', 'content');
+
+        try {
+            $this->post('profile/save', [
+                'first_name' => fake()->firstName(),
+                'last_name' => fake()->lastName(),
+                'email' => fake()->unique()->safeEmail(),
+                'lang' => 'en',
+                'photo' => UploadedFile::fake()->image('avatar.png'),
+            ])->assertSessionHasNoErrors();
+
+            $this->assertFileDoesNotExist($legacyFolder.'/legacy.jpg');
+            Storage::disk('public')->assertExists('user/'.$this->user->id.'/'.$this->user->fresh()->photo);
+        } finally {
+            File::deleteDirectory($legacyFolder);
+        }
     }
 
     #[Test]

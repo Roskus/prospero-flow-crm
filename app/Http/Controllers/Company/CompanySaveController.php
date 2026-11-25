@@ -27,7 +27,7 @@ class CompanySaveController extends MainController
 
         if ($request->hasFile('logo')) {
             $folder = 'company/'.Str::slug($company->name, '_');
-            // Use the validated MIME type: jpeg|jpg|png|webp|jxl|svg only
+            // Use the validated MIME type: jpeg|jpg|png|webp|svg only
             $filename = time().'.'.$request->file('logo')->extension();
 
             try {

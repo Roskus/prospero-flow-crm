@@ -406,11 +406,19 @@ class User extends Authenticatable implements JWTSubject
                     return Storage::disk('public')->url($this->photoFolder().'/'.$this->photo);
                 }
 
-                $legacyCompany = $this->defaultCompany ?? $this->company;
-
-                return '/asset/upload/company/'.Str::slug((string) $legacyCompany?->name, '_').'/'.$this->photo;
+                return '/'.$this->legacyPhotoPath((string) $this->photo);
             },
         );
+    }
+
+    /**
+     * Path, relative to the public folder, where photos saved before the user folder existed live: the folder of the user's own company.
+     */
+    public function legacyPhotoPath(string $photo): string
+    {
+        $legacyCompany = $this->defaultCompany ?? $this->company;
+
+        return 'asset/upload/company/'.Str::slug((string) $legacyCompany?->name, '_').'/'.$photo;
     }
 
     /**

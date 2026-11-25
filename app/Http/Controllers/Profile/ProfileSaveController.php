@@ -9,6 +9,7 @@ use App\Http\Requests\ProfileSaveRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -37,6 +38,7 @@ class ProfileSaveController extends MainController
             $user->must_change_password = false;
         }
         $user->updated_at = now();
+        $previousPhoto = null;
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
             $filename = time().'.'.$photo->extension();
@@ -49,12 +51,12 @@ class ProfileSaveController extends MainController
 
             $previousPhoto = $user->photo;
             $user->photo = $filename;
-
-            if (! empty($previousPhoto) && $previousPhoto !== $filename) {
-                Storage::disk('public')->delete($user->photoFolder().'/'.$previousPhoto);
-            }
         }
         $user->save();
+
+        if (! empty($previousPhoto) && $previousPhoto !== $user->photo) {
+            $this->deletePreviousPhoto($user, $previousPhoto);
+        }
         // Update current software language
         App::setLocale($locale);
         session()->put('locale', $locale);
@@ -62,5 +64,21 @@ class ProfileSaveController extends MainController
         $response = ['status' => $status, 'message' => 'Profile saved successfully'];
 
         return redirect('/profile')->with($response);
+    }
+
+    /**
+     * Remove the replaced photo from the user folder, or from the legacy company folder when it was saved there.
+     */
+    private function deletePreviousPhoto(User $user, string $previousPhoto): void
+    {
+        $userFolderPath = $user->photoFolder().'/'.$previousPhoto;
+
+        if (Storage::disk('public')->exists($userFolderPath)) {
+            Storage::disk('public')->delete($userFolderPath);
+
+            return;
+        }
+
+        File::delete(public_path($user->legacyPhotoPath($previousPhoto)));
     }
 }
