@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileSaveController extends MainController
 {
@@ -37,27 +37,21 @@ class ProfileSaveController extends MainController
             $user->must_change_password = false;
         }
         $user->updated_at = now();
-        // Save image
         if ($request->hasFile('photo')) {
-            $extension = $request->file('photo')->extension();
-            $origin_path = $request->file('photo')->getPathName();
+            $photo = $request->file('photo');
+            $filename = time().'.'.$photo->extension();
 
-            $company_folder = Str::slug(Auth::user()->company->name, '_');
+            if ($photo->storeAs($user->photoFolder(), $filename, 'public') === false) {
+                Log::error('Profile photo upload failed', ['user_id' => $user->id]);
 
-            $destination_path = \public_path().DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'company'.DIRECTORY_SEPARATOR.$company_folder;
-            try {
-                \mkdir($destination_path, 0775, true);
-            } catch (\Exception $e) {
-                Log::error('Backoffice -> Profile -> Upload image: '.$destination_path);
+                return redirect('/profile')->with(['status' => 'error', 'message' => 'The profile photo could not be saved.']);
             }
 
-            $new_name = time().'.'.$extension;
+            $previousPhoto = $user->photo;
+            $user->photo = $filename;
 
-            $origin = $origin_path;
-            $destination = $destination_path.DIRECTORY_SEPARATOR.$new_name;
-
-            if (copy($origin, $destination)) {
-                $user->photo = $new_name;
+            if (! empty($previousPhoto) && $previousPhoto !== $filename) {
+                Storage::disk('public')->delete($user->photoFolder().'/'.$previousPhoto);
             }
         }
         $user->save();

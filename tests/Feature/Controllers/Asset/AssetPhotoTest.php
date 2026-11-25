@@ -54,6 +54,17 @@ class AssetPhotoTest extends TestCase
     }
 
     #[Test]
+    public function a_jxl_photo_is_accepted(): void
+    {
+        $this->post('/inventory/save', $this->craneData(['photo' => $this->fakeJxlImage('grua.jxl')]))
+            ->assertSessionHasNoErrors();
+
+        $photoPath = Asset::firstOrFail()->photo_path;
+        $this->assertStringEndsWith('.jxl', $photoPath);
+        Storage::disk('local')->assertExists($photoPath);
+    }
+
+    #[Test]
     public function a_new_photo_replaces_and_deletes_the_previous_one(): void
     {
         $this->post('/inventory/save', $this->craneData(['photo' => UploadedFile::fake()->image('old.png')]));

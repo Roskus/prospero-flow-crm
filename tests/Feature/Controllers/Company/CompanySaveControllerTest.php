@@ -41,6 +41,25 @@ class CompanySaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_can_save_a_jxl_company_logo(): void
+    {
+        $name = fake()->unique()->word();
+
+        $this->post('/company/save', [
+            'name' => $name,
+            'currency' => fake()->bothify('???'),
+            'logo' => $this->fakeJxlImage('logo.jxl'),
+        ])->assertSessionHasNoErrors()->assertRedirect('/company');
+
+        $logo = (string) Company::query()->where('name', $name)->value('logo');
+        $this->assertStringEndsWith('.jxl', $logo);
+
+        $storagePath = 'company/'.Str::slug($name, '_').'/'.$logo;
+        Storage::disk('public')->assertExists($storagePath);
+        Storage::disk('public')->delete($storagePath);
+    }
+
+    #[Test]
     public function super_admin_can_update_another_company(): void
     {
         $otherCompany = Company::factory()->create();

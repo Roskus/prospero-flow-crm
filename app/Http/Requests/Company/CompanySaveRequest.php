@@ -59,10 +59,10 @@ class CompanySaveRequest extends FormRequest
             'weekly_hours_full_time' => 'nullable|numeric|min:0',
             'dashboard_calendar_view' => 'nullable|in:'.Company::CALENDAR_VIEW_MONTH.','.Company::CALENDAR_VIEW_WEEK,
             // FIX for CWE-434 (Unrestricted Upload) + CWE-79 (Stored XSS)
-            // - Explicit MIME type allow-list (jpg, jpeg, png, webp, svg)
+            // - Explicit MIME type allow-list (jpg, jpeg, png, webp, jxl, svg)
             // - Maximum file size of 2MB
             // - Custom validation to prevent embedded scripts in SVG
-            'logo' => ['nullable', 'mimes:jpeg,jpg,png,webp,svg', 'max:2048', new ExtensionMatchesContent, new ValidateSafeSvg],
+            'logo' => ['nullable', 'mimes:jpeg,jpg,png,webp,jxl,svg', 'max:2048', new ExtensionMatchesContent, new ValidateSafeSvg],
         ];
 
         // Only SuperAdmin can change the status; a tampered request from any other user is rejected
@@ -90,7 +90,7 @@ class CompanySaveRequest extends FormRequest
     {
         return [
             'logo.image' => __('The logo must be a valid image file.'),
-            'logo.mimes' => __('The logo must be a JPG, PNG, or WebP file.'),
+            'logo.mimes' => __('The logo must be a JPG, PNG, WebP, JPEG XL or SVG file.'),
             'logo.max' => __('The logo file size must not exceed 2 MB.'),
             'status.prohibited' => __('You are not allowed to change the company status.'),
             'managed_companies_limit.prohibited' => __('You are not allowed to change the client companies quota.'),

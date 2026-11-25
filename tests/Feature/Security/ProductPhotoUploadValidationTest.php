@@ -84,6 +84,38 @@ class ProductPhotoUploadValidationTest extends TestCase
     }
 
     #[Test]
+    public function it_accepts_a_jxl_photo(): void
+    {
+        $this->actingAs($this->seller);
+
+        $product = Product::factory()->make()->toArray();
+        $product['expiration_date'] = Carbon::tomorrow()->format('Y-m-d');
+        $product['photo'] = $this->fakeJxlImage('photo.jxl');
+
+        $this->post('/product/save', $product)->assertRedirect('/product');
+
+        $saved = Product::withoutGlobalScopes()->first();
+        $this->assertNotNull($saved);
+        $this->assertStringEndsWith('.jxl', (string) $saved->photo);
+
+        $this->cleanupUploadedProductPhoto($saved);
+    }
+
+    #[Test]
+    public function it_rejects_a_jxl_extension_with_non_jxl_content(): void
+    {
+        $this->actingAs($this->seller);
+
+        $product = Product::factory()->make()->toArray();
+        $product['expiration_date'] = Carbon::tomorrow()->format('Y-m-d');
+        $product['photo'] = $this->uploadedFileWithContent('photo.jxl', "GIF89a\n<script>alert(1)</script>");
+
+        $this->post('/product/save', $product)->assertSessionHasErrors('photo');
+
+        $this->assertSame(0, Product::withoutGlobalScopes()->count());
+    }
+
+    #[Test]
     public function it_accepts_jpeg_extension_matching_jpeg_content(): void
     {
         $this->actingAs($this->seller);

@@ -215,7 +215,7 @@
                             </div>
                         @endif
                         <input type="file" name="attachment" id="attachment"
-                               accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx"
+                               accept=".pdf,.jpg,.jpeg,.png,.webp,.jxl,.doc,.docx,.xls,.xlsx"
                                class="form-control form-control-lg @error('attachment') is-invalid @enderror">
                         @error('attachment') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <div class="text-muted small mt-1">PDF, {{ __('images') }}, Word, Excel · {{ __('max') }} 10MB</div>

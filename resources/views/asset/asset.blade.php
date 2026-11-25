@@ -149,9 +149,9 @@
                     @include('asset._thumbnail', ['asset' => $asset, 'size' => 120])
                     <div class="flex-grow-1">
                         <label for="photo" class="visually-hidden">{{ __('Photo') }}</label>
-                        <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp" class="form-control @error('photo') is-invalid @enderror">
+                        <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp,image/jxl,.jxl" class="form-control @error('photo') is-invalid @enderror">
                         @error('photo')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        <small class="form-text text-muted">{{ __('JPG, PNG or WebP, up to 5 MB.') }}</small>
+                        <small class="form-text text-muted">{{ __('JPG, PNG, WebP or JPEG XL, up to 5 MB.') }}</small>
                         @if($asset->hasPhoto())
                             <div class="form-check mt-2">
                                 <input type="checkbox" name="remove_photo" id="remove_photo" value="1" class="form-check-input">

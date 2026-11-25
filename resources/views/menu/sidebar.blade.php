@@ -49,9 +49,9 @@
     <div class="dropdown border-top">
         <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
             @if(empty(Auth::user()->photo))
-            <img src="/asset/img/user.jpg" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle">
+            <img src="/asset/img/user.jpg" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle user-photo">
             @else
-            <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->photo }}" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle">
+            <img src="{{ Auth::user()->photo_url }}" alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle user-photo">
             @endif
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">

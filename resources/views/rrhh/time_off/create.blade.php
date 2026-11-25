@@ -39,7 +39,7 @@
             <div class="row form-group mb-2" id="attachmentField">
                 <div class="col">
                     <label for="attachment">{{ __('Attachment') }}</label>
-                    <input type="file" name="attachment" id="attachment" accept="application/pdf,image/jpeg,image/png" class="form-control">
+                    <input type="file" name="attachment" id="attachment" accept="application/pdf,image/jpeg,image/png,image/webp,image/jxl,.jxl" class="form-control">
                     <small class="text-muted">{{ __('PDF, JPG or PNG. Max 5MB.') }} <span id="attachmentNote" class="text-info">{{ __('Recommended for sick leave') }}</span></small>
                 </div>
             </div>

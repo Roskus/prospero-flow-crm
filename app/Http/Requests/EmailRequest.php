@@ -33,7 +33,7 @@ class EmailRequest extends FormRequest
             'bcc' => 'nullable|email',
             'body' => 'required|string',
             'signature' => 'nullable|in:0,1,true,false,on,off',
-            'attachment.*' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:10240',
+            'attachment.*' => 'nullable|mimes:jpg,jpeg,png,webp,jxl,pdf,doc,docx,xls,xlsx|max:10240',
         ];
     }
 

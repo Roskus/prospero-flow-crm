@@ -29,7 +29,7 @@ trait ValidatesInvoicePayment
             $key('exchange_rate') => [...$presence, 'nullable', 'numeric', 'gt:0', 'max:9999999999'],
             $key('payment_date') => [...$presence, 'nullable', 'date_format:Y-m-d'],
             $key('reference') => [...$presence, 'nullable', 'string', 'max:80'],
-            $key('attachment') => [...$presence, 'nullable', 'file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,webp'],
+            $key('attachment') => [...$presence, 'nullable', 'file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,webp,jxl'],
         ];
     }
 }

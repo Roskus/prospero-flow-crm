@@ -32,6 +32,7 @@ class TicketSaveController extends MainController
                 'image/png',
                 'image/gif',
                 'image/webp',
+                'image/jxl',
                 'application/pdf',
                 'application/msword',
                 'application/vnd.ms-excel',
