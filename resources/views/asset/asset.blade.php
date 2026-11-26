@@ -164,6 +164,7 @@
         </div>
 
         @includeWhen($category === \App\Enums\AssetCategory::Vehicle, 'asset._vehicle')
+        @includeWhen($category === \App\Enums\AssetCategory::Vehicle, 'asset._machinery')
         @includeWhen($category === \App\Enums\AssetCategory::Device, 'asset._device')
 
         <div class="card mb-2">

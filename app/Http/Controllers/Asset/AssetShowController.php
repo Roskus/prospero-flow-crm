@@ -18,6 +18,7 @@ class AssetShowController extends MainController
         $asset = Asset::query()->ofCompany($companyId)
             ->with([
                 'vehicle',
+                'machinery',
                 'device.carrier',
                 'branch',
                 'supplier',

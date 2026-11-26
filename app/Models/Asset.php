@@ -47,6 +47,7 @@ use OpenApi\Attributes as OAT;
  * @property ?Carbon $updated_at
  * @property ?AssetVehicle $vehicle
  * @property ?AssetDevice $device
+ * @property ?AssetMachinery $machinery
  * @property ?AssetAssignment $currentAssignment
  */
 #[OAT\Schema(
@@ -174,6 +175,16 @@ class Asset extends Model
     }
 
     /**
+     * Machinery detail, only for machinery types of the vehicle category.
+     *
+     * @return HasOne<AssetMachinery, $this>
+     */
+    public function machinery(): HasOne
+    {
+        return $this->hasOne(AssetMachinery::class);
+    }
+
+    /**
      * @return HasOne<AssetDevice, $this>
      */
     public function device(): HasOne
@@ -210,6 +221,11 @@ class Asset extends Model
     public function isVehicle(): bool
     {
         return $this->category === AssetCategory::Vehicle;
+    }
+
+    public function isMachinery(): bool
+    {
+        return $this->isVehicle() && $this->type->isMachinery();
     }
 
     public function isRenting(): bool
@@ -279,10 +295,14 @@ class Asset extends Model
     public function dueDates(): array
     {
         $vehicle = $this->isVehicle() ? $this->vehicle : null;
+        $machinery = $this->isMachinery() ? $this->machinery : null;
 
         return array_filter([
             __('Insurance') => $vehicle?->insurance_expires_at,
             __('Technical inspection') => $vehicle?->inspection_expires_at,
+            __('Certification') => $machinery?->certification_expires_at,
+            __('Calibration') => $machinery?->calibration_expires_at,
+            __('Safety inspection') => $machinery?->safety_inspection_expires_at,
             __('Warranty') => $this->warranty_until,
             __('Renting end') => $this->rental_ends_at,
             __('Next maintenance') => $this->next_maintenance_at,
@@ -350,6 +370,11 @@ class Asset extends Model
                 ->orWhereHas('vehicle', function (Builder $query) use ($limit): void {
                     $query->where('insurance_expires_at', '<=', $limit)
                         ->orWhere('inspection_expires_at', '<=', $limit);
+                })
+                ->orWhereHas('machinery', function (Builder $query) use ($limit): void {
+                    $query->where('certification_expires_at', '<=', $limit)
+                        ->orWhere('calibration_expires_at', '<=', $limit)
+                        ->orWhere('safety_inspection_expires_at', '<=', $limit);
                 });
         });
     }

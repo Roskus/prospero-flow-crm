@@ -15,9 +15,37 @@ class AssetTypeTest extends TestCase
     public function vehicles_and_machinery_belong_to_the_vehicle_category(): void
     {
         $this->assertSame(
-            [AssetType::Car, AssetType::Van, AssetType::Truck, AssetType::Motorcycle, AssetType::Crane, AssetType::Lift, AssetType::Forklift, AssetType::OtherMachinery],
+            [
+                AssetType::Car, AssetType::Van, AssetType::Truck, AssetType::Motorcycle, AssetType::Crane, AssetType::Lift,
+                AssetType::Forklift, AssetType::Excavator, AssetType::Generator, AssetType::Compressor, AssetType::OtherMachinery,
+            ],
             AssetType::forCategory(AssetCategory::Vehicle)
         );
+    }
+
+    #[Test]
+    public function only_machinery_types_of_the_vehicle_category_are_machinery(): void
+    {
+        $machinery = array_values(array_filter(AssetType::cases(), fn (AssetType $type): bool => $type->isMachinery()));
+
+        $this->assertSame(AssetType::machinery(), $machinery);
+        $this->assertSame(
+            [AssetType::Crane, AssetType::Lift, AssetType::Forklift, AssetType::Excavator, AssetType::Generator, AssetType::Compressor, AssetType::OtherMachinery],
+            $machinery
+        );
+        foreach ($machinery as $type) {
+            $this->assertSame(AssetCategory::Vehicle, $type->category());
+        }
+        $this->assertFalse(AssetType::Truck->isMachinery());
+        $this->assertFalse(AssetType::Server->isMachinery());
+    }
+
+    #[Test]
+    public function every_type_has_its_own_code_prefix(): void
+    {
+        $prefixes = array_map(fn (AssetType $type): string => $type->codePrefix(), AssetType::cases());
+
+        $this->assertSame(count($prefixes), count(array_unique($prefixes)));
     }
 
     #[Test]

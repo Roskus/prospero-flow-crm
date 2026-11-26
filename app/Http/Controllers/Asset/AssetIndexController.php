@@ -39,7 +39,7 @@ class AssetIndexController extends MainController
 
         $query = Asset::query()->ofCompany($companyId)
             ->ofCategory($assetCategory)
-            ->with(['branch', 'currentAssignment.user', $assetCategory === AssetCategory::Vehicle ? 'vehicle' : 'device.carrier']);
+            ->with(['branch', 'currentAssignment.user', ...($assetCategory === AssetCategory::Vehicle ? ['vehicle', 'machinery'] : ['device.carrier'])]);
 
         if ($status !== null) {
             $query->where('status', $status->value);
@@ -87,7 +87,8 @@ class AssetIndexController extends MainController
                 ->orWhere('serial_number', 'like', $like);
 
             if ($category === AssetCategory::Vehicle) {
-                $query->orWhereHas('vehicle', fn (Builder $query) => $query->where('license_plate', 'like', $like)->orWhere('vin', 'like', $like));
+                $query->orWhereHas('vehicle', fn (Builder $query) => $query->where('license_plate', 'like', $like)->orWhere('vin', 'like', $like))
+                    ->orWhereHas('machinery', fn (Builder $query) => $query->where('certification_number', 'like', $like));
 
                 return;
             }

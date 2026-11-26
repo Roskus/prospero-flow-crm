@@ -811,5 +811,19 @@
     "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later." : "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later.",
     "The assignment changed meanwhile. Reload the page and try again." : "The assignment changed meanwhile. Reload the page and try again.",
     "This code is already used by another asset, or was used by a deleted one." : "This code is already used by another asset, or was used by a deleted one.",
-    "No more codes can be generated for this type. Type one by hand." : "No more codes can be generated for this type. Type one by hand."
+    "No more codes can be generated for this type. Type one by hand." : "No more codes can be generated for this type. Type one by hand.",
+    "Excavator" : "Excavator",
+    "Generator" : "Generator",
+    "Compressor" : "Compressor",
+    "Certification" : "Certification",
+    "Calibration" : "Calibration",
+    "Safety inspection" : "Safety inspection",
+    "Machinery data" : "Machinery data",
+    "Capacity" : "Capacity",
+    "e.g. 25 t, 100 kVA" : "e.g. 25 t, 100 kVA",
+    "Certification number" : "Certification number",
+    "Certified by" : "Certified by",
+    "Certification expires" : "Certification expires",
+    "Calibration expires" : "Calibration expires",
+    "Safety inspection expires" : "Safety inspection expires"
 }

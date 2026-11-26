@@ -11,6 +11,7 @@ use App\Enums\AssetType;
 use App\Models\Asset;
 use App\Models\AssetAssignment;
 use App\Models\AssetDevice;
+use App\Models\AssetMachinery;
 use App\Models\AssetVehicle;
 use App\Models\Company;
 use App\Models\User;
@@ -48,6 +49,18 @@ class AssetFactory extends Factory
     {
         return $this->state(['category' => AssetCategory::Vehicle, 'type' => $type])
             ->has(AssetVehicle::factory()->state($detail), 'vehicle');
+    }
+
+    /**
+     * A vehicle-category machine with both its vehicle and machinery detail.
+     *
+     * @param  array<string, mixed>  $machinery
+     * @param  array<string, mixed>  $vehicle
+     */
+    public function machinery(AssetType $type = AssetType::Crane, array $machinery = [], array $vehicle = []): static
+    {
+        return $this->vehicle($type, ['odometer_km' => null, 'usage_hours' => 1000, ...$vehicle])
+            ->has(AssetMachinery::factory()->state($machinery), 'machinery');
     }
 
     /**

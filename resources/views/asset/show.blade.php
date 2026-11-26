@@ -105,6 +105,19 @@
                         </dl>
                     </div>
                 </div>
+                @if($asset->isMachinery() && $asset->machinery)
+                    @php($machinery = $asset->machinery)
+                    <div class="card mb-2">
+                        <div class="card-header"><span class="card-title">{{ __('Machinery data') }}</span></div>
+                        <div class="card-body">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-3">{{ __('Capacity') }}</dt><dd class="col-sm-3">{{ $machinery->capacity ?: '—' }}</dd>
+                                <dt class="col-sm-3">{{ __('Certification number') }}</dt><dd class="col-sm-3 font-monospace">{{ $machinery->certification_number ?: '—' }}</dd>
+                                <dt class="col-sm-3">{{ __('Certified by') }}</dt><dd class="col-sm-9">{{ $machinery->certified_by ?: '—' }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                @endif
             @elseif($asset->device)
                 @php($device = $asset->device)
                 @if($asset->type->hasPhoneLine())
