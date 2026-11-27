@@ -96,6 +96,21 @@
             </div>
             <div class="row">
                 <div class="col mt-2">
+                    @php($selectedCountries = old('countries', $campaign->countries ?? []))
+                    <label for="countries">{{ __('Countries') }}</label>
+                    <select name="countries[]" id="countries" class="form-select" multiple data-tom-select placeholder="{{ __('All countries') }}">
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->code_2 }}" @selected(in_array($country->code_2, $selectedCountries, true))>{{ $country->flag }} {{ $country->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('countries') <div class="text-danger small">{{ $message }}</div> @enderror
+                    @push('scripts')
+                        @include('components.tom_select')
+                    @endpush
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-2">
                     <label for="tags"><i class="las la-hashtag"></i> {{ __('Tags') }}</label>
                     <textarea name="tags" id="tags" placeholder="keyword, special keyword, keyword2"
                               class="form-control form-control-lg">

@@ -148,5 +148,7 @@
     "Week" : "Settimana",
     "Zipcode" : "CAP",
     "Everyone": "Tutti",
-    "Only contacts with opt in": "Solo contatti con opt-in"
+    "Only contacts with opt in": "Solo contatti con opt-in",
+    "Countries": "Paesi",
+    "All countries": "Tutti i paesi"
 }

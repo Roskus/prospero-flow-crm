@@ -133,5 +133,7 @@
     "Week": "Semaine",
     "Zipcode": "Code postal",
     "Everyone": "Tous",
-    "Only contacts with opt in": "Uniquement les contacts avec opt-in"
+    "Only contacts with opt in": "Uniquement les contacts avec opt-in",
+    "Countries": "Pays",
+    "All countries": "Tous les pays"
 }

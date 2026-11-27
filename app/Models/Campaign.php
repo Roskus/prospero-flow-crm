@@ -63,6 +63,7 @@ class Campaign extends Model
         'tags',
         'audience',
         'require_opt_in',
+        'countries',
         'recipient_type',
         'schedule_send_date',
         'schedule_send_time',
@@ -82,6 +83,7 @@ class Campaign extends Model
         'send_at' => 'datetime',
         'emails_count' => 'integer',
         'require_opt_in' => 'boolean',
+        'countries' => 'array',
     ];
 
     /**
@@ -165,7 +167,7 @@ class Campaign extends Model
     }
 
     /**
-     * Contacts of the campaign company with an email (and opt in, when the campaign requires it); for a tags audience, only those with any of the campaign tags (case insensitive).
+     * Contacts of the campaign company with an email (and opt in, when the campaign requires it), from the campaign countries if it has any; for a tags audience, only those with any of the campaign tags (case insensitive).
      *
      * @template TContact of Prospect
      *
@@ -185,6 +187,7 @@ class Campaign extends Model
             ->whereNotNull('email')
             ->where('email', '!=', '')
             ->when($this->require_opt_in, fn (Builder $query) => $query->where('opt_in', true))
+            ->when(! empty($this->countries), fn (Builder $query) => $query->whereIn('country_id', $this->countries))
             ->when($this->audience === self::AUDIENCE_TAGS, fn (Builder $query) => $query->where(function (Builder $query) use ($tags): void {
                 $query->whereRaw('1 = 0');
                 foreach ($tags as $tag) {

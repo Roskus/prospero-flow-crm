@@ -183,5 +183,7 @@
     "Logout": "Cerrar sesión",
     "Register": "Registrarse",
     "Everyone": "Todos",
-    "Only contacts with opt in": "Solo contactos con opt-in"
+    "Only contacts with opt in": "Solo contactos con opt-in",
+    "Countries": "Países",
+    "All countries": "Todos los países"
 }

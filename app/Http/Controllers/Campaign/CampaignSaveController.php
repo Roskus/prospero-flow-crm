@@ -28,6 +28,7 @@ class CampaignSaveController extends MainController
         $campaign->recipient_type = $request->recipient_type;
         $campaign->audience = $request->audience;
         $campaign->require_opt_in = $request->boolean('require_opt_in');
+        $campaign->countries = $request->filled('countries') ? array_map('strtolower', $request->countries) : null;
         $campaign->schedule_send_date = $request->schedule_send_date;
         $campaign->schedule_send_time = $request->schedule_send_time;
         $campaign->schedule_at = Campaign::scheduleMoment($request->schedule_send_date, $request->schedule_send_time, Auth::user()->timezone);

@@ -436,4 +436,19 @@ class CampaignSenderTest extends TestCase
         Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('optout@example.com'));
         Mail::assertNotSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('untagged@example.com'));
     }
+
+    #[Test]
+    public function a_campaign_with_countries_is_sent_only_to_leads_from_those_countries(): void
+    {
+        Mail::fake();
+        $this->campaign(['schedule_send_date' => '2026-10-15', 'countries' => ['ar', 'pe']]);
+        $this->lead('argentina@example.com', ['country_id' => 'ar']);
+        $this->lead('peru@example.com', ['country_id' => 'pe']);
+        $this->lead('spain@example.com', ['country_id' => 'es']);
+
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+
+        Mail::assertSentCount(2);
+        Mail::assertNotSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('spain@example.com'));
+    }
 }

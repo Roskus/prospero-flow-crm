@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Campaigns can be sent to contacts without opt in (existing campaigns keep requiring it),
-     * and email subjects allow 120 characters.
+     * Campaigns can be sent to contacts without opt in (existing campaigns keep requiring it) and
+     * limited to some countries, and email subjects allow 120 characters.
      */
     public function up(): void
     {
         Schema::table('campaign', function (Blueprint $table) {
             $table->boolean('require_opt_in')->default(true)->after('audience');
+            $table->json('countries')->nullable()->after('require_opt_in');
         });
 
         Schema::table('email', function (Blueprint $table) {
@@ -29,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('campaign', function (Blueprint $table) {
-            $table->dropColumn('require_opt_in');
+            $table->dropColumn(['require_opt_in', 'countries']);
         });
 
         Schema::table('email', function (Blueprint $table) {

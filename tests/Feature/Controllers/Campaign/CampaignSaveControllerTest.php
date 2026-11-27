@@ -176,4 +176,13 @@ class CampaignSaveControllerTest extends TestCase
         $this->post('/campaign/save', $this->payload(['id' => $campaign->id]))->assertRedirect('/campaign');
         $this->assertFalse($campaign->fresh()->require_opt_in);
     }
+
+    #[Test]
+    public function the_countries_are_saved_in_lowercase(): void
+    {
+        $this->post('/campaign/save', $this->payload(['countries' => ['AR', 'es']]))->assertRedirect('/campaign');
+        $this->assertSame(['ar', 'es'], Campaign::firstWhere('name', 'Autumn newsletter')->countries);
+
+        $this->post('/campaign/save', $this->payload(['countries' => ['ARG']]))->assertSessionHasErrors('countries.0');
+    }
 }

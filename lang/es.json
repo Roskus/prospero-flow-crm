@@ -834,5 +834,7 @@
     "This code is already used by another asset, or was used by a deleted one.": "Este código ya lo usa otro activo, o lo usó uno borrado.",
     "No more codes can be generated for this type. Type one by hand.": "No se pueden generar más códigos para este tipo. Escribe uno a mano.",
     "Everyone": "Todos",
-    "Only contacts with opt in": "Solo contactos con opt-in"
+    "Only contacts with opt in": "Solo contactos con opt-in",
+    "Countries": "Países",
+    "All countries": "Todos los países"
 }

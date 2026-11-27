@@ -148,5 +148,7 @@
     "Week" : "Woche",
     "Zipcode" : "Postleitzahl",
     "Everyone": "Alle",
-    "Only contacts with opt in": "Nur Kontakte mit Opt-in"
+    "Only contacts with opt in": "Nur Kontakte mit Opt-in",
+    "Countries": "Länder",
+    "All countries": "Alle Länder"
 }
