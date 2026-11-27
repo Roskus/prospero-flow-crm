@@ -12,7 +12,8 @@
             <form method="GET" action="{{ url('/email') }}">
                 <div class="input-group">
                     <input name="search" type="search" class="form-control" placeholder="{{ __('Search') }}" value="{{ request()->get('search') }}">
-                    <select name="opened" class="form-select" style="max-width: 12rem" onchange="this.form.submit()">
+                    <label for="opened" class="visually-hidden">{{ __('Opened') }}</label>
+                    <select name="opened" id="opened" class="form-select" style="max-width: 12rem" onchange="this.form.submit()">
                         <option value="">{{ __('All') }}</option>
                         <option value="yes" @selected(request()->get('opened') === 'yes')>{{ __('Opened') }}</option>
                         <option value="no" @selected(request()->get('opened') === 'no')>{{ __('Not opened') }}</option>
