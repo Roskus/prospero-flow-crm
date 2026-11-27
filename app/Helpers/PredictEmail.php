@@ -22,7 +22,7 @@ class PredictEmail
 
     private function formatEmail(string $email): string
     {
-        return strtolower($email);
+        return EmailHelper::normalize($email);
     }
 
     /**

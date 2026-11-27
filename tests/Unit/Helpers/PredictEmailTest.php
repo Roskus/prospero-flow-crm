@@ -50,6 +50,14 @@ class PredictEmailTest extends TestCase
     }
 
     #[Test]
+    public function full_name_with_dots_removes_accents()
+    {
+        $predictEmail = new PredictEmail;
+        $email = $predictEmail->fullNameWithDots('María', 'Muñoz', 'example.com');
+        $this->assertEquals('maria.munoz@example.com', $email);
+    }
+
+    #[Test]
     public function is_valid()
     {
         $predictEmail = new PredictEmail;
