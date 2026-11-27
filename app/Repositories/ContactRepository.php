@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Enums\EmailVerificationStatus;
 use App\Helpers\EmailHelper;
-use App\Helpers\EmailVerification;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
@@ -44,7 +44,7 @@ class ContactRepository
         $contact->mobile = ! empty($data['contact_mobile']) ? $data['contact_mobile'] : null;
         $contact->email = ! empty($data['contact_email']) ? EmailHelper::normalize($data['contact_email']) : null;
         if ($contact->isDirty('email')) {
-            $contact->email_verified = EmailVerification::PENDING;
+            $contact->email_verified = EmailVerificationStatus::Pending->value;
         }
         $contact->job_title = ! empty($data['contact_job_title']) ? $data['contact_job_title'] : null;
         $contact->linkedin = ! empty($data['contact_linkedin']) ? $data['contact_linkedin'] : null;

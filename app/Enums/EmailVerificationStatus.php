@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Helpers;
+namespace App\Enums;
 
 /**
  * Values of the email_verified column of leads, customers, contacts and supplier contacts.
  */
-class EmailVerification
+enum EmailVerificationStatus: int
 {
-    public const PENDING = 0;
-
-    public const VALID = 1;
-
-    public const INVALID = 3;
+    case Pending = 0;
+    case Valid = 1;
+    case Invalid = 3;
 }

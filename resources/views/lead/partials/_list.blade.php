@@ -64,9 +64,9 @@
                         <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary text-decoration-none">
                             <i class="las la-envelope fs-4"></i>
                         </a>
-                        @if($lead->email_verified == \App\Helpers\EmailVerification::VALID)
+                        @if($lead->email_verified == \App\Enums\EmailVerificationStatus::Valid->value)
                             <i class="las la-check-circle text-success"></i>
-                        @elseif($lead->email_verified == \App\Helpers\EmailVerification::INVALID)
+                        @elseif($lead->email_verified == \App\Enums\EmailVerificationStatus::Invalid->value)
                             <i class="las la-times-circle text-danger"></i>
                         @endif
                     @endif

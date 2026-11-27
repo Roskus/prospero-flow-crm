@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands;
 
-use App\Helpers\EmailVerification;
+use App\Enums\EmailVerificationStatus;
 use App\Models\Supplier\SupplierContact;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -16,12 +16,12 @@ class EmailValidatorCommandTest extends TestCase
     {
         $supplierContact = SupplierContact::factory()->create([
             'email' => 'ld.@example.com',
-            'email_verified' => EmailVerification::PENDING,
+            'email_verified' => EmailVerificationStatus::Pending->value,
         ]);
 
         $this->artisan('crm:email:validate')->assertSuccessful();
 
-        $this->assertSame(EmailVerification::INVALID, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
+        $this->assertSame(EmailVerificationStatus::Invalid->value, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
     }
 
     #[Test]
@@ -29,11 +29,11 @@ class EmailValidatorCommandTest extends TestCase
     {
         $supplierContact = SupplierContact::factory()->create([
             'email' => 'ld.@example.com',
-            'email_verified' => EmailVerification::VALID,
+            'email_verified' => EmailVerificationStatus::Valid->value,
         ]);
 
         $this->artisan('crm:email:validate')->assertSuccessful();
 
-        $this->assertSame(EmailVerification::VALID, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
+        $this->assertSame(EmailVerificationStatus::Valid->value, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
     }
 }

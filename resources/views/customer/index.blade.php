@@ -155,9 +155,9 @@
                     @if($customer->email)
                         <a href="mailto:{{ $customer->email }}" title="{{ $customer->email }}"
                            class="link-secondary"><i class="las la-envelope fs-4"></i></a>
-                        @if($customer->email_verified == \App\Helpers\EmailVerification::VALID)
+                        @if($customer->email_verified == \App\Enums\EmailVerificationStatus::Valid->value)
                             <i class="las la-check-circle text-success"></i>
-                        @elseif($customer->email_verified == \App\Helpers\EmailVerification::INVALID)
+                        @elseif($customer->email_verified == \App\Enums\EmailVerificationStatus::Invalid->value)
                             <i class="las la-times-circle text-danger"></i>
                         @endif
                     @endif

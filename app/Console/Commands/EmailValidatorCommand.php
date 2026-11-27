@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Helpers\EmailVerification;
+use App\Enums\EmailVerificationStatus;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
@@ -38,10 +38,10 @@ class EmailValidatorCommand extends Command
         $rules = ['email' => 'email:rfc,dns'];
 
         $verifiedLeads = $leadModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerification::PENDING, EmailVerification::INVALID])->get();
+            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
         foreach ($verifiedLeads as $lead) {
             $validator = Validator::make(['email' => $lead->email], $rules);
-            $lead->email_verified = $validator->passes() ? EmailVerification::VALID : EmailVerification::INVALID;
+            $lead->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
             $lead->updated_at = now();
             $lead->save();
         }
@@ -49,10 +49,10 @@ class EmailValidatorCommand extends Command
         $this->info("Leads Email validation: $leadsCount complete.");
 
         $verifiedCustomers = $customerModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerification::PENDING, EmailVerification::INVALID])->get();
+            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
         foreach ($verifiedCustomers as $customer) {
             $validator = Validator::make(['email' => $customer->email], $rules);
-            $customer->email_verified = $validator->passes() ? EmailVerification::VALID : EmailVerification::INVALID;
+            $customer->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
             $customer->updated_at = now();
             $customer->save();
         }
@@ -60,10 +60,10 @@ class EmailValidatorCommand extends Command
         $this->info("Customers Email validation: $customerCount complete.");
 
         $verifiedContacts = $contactModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerification::PENDING, EmailVerification::INVALID])->get();
+            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
         foreach ($verifiedContacts as $contact) {
             $validator = Validator::make(['email' => $contact->email], $rules);
-            $contact->email_verified = $validator->passes() ? EmailVerification::VALID : EmailVerification::INVALID;
+            $contact->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
             $contact->updated_at = now();
             $contact->save();
         }
@@ -71,10 +71,10 @@ class EmailValidatorCommand extends Command
         $this->info("Contacts Email validation: $contactCount complete.");
 
         $verifiedSupplierContacts = $supplierContactModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerification::PENDING, EmailVerification::INVALID])->get();
+            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
         foreach ($verifiedSupplierContacts as $supplierContact) {
             $validator = Validator::make(['email' => $supplierContact->email], $rules);
-            $supplierContact->email_verified = $validator->passes() ? EmailVerification::VALID : EmailVerification::INVALID;
+            $supplierContact->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
             $supplierContact->updated_at = now();
             $supplierContact->save();
         }
