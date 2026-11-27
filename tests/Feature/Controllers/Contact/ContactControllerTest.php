@@ -136,6 +136,54 @@ class ContactControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_rejects_a_contact_with_an_invalid_email(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_first_name' => 'Luciana',
+            'contact_email' => 'ld.@example.com',
+        ]);
+
+        $response->assertSessionHasErrors('contact_email');
+        $this->assertDatabaseMissing('contact', ['customer_id' => $customer->id]);
+    }
+
+    #[Test]
+    public function it_requires_the_contact_first_name(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_email' => 'jane@example.com',
+        ]);
+
+        $response->assertSessionHasErrors('contact_first_name');
+        $this->assertDatabaseMissing('contact', ['customer_id' => $customer->id]);
+    }
+
+    #[Test]
+    public function it_removes_accents_from_the_contact_email_only(): void
+    {
+        $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/contact/save', [
+            'customer_id' => $customer->id,
+            'contact_first_name' => 'Damián',
+            'contact_last_name' => 'Muñoz',
+            'contact_email' => 'damián.muñoz@example.com',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $contact = Contact::where('customer_id', $customer->id)->firstOrFail();
+        $this->assertSame('damian.munoz@example.com', $contact->email);
+        $this->assertSame('Damián', $contact->first_name);
+        $this->assertSame('Muñoz', $contact->last_name);
+    }
+
+    #[Test]
     public function it_saves_a_contact_without_address(): void
     {
         $customer = Customer::factory()->create(['company_id' => $this->user->company_id]);

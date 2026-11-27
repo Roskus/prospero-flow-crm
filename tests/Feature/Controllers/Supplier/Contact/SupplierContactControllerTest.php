@@ -188,4 +188,33 @@ class SupplierContactControllerTest extends TestCase
         $response->assertOk();
         $response->assertSeeInOrder(['Argentina', 'Rosario']);
     }
+
+    #[Test]
+    public function it_rejects_a_supplier_contact_with_an_invalid_email(): void
+    {
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/supplier/contact/save', [
+            'supplier_id' => $supplier->id,
+            'contact_first_name' => 'Luciana',
+            'contact_email' => 'ld.@example.com',
+        ]);
+
+        $response->assertSessionHasErrors('contact_email');
+        $this->assertDatabaseMissing('supplier_contact', ['supplier_id' => $supplier->id]);
+    }
+
+    #[Test]
+    public function it_requires_the_supplier_contact_first_name(): void
+    {
+        $supplier = Supplier::factory()->create(['company_id' => $this->user->company_id]);
+
+        $response = $this->post('/supplier/contact/save', [
+            'supplier_id' => $supplier->id,
+            'contact_email' => 'jane@example.com',
+        ]);
+
+        $response->assertSessionHasErrors('contact_first_name');
+        $this->assertDatabaseMissing('supplier_contact', ['supplier_id' => $supplier->id]);
+    }
 }
