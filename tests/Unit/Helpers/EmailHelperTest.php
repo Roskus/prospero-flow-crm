@@ -23,6 +23,10 @@ class EmailHelperTest extends TestCase
             'several accents' => ['maría.gonzálezsañudo@example.com', 'maria.gonzalezsanudo@example.com'],
             'plain email is lowercased and trimmed' => ['  John.Doe@Example.com ', 'john.doe@example.com'],
             'plain email unchanged' => ['john.doe@example.com', 'john.doe@example.com'],
+            'unicode domain is converted to idna' => ['ana@bücher.de', 'ana@xn--bcher-kva.de'],
+            'accented local part and uppercase unicode domain' => ['Damián@Bücher.de', 'damian@xn--bcher-kva.de'],
+            'idna domain unchanged' => ['ana@xn--bcher-kva.de', 'ana@xn--bcher-kva.de'],
+            'value without at sign' => ['Álvaro', 'alvaro'],
         ];
     }
 

@@ -39,6 +39,16 @@ class ContactSaveRequest extends FormRequest
             ...AddressRules::rules(),
             'lead_id' => ['nullable', 'integer', Rule::exists('lead', 'id')->where('company_id', Auth::user()->company_id)->withoutTrashed()],
             'customer_id' => ['nullable', 'integer', Rule::exists('customer', 'id')->where('company_id', Auth::user()->company_id)->withoutTrashed()],
+            'contact_first_name' => ['required', 'max:50'],
+            'contact_last_name' => ['nullable', 'max:255'],
+            'contact_email' => ['nullable', 'email', 'max:254'],
+            'contact_phone' => ['nullable', 'max:15'],
+            'contact_extension' => ['nullable', 'max:6'],
+            'contact_mobile' => ['nullable', 'max:15'],
+            'contact_job_title' => ['nullable', 'max:80'],
+            'contact_linkedin' => ['nullable', 'url', 'max:255'],
+            'contact_twitter' => ['nullable', 'max:255'],
+            'contact_notes' => ['nullable', 'string'],
         ];
     }
 }
