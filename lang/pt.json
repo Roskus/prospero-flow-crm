@@ -146,5 +146,9 @@
     "View notifications" : "Ver notificações",
     "Waiting for feedback": "Aguardando feedback",
     "Week" : "Semana",
-    "Zipcode" : "CEP"
+    "Zipcode" : "CEP",
+    "Everyone": "Todos",
+    "Only contacts with opt in": "Apenas contatos com opt-in",
+    "Countries": "Países",
+    "All countries": "Todos os países"
 }

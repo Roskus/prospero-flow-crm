@@ -82,12 +82,31 @@
                     @php($audience = old('audience', $campaign->audience ?? \App\Models\Campaign::AUDIENCE_ALL))
                     <div class="form-check form-check-inline">
                         <input type="radio" name="audience" id="audience_all" value="{{ \App\Models\Campaign::AUDIENCE_ALL }}" class="form-check-input" @checked($audience === \App\Models\Campaign::AUDIENCE_ALL)>
-                        <label for="audience_all" class="form-check-label">{{ __('Everyone with opt in') }}</label>
+                        <label for="audience_all" class="form-check-label">{{ __('Everyone') }}</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="radio" name="audience" id="audience_tags" value="{{ \App\Models\Campaign::AUDIENCE_TAGS }}" class="form-check-input" @checked($audience === \App\Models\Campaign::AUDIENCE_TAGS)>
                         <label for="audience_tags" class="form-check-label">{{ __('Only those with any of these tags') }}</label>
                     </div>
+                    <div class="form-check mt-1">
+                        <input type="checkbox" name="require_opt_in" id="require_opt_in" value="1" class="form-check-input" @checked(old('require_opt_in', $campaign->require_opt_in ?? true))>
+                        <label for="require_opt_in" class="form-check-label">{{ __('Only contacts with opt in') }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-2">
+                    @php($selectedCountries = old('countries', $campaign->countries ?? []))
+                    <label for="countries">{{ __('Countries') }}</label>
+                    <select name="countries[]" id="countries" class="form-select" multiple data-tom-select placeholder="{{ __('All countries') }}">
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->code_2 }}" @selected(in_array($country->code_2, $selectedCountries, true))>{{ $country->flag }} {{ $country->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('countries') <div class="text-danger small">{{ $message }}</div> @enderror
+                    @push('scripts')
+                        @include('components.tom_select')
+                    @endpush
                 </div>
             </div>
             <div class="row">

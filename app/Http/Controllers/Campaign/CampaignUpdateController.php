@@ -8,6 +8,7 @@ use App\Http\Controllers\MainController;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Squire\Models\Country;
 
 class CampaignUpdateController extends MainController
 {
@@ -16,6 +17,7 @@ class CampaignUpdateController extends MainController
         $campaign = Campaign::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $data['campaign'] = $campaign;
         $data['froms'] = Campaign::fromAddresses(Auth::user());
+        $data['countries'] = Country::orderBy('name')->get();
 
         return view('campaign.campaign', $data);
     }

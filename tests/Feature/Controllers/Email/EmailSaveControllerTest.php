@@ -64,4 +64,20 @@ class EmailSaveControllerTest extends TestCase
         $this->assertEquals($data['from'], Email::all()->last()->from);
         $this->assertNotEquals($email->from, Email::all()->last()->from);
     }
+
+    #[Test]
+    public function the_subject_allows_up_to_120_characters(): void
+    {
+        $data = ['from' => fake()->email(), 'to' => fake()->email(), 'body' => fake()->text()];
+
+        $this->post('/email/save', [...$data, 'subject' => str_repeat('a', 120)])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/email');
+
+        $this->post('/email/save', [...$data, 'subject' => str_repeat('b', 121)])
+            ->assertSessionHasErrors('subject');
+
+        $this->assertDatabaseHas('email', ['subject' => str_repeat('a', 120)]);
+        $this->assertDatabaseMissing('email', ['subject' => str_repeat('b', 121)]);
+    }
 }

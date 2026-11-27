@@ -32,6 +32,9 @@ class CampaignSaveRequest extends FormRequest
             'recipient_type' => ['required', Rule::in([Campaign::RECIPIENTS_LEADS, Campaign::RECIPIENTS_CUSTOMERS, Campaign::RECIPIENTS_BOTH])],
             'audience' => ['required', Rule::in([Campaign::AUDIENCE_ALL, Campaign::AUDIENCE_TAGS])],
             'tags' => ['nullable', 'string', 'required_if:audience,'.Campaign::AUDIENCE_TAGS],
+            'require_opt_in' => ['nullable', 'boolean'],
+            'countries' => ['nullable', 'array'],
+            'countries.*' => ['string', 'size:2'],
             'schedule_send_date' => ['nullable', 'date_format:Y-m-d'],
             'schedule_send_time' => ['nullable', 'date_format:H:i,H:i:s'],
         ];

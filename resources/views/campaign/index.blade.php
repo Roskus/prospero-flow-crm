@@ -40,7 +40,7 @@
                 <td>
                     {{ $recipient_labels[$campaign->recipient_type] ?? __('Leads') }}
                     <div class="small text-muted">
-                        {{ $campaign->audience === \App\Models\Campaign::AUDIENCE_TAGS ? __('Only those with any of these tags') : __('Everyone with opt in') }}
+                        {{ $campaign->audience === \App\Models\Campaign::AUDIENCE_TAGS ? __('Only those with any of these tags') : ($campaign->require_opt_in ? __('Everyone with opt in') : __('Everyone')) }}
                     </div>
                 </td>
                 <td>
