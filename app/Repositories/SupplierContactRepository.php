@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Helpers\EmailHelper;
+use App\Helpers\EmailVerification;
 use App\Models\Supplier\SupplierContact;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +31,7 @@ class SupplierContactRepository
         $contact->mobile = ! empty($data['contact_mobile']) ? $data['contact_mobile'] : null;
         $contact->email = ($data['contact_email']) ? EmailHelper::normalize($data['contact_email']) : null;
         if ($contact->isDirty('email')) {
-            $contact->email_verified = false;
+            $contact->email_verified = EmailVerification::PENDING;
         }
         $contact->job_title = ! empty($data['contact_job_title']) ? $data['contact_job_title'] : null;
         $contact->linkedin = ! empty($data['contact_linkedin']) ? $data['contact_linkedin'] : null;

@@ -52,7 +52,13 @@ class Email extends Model
     {
         return [
             'opened_at' => 'datetime',
+            'signature' => 'boolean',
         ];
+    }
+
+    public function hasSignature(): bool
+    {
+        return $this->signature === true;
     }
 
     protected static function booted(): void

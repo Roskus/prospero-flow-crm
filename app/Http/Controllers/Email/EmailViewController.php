@@ -16,7 +16,7 @@ class EmailViewController extends MainController
         $email = Email::where('company_id', Auth::user()->company_id)->find($id);
         $data['email'] = $email;
 
-        if ($email->signature) {
+        if ($email->hasSignature()) {
             $data['signature'] = Auth::user()->signature_html;
         }
 

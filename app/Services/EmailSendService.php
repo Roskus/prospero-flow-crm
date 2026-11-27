@@ -24,7 +24,7 @@ class EmailSendService
         $params['from_email'] = $email->from;
         $params['body'] = $email->body.$trackingPixel;
 
-        if ($email->signature) {
+        if ($email->hasSignature()) {
             $params['signature'] = $user->signature_html;
         }
 

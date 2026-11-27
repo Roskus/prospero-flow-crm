@@ -61,7 +61,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="signature">{{ __('Include signature') }}</label>
-                        <input type="checkbox" name="signature" id="signature" value="true" @if($email->signature ?? false)checked="checked"@endif>
+                        <input type="checkbox" name="signature" id="signature" value="true" @if(isset($email) && $email->hasSignature())checked="checked"@endif>
                     </div>
                 </div><!--./row-->
                 <div class="row">

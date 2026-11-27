@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands;
 
+use App\Helpers\EmailVerification;
 use App\Models\Supplier\SupplierContact;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -15,12 +16,12 @@ class EmailValidatorCommandTest extends TestCase
     {
         $supplierContact = SupplierContact::factory()->create([
             'email' => 'ld.@example.com',
-            'email_verified' => false,
+            'email_verified' => EmailVerification::PENDING,
         ]);
 
         $this->artisan('crm:email:validate')->assertSuccessful();
 
-        $this->assertSame(3, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
+        $this->assertSame(EmailVerification::INVALID, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
     }
 
     #[Test]
@@ -28,11 +29,11 @@ class EmailValidatorCommandTest extends TestCase
     {
         $supplierContact = SupplierContact::factory()->create([
             'email' => 'ld.@example.com',
-            'email_verified' => true,
+            'email_verified' => EmailVerification::VALID,
         ]);
 
         $this->artisan('crm:email:validate')->assertSuccessful();
 
-        $this->assertSame(1, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
+        $this->assertSame(EmailVerification::VALID, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
     }
 }
