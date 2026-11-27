@@ -30,10 +30,8 @@ class EmailValidatorCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle(Lead $leadModel, Customer $customerModel, Contact $contactModel, SupplierContact $supplierContactModel)
+    public function handle(Lead $leadModel, Customer $customerModel, Contact $contactModel, SupplierContact $supplierContactModel): int
     {
         $rules = ['email' => 'email:rfc,dns'];
 
