@@ -135,5 +135,7 @@
     "Everyone": "Tous",
     "Only contacts with opt in": "Uniquement les contacts avec opt-in",
     "Countries": "Pays",
-    "All countries": "Tous les pays"
+    "All countries": "Tous les pays",
+    "Opened": "Ouvert",
+    "Not opened": "Non ouvert"
 }

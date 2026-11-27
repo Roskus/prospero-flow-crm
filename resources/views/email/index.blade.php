@@ -12,6 +12,11 @@
             <form method="GET" action="{{ url('/email') }}">
                 <div class="input-group">
                     <input name="search" type="search" class="form-control" placeholder="{{ __('Search') }}" value="{{ request()->get('search') }}">
+                    <select name="opened" class="form-select" style="max-width: 12rem" onchange="this.form.submit()">
+                        <option value="">{{ __('All') }}</option>
+                        <option value="yes" @selected(request()->get('opened') === 'yes')>{{ __('Opened') }}</option>
+                        <option value="no" @selected(request()->get('opened') === 'no')>{{ __('Not opened') }}</option>
+                    </select>
                     <button class="btn btn-outline-secondary" type="submit" id="button-search"><i class="las la-search"></i></button>
                 </div>
             </form>
@@ -33,6 +38,7 @@
                 <th>{{ __('Created at') }}</th>
                 <th>{{ __('Updated at') }}</th>
                 <th>{{ __('Status') }}</th>
+                <th>{{ __('Opened') }}</th>
                 <th class="text-nowrap">{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -58,6 +64,7 @@
                 <td class="text-center">
                     <div class="badge rounded-pill text-bg-{{ \App\Helpers\EmailStatusHelper::statusCssClass($email->status) }}">{{ __(ucfirst($email->status)) }}</div>
                 </td>
+                <td class="text-nowrap">{{ $email->opened_at?->format('d/m/Y H:i') ?? '—' }}</td>
                 <td colspan="text-nowrap">
                     <a href="{{ url("/email/view/$email->id") }}" title="{{ __('Preview') }}" target="_blank" class="btn btn-secondary">
                         <i class="las la-glasses"></i>

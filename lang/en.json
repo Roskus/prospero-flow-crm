@@ -815,5 +815,7 @@
     "Everyone": "Everyone",
     "Only contacts with opt in": "Only contacts with opt in",
     "Countries": "Countries",
-    "All countries": "All countries"
+    "All countries": "All countries",
+    "Opened": "Opened",
+    "Not opened": "Not opened"
 }
