@@ -60,9 +60,9 @@
         <div class="lockscreen-name">
             <div>
                 @if(empty(Auth::user()->photo))
-                    <img src="/asset/img/user.jpg" alt="{{ Auth::user()->first_name }}" width="64" height="64" class="rounded-circle">
+                    <img src="/asset/img/user.jpg" alt="{{ Auth::user()->first_name }}" width="64" height="64" class="rounded-circle user-photo">
                 @else
-                    <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug(Auth::user()->company->name, '_') }}/{{ Auth::user()->photo }}" alt="{{ Auth::user()->first_name }}" width="64" height="64" class="rounded-circle">
+                    <img src="{{ Auth::user()->photo_url }}" alt="{{ Auth::user()->first_name }}" width="64" height="64" class="rounded-circle user-photo">
                 @endif
             </div>
             {{ Auth::user()->first_name }}

@@ -118,7 +118,7 @@ class AssetSaveRequest extends FormRequest
             'currency' => $this->currencyRules(),
             'warranty_until' => ['nullable', 'date'],
             'notes' => ['nullable', 'string', 'max:5000'],
-            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', new ExtensionMatchesContent],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png,webp,jxl', 'max:5120', new ExtensionMatchesContent],
             'remove_photo' => ['nullable', 'boolean'],
         ];
 

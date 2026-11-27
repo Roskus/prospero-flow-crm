@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use OpenApi\Attributes as OAT;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -377,6 +379,46 @@ class User extends Authenticatable implements JWTSubject
     public function getAllActiveByCompany(int $company_id)
     {
         return User::where('company_id', $company_id)->get();
+    }
+
+    /**
+     * Folder on the public disk holding the user's profile photo, independent of the active company.
+     */
+    public function photoFolder(): string
+    {
+        return 'user/'.$this->id;
+    }
+
+    /**
+     * Public URL of the profile photo; photos saved before the user folder existed live in the folder of the user's own company.
+     *
+     * @return Attribute<?string, never>
+     */
+    protected function photoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?string {
+                if (empty($this->photo)) {
+                    return null;
+                }
+
+                if (Storage::disk('public')->exists($this->photoFolder().'/'.$this->photo)) {
+                    return Storage::disk('public')->url($this->photoFolder().'/'.$this->photo);
+                }
+
+                return '/'.$this->legacyPhotoPath((string) $this->photo);
+            },
+        );
+    }
+
+    /**
+     * Path, relative to the public folder, where photos saved before the user folder existed live: the folder of the user's own company.
+     */
+    public function legacyPhotoPath(string $photo): string
+    {
+        $legacyCompany = $this->defaultCompany ?? $this->company;
+
+        return 'asset/upload/company/'.Str::slug((string) $legacyCompany?->name, '_').'/'.$photo;
     }
 
     /**

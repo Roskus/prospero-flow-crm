@@ -26,7 +26,7 @@ class ProfileSaveRequest extends FormRequest
             'timezone' => ['nullable', 'string', 'timezone'],
             'phone' => ['nullable', 'string', 'max:15'],
             'signature_html' => ['nullable', 'string'],
-            'photo' => ['nullable', 'image', 'max:3072', new ExtensionMatchesContent],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png,gif,bmp,webp,avif,heic,heif,jxl', 'max:3072', new ExtensionMatchesContent],
             'lang' => ['nullable', 'string', 'max:10'],
         ];
     }

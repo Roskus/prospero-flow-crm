@@ -21,7 +21,7 @@ class TimeOffSaveController extends MainController
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'nullable|string|max:1000',
-            'attachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'attachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png,webp,jxl|max:5120',
         ]);
 
         $start = Carbon::parse($validated['start_date']);

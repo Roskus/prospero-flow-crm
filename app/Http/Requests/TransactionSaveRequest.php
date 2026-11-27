@@ -91,7 +91,7 @@ class TransactionSaveRequest extends FormRequest
                     ->whereNull('supplier.deleted_at'),
             ],
             'notes' => ['nullable', 'string'],
-            'attachment' => ['nullable', 'file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,webp,doc,docx,xls,xlsx'],
+            'attachment' => ['nullable', 'file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,webp,jxl,doc,docx,xls,xlsx'],
         ];
     }
 }

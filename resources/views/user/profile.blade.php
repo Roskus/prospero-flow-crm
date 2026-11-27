@@ -110,11 +110,11 @@
             </div>
             <div class="col">
                 <label for="photo">{{ __('Photo') }}</label>
-                <input type="file" name="photo" id="photo" accept="image/png, image/gif, image/jpeg, image/webp"
+                <input type="file" name="photo" id="photo" accept="image/png, image/gif, image/jpeg, image/webp, image/jxl, .jxl"
                        class="form-control form-control-lg">
                 @if($user->photo)
-                    <img src="/asset/upload/company/{{ \Illuminate\Support\Str::slug($user->company->name, '_') }}/{{ $user->photo }}"
-                         height="128" alt="" class="mt-1">
+                    <img src="{{ $user->photo_url }}"
+                         width="128" height="128" alt="" class="mt-1 rounded user-photo user-photo-preview">
                 @endif
             </div>
         </div>

@@ -41,6 +41,20 @@ class CompanySaveControllerTest extends TestCase
     }
 
     #[Test]
+    public function it_rejects_a_jxl_company_logo(): void
+    {
+        $name = fake()->unique()->word();
+
+        $this->post('/company/save', [
+            'name' => $name,
+            'currency' => fake()->bothify('???'),
+            'logo' => $this->fakeJxlImage('logo.jxl'),
+        ])->assertSessionHasErrors('logo');
+
+        $this->assertDatabaseMissing('company', ['name' => $name]);
+    }
+
+    #[Test]
     public function super_admin_can_update_another_company(): void
     {
         $otherCompany = Company::factory()->create();

@@ -74,7 +74,7 @@
     </div>
     <div class="col-12 col-md-3">
         <label for="{{ $id('attachment') }}">{{ __('Receipt') }}</label>
-        <input type="file" name="{{ $field('attachment') }}" id="{{ $id('attachment') }}" accept=".pdf,.jpg,.jpeg,.png,.webp"
+        <input type="file" name="{{ $field('attachment') }}" id="{{ $id('attachment') }}" accept=".pdf,.jpg,.jpeg,.png,.webp,.jxl"
                class="form-control @error($key('attachment')) is-invalid @enderror">
         @error($key('attachment')) <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
