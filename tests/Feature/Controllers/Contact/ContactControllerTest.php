@@ -306,4 +306,47 @@ class ContactControllerTest extends TestCase
         $response->assertSessionHasErrors(['customer_id']);
         $this->assertDatabaseMissing('contact', ['first_name' => 'Deleted Customer Contact']);
     }
+
+    #[Test]
+    public function it_resets_the_email_verification_when_the_email_changes(): void
+    {
+        $contact = Contact::factory()->create([
+            'company_id' => $this->user->company_id,
+            'email' => 'old@example.com',
+            'email_verified' => true,
+        ]);
+
+        $this->post('/contact/save', [
+            'id' => $contact->id,
+            'lead_id' => $contact->lead_id,
+            'customer_id' => $contact->customer_id,
+            'contact_first_name' => $contact->first_name,
+            'contact_email' => 'new@example.com',
+        ])->assertSessionHasNoErrors();
+
+        $contact->refresh();
+        $this->assertSame('new@example.com', $contact->email);
+        $this->assertFalse((bool) $contact->email_verified);
+    }
+
+    #[Test]
+    public function it_keeps_the_email_verification_when_the_email_does_not_change(): void
+    {
+        $contact = Contact::factory()->create([
+            'company_id' => $this->user->company_id,
+            'email' => 'same@example.com',
+            'email_verified' => true,
+        ]);
+
+        $this->post('/contact/save', [
+            'id' => $contact->id,
+            'lead_id' => $contact->lead_id,
+            'customer_id' => $contact->customer_id,
+            'contact_first_name' => 'Renamed',
+            'contact_email' => 'same@example.com',
+        ])->assertSessionHasNoErrors();
+
+        $contact->refresh();
+        $this->assertTrue((bool) $contact->email_verified);
+    }
 }

@@ -23,11 +23,8 @@ class GenericEmail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $from = isset($this->user) ? $this->user->email : $this->company->email;
-        $name = isset($this->user) ? $this->user->name : $this->company->name;
-
         return new Envelope(
-            from: new Address($from, $name),
+            from: $this->sender(),
             subject: $this->subject,
         );
     }
@@ -52,20 +49,25 @@ class GenericEmail extends Mailable
      */
     public function build()
     {
-        $from = isset($this->user) ? $this->user->email : $this->company->email;
-        $name = isset($this->user) ? '' : $this->company->name;
-        if (isset($data['from_email'])) {
-            if ($data['from_email'] == $this->user->email) {
-                $name = $this->user->name;
-            }
+        return $this->view('mail.generic', $this->data);
+    }
 
-            if ($data['from_email'] == $this->company->email) {
-                $name = $this->company->name;
-                $from = $this->company->email;
-            }
+    /**
+     * The sender chosen in the email form (data "from_email") when it is the user's or the
+     * company's address; otherwise the user's address, or the company's when there is no user.
+     */
+    private function sender(): Address
+    {
+        $fromEmail = $this->data['from_email'] ?? null;
+
+        if ($fromEmail !== null && $fromEmail === $this->company->email) {
+            return new Address($this->company->email, $this->company->name);
         }
 
-        return $this->from($from, $name)
-            ->view('mail.generic', $this->data);
+        if (isset($this->user)) {
+            return new Address($this->user->email, $this->user->name);
+        }
+
+        return new Address($this->company->email, $this->company->name);
     }
 }

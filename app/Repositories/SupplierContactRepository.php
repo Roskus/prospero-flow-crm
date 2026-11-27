@@ -29,6 +29,9 @@ class SupplierContactRepository
         $contact->extension = $data['contact_extension'] ?? null;
         $contact->mobile = ! empty($data['contact_mobile']) ? $data['contact_mobile'] : null;
         $contact->email = ($data['contact_email']) ? EmailHelper::normalize($data['contact_email']) : null;
+        if ($contact->isDirty('email')) {
+            $contact->email_verified = false;
+        }
         $contact->job_title = ! empty($data['contact_job_title']) ? $data['contact_job_title'] : null;
         $contact->linkedin = ! empty($data['contact_linkedin']) ? $data['contact_linkedin'] : null;
         $contact->twitter = ! empty($data['contact_twitter']) ? $data['contact_twitter'] : null;

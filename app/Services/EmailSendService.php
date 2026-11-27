@@ -21,7 +21,7 @@ class EmailSendService
         $trackingUrl = route('email.tracking', $email->uuid);
         $trackingPixel = '<img src="'.$trackingUrl.'" width="1" height="1" alt="" style="display:none;" />';
 
-        $params['from_email'] = $email->from_email;
+        $params['from_email'] = $email->from;
         $params['body'] = $email->body.$trackingPixel;
 
         if (isset($email->signature)) {

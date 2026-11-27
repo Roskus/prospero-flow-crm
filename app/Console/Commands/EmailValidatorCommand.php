@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Lead;
+use App\Models\Supplier\SupplierContact;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,7 +32,7 @@ class EmailValidatorCommand extends Command
      *
      * @return int
      */
-    public function handle(Lead $leadModel, Customer $customerModel, Contact $contactModel)
+    public function handle(Lead $leadModel, Customer $customerModel, Contact $contactModel, SupplierContact $supplierContactModel)
     {
         $rules = ['email' => 'email:rfc,dns'];
 
@@ -67,7 +68,20 @@ class EmailValidatorCommand extends Command
         }
         $contactCount = $verifiedContacts->count();
         $this->info("Contacts Email validation: $contactCount complete.");
-        $this->info(sprintf('%d leads, %d customers and %d contacts verified.', $leadsCount, $customerCount, $contactCount));
+
+        $verifiedSupplierContacts = $supplierContactModel->whereNotNull('email')
+            ->where(function ($query) {
+                $query->where('email_verified', 0)->orWhere('email_verified', 3);
+            })->get();
+        foreach ($verifiedSupplierContacts as $supplierContact) {
+            $validator = Validator::make(['email' => $supplierContact->email], $rules);
+            $supplierContact->email_verified = $validator->passes() ? true : 3;
+            $supplierContact->updated_at = now();
+            $supplierContact->save();
+        }
+        $supplierContactCount = $verifiedSupplierContacts->count();
+        $this->info("Supplier contacts Email validation: $supplierContactCount complete.");
+        $this->info(sprintf('%d leads, %d customers, %d contacts and %d supplier contacts verified.', $leadsCount, $customerCount, $contactCount, $supplierContactCount));
 
         return Command::SUCCESS;
     }
