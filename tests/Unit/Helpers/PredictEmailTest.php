@@ -58,6 +58,19 @@ class PredictEmailTest extends TestCase
     }
 
     #[Test]
+    public function initial_based_builders_keep_accented_initials()
+    {
+        $predictEmail = new PredictEmail;
+
+        $this->assertEquals('aperez@example.com', $predictEmail->firstLetterNameLastName('Álvaro', 'Pérez', 'example.com'));
+        $this->assertEquals('emartin@example.com', $predictEmail->firstLetterNameLastName('Émile', 'Martín', 'example.com'));
+        $this->assertEquals('a@example.com', $predictEmail->nameOnly('Álvaro', 'example.com'));
+        $this->assertEquals('e@example.com', $predictEmail->nameOnly('Émile', 'example.com'));
+        $this->assertEquals('ajperez@example.com', $predictEmail->firstLettersOfNamesAndLastName('Álvaro José', 'Pérez', 'example.com'));
+        $this->assertEquals('eaperez@example.com', $predictEmail->firstLettersOfNamesAndLastName('Émile Ángel', 'Pérez', 'example.com'));
+    }
+
+    #[Test]
     public function is_valid()
     {
         $predictEmail = new PredictEmail;

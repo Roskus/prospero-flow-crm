@@ -32,8 +32,8 @@ class PredictEmail
      */
     public function predict(string $name, string $last_name, string $company_url): string|false
     {
-        $name = str_replace(' ', '', trim(strtolower($name)));
-        $last_name = str_replace(' ', '', trim(strtolower($last_name)));
+        $name = str_replace(' ', '', EmailHelper::normalize($name));
+        $last_name = str_replace(' ', '', EmailHelper::normalize($last_name));
         $email = false;
         $host = $this->extractDomain($company_url);
 
@@ -64,12 +64,12 @@ class PredictEmail
 
     public function firstLetterNameLastName(string $name, string $last_name, string $host): string
     {
-        return $this->formatEmail(substr($name, 0, 1).$last_name.'@'.$host);
+        return $this->formatEmail(mb_substr($name, 0, 1).$last_name.'@'.$host);
     }
 
     public function nameOnly(string $name, string $host): string
     {
-        return $this->formatEmail(substr($name, 0, 1).'@'.$host);
+        return $this->formatEmail(mb_substr($name, 0, 1).'@'.$host);
     }
 
     public function firstLettersOfNamesAndLastName(string $name, string $last_name, string $host): string
@@ -77,7 +77,7 @@ class PredictEmail
         $firstLetters = '';
         $names = explode(' ', $name);
         foreach ($names as $n) {
-            $firstLetters .= substr($n, 0, 1);
+            $firstLetters .= mb_substr($n, 0, 1);
         }
         $last_name = str_replace(' ', '', trim($last_name));
 
