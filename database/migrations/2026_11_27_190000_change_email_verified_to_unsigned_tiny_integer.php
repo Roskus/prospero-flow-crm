@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\EmailVerificationStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
     {
         foreach (self::TABLES as $tableName) {
             Schema::table($tableName, function (Blueprint $table) {
-                $table->unsignedTinyInteger('email_verified')->default(0)->change();
+                $table->unsignedTinyInteger('email_verified')->default(EmailVerificationStatus::Pending->value)->change();
             });
         }
     }
