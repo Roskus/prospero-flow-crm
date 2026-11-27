@@ -10,9 +10,9 @@ class EmailHelper
 {
     /**
      * Trim and lowercase an email. Accented letters of the local part are replaced with their
-     * unaccented equivalent ("Damián.Muñoz@x.com" becomes "damian.munoz@x.com"). The domain keeps
-     * its identity: a Unicode domain is converted to its IDNA ASCII form ("bücher.de" becomes
-     * "xn--bcher-kva.de"), never transliterated, and is left as is when it cannot be converted.
+     * unaccented equivalent ("Damián.Muñoz@x.com" becomes "damian.munoz@x.com"). The domain is only
+     * lowercased, never transliterated, so a Unicode domain keeps its identity ("Bücher.de" stays
+     * "bücher.de"); converting it to IDNA is left to the mail sender.
      */
     public static function normalize(string $email): string
     {
@@ -36,14 +36,6 @@ class EmailHelper
 
     private static function normalizeDomain(string $domain): string
     {
-        $domain = Str::lower($domain);
-
-        if (Str::isAscii($domain)) {
-            return $domain;
-        }
-
-        $asciiDomain = idn_to_ascii($domain, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
-
-        return $asciiDomain === false ? $domain : $asciiDomain;
+        return Str::lower($domain);
     }
 }
