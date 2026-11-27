@@ -22,4 +22,30 @@ class EmailViewControllerTest extends TestCase
         $response->assertSee($email->subject);
         $response->assertSee($email->body);
     }
+
+    #[Test]
+    public function it_hides_the_signature_when_it_is_not_included(): void
+    {
+        $this->user->signature_html = '<p>User signature block</p>';
+        $this->user->save();
+        $email = Email::factory()->create(['company_id' => $this->user->company_id, 'signature' => false]);
+
+        $response = $this->get('/email/view/'.$email->id);
+
+        $response->assertOk();
+        $response->assertDontSee('User signature block', false);
+    }
+
+    #[Test]
+    public function it_shows_the_signature_when_it_is_included(): void
+    {
+        $this->user->signature_html = '<p>User signature block</p>';
+        $this->user->save();
+        $email = Email::factory()->create(['company_id' => $this->user->company_id, 'signature' => true]);
+
+        $response = $this->get('/email/view/'.$email->id);
+
+        $response->assertOk();
+        $response->assertSee('User signature block', false);
+    }
 }

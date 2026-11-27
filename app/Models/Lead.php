@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\EmailVerificationStatus;
 use App\Models\Lead\Message;
 use OpenApi\Attributes as OAT;
 
@@ -88,7 +89,7 @@ class Lead extends Prospect
         $score = 0;
 
         if (! empty($this->email)) {
-            $score = $this->email_verified ? $score + 10 : $score - 10;
+            $score = $this->email_verified === EmailVerificationStatus::Valid ? $score + 10 : $score - 10;
         }
 
         if (! empty($this->mobile)) {

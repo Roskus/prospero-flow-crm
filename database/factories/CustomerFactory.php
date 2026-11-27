@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\EmailVerificationStatus;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Industry;
@@ -38,7 +39,7 @@ class CustomerFactory extends Factory
             'mobile' => fake()->numerify('6########'),
             'mobile_verified' => rand(0, 1),
             'email' => fake()->email(),
-            'email_verified' => 0,
+            'email_verified' => EmailVerificationStatus::Pending,
             'email2' => fake()->email(),
             'website' => 'https://'.fake()->domainName(),
             'source_id' => null,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Supplier;
 
+use App\Enums\EmailVerificationStatus;
 use App\Models\Company;
 use App\Models\Supplier;
 use App\Traits\HasAddress;
@@ -65,6 +66,7 @@ class SupplierContact extends Model
 
     protected $casts = [
         'updated_at' => 'date',
+        'email_verified' => EmailVerificationStatus::class,
     ];
 
     public function supplier()

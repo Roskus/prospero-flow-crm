@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\EmailVerificationStatus;
 use App\Traits\HasAddress;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -91,6 +92,7 @@ abstract class Prospect extends Model
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
         'dob' => 'date:Y-m-d',
+        'email_verified' => EmailVerificationStatus::class,
     ];
 
     protected $hidden = [

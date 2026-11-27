@@ -23,11 +23,11 @@ class GenericEmail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $from = isset($this->user) ? $this->user->email : $this->company->email;
-        $name = isset($this->user) ? $this->user->name : $this->company->name;
+        $fromCompany = ! isset($this->user) || ($this->data['from_email'] ?? null) === $this->company->email;
+        $sender = $fromCompany ? $this->company : $this->user;
 
         return new Envelope(
-            from: new Address($from, $name),
+            from: new Address($sender->email, $sender->name),
             subject: $this->subject,
         );
     }
@@ -52,20 +52,6 @@ class GenericEmail extends Mailable
      */
     public function build()
     {
-        $from = isset($this->user) ? $this->user->email : $this->company->email;
-        $name = isset($this->user) ? '' : $this->company->name;
-        if (isset($data['from_email'])) {
-            if ($data['from_email'] == $this->user->email) {
-                $name = $this->user->name;
-            }
-
-            if ($data['from_email'] == $this->company->email) {
-                $name = $this->company->name;
-                $from = $this->company->email;
-            }
-        }
-
-        return $this->from($from, $name)
-            ->view('mail.generic', $this->data);
+        return $this->view('mail.generic', $this->data);
     }
 }
