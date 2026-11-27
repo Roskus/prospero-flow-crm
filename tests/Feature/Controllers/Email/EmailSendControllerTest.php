@@ -79,4 +79,20 @@ class EmailSendControllerTest extends TestCase
                 && ! $mail->hasFrom('someone@elsewhere.test');
         });
     }
+
+    #[Test]
+    public function it_sends_without_the_signature_when_it_is_not_included(): void
+    {
+        Mail::fake();
+
+        $this->user->signature_html = '<p>User signature block</p>';
+        $this->user->save();
+        $email = Email::factory()->create(['company_id' => $this->user->company_id, 'signature' => false]);
+
+        $this->get('/email/send/'.$email->id)->assertRedirect('/email');
+
+        Mail::assertSent(GenericEmail::class, function (GenericEmail $mail): bool {
+            return ! str_contains($mail->render(), 'User signature block');
+        });
+    }
 }
