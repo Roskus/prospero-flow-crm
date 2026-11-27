@@ -7,7 +7,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * @version 1.0.3
+ * @version 1.0.4
  */
 class PredictEmail
 {
