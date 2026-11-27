@@ -21,6 +21,10 @@
                 <th>{{ __('Subject') }}:</th>
                 <td><strong>{{ $email->subject }}</strong></td>
             </tr>
+            <tr>
+                <th>{{ __('Opened') }}:</th>
+                <td>{{ $email->opened_at?->format('d/m/Y H:i') ?? '—' }}</td>
+            </tr>
         </tbody>
     </table>
     <div>

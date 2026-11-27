@@ -15,7 +15,8 @@ class EmailIndexController extends MainController
     {
         $data['emails'] = (new Email)->getAllByCompanyId(
             (int) Auth::user()->company_id,
-            $request->search
+            $request->search,
+            opened: $request->opened
         );
 
         return view('email.index', $data);

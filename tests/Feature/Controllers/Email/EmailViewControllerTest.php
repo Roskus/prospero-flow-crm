@@ -48,4 +48,17 @@ class EmailViewControllerTest extends TestCase
         $response->assertOk();
         $response->assertSee('User signature block', false);
     }
+
+    #[Test]
+    public function it_shows_when_the_email_was_opened(): void
+    {
+        $email = Email::factory()->create([
+            'company_id' => $this->user->company_id,
+            'opened_at' => '2026-11-27 18:30:00',
+        ]);
+
+        $this->get('/email/view/'.$email->id)
+            ->assertOk()
+            ->assertSee('27/11/2026 18:30');
+    }
 }

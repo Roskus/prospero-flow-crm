@@ -84,9 +84,17 @@ class Email extends Model
             }));
     }
 
-    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null)
+    public function getAllByCompanyId(int $company_id, ?string $search = null, ?array $filters = null, ?string $opened = null)
     {
         $email = $this->searchByCompany($company_id, $search);
+
+        if ($opened === 'yes') {
+            $email->whereNotNull('opened_at');
+        }
+
+        if ($opened === 'no') {
+            $email->where('status', self::SENT)->whereNull('opened_at');
+        }
 
         if (is_array($filters)) {
             foreach ($filters as $key => $filter) {
