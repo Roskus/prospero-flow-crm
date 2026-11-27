@@ -143,9 +143,9 @@
                 <td class="text-nowrap text-center">
                     @if($lead->email)
                         <a href="mailto:{{ $lead->email }}" title="{{ $lead->email }}" class="link-secondary text-decoration-none"><i class="las la-envelope fs-4"></i></a>
-                        @if($lead->email_verified == \App\Enums\EmailVerificationStatus::Valid->value)
+                        @if($lead->email_verified === \App\Enums\EmailVerificationStatus::Valid)
                             <i class="las la-check-circle text-success"></i>
-                        @elseif($lead->email_verified == \App\Enums\EmailVerificationStatus::Invalid->value)
+                        @elseif($lead->email_verified === \App\Enums\EmailVerificationStatus::Invalid)
                             <i class="las la-times-circle text-danger"></i>
                         @endif
                     @endif

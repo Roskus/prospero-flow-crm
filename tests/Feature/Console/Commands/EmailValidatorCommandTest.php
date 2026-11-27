@@ -16,12 +16,12 @@ class EmailValidatorCommandTest extends TestCase
     {
         $supplierContact = SupplierContact::factory()->create([
             'email' => 'ld.@example.com',
-            'email_verified' => EmailVerificationStatus::Pending->value,
+            'email_verified' => EmailVerificationStatus::Pending,
         ]);
 
         $this->artisan('crm:email:validate')->assertSuccessful();
 
-        $this->assertSame(EmailVerificationStatus::Invalid->value, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
+        $this->assertSame(EmailVerificationStatus::Invalid, $supplierContact->fresh()->email_verified);
     }
 
     #[Test]
@@ -29,11 +29,11 @@ class EmailValidatorCommandTest extends TestCase
     {
         $supplierContact = SupplierContact::factory()->create([
             'email' => 'ld.@example.com',
-            'email_verified' => EmailVerificationStatus::Valid->value,
+            'email_verified' => EmailVerificationStatus::Valid,
         ]);
 
         $this->artisan('crm:email:validate')->assertSuccessful();
 
-        $this->assertSame(EmailVerificationStatus::Valid->value, (int) $supplierContact->fresh()->getRawOriginal('email_verified'));
+        $this->assertSame(EmailVerificationStatus::Valid, $supplierContact->fresh()->email_verified);
     }
 }

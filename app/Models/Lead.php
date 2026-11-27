@@ -89,7 +89,7 @@ class Lead extends Prospect
         $score = 0;
 
         if (! empty($this->email)) {
-            $score = (int) $this->email_verified === EmailVerificationStatus::Valid->value ? $score + 10 : $score - 10;
+            $score = $this->email_verified === EmailVerificationStatus::Valid ? $score + 10 : $score - 10;
         }
 
         if (! empty($this->mobile)) {

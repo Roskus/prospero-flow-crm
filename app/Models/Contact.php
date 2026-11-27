@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\EmailVerificationStatus;
 use App\Traits\HasAddress;
 use App\Traits\VCard;
 use App\ValueObjects\LinkedinProfileUrl;
@@ -67,6 +68,7 @@ class Contact extends Model
 
     protected $casts = [
         'updated_at' => 'date',
+        'email_verified' => EmailVerificationStatus::class,
     ];
 
     /**

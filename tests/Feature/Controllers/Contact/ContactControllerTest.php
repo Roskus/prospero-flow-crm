@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controllers\Contact;
 
+use App\Enums\EmailVerificationStatus;
 use App\Models\Contact;
 use App\Models\Customer;
 use PHPUnit\Framework\Attributes\Test;
@@ -313,7 +314,7 @@ class ContactControllerTest extends TestCase
         $contact = Contact::factory()->create([
             'company_id' => $this->user->company_id,
             'email' => 'old@example.com',
-            'email_verified' => true,
+            'email_verified' => EmailVerificationStatus::Valid,
         ]);
 
         $this->post('/contact/save', [
@@ -326,7 +327,7 @@ class ContactControllerTest extends TestCase
 
         $contact->refresh();
         $this->assertSame('new@example.com', $contact->email);
-        $this->assertFalse((bool) $contact->email_verified);
+        $this->assertSame(EmailVerificationStatus::Pending, $contact->email_verified);
     }
 
     #[Test]
@@ -335,7 +336,7 @@ class ContactControllerTest extends TestCase
         $contact = Contact::factory()->create([
             'company_id' => $this->user->company_id,
             'email' => 'same@example.com',
-            'email_verified' => true,
+            'email_verified' => EmailVerificationStatus::Valid,
         ]);
 
         $this->post('/contact/save', [
@@ -347,6 +348,6 @@ class ContactControllerTest extends TestCase
         ])->assertSessionHasNoErrors();
 
         $contact->refresh();
-        $this->assertTrue((bool) $contact->email_verified);
+        $this->assertSame(EmailVerificationStatus::Valid, $contact->email_verified);
     }
 }

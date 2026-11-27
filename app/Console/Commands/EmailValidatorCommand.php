@@ -31,54 +31,21 @@ class EmailValidatorCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(Lead $leadModel, Customer $customerModel, Contact $contactModel, SupplierContact $supplierContactModel): int
+    public function handle(): int
     {
-        $rules = ['email' => 'email:rfc,dns'];
+        foreach ([Lead::class, Customer::class, Contact::class, SupplierContact::class] as $model) {
+            $records = $model::whereNotNull('email')
+                ->whereIn('email_verified', [EmailVerificationStatus::Pending, EmailVerificationStatus::Invalid])
+                ->get();
 
-        $verifiedLeads = $leadModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
-        foreach ($verifiedLeads as $lead) {
-            $validator = Validator::make(['email' => $lead->email], $rules);
-            $lead->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
-            $lead->updated_at = now();
-            $lead->save();
-        }
-        $leadsCount = $verifiedLeads->count();
-        $this->info("Leads Email validation: $leadsCount complete.");
+            foreach ($records as $record) {
+                $isValid = Validator::make(['email' => $record->email], ['email' => 'email:rfc,dns'])->passes();
+                $record->email_verified = $isValid ? EmailVerificationStatus::Valid : EmailVerificationStatus::Invalid;
+                $record->save();
+            }
 
-        $verifiedCustomers = $customerModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
-        foreach ($verifiedCustomers as $customer) {
-            $validator = Validator::make(['email' => $customer->email], $rules);
-            $customer->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
-            $customer->updated_at = now();
-            $customer->save();
+            $this->info(class_basename($model).": {$records->count()} emails validated.");
         }
-        $customerCount = $verifiedCustomers->count();
-        $this->info("Customers Email validation: $customerCount complete.");
-
-        $verifiedContacts = $contactModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
-        foreach ($verifiedContacts as $contact) {
-            $validator = Validator::make(['email' => $contact->email], $rules);
-            $contact->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
-            $contact->updated_at = now();
-            $contact->save();
-        }
-        $contactCount = $verifiedContacts->count();
-        $this->info("Contacts Email validation: $contactCount complete.");
-
-        $verifiedSupplierContacts = $supplierContactModel->whereNotNull('email')
-            ->whereIn('email_verified', [EmailVerificationStatus::Pending->value, EmailVerificationStatus::Invalid->value])->get();
-        foreach ($verifiedSupplierContacts as $supplierContact) {
-            $validator = Validator::make(['email' => $supplierContact->email], $rules);
-            $supplierContact->email_verified = $validator->passes() ? EmailVerificationStatus::Valid->value : EmailVerificationStatus::Invalid->value;
-            $supplierContact->updated_at = now();
-            $supplierContact->save();
-        }
-        $supplierContactCount = $verifiedSupplierContacts->count();
-        $this->info("Supplier contacts Email validation: $supplierContactCount complete.");
-        $this->info(sprintf('%d leads, %d customers, %d contacts and %d supplier contacts verified.', $leadsCount, $customerCount, $contactCount, $supplierContactCount));
 
         return Command::SUCCESS;
     }
