@@ -46,6 +46,11 @@ class AssetService
         'insurance_company', 'insurance_policy', 'insurance_expires_at', 'inspection_expires_at',
     ];
 
+    const array MACHINERY_FIELDS = [
+        'capacity', 'certification_number', 'certified_by',
+        'certification_expires_at', 'calibration_expires_at', 'safety_inspection_expires_at',
+    ];
+
     const array DEVICE_FIELDS = [
         'hostname', 'ip_address', 'mac_address', 'operating_system', 'cpu', 'ram', 'storage', 'specs',
         'imei', 'carrier_id', 'phone_number', 'sim_pin', 'sim_puk',
@@ -93,7 +98,7 @@ class AssetService
                 // Reload under its row lock: a concurrent assign or return may have changed it
                 // after the form request loaded it.
                 if ($asset->exists) {
-                    $asset = Asset::query()->with('vehicle', 'device')->lockForUpdate()->findOrFail($asset->id);
+                    $asset = Asset::query()->with('vehicle', 'device', 'machinery')->lockForUpdate()->findOrFail($asset->id);
                 }
                 $oldPhotoPath = $asset->photo_path;
 
@@ -184,6 +189,7 @@ class AssetService
     {
         if ($asset->category === AssetCategory::Vehicle) {
             $asset->vehicle()->updateOrCreate([], Arr::only(array_merge(array_fill_keys(self::VEHICLE_FIELDS, null), $data), self::VEHICLE_FIELDS));
+            $this->saveMachineryDetail($asset, $data);
 
             return;
         }
@@ -195,6 +201,24 @@ class AssetService
         }
 
         $asset->device()->updateOrCreate([], $detail);
+    }
+
+    /**
+     * Machinery types keep their certifications and inspections; when the type changes to a
+     * non-machinery one (a crane recorded by mistake as a truck), the machinery detail goes away.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    private function saveMachineryDetail(Asset $asset, array $data): void
+    {
+        if (! $asset->type->isMachinery()) {
+            $asset->machinery()->delete();
+            $asset->unsetRelation('machinery');
+
+            return;
+        }
+
+        $asset->machinery()->updateOrCreate([], Arr::only(array_merge(array_fill_keys(self::MACHINERY_FIELDS, null), $data), self::MACHINERY_FIELDS));
     }
 
     public function assign(Asset $asset, int $userId, ?string $startDate, ?string $notes, int $assignedBy): AssetAssignment

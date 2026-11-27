@@ -46,7 +46,7 @@ class AssetSaveRequest extends FormRequest
         $this->prepareCurrency();
 
         if ($this->filled('id')) {
-            $this->editedAsset = Asset::query()->ofCompany($this->companyId())->with('vehicle', 'device', 'currentAssignment')->findOrFail($this->integer('id'));
+            $this->editedAsset = Asset::query()->ofCompany($this->companyId())->with('vehicle', 'device', 'machinery', 'currentAssignment')->findOrFail($this->integer('id'));
             $this->merge(['category' => $this->editedAsset->category->value]);
         }
 
@@ -123,7 +123,7 @@ class AssetSaveRequest extends FormRequest
         ];
 
         return match ($category) {
-            AssetCategory::Vehicle => [...$rules, ...$this->vehicleRules()],
+            AssetCategory::Vehicle => [...$rules, ...$this->vehicleRules(), ...($this->assetType()?->isMachinery() ? $this->machineryRules() : [])],
             AssetCategory::Device => [...$rules, ...$this->deviceRules()],
             default => $rules,
         };
@@ -145,6 +145,21 @@ class AssetSaveRequest extends FormRequest
             'insurance_policy' => ['nullable', 'string', 'max:100'],
             'insurance_expires_at' => ['nullable', 'date'],
             'inspection_expires_at' => ['nullable', 'date'],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function machineryRules(): array
+    {
+        return [
+            'capacity' => ['nullable', 'string', 'max:50'],
+            'certification_number' => ['nullable', 'string', 'max:100'],
+            'certified_by' => ['nullable', 'string', 'max:100'],
+            'certification_expires_at' => ['nullable', 'date'],
+            'calibration_expires_at' => ['nullable', 'date'],
+            'safety_inspection_expires_at' => ['nullable', 'date'],
         ];
     }
 

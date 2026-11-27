@@ -13,6 +13,9 @@ enum AssetType: string
     case Crane = 'crane';
     case Lift = 'lift';
     case Forklift = 'forklift';
+    case Excavator = 'excavator';
+    case Generator = 'generator';
+    case Compressor = 'compressor';
     case OtherMachinery = 'other_machinery';
     case Desktop = 'desktop';
     case Notebook = 'notebook';
@@ -27,9 +30,26 @@ enum AssetType: string
     {
         return match ($this) {
             self::Car, self::Van, self::Truck, self::Motorcycle, self::Crane,
-            self::Lift, self::Forklift, self::OtherMachinery => AssetCategory::Vehicle,
+            self::Lift, self::Forklift, self::Excavator, self::Generator, self::Compressor,
+            self::OtherMachinery => AssetCategory::Vehicle,
             default => AssetCategory::Device,
         };
+    }
+
+    /**
+     * Machinery carries its own detail on top of the vehicle one: capacity, certifications and inspections.
+     */
+    public function isMachinery(): bool
+    {
+        return in_array($this, self::machinery(), true);
+    }
+
+    /**
+     * @return list<self>
+     */
+    public static function machinery(): array
+    {
+        return [self::Crane, self::Lift, self::Forklift, self::Excavator, self::Generator, self::Compressor, self::OtherMachinery];
     }
 
     /**
@@ -66,6 +86,9 @@ enum AssetType: string
             self::Crane => 'CRN',
             self::Lift => 'LFT',
             self::Forklift => 'FRK',
+            self::Excavator => 'EXC',
+            self::Generator => 'GEN',
+            self::Compressor => 'CMP',
             self::OtherMachinery => 'MAC',
             self::Desktop => 'PC',
             self::Notebook => 'NB',
@@ -88,6 +111,9 @@ enum AssetType: string
             self::Crane => __('Crane'),
             self::Lift => __('Lift'),
             self::Forklift => __('Forklift'),
+            self::Excavator => __('Excavator'),
+            self::Generator => __('Generator'),
+            self::Compressor => __('Compressor'),
             self::OtherMachinery => __('Other machinery'),
             self::Desktop => __('Desktop PC'),
             self::Notebook => __('Notebook'),
@@ -109,6 +135,9 @@ enum AssetType: string
             self::Motorcycle => 'las la-motorcycle',
             self::Crane, self::Forklift => 'las la-truck-loading',
             self::Lift => 'las la-dolly-flatbed',
+            self::Excavator => 'las la-tractor',
+            self::Generator => 'las la-bolt',
+            self::Compressor => 'las la-wind',
             self::OtherMachinery => 'las la-cogs',
             self::Desktop => 'las la-desktop',
             self::Notebook => 'las la-laptop',
