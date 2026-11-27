@@ -131,5 +131,7 @@
     "Users": "Utilisateurs",
     "Waiting for feedback" : "En attente de retours",
     "Week": "Semaine",
-    "Zipcode": "Code postal"
+    "Zipcode": "Code postal",
+    "Everyone": "Tous",
+    "Only contacts with opt in": "Uniquement les contacts avec opt-in"
 }

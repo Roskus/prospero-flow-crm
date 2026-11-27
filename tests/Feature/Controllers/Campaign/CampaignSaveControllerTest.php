@@ -165,4 +165,15 @@ class CampaignSaveControllerTest extends TestCase
             ...$overrides,
         ];
     }
+
+    #[Test]
+    public function the_opt_in_requirement_is_saved(): void
+    {
+        $this->post('/campaign/save', $this->payload(['require_opt_in' => '1']))->assertRedirect('/campaign');
+        $this->assertTrue(Campaign::firstWhere('name', 'Autumn newsletter')->require_opt_in);
+
+        $campaign = Campaign::firstWhere('name', 'Autumn newsletter');
+        $this->post('/campaign/save', $this->payload(['id' => $campaign->id]))->assertRedirect('/campaign');
+        $this->assertFalse($campaign->fresh()->require_opt_in);
+    }
 }

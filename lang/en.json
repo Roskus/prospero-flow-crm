@@ -811,5 +811,7 @@
     "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later." : "Letters, numbers and hyphens; printed as barcode and QR. It cannot be changed later.",
     "The assignment changed meanwhile. Reload the page and try again." : "The assignment changed meanwhile. Reload the page and try again.",
     "This code is already used by another asset, or was used by a deleted one." : "This code is already used by another asset, or was used by a deleted one.",
-    "No more codes can be generated for this type. Type one by hand." : "No more codes can be generated for this type. Type one by hand."
+    "No more codes can be generated for this type. Type one by hand." : "No more codes can be generated for this type. Type one by hand.",
+    "Everyone": "Everyone",
+    "Only contacts with opt in": "Only contacts with opt in"
 }

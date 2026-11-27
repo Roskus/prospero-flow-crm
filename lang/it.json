@@ -146,5 +146,7 @@
     "View notifications" : "Visualizza notifiche",
     "Waiting for feedback": "In attesa di feedback",
     "Week" : "Settimana",
-    "Zipcode" : "CAP"
+    "Zipcode" : "CAP",
+    "Everyone": "Tutti",
+    "Only contacts with opt in": "Solo contatti con opt-in"
 }

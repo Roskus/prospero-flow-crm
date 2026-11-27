@@ -146,5 +146,7 @@
     "View notifications" : "Benachrichtigungen anzeigen",
     "Waiting for feedback": "Warten auf Rückmeldung",
     "Week" : "Woche",
-    "Zipcode" : "Postleitzahl"
+    "Zipcode" : "Postleitzahl",
+    "Everyone": "Alle",
+    "Only contacts with opt in": "Nur Kontakte mit Opt-in"
 }

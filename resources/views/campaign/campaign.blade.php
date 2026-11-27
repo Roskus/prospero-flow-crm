@@ -82,11 +82,15 @@
                     @php($audience = old('audience', $campaign->audience ?? \App\Models\Campaign::AUDIENCE_ALL))
                     <div class="form-check form-check-inline">
                         <input type="radio" name="audience" id="audience_all" value="{{ \App\Models\Campaign::AUDIENCE_ALL }}" class="form-check-input" @checked($audience === \App\Models\Campaign::AUDIENCE_ALL)>
-                        <label for="audience_all" class="form-check-label">{{ __('Everyone with opt in') }}</label>
+                        <label for="audience_all" class="form-check-label">{{ __('Everyone') }}</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="radio" name="audience" id="audience_tags" value="{{ \App\Models\Campaign::AUDIENCE_TAGS }}" class="form-check-input" @checked($audience === \App\Models\Campaign::AUDIENCE_TAGS)>
                         <label for="audience_tags" class="form-check-label">{{ __('Only those with any of these tags') }}</label>
+                    </div>
+                    <div class="form-check mt-1">
+                        <input type="checkbox" name="require_opt_in" id="require_opt_in" value="1" class="form-check-input" @checked(old('require_opt_in', $campaign->require_opt_in ?? true))>
+                        <label for="require_opt_in" class="form-check-label">{{ __('Only contacts with opt in') }}</label>
                     </div>
                 </div>
             </div>

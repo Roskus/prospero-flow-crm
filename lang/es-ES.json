@@ -181,5 +181,7 @@
     "Email": "Correo electrónico",
     "Remember me": "Recordarme",
     "Logout": "Cerrar sesión",
-    "Register": "Registrarse"
+    "Register": "Registrarse",
+    "Everyone": "Todos",
+    "Only contacts with opt in": "Solo contactos con opt-in"
 }

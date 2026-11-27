@@ -27,7 +27,7 @@ class EmailRequest extends FormRequest
         return [
             'id' => 'nullable|exists:email,id',
             'from' => 'required|email',
-            'subject' => 'required|string|max:255',
+            'subject' => 'required|string|max:120',
             'to' => 'nullable|email',
             'cc' => 'nullable|email',
             'bcc' => 'nullable|email',

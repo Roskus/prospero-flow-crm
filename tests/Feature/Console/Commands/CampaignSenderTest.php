@@ -420,4 +420,20 @@ class CampaignSenderTest extends TestCase
             ...$attributes,
         ]);
     }
+
+    #[Test]
+    public function a_campaign_that_does_not_require_opt_in_is_also_sent_to_leads_without_it(): void
+    {
+        Mail::fake();
+        $this->campaign(['schedule_send_date' => '2026-10-15', 'audience' => Campaign::AUDIENCE_TAGS, 'tags' => ['camara'], 'require_opt_in' => false]);
+        $this->lead('optin@example.com', ['tags' => ['camara']]);
+        $this->lead('optout@example.com', ['tags' => ['camara'], 'opt_in' => false]);
+        $this->lead('untagged@example.com', ['tags' => ['other'], 'opt_in' => false]);
+
+        $this->artisan('crm:campaign:send')->assertSuccessful();
+
+        Mail::assertSentCount(2);
+        Mail::assertSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('optout@example.com'));
+        Mail::assertNotSent(GenericEmail::class, fn (GenericEmail $email): bool => $email->hasTo('untagged@example.com'));
+    }
 }
